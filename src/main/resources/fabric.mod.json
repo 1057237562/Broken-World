@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "broken-world",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "Broken World",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
-    "Me!"
+    "L1bra","F.B."
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/1057237562/Broken-World"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/broken_world/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "com.brainsmash.broken_world.Main"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "broken_world.mixins.json"
   ],
 
   "depends": {
