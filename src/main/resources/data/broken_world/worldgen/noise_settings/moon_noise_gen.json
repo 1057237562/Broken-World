@@ -38,7 +38,7 @@
   "sea_level": 0,
   "spawn_target": [],
   "surface_rule": {
-    "type": "blocks",
+    "type": "block",
     "result_state": {
       "Name": "broken_world:moon_sand"
     }
