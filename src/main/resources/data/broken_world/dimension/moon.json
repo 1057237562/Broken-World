@@ -1,0 +1,31 @@
+{
+  "type": "broken_world:moon_type",
+  "generator": {},
+    "noise_generation_settings": "broken_world:moon_noise_gen",
+    "structures_placements": [
+      "broken_world:abandoned_structure",
+      "broken_world:crater"
+    ],
+    "wrapped_generator": {
+      "type": "minecraft:noise",
+      "biome_source": {
+        "type": "broken_world:moon",
+        "base_factor": 2.5,
+        "base_offset": -1.25,
+        "biome_landscape": [
+          {
+            "biome_layers": {
+              "-1.0": "broken_world:moon_surface",
+              "-3.0": "broken_world:moon_underground"
+            },
+            "depth": 0.025,
+            "key_biome": "broken_world:moon_surface",
+            "scale": 0.005
+          }
+        ],
+        "underground_biome": "broken_world:moon_underground"
+      },
+      "settings": "broken_world:moon_noise_gen"
+    }
+  }
+}

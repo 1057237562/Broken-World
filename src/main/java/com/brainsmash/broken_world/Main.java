@@ -16,7 +16,7 @@ public class Main implements ModInitializer {
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Block[] blocks = {
-			new FallingBlock(FabricBlockSettings.of(Material.GOURD).strength(1.0f)),
+			new FallingBlock(FabricBlockSettings.of(Material.SOIL).strength(1.0f)),
 			new Block(AbstractBlock.Settings.of(Material.STONE).strength(1.0f))
 	};
 	public static final String[] blocknames = {"moon_sand","moon_stone"};
