@@ -5,7 +5,7 @@
     "settings": "broken_world:moon_noise_gen",
     "biome_source": {
       "type": "fixed",
-      "biome": "broken_world:moon_surface"
+      "biome": "broken_world:moon"
     }
   }
 }
