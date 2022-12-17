@@ -17,9 +17,11 @@ public class Main implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Block[] blocks = {
 			new FallingBlock(FabricBlockSettings.of(Material.SOIL).strength(1.0f)),
-			new Block(AbstractBlock.Settings.of(Material.STONE).strength(1.0f))
+			new Block(AbstractBlock.Settings.of(Material.STONE).strength(1.0f)),
+			new Block(AbstractBlock.Settings.of(Material.STONE).strength(1.5f)),
+			new Block(AbstractBlock.Settings.of(Material.STONE).strength(2.0f))
 	};
-	public static final String[] blocknames = {"moon_sand","moon_stone"};
+	public static final String[] blocknames = {"moon_sand","moon_stone","moon_iron_ore","moon_gold_ore"};
 	@Override
 	public void onInitialize() {
 		for(int i = 0;i<blocks.length;i++){

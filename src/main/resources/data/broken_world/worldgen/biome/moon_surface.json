@@ -23,12 +23,8 @@
     [],
     [
       "broken_world:moon_sand",
-      "minecraft:coal_ore",
-      "minecraft:moon_iron_ore",
-      "minecraft:gold_ore",
-      "minecraft:redstone_ore",
-      "minecraft:diamond_ore",
-      "minecraft:lapis_ore"
+      "broken_world:moon_iron_ore",
+      "broken_world:moon_gold_ore"
     ],
     [],
     [],
