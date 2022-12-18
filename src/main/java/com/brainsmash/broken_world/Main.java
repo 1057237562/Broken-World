@@ -35,12 +35,12 @@ public class Main implements ModInitializer {
 	});
 
 	public static final Block[] blocks = {
-			new FallingBlock(AbstractBlock.Settings.of(Material.AGGREGATE).sounds(BlockSoundGroup.SAND).jumpVelocityMultiplier(3).strength(1.0f)),
+			new FallingBlock(AbstractBlock.Settings.of(Material.AGGREGATE).sounds(BlockSoundGroup.SAND).strength(1.0f)),
 			new Block(FabricBlockSettings.copyOf(Blocks.STONE).jumpVelocityMultiplier(5).strength(2.0f,2.0f)),
-			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).jumpVelocityMultiplier(3).requiresTool().strength(3.0f,3.0f)),
-			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).jumpVelocityMultiplier(3).requiresTool().strength(4.0f,4.0f)),
+			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(3.0f,3.0f)),
+			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(4.0f,4.0f)),
 			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f)),
-			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).jumpVelocityMultiplier(3).requiresTool().strength(4.0f,4.0f))
+			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(4.0f,4.0f))
 	};
 	public static final Item[] items = {
 			new BlockItem(blocks[0],new FabricItemSettings().group(ITEM_GROUP)),
