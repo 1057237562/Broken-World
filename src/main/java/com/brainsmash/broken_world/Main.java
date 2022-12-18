@@ -98,8 +98,8 @@ public class Main implements ModInitializer {
 			Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier(MODID, configurenames[i]), configuredFeatures[i]);
 			Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(MODID, configurenames[i]),placedFeatures[i]);
 		}
-		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[4]).lightWithItem(Items.DIAMOND).destDimID(new Identifier(MODID,"moon")).tintColor(Color.WHITE.getRGB()).registerPortal();
-		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[7]).lightWithItem(Items.GOLD_INGOT).destDimID(new Identifier(MODID,"metallic")).tintColor(Color.ORANGE.getRGB()).registerPortal();
+		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[4]).destDimID(new Identifier(MODID,"moon")).tintColor(Color.WHITE.getRGB()).registerPortal();
+		//CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[7]).lightWithItem(Items.GOLD_INGOT).destDimID(new Identifier(MODID,"metallic")).tintColor(Color.ORANGE.getRGB()).registerPortal();
 		ServerTickEvents.START_WORLD_TICK.register(world -> {
 			if(world.getDimensionKey().getValue().toTranslationKey().equals("broken_world.moon_type")){
 				for(ServerPlayerEntity entity : world.getPlayers()){

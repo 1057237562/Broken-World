@@ -1,13 +1,17 @@
 package com.brainsmash.broken_world.blocks;
 
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -63,10 +67,16 @@ public class TeleporterController extends BlockWithEntity {
     public boolean hasComparatorOutput(BlockState state) {
         return true;
     }
-
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(Properties.HORIZONTAL_FACING);
+    }
     @Override
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
     }
-
+    @Override
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
+    }
 }
