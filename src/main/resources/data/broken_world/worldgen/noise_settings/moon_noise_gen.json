@@ -1265,7 +1265,7 @@
                                     "then_run": {
                                       "type": "minecraft:block",
                                       "result_state": {
-                                        "Name": "minecraft:sandstone"
+                                        "Name": "broken_world:moon_sandstone"
                                       }
                                     }
                                   },
@@ -1301,7 +1301,7 @@
                                     "then_run": {
                                       "type": "minecraft:block",
                                       "result_state": {
-                                        "Name": "minecraft:sandstone"
+                                        "Name": "broken_world:moon_sandstone"
                                       }
                                     }
                                   },
@@ -2041,7 +2041,7 @@
                                     "then_run": {
                                       "type": "minecraft:block",
                                       "result_state": {
-                                        "Name": "minecraft:sandstone"
+                                        "Name": "broken_world:moon_sandstone"
                                       }
                                     }
                                   },
@@ -2077,7 +2077,7 @@
                                     "then_run": {
                                       "type": "minecraft:block",
                                       "result_state": {
-                                        "Name": "minecraft:sandstone"
+                                        "Name": "broken_world:moon_sandstone"
                                       }
                                     }
                                   },
@@ -2284,7 +2284,7 @@
                       "then_run": {
                         "type": "minecraft:block",
                         "result_state": {
-                          "Name": "minecraft:sandstone"
+                          "Name": "broken_world:moon_sandstone"
                         }
                       }
                     }
@@ -2309,7 +2309,7 @@
                       "then_run": {
                         "type": "minecraft:block",
                         "result_state": {
-                          "Name": "minecraft:sandstone"
+                          "Name": "broken_world:moon_sandstone"
                         }
                       }
                     }
@@ -2370,7 +2370,7 @@
                           "then_run": {
                             "type": "minecraft:block",
                             "result_state": {
-                              "Name": "minecraft:sandstone"
+                              "Name": "broken_world:moon_sandstone"
                             }
                           }
                         },
