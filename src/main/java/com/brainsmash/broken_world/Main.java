@@ -2,11 +2,15 @@ package com.brainsmash.broken_world;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
 import net.minecraft.block.*;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
@@ -77,5 +81,13 @@ public class Main implements ModInitializer {
 			Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(MODID, configurenames[i]),placedFeatures[i]);
 		}
 		CustomPortalBuilder.beginPortal().frameBlock(blocks[4]).lightWithItem(Items.DIAMOND).destDimID(new Identifier(MODID,"moon")).tintColor(Color.WHITE.getRGB()).registerPortal();
+
+		ServerTickEvents.START_WORLD_TICK.register(world -> {
+			if(world.getDimensionKey().getValue().toTranslationKey().equals("broken_world.moon_type")){
+				for(ServerPlayerEntity entity : world.getPlayers()){
+					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST,50,3,false,false));
+				}
+			}
+		});
 	}
 }
