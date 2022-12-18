@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "broken_world:moon_iron_ore",
+    "broken_world:teleporter_frame"
+  ]
+}

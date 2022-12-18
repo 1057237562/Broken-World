@@ -34,24 +34,11 @@
   "precipitation": "rain",
   "spawn_costs": {},
   "spawners": {
-    "ambient": [
-      {
-        "type": "minecraft:bat",
-        "maxCount": 1,
-        "minCount": 1,
-        "weight": 10
-      }
-    ],
+    "ambient": [],
     "axolotls": [],
     "creature": [],
     "misc": [],
     "monster": [
-      {
-        "type": "minecraft:spider",
-        "maxCount": 3,
-        "minCount": 2,
-        "weight": 10
-      },
       {
         "type": "minecraft:zombie",
         "maxCount": 2,
