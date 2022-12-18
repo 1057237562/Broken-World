@@ -45,7 +45,8 @@ public class Main implements ModInitializer {
 			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(4.0f,4.0f)),
 			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f)),
 			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(4.0f,4.0f)),
-			new Block(AbstractBlock.Settings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(2.0f,2.0f))
+			new Block(AbstractBlock.Settings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(2.0f,2.0f)),
+			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).requiresTool().strength(3.0f,3.0f))
 	};
 	public static final Item[] items = {
 			new BlockItem(blocks[0],new FabricItemSettings().group(ITEM_GROUP)),
@@ -54,10 +55,11 @@ public class Main implements ModInitializer {
 			new BlockItem(blocks[3],new FabricItemSettings().group(ITEM_GROUP)),
 			new BlockItem(blocks[4],new FabricItemSettings().group(ITEM_GROUP)),
 			new BlockItem(blocks[5],new FabricItemSettings().group(ITEM_GROUP)),
-			new BlockItem(blocks[6],new FabricItemSettings().group(ITEM_GROUP))
+			new BlockItem(blocks[6],new FabricItemSettings().group(ITEM_GROUP)),
+			new BlockItem(blocks[7],new FabricItemSettings().group(ITEM_GROUP))
 	};
 	public static final String[] blocknames = {"moon_sand","moon_stone","moon_iron_ore","moon_gold_ore","teleporter_frame","moon_redstone_ore",
-			"moon_sandstone"
+			"moon_sandstone","rusty_metal"
 	};
 	private static final String[] configurenames = {"moon_sand","moon_iron_ore","moon_gold_ore","moon_redstone_ore"};
 	private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -84,7 +86,7 @@ public class Main implements ModInitializer {
 			Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier(MODID, configurenames[i]), configuredFeatures[i]);
 			Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(MODID, configurenames[i]),placedFeatures[i]);
 		}
-		CustomPortalBuilder.beginPortal().frameBlock(blocks[4]).lightWithItem(Items.DIAMOND).destDimID(new Identifier(MODID,"moon")).tintColor(Color.WHITE.getRGB()).registerPortal();
+		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[4]).lightWithItem(Items.DIAMOND).destDimID(new Identifier(MODID,"moon")).tintColor(Color.WHITE.getRGB()).registerPortal();
 
 		ServerTickEvents.START_WORLD_TICK.register(world -> {
 			if(world.getDimensionKey().getValue().toTranslationKey().equals("broken_world.moon_type")){
