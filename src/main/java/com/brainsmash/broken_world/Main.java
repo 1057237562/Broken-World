@@ -90,7 +90,7 @@ public class Main implements ModInitializer {
 			if(world.getDimensionKey().getValue().toTranslationKey().equals("broken_world.moon_type")){
 				for(ServerPlayerEntity entity : world.getPlayers()){
 					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST,50,3,false,false));
-					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,50,1,false,false));
+					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,50,0,false,false));
 				}
 			}
 		});
