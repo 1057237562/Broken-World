@@ -40,7 +40,7 @@ public class Main implements ModInitializer {
 
 	public static final Block[] blocks = {
 			new FallingBlock(AbstractBlock.Settings.of(Material.AGGREGATE).sounds(BlockSoundGroup.SAND).strength(1.0f)),
-			new Block(FabricBlockSettings.copyOf(Blocks.STONE).jumpVelocityMultiplier(5).strength(2.0f,2.0f)),
+			new Block(FabricBlockSettings.copyOf(Blocks.STONE).strength(2.0f,2.0f)),
 			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(3.0f,3.0f)),
 			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(4.0f,4.0f)),
 			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f)),
@@ -86,6 +86,7 @@ public class Main implements ModInitializer {
 			if(world.getDimensionKey().getValue().toTranslationKey().equals("broken_world.moon_type")){
 				for(ServerPlayerEntity entity : world.getPlayers()){
 					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST,50,3,false,false));
+					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,50,1,false,false));
 				}
 			}
 		});
