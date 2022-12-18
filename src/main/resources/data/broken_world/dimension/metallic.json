@@ -1,0 +1,11 @@
+{
+  "type": "broken_world:metallic_type",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "broken_world:metallic_noise_gen",
+    "biome_source": {
+      "type": "fixed",
+      "biome": "broken_world:metallic"
+    }
+  }
+}
