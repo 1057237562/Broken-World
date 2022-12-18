@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "broken_world:moon_gold_ore"
+    "broken_world:moon_gold_ore",
+    "broken_world:moon_redstone_ore"
   ]
 }

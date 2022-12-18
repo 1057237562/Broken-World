@@ -20,5 +20,6 @@
   "natural": false,
   "piglin_safe": false,
   "respawn_anchor_works": false,
-  "ultrawarm": false
+  "ultrawarm": false,
+  "effects": "broken_world:moon_renderer"
 }
