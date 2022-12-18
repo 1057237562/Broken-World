@@ -27,7 +27,7 @@ public class Main implements ModInitializer {
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final String MODID = "broken_world";
-	private static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(MODID, "itemgroup"), new Supplier<ItemStack>() {
+	private static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(MODID, "itemgroup"), new Supplier<>() {
 		@Override
 		public ItemStack get() {
 			return new ItemStack(items[0]);
@@ -35,12 +35,12 @@ public class Main implements ModInitializer {
 	});
 
 	public static final Block[] blocks = {
-			new FallingBlock(AbstractBlock.Settings.of(Material.AGGREGATE).sounds(BlockSoundGroup.SAND).strength(1.0f)),
-			new Block(FabricBlockSettings.copyOf(Blocks.STONE).strength(2.0f,2.0f)),
-			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(3.0f,3.0f)),
-			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(4.0f,4.0f)),
+			new FallingBlock(AbstractBlock.Settings.of(Material.AGGREGATE).sounds(BlockSoundGroup.SAND).jumpVelocityMultiplier(3).strength(1.0f)),
+			new Block(FabricBlockSettings.copyOf(Blocks.STONE).jumpVelocityMultiplier(5).strength(2.0f,2.0f)),
+			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).jumpVelocityMultiplier(3).requiresTool().strength(3.0f,3.0f)),
+			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).jumpVelocityMultiplier(3).requiresTool().strength(4.0f,4.0f)),
 			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f)),
-			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(4.0f,4.0f))
+			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).jumpVelocityMultiplier(3).requiresTool().strength(4.0f,4.0f))
 	};
 	public static final Item[] items = {
 			new BlockItem(blocks[0],new FabricItemSettings().group(ITEM_GROUP)),
@@ -52,11 +52,11 @@ public class Main implements ModInitializer {
 	};
 	public static final String[] blocknames = {"moon_sand","moon_stone","moon_iron_ore","moon_gold_ore","teleporter_frame","moon_redstone_ore"};
 	private static final String[] configurenames = {"moon_sand","moon_iron_ore","moon_gold_ore","moon_redstone_ore"};
-	private static ConfiguredFeature<?, ?>[] configuredFeatures = {
-			new ConfiguredFeature(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,blocks[0].getDefaultState(),21)),
-			new ConfiguredFeature(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,blocks[2].getDefaultState(),9)),
-			new ConfiguredFeature(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,blocks[3].getDefaultState(),9)),
-			new ConfiguredFeature(Feature.ORE,new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,blocks[4].getDefaultState(),6))
+	private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
+			new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,blocks[0].getDefaultState(),21)),
+			new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,blocks[2].getDefaultState(),9)),
+			new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,blocks[3].getDefaultState(),9)),
+			new ConfiguredFeature<>(Feature.ORE,new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,blocks[4].getDefaultState(),6))
 	};
 
 	public static PlacedFeature[] placedFeatures = {
