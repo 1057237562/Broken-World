@@ -1,7 +1,7 @@
 package com.brainsmash.broken_world.blocks.entity;
 
 import com.brainsmash.broken_world.Main;
-import com.brainsmash.broken_world.screenhandlers.TeleporterControllerScreenHandler;
+import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -16,7 +16,6 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import com.brainsmash.broken_world.blocks.impl.*;
 
 public class TeleporterControllerEntity extends BlockEntity implements NamedScreenHandlerFactory,ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(9, ItemStack.EMPTY);
