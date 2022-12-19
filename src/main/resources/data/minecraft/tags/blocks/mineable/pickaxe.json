@@ -5,6 +5,8 @@
     "broken_world:moon_iron_ore",
     "broken_world:moon_gold_ore",
     "broken_world:teleporter_frame",
-    "broken_world:moon_sandstone"
+    "broken_world:moon_sandstone",
+    "broken_world:moon_redstone_ore",
+    "broken_world:tungsten_ore"
   ]
 }
