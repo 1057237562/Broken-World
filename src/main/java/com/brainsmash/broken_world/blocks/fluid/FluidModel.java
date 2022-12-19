@@ -14,6 +14,12 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
 public class FluidModel extends FlowableFluid {
+
+    @Override
+    public boolean matchesType(Fluid fluid) {
+        return fluid == getStill() || fluid == getFlowing();
+    }
+
     @Override
     public Fluid getFlowing() {
         return null;
@@ -42,7 +48,7 @@ public class FluidModel extends FlowableFluid {
 
     @Override
     protected int getLevelDecreasePerBlock(WorldView world) {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -62,7 +68,7 @@ public class FluidModel extends FlowableFluid {
 
     @Override
     public int getTickRate(WorldView world) {
-        return 5;
+        return 15;
     }
 
     @Override
