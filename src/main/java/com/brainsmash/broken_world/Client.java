@@ -1,6 +1,6 @@
 package com.brainsmash.broken_world;
 
-import com.brainsmash.broken_world.screens.TeleporterControllerScreen;
+import com.brainsmash.broken_world.screens.cotton.TeleporterControllerScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
