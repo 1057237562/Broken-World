@@ -62,6 +62,10 @@ public class Main implements ModInitializer {
 			new OilFluid.Flowing()
 	};
 
+	public static final Block[] fluid_blocks = {
+			new FluidBlock(still_fluid[0], FabricBlockSettings.copyOf(Blocks.LAVA))
+	};
+
 	public static final Item[] bucket_item = {
 			new BucketItem(still_fluid[0], new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1))
 	};
@@ -79,7 +83,6 @@ public class Main implements ModInitializer {
 			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f)),
 			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f)),
 			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(6.0f,6.0f)),
-			new FluidBlock(still_fluid[0], FabricBlockSettings.copyOf(Blocks.LAVA))
 	};
 	public static final Item[] blockitems = {
 			new BlockItem(blocks[0],new FabricItemSettings().group(ITEM_GROUP)),
@@ -102,8 +105,7 @@ public class Main implements ModInitializer {
 	};
 
 	public static final String[] blocknames = {"moon_sand","moon_stone","moon_iron_ore","moon_gold_ore","teleporter_frame","moon_redstone_ore",
-			"moon_sandstone","rusty_metal","teleporter_controller","moon_teleporter_frame","metallic_teleporter_frame","tungsten_ore",
-			"oil"
+			"moon_sandstone","rusty_metal","teleporter_controller","moon_teleporter_frame","metallic_teleporter_frame","tungsten_ore"
 	};
 
 	public static final String[] fluidnames = {"oil"};
@@ -148,6 +150,7 @@ public class Main implements ModInitializer {
 			Registry.register(Registry.FLUID, new Identifier(MODID, fluidnames[i]), still_fluid[i]);
 			Registry.register(Registry.FLUID, new Identifier(MODID, "flowing_"+fluidnames[i]), flowing_fluid[i]);
 			Registry.register(Registry.ITEM,new Identifier(MODID, fluidnames[i] + "_bucket"),bucket_item[i]);
+			Registry.register(Registry.BLOCK,new Identifier(MODID,fluidnames[i]),fluid_blocks[i]);
 		}
 
 		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[4]).destDimID(new Identifier("minecraft","overworld")).tintColor(Color.BLUE.getRGB()).registerPortal();

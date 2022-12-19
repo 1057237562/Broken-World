@@ -27,7 +27,7 @@ public abstract class OilFluid extends FluidModel {
     @Override
     protected BlockState toBlockState(FluidState fluidState) {
         // getBlockStateLevel converts the LEVEL_1_8 of the fluid state to the LEVEL_15 the fluid block uses
-        return Main.blocks[12].getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(fluidState));
+        return Main.fluid_blocks[0].getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(fluidState));
     }
 
     public static class Flowing extends OilFluid {
