@@ -63,11 +63,11 @@ public class Main implements ModInitializer {
 	};
 
 	public static final Block[] fluid_blocks = {
-			new FluidBlock(still_fluid[0], FabricBlockSettings.copyOf(Blocks.LAVA))
+			new FluidBlock(still_fluid[0], FabricBlockSettings.copyOf(Blocks.WATER))
 	};
 
 	public static final Item[] bucket_item = {
-			new BucketItem(still_fluid[0], new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1))
+			new BucketItem(still_fluid[0], new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP))
 	};
 
 	public static final Block[] blocks = {

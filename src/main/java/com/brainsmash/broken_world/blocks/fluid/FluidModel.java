@@ -37,17 +37,17 @@ public class FluidModel extends FlowableFluid {
 
     @Override
     protected int getFlowSpeed(WorldView world) {
-        return 4;
-    }
-
-    @Override
-    protected int getLevelDecreasePerBlock(WorldView world) {
         return 2;
     }
 
     @Override
+    protected int getLevelDecreasePerBlock(WorldView world) {
+        return 1;
+    }
+
+    @Override
     public int getLevel(FluidState state) {
-        return 0;
+        return 8;
     }
 
     @Override

@@ -51,7 +51,7 @@ public abstract class OilFluid extends FluidModel {
     public static class Still extends OilFluid {
         @Override
         public int getLevel(FluidState fluidState) {
-            return 15;
+            return 8;
         }
 
         @Override
