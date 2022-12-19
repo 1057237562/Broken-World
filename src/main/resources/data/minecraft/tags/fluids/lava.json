@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values":
+  [
+    "broken_world:oil",
+    "broken_world:flowing_oil"
+  ]
+}
