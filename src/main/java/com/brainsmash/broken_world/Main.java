@@ -9,7 +9,9 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.kyrptonaught.customportalapi.CustomPortalApiRegistry;
 import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
+import net.kyrptonaught.customportalapi.util.PortalLink;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -34,6 +36,7 @@ import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
 
 import java.awt.*;
 import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 public class Main implements ModInitializer {
@@ -57,7 +60,9 @@ public class Main implements ModInitializer {
 			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(4.0f,4.0f)),
 			new Block(AbstractBlock.Settings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(2.0f,2.0f)),
 			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).requiresTool().strength(3.0f,3.0f)),
-			new TeleporterController(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).requiresTool().strength(3.0f,3.0f))
+			new TeleporterController(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).requiresTool().strength(3.0f,3.0f)),
+			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f)),
+			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f))
 	};
 	public static final Item[] items = {
 			new BlockItem(blocks[0],new FabricItemSettings().group(ITEM_GROUP)),
@@ -68,10 +73,12 @@ public class Main implements ModInitializer {
 			new BlockItem(blocks[5],new FabricItemSettings().group(ITEM_GROUP)),
 			new BlockItem(blocks[6],new FabricItemSettings().group(ITEM_GROUP)),
 			new BlockItem(blocks[7],new FabricItemSettings().group(ITEM_GROUP)),
-			new BlockItem(blocks[8],new FabricItemSettings().group(ITEM_GROUP))
+			new BlockItem(blocks[8],new FabricItemSettings().group(ITEM_GROUP)),
+			new BlockItem(blocks[9],new FabricItemSettings()),
+			new BlockItem(blocks[10],new FabricItemSettings())
 	};
 	public static final String[] blocknames = {"moon_sand","moon_stone","moon_iron_ore","moon_gold_ore","teleporter_frame","moon_redstone_ore",
-			"moon_sandstone","rusty_metal","teleporter_controller"
+			"moon_sandstone","rusty_metal","teleporter_controller","moon_teleporter_frame","metallic_teleporter_frame"
 	};
 	private static final String[] configurenames = {"moon_sand","moon_iron_ore","moon_gold_ore","moon_redstone_ore"};
 	private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -88,6 +95,8 @@ public class Main implements ModInitializer {
 			new PlacedFeature(RegistryEntry.of(configuredFeatures[3]),Arrays.asList(CountPlacementModifier.of(8),SquarePlacementModifier.of(),HeightRangePlacementModifier.uniform(YOffset.getBottom(),YOffset.fixed(32))))
 	};
 
+	public static ConcurrentHashMap<String, PortalLink> dimensions = new ConcurrentHashMap<>();
+
 	public static BlockEntityType<TeleporterControllerEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;
 	//public static final ScreenHandlerType<TeleporterControllerScreenHandler> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(new Identifier(MODID,"teleporter_controller"), TeleporterControllerScreenHandler::new);
 	public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"teleport_controller"),new ScreenHandlerType<>((syncId, inventory) -> new TeleporterControllerGuiDescription(syncId, inventory, ScreenHandlerContext.EMPTY)));
@@ -101,8 +110,14 @@ public class Main implements ModInitializer {
 			Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier(MODID, configurenames[i]), configuredFeatures[i]);
 			Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(MODID, configurenames[i]),placedFeatures[i]);
 		}
-		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[4]).destDimID(new Identifier(MODID,"moon")).tintColor(Color.WHITE.getRGB()).registerPortal();
-		//CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[7]).lightWithItem(Items.GOLD_INGOT).destDimID(new Identifier(MODID,"metallic")).tintColor(Color.ORANGE.getRGB()).registerPortal();
+
+		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[4]).destDimID(new Identifier("minecraft","overworld")).tintColor(Color.BLUE.getRGB()).registerPortal();
+		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[9]).destDimID(new Identifier(MODID,"moon")).tintColor(Color.WHITE.getRGB()).registerPortal();
+		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[10]).destDimID(new Identifier(MODID,"metallic")).tintColor(Color.ORANGE.getRGB()).registerPortal();
+
+		dimensions.put("broken_world:moon",new PortalLink(new Identifier(MODID,blocknames[9]),new Identifier(MODID,"moon"),Color.WHITE.getRGB()));
+		dimensions.put("broken_world:metallic",new PortalLink(new Identifier(MODID,blocknames[10]),new Identifier(MODID,"metallic"),Color.ORANGE.getRGB()));
+
 		ServerTickEvents.START_WORLD_TICK.register(world -> {
 			if(world.getDimensionKey().getValue().toTranslationKey().equals("broken_world.moon_type")){
 				for(ServerPlayerEntity entity : world.getPlayers()){
