@@ -41,7 +41,7 @@ public abstract class OilFluid extends FluidModel {
     public void flow(WorldAccess world, BlockPos pos, BlockState state, Direction direction, FluidState fluidState) {
         if (direction == Direction.DOWN) {
             FluidState fluidState2 = world.getFluidState(pos);
-            if (fluidState2.isIn(FluidTags.WATER)) {
+            if (fluidState2.isIn(FluidTags.LAVA)) {
                 if (state.getBlock() instanceof FluidBlock) {
                     world.setBlockState(pos, Blocks.COAL_ORE.getDefaultState(), 3);
                 }
