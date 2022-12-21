@@ -2,6 +2,7 @@ package com.brainsmash.broken_world;
 
 import com.brainsmash.broken_world.blocks.TeleporterController;
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
+import com.brainsmash.broken_world.blocks.fluid.IFluidBlock;
 import com.brainsmash.broken_world.blocks.fluid.OilFluid;
 import com.brainsmash.broken_world.blocks.fluid.PollutedWaterFluid;
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
@@ -19,13 +20,13 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.item.*;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -41,7 +42,6 @@ import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Flow;
 import java.util.function.Supplier;
 
 public class Main implements ModInitializer {
@@ -67,7 +67,7 @@ public class Main implements ModInitializer {
 	};
 
 	public static final Block[] fluid_blocks = {
-			new FluidBlock(still_fluid[0], FabricBlockSettings.copyOf(Blocks.WATER).velocityMultiplier(0.1f).jumpVelocityMultiplier(0.1f)),
+			new IFluidBlock(still_fluid[0], FabricBlockSettings.copyOf(Blocks.WATER).velocityMultiplier(0.1f).jumpVelocityMultiplier(0.1f)),
 			new FluidBlock(still_fluid[1], FabricBlockSettings.copyOf(Blocks.WATER))
 	};
 
@@ -174,7 +174,6 @@ public class Main implements ModInitializer {
 		ServerTickEvents.START_WORLD_TICK.register(world -> {
 			if(world.getDimensionKey().getValue().toTranslationKey().equals("broken_world.moon_type")){
 				for(ServerPlayerEntity entity : world.getPlayers()){
-					entity.setAir(entity.getAir()-2);
 					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST,50,1,false,false));
 					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,50,0,false,false));
 				}
@@ -184,6 +183,5 @@ public class Main implements ModInitializer {
 		TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleporter_controller"), FabricBlockEntityTypeBuilder.create(TeleporterControllerEntity::new,blocks[8]).build());
 
 		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,RegistryKey.of(Registry.PLACED_FEATURE_KEY,new Identifier(MODID, "tungsten_ore")));
-
 	}
 }
