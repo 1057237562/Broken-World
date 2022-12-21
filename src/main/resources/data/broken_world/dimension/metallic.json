@@ -37,7 +37,7 @@
           }
         },
         {
-          "biome": "broken_world:oil_river",
+          "biome": "minecraft:river",
           "parameters": {
             "temperature": 0,
             "humidity": 0,
