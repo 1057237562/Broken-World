@@ -41,9 +41,9 @@
                   "argument1": {
                     "type": "minecraft:y_clamped_gradient",
                     "from_value": 0.0,
-                    "from_y": -64,
+                    "from_y": -32,
                     "to_value": 1.0,
-                    "to_y": -40
+                    "to_y": -20
                   },
                   "argument2": {
                     "type": "minecraft:add",
@@ -150,8 +150,8 @@
       },
       "argument2": 0.5
     },
-    "fluid_level_floodedness": 0.0,
-    "fluid_level_spread": 0.0,
+    "fluid_level_floodedness": 0,
+    "fluid_level_spread": 0,
     "initial_density_without_jaggedness": {
       "type": "minecraft:add",
       "argument1": 0.1171875,
@@ -160,9 +160,9 @@
         "argument1": {
           "type": "minecraft:y_clamped_gradient",
           "from_value": 0.0,
-          "from_y": -64,
+          "from_y": -32,
           "to_value": 1.0,
-          "to_y": -50
+          "to_y": -20
         },
         "argument2": {
           "type": "minecraft:add",
@@ -204,7 +204,7 @@
                     }
                   },
                   "max": 32.0,
-                  "min": -32.0
+                  "min": -31.0
                 }
               }
             }
@@ -240,7 +240,7 @@
               "type": "minecraft:range_choice",
               "input": "minecraft:y",
               "max_exclusive": 51.0,
-              "min_inclusive": -60.0,
+              "min_inclusive": -30.0,
               "when_in_range": {
                 "type": "minecraft:noise",
                 "noise": "minecraft:ore_vein_a",
@@ -259,7 +259,7 @@
               "type": "minecraft:range_choice",
               "input": "minecraft:y",
               "max_exclusive": 51.0,
-              "min_inclusive": -60.0,
+              "min_inclusive": -30.0,
               "when_in_range": {
                 "type": "minecraft:noise",
                 "noise": "minecraft:ore_vein_b",
@@ -278,7 +278,7 @@
         "type": "minecraft:range_choice",
         "input": "minecraft:y",
         "max_exclusive": 51.0,
-        "min_inclusive": -60.0,
+        "min_inclusive": -30.0,
         "when_in_range": {
           "type": "minecraft:noise",
           "noise": "minecraft:ore_veininess",
@@ -290,7 +290,7 @@
     }
   },
   "ore_veins_enabled": true,
-  "sea_level": 0,
+  "sea_level": 54,
   "spawn_target": [
 
   ],
@@ -338,8 +338,8 @@
                 "if_true": {
                   "type": "minecraft:water",
                   "add_stone_depth": false,
-                  "offset": -1,
-                  "surface_depth_multiplier": 0
+                  "offset": 0,
+                  "surface_depth_multiplier": 1
                 },
                 "then_run": {
                   "type": "minecraft:condition",
@@ -384,8 +384,8 @@
               "if_true": {
                 "type": "minecraft:water",
                 "add_stone_depth": true,
-                "offset": -6,
-                "surface_depth_multiplier": -1
+                "offset": 0,
+                "surface_depth_multiplier": 1
               },
               "then_run": {
                 "type": "minecraft:sequence",
