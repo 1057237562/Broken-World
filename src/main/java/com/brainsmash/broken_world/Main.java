@@ -3,6 +3,7 @@ package com.brainsmash.broken_world;
 import com.brainsmash.broken_world.blocks.TeleporterController;
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
 import com.brainsmash.broken_world.blocks.fluid.OilFluid;
+import com.brainsmash.broken_world.blocks.fluid.PollutedWaterFluid;
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -18,6 +19,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.item.*;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -55,19 +57,23 @@ public class Main implements ModInitializer {
 	});
 
 	public static final FlowableFluid[] still_fluid = {
-			new OilFluid.Still()
+			new OilFluid.Still(),
+			new PollutedWaterFluid.Still()
 	};
 
 	public static final FlowableFluid[] flowing_fluid = {
-			new OilFluid.Flowing()
+			new OilFluid.Flowing(),
+			new PollutedWaterFluid.Flowing()
 	};
 
 	public static final Block[] fluid_blocks = {
-			new FluidBlock(still_fluid[0], FabricBlockSettings.copyOf(Blocks.WATER))
+			new FluidBlock(still_fluid[0], FabricBlockSettings.copyOf(Blocks.WATER)),
+			new FluidBlock(still_fluid[1], FabricBlockSettings.copyOf(Blocks.WATER))
 	};
 
 	public static final Item[] bucket_item = {
-			new BucketItem(still_fluid[0], new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP))
+			new BucketItem(still_fluid[0], new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP)),
+			new BucketItem(still_fluid[1], new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP))
 	};
 
 	public static final Block[] blocks = {
@@ -110,7 +116,8 @@ public class Main implements ModInitializer {
 			"moon_sandstone","rusty_metal","teleporter_controller","moon_teleporter_frame","metallic_teleporter_frame","tungsten_ore","lush_teleporter_frame"
 	};
 
-	public static final String[] fluidnames = {"oil"};
+	public static final String[] fluidnames = {"oil","polluted_water"};
+	public static final Color[] fluidColor = {Color.BLACK,new Color(0,10,100)};
 	public static final String[] itemnames = {"titanium_ingot","tungsten_ingot"};
 	private static final String[] configurenames = {"moon_sand","moon_iron_ore","moon_gold_ore","moon_redstone_ore","tungsten_ore"};
 	private static final ConfiguredFeature<?, ?>[] configuredFeatures = {

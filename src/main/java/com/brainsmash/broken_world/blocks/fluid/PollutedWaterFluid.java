@@ -8,56 +8,51 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
 
-public abstract class OilFluid extends FluidModel {
+public abstract class PollutedWaterFluid extends FluidModel {
 
     @Override
     public Fluid getStill() {
-        return Main.still_fluid[0];
+        return Main.still_fluid[1];
     }
 
     @Override
     public Fluid getFlowing() {
-        return Main.flowing_fluid[0];
+        return Main.flowing_fluid[1];
     }
 
     @Override
     public Item getBucketItem() {
-        return Main.bucket_item[0];
+        return Main.bucket_item[1];
     }
 
     @Override
     protected BlockState toBlockState(FluidState fluidState) {
         // getBlockStateLevel converts the LEVEL_1_8 of the fluid state to the LEVEL_15 the fluid block uses
-        return Main.fluid_blocks[0].getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(fluidState));
+        return Main.fluid_blocks[1].getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(fluidState));
     }
 
     @Override
-    public void flow(WorldAccess world, BlockPos pos, BlockState state, Direction direction, FluidState fluidState) {
-        if (direction == Direction.DOWN) {
-            FluidState fluidState2 = world.getFluidState(pos);
-            if (fluidState2.isIn(FluidTags.LAVA)) {
-                if (state.getBlock() instanceof FluidBlock) {
-                    world.setBlockState(pos, Blocks.COAL_ORE.getDefaultState(), 3);
-                }
-                return;
-            }
-            if(fluidState2.isIn(FluidTags.WATER)){
-                if(state.getBlock() instanceof FluidBlock){
-                    world.setBlockState(pos,Main.fluid_blocks[1].getDefaultState(),3);
-                }
-            }
-        }
-
-        super.flow(world, pos, state, direction, fluidState);
+    protected int getLevelDecreasePerBlock(WorldView world) {
+        return 1;
     }
 
-    public static class Flowing extends OilFluid {
+    @Override
+    protected int getFlowSpeed(WorldView world) {
+        return 4;
+    }
+
+    @Override
+    public int getTickRate(WorldView world) {
+        return 5;
+    }
+
+    public static class Flowing extends PollutedWaterFluid {
         @Override
         protected void appendProperties(StateManager.Builder<Fluid, FluidState> builder) {
             super.appendProperties(builder);
@@ -75,7 +70,7 @@ public abstract class OilFluid extends FluidModel {
         }
     }
 
-    public static class Still extends OilFluid {
+    public static class Still extends PollutedWaterFluid {
 
         @Override
         protected void appendProperties(StateManager.Builder<Fluid, FluidState> builder) {

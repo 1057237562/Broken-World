@@ -23,7 +23,7 @@ public class Client implements ClientModInitializer {
             FluidRenderHandlerRegistry.INSTANCE.register(Main.still_fluid[i], Main.flowing_fluid[i], new SimpleFluidRenderHandler(
                     new Identifier("minecraft:block/water_still"),
                     new Identifier("minecraft:block/water_flow"),
-                    Color.BLACK.getRGB()
+                    Main.fluidColor[i].getRGB()
             ));
 
             BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), Main.still_fluid[i], Main.flowing_fluid[i]);
