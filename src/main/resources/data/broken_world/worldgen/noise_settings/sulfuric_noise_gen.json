@@ -269,7 +269,7 @@
                 "if_true": {
                   "type": "minecraft:water",
                   "add_stone_depth": false,
-                  "offset": -1,
+                  "offset": 0,
                   "surface_depth_multiplier": 0
                 },
                 "then_run": {
@@ -315,8 +315,8 @@
               "if_true": {
                 "type": "minecraft:water",
                 "add_stone_depth": true,
-                "offset": -6,
-                "surface_depth_multiplier": -1
+                "offset": 0,
+                "surface_depth_multiplier": 0
               },
               "then_run": {
                 "type": "minecraft:sequence",

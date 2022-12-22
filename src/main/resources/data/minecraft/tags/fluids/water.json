@@ -5,6 +5,8 @@
     "broken_world:polluted_water",
     "broken_world:flowing_polluted_water",
     "broken_world:oil",
-    "broken_world:flowing_oil"
+    "broken_world:flowing_oil",
+    "broken_world:acid",
+    "broken_world:flowing_acid"
   ]
 }
