@@ -39,8 +39,9 @@ import net.minecraft.world.gen.placementmodifier.CountPlacementModifier;
 import net.minecraft.world.gen.placementmodifier.HeightRangePlacementModifier;
 import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
@@ -120,6 +121,8 @@ public class Main implements ModInitializer {
 	public static final Color[] fluidColor = {Color.BLACK,new Color(0,10,100)};
 	public static final String[] itemnames = {"titanium_ingot","tungsten_ingot"};
 	private static final String[] configurenames = {"moon_sand","moon_iron_ore","moon_gold_ore","moon_redstone_ore","tungsten_ore"};
+	public static final List<String> noAirDimension = Arrays.asList("broken_world.moon_type");
+	public static final List<String> noCloudDimension = Arrays.asList("broken_world.moon_type");
 	private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
 			new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,blocks[0].getDefaultState(),21)),
 			new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,blocks[2].getDefaultState(),9)),
@@ -138,10 +141,12 @@ public class Main implements ModInitializer {
 
 
 	public static ConcurrentHashMap<String, PortalLink> dimensions = new ConcurrentHashMap<>();
-
+	public static ConcurrentHashMap<String, Double> dimensionGravity = new ConcurrentHashMap<>();
 	public static BlockEntityType<TeleporterControllerEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;
 	//public static final ScreenHandlerType<TeleporterControllerScreenHandler> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(new Identifier(MODID,"teleporter_controller"), TeleporterControllerScreenHandler::new);
 	public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"teleport_controller"),new ScreenHandlerType<>((syncId, inventory) -> new TeleporterControllerGuiDescription(syncId, inventory, ScreenHandlerContext.EMPTY)));
+
+
 	@Override
 	public void onInitialize() {
 		for(int i = 0;i<blocks.length;i++){
@@ -171,14 +176,17 @@ public class Main implements ModInitializer {
 		dimensions.put("broken_world:metallic",new PortalLink(new Identifier(MODID,blocknames[10]),new Identifier(MODID,"metallic"),Color.ORANGE.getRGB()));
 		dimensions.put("broken_world:lush",new PortalLink(new Identifier(MODID,blocknames[12]),new Identifier(MODID,"lush"),Color.GREEN.getRGB()));
 
-		ServerTickEvents.START_WORLD_TICK.register(world -> {
+		dimensionGravity.put("broken_world.moon_type",0.1);
+		dimensionGravity.put("broken_world.metallic_type",0.8);
+
+		/*ServerTickEvents.START_WORLD_TICK.register(world -> {
 			if(world.getDimensionKey().getValue().toTranslationKey().equals("broken_world.moon_type")){
 				for(ServerPlayerEntity entity : world.getPlayers()){
 					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST,50,1,false,false));
 					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,50,0,false,false));
 				}
 			}
-		});
+		});*/
 
 		TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleporter_controller"), FabricBlockEntityTypeBuilder.create(TeleporterControllerEntity::new,blocks[8]).build());
 

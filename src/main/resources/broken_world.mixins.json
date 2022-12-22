@@ -4,9 +4,15 @@
   "package": "com.brainsmash.broken_world.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "LivingEntityMixin",
+    "EntityMixin"
   ],
   "client": [
-    "MainMixin"
+    "MainMixin",
+    "WorldRendererMixin"
+  ],
+  "server": [
+
   ],
   "injectors": {
     "defaultRequire": 1
