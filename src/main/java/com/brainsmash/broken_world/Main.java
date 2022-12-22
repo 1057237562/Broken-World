@@ -92,7 +92,8 @@ public class Main implements ModInitializer {
 			new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(6.0f,6.0f)),
 			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f)),
 			new Block(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(2.0f,2.0f)),
-			new Block(FabricBlockSettings.of(Material.SOIL).sounds(BlockSoundGroup.MUD).strength(2.0f,2.0f))
+			new Block(FabricBlockSettings.of(Material.SOIL).sounds(BlockSoundGroup.MUD).strength(2.0f,2.0f)),
+			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f))
 	};
 	public static final Item[] blockitems = {
 			new BlockItem(blocks[0],new FabricItemSettings().group(ITEM_GROUP)),
@@ -109,7 +110,8 @@ public class Main implements ModInitializer {
 			new BlockItem(blocks[11],new FabricItemSettings().group(ITEM_GROUP)),
 			new BlockItem(blocks[12],new FabricItemSettings()),
 			new BlockItem(blocks[13],new FabricItemSettings().group(ITEM_GROUP)),
-			new BlockItem(blocks[14],new FabricItemSettings().group(ITEM_GROUP))
+			new BlockItem(blocks[14],new FabricItemSettings().group(ITEM_GROUP)),
+			new BlockItem(blocks[15],new FabricItemSettings())
 	};
 
 	public static final Item[] items = {
@@ -121,7 +123,7 @@ public class Main implements ModInitializer {
 
 	public static final String[] blocknames = {"moon_sand","moon_stone","moon_iron_ore","moon_gold_ore","teleporter_frame","moon_redstone_ore",
 			"moon_sandstone","rusty_metal","teleporter_controller","moon_teleporter_frame","metallic_teleporter_frame","tungsten_ore","lush_teleporter_frame",
-			"sulfuric_stone","sulfuric_soil"
+			"sulfuric_stone","sulfuric_soil","sulfuric_teleporter_frame"
 	};
 
 	public static final String[] fluidnames = {"oil","polluted_water","acid"};
@@ -178,13 +180,16 @@ public class Main implements ModInitializer {
 		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[9]).destDimID(new Identifier(MODID,"moon")).tintColor(Color.WHITE.getRGB()).registerPortal();
 		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[10]).destDimID(new Identifier(MODID,"metallic")).tintColor(Color.ORANGE.getRGB()).registerPortal();
 		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[12]).destDimID(new Identifier(MODID,"lush")).tintColor(Color.GREEN.getRGB()).registerPortal();
+		CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[14]).destDimID(new Identifier(MODID,"sulfuric")).tintColor(new Color(210,180,0).getRGB()).registerPortal();
 
 		dimensions.put("broken_world:moon",new PortalLink(new Identifier(MODID,blocknames[9]),new Identifier(MODID,"moon"),Color.WHITE.getRGB()));
 		dimensions.put("broken_world:metallic",new PortalLink(new Identifier(MODID,blocknames[10]),new Identifier(MODID,"metallic"),Color.ORANGE.getRGB()));
 		dimensions.put("broken_world:lush",new PortalLink(new Identifier(MODID,blocknames[12]),new Identifier(MODID,"lush"),Color.GREEN.getRGB()));
+		dimensions.put("broken_world:sulfuric",new PortalLink(new Identifier(MODID,blocknames[14]),new Identifier(MODID,"sulfuric"),new Color(210,180,0).getRGB()));
 
 		dimensionGravity.put("broken_world.moon_type",0.1);
 		dimensionGravity.put("broken_world.metallic_type",0.8);
+		dimensionGravity.put("broken_world.sulfuric",1.1);
 
 		TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleporter_controller"), FabricBlockEntityTypeBuilder.create(TeleporterControllerEntity::new,blocks[8]).build());
 
