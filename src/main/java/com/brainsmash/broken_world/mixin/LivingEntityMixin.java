@@ -44,7 +44,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
         if(Main.dimensionGravity.containsKey(world.getDimensionKey().getValue().toTranslationKey())){
             multiplier = Main.dimensionGravity.get(world.getDimensionKey().getValue().toTranslationKey());
         }
-        float f = (float) (1/multiplier + (statusEffectInstance == null ? 0.0f : (float)(statusEffectInstance.getAmplifier() + 1)));
-        return MathHelper.ceil((fallDistance - 3.0f - f) * damageMultiplier);
+        float f = statusEffectInstance == null ? 0.0f : (float)(statusEffectInstance.getAmplifier() + 1);
+        return MathHelper.ceil((fallDistance - 3.0f - f) * damageMultiplier / multiplier);
     }
 }
