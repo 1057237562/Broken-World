@@ -14,7 +14,7 @@ public class IModelGenerator extends FabricModelProvider {
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         for(Block block: Main.baseblock) {
-            blockStateModelGenerator.registerSimpleCubeAll();
+            blockStateModelGenerator.registerSimpleCubeAll(block);
         }
     }
 
