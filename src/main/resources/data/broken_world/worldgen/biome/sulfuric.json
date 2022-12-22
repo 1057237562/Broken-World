@@ -4,26 +4,27 @@
       "minecraft:cave",
       "minecraft:cave_extra_underground",
       "minecraft:canyon"
-    ]
+      ]
   },
-  "downfall": 0.5,
+  "downfall": 1.0,
   "effects": {
-    "fog_color": 12638463,
+    "fog_color": 12699254,
     "mood_sound": {
       "block_search_extent": 8,
-      "offset": 2.0,
+      "offset": 2,
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000
     },
-    "sky_color": 8103167,
-    "water_color": 4159204,
-    "water_fog_color": 329011
+    "music": {},
+    "sky_color": 15526014,
+    "water_color": 8623766,
+    "water_fog_color": 3158814
   },
   "features": [
     [],
     [
-      "broken_world:metallic_lake_lava_underground",
-      "broken_world:metallic_lake_lava_surface"
+      "broken_world:sulfuric_lake_acid_underground",
+      "broken_world:sulfuric_lake_acid_surface"
     ],
     [],
     [],
@@ -37,7 +38,7 @@
     [],
     []
   ],
-  "precipitation": "none",
+  "precipitation": "rain",
   "spawn_costs": {},
   "spawners": {
     "ambient": [],
@@ -46,12 +47,6 @@
     "misc": [],
     "monster": [
       {
-        "type": "minecraft:zombie",
-        "maxCount": 4,
-        "minCount": 4,
-        "weight": 95
-      },
-      {
         "type": "minecraft:skeleton",
         "maxCount": 4,
         "minCount": 4,
@@ -59,32 +54,20 @@
       },
       {
         "type": "minecraft:creeper",
-        "maxCount": 4,
+        "maxCount": 10,
         "minCount": 4,
         "weight": 100
       },
       {
-        "type": "minecraft:magma_cube",
-        "maxCount": 4,
-        "minCount": 4,
-        "weight": 30
-      },
-      {
-        "type": "minecraft:enderman",
+        "type": "minecraft:witch",
         "maxCount": 4,
         "minCount": 1,
-        "weight": 10
+        "weight": 30
       }
     ],
-    "underground_water_creature": [
-
-    ],
-    "water_ambient": [
-
-    ],
-    "water_creature": [
-
-    ]
+    "underground_water_creature": [],
+    "water_ambient": [],
+    "water_creature": []
   },
-  "temperature": 0.5
+  "temperature": 0.7
 }

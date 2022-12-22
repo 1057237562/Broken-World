@@ -1,0 +1,11 @@
+{
+  "type": "broken_world:sulfuric_type",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "broken_world:sulfuric_noise_gen",
+    "biome_source": {
+      "type": "fixed",
+      "biome": "broken_world:sulfuric"
+    }
+  }
+}

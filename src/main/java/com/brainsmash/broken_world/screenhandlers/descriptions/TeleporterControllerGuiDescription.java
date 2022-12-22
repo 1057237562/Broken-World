@@ -63,7 +63,9 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
             wButton.setLabel(Text.of(s));
             wButton.setOnClick(() -> {selectDim = s;});
         };
-        WListPanel<String,WButton> dimList = new WListPanel<>(List.of("broken_world:moon","broken_world:metallic","broken_world:lush"), () -> {
+        WListPanel<String,WButton> dimList = new WListPanel<>(
+                List.of("broken_world:moon","broken_world:metallic","broken_world:lush","broken_world:sulfuric"),
+                () -> {
             return new WButton(Text.of(""));
         }, buttonBiConsumer);
         root.add(dimList,0,1,8,3);
