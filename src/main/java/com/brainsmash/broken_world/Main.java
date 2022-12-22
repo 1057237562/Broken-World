@@ -117,6 +117,8 @@ public class Main implements ModInitializer {
 			new Item(new FabricItemSettings().group(ITEM_GROUP))
 	};
 
+	public static final Block[] baseblock = {};
+
 	public static final String[] blocknames = {"moon_sand","moon_stone","moon_iron_ore","moon_gold_ore","teleporter_frame","moon_redstone_ore",
 			"moon_sandstone","rusty_metal","teleporter_controller","moon_teleporter_frame","metallic_teleporter_frame","tungsten_ore","lush_teleporter_frame",
 			"sulfuric_stone","sulfuric_soil"
