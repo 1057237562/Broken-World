@@ -174,15 +174,6 @@ public class Main implements ModInitializer {
 		dimensionGravity.put("broken_world.moon_type",0.1);
 		dimensionGravity.put("broken_world.metallic_type",0.8);
 
-		/*ServerTickEvents.START_WORLD_TICK.register(world -> {
-			if(world.getDimensionKey().getValue().toTranslationKey().equals("broken_world.moon_type")){
-				for(ServerPlayerEntity entity : world.getPlayers()){
-					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST,50,1,false,false));
-					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,50,0,false,false));
-				}
-			}
-		});*/
-
 		TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleporter_controller"), FabricBlockEntityTypeBuilder.create(TeleporterControllerEntity::new,blocks[8]).build());
 
 		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,RegistryKey.of(Registry.PLACED_FEATURE_KEY,new Identifier(MODID, "tungsten_ore")));
