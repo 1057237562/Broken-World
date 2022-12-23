@@ -1,6 +1,8 @@
 package com.brainsmash.broken_world.mixin;
 
 import com.brainsmash.broken_world.Main;
+import dev.emi.trinkets.api.TrinketComponent;
+import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -17,13 +19,19 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import java.util.Optional;
+
+import static dev.emi.trinkets.api.TrinketsApi.getTrinketComponent;
+
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends EntityMixin {
 
     @Redirect(method = "baseTick",at = @At(value="INVOKE",target = "Lnet/minecraft/entity/LivingEntity;isSubmergedIn(Lnet/minecraft/tag/TagKey;)Z"))
     private boolean hasAir(LivingEntity instance, TagKey<Fluid> tagKey){
-        if(instance instanceof PlayerEntity && Main.noAirDimension.contains(instance.world.getDimensionKey().getValue().toTranslationKey())){
-            return true;
+        if(instance instanceof PlayerEntity) {
+            if (Main.noAirDimension.contains(instance.world.getDimensionKey().getValue().toTranslationKey())) {
+                return true;
+            }
         }
         return instance.isSubmergedIn(tagKey);
     }
