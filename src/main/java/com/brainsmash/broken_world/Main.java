@@ -118,7 +118,7 @@ public class Main implements ModInitializer {
 	public static final Item[] items = {
 			new Item(new FabricItemSettings().group(ITEM_GROUP)),
 			new Item(new FabricItemSettings().group(ITEM_GROUP)),
-			new BreathingEPP(new FabricItemSettings().group(ITEM_GROUP))
+			new BreathingEPP(new FabricItemSettings().maxCount(1).group(ITEM_GROUP))
 	};
 
 	public static final Block[] baseblock = {};
