@@ -27,7 +27,10 @@ import static dev.emi.trinkets.api.TrinketsApi.getTrinketComponent;
 public abstract class LivingEntityMixin extends EntityMixin {
 
     @Redirect(method = "baseTick",at = @At(value="INVOKE",target = "Lnet/minecraft/entity/LivingEntity;isSubmergedIn(Lnet/minecraft/tag/TagKey;)Z"))
-    private boolean hasAir(LivingEntity instance, TagKey<Fluid> tagKey){
+    private boolean hasNoAir(LivingEntity instance, TagKey<Fluid> tagKey){
+        if(TrinketsApi.getTrinketComponent(instance).get().isEquipped(Main.items[2])){
+            return false;
+        }
         if(instance instanceof PlayerEntity) {
             if (Main.noAirDimension.contains(instance.world.getDimensionKey().getValue().toTranslationKey())) {
                 return true;
