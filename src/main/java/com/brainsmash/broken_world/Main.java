@@ -1,15 +1,22 @@
 package com.brainsmash.broken_world;
 
 import com.brainsmash.broken_world.blocks.TeleporterController;
-import com.brainsmash.broken_world.blocks.cable.CableBlock;
+import com.brainsmash.broken_world.blocks.electric.BatteryBlock;
+import com.brainsmash.broken_world.blocks.electric.CableBlock;
+import com.brainsmash.broken_world.blocks.electric.ConsumerBlock;
+import com.brainsmash.broken_world.blocks.electric.PowerBlock;
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
-import com.brainsmash.broken_world.blocks.entity.cable.CableBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.BatteryBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.CableBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.ConsumerBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.fluid.AcidFluid;
 import com.brainsmash.broken_world.blocks.fluid.IFluidBlock;
 import com.brainsmash.broken_world.blocks.fluid.OilFluid;
 import com.brainsmash.broken_world.blocks.fluid.PollutedWaterFluid;
 import com.brainsmash.broken_world.items.BreathingEPP;
 import com.brainsmash.broken_world.items.EmergencyTeleporter;
+import com.brainsmash.broken_world.screenhandlers.descriptions.BatteryGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -98,7 +105,11 @@ public class Main implements ModInitializer {
 			new Block(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(2.0f,2.0f)),
 			new Block(FabricBlockSettings.of(Material.SOIL).sounds(BlockSoundGroup.MUD).strength(2.0f,2.0f)),
 			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f)),
-			new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f,2.0f))
+			new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f,2.0f)),
+			new BatteryBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+			new PowerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(100.0f,100.0f)),
+			new ConsumerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f))
+
 	};
 	public static final Item[] blockitems = {
 			new BlockItem(blocks[0],new FabricItemSettings().group(ITEM_GROUP)),
@@ -117,7 +128,10 @@ public class Main implements ModInitializer {
 			new BlockItem(blocks[13],new FabricItemSettings().group(ITEM_GROUP)),
 			new BlockItem(blocks[14],new FabricItemSettings().group(ITEM_GROUP)),
 			new BlockItem(blocks[15],new FabricItemSettings()),
-			new BlockItem(blocks[16],new FabricItemSettings().group(ITEM_GROUP))
+			new BlockItem(blocks[16],new FabricItemSettings().group(ITEM_GROUP)),
+			new BlockItem(blocks[17],new FabricItemSettings().group(ITEM_GROUP)),
+			new BlockItem(blocks[18],new FabricItemSettings().group(ITEM_GROUP)),
+			new BlockItem(blocks[19],new FabricItemSettings().group(ITEM_GROUP))
 	};
 
 	public static final Item[] items = {
@@ -129,7 +143,7 @@ public class Main implements ModInitializer {
 
 	public static final String[] blocknames = {"moon_sand","moon_stone","moon_iron_ore","moon_gold_ore","teleporter_frame","moon_redstone_ore",
 			"moon_sandstone","rusty_metal","teleporter_controller","moon_teleporter_frame","metallic_teleporter_frame","tungsten_ore","lush_teleporter_frame",
-			"sulfuric_stone","sulfuric_soil","sulfuric_teleporter_frame","cable"
+			"sulfuric_stone","sulfuric_soil","sulfuric_teleporter_frame","cable","creative_battery","creative_generator","basic_machine"
 	};
 
 	public static final String[] fluidnames = {"oil","polluted_water","acid"};
@@ -159,9 +173,12 @@ public class Main implements ModInitializer {
 	public static ConcurrentHashMap<String, Double> dimensionGravity = new ConcurrentHashMap<>();
 	public static BlockEntityType<TeleporterControllerEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;
 	public static BlockEntityType<CableBlockEntity> CABLE_ENTITY_TYPE;
+	public static BlockEntityType<BatteryBlockEntity> BATTERY_ENTITY_TYPE;
+	public static BlockEntityType<ConsumerBlockEntity> CONSUMER_ENTITY_TYPE;
+	public static BlockEntityType<PowerBlockEntity> POWER_ENTITY_TYPE;
 	//public static final ScreenHandlerType<TeleporterControllerScreenHandler> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(new Identifier(MODID,"teleporter_controller"), TeleporterControllerScreenHandler::new);
 	public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"teleport_controller"),new ScreenHandlerType<>((syncId, inventory) -> new TeleporterControllerGuiDescription(syncId, inventory, ScreenHandlerContext.EMPTY)));
-
+	public static final ScreenHandlerType<BatteryGuiDescription> BATTERY_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"creative_battery"),new ScreenHandlerType<>(((syncId, playerInventory) -> new BatteryGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 
 	@Override
 	public void onInitialize() {
@@ -200,6 +217,9 @@ public class Main implements ModInitializer {
 
 		TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleporter_controller"), FabricBlockEntityTypeBuilder.create(TeleporterControllerEntity::new,blocks[8]).build());
 		CABLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"cable"),FabricBlockEntityTypeBuilder.create(CableBlockEntity::new,blocks[16]).build());
+		BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"creative_battery"),FabricBlockEntityTypeBuilder.create(BatteryBlockEntity::new,blocks[17]).build());
+		POWER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"creative_generator"),FabricBlockEntityTypeBuilder.create(PowerBlockEntity::new,blocks[18]).build());
+		CONSUMER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"basic_machine"), FabricBlockEntityTypeBuilder.create(ConsumerBlockEntity::new,blocks[19]).build());
 
 		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,RegistryKey.of(Registry.PLACED_FEATURE_KEY,new Identifier(MODID, "tungsten_ore")));
 	}

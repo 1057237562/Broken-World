@@ -1,14 +1,11 @@
-package com.brainsmash.broken_world.blocks.cable;
+package com.brainsmash.broken_world.blocks.electric;
 
-import com.brainsmash.broken_world.blocks.entity.cable.CableBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.CableBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Property;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;

@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.entity.cable;
+package com.brainsmash.broken_world.blocks.entity.electric;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.world.ServerWorld;

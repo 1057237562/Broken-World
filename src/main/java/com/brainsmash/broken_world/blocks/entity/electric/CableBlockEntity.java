@@ -1,7 +1,6 @@
-package com.brainsmash.broken_world.blocks.entity.cable;
+package com.brainsmash.broken_world.blocks.entity.electric;
 
 import com.brainsmash.broken_world.Main;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -22,16 +21,16 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
     public CableBlockEntity(BlockEntityType<?> type, BlockPos pos,BlockState state){ super(type,pos,state);}
 
     public int getMaxCapacity(){
-        return 10;
+        return 1;
     }
 
     public int getMaxFlow(){
-        return 5;
+        return 32;
     }
 
-    public int getEnergyLost(){
+    /*public int getEnergyLost(){
         return 1;
-    }
+    }*/
 
     public long getEnergy(){
         return energy;
@@ -39,6 +38,7 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
+        System.out.println(energy);
         EnergyManager.processTick(this);
     }
 

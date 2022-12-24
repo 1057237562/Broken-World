@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world;
 
+import com.brainsmash.broken_world.screens.cotton.BatteryScreen;
 import com.brainsmash.broken_world.screens.cotton.TeleporterControllerScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -18,6 +19,7 @@ public class Client implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         HandledScreens.register(Main.TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE, TeleporterControllerScreen::new);
+        HandledScreens.register(Main.BATTERY_GUI_DESCRIPTION, BatteryScreen::new);
 
         for(int i = 0;i < Main.still_fluid.length;i++) {
             FluidRenderHandlerRegistry.INSTANCE.register(Main.still_fluid[i], Main.flowing_fluid[i], new SimpleFluidRenderHandler(
