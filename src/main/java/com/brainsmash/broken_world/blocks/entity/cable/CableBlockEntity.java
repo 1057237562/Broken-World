@@ -6,13 +6,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<CableBlockEntity> {
 
-    private int energy = 0;
+    private long energy = 0;
     public boolean tickMark = false;
 
     public CableBlockEntity(BlockPos pos, BlockState state) {
@@ -25,14 +26,14 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
     }
 
     public int getMaxFlow(){
-        return 0;
+        return 5;
     }
 
     public int getEnergyLost(){
         return 1;
     }
 
-    public int getEnergy(){
+    public long getEnergy(){
         return energy;
     }
 
@@ -45,7 +46,25 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
         return world.getBlockEntity(getPos().offset(direction));
     }
 
-    public void setEnergy(int l) {
+    public void setEnergy(long l) {
         energy = l;
+    }
+
+    public void increaseEnergy(long l){
+        energy += l;
+    }
+
+    @Override
+    public void readNbt(NbtCompound compound) {
+        super.readNbt(compound);
+        if (compound.contains("energy")) {
+            energy = compound.getLong("energy");
+        }
+    }
+
+    @Override
+    public void writeNbt(NbtCompound compound) {
+        super.writeNbt(compound);
+        compound.putLong("energy", energy);
     }
 }

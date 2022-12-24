@@ -10,6 +10,7 @@ public class EnergyManager {
     private static final List<CableBlockEntity> cableList = new ArrayList<>();
     private static final Deque<CableBlockEntity> bfsQueue = new ArrayDeque<>();
     private static final List<BatteryBlockEntity> storageList = new ArrayList<>();
+    private static final List<ConsumerBlockEntity> consumerList = new ArrayList<>();
 
     private static boolean tickMark = false;
 
@@ -39,6 +40,8 @@ public class EnergyManager {
                     if (shouldTickCable(adjCable)) {
                         if(adjCable instanceof BatteryBlockEntity battery){
                             storageList.add(battery);
+                        }if(adjCable instanceof ConsumerBlockEntity consumer){
+                            consumerList.add(consumer);
                         }else{
                             bfsQueue.add(adjCable);
                             cableList.add(adjCable);
@@ -55,7 +58,7 @@ public class EnergyManager {
 
         try {
             bfs(cableBlockEntity);
-            storageList.sort((o1, o2) -> o1.getMaxCapacity() - o1.getEnergy() - o2.getMaxCapacity() + o2.getEnergy());
+            storageList.sort((o1, o2) -> (o1.getMaxCapacity() - o1.getEnergy() - o2.getMaxCapacity() + o2.getEnergy()) >= 0 ? 0 : -1);
             if (cableList.size() == 0) return;
 
             // Group all energy into the network.
@@ -73,10 +76,22 @@ public class EnergyManager {
                 energyflow = networkCapacity;
             }
 
+            for(ConsumerBlockEntity consumer : consumerList){
+                if(consumer.getEnergy() < consumer.getMaxCapacity()) {
+                    energyflow -= consumer.getMaxFlow();
+                }
+            }
+
             if (energyflow < 0)
                 energyflow += pullEnergy(-energyflow);
             else
                 energyflow -= pushEnergy(energyflow);
+
+            for(ConsumerBlockEntity consumer : consumerList){
+                if(consumer.getEnergy() < consumer.getMaxCapacity()) {
+                    consumer.increaseEnergy(consumer.getMaxFlow() + energyflow/consumerList.size());
+                }
+            }
 
             // Split energy evenly across cables.
             int cableCount = cableList.size();
@@ -92,22 +107,22 @@ public class EnergyManager {
         }
     }
 
-    public static int pullEnergy(int energy){
+    public static long pullEnergy(long energy){
         for(int i = storageList.size()-1;i>=0;i--){
             BatteryBlockEntity battery = storageList.get(i);
-            if(battery.getEnergy() >= energy){
-                battery.setEnergy(battery.getEnergy()-energy);
+            if(Math.min(battery.getMaxFlow(),battery.getEnergy()) >= energy){
+                battery.increaseEnergy(-energy);
                 energy = 0;
                 break;
             }else{
-                energy -= battery.getEnergy();
-                battery.setEnergy(0);
+                energy -= Math.min(battery.getMaxFlow(),battery.getEnergy());
+                battery.increaseEnergy(-Math.min(battery.getMaxFlow(),battery.getEnergy()));
             }
         }
         return energy;
     }
 
-    public static int pushEnergy(int energy){
+    public static long pushEnergy(long energy){
         for(int i = 0; i < storageList.size();i++){
             BatteryBlockEntity battery = storageList.get(i);
             if(battery.getEnergy() + energy <= battery.getMaxCapacity()){
