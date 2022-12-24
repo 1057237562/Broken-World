@@ -7,6 +7,7 @@ import com.brainsmash.broken_world.blocks.fluid.IFluidBlock;
 import com.brainsmash.broken_world.blocks.fluid.OilFluid;
 import com.brainsmash.broken_world.blocks.fluid.PollutedWaterFluid;
 import com.brainsmash.broken_world.items.BreathingEPP;
+import com.brainsmash.broken_world.items.EmergencyTeleporter;
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -118,7 +119,8 @@ public class Main implements ModInitializer {
 	public static final Item[] items = {
 			new Item(new FabricItemSettings().group(ITEM_GROUP)),
 			new Item(new FabricItemSettings().group(ITEM_GROUP)),
-			new BreathingEPP(new FabricItemSettings().maxCount(1).group(ITEM_GROUP))
+			new BreathingEPP(new FabricItemSettings().maxCount(1).group(ITEM_GROUP)),
+			new EmergencyTeleporter(new FabricItemSettings().group(ITEM_GROUP))
 	};
 
 	public static final Block[] baseblock = {};
@@ -130,7 +132,7 @@ public class Main implements ModInitializer {
 
 	public static final String[] fluidnames = {"oil","polluted_water","acid"};
 	public static final Color[] fluidColor = {Color.BLACK,new Color(0,10,100),new Color(210,180,0)};
-	public static final String[] itemnames = {"titanium_ingot","tungsten_ingot","oxygen_generator_pack"};
+	public static final String[] itemnames = {"titanium_ingot","tungsten_ingot","oxygen_generator_pack","emergency_teleporter"};
 	private static final String[] configurenames = {"moon_sand","moon_iron_ore","moon_gold_ore","moon_redstone_ore","tungsten_ore"};
 	public static final List<String> noAirDimension = Arrays.asList("broken_world.moon_type");
 	public static final List<String> noCloudDimension = Arrays.asList("broken_world.moon_type");
