@@ -31,9 +31,9 @@ public class BatteryGuiDescription extends SyncedGuiDescription {
         setRootPanel(root);
         root.setSize(150, 175);
         root.setInsets(Insets.ROOT_PANEL);
-        WBar bar = new WBar(new Identifier(Main.MODID,"textures/gui/electric_bar.png"),new Identifier(Main.MODID,"textures/gui/electric_bar_filled.png"),0,1, WBar.Direction.RIGHT);
+        WBar bar = new WBar(new Identifier(Main.MODID,"textures/gui/vertical_electric_bar.png"),new Identifier(Main.MODID,"textures/gui/vertical_electric_bar_filled.png"),0,1);
         bar.setProperties(propertyDelegate);
-        root.add(bar, 4, 2,2,1);
+        root.add(bar, 4, 1,1,2);
 
 
         root.add(this.createPlayerInventoryPanel(), 0, 4);
