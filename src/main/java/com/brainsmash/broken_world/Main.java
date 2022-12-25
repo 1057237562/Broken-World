@@ -143,7 +143,7 @@ public class Main implements ModInitializer {
 
 	public static final String[] blocknames = {"moon_sand","moon_stone","moon_iron_ore","moon_gold_ore","teleporter_frame","moon_redstone_ore",
 			"moon_sandstone","rusty_metal","teleporter_controller","moon_teleporter_frame","metallic_teleporter_frame","tungsten_ore","lush_teleporter_frame",
-			"sulfuric_stone","sulfuric_soil","sulfuric_teleporter_frame","cable","creative_battery","creative_generator","basic_machine"
+			"sulfuric_stone","sulfuric_soil","sulfuric_teleporter_frame","copper_cable","creative_battery","creative_generator","basic_machine"
 	};
 
 	public static final String[] fluidnames = {"oil","polluted_water","acid"};
