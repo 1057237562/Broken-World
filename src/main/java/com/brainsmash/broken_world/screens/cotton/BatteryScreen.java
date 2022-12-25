@@ -14,7 +14,6 @@ public class BatteryScreen extends CottonInventoryScreen<BatteryGuiDescription> 
 
     @Override
     protected void drawBackground(MatrixStack matrices, float partialTicks, int mouseX, int mouseY) {
-        ((BatteryGuiDescription)description).label.setText(Text.of(String.valueOf(handler.getEnergy())));
         super.drawBackground(matrices, partialTicks, mouseX, mouseY);
     }
 }

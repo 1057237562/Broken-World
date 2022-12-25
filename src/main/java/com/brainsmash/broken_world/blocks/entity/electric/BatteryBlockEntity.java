@@ -25,7 +25,14 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            return (int) getEnergy();
+            switch (index){
+                case 0:
+                    return (int) getEnergy();
+                case 1:
+                    return getMaxCapacity();
+                default:
+                    return -1;
+            }
         }
 
         @Override
@@ -35,7 +42,7 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
 
         @Override
         public int size() {
-            return 1;
+            return 2;
         }
     };
 

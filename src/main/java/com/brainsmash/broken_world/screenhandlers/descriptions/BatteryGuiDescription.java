@@ -7,10 +7,12 @@ import io.github.cottonmc.cotton.gui.networking.NetworkSide;
 import io.github.cottonmc.cotton.gui.networking.ScreenNetworking;
 import io.github.cottonmc.cotton.gui.widget.*;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
+import io.github.cottonmc.cotton.gui.widget.data.Texture;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -20,9 +22,8 @@ import java.util.function.BiConsumer;
 public class BatteryGuiDescription extends SyncedGuiDescription {
 
     private static final int INVENTORY_SIZE = 1;
-    private static final int PROPERTY_COUNT = 1;
+    private static final int PROPERTY_COUNT = 2;
 
-    public WLabel label;
     public BatteryGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(Main.BATTERY_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
 
@@ -30,8 +31,9 @@ public class BatteryGuiDescription extends SyncedGuiDescription {
         setRootPanel(root);
         root.setSize(150, 175);
         root.setInsets(Insets.ROOT_PANEL);
-        label = new WLabel(Text.of("Current Energy:"));
-        root.add(label, 0, 2);
+        WBar bar = new WBar(new Identifier(Main.MODID,"textures/gui/electric_bar.png"),new Identifier(Main.MODID,"textures/gui/electric_bar_filled.png"),0,1, WBar.Direction.RIGHT);
+        bar.setProperties(propertyDelegate);
+        root.add(bar, 4, 2,2,1);
 
 
         root.add(this.createPlayerInventoryPanel(), 0, 4);
