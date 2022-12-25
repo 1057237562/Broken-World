@@ -18,8 +18,4 @@ public class ConsumerBlockEntity extends CableBlockEntity{
         return 200;
     }
 
-    @Override
-    public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        super.tick(world, pos, state, blockEntity);
-    }
 }

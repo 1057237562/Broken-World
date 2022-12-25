@@ -20,24 +20,26 @@ import java.util.function.BiConsumer;
 public class BatteryGuiDescription extends SyncedGuiDescription {
 
     private static final int INVENTORY_SIZE = 1;
+    private static final int PROPERTY_COUNT = 1;
+
+    public WLabel label;
     public BatteryGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(Main.BATTERY_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context));
+        super(Main.BATTERY_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
 
         WGridPanel root = new WGridPanel();
         setRootPanel(root);
         root.setSize(150, 175);
         root.setInsets(Insets.ROOT_PANEL);
-        WLabel label = new WLabel(Text.of("Current Energy:"));
+        label = new WLabel(Text.of("Current Energy:"));
         root.add(label, 0, 2);
-        context.run((world, blockPos) -> {
-            if(world.getBlockEntity(blockPos) instanceof BatteryBlockEntity battery){
-                label.setText(Text.of(String.valueOf(battery.getEnergy())));
-            }
-        });
 
 
         root.add(this.createPlayerInventoryPanel(), 0, 4);
 
         root.validate(this);
+    }
+
+    public int getEnergy(){
+        return propertyDelegate.get(0);
     }
 }

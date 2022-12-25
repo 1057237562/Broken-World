@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -38,8 +39,8 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        System.out.println(energy);
-        EnergyManager.processTick(this);
+        if(!world.isClient)
+            EnergyManager.processTick(this);
     }
 
     BlockEntity getAdjacentBlockEntity(Direction direction) {

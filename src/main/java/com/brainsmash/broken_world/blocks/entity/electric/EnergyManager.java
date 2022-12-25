@@ -30,7 +30,13 @@ public class EnergyManager {
 
         bfsQueue.add(start);
         start.tickMark = tickMark;
-        cableList.add(start);
+        if(start instanceof BatteryBlockEntity battery){
+            storageList.add(battery);
+        }else if(start instanceof ConsumerBlockEntity consumer){
+            consumerList.add(consumer);
+        }else{
+            cableList.add(start);
+        }
 
         while (!bfsQueue.isEmpty()) {
             CableBlockEntity current = bfsQueue.removeFirst();
@@ -40,7 +46,7 @@ public class EnergyManager {
                     if (shouldTickCable(adjCable)) {
                         if(adjCable instanceof BatteryBlockEntity battery){
                             storageList.add(battery);
-                        }if(adjCable instanceof ConsumerBlockEntity consumer){
+                        }else if(adjCable instanceof ConsumerBlockEntity consumer){
                             consumerList.add(consumer);
                         }else{
                             bfsQueue.add(adjCable);
@@ -58,8 +64,8 @@ public class EnergyManager {
 
         try {
             bfs(cableBlockEntity);
+            if(cableList.size() + storageList.size() == 0)return;
             storageList.sort((o1, o2) -> (o1.getMaxCapacity() - o1.getEnergy() - o2.getMaxCapacity() + o2.getEnergy()) >= 0 ? 0 : -1);
-            if (cableList.size() == 0) return;
 
             // Group all energy into the network.
             int networkCapacity = 0;
@@ -93,16 +99,15 @@ public class EnergyManager {
                 }
             }
 
-            // Split energy evenly across cables.
             int cableCount = cableList.size();
             for (CableBlockEntity cable : cableList) {
                 cable.setEnergy(energyflow / cableCount);
                 cable.markDirty();
-                //cable.ioBlocked = false;
             }
         } finally {
             cableList.clear();
             storageList.clear();
+            consumerList.clear();
             bfsQueue.clear();
         }
     }
@@ -123,18 +128,20 @@ public class EnergyManager {
     }
 
     public static long pushEnergy(long energy){
+        long res = 0;
         for(int i = 0; i < storageList.size();i++){
             BatteryBlockEntity battery = storageList.get(i);
             if(battery.getEnergy() + energy <= battery.getMaxCapacity()){
-                battery.setEnergy(battery.getEnergy()+energy);
-                energy = 0;
+                battery.increaseEnergy(energy);
+                res += energy;
                 break;
             }else{
                 energy -= battery.getMaxCapacity() - battery.getEnergy();
+                res += battery.getMaxCapacity() - battery.getEnergy();
                 battery.setEnergy(battery.getMaxCapacity());
             }
         }
-        return energy;
+        return res;
     }
 
 }
