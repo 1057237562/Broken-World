@@ -53,7 +53,7 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
 
     @Override
     public int getMaxCapacity() {
-        return 10000;
+        return 100000;
     }
 
     @Override

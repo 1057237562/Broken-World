@@ -13,8 +13,14 @@ import net.minecraft.world.World;
 
 public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<CableBlockEntity> {
 
+    public class Edge{
+        public CableBlockEntity next;
+        public int capacity;
+    }
+
     private long energy = 0;
     public boolean tickMark = false;
+    public boolean visMark = false;
 
     public CableBlockEntity(BlockPos pos, BlockState state) {
         super(Main.CABLE_ENTITY_TYPE, pos, state);

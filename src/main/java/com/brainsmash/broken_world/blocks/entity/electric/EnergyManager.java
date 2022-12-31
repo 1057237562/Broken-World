@@ -7,10 +7,12 @@ import net.minecraft.util.math.Direction;
 import java.util.*;
 
 public class EnergyManager {
-    private static final List<CableBlockEntity> cableList = new ArrayList<>();
+
     private static final Deque<CableBlockEntity> bfsQueue = new ArrayDeque<>();
     private static final List<BatteryBlockEntity> storageList = new ArrayList<>();
     private static final List<ConsumerBlockEntity> consumerList = new ArrayList<>();
+    private static final List<CableBlockEntity> cableList = new ArrayList<>();
+    private static final List<PowerBlockEntity> powerList = new ArrayList<>();
 
     private static boolean tickMark = false;
 
@@ -34,6 +36,8 @@ public class EnergyManager {
             storageList.add(battery);
         }else if(start instanceof ConsumerBlockEntity consumer){
             consumerList.add(consumer);
+        }else if(start instanceof PowerBlockEntity power){
+            powerList.add(power);
         }else{
             cableList.add(start);
         }
@@ -48,6 +52,8 @@ public class EnergyManager {
                             storageList.add(battery);
                         }else if(adjCable instanceof ConsumerBlockEntity consumer){
                             consumerList.add(consumer);
+                        }else if(adjCable instanceof PowerBlockEntity power) {
+                            powerList.add(power);
                         }else{
                             bfsQueue.add(adjCable);
                             cableList.add(adjCable);
@@ -71,6 +77,10 @@ public class EnergyManager {
             int networkCapacity = 0;
             int energyflow = 0;
 
+            for(PowerBlockEntity power : powerList) {
+                energyflow += power.getEnergy();
+            }
+
             for (CableBlockEntity cable : cableList) {
                 energyflow += cable.getEnergy();
                 networkCapacity += cable.getMaxCapacity();
@@ -78,9 +88,7 @@ public class EnergyManager {
             }
 
             // Just in case.
-            if (energyflow > networkCapacity) {
-                energyflow = networkCapacity;
-            }
+
 
             for(ConsumerBlockEntity consumer : consumerList){
                 if(consumer.getEnergy() < consumer.getMaxCapacity()) {
@@ -99,6 +107,10 @@ public class EnergyManager {
                 }
             }
 
+            if (energyflow > networkCapacity) {
+                energyflow = networkCapacity;
+            }
+
             int cableCount = cableList.size();
             for (CableBlockEntity cable : cableList) {
                 cable.setEnergy(energyflow / cableCount);
@@ -108,6 +120,7 @@ public class EnergyManager {
             cableList.clear();
             storageList.clear();
             consumerList.clear();
+            powerList.clear();
             bfsQueue.clear();
         }
     }
