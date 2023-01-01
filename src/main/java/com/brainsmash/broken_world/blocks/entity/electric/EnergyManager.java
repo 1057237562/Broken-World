@@ -5,6 +5,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Direction;
 
 import java.util.*;
+import java.util.function.BiFunction;
 
 public class EnergyManager {
 
@@ -65,16 +66,57 @@ public class EnergyManager {
         }
     }
 
+    private static void EdmondsKarpInPower(){
+        for(PowerBlockEntity power : powerList) {
+            bfsQueue.add(power);
+            power.minFlow = Math.min(power.getEnergy(),power.getMaxFlow());
+        }
+        while(!bfsQueue.isEmpty()){
+            CableBlockEntity current = bfsQueue.removeFirst();
+            for(Direction direction : Direction.values()){
+                if(current.getAdjacentBlockEntity(direction) instanceof CableBlockEntity adjCable){
+                    if(current.edges.getOrDefault(direction,0) + adjCable.edges.getOrDefault(direction.getOpposite(),0) != 2*(current.getMaxFlow() + adjCable.getMaxFlow())){
+                        current.edges.put(direction,current.getMaxFlow() + adjCable.getMaxFlow());
+                        adjCable.edges.put(direction.getOpposite(),current.getMaxFlow() + adjCable.getMaxFlow());
+                    }
+                    if(current.edges.get(direction) > 0) {
+                        if (adjCable.visMark != tickMark) {
+                            adjCable.visMark = tickMark;
+                            adjCable.parent = direction.getOpposite();
+                            adjCable.minFlow = Math.min(current.minFlow, current.edges.get(direction));
+                            if (adjCable instanceof ConsumerBlockEntity || adjCable instanceof BatteryBlockEntity) {
+                                int flow = adjCable.minFlow;
+                                System.out.println(flow);
+                                CableBlockEntity ptr = adjCable;
+                                while (!(ptr instanceof PowerBlockEntity)) {
+                                    Direction connection = ptr.parent;
+                                    ptr.edges.compute(connection, (direction1, integer) -> integer + flow); // Reverse Edge
+                                    ptr.deltaFlow += flow;
+                                    ptr = (CableBlockEntity) ptr.getAdjacentBlockEntity(connection);
+                                    ptr.edges.compute(connection.getOpposite(), (direction1, integer) -> integer - flow); // Add Flow
+                                    ptr.deltaFlow -= flow;
+                                }
+                                bfsQueue.clear();
+                                return;
+                            }
+                            bfsQueue.add(adjCable);
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public static void processTick(CableBlockEntity cableBlockEntity) {
         if (!(cableBlockEntity.getWorld() instanceof ServerWorld)) throw new IllegalStateException();
 
         try {
             bfs(cableBlockEntity);
-            if(cableList.size() + storageList.size() == 0)return;
-            storageList.sort((o1, o2) -> (o1.getMaxCapacity() - o1.getEnergy() - o2.getMaxCapacity() + o2.getEnergy()) >= 0 ? 0 : -1);
+            if(powerList.size() + cableList.size() + storageList.size() == 0)return;
+            EdmondsKarpInPower();
+            /*storageList.sort((o1, o2) -> (o1.getMaxCapacity() - o1.getEnergy() - o2.getMaxCapacity() + o2.getEnergy()) >= 0 ? 0 : -1);
 
-            // Group all energy into the network.
-            int networkCapacity = 0;
             int energyflow = 0;
 
             for(PowerBlockEntity power : powerList) {
@@ -83,8 +125,6 @@ public class EnergyManager {
 
             for (CableBlockEntity cable : cableList) {
                 energyflow += cable.getEnergy();
-                networkCapacity += cable.getMaxCapacity();
-                //cable.ioBlocked = true;
             }
 
             // Just in case.
@@ -107,15 +147,11 @@ public class EnergyManager {
                 }
             }
 
-            if (energyflow > networkCapacity) {
-                energyflow = networkCapacity;
-            }
-
             int cableCount = cableList.size();
             for (CableBlockEntity cable : cableList) {
                 cable.setEnergy(energyflow / cableCount);
                 cable.markDirty();
-            }
+            }*/
         } finally {
             cableList.clear();
             storageList.clear();
@@ -125,7 +161,7 @@ public class EnergyManager {
         }
     }
 
-    public static long pullEnergy(long energy){
+    public static long pullEnergy(int energy){
         for(int i = storageList.size()-1;i>=0;i--){
             BatteryBlockEntity battery = storageList.get(i);
             if(Math.min(battery.getMaxFlow(),battery.getEnergy()) >= energy){
@@ -140,7 +176,7 @@ public class EnergyManager {
         return energy;
     }
 
-    public static long pushEnergy(long energy){
+    public static long pushEnergy(int energy){
         long res = 0;
         for(int i = 0; i < storageList.size();i++){
             BatteryBlockEntity battery = storageList.get(i);

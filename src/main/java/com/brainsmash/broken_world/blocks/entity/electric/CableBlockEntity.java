@@ -6,19 +6,20 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<CableBlockEntity> {
 
-    public class Edge{
-        public CableBlockEntity next;
-        public int capacity;
-    }
-
-    private long energy = 0;
+    public Map<Direction, Integer> edges = new ConcurrentHashMap<>();
+    public Direction parent = null;
+    public int deltaFlow = 0;
+    public int minFlow = 0;
+    private int energy = 0;
     public boolean tickMark = false;
     public boolean visMark = false;
 
@@ -28,50 +29,67 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
     public CableBlockEntity(BlockEntityType<?> type, BlockPos pos,BlockState state){ super(type,pos,state);}
 
     public int getMaxCapacity(){
-        return 1;
+        return 0;
     }
 
     public int getMaxFlow(){
-        return 32;
+        return 16;
     }
 
     /*public int getEnergyLost(){
         return 1;
     }*/
 
-    public long getEnergy(){
+    public int getEnergy(){
         return energy;
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient)
+        if(!world.isClient) {
+            increaseEnergy(deltaFlow);
             EnergyManager.processTick(this);
+        }
     }
 
     BlockEntity getAdjacentBlockEntity(Direction direction) {
         return world.getBlockEntity(getPos().offset(direction));
     }
 
-    public void setEnergy(long l) {
-        energy = l;
+    public void setEnergy(int i) {
+        energy = i;
     }
 
-    public void increaseEnergy(long l){
-        energy += l;
+    public void increaseEnergy(int i){
+        energy += i;
+        energy = Math.min(energy,getMaxCapacity());
     }
 
     @Override
     public void readNbt(NbtCompound compound) {
         super.readNbt(compound);
         if (compound.contains("energy")) {
-            energy = compound.getLong("energy");
+            energy = compound.getInt("energy");
+            deltaFlow = compound.getInt("deltaFlow");
+            edges.put(Direction.NORTH,compound.getInt("north"));
+            edges.put(Direction.SOUTH,compound.getInt("south"));
+            edges.put(Direction.WEST,compound.getInt("west"));
+            edges.put(Direction.EAST,compound.getInt("east"));
+            edges.put(Direction.UP,compound.getInt("up"));
+            edges.put(Direction.DOWN,compound.getInt("down"));
         }
     }
 
     @Override
     public void writeNbt(NbtCompound compound) {
         super.writeNbt(compound);
-        compound.putLong("energy", energy);
+        compound.putInt("energy", energy);
+        compound.putInt("deltaFlow",deltaFlow);
+        compound.putInt("north",edges.getOrDefault(Direction.NORTH,0));
+        compound.putInt("south",edges.getOrDefault(Direction.SOUTH,0));
+        compound.putInt("west",edges.getOrDefault(Direction.WEST,0));
+        compound.putInt("east",edges.getOrDefault(Direction.EAST,0));
+        compound.putInt("up",edges.getOrDefault(Direction.UP,0));
+        compound.putInt("down",edges.getOrDefault(Direction.DOWN,0));
     }
 }

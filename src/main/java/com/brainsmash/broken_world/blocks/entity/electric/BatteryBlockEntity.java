@@ -27,7 +27,7 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
         public int get(int index) {
             switch (index){
                 case 0:
-                    return (int) getEnergy();
+                    return getEnergy();
                 case 1:
                     return getMaxCapacity();
                 default:
@@ -53,7 +53,7 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
 
     @Override
     public int getMaxCapacity() {
-        return 100000;
+        return 500000;
     }
 
     @Override

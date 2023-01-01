@@ -15,7 +15,7 @@ public class ConsumerBlockEntity extends CableBlockEntity{
 
     @Override
     public int getMaxCapacity() {
-        return 200;
+        return 10000;
     }
 
 }
