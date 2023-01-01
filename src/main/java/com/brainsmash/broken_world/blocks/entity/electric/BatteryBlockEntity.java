@@ -49,11 +49,7 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     public BatteryBlockEntity(BlockPos pos, BlockState state) {
         super(Main.BATTERY_ENTITY_TYPE, pos, state);
-    }
-
-    @Override
-    public int getMaxCapacity() {
-        return 500000;
+        setMaxCapacity(500000);
     }
 
     @Override

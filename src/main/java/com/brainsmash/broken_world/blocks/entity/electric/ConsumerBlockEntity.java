@@ -11,11 +11,7 @@ public class ConsumerBlockEntity extends CableBlockEntity{
 
     public ConsumerBlockEntity(BlockPos pos, BlockState state) {
         super(Main.CONSUMER_ENTITY_TYPE, pos, state);
-    }
-
-    @Override
-    public int getMaxCapacity() {
-        return 10000;
+        setMaxCapacity(10000);
     }
 
 }

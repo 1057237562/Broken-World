@@ -20,6 +20,7 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
     public int deltaFlow = 0;
     public int minFlow = 0;
     private int energy = 0;
+    private int maxCapacity = 0;
     public boolean tickMark = false;
     public boolean visMark = false;
 
@@ -29,7 +30,11 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
     public CableBlockEntity(BlockEntityType<?> type, BlockPos pos,BlockState state){ super(type,pos,state);}
 
     public int getMaxCapacity(){
-        return 0;
+        return maxCapacity;
+    }
+
+    public void setMaxCapacity(int cap){
+        maxCapacity = cap;
     }
 
     public int getMaxFlow(){
@@ -71,6 +76,7 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
         if (compound.contains("energy")) {
             energy = compound.getInt("energy");
             deltaFlow = compound.getInt("deltaFlow");
+            maxCapacity = compound.getInt("maxCapacity");
             edges.put(Direction.NORTH,compound.getInt("north"));
             edges.put(Direction.SOUTH,compound.getInt("south"));
             edges.put(Direction.WEST,compound.getInt("west"));
@@ -85,6 +91,7 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
         super.writeNbt(compound);
         compound.putInt("energy", energy);
         compound.putInt("deltaFlow",deltaFlow);
+        compound.putInt("maxCapacity",maxCapacity);
         compound.putInt("north",edges.getOrDefault(Direction.NORTH,0));
         compound.putInt("south",edges.getOrDefault(Direction.SOUTH,0));
         compound.putInt("west",edges.getOrDefault(Direction.WEST,0));

@@ -1,9 +1,12 @@
 package com.brainsmash.broken_world.blocks.electric;
 
+import com.brainsmash.broken_world.blocks.entity.electric.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.ConsumerBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.util.ActionResult;
@@ -23,6 +26,11 @@ public class ConsumerBlock extends BlockWithEntity {
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new ConsumerBlockEntity(pos,state);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return (world1, pos, state1, blockEntity) -> ((ConsumerBlockEntity) blockEntity).tick(world1, pos, state1, (ConsumerBlockEntity) blockEntity);
     }
 
     @Override

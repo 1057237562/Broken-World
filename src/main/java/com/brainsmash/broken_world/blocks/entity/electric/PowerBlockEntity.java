@@ -11,6 +11,7 @@ public class PowerBlockEntity extends CableBlockEntity{
 
     public PowerBlockEntity(BlockPos pos, BlockState state) {
         super(Main.POWER_ENTITY_TYPE, pos, state);
+        setMaxCapacity(10000);
     }
 
     @Override
@@ -20,12 +21,9 @@ public class PowerBlockEntity extends CableBlockEntity{
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        increaseEnergy(50);
-        super.tick(world, pos, state, blockEntity);
-    }
-
-    @Override
-    public int getMaxCapacity(){
-        return 10000;
+        if(!world.isClient) {
+            increaseEnergy(50);
+            super.tick(world, pos, state, blockEntity);
+        }
     }
 }

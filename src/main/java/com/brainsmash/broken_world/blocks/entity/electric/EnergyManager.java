@@ -79,14 +79,14 @@ public class EnergyManager {
                         current.edges.put(direction,current.getMaxFlow() + adjCable.getMaxFlow());
                         adjCable.edges.put(direction.getOpposite(),current.getMaxFlow() + adjCable.getMaxFlow());
                     }
-                    if(current.edges.get(direction) > 0) {
+                    if(current.edges.getOrDefault(direction,0) > 0) {
                         if (adjCable.visMark != tickMark) {
                             adjCable.visMark = tickMark;
                             adjCable.parent = direction.getOpposite();
                             adjCable.minFlow = Math.min(current.minFlow, current.edges.get(direction));
                             if (adjCable instanceof ConsumerBlockEntity || adjCable instanceof BatteryBlockEntity) {
                                 int flow = adjCable.minFlow;
-                                System.out.println(flow);
+                                System.out.println("Flow:"+flow);
                                 CableBlockEntity ptr = adjCable;
                                 while (!(ptr instanceof PowerBlockEntity)) {
                                     Direction connection = ptr.parent;
