@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.entity.electric;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.blocks.electric.CableBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -53,7 +54,6 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient) {
             increaseEnergy(deltaFlow);
-            EnergyManager.processTick(this);
         }
     }
 
@@ -98,5 +98,15 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
         compound.putInt("east",edges.getOrDefault(Direction.EAST,0));
         compound.putInt("up",edges.getOrDefault(Direction.UP,0));
         compound.putInt("down",edges.getOrDefault(Direction.DOWN,0));
+    }
+
+    public void ComputeDeltaFlow() {
+        deltaFlow = 0;
+        for(Direction direction : Direction.values()){
+            if(getAdjacentBlockEntity(direction) instanceof CableBlockEntity neighbour){
+                deltaFlow += edges.getOrDefault(direction,0);
+                deltaFlow -= neighbour.edges.getOrDefault(direction.getOpposite(),0);
+            }
+        }
     }
 }

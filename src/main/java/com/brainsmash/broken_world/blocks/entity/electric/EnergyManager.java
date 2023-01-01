@@ -2,10 +2,14 @@ package com.brainsmash.broken_world.blocks.entity.electric;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.WorldAccess;
 
-import java.util.*;
-import java.util.function.BiFunction;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
 public class EnergyManager {
 
@@ -60,6 +64,46 @@ public class EnergyManager {
                             cableList.add(adjCable);
                         }
                         adjCable.tickMark = tickMark;
+                    }
+                }
+            }
+        }
+    }
+
+    public static void UpdateGraph(WorldAccess world, BlockPos pos){
+        for(Direction direction : Direction.values()){
+            if(world.getBlockEntity(pos.offset(direction)) instanceof CableBlockEntity cable){
+                cable.edges.put(direction.getOpposite(),0);
+                cable.ComputeDeltaFlow();
+                bfsQueue.add(cable);
+            }
+        }
+
+        while(!bfsQueue.isEmpty()){
+            CableBlockEntity current = bfsQueue.removeFirst();
+            for(Direction direction : Direction.values()){
+                if(current.getAdjacentBlockEntity(direction) instanceof CableBlockEntity adjCable){
+                    int relflow = (adjCable.edges.getOrDefault(direction.getOpposite(),0) - current.edges.getOrDefault(direction,0))/2;
+                    if(current.deltaFlow > 0){
+                        if(relflow < 0){
+                            current.edges.compute(direction,(direction1, integer) -> integer - Math.min(relflow,current.deltaFlow));
+                            adjCable.edges.compute(direction.getOpposite(),(direction1, integer) -> integer + Math.min(relflow,current.deltaFlow));
+                            current.deltaFlow -= Math.min(relflow,current.deltaFlow);
+                            adjCable.ComputeDeltaFlow();
+                            if(!(adjCable instanceof PowerBlockEntity || adjCable instanceof BatteryBlockEntity)){
+                                bfsQueue.add(adjCable);
+                            }
+                        }
+                    }else if (current.deltaFlow < 0){
+                        if(relflow > 0){
+                            current.edges.compute(direction,(direction1, integer) -> integer + Math.min(relflow,current.deltaFlow));
+                            adjCable.edges.compute(direction.getOpposite(),(direction1, integer) -> integer - Math.min(relflow,current.deltaFlow));
+                            current.deltaFlow += Math.min(relflow,current.deltaFlow);
+                            adjCable.ComputeDeltaFlow();
+                            if(adjCable.deltaFlow != 0 && !(adjCable instanceof PowerBlockEntity || adjCable instanceof BatteryBlockEntity)){
+                                bfsQueue.add(adjCable);
+                            }
+                        }
                     }
                 }
             }

@@ -19,11 +19,16 @@ public class PowerBlockEntity extends CableBlockEntity{
         return 32;
     }
 
+    public int getGenerate() {
+        return 50;
+    }
+
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient) {
-            increaseEnergy(50);
-            super.tick(world, pos, state, blockEntity);
+            increaseEnergy(getGenerate());
+            increaseEnergy(deltaFlow);
+            EnergyManager.processTick(this);
         }
     }
 }

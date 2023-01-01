@@ -1,6 +1,8 @@
 package com.brainsmash.broken_world.blocks.electric;
 
 import com.brainsmash.broken_world.blocks.entity.electric.CableBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.EnergyManager;
+import com.brainsmash.broken_world.blocks.entity.electric.PowerBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -140,9 +142,15 @@ public class CableBlock extends BlockWithEntity {
     }
 
     @Override
+    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
+        EnergyManager.UpdateGraph(world,pos);
+        super.onBroken(world, pos, state);
+    }
+
+    @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(!world.isClient) {
-            System.out.println(((CableBlockEntity) world.getBlockEntity(pos)).deltaFlow);
+            System.out.println(((CableBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((CableBlockEntity)world.getBlockEntity(pos)).edges.toString());
         }
         return super.onUse(state, world, pos, player, hand, hit);
     }

@@ -18,6 +18,7 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenHandlerFactory,ImplementedInventory, PropertyDelegateHolder {
@@ -82,5 +83,13 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
     @Override
     public PropertyDelegate getPropertyDelegate() {
         return propertyDelegate;
+    }
+
+    @Override
+    public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
+        if(!world.isClient) {
+            increaseEnergy(deltaFlow);
+            EnergyManager.processTick(this);
+        }
     }
 }

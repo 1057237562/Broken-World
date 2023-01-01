@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.blocks.electric;
 
 import com.brainsmash.broken_world.blocks.entity.electric.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.ConsumerBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.EnergyManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -14,6 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class ConsumerBlock extends BlockWithEntity {
@@ -26,6 +28,12 @@ public class ConsumerBlock extends BlockWithEntity {
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new ConsumerBlockEntity(pos,state);
+    }
+
+    @Override
+    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
+        EnergyManager.UpdateGraph(world,pos);
+        super.onBroken(world, pos, state);
     }
 
     @Override

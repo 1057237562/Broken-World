@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.electric;
 
 import com.brainsmash.broken_world.blocks.entity.electric.CableBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.EnergyManager;
 import com.brainsmash.broken_world.blocks.entity.electric.PowerBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -14,6 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class PowerBlock extends BlockWithEntity {
@@ -34,8 +36,15 @@ public class PowerBlock extends BlockWithEntity {
     }
 
     @Override
+    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
+        EnergyManager.UpdateGraph(world,pos);
+        super.onBroken(world, pos, state);
+    }
+
+    @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
+            System.out.println(((PowerBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((PowerBlockEntity)world.getBlockEntity(pos)).edges.toString());
             NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
             if (screenHandlerFactory != null) {
                 //With this call the server will request the client to open the appropriate Screenhandler
