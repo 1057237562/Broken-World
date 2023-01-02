@@ -87,7 +87,7 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient) {
+        if(!world.isClient && world.isChunkLoaded(pos)) {
             increaseEnergy(deltaFlow);
             EnergyManager.processTick(this);
         }
