@@ -149,8 +149,8 @@ public class EnergyManager {
                         }
                     }
                 }
-            }else if(-power.deltaFlow < power.getEnergy()){
-                power.minFlow = Math.min(power.getEnergy(),power.getMaxFlow());
+            }else if(-power.deltaFlow < power.getEnergy()){ // Not in a stable state (Bigger flow expected)
+                power.minFlow = power.getEnergy() + power.deltaFlow; // Compute the rest quantity
                 bfsQueue.add(power);
             }
 
@@ -163,7 +163,7 @@ public class EnergyManager {
                     if (current.deltaFlow != 0) {
                         for (Direction direction : Direction.values()) {
                             if (current.getAdjacentBlockEntity(direction) instanceof CableBlockEntity adjCable && !(adjCable instanceof PowerBlockEntity)) {
-                                int relflow = (adjCable.edges.getOrDefault(direction.getOpposite(), 0) - current.edges.getOrDefault(direction, 0)) / 2;
+                                int relflow = (adjCable.edges.getOrDefault(direction.getOpposite(), 0) - current.edges.getOrDefault(direction, 0)) / 2; // Relative Flow toward target direction
                                 if (current.deltaFlow > 0) {
                                     if (relflow < 0) {
                                         int alterflow = Math.min(-relflow, current.deltaFlow);
