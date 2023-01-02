@@ -83,14 +83,16 @@ public class EnergyManager {
 
         while(!bfsQueue.isEmpty()){
             CableBlockEntity current = bfsQueue.removeFirst();
+            System.out.println(current.getPos()+":"+current.deltaFlow);
             for(Direction direction : Direction.values()){
                 if(current.getAdjacentBlockEntity(direction) instanceof CableBlockEntity adjCable){
                     int relflow = (adjCable.edges.getOrDefault(direction.getOpposite(),0) - current.edges.getOrDefault(direction,0))/2;
                     if(current.deltaFlow > 0){
                         if(relflow < 0){
-                            current.edges.compute(direction,(direction1, integer) -> integer - Math.min(relflow,current.deltaFlow));
-                            adjCable.edges.compute(direction.getOpposite(),(direction1, integer) -> integer + Math.min(relflow,current.deltaFlow));
-                            current.deltaFlow -= Math.min(relflow,current.deltaFlow);
+                            int alterflow = Math.min(-relflow,current.deltaFlow);
+                            current.edges.compute(direction,(direction1, integer) -> integer - alterflow);
+                            adjCable.edges.compute(direction.getOpposite(),(direction1, integer) -> integer + alterflow);
+                            current.deltaFlow -= alterflow;
                             adjCable.ComputeDeltaFlow();
                             if(!(adjCable instanceof PowerBlockEntity || adjCable instanceof BatteryBlockEntity)){
                                 bfsQueue.add(adjCable);
@@ -98,9 +100,10 @@ public class EnergyManager {
                         }
                     }else if (current.deltaFlow < 0){
                         if(relflow > 0){
-                            current.edges.compute(direction,(direction1, integer) -> integer + Math.min(relflow,current.deltaFlow));
-                            adjCable.edges.compute(direction.getOpposite(),(direction1, integer) -> integer - Math.min(relflow,current.deltaFlow));
-                            current.deltaFlow += Math.min(relflow,current.deltaFlow);
+                            int alterflow = Math.min(relflow,-current.deltaFlow);
+                            current.edges.compute(direction,(direction1, integer) -> integer + alterflow);
+                            adjCable.edges.compute(direction.getOpposite(),(direction1, integer) -> integer - alterflow);
+                            current.deltaFlow += alterflow;
                             adjCable.ComputeDeltaFlow();
                             if(adjCable.deltaFlow != 0 && !(adjCable instanceof PowerBlockEntity || adjCable instanceof BatteryBlockEntity)){
                                 bfsQueue.add(adjCable);

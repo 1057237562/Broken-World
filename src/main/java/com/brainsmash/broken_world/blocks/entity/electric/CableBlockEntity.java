@@ -104,8 +104,7 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
         deltaFlow = 0;
         for(Direction direction : Direction.values()){
             if(getAdjacentBlockEntity(direction) instanceof CableBlockEntity neighbour){
-                deltaFlow += edges.getOrDefault(direction,0);
-                deltaFlow -= neighbour.edges.getOrDefault(direction.getOpposite(),0);
+                deltaFlow += (edges.getOrDefault(direction,0) - neighbour.edges.getOrDefault(direction.getOpposite(),0))/2;
             }
         }
     }

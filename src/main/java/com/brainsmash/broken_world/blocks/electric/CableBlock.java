@@ -143,7 +143,8 @@ public class CableBlock extends BlockWithEntity {
 
     @Override
     public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        EnergyManager.UpdateGraph(world,pos);
+        if(!world.isClient())
+            EnergyManager.UpdateGraph(world,pos);
         super.onBroken(world, pos, state);
     }
 
