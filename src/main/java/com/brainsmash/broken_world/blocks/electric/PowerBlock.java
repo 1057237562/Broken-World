@@ -45,7 +45,7 @@ public class PowerBlock extends BlockWithEntity {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            System.out.println(((PowerBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((PowerBlockEntity)world.getBlockEntity(pos)).edges.toString());
+            System.out.println(((PowerBlockEntity)world.getBlockEntity(pos)).getEnergy()+":"+((PowerBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((PowerBlockEntity)world.getBlockEntity(pos)).edges.toString());
             NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
             if (screenHandlerFactory != null) {
                 //With this call the server will request the client to open the appropriate Screenhandler
