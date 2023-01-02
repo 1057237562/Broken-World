@@ -73,17 +73,15 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
     @Override
     public void readNbt(NbtCompound compound) {
         super.readNbt(compound);
-        if (compound.contains("energy")) {
-            energy = compound.getInt("energy");
-            deltaFlow = compound.getInt("deltaFlow");
-            maxCapacity = compound.getInt("maxCapacity");
-            edges.put(Direction.NORTH,compound.getInt("north"));
-            edges.put(Direction.SOUTH,compound.getInt("south"));
-            edges.put(Direction.WEST,compound.getInt("west"));
-            edges.put(Direction.EAST,compound.getInt("east"));
-            edges.put(Direction.UP,compound.getInt("up"));
-            edges.put(Direction.DOWN,compound.getInt("down"));
-        }
+        energy = compound.getInt("energy");
+        deltaFlow = compound.getInt("deltaFlow");
+        maxCapacity = compound.getInt("maxCapacity");
+        edges.put(Direction.NORTH, compound.getInt("north"));
+        edges.put(Direction.SOUTH, compound.getInt("south"));
+        edges.put(Direction.WEST, compound.getInt("west"));
+        edges.put(Direction.EAST, compound.getInt("east"));
+        edges.put(Direction.UP, compound.getInt("up"));
+        edges.put(Direction.DOWN, compound.getInt("down"));
     }
 
     @Override

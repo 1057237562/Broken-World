@@ -2,6 +2,8 @@ package com.brainsmash.broken_world.blocks.entity.electric;
 
 import com.brainsmash.broken_world.Main;
 import net.minecraft.block.BlockState;
+import net.minecraft.inventory.Inventories;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -21,6 +23,16 @@ public class PowerBlockEntity extends CableBlockEntity{
 
     public int getGenerate() {
         return 50;
+    }
+
+    @Override
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+    }
+
+    @Override
+    public void writeNbt(NbtCompound nbt) {
+        super.writeNbt(nbt);
     }
 
     @Override

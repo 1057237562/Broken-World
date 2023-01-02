@@ -3,6 +3,7 @@ package com.brainsmash.broken_world.blocks.electric;
 import com.brainsmash.broken_world.blocks.entity.electric.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.EnergyManager;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -35,6 +36,12 @@ public class ConsumerBlock extends BlockWithEntity {
         if(!world.isClient())
             EnergyManager.UpdateGraph(world,pos);
         super.onBroken(world, pos, state);
+    }
+
+    @Override
+    public BlockRenderType getRenderType(BlockState state) {
+        //With inheriting from BlockWithEntity this defaults to INVISIBLE, so we need to change that!
+        return BlockRenderType.MODEL;
     }
 
     @Override

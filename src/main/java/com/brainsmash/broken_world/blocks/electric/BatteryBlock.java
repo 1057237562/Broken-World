@@ -36,6 +36,12 @@ public class BatteryBlock extends BlockWithEntity {
     }
 
     @Override
+    public BlockRenderType getRenderType(BlockState state) {
+        //With inheriting from BlockWithEntity this defaults to INVISIBLE, so we need to change that!
+        return BlockRenderType.MODEL;
+    }
+
+    @Override
     public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
         if(!world.isClient())
             EnergyManager.UpdateGraph(world,pos);
