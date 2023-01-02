@@ -30,7 +30,7 @@ public class CreativeBatteryBlockEntityRenderer implements BlockEntityRenderer<B
     public void render(BatteryBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(CREEPER_RENDER_LAYER);
-        matrices.scale(0.5f, 0.5f, 0.5f);
+        matrices.scale(1.0f, 1.0f, 1.0f);
         CREEPER_MODEL.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
         matrices.pop();
     }
