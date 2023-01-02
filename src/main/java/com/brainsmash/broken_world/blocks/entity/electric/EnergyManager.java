@@ -149,7 +149,7 @@ public class EnergyManager {
                         }
                     }
                 }
-            }else{
+            }else if(-power.deltaFlow < power.getEnergy()){
                 power.minFlow = Math.min(power.getEnergy(),power.getMaxFlow());
                 bfsQueue.add(power);
             }
