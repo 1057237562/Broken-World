@@ -75,7 +75,9 @@ public class EnergyManager {
             if(world.getBlockEntity(pos.offset(direction)) instanceof CableBlockEntity cable){
                 cable.edges.put(direction.getOpposite(),0);
                 cable.ComputeDeltaFlow();
-                bfsQueue.add(cable);
+                if(!(cable instanceof PowerBlockEntity || cable instanceof BatteryBlockEntity)) {
+                    bfsQueue.add(cable);
+                }
             }
         }
 
@@ -104,6 +106,9 @@ public class EnergyManager {
                                 bfsQueue.add(adjCable);
                             }
                         }
+                    }
+                    if(current.deltaFlow == 0){
+                        break;
                     }
                 }
             }
