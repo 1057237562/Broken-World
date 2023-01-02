@@ -137,7 +137,7 @@ public class EnergyManager {
                                     System.out.println("Cable:"+adjCable.deltaFlow);
                                     flow -= alterflow;
                                     power.deltaFlow += alterflow;
-                                    adjCable.minFlow = 0;
+                                    adjCable.minFlow = 0; // mark as altering cable
                                     if(!(adjCable instanceof PowerBlockEntity || adjCable instanceof BatteryBlockEntity || adjCable instanceof ConsumerBlockEntity)){
                                         bfsQueue.add(adjCable);
                                     }
@@ -157,7 +157,7 @@ public class EnergyManager {
         }
         while(!bfsQueue.isEmpty()){
             CableBlockEntity current = bfsQueue.removeFirst();
-            if(current.minFlow == 0) {
+            if(current.minFlow == 0) { // Reconfigure the flow
                 //System.out.println(current.getPos());
                 if (!(current instanceof PowerBlockEntity || current instanceof BatteryBlockEntity || current instanceof ConsumerBlockEntity)) {
                     if (current.deltaFlow != 0) {
