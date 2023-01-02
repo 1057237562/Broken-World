@@ -217,43 +217,6 @@ public class EnergyManager {
             bfs(cableBlockEntity);
             if(powerList.size() + cableList.size() + storageList.size() == 0)return;
             EdmondsKarpInPower();
-            /*storageList.sort((o1, o2) -> (o1.getMaxCapacity() - o1.getEnergy() - o2.getMaxCapacity() + o2.getEnergy()) >= 0 ? 0 : -1);
-
-            int energyflow = 0;
-
-            for(PowerBlockEntity power : powerList) {
-                energyflow += power.getEnergy();
-            }
-
-            for (CableBlockEntity cable : cableList) {
-                energyflow += cable.getEnergy();
-            }
-
-            // Just in case.
-
-
-            for(ConsumerBlockEntity consumer : consumerList){
-                if(consumer.getEnergy() < consumer.getMaxCapacity()) {
-                    energyflow -= consumer.getMaxFlow();
-                }
-            }
-
-            if (energyflow < 0)
-                energyflow += pullEnergy(-energyflow);
-            else
-                energyflow -= pushEnergy(energyflow);
-
-            for(ConsumerBlockEntity consumer : consumerList){
-                if(consumer.getEnergy() < consumer.getMaxCapacity()) {
-                    consumer.increaseEnergy(consumer.getMaxFlow() + energyflow/consumerList.size());
-                }
-            }
-
-            int cableCount = cableList.size();
-            for (CableBlockEntity cable : cableList) {
-                cable.setEnergy(energyflow / cableCount);
-                cable.markDirty();
-            }*/
         } finally {
             cableList.clear();
             storageList.clear();
