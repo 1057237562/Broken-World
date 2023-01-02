@@ -1,9 +1,9 @@
 
 {
   "textures": {
-    "top": "broken_world:block/battery_top", 
-    "side": "broken_world:block/battery_side", 
-    "bottom": "broken_world:block/battery_bottom", 
+    "top": "broken_world:block/creative_battery_top", 
+    "side": "broken_world:block/creative_battery_side", 
+    "bottom": "broken_world:block/creative_battery_bottom", 
     "particle": "#texture"
   },
   "elements": [
