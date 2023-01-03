@@ -1,8 +1,6 @@
 package com.brainsmash.broken_world.blocks.entity.electric.base;
 
 import com.brainsmash.broken_world.Main;
-import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.base.EnergyManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;

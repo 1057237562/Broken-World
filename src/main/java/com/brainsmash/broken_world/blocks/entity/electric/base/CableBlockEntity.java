@@ -58,25 +58,40 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
 
     public void setEnergy(int i) {
         energy = i;
+        markDirty();
     }
 
     public void increaseEnergy(int i){
         energy += i;
-        energy = Math.min(energy,getMaxCapacity());
+        setEnergy(Math.min(energy,getMaxCapacity()));
     }
 
     @Override
     public void readNbt(NbtCompound compound) {
         super.readNbt(compound);
         energy = compound.getInt("energy");
+        deltaFlow = compound.getInt("deltaFlow");
         maxCapacity = compound.getInt("maxCapacity");
+        edges.put(Direction.NORTH, compound.getInt("north"));
+        edges.put(Direction.SOUTH, compound.getInt("south"));
+        edges.put(Direction.WEST, compound.getInt("west"));
+        edges.put(Direction.EAST, compound.getInt("east"));
+        edges.put(Direction.UP, compound.getInt("up"));
+        edges.put(Direction.DOWN, compound.getInt("down"));
     }
 
     @Override
     public void writeNbt(NbtCompound compound) {
         super.writeNbt(compound);
         compound.putInt("energy", energy);
+        compound.putInt("deltaFlow",deltaFlow);
         compound.putInt("maxCapacity",maxCapacity);
+        compound.putInt("north",edges.getOrDefault(Direction.NORTH,0));
+        compound.putInt("south",edges.getOrDefault(Direction.SOUTH,0));
+        compound.putInt("west",edges.getOrDefault(Direction.WEST,0));
+        compound.putInt("east",edges.getOrDefault(Direction.EAST,0));
+        compound.putInt("up",edges.getOrDefault(Direction.UP,0));
+        compound.putInt("down",edges.getOrDefault(Direction.DOWN,0));
     }
 
     public void ComputeDeltaFlow() {
@@ -86,5 +101,6 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
                 deltaFlow += (edges.getOrDefault(direction,0) - neighbour.edges.getOrDefault(direction.getOpposite(),0))/2;
             }
         }
+        markDirty();
     }
 }
