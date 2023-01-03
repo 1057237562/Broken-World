@@ -72,7 +72,7 @@ public class EnergyManager {
         }
     }
 
-    public static void UpdateGraph(WorldAccess world, BlockPos pos){
+    public static void UpdateGraph(WorldAccess world, BlockPos pos){ // TODO:Make Consumer Block update graph when fully charged
         for(Direction direction : Direction.values()){
             if(world.getBlockEntity(pos.offset(direction)) instanceof CableBlockEntity cable){
                 cable.edges.put(direction.getOpposite(),0);
@@ -248,7 +248,7 @@ public class EnergyManager {
                                 adjCable.parent = direction.getOpposite();
                                 adjCable.minFlow = Math.min(current.minFlow, current.edges.get(direction));
                                 if (adjCable instanceof ConsumerBlockEntity || adjCable instanceof BatteryBlockEntity) {
-                                    int flow = adjCable.minFlow;
+                                    int flow = Math.min(adjCable.minFlow,adjCable.getMaxCapacity() - adjCable.getEnergy());
                                     //System.out.println("Flow:"+flow);
                                     CableBlockEntity ptr = adjCable;
                                     while (!(ptr instanceof PowerBlockEntity)) {
