@@ -1,6 +1,5 @@
 package com.brainsmash.broken_world.blocks.electric;
 
-import com.brainsmash.broken_world.blocks.entity.electric.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.EnergyManager;
 import com.brainsmash.broken_world.blocks.entity.electric.PowerBlockEntity;
 import net.minecraft.block.BlockRenderType;
@@ -15,8 +14,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;

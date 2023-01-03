@@ -1,11 +1,7 @@
 package com.brainsmash.broken_world.blocks.electric;
 
-import com.brainsmash.broken_world.blocks.entity.electric.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.CreativeBatteryBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.EnergyManager;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -17,7 +13,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class CreativeBatteryBlock extends BatteryBlock {

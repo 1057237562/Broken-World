@@ -6,8 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.function.Function;
-
 public class CreativeBatteryBlockEntity extends BatteryBlockEntity{
     private Entity chargedCreeper;
     public CreativeBatteryBlockEntity(BlockPos pos, BlockState state) {
