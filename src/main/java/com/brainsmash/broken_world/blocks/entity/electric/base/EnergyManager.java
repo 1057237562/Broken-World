@@ -276,6 +276,8 @@ public class EnergyManager {
                         if (current.edges.getOrDefault(direction, 0) + adjCable.edges.getOrDefault(direction.getOpposite(), 0) != 2 * (current.getMaxFlow() + adjCable.getMaxFlow())) {
                             current.edges.put(direction, current.getMaxFlow() + adjCable.getMaxFlow());
                             adjCable.edges.put(direction.getOpposite(), current.getMaxFlow() + adjCable.getMaxFlow());
+                            current.markDirty();
+                            adjCable.markDirty();
                         }
                         if (current.edges.getOrDefault(direction, 0) > 0) {
                             if (adjCable.visMark != tickMark) {
@@ -293,6 +295,7 @@ public class EnergyManager {
                                         ptr = (CableBlockEntity) ptr.getAdjacentBlockEntity(connection);
                                         ptr.edges.compute(connection.getOpposite(), (direction1, integer) -> integer - flow); // Add Flow
                                         ptr.deltaFlow -= flow;
+                                        ptr.markDirty();
                                     }
                                     bfsQueue.clear();
                                     return;
@@ -322,6 +325,8 @@ public class EnergyManager {
                         if (current.edges.getOrDefault(direction, 0) + adjCable.edges.getOrDefault(direction.getOpposite(), 0) != 2 * (current.getMaxFlow() + adjCable.getMaxFlow())) {
                             current.edges.put(direction, current.getMaxFlow() + adjCable.getMaxFlow());
                             adjCable.edges.put(direction.getOpposite(), current.getMaxFlow() + adjCable.getMaxFlow());
+                            current.markDirty();
+                            adjCable.markDirty();
                         }
                         if (current.edges.getOrDefault(direction, 0) > 0) {
                             if (adjCable.visMark != tickMark) {
@@ -339,6 +344,7 @@ public class EnergyManager {
                                         ptr = (CableBlockEntity) ptr.getAdjacentBlockEntity(connection);
                                         ptr.edges.compute(connection.getOpposite(), (direction1, integer) -> integer - flow); // Add Flow
                                         ptr.deltaFlow -= flow;
+                                        ptr.markDirty();
                                     }
                                     bfsQueue.clear();
                                     return;
