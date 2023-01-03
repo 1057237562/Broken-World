@@ -25,4 +25,11 @@ public class ConsumerBlockEntity extends CableBlockEntity{
         super.writeNbt(nbt);
     }
 
+    @Override
+    public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
+        if(!world.isClient && world.isChunkLoaded(pos)) {
+            increaseEnergy(deltaFlow);
+            EnergyManager.processTick(this);
+        }
+    }
 }
