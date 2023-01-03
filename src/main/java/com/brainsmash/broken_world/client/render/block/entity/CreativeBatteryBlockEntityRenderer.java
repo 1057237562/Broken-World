@@ -3,35 +3,40 @@ package com.brainsmash.broken_world.client.render.block.entity;
 import com.brainsmash.broken_world.blocks.entity.electric.BatteryBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.EntityModelLoader;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.nbt.NbtCompound;
+
+import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
 public class CreativeBatteryBlockEntityRenderer implements BlockEntityRenderer<BatteryBlockEntity> {
-    private final ModelPart CREEPER_MODEL;
-    private final RenderLayer CREEPER_RENDER_LAYER;
+
+    private final EntityRenderDispatcher DISPATCHER;
+    private Entity chargedCreeper;
 
     public CreativeBatteryBlockEntityRenderer(BlockEntityRendererFactory.Context ctx){
-        EntityModelLoader modelLoader = ctx.getLayerRenderDispatcher();
-        CREEPER_MODEL = modelLoader.getModelPart(EntityModelLayers.CREEPER);
-        CREEPER_RENDER_LAYER = RenderLayer.getEntityCutoutNoCullZOffset(new Identifier("textures/entity/creeper/creeper.png"));
+        DISPATCHER = ctx.getEntityRenderDispatcher();
     }
 
     @Override
     public void render(BatteryBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        if(chargedCreeper == null) {
+            NbtCompound nbt = new NbtCompound();
+            nbt.putString("id", "creeper");
+            nbt.putBoolean("powered", true);
+            chargedCreeper = EntityType.loadEntityWithPassengers(nbt, entity.getWorld(), Function.identity());
+        }
+
         matrices.push();
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(CREEPER_RENDER_LAYER);
-        matrices.scale(1.0f, 1.0f, 1.0f);
-        CREEPER_MODEL.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
+        matrices.translate(0.5d, 0.0d, 0.5d);
+        matrices.scale(0.5f, 0.5f, 0.5f);
+        DISPATCHER.render(chargedCreeper, 0.0, 2.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, light);
         matrices.pop();
     }
 }
