@@ -151,7 +151,7 @@ public class EnergyManager {
             }
         }
         for(BatteryBlockEntity battery : storageList){
-            if(-battery.deltaFlow > battery.getEnergy()){ // issue overflow (The deltaflow of PowerBlock will always be non-positive
+            if(-battery.deltaFlow > battery.getEnergy()){ // issue overflow (The deltaflow of Battery must be less than zero to issue overflow
                 int flow = -battery.deltaFlow; // Reconfigure flow (flow is a positive value)
                 for(Direction direction:Direction.values()){
                     if(battery.getAdjacentBlockEntity(direction) instanceof CableBlockEntity adjCable){
