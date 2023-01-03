@@ -1,13 +1,14 @@
-package com.brainsmash.broken_world.blocks.entity.electric;
+package com.brainsmash.broken_world.blocks.entity.electric.base;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.EnergyManager;
 import net.minecraft.block.BlockState;
-import net.minecraft.inventory.Inventories;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class PowerBlockEntity extends CableBlockEntity{
+public class PowerBlockEntity extends CableBlockEntity {
 
     private boolean running = false;
 

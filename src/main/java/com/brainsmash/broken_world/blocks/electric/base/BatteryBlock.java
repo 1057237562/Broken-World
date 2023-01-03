@@ -1,12 +1,8 @@
-package com.brainsmash.broken_world.blocks.electric;
+package com.brainsmash.broken_world.blocks.electric.base;
 
-import com.brainsmash.broken_world.blocks.entity.electric.BatteryBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.ConsumerBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.EnergyManager;
-import com.brainsmash.broken_world.blocks.entity.electric.PowerBlockEntity;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.EnergyManager;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -20,16 +16,27 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
-public class ConsumerBlock extends BlockWithEntity {
+public class BatteryBlock extends BlockWithEntity {
 
-    public ConsumerBlock(Settings settings) {
+    public BatteryBlock(Settings settings) {
         super(settings);
     }
 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new ConsumerBlockEntity(pos,state);
+        return new BatteryBlockEntity(pos,state);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return (world1, pos, state1, blockEntity) -> ((BatteryBlockEntity) blockEntity).tick(world1, pos, state1, (BatteryBlockEntity) blockEntity);
+    }
+
+    @Override
+    public BlockRenderType getRenderType(BlockState state) {
+        //With inheriting from BlockWithEntity this defaults to INVISIBLE, so we need to change that!
+        return BlockRenderType.MODEL;
     }
 
     @Override
@@ -40,20 +47,9 @@ public class ConsumerBlock extends BlockWithEntity {
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        //With inheriting from BlockWithEntity this defaults to INVISIBLE, so we need to change that!
-        return BlockRenderType.MODEL;
-    }
-
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (world1, pos, state1, blockEntity) -> ((ConsumerBlockEntity) blockEntity).tick(world1, pos, state1, (ConsumerBlockEntity) blockEntity);
-    }
-
-    @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            System.out.println(((ConsumerBlockEntity)world.getBlockEntity(pos)).getEnergy()+":"+((ConsumerBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((ConsumerBlockEntity)world.getBlockEntity(pos)).edges.toString());
+            System.out.println(((BatteryBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((BatteryBlockEntity)world.getBlockEntity(pos)).edges.toString());
             NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
             if (screenHandlerFactory != null) {
                 player.openHandledScreen(screenHandlerFactory);

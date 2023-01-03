@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.entity.electric;
+package com.brainsmash.broken_world.blocks.entity.electric.base;
 
 import com.brainsmash.broken_world.Main;
 import net.minecraft.block.BlockState;
@@ -6,7 +6,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ConsumerBlockEntity extends CableBlockEntity{
+public class ConsumerBlockEntity extends CableBlockEntity {
 
     private boolean running = false;
 

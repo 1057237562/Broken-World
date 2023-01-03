@@ -2,8 +2,15 @@ package com.brainsmash.broken_world;
 
 import com.brainsmash.broken_world.blocks.TeleporterController;
 import com.brainsmash.broken_world.blocks.electric.*;
+import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
+import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
+import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
+import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.fluid.AcidFluid;
 import com.brainsmash.broken_world.blocks.fluid.IFluidBlock;
 import com.brainsmash.broken_world.blocks.fluid.OilFluid;

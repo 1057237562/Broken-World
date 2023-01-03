@@ -1,12 +1,9 @@
-package com.brainsmash.broken_world.blocks.electric;
+package com.brainsmash.broken_world.blocks.electric.base;
 
-import com.brainsmash.broken_world.blocks.entity.electric.CableBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.EnergyManager;
-import com.brainsmash.broken_world.blocks.entity.electric.PowerBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.EnergyManager;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
