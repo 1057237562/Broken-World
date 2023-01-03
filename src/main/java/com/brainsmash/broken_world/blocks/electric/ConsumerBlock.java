@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.blocks.electric;
 
 import com.brainsmash.broken_world.blocks.entity.electric.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.EnergyManager;
+import com.brainsmash.broken_world.blocks.entity.electric.PowerBlockEntity;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -51,6 +52,7 @@ public class ConsumerBlock extends BlockWithEntity {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
+            System.out.println(((ConsumerBlockEntity)world.getBlockEntity(pos)).getEnergy()+":"+((ConsumerBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((ConsumerBlockEntity)world.getBlockEntity(pos)).edges.toString());
             NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
             if (screenHandlerFactory != null) {
                 player.openHandledScreen(screenHandlerFactory);
