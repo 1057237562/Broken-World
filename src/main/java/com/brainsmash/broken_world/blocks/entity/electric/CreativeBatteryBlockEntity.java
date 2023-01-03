@@ -3,6 +3,8 @@ package com.brainsmash.broken_world.blocks.entity.electric;
 import com.brainsmash.broken_world.Main;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -15,6 +17,13 @@ public class CreativeBatteryBlockEntity extends BatteryBlockEntity{
     }
 
     public Entity getCreeper(){
+        if(chargedCreeper == null) {
+            System.out.println("Creeper created.");
+            NbtCompound nbt = new NbtCompound();
+            nbt.putString("id", "creeper");
+            nbt.putBoolean("powered", true);
+            chargedCreeper = EntityType.loadEntityWithPassengers(nbt, getWorld(), Function.identity());
+        }
         return chargedCreeper;
     }
 

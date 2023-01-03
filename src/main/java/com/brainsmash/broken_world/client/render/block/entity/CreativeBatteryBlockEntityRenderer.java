@@ -29,13 +29,6 @@ public class CreativeBatteryBlockEntityRenderer implements BlockEntityRenderer<C
     @Override
     public void render(CreativeBatteryBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         Entity chargedCreeper = entity.getCreeper();
-        if(chargedCreeper == null) {
-            System.out.println("Creeper created.");
-            NbtCompound nbt = new NbtCompound();
-            nbt.putString("id", "creeper");
-            nbt.putBoolean("powered", true);
-            chargedCreeper = EntityType.loadEntityWithPassengers(nbt, entity.getWorld(), Function.identity());
-        }
 
         matrices.push();
         matrices.translate(0.5d, 0.0d, 0.5d);
