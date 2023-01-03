@@ -1,11 +1,8 @@
 package com.brainsmash.broken_world.blocks.electric;
 
 import com.brainsmash.broken_world.blocks.entity.electric.BatteryBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.CreativeBatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.EnergyManager;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -20,21 +17,21 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
-public class CreativeBatteryBlock extends BlockWithEntity {
+public class BatteryBlock extends BlockWithEntity {
 
-    public CreativeBatteryBlock(Settings settings) {
+    public BatteryBlock(Settings settings) {
         super(settings);
     }
 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new CreativeBatteryBlockEntity(pos,state);
+        return new BatteryBlockEntity(pos,state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (world1, pos, state1, blockEntity) -> ((CreativeBatteryBlockEntity) blockEntity).tick(world1, pos, state1, (BatteryBlockEntity) blockEntity);
+        return (world1, pos, state1, blockEntity) -> ((BatteryBlockEntity) blockEntity).tick(world1, pos, state1, (BatteryBlockEntity) blockEntity);
     }
 
     @Override
@@ -53,7 +50,7 @@ public class CreativeBatteryBlock extends BlockWithEntity {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            System.out.println(((CreativeBatteryBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((CreativeBatteryBlockEntity)world.getBlockEntity(pos)).edges.toString());
+            System.out.println(((BatteryBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((BatteryBlockEntity)world.getBlockEntity(pos)).edges.toString());
             NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
             if (screenHandlerFactory != null) {
                 player.openHandledScreen(screenHandlerFactory);
