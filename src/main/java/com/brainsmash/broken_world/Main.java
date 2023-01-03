@@ -1,7 +1,7 @@
 package com.brainsmash.broken_world;
 
 import com.brainsmash.broken_world.blocks.TeleporterController;
-import com.brainsmash.broken_world.blocks.electric.BatteryBlock;
+import com.brainsmash.broken_world.blocks.electric.CreativeBatteryBlock;
 import com.brainsmash.broken_world.blocks.electric.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.PowerBlock;
@@ -103,7 +103,7 @@ public class Main implements ModInitializer {
 			new Block(FabricBlockSettings.of(Material.SOIL).sounds(BlockSoundGroup.MUD).strength(2.0f,2.0f)),
 			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f)),
 			new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f,2.0f)),
-			new BatteryBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+			new CreativeBatteryBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
 			new PowerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(100.0f,100.0f)),
 			new ConsumerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f))
 

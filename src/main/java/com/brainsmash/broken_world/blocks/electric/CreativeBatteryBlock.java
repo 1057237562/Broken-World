@@ -1,9 +1,8 @@
 package com.brainsmash.broken_world.blocks.electric;
 
 import com.brainsmash.broken_world.blocks.entity.electric.BatteryBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.CableBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.CreativeBatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.EnergyManager;
-import com.brainsmash.broken_world.blocks.entity.electric.PowerBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -19,21 +18,21 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
-public class BatteryBlock extends BlockWithEntity {
+public class CreativeBatteryBlock extends BlockWithEntity {
 
-    public BatteryBlock(Settings settings) {
+    public CreativeBatteryBlock(Settings settings) {
         super(settings);
     }
 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new BatteryBlockEntity(pos,state);
+        return new CreativeBatteryBlockEntity(pos,state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (world1, pos, state1, blockEntity) -> ((BatteryBlockEntity) blockEntity).tick(world1, pos, state1, (BatteryBlockEntity) blockEntity);
+        return (world1, pos, state1, blockEntity) -> ((CreativeBatteryBlockEntity) blockEntity).tick(world1, pos, state1, (CreativeBatteryBlockEntity) blockEntity);
     }
 
     @Override
