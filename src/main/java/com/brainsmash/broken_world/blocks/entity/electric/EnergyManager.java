@@ -73,12 +73,19 @@ public class EnergyManager {
     }
 
     public static void UpdateGraph(WorldAccess world, BlockPos pos){
-        for(Direction direction : Direction.values()){
-            if(world.getBlockEntity(pos.offset(direction)) instanceof CableBlockEntity cable){
-                cable.edges.put(direction.getOpposite(),0);
-                cable.ComputeDeltaFlow();
-                if(cable.deltaFlow != 0 && !(cable instanceof PowerBlockEntity || cable instanceof BatteryBlockEntity)) {
-                    bfsQueue.add(cable);
+        if(world.getBlockEntity(pos) instanceof CableBlockEntity current){
+            current.ComputeDeltaFlow();
+            if (current.deltaFlow != 0 && !(current instanceof PowerBlockEntity || current instanceof BatteryBlockEntity)) {
+                bfsQueue.add(current);
+            }
+        }else {
+            for (Direction direction : Direction.values()) {
+                if (world.getBlockEntity(pos.offset(direction)) instanceof CableBlockEntity cable) {
+                    cable.edges.put(direction.getOpposite(), 0);
+                    cable.ComputeDeltaFlow();
+                    if (cable.deltaFlow != 0 && !(cable instanceof PowerBlockEntity || cable instanceof BatteryBlockEntity)) {
+                        bfsQueue.add(cable);
+                    }
                 }
             }
         }

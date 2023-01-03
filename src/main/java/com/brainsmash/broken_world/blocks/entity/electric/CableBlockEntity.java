@@ -53,7 +53,9 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient && world.isChunkLoaded(pos)) {
-            increaseEnergy(deltaFlow);
+            if(deltaFlow != 0){
+
+            }
         }
     }
 
