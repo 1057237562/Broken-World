@@ -150,6 +150,36 @@ public class EnergyManager {
                 }
             }
         }
+        for(BatteryBlockEntity battery : storageList){
+            if(-battery.deltaFlow > battery.getEnergy()){ // issue overflow (The deltaflow of PowerBlock will always be non-positive
+                int flow = -battery.deltaFlow; // Reconfigure flow (flow is a positive value)
+                for(Direction direction:Direction.values()){
+                    if(battery.getAdjacentBlockEntity(direction) instanceof CableBlockEntity adjCable){
+                        if(!(adjCable instanceof PowerBlockEntity)) {
+                            int relflow = (adjCable.edges.getOrDefault(direction.getOpposite(), 0) - battery.edges.getOrDefault(direction, 0)) / 2;
+
+                            if (flow > 0) { // Compute powerOverflow
+                                if (relflow > 0) {
+                                    int alterflow = Math.min(relflow, flow);
+                                    battery.edges.compute(direction, (direction1, integer) -> integer + alterflow);
+                                    adjCable.edges.compute(direction.getOpposite(), (direction1, integer) -> integer - alterflow);
+                                    adjCable.ComputeDeltaFlow();
+                                    //System.out.println("Cable:"+adjCable.deltaFlow);
+                                    flow -= alterflow;
+                                    battery.deltaFlow += alterflow;
+                                    if(!(adjCable instanceof PowerBlockEntity || adjCable instanceof BatteryBlockEntity || adjCable instanceof ConsumerBlockEntity)){
+                                        bfsQueue.add(adjCable);
+                                    }
+                                }
+                            }
+                            if (flow == 0) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         while(!bfsQueue.isEmpty()) { // Reconfigure the flow
             CableBlockEntity current = bfsQueue.removeFirst();
