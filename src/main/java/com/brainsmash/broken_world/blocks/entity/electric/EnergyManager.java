@@ -34,6 +34,7 @@ public class EnergyManager {
     }
 
     private static void bfs(CableBlockEntity start) {
+        // This function can be deleted for optimization because we always start the bfs from the power source and battery in EK algorithm
         if (!shouldTickCable(start)) return;
 
         bfsQueue.add(start);
