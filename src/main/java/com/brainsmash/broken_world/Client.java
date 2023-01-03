@@ -25,7 +25,7 @@ public class Client implements ClientModInitializer {
 
         Block battery = Registry.BLOCK.get(new Identifier(Main.MODID, "creative_battery"));
         BlockRenderLayerMap.INSTANCE.putBlock(battery, RenderLayer.getTranslucent());
-        BlockEntityRendererRegistry.register(Main.BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(Main.CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
 
         for(int i = 0;i < Main.still_fluid.length;i++) {
             FluidRenderHandlerRegistry.INSTANCE.register(Main.still_fluid[i], Main.flowing_fluid[i], new SimpleFluidRenderHandler(

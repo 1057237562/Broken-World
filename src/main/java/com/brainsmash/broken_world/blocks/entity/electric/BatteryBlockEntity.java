@@ -6,6 +6,8 @@ import com.brainsmash.broken_world.screenhandlers.descriptions.BatteryGuiDescrip
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -51,6 +53,10 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
     public BatteryBlockEntity(BlockPos pos, BlockState state) {
         super(Main.BATTERY_ENTITY_TYPE, pos, state);
         setMaxCapacity(500000);
+    }
+
+    public BatteryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state){
+        super(type, pos, state);
     }
 
     @Override

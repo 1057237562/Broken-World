@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.client.render.block.entity;
 
 import com.brainsmash.broken_world.blocks.entity.electric.BatteryBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.CreativeBatteryBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -17,19 +18,19 @@ import java.util.Dictionary;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
-public class CreativeBatteryBlockEntityRenderer implements BlockEntityRenderer<BatteryBlockEntity> {
+public class CreativeBatteryBlockEntityRenderer implements BlockEntityRenderer<CreativeBatteryBlockEntity> {
 
     private final EntityRenderDispatcher DISPATCHER;
-    private Entity chargedCreeper;
-    private float tick = 0;
 
     public CreativeBatteryBlockEntityRenderer(BlockEntityRendererFactory.Context ctx){
         DISPATCHER = ctx.getEntityRenderDispatcher();
     }
 
     @Override
-    public void render(BatteryBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+    public void render(CreativeBatteryBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        Entity chargedCreeper = entity.getCreeper();
         if(chargedCreeper == null) {
+            System.out.println("Creeper created.");
             NbtCompound nbt = new NbtCompound();
             nbt.putString("id", "creeper");
             nbt.putBoolean("powered", true);
@@ -39,8 +40,7 @@ public class CreativeBatteryBlockEntityRenderer implements BlockEntityRenderer<B
         matrices.push();
         matrices.translate(0.5d, 0.0d, 0.5d);
         matrices.scale(0.5f, 0.5f, 0.5f);
-        tick += 0.5*tickDelta;
-        DISPATCHER.render(chargedCreeper, 0.0, 0.0, 0.0, 0.0f, tick, matrices, vertexConsumers, 15728640);
+        DISPATCHER.render(chargedCreeper, 0.0, 0.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, 15728640);
         matrices.pop();
     }
 }

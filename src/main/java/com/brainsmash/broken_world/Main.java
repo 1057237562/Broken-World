@@ -6,10 +6,7 @@ import com.brainsmash.broken_world.blocks.electric.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.PowerBlock;
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.BatteryBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.CableBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.ConsumerBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.PowerBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.*;
 import com.brainsmash.broken_world.blocks.fluid.AcidFluid;
 import com.brainsmash.broken_world.blocks.fluid.IFluidBlock;
 import com.brainsmash.broken_world.blocks.fluid.OilFluid;
@@ -174,6 +171,7 @@ public class Main implements ModInitializer {
 	public static BlockEntityType<TeleporterControllerEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;
 	public static BlockEntityType<CableBlockEntity> CABLE_ENTITY_TYPE;
 	public static BlockEntityType<BatteryBlockEntity> BATTERY_ENTITY_TYPE;
+	public static BlockEntityType<CreativeBatteryBlockEntity> CREATIVE_BATTERY_ENTITY_TYPE;
 	public static BlockEntityType<ConsumerBlockEntity> CONSUMER_ENTITY_TYPE;
 	public static BlockEntityType<PowerBlockEntity> POWER_ENTITY_TYPE;
 	//public static final ScreenHandlerType<TeleporterControllerScreenHandler> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(new Identifier(MODID,"teleporter_controller"), TeleporterControllerScreenHandler::new);
@@ -217,7 +215,7 @@ public class Main implements ModInitializer {
 
 		TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleporter_controller"), FabricBlockEntityTypeBuilder.create(TeleporterControllerEntity::new,blocks[8]).build());
 		CABLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"cable"),FabricBlockEntityTypeBuilder.create(CableBlockEntity::new,blocks[16]).build());
-		BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"creative_battery"),FabricBlockEntityTypeBuilder.create(BatteryBlockEntity::new,blocks[17]).build());
+		CREATIVE_BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"creative_battery"),FabricBlockEntityTypeBuilder.create(CreativeBatteryBlockEntity::new,blocks[17]).build());
 		POWER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"creative_generator"),FabricBlockEntityTypeBuilder.create(PowerBlockEntity::new,blocks[18]).build());
 		CONSUMER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"basic_machine"), FabricBlockEntityTypeBuilder.create(ConsumerBlockEntity::new,blocks[19]).build());
 
