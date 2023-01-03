@@ -127,10 +127,6 @@ public class EnergyManager {
         }
     }
 
-    public static void AlterFlow(CableBlockEntity cable,int flow){
-
-    }
-
     private static void CheckOverflow(){
         for(PowerBlockEntity power : powerList){
             if(-power.deltaFlow > power.getEnergy()){ // issue overflow (The deltaflow of PowerBlock will always be non-positive
