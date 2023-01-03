@@ -371,36 +371,4 @@ public class EnergyManager {
         }
     }
 
-    public static long pullEnergy(int energy){
-        for(int i = storageList.size()-1;i>=0;i--){
-            BatteryBlockEntity battery = storageList.get(i);
-            if(Math.min(battery.getMaxFlow(),battery.getEnergy()) >= energy){
-                battery.increaseEnergy(-energy);
-                energy = 0;
-                break;
-            }else{
-                energy -= Math.min(battery.getMaxFlow(),battery.getEnergy());
-                battery.increaseEnergy(-Math.min(battery.getMaxFlow(),battery.getEnergy()));
-            }
-        }
-        return energy;
-    }
-
-    public static long pushEnergy(int energy){
-        long res = 0;
-        for(int i = 0; i < storageList.size();i++){
-            BatteryBlockEntity battery = storageList.get(i);
-            if(battery.getEnergy() + energy <= battery.getMaxCapacity()){
-                battery.increaseEnergy(energy);
-                res += energy;
-                break;
-            }else{
-                energy -= battery.getMaxCapacity() - battery.getEnergy();
-                res += battery.getMaxCapacity() - battery.getEnergy();
-                battery.setEnergy(battery.getMaxCapacity());
-            }
-        }
-        return res;
-    }
-
 }

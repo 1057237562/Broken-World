@@ -13,6 +13,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.math.Quaternion;
 
 import java.util.Dictionary;
 import java.util.function.Function;
@@ -33,6 +34,7 @@ public class CreativeBatteryBlockEntityRenderer implements BlockEntityRenderer<C
         matrices.push();
         matrices.translate(0.5d, 0.0d, 0.5d);
         matrices.scale(0.5f, 0.5f, 0.5f);
+        matrices.multiply(Quaternion.fromEulerXyz(0, (float) ((chargedCreeper.age + tickDelta)*2*Math.PI/180.0),0));
         DISPATCHER.render(chargedCreeper, 0.0, 0.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, 15728640);
         matrices.pop();
     }
