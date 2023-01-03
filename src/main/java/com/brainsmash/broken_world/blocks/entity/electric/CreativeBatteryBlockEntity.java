@@ -8,6 +8,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.function.Function;
+
 public class CreativeBatteryBlockEntity extends BatteryBlockEntity{
     private Entity chargedCreeper;
     public CreativeBatteryBlockEntity(BlockPos pos, BlockState state) {
@@ -16,7 +18,6 @@ public class CreativeBatteryBlockEntity extends BatteryBlockEntity{
 
     public Entity getCreeper(){
         if(chargedCreeper == null) {
-            System.out.println("Creeper created.");
             NbtCompound nbt = new NbtCompound();
             nbt.putString("id", "creeper");
             nbt.putBoolean("powered", true);
