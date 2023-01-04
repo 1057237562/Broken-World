@@ -1,17 +1,39 @@
-
 {
+  "parent": "block/block", 
   "textures": {
     "top": "broken_world:block/creative_battery_top", 
     "side": "broken_world:block/creative_battery_side", 
     "bottom": "broken_world:block/creative_battery_bottom", 
-    "particle": "#texture"
+    "particle": "#side"
   },
   "elements": [
-    {   
+    {
       "from": [ 0, 0, 0 ],
-      "to": [ 16, 15, 16 ],
+      "to": [ 16, 1, 16 ],
       "faces": {
         "down":  { "texture": "#bottom", "cullface": "down" },
+        "up":    { "texture": "#top"}, 
+        "north": { "texture": "#side", "cullface": "north" },
+        "south": { "texture": "#side", "cullface": "south" },
+        "west":  { "texture": "#side", "cullface": "west" },
+        "east":  { "texture": "#side", "cullface": "east" }
+      }
+    }, 
+    {
+      "from": [ 0, 1, 0 ],
+      "to": [ 16, 14, 16 ],
+      "faces": {
+        "north": { "texture": "#side", "cullface": "north" },
+        "south": { "texture": "#side", "cullface": "south" },
+        "west":  { "texture": "#side", "cullface": "west" },
+        "east":  { "texture": "#side", "cullface": "east" }
+      }
+    }, 
+    {
+      "from": [ 0, 14, 0 ],
+      "to": [ 16, 15, 16 ],
+      "faces": {
+        "down":  { "texture": "#bottom"}, 
         "up":    { "texture": "#top"}, 
         "north": { "texture": "#side", "cullface": "north" },
         "south": { "texture": "#side", "cullface": "south" },
