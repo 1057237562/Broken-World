@@ -25,8 +25,8 @@ public class CreativeBatteryBlockEntityRenderer implements BlockEntityRenderer<C
         Entity chargedCreeper = entity.getCreeper();
 
         matrices.push();
-        matrices.translate(0.5d, 0.0d, 0.5d);
-        matrices.scale(0.5f, 0.5f, 0.5f);
+        matrices.translate(0.5d, 0.1d, 0.5d);
+        matrices.scale(0.5f, 0.5f, 0.4f);
         matrices.multiply(Quaternion.fromEulerXyz(0, (float) ((chargedCreeper.age + tickDelta)*2*Math.PI/180.0),0));
         DISPATCHER.render(chargedCreeper, 0.0, 0.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, 15728640);
         matrices.pop();
