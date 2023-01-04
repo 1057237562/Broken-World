@@ -1,13 +1,39 @@
 package com.brainsmash.broken_world.blocks.entity.electric.base;
 
 import com.brainsmash.broken_world.Main;
+import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ConsumerBlockEntity extends CableBlockEntity {
+public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDelegateHolder {
+
+    private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
+        @Override
+        public int get(int index) {
+            switch (index){
+                case 0:
+                    return getEnergy();
+                case 1:
+                    return getMaxCapacity();
+                default:
+                    return -1;
+            }
+        }
+
+        @Override
+        public void set(int index, int value) {
+            setEnergy(value);
+        }
+
+        @Override
+        public int size() {
+            return 2;
+        }
+    };
 
     private boolean running = false;
 
@@ -36,5 +62,10 @@ public class ConsumerBlockEntity extends CableBlockEntity {
             increaseEnergy(deltaFlow);
             EnergyManager.processTick(this);
         }
+    }
+
+    @Override
+    public PropertyDelegate getPropertyDelegate() {
+        return propertyDelegate;
     }
 }

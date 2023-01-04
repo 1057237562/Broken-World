@@ -1,10 +1,8 @@
 package com.brainsmash.broken_world.blocks;
 
+import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -18,8 +16,8 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TeleporterController extends BlockWithEntity {
-    public TeleporterController(Settings settings) {
+public class TeleporterController extends ConsumerBlock {
+    public TeleporterController(AbstractBlock.Settings settings) {
         super(settings);
     }
 
