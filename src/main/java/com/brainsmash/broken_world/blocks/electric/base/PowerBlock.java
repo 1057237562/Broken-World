@@ -18,6 +18,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.logging.LogManager;
+
 public class PowerBlock extends BlockWithEntity {
 
     public PowerBlock(Settings settings) {
