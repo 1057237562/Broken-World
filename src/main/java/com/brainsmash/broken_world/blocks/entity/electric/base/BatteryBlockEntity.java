@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.blocks.entity.electric.base;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
+import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.BatteryGuiDescription;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.BlockState;
@@ -49,7 +50,7 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     public BatteryBlockEntity(BlockPos pos, BlockState state) {
-        super(Main.BATTERY_ENTITY_TYPE, pos, state);
+        super(BlockRegister.BATTERY_ENTITY_TYPE, pos, state);
         setMaxCapacity(500000);
     }
 

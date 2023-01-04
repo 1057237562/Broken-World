@@ -1,6 +1,8 @@
 package com.brainsmash.broken_world.blocks.fluid;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.registry.FluidRegister;
+import com.brainsmash.broken_world.registry.ItemRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.fluid.Fluid;
@@ -17,17 +19,17 @@ public abstract class AcidFluid extends FluidModel {
 
     @Override
     public Fluid getStill() {
-        return Main.still_fluid[2];
+        return FluidRegister.still_fluid[2];
     }
 
     @Override
     public Fluid getFlowing() {
-        return Main.flowing_fluid[2];
+        return FluidRegister.flowing_fluid[2];
     }
 
     @Override
     public Item getBucketItem() {
-        return Main.bucket_item[2];
+        return ItemRegister.bucket_item[2];
     }
 
     @Override
@@ -48,7 +50,7 @@ public abstract class AcidFluid extends FluidModel {
     @Override
     protected BlockState toBlockState(FluidState fluidState) {
         // getBlockStateLevel converts the LEVEL_1_8 of the fluid state to the LEVEL_15 the fluid block uses
-        return Main.fluid_blocks[2].getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(fluidState));
+        return FluidRegister.fluid_blocks[2].getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(fluidState));
     }
 
     @Override
@@ -57,7 +59,7 @@ public abstract class AcidFluid extends FluidModel {
             FluidState fluidState2 = world.getFluidState(pos);
             if(fluidState2.isIn(FluidTags.WATER)){
                 if(state.getBlock() instanceof FluidBlock){
-                    world.setBlockState(pos,Main.fluid_blocks[2].getDefaultState(),3);
+                    world.setBlockState(pos,FluidRegister.fluid_blocks[2].getDefaultState(),3);
                 }
                 return;
             }

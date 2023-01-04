@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.mixin;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.registry.DimensionRegister;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.CloudRenderMode;
 import net.minecraft.client.option.GameOptions;
@@ -17,7 +18,7 @@ public class WorldRendererMixin {
 
     @Redirect(method = "render",at = @At(value = "INVOKE",target = "Lnet/minecraft/client/option/GameOptions;getCloudRenderModeValue()Lnet/minecraft/client/option/CloudRenderMode;"))
     public CloudRenderMode hasCloud(GameOptions instance){
-        if(Main.noCloudDimension.contains(this.client.world.getDimensionKey().getValue().toTranslationKey())){
+        if(DimensionRegister.noCloudDimension.contains(this.client.world.getDimensionKey().getValue().toTranslationKey())){
             return CloudRenderMode.OFF;
         }else{
             return instance.getCloudRenderModeValue();

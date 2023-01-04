@@ -1,6 +1,8 @@
 package com.brainsmash.broken_world.blocks.fluid;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.registry.FluidRegister;
+import com.brainsmash.broken_world.registry.ItemRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
@@ -18,23 +20,23 @@ public abstract class PollutedWaterFluid extends FluidModel {
 
     @Override
     public Fluid getStill() {
-        return Main.still_fluid[1];
+        return FluidRegister.still_fluid[1];
     }
 
     @Override
     public Fluid getFlowing() {
-        return Main.flowing_fluid[1];
+        return FluidRegister.flowing_fluid[1];
     }
 
     @Override
     public Item getBucketItem() {
-        return Main.bucket_item[1];
+        return ItemRegister.bucket_item[1];
     }
 
     @Override
     protected BlockState toBlockState(FluidState fluidState) {
         // getBlockStateLevel converts the LEVEL_1_8 of the fluid state to the LEVEL_15 the fluid block uses
-        return Main.fluid_blocks[1].getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(fluidState));
+        return FluidRegister.fluid_blocks[1].getDefaultState().with(FluidBlock.LEVEL, getBlockStateLevel(fluidState));
     }
 
     @Override

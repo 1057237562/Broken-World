@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.entity.electric.base;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.registry.BlockRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
@@ -13,7 +14,7 @@ public class PowerBlockEntity extends CableBlockEntity {
     private int generatePower = 50;
 
     public PowerBlockEntity(BlockPos pos, BlockState state) {
-        super(Main.POWER_ENTITY_TYPE, pos, state);
+        super(BlockRegister.POWER_ENTITY_TYPE, pos, state);
         setMaxCapacity(10000);
     }
 

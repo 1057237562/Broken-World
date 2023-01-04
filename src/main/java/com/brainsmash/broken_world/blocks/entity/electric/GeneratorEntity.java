@@ -4,6 +4,7 @@ import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
+import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.GeneratorGuiDescription;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.BlockState;
@@ -57,7 +58,7 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     public GeneratorEntity(BlockPos pos, BlockState state) {
-        super(Main.GENERATOR_ENTITY_TYPE, pos, state);
+        super(BlockRegister.GENERATOR_ENTITY_TYPE, pos, state);
         setMaxCapacity(10000);
         setGenerate(4);
     }

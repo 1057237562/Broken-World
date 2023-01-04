@@ -1,6 +1,8 @@
 package com.brainsmash.broken_world.mixin;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.registry.DimensionRegister;
+import com.brainsmash.broken_world.registry.ItemRegister;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.entity.Entity;
@@ -28,11 +30,11 @@ public abstract class LivingEntityMixin extends EntityMixin {
 
     @Redirect(method = "baseTick",at = @At(value="INVOKE",target = "Lnet/minecraft/entity/LivingEntity;isSubmergedIn(Lnet/minecraft/tag/TagKey;)Z"))
     private boolean hasNoAir(LivingEntity instance, TagKey<Fluid> tagKey){
-        if(TrinketsApi.getTrinketComponent(instance).get().isEquipped(Main.items[2])){
+        if(TrinketsApi.getTrinketComponent(instance).get().isEquipped(ItemRegister.items[2])){
             return false;
         }
         if(instance instanceof PlayerEntity) {
-            if (Main.noAirDimension.contains(instance.world.getDimensionKey().getValue().toTranslationKey())) {
+            if (DimensionRegister.noAirDimension.contains(instance.world.getDimensionKey().getValue().toTranslationKey())) {
                 return true;
             }
         }
@@ -42,8 +44,8 @@ public abstract class LivingEntityMixin extends EntityMixin {
     @ModifyConstant(method = "travel",constant = @Constant(doubleValue = 0.08))
     private double getGravity(double earthGravity){
         double multiplier = 1.0;
-        if(Main.dimensionGravity.containsKey(world.getDimensionKey().getValue().toTranslationKey())){
-            multiplier = Main.dimensionGravity.get(world.getDimensionKey().getValue().toTranslationKey());
+        if(DimensionRegister.dimensionGravity.containsKey(world.getDimensionKey().getValue().toTranslationKey())){
+            multiplier = DimensionRegister.dimensionGravity.get(world.getDimensionKey().getValue().toTranslationKey());
         }
         return earthGravity * multiplier;
     }
@@ -52,8 +54,8 @@ public abstract class LivingEntityMixin extends EntityMixin {
     public int computeFallDamage(LivingEntity instance, float fallDistance, float damageMultiplier) {
         StatusEffectInstance statusEffectInstance = instance.getStatusEffect(StatusEffects.JUMP_BOOST);
         double multiplier = 1.0;
-        if(Main.dimensionGravity.containsKey(world.getDimensionKey().getValue().toTranslationKey())){
-            multiplier = Main.dimensionGravity.get(world.getDimensionKey().getValue().toTranslationKey());
+        if(DimensionRegister.dimensionGravity.containsKey(world.getDimensionKey().getValue().toTranslationKey())){
+            multiplier = DimensionRegister.dimensionGravity.get(world.getDimensionKey().getValue().toTranslationKey());
         }
         float f = statusEffectInstance == null ? 0.0f : (float)(statusEffectInstance.getAmplifier() + 1);
         return MathHelper.ceil((fallDistance - (3.0f + f) / multiplier) * damageMultiplier);

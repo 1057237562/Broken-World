@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.enums;
+package com.brainsmash.broken_world.registry.enums;
 
 public enum BlockRegistry {
     MOON_SAND,

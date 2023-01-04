@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.screenhandlers.descriptions;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
+import com.brainsmash.broken_world.registry.DimensionRegister;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.networking.NetworkSide;
 import io.github.cottonmc.cotton.gui.networking.ScreenNetworking;
@@ -38,14 +39,14 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
             selectDim = buf.readString();
             context.get((world, pos) -> {
                 TeleporterControllerEntity entity = (TeleporterControllerEntity)world.getBlockEntity(pos);
-                if(entity.getEnergy() >= Main.dimensionEnergyCost.get(selectDim)) {
-                    entity.increaseEnergy(-Main.dimensionEnergyCost.get(selectDim));
+                if(entity.getEnergy() >= DimensionRegister.dimensionEnergyCost.get(selectDim)) {
+                    entity.increaseEnergy(-DimensionRegister.dimensionEnergyCost.get(selectDim));
                     BlockPos baseblock = CustomPortalHelper.getClosestFrameBlock(world, pos);
                     Block oldblock = world.getBlockState(baseblock).getBlock();
                     PortalLink oldlink = CustomPortalApiRegistry.getPortalLinkFromBase(oldblock);
                     BlockPos portalbase = baseblock.add(0, 1, 0);
                     world.breakBlock(portalbase, false);
-                    PortalLink link = Main.dimensions.get(selectDim);
+                    PortalLink link = DimensionRegister.dimensions.get(selectDim);
                     Block linkblock = Registry.BLOCK.get(link.block);
                     if (replacePortalBlock(oldlink, oldblock, world, portalbase, linkblock)) {
                         if (link != null && link.canLightInDim(world.getRegistryKey().getValue())) {

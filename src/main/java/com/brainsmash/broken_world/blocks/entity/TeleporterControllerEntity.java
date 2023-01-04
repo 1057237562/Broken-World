@@ -3,6 +3,7 @@ package com.brainsmash.broken_world.blocks.entity;
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
+import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -21,7 +22,7 @@ import net.minecraft.util.math.BlockPos;
 public class TeleporterControllerEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory,ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     public TeleporterControllerEntity(BlockPos pos, BlockState state) {
-        super(Main.TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE, pos, state);
+        super(BlockRegister.TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE, pos, state);
         setMaxCapacity(400000);
     }
 

@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.entity.electric.base;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.registry.BlockRegister;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
@@ -38,7 +39,7 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
     private boolean running = false;
 
     public ConsumerBlockEntity(BlockPos pos, BlockState state) {
-        super(Main.CONSUMER_ENTITY_TYPE, pos, state);
+        super(BlockRegister.CONSUMER_ENTITY_TYPE, pos, state);
         setMaxCapacity(10000);
     }
 

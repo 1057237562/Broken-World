@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.entity.electric.base;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.registry.BlockRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -25,7 +26,7 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
     public boolean visMark = false;
 
     public CableBlockEntity(BlockPos pos, BlockState state) {
-        super(Main.CABLE_ENTITY_TYPE, pos, state);
+        super(BlockRegister.CABLE_ENTITY_TYPE, pos, state);
     }
     public CableBlockEntity(BlockEntityType<?> type, BlockPos pos,BlockState state){ super(type,pos,state);}
 
