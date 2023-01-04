@@ -169,6 +169,7 @@ public class Main implements ModInitializer {
 	public static BlockEntityType<CableBlockEntity> CABLE_ENTITY_TYPE;
 	public static BlockEntityType<BatteryBlockEntity> BATTERY_ENTITY_TYPE;
 	public static BlockEntityType<CreativeBatteryBlockEntity> CREATIVE_BATTERY_ENTITY_TYPE;
+	public static BlockEntityType<CreativeGeneratorBlockEntity> CREATIVE_GENERATOR_ENTITY_TYPE;
 	public static BlockEntityType<ConsumerBlockEntity> CONSUMER_ENTITY_TYPE;
 	public static BlockEntityType<PowerBlockEntity> POWER_ENTITY_TYPE;
 	//public static final ScreenHandlerType<TeleporterControllerScreenHandler> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(new Identifier(MODID,"teleporter_controller"), TeleporterControllerScreenHandler::new);
