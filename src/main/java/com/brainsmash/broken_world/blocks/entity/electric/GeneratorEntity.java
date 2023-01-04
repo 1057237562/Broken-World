@@ -64,14 +64,19 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        super.tick(world, pos, state, blockEntity);
         if(fuelTime > 0){
             running = true;
             fuelTime--;
             markDirty();
         }else{
-            running = false;
+            ItemStack fuel = inventory.get(0);
+            if(!fuel.isEmpty()){
+                maxFuelTime = fuelTime;
+            }else{
+                running = false;
+            }
         }
+        super.tick(world, pos, state, blockEntity);
     }
 
     @Override
