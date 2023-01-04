@@ -29,19 +29,13 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.GENERATOR_GUI_DESCRIPTION, GeneratorScreen::new);
 
         BlockRenderLayerMap.INSTANCE.putBlock(Main.blocks[BlockRegistry.CREATIVE_BATTERY.ordinal()], RenderLayer.getTranslucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(
-                Main.blocks[BlockRegistry.CREATIVE_GENERATOR.ordinal()],
-                RenderLayer.getCutout()
-        );
-        EntityModelLayerRegistry.registerModelLayer(
-                CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
-                CreativeGeneratorBlockEntityRenderer::getTexturedModelData
-        );
+        BlockRenderLayerMap.INSTANCE.putBlock(Main.blocks[BlockRegistry.CREATIVE_GENERATOR.ordinal()], RenderLayer.getCutout());
+        EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR, CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         BlockEntityRendererRegistry.register(Main.CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(Main.CREATIVE_GENERATOR_ENTITY_TYPE, CreativeGeneratorBlockEntityRenderer::new);
 
 
-        for(int i = 0;i < Main.still_fluid.length;i++) {
+        for (int i = 0; i < Main.still_fluid.length; i++) {
             FluidRenderHandlerRegistry.INSTANCE.register(Main.still_fluid[i], Main.flowing_fluid[i], new SimpleFluidRenderHandler(
                     new Identifier("minecraft:block/water_still"),
                     new Identifier("minecraft:block/water_flow"),
