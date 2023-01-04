@@ -1,13 +1,11 @@
 package com.brainsmash.broken_world.screenhandlers.descriptions;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.networking.NetworkSide;
 import io.github.cottonmc.cotton.gui.networking.ScreenNetworking;
-import io.github.cottonmc.cotton.gui.widget.WButton;
-import io.github.cottonmc.cotton.gui.widget.WGridPanel;
-import io.github.cottonmc.cotton.gui.widget.WItemSlot;
-import io.github.cottonmc.cotton.gui.widget.WListPanel;
+import io.github.cottonmc.cotton.gui.widget.*;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import net.kyrptonaught.customportalapi.CustomPortalApiRegistry;
 import net.kyrptonaught.customportalapi.portal.frame.PortalFrameTester;
@@ -31,23 +29,28 @@ import java.util.function.BiConsumer;
 public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
     private static final Identifier SELECT_MESSAGE = new Identifier("broken_world", "select_button_click");
     private static final int INVENTORY_SIZE = 1;
+    private static final int PROPERTY_COUNT = 2;
     private String selectDim;
 
     public TeleporterControllerGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(Main.TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context));
+        super(Main.TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
         ScreenNetworking.of(this, NetworkSide.SERVER).receive(SELECT_MESSAGE, buf -> {
             selectDim = buf.readString();
             context.get((world, pos) -> {
-                BlockPos baseblock = CustomPortalHelper.getClosestFrameBlock(world,pos);
-                Block oldblock = world.getBlockState(baseblock).getBlock();
-                PortalLink oldlink = CustomPortalApiRegistry.getPortalLinkFromBase(oldblock);
-                BlockPos portalbase = baseblock.add(0, 1, 0);
-                world.breakBlock(portalbase, false);
-                PortalLink link = Main.dimensions.get(selectDim);
-                Block linkblock = Registry.BLOCK.get(link.block);
-                if(replacePortalBlock(oldlink,oldblock,world,portalbase,linkblock)) {
-                    if (link != null && link.canLightInDim(world.getRegistryKey().getValue())) {
-                        createPortal(link, linkblock, world, portalbase);
+                TeleporterControllerEntity entity = (TeleporterControllerEntity)world.getBlockEntity(pos);
+                if(entity.getEnergy() >= Main.dimensionEnergyCost.get(selectDim)) {
+                    entity.increaseEnergy(-Main.dimensionEnergyCost.get(selectDim));
+                    BlockPos baseblock = CustomPortalHelper.getClosestFrameBlock(world, pos);
+                    Block oldblock = world.getBlockState(baseblock).getBlock();
+                    PortalLink oldlink = CustomPortalApiRegistry.getPortalLinkFromBase(oldblock);
+                    BlockPos portalbase = baseblock.add(0, 1, 0);
+                    world.breakBlock(portalbase, false);
+                    PortalLink link = Main.dimensions.get(selectDim);
+                    Block linkblock = Registry.BLOCK.get(link.block);
+                    if (replacePortalBlock(oldlink, oldblock, world, portalbase, linkblock)) {
+                        if (link != null && link.canLightInDim(world.getRegistryKey().getValue())) {
+                            createPortal(link, linkblock, world, portalbase);
+                        }
                     }
                 }
                 return true;
@@ -63,6 +66,9 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
             wButton.setLabel(Text.of(s));
             wButton.setOnClick(() -> {selectDim = s;});
         };
+        WBar bar = new WBar(new Identifier(Main.MODID,"textures/gui/small_electric_bar.png"),new Identifier(Main.MODID,"textures/gui/small_electric_bar_filled.png"),0,1);
+        bar.setProperties(propertyDelegate);
+        root.add(bar, 8, 1,1,1);
         WListPanel<String,WButton> dimList = new WListPanel<>(
                 List.of("broken_world:moon","broken_world:metallic","broken_world:lush","broken_world:sulfuric"),
                 () -> {

@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.entity.electric;
+package com.brainsmash.broken_world.blocks.entity.electric.base;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;

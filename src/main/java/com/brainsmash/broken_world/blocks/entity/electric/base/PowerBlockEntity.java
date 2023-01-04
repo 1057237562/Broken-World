@@ -1,18 +1,32 @@
-package com.brainsmash.broken_world.blocks.entity.electric;
+package com.brainsmash.broken_world.blocks.entity.electric.base;
 
 import com.brainsmash.broken_world.Main;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ConsumerBlockEntity extends CableBlockEntity{
+public class PowerBlockEntity extends CableBlockEntity {
 
     private boolean running = false;
 
-    public ConsumerBlockEntity(BlockPos pos, BlockState state) {
-        super(Main.CONSUMER_ENTITY_TYPE, pos, state);
+    public PowerBlockEntity(BlockPos pos, BlockState state) {
+        super(Main.POWER_ENTITY_TYPE, pos, state);
         setMaxCapacity(10000);
+    }
+
+    public PowerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state){
+        super(type, pos, state);
+    }
+
+    @Override
+    public int getMaxFlow() {
+        return 32;
+    }
+
+    public int getGenerate() {
+        return 50;
     }
 
     @Override
@@ -28,6 +42,7 @@ public class ConsumerBlockEntity extends CableBlockEntity{
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient && world.isChunkLoaded(pos)) {
+            increaseEnergy(getGenerate());
             increaseEnergy(deltaFlow);
             EnergyManager.processTick(this);
         }

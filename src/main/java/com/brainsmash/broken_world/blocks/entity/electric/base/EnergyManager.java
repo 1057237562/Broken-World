@@ -1,6 +1,5 @@
-package com.brainsmash.broken_world.blocks.entity.electric;
+package com.brainsmash.broken_world.blocks.entity.electric.base;
 
-import com.mojang.datafixers.types.templates.Check;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -277,6 +276,8 @@ public class EnergyManager {
                         if (current.edges.getOrDefault(direction, 0) + adjCable.edges.getOrDefault(direction.getOpposite(), 0) != 2 * (current.getMaxFlow() + adjCable.getMaxFlow())) {
                             current.edges.put(direction, current.getMaxFlow() + adjCable.getMaxFlow());
                             adjCable.edges.put(direction.getOpposite(), current.getMaxFlow() + adjCable.getMaxFlow());
+                            current.markDirty();
+                            adjCable.markDirty();
                         }
                         if (current.edges.getOrDefault(direction, 0) > 0) {
                             if (adjCable.visMark != tickMark) {
@@ -294,6 +295,7 @@ public class EnergyManager {
                                         ptr = (CableBlockEntity) ptr.getAdjacentBlockEntity(connection);
                                         ptr.edges.compute(connection.getOpposite(), (direction1, integer) -> integer - flow); // Add Flow
                                         ptr.deltaFlow -= flow;
+                                        ptr.markDirty();
                                     }
                                     bfsQueue.clear();
                                     return;
@@ -323,6 +325,8 @@ public class EnergyManager {
                         if (current.edges.getOrDefault(direction, 0) + adjCable.edges.getOrDefault(direction.getOpposite(), 0) != 2 * (current.getMaxFlow() + adjCable.getMaxFlow())) {
                             current.edges.put(direction, current.getMaxFlow() + adjCable.getMaxFlow());
                             adjCable.edges.put(direction.getOpposite(), current.getMaxFlow() + adjCable.getMaxFlow());
+                            current.markDirty();
+                            adjCable.markDirty();
                         }
                         if (current.edges.getOrDefault(direction, 0) > 0) {
                             if (adjCable.visMark != tickMark) {
@@ -340,6 +344,7 @@ public class EnergyManager {
                                         ptr = (CableBlockEntity) ptr.getAdjacentBlockEntity(connection);
                                         ptr.edges.compute(connection.getOpposite(), (direction1, integer) -> integer - flow); // Add Flow
                                         ptr.deltaFlow -= flow;
+                                        ptr.markDirty();
                                     }
                                     bfsQueue.clear();
                                     return;
@@ -369,38 +374,6 @@ public class EnergyManager {
             powerList.clear();
             bfsQueue.clear();
         }
-    }
-
-    public static long pullEnergy(int energy){
-        for(int i = storageList.size()-1;i>=0;i--){
-            BatteryBlockEntity battery = storageList.get(i);
-            if(Math.min(battery.getMaxFlow(),battery.getEnergy()) >= energy){
-                battery.increaseEnergy(-energy);
-                energy = 0;
-                break;
-            }else{
-                energy -= Math.min(battery.getMaxFlow(),battery.getEnergy());
-                battery.increaseEnergy(-Math.min(battery.getMaxFlow(),battery.getEnergy()));
-            }
-        }
-        return energy;
-    }
-
-    public static long pushEnergy(int energy){
-        long res = 0;
-        for(int i = 0; i < storageList.size();i++){
-            BatteryBlockEntity battery = storageList.get(i);
-            if(battery.getEnergy() + energy <= battery.getMaxCapacity()){
-                battery.increaseEnergy(energy);
-                res += energy;
-                break;
-            }else{
-                energy -= battery.getMaxCapacity() - battery.getEnergy();
-                res += battery.getMaxCapacity() - battery.getEnergy();
-                battery.setEnergy(battery.getMaxCapacity());
-            }
-        }
-        return res;
     }
 
 }

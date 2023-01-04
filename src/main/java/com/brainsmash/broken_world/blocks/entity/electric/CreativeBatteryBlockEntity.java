@@ -1,6 +1,8 @@
 package com.brainsmash.broken_world.blocks.entity.electric;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -10,10 +12,11 @@ import net.minecraft.world.World;
 
 import java.util.function.Function;
 
-public class CreativeBatteryBlockEntity extends BatteryBlockEntity{
+public class CreativeBatteryBlockEntity extends BatteryBlockEntity {
     private Entity chargedCreeper;
     public CreativeBatteryBlockEntity(BlockPos pos, BlockState state) {
         super(Main.CREATIVE_BATTERY_ENTITY_TYPE, pos, state);
+        setMaxCapacity(500000);
     }
 
     public Entity getCreeper(){

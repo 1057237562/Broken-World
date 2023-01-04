@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.entity.electric;
+package com.brainsmash.broken_world.blocks.entity.electric.base;
 
 import com.brainsmash.broken_world.Main;
 import net.minecraft.block.BlockState;
@@ -41,20 +41,12 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
         return 16;
     }
 
-    /*public int getEnergyLost(){
-        return 1;
-    }*/
-
     public int getEnergy(){
         return energy;
     }
 
     @Override
-    public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient && world.isChunkLoaded(pos)) {
-            increaseEnergy(deltaFlow);
-        }
-    }
+    public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {}
 
     BlockEntity getAdjacentBlockEntity(Direction direction) {
         return world.getBlockEntity(getPos().offset(direction));
@@ -62,11 +54,12 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
 
     public void setEnergy(int i) {
         energy = i;
+        markDirty();
     }
 
     public void increaseEnergy(int i){
         energy += i;
-        energy = Math.min(energy,getMaxCapacity());
+        setEnergy(Math.min(energy,getMaxCapacity()));
     }
 
     @Override
@@ -104,5 +97,6 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
                 deltaFlow += (edges.getOrDefault(direction,0) - neighbour.edges.getOrDefault(direction.getOpposite(),0))/2;
             }
         }
+        markDirty();
     }
 }

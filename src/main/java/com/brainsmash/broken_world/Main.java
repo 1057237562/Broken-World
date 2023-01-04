@@ -2,8 +2,15 @@ package com.brainsmash.broken_world;
 
 import com.brainsmash.broken_world.blocks.TeleporterController;
 import com.brainsmash.broken_world.blocks.electric.*;
+import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
+import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
+import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
+import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.fluid.AcidFluid;
 import com.brainsmash.broken_world.blocks.fluid.IFluidBlock;
 import com.brainsmash.broken_world.blocks.fluid.OilFluid;
@@ -165,6 +172,7 @@ public class Main implements ModInitializer {
 
 	public static ConcurrentHashMap<String, PortalLink> dimensions = new ConcurrentHashMap<>();
 	public static ConcurrentHashMap<String, Double> dimensionGravity = new ConcurrentHashMap<>();
+	public static ConcurrentHashMap<String, Integer> dimensionEnergyCost = new ConcurrentHashMap<>();
 	public static BlockEntityType<TeleporterControllerEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;
 	public static BlockEntityType<CableBlockEntity> CABLE_ENTITY_TYPE;
 	public static BlockEntityType<BatteryBlockEntity> BATTERY_ENTITY_TYPE;
@@ -210,6 +218,11 @@ public class Main implements ModInitializer {
 		dimensionGravity.put("broken_world.moon_type",0.1);
 		dimensionGravity.put("broken_world.metallic_type",0.8);
 		dimensionGravity.put("broken_world.sulfuric",1.1);
+
+		dimensionEnergyCost.put("broken_world:lush",50000);
+		dimensionEnergyCost.put("broken_world:moon",100000);
+		dimensionEnergyCost.put("broken_world:metallic",300000);
+		dimensionEnergyCost.put("broken_world:sulfuric",300000);
 
 		TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleporter_controller"), FabricBlockEntityTypeBuilder.create(TeleporterControllerEntity::new,blocks[8]).build());
 		CABLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"cable"),FabricBlockEntityTypeBuilder.create(CableBlockEntity::new,blocks[16]).build());

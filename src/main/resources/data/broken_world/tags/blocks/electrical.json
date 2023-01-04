@@ -3,6 +3,7 @@
     "broken_world:copper_cable",
     "broken_world:creative_generator",
     "broken_world:creative_battery",
-    "broken_world:basic_machine"
+    "broken_world:basic_machine",
+    "broken_world:teleporter_controller"
   ]
 }

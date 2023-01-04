@@ -1,8 +1,10 @@
-package com.brainsmash.broken_world.blocks.electric;
+package com.brainsmash.broken_world.blocks.electric.base;
 
-import com.brainsmash.broken_world.blocks.entity.electric.BatteryBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.EnergyManager;
-import net.minecraft.block.*;
+import com.brainsmash.broken_world.blocks.entity.electric.base.EnergyManager;
+import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -12,26 +14,25 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
-public class BatteryBlock extends BlockWithEntity {
+public class PowerBlock extends BlockWithEntity {
 
-    public BatteryBlock(Settings settings) {
+    public PowerBlock(Settings settings) {
         super(settings);
     }
 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new BatteryBlockEntity(pos,state);
+        return new PowerBlockEntity(pos,state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (world1, pos, state1, blockEntity) -> ((BatteryBlockEntity) blockEntity).tick(world1, pos, state1, (BatteryBlockEntity) blockEntity);
+        return (world1, pos, state1, blockEntity) -> ((PowerBlockEntity) blockEntity).tick(world1, pos, state1, (PowerBlockEntity) blockEntity);
     }
 
     @Override
@@ -50,17 +51,14 @@ public class BatteryBlock extends BlockWithEntity {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            System.out.println(((BatteryBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((BatteryBlockEntity)world.getBlockEntity(pos)).edges.toString());
+            System.out.println(((PowerBlockEntity)world.getBlockEntity(pos)).getEnergy()+":"+((PowerBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((PowerBlockEntity)world.getBlockEntity(pos)).edges.toString());
             NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
             if (screenHandlerFactory != null) {
+                //With this call the server will request the client to open the appropriate Screenhandler
                 player.openHandledScreen(screenHandlerFactory);
             }
         }
         return ActionResult.SUCCESS;
     }
 
-    @Override
-    public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
-        return true;
-    }
 }

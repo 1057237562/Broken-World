@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.blocks.electric;
 
+import com.brainsmash.broken_world.blocks.electric.base.BatteryBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.CreativeBatteryBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -30,18 +31,6 @@ public class CreativeBatteryBlock extends BatteryBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return (world1, pos, state1, blockEntity) -> ((CreativeBatteryBlockEntity) blockEntity).tick(world1, pos, state1, (CreativeBatteryBlockEntity) blockEntity);
-    }
-
-    @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!world.isClient) {
-            System.out.println(((CreativeBatteryBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((CreativeBatteryBlockEntity)world.getBlockEntity(pos)).edges.toString());
-            NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
-            if (screenHandlerFactory != null) {
-                player.openHandledScreen(screenHandlerFactory);
-            }
-        }
-        return ActionResult.SUCCESS;
     }
 
     @Override
