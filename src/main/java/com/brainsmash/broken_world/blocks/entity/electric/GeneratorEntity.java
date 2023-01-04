@@ -5,6 +5,7 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.registry.BurnTimeRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.GeneratorGuiDescription;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.BlockState;
@@ -72,7 +73,12 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
         }else{
             ItemStack fuel = inventory.get(0);
             if(!fuel.isEmpty()){
-                maxFuelTime = fuelTime;
+                maxFuelTime = fuelTime = BurnTimeRegister.generator_fuel.getOrDefault(fuel.getItem(),0);
+                if(fuelTime > 0) {
+                    running = true;
+                    fuel.decrement(1);
+                    markDirty();
+                }
             }else{
                 running = false;
             }

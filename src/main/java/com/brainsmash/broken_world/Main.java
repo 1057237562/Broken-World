@@ -17,10 +17,7 @@ import com.brainsmash.broken_world.blocks.fluid.OilFluid;
 import com.brainsmash.broken_world.blocks.fluid.PollutedWaterFluid;
 import com.brainsmash.broken_world.items.BreathingEPP;
 import com.brainsmash.broken_world.items.EmergencyTeleporter;
-import com.brainsmash.broken_world.registry.BlockRegister;
-import com.brainsmash.broken_world.registry.DimensionRegister;
-import com.brainsmash.broken_world.registry.FluidRegister;
-import com.brainsmash.broken_world.registry.ItemRegister;
+import com.brainsmash.broken_world.registry.*;
 import com.brainsmash.broken_world.screenhandlers.descriptions.BatteryGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.GeneratorGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
@@ -74,6 +71,8 @@ public class Main implements ModInitializer {
 		ItemRegister.RegistItem();
 		FluidRegister.RegistFluid();
 		DimensionRegister.RegistDimension();
+
+		BurnTimeRegister.RegistGeneratorFuel();
 
 		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,RegistryKey.of(Registry.PLACED_FEATURE_KEY,new Identifier(MODID, "tungsten_ore")));
 	}
