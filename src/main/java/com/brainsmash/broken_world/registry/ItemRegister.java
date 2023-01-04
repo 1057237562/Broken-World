@@ -12,7 +12,7 @@ import net.minecraft.util.registry.Registry;
 import java.util.function.Supplier;
 
 import static com.brainsmash.broken_world.Main.MODID;
-import static com.brainsmash.broken_world.Main.still_fluid;
+import static com.brainsmash.broken_world.registry.FluidRegister.still_fluid;
 
 public class ItemRegister {
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(MODID, "itemgroup"), new Supplier<>() {
