@@ -18,6 +18,7 @@ import com.brainsmash.broken_world.blocks.fluid.PollutedWaterFluid;
 import com.brainsmash.broken_world.items.BreathingEPP;
 import com.brainsmash.broken_world.items.EmergencyTeleporter;
 import com.brainsmash.broken_world.screenhandlers.descriptions.BatteryGuiDescription;
+import com.brainsmash.broken_world.screenhandlers.descriptions.GeneratorGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -109,7 +110,8 @@ public class Main implements ModInitializer {
 			new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f,2.0f)),
 			new CreativeBatteryBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
 			new PowerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(100.0f,100.0f)),
-			new ConsumerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f))
+			new ConsumerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+			new GeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f,2.0f))
 
 	};
 	public static final Item[] blockitems = {
@@ -132,7 +134,9 @@ public class Main implements ModInitializer {
 			new BlockItem(blocks[16],new FabricItemSettings().group(ITEM_GROUP)),
 			new BlockItem(blocks[17],new FabricItemSettings().group(ITEM_GROUP)),
 			new BlockItem(blocks[18],new FabricItemSettings().group(ITEM_GROUP)),
-			new BlockItem(blocks[19],new FabricItemSettings().group(ITEM_GROUP))
+			new BlockItem(blocks[19],new FabricItemSettings().group(ITEM_GROUP)),
+			new BlockItem(blocks[20],new FabricItemSettings().group(ITEM_GROUP))
+
 	};
 
 	public static final Item[] items = {
@@ -142,9 +146,28 @@ public class Main implements ModInitializer {
 			new EmergencyTeleporter(new FabricItemSettings().group(ITEM_GROUP))
 	};
 
-	public static final String[] blocknames = {"moon_sand","moon_stone","moon_iron_ore","moon_gold_ore","teleporter_frame","moon_redstone_ore",
-			"moon_sandstone","rusty_metal","teleporter_controller","moon_teleporter_frame","metallic_teleporter_frame","tungsten_ore","lush_teleporter_frame",
-			"sulfuric_stone","sulfuric_soil","sulfuric_teleporter_frame","copper_cable","creative_battery","creative_generator","basic_machine"
+	public static final String[] blocknames = {
+			"moon_sand",
+			"moon_stone",
+			"moon_iron_ore",
+			"moon_gold_ore",
+			"teleporter_frame",
+			"moon_redstone_ore",
+			"moon_sandstone",
+			"rusty_metal",
+			"teleporter_controller",
+			"moon_teleporter_frame",
+			"metallic_teleporter_frame",
+			"tungsten_ore",
+			"lush_teleporter_frame",
+			"sulfuric_stone",
+			"sulfuric_soil",
+			"sulfuric_teleporter_frame",
+			"copper_cable",
+			"creative_battery",
+			"creative_generator",
+			"basic_machine",
+			"generator"
 	};
 
 	public static final String[] fluidnames = {"oil","polluted_water","acid"};
@@ -179,9 +202,11 @@ public class Main implements ModInitializer {
 	public static BlockEntityType<CreativeBatteryBlockEntity> CREATIVE_BATTERY_ENTITY_TYPE;
 	public static BlockEntityType<ConsumerBlockEntity> CONSUMER_ENTITY_TYPE;
 	public static BlockEntityType<PowerBlockEntity> POWER_ENTITY_TYPE;
+	public static BlockEntityType<GeneratorEntity> GENERATOR_ENTITY_TYPE;
 	//public static final ScreenHandlerType<TeleporterControllerScreenHandler> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(new Identifier(MODID,"teleporter_controller"), TeleporterControllerScreenHandler::new);
 	public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"teleport_controller"),new ScreenHandlerType<>((syncId, inventory) -> new TeleporterControllerGuiDescription(syncId, inventory, ScreenHandlerContext.EMPTY)));
 	public static final ScreenHandlerType<BatteryGuiDescription> BATTERY_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"creative_battery"),new ScreenHandlerType<>(((syncId, playerInventory) -> new BatteryGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
+	public static final ScreenHandlerType<GeneratorGuiDescription> GENERATOR_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"generator"), new ScreenHandlerType<>(((syncId, playerInventory) -> new GeneratorGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 
 	@Override
 	public void onInitialize() {
@@ -228,6 +253,7 @@ public class Main implements ModInitializer {
 		CREATIVE_BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"creative_battery"),FabricBlockEntityTypeBuilder.create(CreativeBatteryBlockEntity::new,blocks[17]).build());
 		POWER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"creative_generator"),FabricBlockEntityTypeBuilder.create(PowerBlockEntity::new,blocks[18]).build());
 		CONSUMER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"basic_machine"), FabricBlockEntityTypeBuilder.create(ConsumerBlockEntity::new,blocks[19]).build());
+		GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"generator"), FabricBlockEntityTypeBuilder.create(GeneratorEntity::new,blocks[20]).build());
 
 		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,RegistryKey.of(Registry.PLACED_FEATURE_KEY,new Identifier(MODID, "tungsten_ore")));
 	}

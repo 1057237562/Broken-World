@@ -20,5 +20,6 @@ public enum BlockRegistry {
     COPPER_CABLE,
     CREATIVE_BATTERY,
     CREATIVE_GENERATOR,
-    BASIC_MACHINE
+    BASIC_MACHINE,
+    GENERATOR
 }

@@ -1,7 +1,9 @@
 package com.brainsmash.broken_world;
 
 import com.brainsmash.broken_world.client.render.block.entity.CreativeBatteryBlockEntityRenderer;
+import com.brainsmash.broken_world.enums.BlockRegistry;
 import com.brainsmash.broken_world.screens.cotton.BatteryScreen;
+import com.brainsmash.broken_world.screens.cotton.GeneratorScreen;
 import com.brainsmash.broken_world.screens.cotton.TeleporterControllerScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -22,9 +24,9 @@ public class Client implements ClientModInitializer {
     public void onInitializeClient() {
         HandledScreens.register(Main.TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE, TeleporterControllerScreen::new);
         HandledScreens.register(Main.BATTERY_GUI_DESCRIPTION, BatteryScreen::new);
+        HandledScreens.register(Main.GENERATOR_GUI_DESCRIPTION, GeneratorScreen::new);
 
-        Block battery = Registry.BLOCK.get(new Identifier(Main.MODID, "creative_battery"));
-        BlockRenderLayerMap.INSTANCE.putBlock(battery, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(Main.blocks[BlockRegistry.CREATIVE_BATTERY.ordinal()], RenderLayer.getTranslucent());
         BlockEntityRendererRegistry.register(Main.CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
 
         for(int i = 0;i < Main.still_fluid.length;i++) {

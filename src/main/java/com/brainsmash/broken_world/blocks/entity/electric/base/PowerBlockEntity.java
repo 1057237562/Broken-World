@@ -9,7 +9,8 @@ import net.minecraft.world.World;
 
 public class PowerBlockEntity extends CableBlockEntity {
 
-    private boolean running = false;
+    protected boolean running = false;
+    private int generatePower = 50;
 
     public PowerBlockEntity(BlockPos pos, BlockState state) {
         super(Main.POWER_ENTITY_TYPE, pos, state);
@@ -25,8 +26,11 @@ public class PowerBlockEntity extends CableBlockEntity {
         return 32;
     }
 
+    public void setGenerate(int p){
+        generatePower = p;
+    }
     public int getGenerate() {
-        return 50;
+        return running ? generatePower : 0;
     }
 
     @Override
