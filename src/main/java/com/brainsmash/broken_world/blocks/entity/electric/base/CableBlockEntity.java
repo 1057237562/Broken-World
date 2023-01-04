@@ -41,10 +41,6 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
         return 16;
     }
 
-    /*public int getEnergyLost(){
-        return 1;
-    }*/
-
     public int getEnergy(){
         return energy;
     }
