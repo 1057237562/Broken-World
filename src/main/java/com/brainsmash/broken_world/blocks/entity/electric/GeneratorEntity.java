@@ -60,19 +60,21 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     public GeneratorEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.GENERATOR_ENTITY_TYPE, pos, state);
-        setMaxCapacity(10000);
+        setMaxCapacity(500);
         setGenerate(4);
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
+
         if(fuelTime > 0){
             running = true;
             fuelTime--;
             markDirty();
         }else{
             ItemStack fuel = inventory.get(0);
-            if(!fuel.isEmpty()){
+            if(!fuel.isEmpty() && getEnergy() < getMaxCapacity()){
+                BurnTimeRegister.getGeneratorMap();
                 maxFuelTime = fuelTime = BurnTimeRegister.generator_fuel.getOrDefault(fuel.getItem(),0);
                 if(fuelTime > 0) {
                     running = true;

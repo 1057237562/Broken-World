@@ -11,12 +11,14 @@ import net.minecraft.tag.TagKey;
 import net.minecraft.util.Util;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BurnTimeRegister {
-    public static Map<Item,Integer> generator_fuel = new LinkedHashMap<>();
+    @Nullable
+    public static Map<Item,Integer> generator_fuel = null;
 
     private static boolean isNonFlammableWood(Item item) {
         return item.getRegistryEntry().isIn(ItemTags.NON_FLAMMABLE_WOOD);
@@ -37,6 +39,13 @@ public class BurnTimeRegister {
         for (RegistryEntry<Item> registryEntry : Registry.ITEM.iterateEntries(tag)) {
             if (isNonFlammableWood(registryEntry.value())) continue;
             fuelTimes.put(registryEntry.value(), fuelTime);
+        }
+    }
+
+    public static void getGeneratorMap(){
+        if(generator_fuel == null) {
+            generator_fuel = new LinkedHashMap<>();
+            RegistGeneratorFuel();
         }
     }
 

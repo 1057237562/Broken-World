@@ -25,7 +25,7 @@ public class GeneratorGuiDescription extends SyncedGuiDescription {
         setRootPanel(root);
         root.setSize(150, 175);
         root.setInsets(Insets.ROOT_PANEL);
-        WBar bar = new WBar(new Identifier(Main.MODID,"textures/gui/horizontal_electric_bar.png"),new Identifier(Main.MODID,"textures/gui/horizontal_electric_bar_filled.png"),0,1);
+        WBar bar = new WBar(new Identifier(Main.MODID,"textures/gui/horizontal_electric_bar.png"),new Identifier(Main.MODID,"textures/gui/horizontal_electric_bar_filled.png"),0,1, WBar.Direction.RIGHT);
         bar.setProperties(propertyDelegate);
         root.add(bar, 5, 2,2,1);
         WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
