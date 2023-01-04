@@ -44,17 +44,17 @@ public class CreativeGeneratorBlockEntityRenderer implements BlockEntityRenderer
                 MID_ORB,
                 ModelPartBuilder
                         .create()
-                        .uv(8, 34)
-                        .cuboid(4.0f, 4.0f, 4.0f, 8.0f, 8.0f, 8.0f),
-                ModelTransform.NONE
+                        .uv(0, 34)
+                        .cuboid(0f, 0f, 0f, 8.0f, 8.0f, 8.0f),
+                ModelTransform.pivot(16.0f, 16.0f, 16.0f)
         );
         modelPartData.addChild(
                 INNER_ORB,
                 ModelPartBuilder
                         .create()
-                        .uv(4, 56)
-                        .cuboid(6.0f, 6.0f, 6.0f, 4.0f, 4.0f, 4.0f),
-                ModelTransform.NONE
+                        .uv(0, 56)
+                        .cuboid(0f, 0f, 0f, 4.0f, 4.0f, 4.0f),
+                ModelTransform.pivot(16f, 16f, 16f)
         );
         return TexturedModelData.of(modelData, 64, 64);
     }
@@ -66,12 +66,13 @@ public class CreativeGeneratorBlockEntityRenderer implements BlockEntityRenderer
         shell.render(matrices, vertexConsumer, 15728880, overlay);
         long time = entity.getWorld().getTime();
         final long cycle = 24;
-        float scale = 1.0f + 0.1f*(float)Math.sin((double)time/cycle*2*Math.PI);
-        Vec3f vec = new Vec3f(scale, scale, scale);
-        midOrb.scale(vec);
-        vec.scale(0.5f);
-        innerOrb.scale(vec);
+        matrices.push();
+        float scale = 0.1f*(float)Math.sin((double)time/cycle*2*Math.PI);
+        //matrices.scale(1.0f+scale, 1.0f+scale, 1.0f+scale);
         midOrb.render(matrices, vertexConsumer, 15728880, overlay);
+        matrices.pop();
+        scale *= 0.5f;
+        //matrices.scale(1.0f+scale, 1.0f+scale, 1.0f+scale);
         innerOrb.render(matrices, vertexConsumer, 15728880, overlay);
         matrices.pop();
     }
