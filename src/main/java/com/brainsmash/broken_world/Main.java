@@ -4,7 +4,7 @@ import com.brainsmash.broken_world.blocks.TeleporterController;
 import com.brainsmash.broken_world.blocks.electric.*;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
-import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
+import com.brainsmash.broken_world.blocks.electric.CreativeGeneratorBlock;
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
@@ -109,7 +109,7 @@ public class Main implements ModInitializer {
 			new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,10f)),
 			new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f,2.0f)),
 			new CreativeBatteryBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
-			new PowerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(100.0f,100.0f)),
+			new CreativeGeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(100.0f,100.0f)),
 			new ConsumerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
 			new GeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f,2.0f))
 
@@ -200,6 +200,7 @@ public class Main implements ModInitializer {
 	public static BlockEntityType<CableBlockEntity> CABLE_ENTITY_TYPE;
 	public static BlockEntityType<BatteryBlockEntity> BATTERY_ENTITY_TYPE;
 	public static BlockEntityType<CreativeBatteryBlockEntity> CREATIVE_BATTERY_ENTITY_TYPE;
+	public static BlockEntityType<CreativeGeneratorBlockEntity> CREATIVE_GENERATOR_ENTITY_TYPE;
 	public static BlockEntityType<ConsumerBlockEntity> CONSUMER_ENTITY_TYPE;
 	public static BlockEntityType<PowerBlockEntity> POWER_ENTITY_TYPE;
 	public static BlockEntityType<GeneratorEntity> GENERATOR_ENTITY_TYPE;
@@ -251,7 +252,7 @@ public class Main implements ModInitializer {
 		TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleporter_controller"), FabricBlockEntityTypeBuilder.create(TeleporterControllerEntity::new,blocks[8]).build());
 		CABLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"cable"),FabricBlockEntityTypeBuilder.create(CableBlockEntity::new,blocks[16]).build());
 		CREATIVE_BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"creative_battery"),FabricBlockEntityTypeBuilder.create(CreativeBatteryBlockEntity::new,blocks[17]).build());
-		POWER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"creative_generator"),FabricBlockEntityTypeBuilder.create(PowerBlockEntity::new,blocks[18]).build());
+		CREATIVE_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID, "creative_generator"),FabricBlockEntityTypeBuilder.create(CreativeGeneratorBlockEntity::new,blocks[18]).build());
 		CONSUMER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"basic_machine"), FabricBlockEntityTypeBuilder.create(ConsumerBlockEntity::new,blocks[19]).build());
 		GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"generator"), FabricBlockEntityTypeBuilder.create(GeneratorEntity::new,blocks[20]).build());
 
