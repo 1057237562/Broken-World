@@ -5,13 +5,16 @@ import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -54,6 +57,9 @@ public class TeleporterController extends ConsumerBlock {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof TeleporterControllerEntity) {
+                if(world instanceof ServerWorld){
+                    ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+                }
                 // update comparators
                 world.updateComparators(pos,this);
             }
