@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 public class GeneratorBlock extends PowerBlock {
     public GeneratorBlock(Settings settings) {
         super(settings);
+        setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT, false));
     }
 
     @Nullable

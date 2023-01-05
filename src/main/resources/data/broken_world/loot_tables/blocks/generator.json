@@ -17,7 +17,7 @@
               "source": "block_entity"
             }
           ],
-          "name": "broken_world:teleporter_controller"
+          "name": "broken_world:generator"
         }
       ],
       "rolls": 1.0

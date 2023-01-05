@@ -72,7 +72,6 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-
         if(fuelTime > 0){
             running = true;
             fuelTime--;
@@ -84,8 +83,6 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
                 maxFuelTime = fuelTime = BurnTimeRegister.generator_fuel.getOrDefault(fuel.getItem(),0);
                 if(fuelTime > 0) {
                     running = true;
-                    state = state.with(Properties.LIT, ((GeneratorEntity)blockEntity).isRunning());
-                    world.setBlockState(pos, state, Block.NOTIFY_ALL);
                     fuel.decrement(1);
                     markDirty();
                 }
@@ -93,6 +90,8 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
                 running = false;
             }
         }
+        state = state.with(Properties.LIT, isRunning());
+        world.setBlockState(pos, state, Block.NOTIFY_ALL);
         super.tick(world, pos, state, blockEntity);
     }
 
@@ -141,7 +140,7 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
 
     @Override
     public int[] getAvailableSlots(Direction side) {
-        return new int[0];
+        return new int[]{0};
     }
 
     @Override

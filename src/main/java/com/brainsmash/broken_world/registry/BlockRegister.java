@@ -90,7 +90,7 @@ public class BlockRegister {
             new BlockItem(blocks[16], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[17], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[18], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[19], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[19], new FabricItemSettings()),
             new BlockItem(blocks[20], new FabricItemSettings().group(ITEM_GROUP))
 
     };
