@@ -44,6 +44,10 @@ public class PowerBlockEntity extends CableBlockEntity {
         super.writeNbt(nbt);
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient && world.isChunkLoaded(pos)) {

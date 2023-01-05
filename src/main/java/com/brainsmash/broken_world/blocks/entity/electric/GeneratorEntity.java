@@ -8,22 +8,28 @@ import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.BurnTimeRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.GeneratorGuiDescription;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
+import net.minecraft.block.AbstractFurnaceBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory, PropertyDelegateHolder {
+public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory, PropertyDelegateHolder, SidedInventory {
 
     public int fuelTime = 0;
     public int maxFuelTime = 0;
@@ -78,6 +84,8 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
                 maxFuelTime = fuelTime = BurnTimeRegister.generator_fuel.getOrDefault(fuel.getItem(),0);
                 if(fuelTime > 0) {
                     running = true;
+                    state = state.with(Properties.LIT, ((GeneratorEntity)blockEntity).isRunning());
+                    world.setBlockState(pos, state, Block.NOTIFY_ALL);
                     fuel.decrement(1);
                     markDirty();
                 }
@@ -129,5 +137,25 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
     @Override
     public PropertyDelegate getPropertyDelegate() {
         return propertyDelegate;
+    }
+
+    @Override
+    public int[] getAvailableSlots(Direction side) {
+        return new int[0];
+    }
+
+    @Override
+    public ItemStack getStack(int slot) {
+        return inventory.get(slot);
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+        return true;
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+        return true;
     }
 }
