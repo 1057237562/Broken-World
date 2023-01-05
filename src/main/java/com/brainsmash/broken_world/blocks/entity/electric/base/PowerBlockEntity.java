@@ -15,7 +15,6 @@ public class PowerBlockEntity extends CableBlockEntity {
 
     public PowerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.POWER_ENTITY_TYPE, pos, state);
-        setMaxCapacity(10000);
     }
 
     public PowerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state){
