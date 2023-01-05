@@ -9,5 +9,6 @@ import net.minecraft.util.math.BlockPos;
 public class CreativeGeneratorBlockEntity extends PowerBlockEntity {
     public CreativeGeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.CREATIVE_GENERATOR_ENTITY_TYPE, pos, state);
+        running = true;
     }
 }
