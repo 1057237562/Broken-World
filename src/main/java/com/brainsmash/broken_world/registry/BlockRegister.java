@@ -3,12 +3,14 @@ package com.brainsmash.broken_world.registry;
 import com.brainsmash.broken_world.blocks.TeleporterController;
 import com.brainsmash.broken_world.blocks.electric.CreativeBatteryBlock;
 import com.brainsmash.broken_world.blocks.electric.CreativeGeneratorBlock;
+import com.brainsmash.broken_world.blocks.electric.CrusherBlock;
 import com.brainsmash.broken_world.blocks.electric.GeneratorBlock;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.CreativeBatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.CreativeGeneratorBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.CrusherEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.GeneratorEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
@@ -67,8 +69,8 @@ public class BlockRegister {
             new CreativeBatteryBlock(FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f, 3.0f)),
             new CreativeGeneratorBlock(FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(100.0f, 100.0f).luminance(6)),
             new ConsumerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f, 3.0f)),
-            new GeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f))
-
+            new GeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f)),
+            new CrusherBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -91,7 +93,8 @@ public class BlockRegister {
             new BlockItem(blocks[17], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[18], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[19], new FabricItemSettings()),
-            new BlockItem(blocks[20], new FabricItemSettings().group(ITEM_GROUP))
+            new BlockItem(blocks[20], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[21],new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -116,7 +119,8 @@ public class BlockRegister {
             "creative_battery",
             "creative_generator",
             "basic_machine",
-            "generator"
+            "generator",
+            "crusher",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -145,6 +149,7 @@ public class BlockRegister {
     public static BlockEntityType<ConsumerBlockEntity> CONSUMER_ENTITY_TYPE;
     public static BlockEntityType<PowerBlockEntity> POWER_ENTITY_TYPE;
     public static BlockEntityType<GeneratorEntity> GENERATOR_ENTITY_TYPE;
+    public static BlockEntityType<CrusherEntity> CRUSHER_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -162,7 +167,7 @@ public class BlockRegister {
         CREATIVE_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID, "creative_generator"),FabricBlockEntityTypeBuilder.create(CreativeGeneratorBlockEntity::new,blocks[18]).build());
         CONSUMER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"basic_machine"), FabricBlockEntityTypeBuilder.create(ConsumerBlockEntity::new,blocks[19]).build());
         GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"generator"), FabricBlockEntityTypeBuilder.create(GeneratorEntity::new,blocks[20]).build());
-
+        CRUSHER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"crusher"),FabricBlockEntityTypeBuilder.create(CrusherEntity::new,blocks[21]).build());
     }
 
     public static void RegistBlocksClientSide(){

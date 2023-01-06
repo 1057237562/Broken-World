@@ -19,6 +19,7 @@ import com.brainsmash.broken_world.items.BreathingEPP;
 import com.brainsmash.broken_world.items.EmergencyTeleporter;
 import com.brainsmash.broken_world.registry.*;
 import com.brainsmash.broken_world.screenhandlers.descriptions.BatteryGuiDescription;
+import com.brainsmash.broken_world.screenhandlers.descriptions.CrusherGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.GeneratorGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
 import net.fabricmc.api.ModInitializer;
@@ -64,6 +65,7 @@ public class Main implements ModInitializer {
 	public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"teleport_controller"),new ScreenHandlerType<>((syncId, inventory) -> new TeleporterControllerGuiDescription(syncId, inventory, ScreenHandlerContext.EMPTY)));
 	public static final ScreenHandlerType<BatteryGuiDescription> BATTERY_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"creative_battery"),new ScreenHandlerType<>(((syncId, playerInventory) -> new BatteryGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 	public static final ScreenHandlerType<GeneratorGuiDescription> GENERATOR_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"generator"), new ScreenHandlerType<>(((syncId, playerInventory) -> new GeneratorGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
+	public static final ScreenHandlerType<CrusherGuiDescription> CRUSHER_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"crusher"),new ScreenHandlerType<>(((syncId, playerInventory) -> new CrusherGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 
 	@Override
 	public void onInitialize() {

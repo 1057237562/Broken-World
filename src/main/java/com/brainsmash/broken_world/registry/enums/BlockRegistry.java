@@ -21,5 +21,6 @@ public enum BlockRegistry {
     CREATIVE_BATTERY,
     CREATIVE_GENERATOR,
     BASIC_MACHINE,
-    GENERATOR
+    GENERATOR,
+    CRUSHER,
 }
