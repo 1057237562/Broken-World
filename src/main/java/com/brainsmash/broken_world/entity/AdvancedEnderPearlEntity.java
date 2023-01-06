@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class AdvancedEnderPearlEntity extends ThrownItemEntity {
-    public AdvancedEnderPearlEntity(EntityType<? extends EnderPearlEntity> entityType, World world) {
+    public AdvancedEnderPearlEntity(EntityType<? extends AdvancedEnderPearlEntity> entityType, World world) {
         super(entityType, world);
     }
 
@@ -50,11 +50,6 @@ public class AdvancedEnderPearlEntity extends ThrownItemEntity {
             if (entity instanceof ServerPlayerEntity) {
                 ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)entity;
                 if (serverPlayerEntity.networkHandler.getConnection().isOpen() && serverPlayerEntity.world == this.world && !serverPlayerEntity.isSleeping()) {
-                    if (this.random.nextFloat() < 0.05f && this.world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING)) {
-                        EndermiteEntity endermiteEntity = EntityType.ENDERMITE.create(this.world);
-                        endermiteEntity.refreshPositionAndAngles(entity.getX(), entity.getY(), entity.getZ(), entity.getYaw(), entity.getPitch());
-                        this.world.spawnEntity(endermiteEntity);
-                    }
                     if (entity.hasVehicle()) {
                         serverPlayerEntity.requestTeleportAndDismount(this.getX(), this.getY(), this.getZ());
                     } else {
