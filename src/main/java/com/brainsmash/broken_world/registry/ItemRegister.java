@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.items.AdvancedEnderPearl;
 import com.brainsmash.broken_world.items.BreathingEPP;
 import com.brainsmash.broken_world.items.EmergencyTeleporter;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -32,10 +33,17 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new BreathingEPP(new FabricItemSettings().maxCount(1).group(ITEM_GROUP)),
-            new EmergencyTeleporter(new FabricItemSettings().group(ITEM_GROUP))
+            new EmergencyTeleporter(new FabricItemSettings().group(ITEM_GROUP)),
+            new AdvancedEnderPearl(new FabricItemSettings().maxCount(16).group(ITEM_GROUP))
     };
 
-    public static final String[] itemnames = {"titanium_ingot","tungsten_ingot","oxygen_generator_pack","emergency_teleporter"};
+    public static final String[] itemnames = {
+            "titanium_ingot",
+            "tungsten_ingot",
+            "oxygen_generator_pack",
+            "emergency_teleporter",
+            "advanced_ender_pearl"
+    };
 
     public static void RegistItem(){
         for(int i = 0;i<items.length;i++){

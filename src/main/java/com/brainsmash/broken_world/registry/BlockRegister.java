@@ -14,8 +14,8 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntit
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
-import com.brainsmash.broken_world.client.render.block.entity.CreativeBatteryBlockEntityRenderer;
-import com.brainsmash.broken_world.client.render.block.entity.CreativeGeneratorBlockEntityRenderer;
+import com.brainsmash.broken_world.blocks.client.render.entity.CreativeBatteryBlockEntityRenderer;
+import com.brainsmash.broken_world.blocks.client.render.entity.CreativeGeneratorBlockEntityRenderer;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
