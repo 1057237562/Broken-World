@@ -34,7 +34,9 @@ public class PowerBlock extends BlockWithEntity {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (world1, pos, state1, blockEntity) -> ((PowerBlockEntity) blockEntity).tick(world1, pos, state1, (PowerBlockEntity) blockEntity);
+        if(!world.isClient)
+            return (world1, pos, state1, blockEntity) -> ((PowerBlockEntity) blockEntity).tick(world1, pos, state1, (PowerBlockEntity) blockEntity);
+        return null;
     }
 
     @Override

@@ -45,7 +45,9 @@ public class ConsumerBlock extends BlockWithEntity {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (world1, pos, state1, blockEntity) -> ((ConsumerBlockEntity) blockEntity).tick(world1, pos, state1, (ConsumerBlockEntity) blockEntity);
+        if(!world.isClient)
+            return (world1, pos, state1, blockEntity) -> ((ConsumerBlockEntity) blockEntity).tick(world1, pos, state1, (ConsumerBlockEntity) blockEntity);
+        return null;
     }
 
     @Override

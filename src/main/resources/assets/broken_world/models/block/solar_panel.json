@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_daylight_detector",
+  "textures": {
+    "side": "broken_world:block/iron_sheet_box",
+    "top": "broken_world:block/solar_panel_top"
+  }
+}

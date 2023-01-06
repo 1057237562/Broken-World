@@ -5,6 +5,8 @@
     "broken_world:creative_battery",
     "broken_world:basic_machine",
     "broken_world:teleporter_controller",
-    "broken_world:generator"
+    "broken_world:generator",
+    "broken_world:crusher",
+    "broken_world:solar_panel"
   ]
 }

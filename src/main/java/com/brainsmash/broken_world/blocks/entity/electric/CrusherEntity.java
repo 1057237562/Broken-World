@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.blocks.entity.electric;
 
+import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
@@ -17,6 +18,7 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(23, ItemStack.EMPTY);
@@ -40,6 +42,11 @@ public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHan
         //Only the Server has the Inventory at the start, this will be synced to the client in the ScreenHandler
         //return new TeleporterControllerScreenHandler(syncId, playerInventory, this);
         return new CrusherGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
+    }
+
+    @Override
+    public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
+        super.tick(world, pos, state, blockEntity);
     }
 
     @Override

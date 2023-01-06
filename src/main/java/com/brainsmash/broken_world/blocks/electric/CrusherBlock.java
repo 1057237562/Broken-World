@@ -30,6 +30,8 @@ public class CrusherBlock extends ConsumerBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (world1, pos, state1, blockEntity) -> ((CrusherEntity) blockEntity).tick(world1, pos, state1, (CrusherEntity) blockEntity);
+        if(!world.isClient)
+            return (world1, pos, state1, blockEntity) -> ((CrusherEntity) blockEntity).tick(world1, pos, state1, (CrusherEntity) blockEntity);
+        return null;
     }
 }

@@ -23,4 +23,5 @@ public enum BlockRegistry {
     BASIC_MACHINE,
     GENERATOR,
     CRUSHER,
+    SOLAR_PANEL,
 }
