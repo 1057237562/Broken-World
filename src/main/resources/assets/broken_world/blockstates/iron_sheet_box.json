@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "broken_world:block/iron_sheet_box" }
+  }
+}

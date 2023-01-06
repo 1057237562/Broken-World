@@ -66,6 +66,7 @@ public class BlockRegister {
             new GeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f)),
             new CrusherBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new SolarPanelBlock(FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(1.0f,2.0f)),
+            new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f,2.0f)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -91,6 +92,7 @@ public class BlockRegister {
             new BlockItem(blocks[20], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[21],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[22],new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[23],new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -117,7 +119,8 @@ public class BlockRegister {
             "basic_machine",
             "generator",
             "crusher",
-            "solar_panel"
+            "solar_panel",
+            "iron_sheet_panel"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
