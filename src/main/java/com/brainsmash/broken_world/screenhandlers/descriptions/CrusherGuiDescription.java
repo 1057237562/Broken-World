@@ -24,7 +24,7 @@ public class CrusherGuiDescription extends SyncedGuiDescription {
         root.setInsets(Insets.ROOT_PANEL);
         WBar bar = new WBar(new Identifier(Main.MODID,"textures/gui/small_electric_bar.png"),new Identifier(Main.MODID,"textures/gui/small_electric_bar_filled.png"),0,1);
         bar.setProperties(propertyDelegate);
-        root.add(bar, 8, 1,1,1);
+        root.add(bar, 8, 2,1,1);
 
         for(int i = 0;i<3;i++){
             for(int j = 0;j<7;j++){
@@ -34,9 +34,9 @@ public class CrusherGuiDescription extends SyncedGuiDescription {
         }
 
         WItemSlot source = WItemSlot.of(blockInventory,21);
-        root.add(source,8,0,1,1);
+        root.add(source,8,1,1,1);
         WItemSlot power = WItemSlot.of(blockInventory,22);
-        root.add(power,8,2,1,1);
+        root.add(power,8,3,1,1);
 
         root.add(this.createPlayerInventoryPanel(), 0, 4);
 
