@@ -30,9 +30,7 @@ public class CreativeBatteryBlock extends BatteryBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if(!world.isClient)
-            return (world1, pos, state1, blockEntity) -> ((CreativeBatteryBlockEntity) blockEntity).tick(world1, pos, state1, (CreativeBatteryBlockEntity) blockEntity);
-        return null;
+        return (world1, pos, state1, blockEntity) -> ((CreativeBatteryBlockEntity) blockEntity).tick(world1, pos, state1, (CreativeBatteryBlockEntity) blockEntity);
     }
 
     @Override
