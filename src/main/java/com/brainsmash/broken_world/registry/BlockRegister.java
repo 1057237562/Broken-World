@@ -120,7 +120,7 @@ public class BlockRegister {
             "generator",
             "crusher",
             "solar_panel",
-            "iron_sheet_panel"
+            "iron_sheet_box",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
