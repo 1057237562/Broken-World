@@ -35,7 +35,13 @@ public class CrusherRegister {
                 new Pair<>(0.16f,Items.RAW_GOLD),
                 new Pair<>(0.16f,Items.REDSTONE),
                 new Pair<>(0.3f,Items.COAL)));
-
+        recipes.put(Blocks.COBBLED_DEEPSLATE.asItem(),DefaultedList.copyOf(
+                new Pair<>(0.22f,Items.RAW_IRON),
+                new Pair<>(0.90f,Items.COBBLESTONE),
+                new Pair<>(0.004f,Items.DIAMOND),
+                new Pair<>(0.16f,Items.RAW_GOLD),
+                new Pair<>(0.16f,Items.REDSTONE),
+                new Pair<>(0.3f,Items.COAL)));
 
     }
 }
