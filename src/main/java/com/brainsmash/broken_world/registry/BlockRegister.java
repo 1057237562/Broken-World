@@ -174,7 +174,7 @@ public class BlockRegister {
         GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"generator"), FabricBlockEntityTypeBuilder.create(GeneratorEntity::new,blocks[20]).build());
         CRUSHER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"crusher"),FabricBlockEntityTypeBuilder.create(CrusherEntity::new,blocks[21]).build());
         SOLAR_PANEL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"solar_panel"),FabricBlockEntityTypeBuilder.create(SolarPanelEntity::new,blocks[22]).build());
-        SHIFTER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"shifter"),FabricBlockEntityTypeBuilder.create(ShifterEntity::new).build());
+        SHIFTER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"shifter"),FabricBlockEntityTypeBuilder.create(ShifterEntity::new,blocks[24]).build());
     }
 
     public static void RegistBlocksClientSide(){

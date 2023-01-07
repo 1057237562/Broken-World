@@ -1,10 +1,7 @@
 package com.brainsmash.broken_world;
 
 import com.brainsmash.broken_world.registry.*;
-import com.brainsmash.broken_world.screenhandlers.descriptions.BatteryGuiDescription;
-import com.brainsmash.broken_world.screenhandlers.descriptions.ProcessorGuiDescription;
-import com.brainsmash.broken_world.screenhandlers.descriptions.GeneratorGuiDescription;
-import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
+import com.brainsmash.broken_world.screenhandlers.descriptions.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -24,8 +21,8 @@ public class Main implements ModInitializer {
 	public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"teleport_controller"),new ScreenHandlerType<>((syncId, inventory) -> new TeleporterControllerGuiDescription(syncId, inventory, ScreenHandlerContext.EMPTY)));
 	public static final ScreenHandlerType<BatteryGuiDescription> BATTERY_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"creative_battery"),new ScreenHandlerType<>(((syncId, playerInventory) -> new BatteryGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 	public static final ScreenHandlerType<GeneratorGuiDescription> GENERATOR_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"generator"), new ScreenHandlerType<>(((syncId, playerInventory) -> new GeneratorGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
-	public static final ScreenHandlerType<ProcessorGuiDescription> PROCESSOR_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"crusher"),new ScreenHandlerType<>(((syncId, playerInventory) -> new ProcessorGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
-
+	public static final ScreenHandlerType<CrusherGuiDescription> CRUSHER_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"crusher"),new ScreenHandlerType<>(((syncId, playerInventory) -> new CrusherGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
+	public static final ScreenHandlerType<ShifterGuiDescription> SHIFTER_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"shifter"),new ScreenHandlerType<>(((syncId, playerInventory) -> new ShifterGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 	@Override
 	public void onInitialize() {
 		BlockRegister.RegistBlocks();

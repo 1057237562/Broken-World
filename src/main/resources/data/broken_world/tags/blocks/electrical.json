@@ -7,6 +7,7 @@
     "broken_world:teleporter_controller",
     "broken_world:generator",
     "broken_world:crusher",
-    "broken_world:solar_panel"
+    "broken_world:solar_panel",
+    "broken_world:shifter"
   ]
 }

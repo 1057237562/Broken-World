@@ -4,9 +4,9 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import com.brainsmash.broken_world.registry.CrusherRegister;
 import com.brainsmash.broken_world.registry.ShifterRegister;
-import com.brainsmash.broken_world.screenhandlers.descriptions.ProcessorGuiDescription;
+import com.brainsmash.broken_world.screenhandlers.descriptions.CrusherGuiDescription;
+import com.brainsmash.broken_world.screenhandlers.descriptions.ShifterGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -50,7 +50,7 @@ public class ShifterEntity extends ConsumerBlockEntity implements NamedScreenHan
         //We provide *this* to the screenHandler as our class Implements Inventory
         //Only the Server has the Inventory at the start, this will be synced to the client in the ScreenHandler
         //return new TeleporterControllerScreenHandler(syncId, playerInventory, this);
-        return new ProcessorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
+        return new ShifterGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
     }
 
     public boolean insertItem(ItemStack stack){
@@ -75,7 +75,7 @@ public class ShifterEntity extends ConsumerBlockEntity implements NamedScreenHan
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient){
-            if(CrusherRegister.recipes.containsKey(inventory.get(21).getItem()) && canRun()){
+            if(ShifterRegister.recipes.containsKey(inventory.get(21).getItem()) && canRun()){
                 running = true;
                 if(progression < maxProgression){
                     progression++;

@@ -5,7 +5,7 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEnti
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.CrusherRegister;
-import com.brainsmash.broken_world.screenhandlers.descriptions.ProcessorGuiDescription;
+import com.brainsmash.broken_world.screenhandlers.descriptions.CrusherGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -49,7 +49,7 @@ public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHan
         //We provide *this* to the screenHandler as our class Implements Inventory
         //Only the Server has the Inventory at the start, this will be synced to the client in the ScreenHandler
         //return new TeleporterControllerScreenHandler(syncId, playerInventory, this);
-        return new ProcessorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
+        return new CrusherGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
     }
 
     public boolean insertItem(ItemStack stack){
