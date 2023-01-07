@@ -34,7 +34,7 @@ public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHan
     public CrusherEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.CRUSHER_ENTITY_TYPE,pos, state);
         setMaxCapacity(500);
-        maxProgression = 500;
+        maxProgression = 50;
     }
     @Override
     public DefaultedList<ItemStack> getItems() {
@@ -53,23 +53,43 @@ public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHan
         return new CrusherGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
     }
 
+    public boolean insertItem(ItemStack stack){
+        for(int i = 0;i<inventory.size()-2;i++){
+            if(inventory.get(i).isEmpty()){
+                inventory.set(i,stack);
+                return true;
+            }
+            if(inventory.get(i).getItem().equals(stack.getItem())){
+                int insertCount = Math.min(inventory.get(i).getMaxCount() - inventory.get(i).getCount(),stack.getCount());
+                inventory.get(i).increment(insertCount);
+                stack.decrement(insertCount);
+            }
+            if(stack.getCount() == 0)
+                return true;
+        }
+        if(stack.getCount() == 0)
+            return true;
+        return false;
+    }
+
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient){
-            if(CrusherRegister.recipes.containsKey(inventory.get(21))){
+            if(CrusherRegister.recipes.containsKey(inventory.get(21).getItem()) && canRun()){
                 running = true;
                 if(progression < maxProgression){
                     progression++;
                 }else{
-                    DefaultedList<Pair<Float, Item>> output = CrusherRegister.recipes.get(inventory.get(21));
+                    DefaultedList<Pair<Float, Item>> output = CrusherRegister.recipes.get(inventory.get(21).getItem());
                     for(Pair<Float,Item> pair : output){
                         if(random.nextDouble() < pair.getLeft()){
-                            if(inventory.add(new ItemStack(pair.getRight(),1))){
+                            if(!insertItem(new ItemStack(pair.getRight(),1))){
                                 ItemScatterer.spawn(world,pos,DefaultedList.copyOf(new ItemStack(pair.getRight(),1)));
                             }
                         }
                     }
                     inventory.get(21).decrement(1);
+                    progression = 0;
                 }
             }else{
                 running = false;

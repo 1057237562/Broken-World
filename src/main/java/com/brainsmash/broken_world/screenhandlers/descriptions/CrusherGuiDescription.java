@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 public class CrusherGuiDescription extends SyncedGuiDescription {
 
     private static final int INVENTORY_SIZE = 23;
-    private static final int PROPERTY_COUNT = 2;
+    private static final int PROPERTY_COUNT = 4;
 
     public CrusherGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(Main.CRUSHER_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
@@ -25,7 +25,9 @@ public class CrusherGuiDescription extends SyncedGuiDescription {
         WBar bar = new WBar(new Identifier(Main.MODID,"textures/gui/small_electric_bar.png"),new Identifier(Main.MODID,"textures/gui/small_electric_bar_filled.png"),0,1);
         bar.setProperties(propertyDelegate);
         root.add(bar, 8, 2,1,1);
-
+        WBar bar1 = new WBar(new Identifier(Main.MODID,"textures/gui/progressbar.png"),new Identifier(Main.MODID,"textures/gui/progressbar_filled.png"),2,3);
+        bar.setProperties(propertyDelegate);
+        root.add(bar, 7, 2,1,1);
         for(int i = 0;i<3;i++){
             for(int j = 0;j<7;j++){
                 WItemSlot itemSlot = WItemSlot.of(blockInventory,7*i+j);

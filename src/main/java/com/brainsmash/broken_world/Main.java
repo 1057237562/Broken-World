@@ -74,6 +74,8 @@ public class Main implements ModInitializer {
 		FluidRegister.RegistFluid();
 		DimensionRegister.RegistDimension();
 
+		CrusherRegister.RegistCrusherRecipes();
+
 		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,RegistryKey.of(Registry.PLACED_FEATURE_KEY,new Identifier(MODID, "tungsten_ore")));
 	}
 }
