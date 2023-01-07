@@ -34,7 +34,8 @@ public class ShifterEntity extends ConsumerBlockEntity implements NamedScreenHan
     public ShifterEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.SHIFTER_ENTITY_TYPE,pos, state);
         setMaxCapacity(500);
-        maxProgression = 50;
+        maxProgression = 75;
+        powerConsumption = 4;
     }
     @Override
     public DefaultedList<ItemStack> getItems() {
