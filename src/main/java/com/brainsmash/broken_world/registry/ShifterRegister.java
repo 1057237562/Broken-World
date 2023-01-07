@@ -23,6 +23,6 @@ public class ShifterRegister {
                 new Pair<>(0.04f,Items.PUMPKIN_SEEDS)));
         recipes.put(Blocks.SAND.asItem(),DefaultedList.copyOf(
                 new Pair<>(0.0015f,Items.RAW_GOLD),
-                new Pair<>(0.1f,ItemRegister.items[ItemRegistry.SILICON.ordinal()])));
+                new Pair<>(0.2f,ItemRegister.items[ItemRegistry.SILICON.ordinal()])));
     }
 }

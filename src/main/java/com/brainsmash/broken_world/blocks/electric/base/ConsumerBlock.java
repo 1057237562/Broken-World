@@ -53,7 +53,8 @@ public class ConsumerBlock extends BlockWithEntity {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof ConsumerBlockEntity) {
                 if(world instanceof ServerWorld){
-                    ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+                    if(blockEntity instanceof Inventory)
+                        ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
                     EnergyManager.UpdateGraph(world,pos);
                 }
                 // update comparators

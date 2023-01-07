@@ -89,9 +89,6 @@ public class SolarPanelBlock extends PowerBlock {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof GeneratorEntity) {
-                if(world instanceof ServerWorld){
-                    ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
-                }
                 // update comparators
                 world.updateComparators(pos,this);
             }
