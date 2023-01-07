@@ -27,7 +27,7 @@ public class CrusherGuiDescription extends SyncedGuiDescription {
         root.add(bar, 8, 2,1,1);
         WBar bar1 = new WBar(new Identifier(Main.MODID,"textures/gui/progressbar.png"),new Identifier(Main.MODID,"textures/gui/progressbar_filled.png"),2,3);
         bar.setProperties(propertyDelegate);
-        root.add(bar, 7, 2,1,1);
+        root.add(bar1, 7, 2,1,1);
         for(int i = 0;i<3;i++){
             for(int j = 0;j<7;j++){
                 WItemSlot itemSlot = WItemSlot.of(blockInventory,7*i+j);

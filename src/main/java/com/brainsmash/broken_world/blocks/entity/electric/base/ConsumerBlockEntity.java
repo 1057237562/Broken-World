@@ -69,7 +69,7 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
         if(!world.isClient && world.isChunkLoaded(pos)) {
             increaseEnergy(deltaFlow);
             if(running){
-                increaseEnergy(powerConsumption);
+                increaseEnergy(-powerConsumption);
             }
             EnergyManager.processTick(this);
         }
