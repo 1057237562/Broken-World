@@ -16,7 +16,26 @@ public class CrusherRegister {
     public static Map<Item, DefaultedList<Pair<Float,Item>>> recipes = new ConcurrentHashMap<>();
 
     public static void RegistCrusherRecipes(){
-        recipes.put(Blocks.DIRT.asItem(), DefaultedList.copyOf(new Pair<>(0.06f,Items.RAW_IRON),new Pair<>(0.80f,Items.SAND),new Pair<>(0.1f,Items.WHEAT_SEEDS),new Pair<>(0.03f,Items.MELON_SEEDS),new Pair<>(0.04f,Items.PUMPKIN_SEEDS)));
-        recipes.put(Blocks.SAND.asItem(),DefaultedList.copyOf(new Pair<>(0.0015f,Items.RAW_GOLD),new Pair<>(0.1f,ItemRegister.items[ItemRegistry.SILICON.ordinal()])));
+        recipes.put(Blocks.STONE.asItem(), DefaultedList.copyOf(
+                new Pair<>(0.26f,Items.RAW_IRON),
+                new Pair<>(0.80f,Items.GRAVEL),
+                new Pair<>(0.08f,Items.RAW_GOLD),
+                new Pair<>(0.3f,Items.RAW_COPPER),
+                new Pair<>(0.2f,Items.DIRT)));
+        recipes.put(Blocks.COBBLESTONE.asItem(),DefaultedList.copyOf(
+                new Pair<>(0.16f,Items.RAW_IRON),
+                new Pair<>(0.80f,Items.GRAVEL),
+                new Pair<>(0.08f,Items.RAW_GOLD),
+                new Pair<>(0.3f,Items.RAW_COPPER),
+                new Pair<>(0.2f,Items.DIRT)));
+        recipes.put(Blocks.DEEPSLATE.asItem(),DefaultedList.copyOf(
+                new Pair<>(0.22f,Items.RAW_IRON),
+                new Pair<>(0.90f,Items.COBBLESTONE),
+                new Pair<>(0.004f,Items.DIAMOND),
+                new Pair<>(0.16f,Items.RAW_GOLD),
+                new Pair<>(0.16f,Items.REDSTONE),
+                new Pair<>(0.3f,Items.COAL)));
+
+
     }
 }

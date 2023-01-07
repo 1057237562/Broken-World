@@ -5,11 +5,10 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEnti
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.CrusherRegister;
+import com.brainsmash.broken_world.registry.ShifterRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.CrusherGuiDescription;
-import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -29,11 +28,11 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
+public class ShifterEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(23, ItemStack.EMPTY);
     public final Random random = new Random();
 
-    public CrusherEntity(BlockPos pos, BlockState state) {
+    public ShifterEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.CRUSHER_ENTITY_TYPE,pos, state);
         setMaxCapacity(500);
         maxProgression = 50;
@@ -82,7 +81,7 @@ public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHan
                 if(progression < maxProgression){
                     progression++;
                 }else{
-                    DefaultedList<Pair<Float, Item>> output = CrusherRegister.recipes.get(inventory.get(21).getItem());
+                    DefaultedList<Pair<Float, Item>> output = ShifterRegister.recipes.get(inventory.get(21).getItem());
                     for(Pair<Float,Item> pair : output){
                         if(random.nextDouble() < pair.getLeft()){
                             if(!insertItem(new ItemStack(pair.getRight(),1))){
