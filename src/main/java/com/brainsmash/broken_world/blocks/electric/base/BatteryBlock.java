@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.blocks.electric.base;
 
+import com.brainsmash.broken_world.blocks.entity.electric.GeneratorEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.EnergyManager;
 import net.minecraft.block.*;
@@ -7,9 +8,12 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -42,10 +46,19 @@ public class BatteryBlock extends BlockWithEntity {
     }
 
     @Override
-    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        if(!world.isClient())
-            EnergyManager.UpdateGraph(world,pos);
-        super.onBroken(world, pos, state);
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof GeneratorEntity) {
+                if(world instanceof ServerWorld){
+                    ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+                    EnergyManager.UpdateGraph(world,pos);
+                }
+                // update comparators
+                world.updateComparators(pos,this);
+            }
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
     }
 
     @Override

@@ -93,21 +93,6 @@ public class GeneratorBlock extends PowerBlock {
     }
 
     @Override
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof GeneratorEntity) {
-                if(world instanceof ServerWorld){
-                    ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
-                }
-                // update comparators
-                world.updateComparators(pos,this);
-            }
-            super.onStateReplaced(state, world, pos, newState, moved);
-        }
-    }
-
-    @Override
     public boolean hasComparatorOutput(BlockState state) {
         return true;
     }

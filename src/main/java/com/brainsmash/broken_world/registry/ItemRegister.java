@@ -36,7 +36,8 @@ public class ItemRegister {
             new BreathingEPP(new FabricItemSettings().maxCount(1).group(ITEM_GROUP)),
             new EmergencyTeleporter(new FabricItemSettings().group(ITEM_GROUP)),
             new AdvancedEnderPearl(new FabricItemSettings().maxCount(16).group(ITEM_GROUP)),
-            new Boulder(new FabricItemSettings().maxCount(32).group(ITEM_GROUP))
+            new Boulder(new FabricItemSettings().maxCount(32).group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -45,7 +46,8 @@ public class ItemRegister {
             "oxygen_generator_pack",
             "emergency_teleporter",
             "advanced_ender_pearl",
-            "boulder"
+            "boulder",
+            "silicon",
     };
 
     public static void RegistItem(){

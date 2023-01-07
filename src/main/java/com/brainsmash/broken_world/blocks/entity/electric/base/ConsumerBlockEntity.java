@@ -20,6 +20,10 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
                     return getEnergy();
                 case 1:
                     return getMaxCapacity();
+                case 2:
+                    return progression;
+                case 3:
+                    return maxProgression;
                 default:
                     return -1;
             }
@@ -32,11 +36,14 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
 
         @Override
         public int size() {
-            return 2;
+            return 4;
         }
     };
 
-    private boolean running = false;
+    protected boolean running = false;
+    protected int powerConsumption = 0;
+    protected int progression = 0;
+    protected int maxProgression = 0;
 
     public ConsumerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.CONSUMER_ENTITY_TYPE, pos, state);
@@ -61,6 +68,9 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient && world.isChunkLoaded(pos)) {
             increaseEnergy(deltaFlow);
+            if(running){
+                increaseEnergy(powerConsumption);
+            }
             EnergyManager.processTick(this);
         }
     }
