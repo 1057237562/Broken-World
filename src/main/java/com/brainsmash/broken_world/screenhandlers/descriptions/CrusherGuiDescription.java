@@ -28,7 +28,7 @@ public class CrusherGuiDescription extends SyncedGuiDescription {
         bar.setProperties(propertyDelegate);
         root.add(bar, 8, 2,1,1);
         WBar bar1 = new WBar(new Identifier(Main.MODID,"textures/gui/progressbar.png"),new Identifier(Main.MODID,"textures/gui/progressbar_filled.png"),2,3, Direction.LEFT);
-        bar.setProperties(propertyDelegate);
+        bar1.setProperties(propertyDelegate);
         root.add(bar1, 7, 2,1,1);
         for(int i = 0;i<3;i++){
             for(int j = 0;j<7;j++){
