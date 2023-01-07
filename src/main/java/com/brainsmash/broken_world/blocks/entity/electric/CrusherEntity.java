@@ -33,7 +33,8 @@ public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHan
     public CrusherEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.CRUSHER_ENTITY_TYPE,pos, state);
         setMaxCapacity(500);
-        maxProgression = 75;
+        maxProgression = 125;
+        powerConsumption = 4;
     }
     @Override
     public DefaultedList<ItemStack> getItems() {
