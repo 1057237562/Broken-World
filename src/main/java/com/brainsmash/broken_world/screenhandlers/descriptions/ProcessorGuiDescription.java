@@ -10,13 +10,13 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.util.Identifier;
 
-public class CrusherGuiDescription extends SyncedGuiDescription {
+public class ProcessorGuiDescription extends SyncedGuiDescription {
 
     private static final int INVENTORY_SIZE = 23;
     private static final int PROPERTY_COUNT = 4;
 
-    public CrusherGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(Main.CRUSHER_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
+    public ProcessorGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
+        super(Main.PROCESSOR_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
 
         WGridPanel root = new WGridPanel();
         setRootPanel(root);

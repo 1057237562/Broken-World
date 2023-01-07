@@ -19,7 +19,7 @@ public class ShifterBlock extends ConsumerBlock {
     @Override
     @Nullable
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new CrusherEntity(pos, state);
+        return new ShifterEntity(pos, state);
     }
 
 

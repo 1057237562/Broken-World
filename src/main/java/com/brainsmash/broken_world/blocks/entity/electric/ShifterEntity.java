@@ -6,7 +6,7 @@ import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.CrusherRegister;
 import com.brainsmash.broken_world.registry.ShifterRegister;
-import com.brainsmash.broken_world.screenhandlers.descriptions.CrusherGuiDescription;
+import com.brainsmash.broken_world.screenhandlers.descriptions.ProcessorGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,7 +19,6 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
-import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -33,7 +32,7 @@ public class ShifterEntity extends ConsumerBlockEntity implements NamedScreenHan
     public final Random random = new Random();
 
     public ShifterEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.CRUSHER_ENTITY_TYPE,pos, state);
+        super(BlockRegister.SHIFTER_ENTITY_TYPE,pos, state);
         setMaxCapacity(500);
         maxProgression = 50;
     }
@@ -51,7 +50,7 @@ public class ShifterEntity extends ConsumerBlockEntity implements NamedScreenHan
         //We provide *this* to the screenHandler as our class Implements Inventory
         //Only the Server has the Inventory at the start, this will be synced to the client in the ScreenHandler
         //return new TeleporterControllerScreenHandler(syncId, playerInventory, this);
-        return new CrusherGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
+        return new ProcessorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
     }
 
     public boolean insertItem(ItemStack stack){
