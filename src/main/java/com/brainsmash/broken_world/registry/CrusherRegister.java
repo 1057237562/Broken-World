@@ -17,31 +17,31 @@ public class CrusherRegister {
 
     public static void RegistCrusherRecipes(){
         recipes.put(Blocks.STONE.asItem(), DefaultedList.copyOf(
-                new Pair<>(0.26f,Items.RAW_IRON),
+                new Pair<>(0.08f,Items.RAW_IRON),
                 new Pair<>(0.80f,Items.GRAVEL),
-                new Pair<>(0.08f,Items.RAW_GOLD),
-                new Pair<>(0.3f,Items.RAW_COPPER),
-                new Pair<>(0.2f,Items.DIRT)));
+                new Pair<>(0.04f,Items.RAW_GOLD),
+                new Pair<>(0.15f,Items.RAW_COPPER),
+                new Pair<>(0.1f,Items.DIRT)));
         recipes.put(Blocks.COBBLESTONE.asItem(),DefaultedList.copyOf(
-                new Pair<>(0.16f,Items.RAW_IRON),
+                new Pair<>(0.08f,Items.RAW_IRON),
                 new Pair<>(0.80f,Items.GRAVEL),
-                new Pair<>(0.08f,Items.RAW_GOLD),
-                new Pair<>(0.3f,Items.RAW_COPPER),
-                new Pair<>(0.2f,Items.DIRT)));
+                new Pair<>(0.04f,Items.RAW_GOLD),
+                new Pair<>(0.15f,Items.RAW_COPPER),
+                new Pair<>(0.1f,Items.DIRT)));
         recipes.put(Blocks.DEEPSLATE.asItem(),DefaultedList.copyOf(
-                new Pair<>(0.22f,Items.RAW_IRON),
+                new Pair<>(0.12f,Items.RAW_IRON),
                 new Pair<>(0.90f,Items.COBBLESTONE),
                 new Pair<>(0.004f,Items.DIAMOND),
-                new Pair<>(0.16f,Items.RAW_GOLD),
-                new Pair<>(0.16f,Items.REDSTONE),
-                new Pair<>(0.3f,Items.COAL)));
+                new Pair<>(0.08f,Items.RAW_GOLD),
+                new Pair<>(0.08f,Items.REDSTONE),
+                new Pair<>(0.16f,Items.COAL)));
         recipes.put(Blocks.COBBLED_DEEPSLATE.asItem(),DefaultedList.copyOf(
-                new Pair<>(0.22f,Items.RAW_IRON),
+                new Pair<>(0.12f,Items.RAW_IRON),
                 new Pair<>(0.90f,Items.COBBLESTONE),
                 new Pair<>(0.004f,Items.DIAMOND),
-                new Pair<>(0.16f,Items.RAW_GOLD),
-                new Pair<>(0.16f,Items.REDSTONE),
-                new Pair<>(0.3f,Items.COAL)));
+                new Pair<>(0.08f,Items.RAW_GOLD),
+                new Pair<>(0.08f,Items.REDSTONE),
+                new Pair<>(0.16f,Items.COAL)));
 
     }
 }
