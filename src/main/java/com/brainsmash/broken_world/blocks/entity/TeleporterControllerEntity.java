@@ -13,6 +13,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
@@ -21,6 +22,35 @@ import net.minecraft.util.math.BlockPos;
 
 public class TeleporterControllerEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory,ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+
+    private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
+        @Override
+        public int get(int index) {
+            switch (index){
+                case 0:
+                    return getEnergy();
+                case 1:
+                    return getMaxCapacity();
+                case 2:
+                    return progression;
+                case 3:
+                    return maxProgression;
+                default:
+                    return -1;
+            }
+        }
+
+        @Override
+        public void set(int index, int value) {
+            setEnergy(value);
+        }
+
+        @Override
+        public int size() {
+            return 4;
+        }
+    };
+
     public TeleporterControllerEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE, pos, state);
         setMaxCapacity(400000);
@@ -58,5 +88,10 @@ public class TeleporterControllerEntity extends ConsumerBlockEntity implements N
     public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
+    }
+
+    @Override
+    public PropertyDelegate getPropertyDelegate() {
+        return propertyDelegate;
     }
 }

@@ -57,6 +57,7 @@ public class PowerBlock extends BlockWithEntity {
                 if(world instanceof ServerWorld){
                     if(blockEntity instanceof Inventory)
                         ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+                    world.removeBlockEntity(pos);
                     EnergyManager.UpdateGraph(world,pos);
                 }
                 // update comparators
@@ -64,6 +65,13 @@ public class PowerBlock extends BlockWithEntity {
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
+    }
+
+    @Override
+    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
+        if(!world.isClient())
+            EnergyManager.UpdateGraph(world,pos);
+        super.onBroken(world, pos, state);
     }
 
     @Override
