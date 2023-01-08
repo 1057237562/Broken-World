@@ -23,12 +23,14 @@ public class Main implements ModInitializer {
 	public static final ScreenHandlerType<GeneratorGuiDescription> GENERATOR_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"generator"), new ScreenHandlerType<>(((syncId, playerInventory) -> new GeneratorGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 	public static final ScreenHandlerType<CrusherGuiDescription> CRUSHER_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"crusher"),new ScreenHandlerType<>(((syncId, playerInventory) -> new CrusherGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 	public static final ScreenHandlerType<ShifterGuiDescription> SHIFTER_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"shifter"),new ScreenHandlerType<>(((syncId, playerInventory) -> new ShifterGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
+
 	@Override
 	public void onInitialize() {
 		BlockRegister.RegistBlocks();
 		ItemRegister.RegistItem();
 		FluidRegister.RegistFluid();
 		DimensionRegister.RegistDimension();
+		EntityRegister.RegistEntities();
 
 		CrusherRegister.RegistCrusherRecipes();
 		ShifterRegister.RegistShifterRecipes();

@@ -8,4 +8,5 @@ public enum ItemRegistry {
     ADVANCED_ENDER_PEARL,
     BOULDER,
     SILICON,
+    AA_BATTERY,
 }

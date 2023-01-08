@@ -38,6 +38,7 @@ public class ItemRegister {
             new AdvancedEnderPearl(new FabricItemSettings().maxCount(16).group(ITEM_GROUP)),
             new Boulder(new FabricItemSettings().maxCount(32).group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -48,6 +49,7 @@ public class ItemRegister {
             "advanced_ender_pearl",
             "boulder",
             "silicon",
+            "aa_battery",
     };
 
     public static void RegistItem(){

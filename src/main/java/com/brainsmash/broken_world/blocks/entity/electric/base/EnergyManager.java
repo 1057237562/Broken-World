@@ -301,8 +301,9 @@ public class EnergyManager {
                                         bfsQueue.clear();
                                         return;
                                     }
+                                }else {
+                                    bfsQueue.add(adjCable);
                                 }
-                                bfsQueue.add(adjCable);
                             }
                         }
                     }
@@ -352,8 +353,9 @@ public class EnergyManager {
                                         bfsQueue.clear();
                                         return;
                                     }
+                                }else {
+                                    bfsQueue.add(adjCable);
                                 }
-                                bfsQueue.add(adjCable);
                             }
                         }
                     }

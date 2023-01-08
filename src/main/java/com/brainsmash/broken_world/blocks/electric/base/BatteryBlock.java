@@ -51,7 +51,9 @@ public class BatteryBlock extends BlockWithEntity {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof BatteryBlockEntity) {
                 if(world instanceof ServerWorld){
-                    ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+                    if(blockEntity instanceof Inventory)
+                        ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+                    world.removeBlockEntity(pos);
                     EnergyManager.UpdateGraph(world,pos);
                 }
                 // update comparators
