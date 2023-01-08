@@ -68,6 +68,7 @@ public class BlockRegister {
             new SolarPanelBlock(FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(1.0f,2.0f)),
             new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f,2.0f)),
             new ShifterBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+            new ScannerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -95,6 +96,7 @@ public class BlockRegister {
             new BlockItem(blocks[22],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[23],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[24],new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[25],new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -124,6 +126,7 @@ public class BlockRegister {
             "solar_panel",
             "iron_sheet_box",
             "shifter",
+            "scanner",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -155,6 +158,7 @@ public class BlockRegister {
     public static BlockEntityType<CrusherEntity> CRUSHER_ENTITY_TYPE;
     public static BlockEntityType<SolarPanelEntity> SOLAR_PANEL_ENTITY_TYPE;
     public static BlockEntityType<ShifterEntity> SHIFTER_ENTITY_TYPE;
+    public static BlockEntityType<ScannerEntity> SCANNER_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -175,6 +179,7 @@ public class BlockRegister {
         CRUSHER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"crusher"),FabricBlockEntityTypeBuilder.create(CrusherEntity::new,blocks[21]).build());
         SOLAR_PANEL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"solar_panel"),FabricBlockEntityTypeBuilder.create(SolarPanelEntity::new,blocks[22]).build());
         SHIFTER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"shifter"),FabricBlockEntityTypeBuilder.create(ShifterEntity::new,blocks[24]).build());
+        SCANNER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"scanner"),FabricBlockEntityTypeBuilder.create(ScannerEntity::new,blocks[25]).build());
     }
 
     public static void RegistBlocksClientSide(){
