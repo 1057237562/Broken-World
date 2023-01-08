@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.blocks.TeleporterController;
+import com.brainsmash.broken_world.blocks.client.render.entity.ScannerBlockEntityRenderer;
 import com.brainsmash.broken_world.blocks.electric.*;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
@@ -158,7 +159,7 @@ public class BlockRegister {
     public static BlockEntityType<CrusherEntity> CRUSHER_ENTITY_TYPE;
     public static BlockEntityType<SolarPanelEntity> SOLAR_PANEL_ENTITY_TYPE;
     public static BlockEntityType<ShifterEntity> SHIFTER_ENTITY_TYPE;
-    public static BlockEntityType<ScannerEntity> SCANNER_ENTITY_TYPE;
+    public static BlockEntityType<ScannerBlockEntity> SCANNER_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -179,14 +180,16 @@ public class BlockRegister {
         CRUSHER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"crusher"),FabricBlockEntityTypeBuilder.create(CrusherEntity::new,blocks[21]).build());
         SOLAR_PANEL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"solar_panel"),FabricBlockEntityTypeBuilder.create(SolarPanelEntity::new,blocks[22]).build());
         SHIFTER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"shifter"),FabricBlockEntityTypeBuilder.create(ShifterEntity::new,blocks[24]).build());
-        SCANNER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"scanner"),FabricBlockEntityTypeBuilder.create(ScannerEntity::new,blocks[25]).build());
+        SCANNER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"scanner"),FabricBlockEntityTypeBuilder.create(ScannerBlockEntity::new,blocks[25]).build());
     }
 
     public static void RegistBlocksClientSide(){
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CREATIVE_BATTERY.ordinal()], RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CREATIVE_GENERATOR.ordinal()], RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.SCANNER.ordinal()],RenderLayer.getCutout());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR, CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         BlockEntityRendererRegistry.register(CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(CREATIVE_GENERATOR_ENTITY_TYPE, CreativeGeneratorBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(SCANNER_ENTITY_TYPE, ScannerBlockEntityRenderer::new);
     }
 }

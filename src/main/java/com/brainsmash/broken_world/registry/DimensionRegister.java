@@ -17,6 +17,7 @@ public class DimensionRegister {
 
     public static final java.util.List<String> noAirDimension = Arrays.asList("broken_world.moon_type");
     public static final List<String> noCloudDimension = Arrays.asList("broken_world.moon_type");
+    public static final List<String> noMoonDimension = Arrays.asList("broken_world.moon_type");
     public static ConcurrentHashMap<String, PortalLink> dimensions = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, Double> dimensionGravity = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, Integer> dimensionEnergyCost = new ConcurrentHashMap<>();

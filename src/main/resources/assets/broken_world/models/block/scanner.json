@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "side": "broken_world:block/scanner_side",
+    "top": "broken_world:block/scanner_top"
+  }
+}
