@@ -23,8 +23,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class WorldRendererMixin {
     @Shadow @Final private MinecraftClient client;
 
-    @Shadow @Final private BufferBuilderStorage bufferBuilders;
-
     @Redirect(method = "render",at = @At(value = "INVOKE",target = "Lnet/minecraft/client/option/GameOptions;getCloudRenderModeValue()Lnet/minecraft/client/option/CloudRenderMode;"))
     public CloudRenderMode hasCloud(GameOptions instance){
         if(DimensionRegister.noCloudDimension.contains(this.client.world.getDimensionKey().getValue().toTranslationKey())){
@@ -34,8 +32,5 @@ public abstract class WorldRendererMixin {
         }
     }
 
-    @Inject(method = "render", at = @At("TAIL"))
-    private void renderScannedBlock(CallbackInfo ci) {
-        VertexConsumerProvider.Immediate immediate = bufferBuilders.getEntityVertexConsumers();
-    }
+
 }
