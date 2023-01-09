@@ -1,32 +1,32 @@
 {
   "variants": {
-    "facing=east,on=false": {
+    "facing=east,lit=false": {
       "model": "broken_world:block/crusher",
       "y": 90
     },
-    "facing=east,on=true": {
+    "facing=east,lit=true": {
       "model": "broken_world:block/crusher_on",
       "y": 90
     },
-    "facing=north,on=false": {
+    "facing=north,lit=false": {
       "model": "broken_world:block/crusher"
     },
-    "facing=north,on=true": {
+    "facing=north,lit=true": {
       "model": "broken_world:block/crusher_on"
     },
-    "facing=south,on=false": {
+    "facing=south,lit=false": {
       "model": "broken_world:block/crusher",
       "y": 180
     },
-    "facing=south,on=true": {
+    "facing=south,lit=true": {
       "model": "broken_world:block/crusher_on",
       "y": 180
     },
-    "facing=west,on=false": {
+    "facing=west,lit=false": {
       "model": "broken_world:block/crusher",
       "y": 270
     },
-    "facing=west,on=true": {
+    "facing=west,lit=true": {
       "model": "broken_world:block/crusher_on",
       "y": 270
     }

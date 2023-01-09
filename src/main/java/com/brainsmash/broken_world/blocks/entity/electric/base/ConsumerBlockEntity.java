@@ -50,6 +50,10 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
         setMaxCapacity(10000);
     }
 
+    public boolean isRunning(){
+        return running;
+    }
+
     public ConsumerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state){
         super(type, pos, state);
     }

@@ -59,7 +59,7 @@ public abstract class WorldRendererMixin {
     public void drawOutline(Args args){
         if(args.get(0) instanceof ScannerBlockEntity) {
             OutlineVertexConsumerProvider outlineVertexConsumerProvider = this.bufferBuilders.getOutlineVertexConsumers();
-            //outlineVertexConsumerProvider.setColor(255, 255, 255, 255);
+            outlineVertexConsumerProvider.setColor(255, 255, 255, 1);
             args.set(3, outlineVertexConsumerProvider);
         }
     }
