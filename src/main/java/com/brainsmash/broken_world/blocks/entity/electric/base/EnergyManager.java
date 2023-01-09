@@ -126,7 +126,7 @@ public class EnergyManager {
         }
     }
 
-    private static void CheckOverdrawn(){
+    private static void CheckPower(){
         for(PowerBlockEntity power : powerList){
             if(-power.deltaFlow > power.getEnergy()){ // issue overdrawn (The deltaflow of PowerBlock will always be non-positive
                 int flow = - power.deltaFlow - power.getGenerate(); // Reconfigure flow (flow is a positive value)
@@ -202,9 +202,9 @@ public class EnergyManager {
         }
     }
 
-    private static void CheckOverflow(){
+    private static void CheckBatteryAndConsumer(){
         for(BatteryBlockEntity battery : storageList){
-            if(-battery.deltaFlow > battery.getEnergy()){ // issue overflow (The deltaflow of Battery must be less than zero to issue overflow
+            if(-battery.deltaFlow > battery.getEnergy()){ // issue overdrawn (The deltaflow of Battery must be less than zero to issue overflow
                 int flow = -battery.deltaFlow; // Reconfigure flow (flow is a positive value)
                 for(Direction direction:Direction.values()){
                     if(battery.getAdjacentBlockEntity(direction) instanceof CableBlockEntity adjCable) {
@@ -216,8 +216,34 @@ public class EnergyManager {
                                 battery.edges.compute(direction, (direction1, integer) -> integer + alterflow);
                                 adjCable.edges.compute(direction.getOpposite(), (direction1, integer) -> integer - alterflow);
                                 adjCable.ComputeDeltaFlow();
-                                //System.out.println("Cable:"+adjCable.deltaFlow);
+                                System.out.println("Battery:"+adjCable.deltaFlow);
                                 flow -= alterflow;
+                                battery.deltaFlow += alterflow;
+                                if (!(adjCable instanceof PowerBlockEntity || adjCable instanceof BatteryBlockEntity || adjCable instanceof ConsumerBlockEntity)) {
+                                    bfsQueue.add(adjCable);
+                                }
+                            }
+                        }
+                        if (flow == 0) {
+                            break;
+                        }
+                    }
+                }
+            }
+            if(battery.deltaFlow > battery.getMaxCapacity() - battery.getEnergy()){
+                int flow = battery.deltaFlow - battery.getMaxCapacity() + battery.getEnergy();
+                for(Direction direction:Direction.values()){
+                    if(battery.getAdjacentBlockEntity(direction) instanceof CableBlockEntity adjCable) {
+                        int relflow = (adjCable.edges.getOrDefault(direction.getOpposite(), 0) - battery.edges.getOrDefault(direction, 0)) / 2;
+
+                        if (flow > 0) { // Compute Overflow
+                            if (relflow < 0) { // Relative Flow is smaller than zero means flow in
+                                int alterflow = -Math.min(-relflow, flow);
+                                battery.edges.compute(direction, (direction1, integer) -> integer + alterflow);
+                                adjCable.edges.compute(direction.getOpposite(), (direction1, integer) -> integer - alterflow);
+                                adjCable.ComputeDeltaFlow();
+                                System.out.println("Consumer:"+adjCable.deltaFlow);
+                                flow += alterflow;
                                 battery.deltaFlow += alterflow;
                                 if (!(adjCable instanceof PowerBlockEntity || adjCable instanceof BatteryBlockEntity || adjCable instanceof ConsumerBlockEntity)) {
                                     bfsQueue.add(adjCable);
@@ -245,7 +271,7 @@ public class EnergyManager {
                                 consumer.edges.compute(direction, (direction1, integer) -> integer + alterflow);
                                 adjCable.edges.compute(direction.getOpposite(), (direction1, integer) -> integer - alterflow);
                                 adjCable.ComputeDeltaFlow();
-                                System.out.println("Cable:"+adjCable.deltaFlow);
+                                System.out.println("Consumer:"+adjCable.deltaFlow);
                                 flow += alterflow;
                                 consumer.deltaFlow += alterflow;
                                 if (!(adjCable instanceof PowerBlockEntity || adjCable instanceof BatteryBlockEntity || adjCable instanceof ConsumerBlockEntity)) {
@@ -269,7 +295,7 @@ public class EnergyManager {
                         if (current.getAdjacentBlockEntity(direction) instanceof CableBlockEntity adjCable) {
                             int relflow = (adjCable.edges.getOrDefault(direction.getOpposite(), 0) - current.edges.getOrDefault(direction, 0)) / 2; // Relative Flow toward target direction
                             if (current.deltaFlow > 0) {
-                                if (relflow < 0) {
+                                if (relflow < 0) { // Energy flow in
                                     int alterflow = Math.min(-relflow, current.deltaFlow);
                                     current.edges.compute(direction, (direction1, integer) -> integer - alterflow);
                                     adjCable.edges.compute(direction.getOpposite(), (direction1, integer) -> integer + alterflow);
@@ -414,8 +440,8 @@ public class EnergyManager {
         try {
             bfs(cableBlockEntity);
             if(powerList.size() + cableList.size() + storageList.size() == 0)return;
-            CheckOverdrawn();
-            CheckOverflow();
+            CheckPower();
+            CheckBatteryAndConsumer();
             EdmondsKarpInPower();
             EdmondsKarpInBattery();
         } finally {
