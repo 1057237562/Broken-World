@@ -1,9 +1,9 @@
 {
   "parent": "minecraft:block/orientable_with_bottom",
   "textures": {
-    "front": "broken_world:block/crusher_front_on",
+    "front": "broken_world:block/crusher_front",
     "side": "broken_world:block/crusher_side",
-    "top": "broken_world:block/crusher_top", 
+    "top": "broken_world:block/crusher_top_on", 
     "bottom": "#side"
   }
 }
