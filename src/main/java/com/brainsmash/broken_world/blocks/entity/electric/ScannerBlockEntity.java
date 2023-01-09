@@ -35,6 +35,21 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient){
+            for(int i = 0; i < scanned.size();i++) {
+                BlockPos pos1 = scanned.get(i);
+                boolean flag = false;
+                for (RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(ConventionalBlockTags.ORES)) {
+                    if (world.getBlockState(pos.add(pos1.getX(), pos1.getY(), pos1.getZ())).getBlock().equals(blockRegistryEntry.value())) {
+                        flag = true;
+                    }
+                }
+                if (!flag) {
+                    scanned.remove(i);
+                    i--;
+                    world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
+                    markDirty();
+                }
+            }
             if(canRun()){
                 running = true;
 
