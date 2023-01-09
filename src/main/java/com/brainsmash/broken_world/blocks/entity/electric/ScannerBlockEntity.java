@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.blocks.entity.electric;
 
+import com.brainsmash.broken_world.blocks.electric.ScannerBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.registry.BlockRegister;
@@ -23,7 +24,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
 
     public BlockPos pointer = new BlockPos(16,-1,16);
     private final int speed = 3;
-    private final int maxScanned = 24;
+    private final int maxScanned = 32;
     public DefaultedList<BlockPos> scanned = DefaultedList.of();
     public ScannerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.SCANNER_ENTITY_TYPE, pos, state);
@@ -45,12 +46,11 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
                 }
                 if (!flag) {
                     scanned.remove(i);
-                    i--;
                     world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
                     markDirty();
+                    i--;
                 }
             }
-
             if(canRun()){
                 running = true;
 
@@ -101,6 +101,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
+        scanned.clear();
         NbtList nbtList = nbt.getList("scanned", NbtElement.COMPOUND_TYPE);
         for(int i = 0;i<nbtList.size();i++){
             NbtCompound compound = nbtList.getCompound(i);
