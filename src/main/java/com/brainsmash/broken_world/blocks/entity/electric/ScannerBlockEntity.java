@@ -1,9 +1,9 @@
 package com.brainsmash.broken_world.blocks.entity.electric;
 
-import com.brainsmash.broken_world.blocks.electric.ScannerBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -57,7 +57,6 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
 
                 for(int i = 0; i < speed;i++)
                     if(!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
-                        int cnt = 0;
                         for(RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(ConventionalBlockTags.ORES)){
                             if(world.getBlockState(pos.add(pointer.getX(),pointer.getY(),pointer.getZ())).getBlock().equals(blockRegistryEntry.value())){
                                 if(scanned.size() >= maxScanned) {
@@ -65,11 +64,10 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
                                     super.tick(world, pos, state, blockEntity);
                                     return;
                                 }
-                                scanned.add(new Pair<>(pointer,cnt));
+                                scanned.add(new Pair<>(pointer, OreTypeRegistry.mapping.get(blockRegistryEntry.value())));
                                 world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
                                 markDirty();
                             }
-                            cnt ++;
                         }
                         if (pointer.getX() > -16){
                             pointer = pointer.add(-1,0,0);

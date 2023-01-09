@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world;
 
 import com.brainsmash.broken_world.registry.*;
+import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
 import com.brainsmash.broken_world.screenhandlers.descriptions.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -34,6 +35,8 @@ public class Main implements ModInitializer {
 
 		CrusherRegister.RegistCrusherRecipes();
 		ShifterRegister.RegistShifterRecipes();
+
+		OreTypeRegistry.RegistOreType();
 
 		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,RegistryKey.of(Registry.PLACED_FEATURE_KEY,new Identifier(MODID, "tungsten_ore")));
 	}
