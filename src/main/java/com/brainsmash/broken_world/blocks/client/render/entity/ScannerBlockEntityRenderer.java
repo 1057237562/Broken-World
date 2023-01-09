@@ -31,7 +31,6 @@ public class ScannerBlockEntityRenderer implements BlockEntityRenderer<ScannerBl
 
     @Override
     public void render(ScannerBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-
         for(BlockPos pos : entity.scanned) {
             matrices.push();
             matrices.translate(pos.getX(), pos.getY(), pos.getZ());
