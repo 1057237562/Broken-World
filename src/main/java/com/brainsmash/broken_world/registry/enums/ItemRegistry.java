@@ -9,4 +9,8 @@ public enum ItemRegistry {
     BOULDER,
     SILICON,
     AA_BATTERY,
+    LITHIUM_INGOT,
+    ZINC_INGOT,
+    COPPER_COIL,
+    PLASTIC_PLATE,
 }

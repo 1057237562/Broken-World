@@ -39,6 +39,10 @@ public class ItemRegister {
             new Boulder(new FabricItemSettings().maxCount(32).group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -50,6 +54,10 @@ public class ItemRegister {
             "boulder",
             "silicon",
             "aa_battery",
+            "lithium_ingot",
+            "zinc_ingot",
+            "copper_coil",
+            "plastic_plate",
     };
 
     public static void RegistItem(){
