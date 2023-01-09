@@ -7,6 +7,7 @@ import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.CrusherRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.CrusherGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -95,8 +96,9 @@ public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHan
             }else{
                 running = false;
             }
+            state = state.with(Properties.LIT, isRunning());
+            world.setBlockState(pos, state, Block.NOTIFY_ALL);
         }
-        state = state.with(Properties.LIT, isRunning());
         super.tick(world, pos, state, blockEntity);
     }
 

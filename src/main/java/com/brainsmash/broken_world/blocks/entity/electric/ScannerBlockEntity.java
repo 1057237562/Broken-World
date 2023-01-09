@@ -50,6 +50,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
                     markDirty();
                 }
             }
+
             if(canRun()){
                 running = true;
 
@@ -79,6 +80,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
                 running = false;
             }
         }
+
         super.tick(world, pos, state, blockEntity);
     }
 

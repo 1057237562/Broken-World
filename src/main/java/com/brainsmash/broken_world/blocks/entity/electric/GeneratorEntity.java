@@ -72,26 +72,28 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(fuelTime > 0){
-            running = true;
-            fuelTime--;
-            markDirty();
-        }else{
-            ItemStack fuel = inventory.get(0);
-            if(!fuel.isEmpty() && getEnergy() < getMaxCapacity()){
-                BurnTimeRegister.getGeneratorMap();
-                maxFuelTime = fuelTime = BurnTimeRegister.generator_fuel.getOrDefault(fuel.getItem(),0);
-                if(fuelTime > 0) {
-                    running = true;
-                    fuel.decrement(1);
-                    markDirty();
+        if(!world.isClient) {
+            if (fuelTime > 0) {
+                running = true;
+                fuelTime--;
+                markDirty();
+            } else {
+                ItemStack fuel = inventory.get(0);
+                if (!fuel.isEmpty() && getEnergy() < getMaxCapacity()) {
+                    BurnTimeRegister.getGeneratorMap();
+                    maxFuelTime = fuelTime = BurnTimeRegister.generator_fuel.getOrDefault(fuel.getItem(), 0);
+                    if (fuelTime > 0) {
+                        running = true;
+                        fuel.decrement(1);
+                        markDirty();
+                    }
+                } else {
+                    running = false;
                 }
-            }else{
-                running = false;
             }
+            state = state.with(Properties.LIT, isRunning());
+            world.setBlockState(pos, state, Block.NOTIFY_ALL);
         }
-        state = state.with(Properties.LIT, isRunning());
-        world.setBlockState(pos, state, Block.NOTIFY_ALL);
         super.tick(world, pos, state, blockEntity);
     }
 
