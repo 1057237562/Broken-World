@@ -17,6 +17,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
@@ -95,6 +96,7 @@ public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHan
                 running = false;
             }
         }
+        state = state.with(Properties.LIT, isRunning());
         super.tick(world, pos, state, blockEntity);
     }
 
