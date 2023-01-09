@@ -76,8 +76,8 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
 
     @Override
     public void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
+        super.writeNbt(nbt);
     }
 
     @Override

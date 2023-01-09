@@ -112,8 +112,8 @@ public class ShifterEntity extends ConsumerBlockEntity implements NamedScreenHan
 
     @Override
     public void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
+        super.writeNbt(nbt);
     }
 
 }

@@ -105,10 +105,10 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
 
     @Override
     public void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
         nbt.putInt("fuelTime", fuelTime);
         nbt.putInt("maxFuelTime", maxFuelTime);
+        super.writeNbt(nbt);
     }
 
     @Override

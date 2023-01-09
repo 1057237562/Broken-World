@@ -17,17 +17,17 @@ public class ScannerBlockEntity extends ConsumerBlockEntity {
     public DefaultedList<BlockPos> scanned = DefaultedList.of();
     public ScannerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.SCANNER_ENTITY_TYPE, pos, state);
+        scanned.add(new BlockPos(0,-2,0));
+
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        scanned.add(pos.offset(Direction.DOWN,2));
         super.tick(world, pos, state, blockEntity);
     }
 
     @Override
     public void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
         NbtList nbtList = new NbtList();
         for(BlockPos pos : scanned){
             NbtCompound compound = new NbtCompound();
@@ -36,6 +36,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity {
         }
         if(!nbtList.isEmpty())
             nbt.put("scanned",nbtList);
+        super.writeNbt(nbt);
     }
 
     @Override

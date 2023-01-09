@@ -79,7 +79,6 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
 
     @Override
     public void writeNbt(NbtCompound compound) {
-        super.writeNbt(compound);
         compound.putInt("energy", energy);
         compound.putInt("deltaFlow",deltaFlow);
         compound.putInt("maxCapacity",maxCapacity);
@@ -89,6 +88,7 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
         compound.putInt("east",edges.getOrDefault(Direction.EAST,0));
         compound.putInt("up",edges.getOrDefault(Direction.UP,0));
         compound.putInt("down",edges.getOrDefault(Direction.DOWN,0));
+        super.writeNbt(compound);
     }
 
     public void ComputeDeltaFlow() {
