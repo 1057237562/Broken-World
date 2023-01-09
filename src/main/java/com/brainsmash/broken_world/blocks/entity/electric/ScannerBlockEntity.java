@@ -60,6 +60,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
                                 if(scanned.size() >= maxScanned) {
                                     running = false;
                                     super.tick(world, pos, state, blockEntity);
+                                    return;
                                 }
                                 scanned.add(pointer);
                                 world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
