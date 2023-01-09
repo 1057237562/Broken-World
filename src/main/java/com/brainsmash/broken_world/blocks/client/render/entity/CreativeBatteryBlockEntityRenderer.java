@@ -23,12 +23,12 @@ public class CreativeBatteryBlockEntityRenderer implements BlockEntityRenderer<C
     @Override
     public void render(CreativeBatteryBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         Entity chargedCreeper = entity.getCreeper();
-
         matrices.push();
         matrices.translate(0.5d, 0.1d, 0.5d);
         matrices.scale(0.5f, 0.5f, 0.4f);
-        matrices.multiply(Quaternion.fromEulerXyz(0, (float) ((chargedCreeper.age + tickDelta)*2*Math.PI/180.0),0));
-        DISPATCHER.render(chargedCreeper, 0.0, 0.0, 0.0, 0.0f, tickDelta, matrices, vertexConsumers, 15728640);
+        entity.tick += tickDelta * (float)entity.getEnergy() / (float)entity.getMaxCapacity();
+        matrices.multiply(Quaternion.fromEulerXyz(0, (float) ((entity.tick)*2*Math.PI/180.0),0));
+        DISPATCHER.render(chargedCreeper, 0.0, 0.0, 0.0, 0.0f, entity.tick, matrices, vertexConsumers, 15728640);
         matrices.pop();
     }
 }

@@ -16,11 +16,9 @@ import net.minecraft.util.math.BlockPos;
 public class ScannerBlockEntityRenderer implements BlockEntityRenderer<ScannerBlockEntity> {
 
     private BlockRenderManager INSTANCE;
-    private final EntityRenderDispatcher DISPATCHER;
 
     public ScannerBlockEntityRenderer(BlockEntityRendererFactory.Context ctx){
         INSTANCE = ctx.getRenderManager();
-        DISPATCHER = ctx.getEntityRenderDispatcher();
     }
 
     @Override
