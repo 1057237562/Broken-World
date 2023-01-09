@@ -13,6 +13,7 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -25,7 +26,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
     public BlockPos pointer = new BlockPos(16,-1,16);
     private final int speed = 3;
     private final int maxScanned = 32;
-    public DefaultedList<BlockPos> scanned = DefaultedList.of();
+    public DefaultedList<Pair<BlockPos,Integer>> scanned = DefaultedList.of();
     public ScannerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.SCANNER_ENTITY_TYPE, pos, state);
         setMaxCapacity(3000);
@@ -37,7 +38,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient){
             for(int i = 0; i < scanned.size();i++) {
-                BlockPos pos1 = scanned.get(i);
+                BlockPos pos1 = scanned.get(i).getLeft();
                 boolean flag = false;
                 for (RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(ConventionalBlockTags.ORES)) {
                     if (world.getBlockState(pos.add(pos1.getX(), pos1.getY(), pos1.getZ())).getBlock().equals(blockRegistryEntry.value())) {
@@ -56,6 +57,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
 
                 for(int i = 0; i < speed;i++)
                     if(!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
+                        int cnt = 0;
                         for(RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(ConventionalBlockTags.ORES)){
                             if(world.getBlockState(pos.add(pointer.getX(),pointer.getY(),pointer.getZ())).getBlock().equals(blockRegistryEntry.value())){
                                 if(scanned.size() >= maxScanned) {
@@ -63,10 +65,11 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
                                     super.tick(world, pos, state, blockEntity);
                                     return;
                                 }
-                                scanned.add(pointer);
+                                scanned.add(new Pair<>(pointer,cnt));
                                 world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
                                 markDirty();
                             }
+                            cnt ++;
                         }
                         if (pointer.getX() > -16){
                             pointer = pointer.add(-1,0,0);
@@ -88,9 +91,10 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
     public void writeNbt(NbtCompound nbt) {
         nbt.putLong("pointer",pointer.asLong());
         NbtList nbtList = new NbtList();
-        for(BlockPos pos : scanned){
+        for(Pair<BlockPos,Integer> p : scanned){
             NbtCompound compound = new NbtCompound();
-            compound.putLong("pos",pos.asLong());
+            compound.putLong("pos",p.getLeft().asLong());
+            compound.putInt("type",p.getRight());
             nbtList.add(compound);
         }
         if(!nbtList.isEmpty())
@@ -105,7 +109,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
         NbtList nbtList = nbt.getList("scanned", NbtElement.COMPOUND_TYPE);
         for(int i = 0;i<nbtList.size();i++){
             NbtCompound compound = nbtList.getCompound(i);
-            scanned.add(BlockPos.fromLong(compound.getLong("pos")));
+            scanned.add(new Pair<>(BlockPos.fromLong(compound.getLong("pos")),compound.getInt("type")));
         }
         pointer = BlockPos.fromLong(nbt.getLong("pointer"));
     }
