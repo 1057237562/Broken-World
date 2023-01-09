@@ -25,7 +25,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
 
     public BlockPos pointer = new BlockPos(16,-1,16);
     private final int speed = 3;
-    private final int maxScanned = 32;
+    private final int maxScanned = 128;
     public DefaultedList<Pair<BlockPos,Integer>> scanned = DefaultedList.of();
     public ScannerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.SCANNER_ENTITY_TYPE, pos, state);
