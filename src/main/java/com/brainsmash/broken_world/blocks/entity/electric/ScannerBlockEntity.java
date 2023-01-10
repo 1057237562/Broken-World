@@ -64,7 +64,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
                                     super.tick(world, pos, state, blockEntity);
                                     return;
                                 }
-                                scanned.add(new Pair<>(pointer, OreTypeRegistry.mapping.get(blockRegistryEntry.value())));
+                                scanned.add(new Pair<>(pointer, OreTypeRegistry.mapping.getOrDefault(blockRegistryEntry.value(),0)));
                                 world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
                                 markDirty();
                             }
