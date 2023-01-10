@@ -43,20 +43,13 @@ public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHan
         return inventory;
     }
 
-    //These Methods are from the NamedScreenHandlerFactory Interface
-    //createMenu creates the ScreenHandler itself
-    //getDisplayName will Provide its name which is normally shown at the top
-
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        //We provide *this* to the screenHandler as our class Implements Inventory
-        //Only the Server has the Inventory at the start, this will be synced to the client in the ScreenHandler
-        //return new TeleporterControllerScreenHandler(syncId, playerInventory, this);
         return new CrusherGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
     }
 
     public boolean insertItem(ItemStack stack){
-        for(int i = 0;i<inventory.size()-2;i++){
+        for(int i = 2;i<inventory.size();i++){
             if(inventory.get(i).isEmpty()){
                 inventory.set(i,stack);
                 return true;
@@ -77,12 +70,12 @@ public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHan
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient){
-            if(CrusherRegister.recipes.containsKey(inventory.get(21).getItem()) && canRun()){
+            if(CrusherRegister.recipes.containsKey(inventory.get(0).getItem()) && canRun()){
                 running = true;
                 if(progression < maxProgression){
                     progression++;
                 }else{
-                    DefaultedList<Pair<Float, Item>> output = CrusherRegister.recipes.get(inventory.get(21).getItem());
+                    DefaultedList<Pair<Float, Item>> output = CrusherRegister.recipes.get(inventory.get(0).getItem());
                     for(Pair<Float,Item> pair : output){
                         if(random.nextDouble() < pair.getLeft()){
                             if(!insertItem(new ItemStack(pair.getRight(),1))){
@@ -90,7 +83,7 @@ public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHan
                             }
                         }
                     }
-                    inventory.get(21).decrement(1);
+                    inventory.get(0).decrement(1);
                     progression = 0;
                 }
             }else{

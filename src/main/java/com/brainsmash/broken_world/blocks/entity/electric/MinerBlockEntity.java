@@ -3,6 +3,7 @@ package com.brainsmash.broken_world.blocks.entity.electric;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
+import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
 import com.brainsmash.broken_world.screenhandlers.descriptions.MinerGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
@@ -21,6 +22,7 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
@@ -38,14 +40,14 @@ public class MinerBlockEntity extends ConsumerBlockEntity implements NamedScreen
     private final int speed = 3;
 
     public MinerBlockEntity(BlockPos pos, BlockState state) {
-        super(pos, state);
+        super(BlockRegister.MINER_ENTITY_TYPE,pos, state);
         setMaxCapacity(4000);
         maxProgression = 0;
         powerConsumption = 50;
     }
 
     public boolean insertItem(ItemStack stack){
-        for(int i = 0;i<inventory.size()-2;i++){
+        for(int i = 1;i<inventory.size();i++){
             if(inventory.get(i).isEmpty()){
                 inventory.set(i,stack);
                 return true;
@@ -92,6 +94,8 @@ public class MinerBlockEntity extends ConsumerBlockEntity implements NamedScreen
             }else{
                 running = false;
             }
+            state = state.with(Properties.LIT, isRunning());
+            world.setBlockState(pos, state, Block.NOTIFY_ALL);
         }
         super.tick(world, pos, state, blockEntity);
     }

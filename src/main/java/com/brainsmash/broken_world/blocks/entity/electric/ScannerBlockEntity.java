@@ -13,6 +13,7 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -82,8 +83,9 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
             }else{
                 running = false;
             }
+            state = state.with(Properties.LIT, isRunning());
+            world.setBlockState(pos, state, Block.NOTIFY_ALL);
         }
-
         super.tick(world, pos, state, blockEntity);
     }
 

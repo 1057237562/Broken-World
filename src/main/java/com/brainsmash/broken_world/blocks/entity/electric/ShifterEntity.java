@@ -8,6 +8,7 @@ import com.brainsmash.broken_world.registry.ShifterRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.CrusherGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.ShifterGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -18,6 +19,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
@@ -55,7 +57,7 @@ public class ShifterEntity extends ConsumerBlockEntity implements NamedScreenHan
     }
 
     public boolean insertItem(ItemStack stack){
-        for(int i = 0;i<inventory.size()-2;i++){
+        for(int i = 2;i<inventory.size();i++){
             if(inventory.get(i).isEmpty()){
                 inventory.set(i,stack);
                 return true;
@@ -76,12 +78,12 @@ public class ShifterEntity extends ConsumerBlockEntity implements NamedScreenHan
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient){
-            if(ShifterRegister.recipes.containsKey(inventory.get(21).getItem()) && canRun()){
+            if(ShifterRegister.recipes.containsKey(inventory.get(0).getItem()) && canRun()){
                 running = true;
                 if(progression < maxProgression){
                     progression++;
                 }else{
-                    DefaultedList<Pair<Float, Item>> output = ShifterRegister.recipes.get(inventory.get(21).getItem());
+                    DefaultedList<Pair<Float, Item>> output = ShifterRegister.recipes.get(inventory.get(0).getItem());
                     for(Pair<Float,Item> pair : output){
                         if(random.nextDouble() < pair.getLeft()){
                             if(!insertItem(new ItemStack(pair.getRight(),1))){
@@ -89,12 +91,14 @@ public class ShifterEntity extends ConsumerBlockEntity implements NamedScreenHan
                             }
                         }
                     }
-                    inventory.get(21).decrement(1);
+                    inventory.get(0).decrement(1);
                     progression = 0;
                 }
             }else{
                 running = false;
             }
+            state = state.with(Properties.LIT, isRunning());
+            world.setBlockState(pos, state, Block.NOTIFY_ALL);
         }
         super.tick(world, pos, state, blockEntity);
     }

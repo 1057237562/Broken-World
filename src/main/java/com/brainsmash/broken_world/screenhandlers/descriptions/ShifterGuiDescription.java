@@ -7,8 +7,11 @@ import io.github.cottonmc.cotton.gui.widget.WBar.Direction;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.Identifier;
 
 public class ShifterGuiDescription extends SyncedGuiDescription {
@@ -31,14 +34,14 @@ public class ShifterGuiDescription extends SyncedGuiDescription {
         root.add(bar1, 7, 2,1,1);
         for(int i = 0;i<3;i++){
             for(int j = 0;j<7;j++){
-                WItemSlot itemSlot = WItemSlot.of(blockInventory,7*i+j);
+                WItemSlot itemSlot = WItemSlot.of(blockInventory,7*i+j+2);
                 root.add(itemSlot,j,i+1,1,1);
             }
         }
 
-        WItemSlot source = WItemSlot.of(blockInventory,21);
+        WItemSlot source = WItemSlot.of(blockInventory,0);
         root.add(source,8,1,1,1);
-        WItemSlot power = WItemSlot.of(blockInventory,22);
+        WItemSlot power = WItemSlot.of(blockInventory,1);
         root.add(power,8,3,1,1);
 
         root.add(this.createPlayerInventoryPanel(), 0, 4);

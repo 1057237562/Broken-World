@@ -14,7 +14,7 @@ public class EntityHelper {
         return new PositionImpl(d, e, f);
     }
 
-    public static void spawnItem(World world, ItemStack stack, int speed, Direction side, BlockPos blockPos) {
+    public static boolean spawnItem(World world, ItemStack stack, int speed, Direction side, BlockPos blockPos) {
         Position pos = getOutputLocation(blockPos,side);
         double d = pos.getX();
         double e = pos.getY();
@@ -23,10 +23,10 @@ public class EntityHelper {
         ItemEntity itemEntity = new ItemEntity(world, d, e, f, stack);
         double g = world.random.nextDouble() * 0.1 + 0.2;
         itemEntity.setVelocity(world.random.nextTriangular((double)side.getOffsetX() * g, 0.0172275 * (double)speed), world.random.nextTriangular(0.2, 0.0172275 * (double)speed), world.random.nextTriangular((double)side.getOffsetZ() * g, 0.0172275 * (double)speed));
-        world.spawnEntity(itemEntity);
+        return world.spawnEntity(itemEntity);
     }
 
-    public static void spawnItem(World world, ItemStack stack, int speed, Direction side, Position pos) {
+    public static boolean spawnItem(World world, ItemStack stack, int speed, Direction side, Position pos) {
         double d = pos.getX();
         double e = pos.getY();
         double f = pos.getZ();
@@ -34,6 +34,6 @@ public class EntityHelper {
         ItemEntity itemEntity = new ItemEntity(world, d, e, f, stack);
         double g = world.random.nextDouble() * 0.1 + 0.2;
         itemEntity.setVelocity(world.random.nextTriangular((double)side.getOffsetX() * g, 0.0172275 * (double)speed), world.random.nextTriangular(0.2, 0.0172275 * (double)speed), world.random.nextTriangular((double)side.getOffsetZ() * g, 0.0172275 * (double)speed));
-        world.spawnEntity(itemEntity);
+        return world.spawnEntity(itemEntity);
     }
 }

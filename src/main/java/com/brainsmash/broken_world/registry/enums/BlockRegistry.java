@@ -26,4 +26,5 @@ public enum BlockRegistry {
     SOLAR_PANEL,
     IRON_SHEET_BOX,
     SCANNER,
+    MINER,
 }

@@ -43,6 +43,7 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -58,6 +59,7 @@ public class ItemRegister {
             "zinc_ingot",
             "copper_coil",
             "plastic_plate",
+            "memory_chip",
     };
 
     public static void RegistItem(){
