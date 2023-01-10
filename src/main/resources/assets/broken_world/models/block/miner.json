@@ -3,6 +3,6 @@
   "textures": {
     "side": "broken_world:block/miner_side",
     "top": "broken_world:block/miner_top",
-    "front": "broken_world:block/scanner_side"
+    "front": "broken_world:block/miner_side"
   }
 }

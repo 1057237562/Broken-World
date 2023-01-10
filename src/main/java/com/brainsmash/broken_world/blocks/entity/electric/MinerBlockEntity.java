@@ -47,7 +47,7 @@ public class MinerBlockEntity extends ConsumerBlockEntity implements NamedScreen
     }
 
     public boolean insertItem(ItemStack stack){
-        for(int i = 1;i<inventory.size();i++){
+        for(int i = 0;i<inventory.size()-1;i++){
             if(inventory.get(i).isEmpty()){
                 inventory.set(i,stack);
                 return true;

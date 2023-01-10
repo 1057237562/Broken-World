@@ -28,12 +28,12 @@ public class MinerGuiDescription extends SyncedGuiDescription {
         root.add(bar, 8, 2,1,1);
         for(int i = 0;i<3;i++){
             for(int j = 0;j<8;j++){
-                WItemSlot itemSlot = WItemSlot.of(blockInventory,7*i+j+1);
+                WItemSlot itemSlot = WItemSlot.of(blockInventory,7*i+j);
                 root.add(itemSlot,j,i+1,1,1);
             }
         }
 
-        WItemSlot power = WItemSlot.of(blockInventory,0);
+        WItemSlot power = WItemSlot.of(blockInventory,24);
         root.add(power,8,3,1,1);
 
         root.add(this.createPlayerInventoryPanel(), 0, 4);
