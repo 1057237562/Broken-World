@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.registry;
 
+import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
@@ -42,6 +43,23 @@ public class CrusherRegister {
                 new Pair<>(0.08f,Items.RAW_GOLD),
                 new Pair<>(0.08f,Items.REDSTONE),
                 new Pair<>(0.16f,Items.COAL)));
-
+        recipes.put(BlockRegister.blocks[BlockRegistry.MOON_STONE.ordinal()].asItem(),DefaultedList.copyOf(
+                new Pair<>(0.08f,Items.RAW_IRON),
+                new Pair<>(0.90f,BlockRegister.blockitems[BlockRegistry.MOON_SAND.ordinal()]),
+                new Pair<>(0.04f,Items.RAW_GOLD),
+                new Pair<>(0.04f,Items.REDSTONE)));
+        recipes.put(BlockRegister.blocks[BlockRegistry.MOON_IRON_ORE.ordinal()].asItem(),DefaultedList.copyOf(
+                new Pair<>(0.90f,Items.RAW_IRON),
+                new Pair<>(0.90f,Items.RAW_IRON),
+                new Pair<>(0.90f,BlockRegister.blockitems[BlockRegistry.MOON_SAND.ordinal()]),
+                new Pair<>(0.04f,Items.RAW_GOLD),
+                new Pair<>(0.04f,Items.REDSTONE)));
+        recipes.put(BlockRegister.blocks[BlockRegistry.MOON_GOLD_ORE.ordinal()].asItem(),DefaultedList.copyOf(
+                new Pair<>(0.90f,Items.RAW_GOLD),
+                new Pair<>(0.85f,Items.RAW_GOLD),
+                new Pair<>(0.65f,Items.GOLD_INGOT),
+                new Pair<>(0.90f,BlockRegister.blockitems[BlockRegistry.MOON_SAND.ordinal()]),
+                new Pair<>(0.04f,Items.RAW_IRON),
+                new Pair<>(0.04f,Items.REDSTONE)));
     }
 }

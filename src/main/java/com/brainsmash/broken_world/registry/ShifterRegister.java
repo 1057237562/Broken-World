@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.registry;
 
+import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
@@ -23,6 +24,10 @@ public class ShifterRegister {
                 new Pair<>(0.04f,Items.PUMPKIN_SEEDS)));
         recipes.put(Blocks.SAND.asItem(),DefaultedList.copyOf(
                 new Pair<>(0.0015f,Items.RAW_GOLD),
+                new Pair<>(0.2f,ItemRegister.items[ItemRegistry.SILICON.ordinal()])));
+        recipes.put(BlockRegister.blocks[BlockRegistry.MOON_SAND.ordinal()].asItem(),DefaultedList.copyOf(
+                new Pair<>(0.0015f,Items.RAW_IRON),
+                new Pair<>(0.012f,Items.RAW_IRON),
                 new Pair<>(0.2f,ItemRegister.items[ItemRegistry.SILICON.ordinal()])));
     }
 }
