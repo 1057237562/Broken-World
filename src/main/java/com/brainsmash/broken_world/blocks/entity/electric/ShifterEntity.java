@@ -96,6 +96,7 @@ public class ShifterEntity extends ConsumerBlockEntity implements NamedScreenHan
                 }
             }else{
                 running = false;
+                progression = 0;
             }
             state = state.with(Properties.LIT, isRunning());
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
