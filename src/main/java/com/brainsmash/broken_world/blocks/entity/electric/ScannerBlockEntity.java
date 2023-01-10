@@ -29,7 +29,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
     public DefaultedList<Pair<BlockPos,Integer>> scanned = DefaultedList.of();
     public ScannerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.SCANNER_ENTITY_TYPE, pos, state);
-        setMaxCapacity(3000);
+        setMaxCapacity(4000);
         maxProgression = 0;
         powerConsumption = 20;
     }
@@ -40,8 +40,9 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
             for(int i = 0; i < scanned.size();i++) {
                 BlockPos pos1 = scanned.get(i).getLeft();
                 boolean flag = false;
+                BlockPos pointPos = pos.add(pos1.getX(),pos1.getY(),pos1.getZ());
                 for (RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(ConventionalBlockTags.ORES)) {
-                    if (world.getBlockState(pos.add(pos1.getX(), pos1.getY(), pos1.getZ())).getBlock().equals(blockRegistryEntry.value())) {
+                    if (world.getBlockState(pointPos).getBlock().equals(blockRegistryEntry.value())) {
                         flag = true;
                     }
                 }
@@ -57,8 +58,9 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
 
                 for(int i = 0; i < speed;i++)
                     if(!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
+                        BlockPos pointPos = pos.add(pointer.getX(),pointer.getY(),pointer.getZ());
                         for(RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(ConventionalBlockTags.ORES)){
-                            if(world.getBlockState(pos.add(pointer.getX(),pointer.getY(),pointer.getZ())).getBlock().equals(blockRegistryEntry.value())){
+                            if(world.getBlockState(pointPos).getBlock().equals(blockRegistryEntry.value())){
                                 if(scanned.size() >= maxScanned) {
                                     running = false;
                                     super.tick(world, pos, state, blockEntity);

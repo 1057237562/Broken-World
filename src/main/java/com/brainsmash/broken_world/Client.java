@@ -9,6 +9,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 
 import static com.brainsmash.broken_world.Main.MODID;
@@ -24,6 +25,7 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.GENERATOR_GUI_DESCRIPTION, GeneratorScreen::new);
         HandledScreens.register(Main.CRUSHER_GUI_DESCRIPTION, CrusherScreen::new);
         HandledScreens.register(Main.SHIFTER_GUI_DESCRIPTION, ShifterScreen::new);
+        HandledScreens.register(Main.MINER_GUI_DESCRIPTION, MinerScreen::new);
 
         BlockRegister.RegistBlocksClientSide();
         EntityRegister.RegistEntitiesClientSide();
