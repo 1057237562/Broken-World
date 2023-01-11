@@ -15,6 +15,7 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class ChunkloaderBlock extends ConsumerBlock {
+    public static final int radius = 1;
     public ChunkloaderBlock(Settings settings) {
         super(settings);
     }
@@ -35,7 +36,18 @@ public class ChunkloaderBlock extends ConsumerBlock {
 
     @Override
     public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        ((ChunkloaderBlockEntity)world.getBlockEntity(pos)).onRemove();
+        if(!world.isClient()) {
+            ServerWorld serverWorld = (ServerWorld) world;
+            ChunkPos chunkPos = new ChunkPos(pos);
+            for (int i = -radius; i <= radius; i++) {
+                for (int j = -radius; j <= radius; j++) {
+                    ChunkPos currentChunkPos = new ChunkPos(chunkPos.x + i, chunkPos.z + j);
+                    if (serverWorld.getForcedChunks().contains(currentChunkPos.toLong())) {
+                        serverWorld.setChunkForced(currentChunkPos.x, currentChunkPos.z, false);
+                    }
+                }
+            }
+        }
         super.onBroken(world, pos, state);
     }
 }
