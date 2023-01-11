@@ -75,6 +75,7 @@ public class BlockRegister {
             new ShifterBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new ScannerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new MinerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+            new ChunkloaderBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -104,6 +105,7 @@ public class BlockRegister {
             new BlockItem(blocks[24],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[25],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[26],new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[27],new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -135,6 +137,7 @@ public class BlockRegister {
             "shifter",
             "scanner",
             "miner",
+            "chunkloader",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -168,6 +171,7 @@ public class BlockRegister {
     public static BlockEntityType<ShifterEntity> SHIFTER_ENTITY_TYPE;
     public static BlockEntityType<ScannerBlockEntity> SCANNER_ENTITY_TYPE;
     public static BlockEntityType<MinerBlockEntity> MINER_ENTITY_TYPE;
+    public static BlockEntityType<ChunkloaderBlockEntity> LOADER_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -190,6 +194,7 @@ public class BlockRegister {
         SHIFTER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"shifter"),FabricBlockEntityTypeBuilder.create(ShifterEntity::new,blocks[24]).build());
         SCANNER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"scanner"),FabricBlockEntityTypeBuilder.create(ScannerBlockEntity::new,blocks[25]).build());
         MINER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"miner"),FabricBlockEntityTypeBuilder.create(MinerBlockEntity::new,blocks[26]).build());
+        LOADER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"chunkloader"),FabricBlockEntityTypeBuilder.create(ChunkloaderBlockEntity::new,blocks[27]).build());
     }
 
     public static void RegistBlocksClientSide(){
