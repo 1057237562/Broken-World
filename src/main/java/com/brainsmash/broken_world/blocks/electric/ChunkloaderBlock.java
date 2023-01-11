@@ -35,11 +35,7 @@ public class ChunkloaderBlock extends ConsumerBlock {
 
     @Override
     public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        if(!world.isClient()){
-            ServerWorld serverWorld = (ServerWorld) world;
-            ChunkPos chunkPos = new ChunkPos(pos);
-            serverWorld.setChunkForced(chunkPos.x,chunkPos.z,false);
-        }
+        ((ChunkloaderBlockEntity)world.getBlockEntity(pos)).onRemove();
         super.onBroken(world, pos, state);
     }
 }
