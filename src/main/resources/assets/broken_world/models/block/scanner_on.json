@@ -8,11 +8,11 @@
     }
   },
   "textures": {
-    "north": "broken_world:block/scanner_front",
+    "north": "broken_world:block/scanner_front_on",
     "east": "broken_world:block/scanner_side",
     "south": "broken_world:block/scanner_frame",
     "west": "broken_world:block/scanner_side",
-    "up": "broken_world:block/scanner_top",
+    "up": "broken_world:block/scanner_top_on",
     "down": "broken_world:block/scanner_frame"
   }
 }
