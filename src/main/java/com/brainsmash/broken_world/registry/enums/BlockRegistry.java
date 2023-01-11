@@ -27,4 +27,6 @@ public enum BlockRegistry {
     IRON_SHEET_BOX,
     SCANNER,
     MINER,
+    CHUNKLOADER,
+    TELEPORT_PLATFORM,
 }

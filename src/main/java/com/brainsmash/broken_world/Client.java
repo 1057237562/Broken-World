@@ -26,6 +26,7 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.CRUSHER_GUI_DESCRIPTION, CrusherScreen::new);
         HandledScreens.register(Main.SHIFTER_GUI_DESCRIPTION, ShifterScreen::new);
         HandledScreens.register(Main.MINER_GUI_DESCRIPTION, MinerScreen::new);
+        HandledScreens.register(Main.TELEPORT_PLATFORM_GUI_DESCRIPTION,TeleporterPlatformScreen::new);
 
         BlockRegister.RegistBlocksClientSide();
         EntityRegister.RegistEntitiesClientSide();

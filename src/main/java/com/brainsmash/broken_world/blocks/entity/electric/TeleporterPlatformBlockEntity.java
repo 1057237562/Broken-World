@@ -1,17 +1,19 @@
-package com.brainsmash.broken_world.blocks.entity;
+package com.brainsmash.broken_world.blocks.entity.electric;
 
-import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
+import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
+import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterPlatformGuiDescription;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -19,10 +21,11 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
-public class TeleporterControllerEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory,ImplementedInventory {
+public class TeleporterPlatformBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
+
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
-
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
@@ -46,27 +49,14 @@ public class TeleporterControllerEntity extends ConsumerBlockEntity implements N
             return 2;
         }
     };
-
-    public TeleporterControllerEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE, pos, state);
-        setMaxCapacity(400000);
+    public TeleporterPlatformBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockRegister.TELEPORT_PLATFORM_ENTITY_TYPE,pos, state);
     }
+
 
     @Override
     public DefaultedList<ItemStack> getItems() {
         return inventory;
-    }
-
-    //These Methods are from the NamedScreenHandlerFactory Interface
-    //createMenu creates the ScreenHandler itself
-    //getDisplayName will Provide its name which is normally shown at the top
-
-    @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        //We provide *this* to the screenHandler as our class Implements Inventory
-        //Only the Server has the Inventory at the start, this will be synced to the client in the ScreenHandler
-        //return new TeleporterControllerScreenHandler(syncId, playerInventory, this);
-        return new TeleporterControllerGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
     }
 
     @Override
@@ -84,6 +74,26 @@ public class TeleporterControllerEntity extends ConsumerBlockEntity implements N
     public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
+    }
+
+    @Nullable
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+        NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
+        NbtList list = (NbtList) element.get("teleporterList");
+        if(list == null){
+            list = new NbtList();
+        }
+        for(NbtElement ele:list){
+            System.out.println(BlockPos.fromLong(((NbtCompound)ele).getLong("pos")));
+        }
+        NbtCompound nbt = new NbtCompound();
+        nbt.putLong("pos",pos.asLong());
+        nbt.putString("dimension",world.getDimensionKey().getValue().toString());
+        list.add(nbt);
+        element.put("teleporterList",list);
+        ((EntityDataExtension)player).setData(element);
+        return new TeleporterPlatformGuiDescription(syncId, inv, ScreenHandlerContext.create(world,pos));
     }
 
     @Override
