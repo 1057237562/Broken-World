@@ -20,10 +20,13 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +56,7 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
             boolean flag = true;
             for (NbtElement ele : list) {
                 NbtCompound nbt = (NbtCompound) ele;
-                if (nbt.getLong("pos") == pos.asLong() && Objects.equals(nbt.getString("dimension"), world.getDimensionKey().getValue().toString())) {
+                if (nbt.getLong("pos") == pos.asLong() && nbt.getString("dimension").equals(world.getDimensionKey().getValue().toString())) {
                     flag = false;
                 }
             }
@@ -71,22 +74,15 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
                     ScreenNetworking.of(this, NetworkSide.CLIENT).send(NEW_ENTRY, buffer -> {
                         buffer.writeString(text.getText());
                     });
-                    NbtCompound nbt = new NbtCompound();
-                    nbt.putLong("pos", pos.asLong());
-                    nbt.putString("dimension", world.getDimensionKey().getValue().toString());
-                    nbt.putString("name", text.getText());
-                    finalList.add(nbt);
-                    element.put("teleporterList", finalList);
-                    ((EntityDataExtension) player).setData(element);
                     root.remove(text);
                     root.remove(confirm);
-                    addComponent(root,element);
+                    addComponent(root,element,pos);
                     root.validate(this);
                 });
                 root.add(confirm, 7, 2, 2, 1);
                 root.validate(this);
             } else {
-                createGUI(element);
+                createGUI(element,pos);
             }
         }
     }
@@ -96,7 +92,22 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
         PlayerEntity player = playerInventory.player;
         ScreenNetworking.of(this,NetworkSide.SERVER).receive(SELECT_MESSAGE,buf -> {
             selectDest = buf.readString();
-
+            NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
+            NbtList list = (NbtList) element.get("teleporterList");
+            if(list == null){
+                list = new NbtList();
+            }
+            for(NbtElement ele:list){
+                NbtCompound compound = (NbtCompound) ele;
+                if(compound.getString("name").equals(selectDest)){
+                    ServerWorld destination = ((ServerWorld)world).getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY,new Identifier(compound.getString("dimension"))));
+                    if(destination != null){
+                        BlockPos blockPos = BlockPos.fromLong(compound.getLong("pos"));
+                        ((ServerPlayerEntity)player).teleport(destination, blockPos.getX(), blockPos.getY()+1, blockPos.getZ(), player.getYaw(), player.getPitch());
+                    }
+                    return;
+                }
+            }
         });
         ScreenNetworking.of(this, NetworkSide.SERVER).receive(NEW_ENTRY, buf -> {
             String name = buf.readString();
@@ -118,7 +129,7 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
         });
     }
 
-    public void addComponent(WGridPanel root,NbtCompound element){
+    public void addComponent(WGridPanel root,NbtCompound element,BlockPos pos){
         selectDest = "none";
         BiConsumer<String, WButton> buttonBiConsumer = (s, wButton) -> {
             wButton.setLabel(Text.of(s));
@@ -137,7 +148,9 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
         }
         for (NbtElement ele : list) {
             NbtCompound nbt = (NbtCompound) ele;
-            destinations.add(nbt.getString("name"));
+            if (!(nbt.getLong("pos") == pos.asLong() && nbt.getString("dimension").equals(world.getDimensionKey().getValue().toString()))) {
+                destinations.add(nbt.getString("name"));
+            }
         }
 
         WListPanel<String, WButton> destList = new WListPanel<>(destinations, () -> {
@@ -155,47 +168,13 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
         root.add(select, 8, 3);
     }
 
-    public void createGUI(NbtCompound element) {
+    public void createGUI(NbtCompound element,BlockPos pos) {
         WGridPanel root = new WGridPanel();
         setRootPanel(root);
         root.setSize(150, 175);
         root.setInsets(Insets.ROOT_PANEL);
         root.add(this.createPlayerInventoryPanel(), 0, 4);
-        selectDest = "none";
-        BiConsumer<String, WButton> buttonBiConsumer = (s, wButton) -> {
-            wButton.setLabel(Text.of(s));
-            wButton.setOnClick(() -> {
-                selectDest = s;
-            });
-        };
-        WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"), new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1);
-        bar.setProperties(propertyDelegate);
-        root.add(bar, 8, 1, 1, 1);
-
-        List<String> destinations = new ArrayList<>();
-        NbtList list = (NbtList) element.get("teleporterList");
-        if (list == null) {
-            list = new NbtList();
-        }
-        for (NbtElement ele : list) {
-            NbtCompound nbt = (NbtCompound) ele;
-            destinations.add(nbt.getString("name"));
-        }
-
-        WListPanel<String, WButton> destList = new WListPanel<>(destinations, () -> {
-            return new WButton(Text.of(""));
-        }, buttonBiConsumer);
-        root.add(destList, 0, 1, 8, 3);
-        WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
-        root.add(itemSlot, 8, 2);
-        WButton select = new WButton(Text.of("√"));
-        select.setOnClick(() -> {
-            ScreenNetworking.of(this, NetworkSide.CLIENT).send(SELECT_MESSAGE, buf -> {
-                buf.writeString(selectDest);
-            });
-        });
-        root.add(select, 8, 3);
-
+        addComponent(root,element,pos);
         root.validate(this);
     }
 
