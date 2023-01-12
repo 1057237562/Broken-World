@@ -2,8 +2,11 @@ package com.brainsmash.broken_world.screenhandlers.descriptions;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
+import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.DimensionRegister;
+import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.networking.NetworkSide;
 import io.github.cottonmc.cotton.gui.networking.ScreenNetworking;
@@ -21,10 +24,12 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 
@@ -103,7 +108,24 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
                     ServerWorld destination = ((ServerWorld)world).getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY,new Identifier(compound.getString("dimension"))));
                     if(destination != null){
                         BlockPos blockPos = BlockPos.fromLong(compound.getLong("pos"));
-                        ((ServerPlayerEntity)player).teleport(destination, blockPos.getX(), blockPos.getY()+1, blockPos.getZ(), player.getYaw(), player.getPitch());
+                        destination.getChunkManager().addTicket(ChunkTicketType.PORTAL,new ChunkPos(blockPos),1,blockPos);
+                        if(destination.getBlockState(blockPos).getBlock().equals(BlockRegister.blocks[BlockRegistry.TELEPORT_PLATFORM.ordinal()])){
+                            context.get((world,pos)->{
+                                if(world.getBlockEntity(pos) instanceof ConsumerBlockEntity blockEntity){
+                                    if(blockEntity.getEnergy() == blockEntity.getMaxCapacity()){
+                                        ((ServerPlayerEntity) player).teleport(destination, blockPos.getX(), blockPos.getY() + 1, blockPos.getZ(), player.getYaw(), player.getPitch());
+                                        blockEntity.setEnergy(0);
+                                    }
+                                }
+                                return true;
+                            });
+
+                        }else {
+                            list.remove(ele);
+                            element.put("teleporterList",list);
+                            ((EntityDataExtension)player).setData(element);
+                            ((ServerPlayerEntity)player).closeHandledScreen();
+                        }
                     }
                     return;
                 }

@@ -140,7 +140,7 @@ public class BlockRegister {
             "scanner",
             "miner",
             "chunkloader",
-            "teleport_platform"
+            "teleport_platform",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
