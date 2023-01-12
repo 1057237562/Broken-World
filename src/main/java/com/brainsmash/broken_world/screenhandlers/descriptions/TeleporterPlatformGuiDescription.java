@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.screenhandlers.descriptions;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
+import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.registry.DimensionRegister;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.networking.NetworkSide;
@@ -9,70 +10,193 @@ import io.github.cottonmc.cotton.gui.networking.ScreenNetworking;
 import io.github.cottonmc.cotton.gui.widget.*;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import net.kyrptonaught.customportalapi.CustomPortalApiRegistry;
-import net.kyrptonaught.customportalapi.portal.frame.PortalFrameTester;
 import net.kyrptonaught.customportalapi.util.CustomPortalHelper;
 import net.kyrptonaught.customportalapi.util.PortalLink;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.BlockLocating;
-import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 
 public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
     private static final Identifier SELECT_MESSAGE = new Identifier("broken_world", "select_button_click");
+    private static final Identifier NEW_ENTRY = new Identifier("broken_world","new_entry");
     private static final int INVENTORY_SIZE = 1;
     private static final int PROPERTY_COUNT = 2;
-    private String selectDim;
+    private String selectDest;
+
+    public TeleporterPlatformGuiDescription(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
+        this(syncId, playerInventory, buf.readBlockPos(),buf);
+    }
+
+    public TeleporterPlatformGuiDescription(int syncId, PlayerInventory playerInventory, BlockPos pos, PacketByteBuf buf) {
+        this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.world,pos));
+        if(getNetworkSide() == NetworkSide.CLIENT) {
+            PlayerEntity player = playerInventory.player;
+            NbtCompound element = buf.readUnlimitedNbt();
+            NbtList list = (NbtList) element.get("teleporterList");
+            if (list == null) {
+                list = new NbtList();
+            }
+            boolean flag = true;
+            for (NbtElement ele : list) {
+                NbtCompound nbt = (NbtCompound) ele;
+                if (nbt.getLong("pos") == pos.asLong() && Objects.equals(nbt.getString("dimension"), world.getDimensionKey().getValue().toString())) {
+                    flag = false;
+                }
+            }
+            if (flag) {
+                WGridPanel root = new WGridPanel();
+                setRootPanel(root);
+                root.setSize(150, 175);
+                root.setInsets(Insets.ROOT_PANEL);
+                root.add(this.createPlayerInventoryPanel(), 0, 4);
+                WTextField text = new WTextField();
+                root.add(text, 0, 2, 6, 1);
+                WButton confirm = new WButton(Text.of("✓"));
+                NbtList finalList = list;
+                confirm.setOnClick(() -> {
+                    ScreenNetworking.of(this, NetworkSide.CLIENT).send(NEW_ENTRY, buffer -> {
+                        buffer.writeString(text.getText());
+                    });
+                    NbtCompound nbt = new NbtCompound();
+                    nbt.putLong("pos", pos.asLong());
+                    nbt.putString("dimension", world.getDimensionKey().getValue().toString());
+                    nbt.putString("name", text.getText());
+                    finalList.add(nbt);
+                    element.put("teleporterList", finalList);
+                    ((EntityDataExtension) player).setData(element);
+                    root.remove(text);
+                    root.remove(confirm);
+                    addComponent(root,element);
+                    root.validate(this);
+                });
+                root.add(confirm, 7, 2, 2, 1);
+                root.validate(this);
+            } else {
+                createGUI(element);
+            }
+        }
+    }
 
     public TeleporterPlatformGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(Main.TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
-        ScreenNetworking.of(this, NetworkSide.SERVER).receive(SELECT_MESSAGE, buf -> {
-            selectDim = buf.readString();
+        super(Main.TELEPORT_PLATFORM_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
+        PlayerEntity player = playerInventory.player;
+        ScreenNetworking.of(this,NetworkSide.SERVER).receive(SELECT_MESSAGE,buf -> {
+            selectDest = buf.readString();
+
+        });
+        ScreenNetworking.of(this, NetworkSide.SERVER).receive(NEW_ENTRY, buf -> {
+            String name = buf.readString();
             context.get((world, pos) -> {
+                NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
+                NbtList list = (NbtList) element.get("teleporterList");
+                if(list == null){
+                    list = new NbtList();
+                }
+                NbtCompound nbt = new NbtCompound();
+                nbt.putLong("pos", pos.asLong());
+                nbt.putString("dimension", world.getDimensionKey().getValue().toString());
+                nbt.putString("name", name);
+                list.add(nbt);
+                element.put("teleporterList", list);
+                ((EntityDataExtension) player).setData(element);
                 return true;
             });
         });
+    }
 
-        WGridPanel root = new WGridPanel();
-        setRootPanel(root);
-        root.setSize(150, 175);
-        root.setInsets(Insets.ROOT_PANEL);
-        selectDim = "none";
-        BiConsumer<String,WButton> buttonBiConsumer = (s, wButton) -> {
+    public void addComponent(WGridPanel root,NbtCompound element){
+        selectDest = "none";
+        BiConsumer<String, WButton> buttonBiConsumer = (s, wButton) -> {
             wButton.setLabel(Text.of(s));
-            wButton.setOnClick(() -> {selectDim = s;});
+            wButton.setOnClick(() -> {
+                selectDest = s;
+            });
         };
-        WBar bar = new WBar(new Identifier(Main.MODID,"textures/gui/small_electric_bar.png"),new Identifier(Main.MODID,"textures/gui/small_electric_bar_filled.png"),0,1);
+        WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"), new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1);
         bar.setProperties(propertyDelegate);
-        root.add(bar, 8, 1,1,1);
-        WListPanel<String,WButton> dimList = new WListPanel<>(
-                List.of("broken_world:moon","broken_world:metallic","broken_world:lush","broken_world:sulfuric"),
-                () -> {
+        root.add(bar, 8, 1, 1, 1);
+
+        List<String> destinations = new ArrayList<>();
+        NbtList list = (NbtList) element.get("teleporterList");
+        if (list == null) {
+            list = new NbtList();
+        }
+        for (NbtElement ele : list) {
+            NbtCompound nbt = (NbtCompound) ele;
+            destinations.add(nbt.getString("name"));
+        }
+
+        WListPanel<String, WButton> destList = new WListPanel<>(destinations, () -> {
             return new WButton(Text.of(""));
         }, buttonBiConsumer);
-        root.add(dimList,0,1,8,3);
+        root.add(destList, 0, 1, 8, 3);
         WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
         root.add(itemSlot, 8, 2);
         WButton select = new WButton(Text.of("√"));
         select.setOnClick(() -> {
             ScreenNetworking.of(this, NetworkSide.CLIENT).send(SELECT_MESSAGE, buf -> {
-                    // Write the lucky number
-                    buf.writeString(selectDim);
+                buf.writeString(selectDest);
             });
         });
-        root.add(select,8,3);
+        root.add(select, 8, 3);
+    }
 
+    public void createGUI(NbtCompound element) {
+        WGridPanel root = new WGridPanel();
+        setRootPanel(root);
+        root.setSize(150, 175);
+        root.setInsets(Insets.ROOT_PANEL);
         root.add(this.createPlayerInventoryPanel(), 0, 4);
+        selectDest = "none";
+        BiConsumer<String, WButton> buttonBiConsumer = (s, wButton) -> {
+            wButton.setLabel(Text.of(s));
+            wButton.setOnClick(() -> {
+                selectDest = s;
+            });
+        };
+        WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"), new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1);
+        bar.setProperties(propertyDelegate);
+        root.add(bar, 8, 1, 1, 1);
+
+        List<String> destinations = new ArrayList<>();
+        NbtList list = (NbtList) element.get("teleporterList");
+        if (list == null) {
+            list = new NbtList();
+        }
+        for (NbtElement ele : list) {
+            NbtCompound nbt = (NbtCompound) ele;
+            destinations.add(nbt.getString("name"));
+        }
+
+        WListPanel<String, WButton> destList = new WListPanel<>(destinations, () -> {
+            return new WButton(Text.of(""));
+        }, buttonBiConsumer);
+        root.add(destList, 0, 1, 8, 3);
+        WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
+        root.add(itemSlot, 8, 2);
+        WButton select = new WButton(Text.of("√"));
+        select.setOnClick(() -> {
+            ScreenNetworking.of(this, NetworkSide.CLIENT).send(SELECT_MESSAGE, buf -> {
+                buf.writeString(selectDest);
+            });
+        });
+        root.add(select, 8, 3);
 
         root.validate(this);
     }
+
 }

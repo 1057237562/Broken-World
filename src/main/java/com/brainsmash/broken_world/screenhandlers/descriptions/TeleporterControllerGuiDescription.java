@@ -78,7 +78,7 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
         root.add(dimList,0,1,8,3);
         WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
         root.add(itemSlot, 8, 2);
-        WButton select = new WButton(Text.of("√"));
+        WButton select = new WButton(Text.of("✓"));
         select.setOnClick(() -> {
             ScreenNetworking.of(this, NetworkSide.CLIENT).send(SELECT_MESSAGE, buf -> {
                     // Write the lucky number

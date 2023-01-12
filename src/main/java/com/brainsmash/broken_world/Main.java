@@ -6,6 +6,7 @@ import com.brainsmash.broken_world.screenhandlers.descriptions.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
@@ -25,7 +26,7 @@ public class Main implements ModInitializer {
 	public static final ScreenHandlerType<CrusherGuiDescription> CRUSHER_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"crusher"),new ScreenHandlerType<>(((syncId, playerInventory) -> new CrusherGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 	public static final ScreenHandlerType<ShifterGuiDescription> SHIFTER_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"shifter"),new ScreenHandlerType<>(((syncId, playerInventory) -> new ShifterGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 	public static final ScreenHandlerType<MinerGuiDescription> MINER_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"miner"),new ScreenHandlerType<>(((syncId, playerInventory) -> new MinerGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
-	public static final ScreenHandlerType<TeleporterPlatformGuiDescription> TELEPORT_PLATFORM_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"teleport_platform"),new ScreenHandlerType<>(((syncId, playerInventory) -> new TeleporterPlatformGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
+	public static final ExtendedScreenHandlerType<TeleporterPlatformGuiDescription> TELEPORT_PLATFORM_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"teleport_platform"),new ExtendedScreenHandlerType<>(TeleporterPlatformGuiDescription::new));
 
 	@Override
 	public void onInitialize() {

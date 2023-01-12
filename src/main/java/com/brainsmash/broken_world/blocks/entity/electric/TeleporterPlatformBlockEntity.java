@@ -6,6 +6,7 @@ import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterPlatformGuiDescription;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -14,16 +15,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
-public class TeleporterPlatformBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
+public class TeleporterPlatformBlockEntity extends ConsumerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
@@ -79,25 +82,38 @@ public class TeleporterPlatformBlockEntity extends ConsumerBlockEntity implement
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
+        /*NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
         NbtList list = (NbtList) element.get("teleporterList");
         if(list == null){
             list = new NbtList();
         }
+        boolean flag = true;
         for(NbtElement ele:list){
-            System.out.println(BlockPos.fromLong(((NbtCompound)ele).getLong("pos")));
+            NbtCompound nbt = (NbtCompound) ele;
+            if(nbt.getLong("pos") == pos.asLong() && nbt.getString("dimension") == world.getDimensionKey().getValue().toString()){
+                flag = false;
+            }
         }
-        NbtCompound nbt = new NbtCompound();
-        nbt.putLong("pos",pos.asLong());
-        nbt.putString("dimension",world.getDimensionKey().getValue().toString());
-        list.add(nbt);
-        element.put("teleporterList",list);
-        ((EntityDataExtension)player).setData(element);
+        if(flag) {
+            NbtCompound nbt = new NbtCompound();
+            nbt.putLong("pos", pos.asLong());
+            nbt.putString("dimension", world.getDimensionKey().getValue().toString());
+            list.add(nbt);
+            element.put("teleporterList", list);
+            ((EntityDataExtension) player).setData(element);
+        }*/
         return new TeleporterPlatformGuiDescription(syncId, inv, ScreenHandlerContext.create(world,pos));
     }
 
     @Override
     public PropertyDelegate getPropertyDelegate() {
         return propertyDelegate;
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
+        buf.writeBlockPos(pos);
+        NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
+        buf.writeNbt(element);
     }
 }
