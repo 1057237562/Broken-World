@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.entity.electric;
+package com.brainsmash.broken_world.blocks.entity.electric.generator;
 
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;

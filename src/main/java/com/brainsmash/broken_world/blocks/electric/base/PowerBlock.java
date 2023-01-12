@@ -1,6 +1,5 @@
 package com.brainsmash.broken_world.blocks.electric.base;
 
-import com.brainsmash.broken_world.blocks.entity.electric.GeneratorEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.EnergyManager;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import net.minecraft.block.BlockRenderType;
@@ -21,8 +20,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.logging.LogManager;
 
 public class PowerBlock extends BlockWithEntity {
 

@@ -1,21 +1,15 @@
 package com.brainsmash.broken_world.screenhandlers.descriptions;
 
 import com.brainsmash.broken_world.Main;
-import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import com.brainsmash.broken_world.registry.DimensionRegister;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.networking.NetworkSide;
 import io.github.cottonmc.cotton.gui.networking.ScreenNetworking;
 import io.github.cottonmc.cotton.gui.widget.*;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
-import net.kyrptonaught.customportalapi.CustomPortalApiRegistry;
-import net.kyrptonaught.customportalapi.util.CustomPortalHelper;
-import net.kyrptonaught.customportalapi.util.PortalLink;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
@@ -35,7 +29,6 @@ import net.minecraft.util.registry.RegistryKey;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.BiConsumer;
 
 public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {

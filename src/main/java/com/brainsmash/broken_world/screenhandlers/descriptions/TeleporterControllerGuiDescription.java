@@ -1,7 +1,7 @@
 package com.brainsmash.broken_world.screenhandlers.descriptions;
 
 import com.brainsmash.broken_world.Main;
-import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.TeleporterControllerEntity;
 import com.brainsmash.broken_world.registry.DimensionRegister;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.networking.NetworkSide;

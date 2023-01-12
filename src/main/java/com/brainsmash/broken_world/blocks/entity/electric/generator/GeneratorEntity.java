@@ -1,6 +1,5 @@
-package com.brainsmash.broken_world.blocks.entity.electric;
+package com.brainsmash.broken_world.blocks.entity.electric.generator;
 
-import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
@@ -8,7 +7,6 @@ import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.BurnTimeRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.GeneratorGuiDescription;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
-import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.entity;
+package com.brainsmash.broken_world.blocks.entity.electric;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
@@ -50,6 +50,11 @@ public class TeleporterControllerEntity extends ConsumerBlockEntity implements N
     public TeleporterControllerEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE, pos, state);
         setMaxCapacity(400000);
+    }
+
+    @Override
+    public int getMaxFlow() {
+        return 128;
     }
 
     @Override

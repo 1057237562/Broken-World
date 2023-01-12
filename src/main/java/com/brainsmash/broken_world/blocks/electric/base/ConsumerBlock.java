@@ -1,6 +1,5 @@
 package com.brainsmash.broken_world.blocks.electric.base;
 
-import com.brainsmash.broken_world.blocks.entity.electric.GeneratorEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.EnergyManager;
 import net.minecraft.block.BlockRenderType;

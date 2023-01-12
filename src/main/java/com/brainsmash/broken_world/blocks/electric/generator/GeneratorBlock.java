@@ -1,66 +1,48 @@
-package com.brainsmash.broken_world.blocks.electric;
+package com.brainsmash.broken_world.blocks.electric.generator;
 
 import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
-import com.brainsmash.broken_world.blocks.entity.electric.GeneratorEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.SolarPanelEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.generator.GeneratorEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class SolarPanelBlock extends PowerBlock {
-
-    protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0);
-    public SolarPanelBlock(Settings settings) {
+public class GeneratorBlock extends PowerBlock {
+    public GeneratorBlock(Settings settings) {
         super(settings);
+        setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT, false));
     }
 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new SolarPanelEntity(pos,state);
+        return new GeneratorEntity(pos,state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if(!world.isClient && world.getDimension().hasSkyLight())
-            return (world1, pos, state1, blockEntity) -> ((SolarPanelEntity) blockEntity).tick(world1, pos, state1, (SolarPanelEntity) blockEntity);
+        if(!world.isClient)
+            return (world1, pos, state1, blockEntity) -> ((GeneratorEntity) blockEntity).tick(world1, pos, state1, (GeneratorEntity) blockEntity);
         return null;
-    }
-
-    @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return SHAPE;
-    }
-
-    @Override
-    public boolean hasSidedTransparency(BlockState state) {
-        return true;
     }
 
     @Override
@@ -85,24 +67,41 @@ public class SolarPanelBlock extends PowerBlock {
     }
 
     @Override
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof GeneratorEntity) {
-                // update comparators
-                world.updateComparators(pos,this);
-            }
-            super.onStateReplaced(state, world, pos, newState, moved);
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        if (!state.get(Properties.LIT).booleanValue()) {
+            return;
         }
+        double d = (double)pos.getX() + 0.5;
+        double e = pos.getY();
+        double f = (double)pos.getZ() + 0.5;
+        if (random.nextDouble() < 0.1) {
+            world.playSound(d, e, f, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
+        }
+        Direction direction = state.get(Properties.HORIZONTAL_FACING);
+        Direction.Axis axis = direction.getAxis();
+        double g = 0.52;
+        double h = random.nextDouble() * 0.6 - 0.3;
+        double i = axis == Direction.Axis.X ? (double)direction.getOffsetX() * 0.52 : h;
+        double j = random.nextDouble() * 6.0 / 16.0;
+        double k = axis == Direction.Axis.Z ? (double)direction.getOffsetZ() * 0.52 : h;
+        world.addParticle(ParticleTypes.SMOKE, d + i, e + j, f + k, 0.0, 0.0, 0.0);
+        world.addParticle(ParticleTypes.FLAME, d + i, e + j, f + k, 0.0, 0.0, 0.0);
     }
 
     @Override
     public boolean hasComparatorOutput(BlockState state) {
         return true;
     }
-
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(Properties.HORIZONTAL_FACING, Properties.LIT);
+    }
     @Override
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
+    }
+    @Override
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
     }
 }

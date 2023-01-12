@@ -1,11 +1,15 @@
 package com.brainsmash.broken_world.registry;
 
-import com.brainsmash.broken_world.blocks.TeleporterController;
+import com.brainsmash.broken_world.blocks.FluidTank;
+import com.brainsmash.broken_world.blocks.electric.TeleporterController;
 import com.brainsmash.broken_world.blocks.client.render.entity.ScannerBlockEntityRenderer;
 import com.brainsmash.broken_world.blocks.electric.*;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
-import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
+import com.brainsmash.broken_world.blocks.electric.generator.GeneratorBlock;
+import com.brainsmash.broken_world.blocks.electric.generator.SolarPanelBlock;
+import com.brainsmash.broken_world.blocks.entity.FluidTankEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.TeleporterControllerEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
@@ -13,6 +17,8 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEnti
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.client.render.entity.CreativeBatteryBlockEntityRenderer;
 import com.brainsmash.broken_world.blocks.client.render.entity.CreativeGeneratorBlockEntityRenderer;
+import com.brainsmash.broken_world.blocks.entity.electric.generator.GeneratorEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.generator.SolarPanelEntity;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -20,12 +26,10 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.sound.BlockSoundGroup;
@@ -43,7 +47,6 @@ import java.util.Arrays;
 
 import static com.brainsmash.broken_world.Main.MODID;
 import static com.brainsmash.broken_world.registry.ItemRegister.ITEM_GROUP;
-import static net.minecraft.client.render.RenderPhase.*;
 
 public class BlockRegister {
 
@@ -77,6 +80,7 @@ public class BlockRegister {
             new MinerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new ChunkloaderBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new TeleporterPlatformBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+            new FluidTank(FabricBlockSettings.of(Material.GLASS).sounds(BlockSoundGroup.GLASS).strength(1.5f,1.5f)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -108,6 +112,7 @@ public class BlockRegister {
             new BlockItem(blocks[26],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[27],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[28],new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[29],new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -141,6 +146,7 @@ public class BlockRegister {
             "miner",
             "chunkloader",
             "teleport_platform",
+            "fluid_tank",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -176,6 +182,7 @@ public class BlockRegister {
     public static BlockEntityType<MinerBlockEntity> MINER_ENTITY_TYPE;
     public static BlockEntityType<ChunkloaderBlockEntity> LOADER_ENTITY_TYPE;
     public static BlockEntityType<TeleporterPlatformBlockEntity> TELEPORT_PLATFORM_ENTITY_TYPE;
+    public static BlockEntityType<FluidTankEntity> FLUID_TANK_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -200,15 +207,17 @@ public class BlockRegister {
         MINER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"miner"),FabricBlockEntityTypeBuilder.create(MinerBlockEntity::new,blocks[26]).build());
         LOADER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"chunkloader"),FabricBlockEntityTypeBuilder.create(ChunkloaderBlockEntity::new,blocks[27]).build());
         TELEPORT_PLATFORM_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleport_platform"),FabricBlockEntityTypeBuilder.create(TeleporterPlatformBlockEntity::new,blocks[28]).build());
+        FLUID_TANK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"fluid_tank"),FabricBlockEntityTypeBuilder.create(FluidTankEntity::new,blocks[29]).build());
     }
 
-    public static void RegistBlocksClientSide(){
+    public static void RegistBlocksClientSide() {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CREATIVE_BATTERY.ordinal()], RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CREATIVE_GENERATOR.ordinal()], RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.SCANNER.ordinal()],RenderLayer.getSolid());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.SCANNER.ordinal()], RenderLayer.getSolid());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR, CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         BlockEntityRendererRegistry.register(CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(CREATIVE_GENERATOR_ENTITY_TYPE, CreativeGeneratorBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(SCANNER_ENTITY_TYPE, ScannerBlockEntityRenderer::new);
+        FluidStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.fluidStorage, FLUID_TANK_ENTITY_TYPE);
     }
 }

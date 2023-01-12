@@ -1,32 +1,55 @@
-package com.brainsmash.broken_world.blocks;
+package com.brainsmash.broken_world.blocks.electric.generator;
 
-import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
-import com.brainsmash.broken_world.blocks.entity.TeleporterControllerEntity;
-import net.minecraft.block.*;
+import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
+import com.brainsmash.broken_world.blocks.entity.electric.generator.GeneratorEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.generator.SolarPanelEntity;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-public class TeleporterController extends ConsumerBlock {
-    public TeleporterController(AbstractBlock.Settings settings) {
+public class SolarPanelBlock extends PowerBlock {
+
+    protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0);
+    public SolarPanelBlock(Settings settings) {
         super(settings);
     }
 
+    @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new TeleporterControllerEntity(pos, state);
+        return new SolarPanelEntity(pos,state);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        if(!world.isClient && world.getDimension().hasSkyLight())
+            return (world1, pos, state1, blockEntity) -> ((SolarPanelEntity) blockEntity).tick(world1, pos, state1, (SolarPanelEntity) blockEntity);
+        return null;
+    }
+
+    @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return SHAPE;
+    }
+
+    @Override
+    public boolean hasSidedTransparency(BlockState state) {
+        return true;
     }
 
     @Override
@@ -50,16 +73,11 @@ public class TeleporterController extends ConsumerBlock {
         return ActionResult.SUCCESS;
     }
 
-
-    //This method will drop all items onto the ground when the block is broken
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof TeleporterControllerEntity) {
-                if(world instanceof ServerWorld){
-                    ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
-                }
+            if (blockEntity instanceof GeneratorEntity) {
                 // update comparators
                 world.updateComparators(pos,this);
             }
@@ -71,16 +89,9 @@ public class TeleporterController extends ConsumerBlock {
     public boolean hasComparatorOutput(BlockState state) {
         return true;
     }
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING);
-    }
+
     @Override
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
-    }
-    @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
     }
 }
