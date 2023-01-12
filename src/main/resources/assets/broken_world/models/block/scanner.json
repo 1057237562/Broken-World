@@ -1,18 +1,9 @@
 {
-  "parent": "minecraft:block/cube",
-  "display": {
-    "firstperson_righthand": {
-      "rotation": [ 0, 135, 0 ],
-      "translation": [ 0, 0, 0 ],
-      "scale": [ 0.40, 0.40, 0.40 ]
-    }
-  },
+  "parent": "minecraft:block/orientable_with_bottom",
   "textures": {
-    "north": "broken_world:block/scanner_front",
-    "east": "broken_world:block/scanner_side",
-    "south": "broken_world:block/scanner_frame",
-    "west": "broken_world:block/scanner_side",
-    "up": "broken_world:block/scanner_top",
-    "down": "broken_world:block/scanner_frame"
+    "top": "broken_world:block/scanner_top", 
+    "front": "broken_world:block/scanner_front", 
+    "bottom": "#side", 
+    "side": "broken_world:block/scanner_side"
   }
 }
