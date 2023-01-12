@@ -1,0 +1,56 @@
+{
+  "texture": {
+    "out": "broken_world:block/tank",
+    "in": "broken_world:block/tank_frame"
+  }, 
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ], 
+      "to": [ 16, 16, 0 ],
+      "faces": {
+	"north": { "texture": "#out" }, 
+	"south": { "texture": "#in" }
+      }
+    },
+    {
+      "from": [ 16, 0, 0 ], 
+      "to": [ 16, 16, 16 ],
+      "faces": {
+	"east": { "texture": "#out" }, 
+	"west": { "texture": "#in" }
+      }
+    },
+    {
+      "from": [ 0, 0, 16 ], 
+      "to": [ 16, 16, 16 ],
+      "faces": {
+	"south": { "texture": "#out" }, 
+	"north": { "texture": "#in" }
+      }
+    },
+    {
+      "from": [ 0, 0, 0 ], 
+      "to": [ 0, 16, 16 ],
+      "faces": {
+	"west": { "texture": "#out" }, 
+	"east": { "texture": "#in" }
+      }
+    },
+    {
+      "from": [ 0, 0, 0 ], 
+      "to": [ 16, 0, 16 ],
+      "faces": {
+	"down": { "texture": "#out" }, 
+	"up": { "texture": "#in" }
+      }
+    },
+    {
+      "from": [ 0, 16, 0 ], 
+      "to": [ 16, 16, 16 ],
+      "faces": {
+	"up": { "texture": "#out" }, 
+	"down": { "texture": "#in" }
+      }
+    }
+  ]
+}
