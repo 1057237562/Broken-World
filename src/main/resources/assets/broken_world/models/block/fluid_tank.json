@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "broken_world:block/tank_side",
+    "top": "broken_world:block/tank",
+    "bottom": "broken_world:block/tank"
+  }
+}
