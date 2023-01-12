@@ -115,6 +115,7 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
                                     if(blockEntity.getEnergy() == blockEntity.getMaxCapacity()){
                                         ((ServerPlayerEntity) player).teleport(destination, blockPos.getX(), blockPos.getY() + 1, blockPos.getZ(), player.getYaw(), player.getPitch());
                                         blockEntity.setEnergy(0);
+                                        ((ServerPlayerEntity)player).closeHandledScreen();
                                     }
                                 }
                                 return true;

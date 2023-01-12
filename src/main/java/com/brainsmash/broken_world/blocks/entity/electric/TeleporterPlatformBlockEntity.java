@@ -54,6 +54,7 @@ public class TeleporterPlatformBlockEntity extends ConsumerBlockEntity implement
     };
     public TeleporterPlatformBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.TELEPORT_PLATFORM_ENTITY_TYPE,pos, state);
+        setMaxCapacity(10000);
     }
 
 
@@ -82,26 +83,6 @@ public class TeleporterPlatformBlockEntity extends ConsumerBlockEntity implement
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        /*NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
-        NbtList list = (NbtList) element.get("teleporterList");
-        if(list == null){
-            list = new NbtList();
-        }
-        boolean flag = true;
-        for(NbtElement ele:list){
-            NbtCompound nbt = (NbtCompound) ele;
-            if(nbt.getLong("pos") == pos.asLong() && nbt.getString("dimension") == world.getDimensionKey().getValue().toString()){
-                flag = false;
-            }
-        }
-        if(flag) {
-            NbtCompound nbt = new NbtCompound();
-            nbt.putLong("pos", pos.asLong());
-            nbt.putString("dimension", world.getDimensionKey().getValue().toString());
-            list.add(nbt);
-            element.put("teleporterList", list);
-            ((EntityDataExtension) player).setData(element);
-        }*/
         return new TeleporterPlatformGuiDescription(syncId, inv, ScreenHandlerContext.create(world,pos));
     }
 
