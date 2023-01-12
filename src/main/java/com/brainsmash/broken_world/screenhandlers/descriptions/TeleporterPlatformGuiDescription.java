@@ -41,6 +41,7 @@ import java.util.function.BiConsumer;
 public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
     private static final Identifier SELECT_MESSAGE = new Identifier("broken_world", "select_button_click");
     private static final Identifier NEW_ENTRY = new Identifier("broken_world","new_entry");
+    private static final Identifier UNREGIST = new Identifier("broken_world","unregist");
     private static final int INVENTORY_SIZE = 1;
     private static final int PROPERTY_COUNT = 2;
     private String selectDest;
@@ -74,7 +75,6 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
                 WTextField text = new WTextField();
                 root.add(text, 0, 2, 6, 1);
                 WButton confirm = new WButton(Text.of("✓"));
-                NbtList finalList = list;
                 confirm.setOnClick(() -> {
                     ScreenNetworking.of(this, NetworkSide.CLIENT).send(NEW_ENTRY, buffer -> {
                         buffer.writeString(text.getText());
@@ -95,6 +95,26 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
     public TeleporterPlatformGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(Main.TELEPORT_PLATFORM_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
         PlayerEntity player = playerInventory.player;
+        ScreenNetworking.of(this,NetworkSide.SERVER).receive(UNREGIST,buf -> {
+            context.get((world,pos)->{
+                NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
+                NbtList list = (NbtList) element.get("teleporterList");
+                if (list == null) {
+                    list = new NbtList();
+                }
+                for (NbtElement ele : list) {
+                    NbtCompound nbt = (NbtCompound) ele;
+                    if (nbt.getLong("pos") == pos.asLong() && nbt.getString("dimension").equals(world.getDimensionKey().getValue().toString())) {
+                        list.remove(ele);
+                        break;
+                    }
+                }
+                element.put("teleporterList",list);
+                ((EntityDataExtension)player).setData(element);
+                ((ServerPlayerEntity)player).closeHandledScreen();
+                return true;
+            });
+        });
         ScreenNetworking.of(this,NetworkSide.SERVER).receive(SELECT_MESSAGE,buf -> {
             selectDest = buf.readString();
             NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
@@ -185,8 +205,12 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
             return new WButton(Text.of(""));
         }, buttonBiConsumer);
         root.add(destList, 0, 1, 8, 3);
-        WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
-        root.add(itemSlot, 8, 2);
+        WButton unregist = new WButton(Text.of("×"));
+        unregist.setOnClick(()->{
+            ScreenNetworking.of(this, NetworkSide.CLIENT).send(UNREGIST, buf -> {
+            });
+        });
+        root.add(unregist,8,2,1,1);
         WButton select = new WButton(Text.of("√"));
         select.setOnClick(() -> {
             ScreenNetworking.of(this, NetworkSide.CLIENT).send(SELECT_MESSAGE, buf -> {
