@@ -127,6 +127,11 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
                             ((EntityDataExtension)player).setData(element);
                             ((ServerPlayerEntity)player).closeHandledScreen();
                         }
+                    }else{
+                        list.remove(ele);
+                        element.put("teleporterList",list);
+                        ((EntityDataExtension)player).setData(element);
+                        ((ServerPlayerEntity)player).closeHandledScreen();
                     }
                     return;
                 }

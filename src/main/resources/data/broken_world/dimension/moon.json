@@ -1,5 +1,5 @@
 {
-  "type": "broken_world:moon_type",
+  "type": "broken_world:moon",
   "generator": {
     "type": "minecraft:noise",
     "settings": "broken_world:moon_noise_gen",

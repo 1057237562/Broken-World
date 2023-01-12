@@ -1,5 +1,5 @@
 {
-  "type": "broken_world:lush_type",
+  "type": "broken_world:lush",
   "generator": {
     "type": "minecraft:noise",
     "settings": "minecraft:overworld",

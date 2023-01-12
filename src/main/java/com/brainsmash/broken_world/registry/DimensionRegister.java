@@ -15,9 +15,9 @@ import static com.brainsmash.broken_world.registry.BlockRegister.blocks;
 
 public class DimensionRegister {
 
-    public static final java.util.List<String> noAirDimension = Arrays.asList("broken_world.moon_type");
-    public static final List<String> noCloudDimension = Arrays.asList("broken_world.moon_type");
-    public static final List<String> noMoonDimension = Arrays.asList("broken_world.moon_type");
+    public static final java.util.List<String> noAirDimension = Arrays.asList("broken_world.moon");
+    public static final List<String> noCloudDimension = Arrays.asList("broken_world.moon");
+    public static final List<String> noMoonDimension = Arrays.asList("broken_world.moon");
     public static ConcurrentHashMap<String, PortalLink> dimensions = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, Double> dimensionGravity = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, Integer> dimensionEnergyCost = new ConcurrentHashMap<>();
@@ -33,8 +33,8 @@ public class DimensionRegister {
         dimensions.put("broken_world:lush",new PortalLink(new Identifier(MODID,blocknames[12]),new Identifier(MODID,"lush"),Color.GREEN.getRGB()));
         dimensions.put("broken_world:sulfuric",new PortalLink(new Identifier(MODID,blocknames[15]),new Identifier(MODID,"sulfuric"),new Color(210,180,0).getRGB()));
 
-        dimensionGravity.put("broken_world.moon_type",0.1);
-        dimensionGravity.put("broken_world.metallic_type",0.8);
+        dimensionGravity.put("broken_world.moon",0.1);
+        dimensionGravity.put("broken_world.metallic",0.8);
         dimensionGravity.put("broken_world.sulfuric",1.1);
 
         dimensionEnergyCost.put("broken_world:lush",50000);

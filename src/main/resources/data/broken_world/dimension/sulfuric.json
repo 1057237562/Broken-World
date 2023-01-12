@@ -1,5 +1,5 @@
 {
-  "type": "broken_world:sulfuric_type",
+  "type": "broken_world:sulfuric",
   "generator": {
     "type": "minecraft:noise",
     "settings": "broken_world:sulfuric_noise_gen",
