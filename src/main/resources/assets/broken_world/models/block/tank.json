@@ -1,6 +1,7 @@
 {
   "texture": {
-    "out": "broken_world:block/tank",
+    "side": "broken_world:block/tank_side",
+    "vert": "broken_world:block/tank",
     "in": "broken_world:block/tank_frame"
   }, 
   "elements": [
@@ -8,15 +9,15 @@
       "from": [ 0, 0, 0 ], 
       "to": [ 16, 16, 0 ],
       "faces": {
-	"north": { "texture": "#out" }, 
-	"south": { "texture": "#in" }
+	"north": { "texture": "#side" }, 
+	"ssideh": { "texture": "#in" }
       }
     },
     {
       "from": [ 16, 0, 0 ], 
       "to": [ 16, 16, 16 ],
       "faces": {
-	"east": { "texture": "#out" }, 
+	"east": { "texture": "#side" }, 
 	"west": { "texture": "#in" }
       }
     },
@@ -24,7 +25,7 @@
       "from": [ 0, 0, 16 ], 
       "to": [ 16, 16, 16 ],
       "faces": {
-	"south": { "texture": "#out" }, 
+	"ssideh": { "texture": "#side" }, 
 	"north": { "texture": "#in" }
       }
     },
@@ -32,7 +33,7 @@
       "from": [ 0, 0, 0 ], 
       "to": [ 0, 16, 16 ],
       "faces": {
-	"west": { "texture": "#out" }, 
+	"west": { "texture": "#side" }, 
 	"east": { "texture": "#in" }
       }
     },
@@ -40,7 +41,7 @@
       "from": [ 0, 0, 0 ], 
       "to": [ 16, 0, 16 ],
       "faces": {
-	"down": { "texture": "#out" }, 
+	"down": { "texture": "#vert" }, 
 	"up": { "texture": "#in" }
       }
     },
@@ -48,7 +49,7 @@
       "from": [ 0, 16, 0 ], 
       "to": [ 16, 16, 16 ],
       "faces": {
-	"up": { "texture": "#out" }, 
+	"up": { "texture": "#vert" }, 
 	"down": { "texture": "#in" }
       }
     }
