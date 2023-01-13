@@ -11,8 +11,10 @@ import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.BurnTimeRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.GeneratorGuiDescription;
+import com.brainsmash.broken_world.screenhandlers.descriptions.ThermalGeneratorGuiDescription;
 import com.brainsmash.broken_world.util.ThermalFluidInv;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,10 +23,12 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
@@ -33,8 +37,14 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory, PropertyDelegateHolder {
+public class ThermalGeneratorEntity extends PowerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, PropertyDelegateHolder {
 
+
+    private static final FluidAmount SINGLE_TANK_CAPACITY = FluidAmount.BUCKET.mul(16);
+
+    public final ThermalFluidInv fluidInv;
+
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
@@ -44,6 +54,10 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
                     return getEnergy();
                 case 1:
                     return getMaxCapacity();
+                case 2:
+                    return fluidInv.getInvFluid(0).amount().as1620();
+                case 3:
+                    return SINGLE_TANK_CAPACITY.as1620();
                 default:
                     return -1;
             }
@@ -56,18 +70,13 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
 
         @Override
         public int size() {
-            return 2;
+            return 4;
         }
     };
 
-    private static final FluidAmount SINGLE_TANK_CAPACITY = FluidAmount.BUCKET.mul(16);
-
-    public final ThermalFluidInv fluidInv;
-
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     public ThermalGeneratorEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.THERMAL_GENERATOR_ENTITY_TYPE, pos, state);
-        setMaxCapacity(500);
+        setMaxCapacity(2000);
         setGenerate(10);
         fluidInv = new ThermalFluidInv(1, SINGLE_TANK_CAPACITY);
     }
@@ -75,9 +84,9 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient) {
-            if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isPositive() && getEnergy() < getMaxCapacity()) {
+            if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.of1620(5)) && getEnergy() < getMaxCapacity()) {
                 running = true;
-                fluidInv.getInvFluid(0).split(FluidAmount.of1620(1));
+                fluidInv.getInvFluid(0).split(FluidAmount.of1620(5));
                 markDirty();
             } else {
                 running = false;
@@ -122,7 +131,7 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
         //We provide *this* to the screenHandler as our class Implements Inventory
         //Only the Server has the Inventory at the start, this will be synced to the client in the ScreenHandler
         //return new TeleporterControllerScreenHandler(syncId, playerInventory, this);
-        return new GeneratorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
+        return new ThermalGeneratorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
     }
 
     @Override
@@ -133,5 +142,11 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
     @Override
     public PropertyDelegate getPropertyDelegate() {
         return propertyDelegate;
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
+        buf.writeBlockPos(pos);
+        buf.writeNbt(fluidInv.getInvFluid(0).toTag());
     }
 }
