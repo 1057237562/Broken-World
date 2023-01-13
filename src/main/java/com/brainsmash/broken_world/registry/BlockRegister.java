@@ -146,7 +146,7 @@ public class BlockRegister {
             "miner",
             "chunkloader",
             "teleport_platform",
-            "fluid_tank",
+            "tank",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -207,7 +207,7 @@ public class BlockRegister {
         MINER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"miner"),FabricBlockEntityTypeBuilder.create(MinerBlockEntity::new,blocks[26]).build());
         LOADER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"chunkloader"),FabricBlockEntityTypeBuilder.create(ChunkloaderBlockEntity::new,blocks[27]).build());
         TELEPORT_PLATFORM_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleport_platform"),FabricBlockEntityTypeBuilder.create(TeleporterPlatformBlockEntity::new,blocks[28]).build());
-        FLUID_TANK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"fluid_tank"),FabricBlockEntityTypeBuilder.create(FluidTankEntity::new,blocks[29]).build());
+        FLUID_TANK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"tank"),FabricBlockEntityTypeBuilder.create(FluidTankEntity::new,blocks[29]).build());
     }
 
     public static void RegistBlocksClientSide() {
