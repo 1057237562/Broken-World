@@ -65,7 +65,7 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
     public ThermalGeneratorEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.GENERATOR_ENTITY_TYPE, pos, state);
         setMaxCapacity(500);
-        setGenerate(4);
+        setGenerate(10);
     }
 
     @Override

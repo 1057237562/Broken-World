@@ -1,5 +1,7 @@
 package com.brainsmash.broken_world.blocks.electric.generator;
 
+import alexiil.mc.lib.attributes.AttributeList;
+import alexiil.mc.lib.attributes.AttributeProvider;
 import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.ThermalGeneratorEntity;
 import net.minecraft.block.BlockState;
@@ -12,7 +14,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ThermalGeneratorBlock extends PowerBlock {
+public class ThermalGeneratorBlock extends PowerBlock implements AttributeProvider {
     public ThermalGeneratorBlock(Settings settings) {
         super(settings);
         setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT, false));
@@ -29,5 +31,10 @@ public class ThermalGeneratorBlock extends PowerBlock {
         if(!world.isClient)
             return (world1, pos, state1, blockEntity) -> ((ThermalGeneratorEntity) blockEntity).tick(world1, pos, state1, (ThermalGeneratorEntity) blockEntity);
         return null;
+    }
+
+    @Override
+    public void addAllAttributes(World world, BlockPos pos, BlockState state, AttributeList<?> to) {
+
     }
 }

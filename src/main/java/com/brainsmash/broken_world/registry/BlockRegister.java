@@ -211,6 +211,5 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(CREATIVE_GENERATOR_ENTITY_TYPE, CreativeGeneratorBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(SCANNER_ENTITY_TYPE, ScannerBlockEntityRenderer::new);
-        FluidStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.fluidStorage, FLUID_TANK_ENTITY_TYPE);
     }
 }
