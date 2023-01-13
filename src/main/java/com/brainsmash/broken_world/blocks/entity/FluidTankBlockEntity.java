@@ -2,7 +2,6 @@ package com.brainsmash.broken_world.blocks.entity;
 
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -12,7 +11,6 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -28,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static com.brainsmash.broken_world.Main.MODID;
 
-public class FluidTankEntity extends BlockEntity  implements ExtendedScreenHandlerFactory, ImplementedInventory {
+public class FluidTankBlockEntity extends BlockEntity  implements ExtendedScreenHandlerFactory, ImplementedInventory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     public static final Identifier fluid = new Identifier(MODID,"fluid");
@@ -53,13 +51,13 @@ public class FluidTankEntity extends BlockEntity  implements ExtendedScreenHandl
             if (!world.isClient) {
                 var buf = PacketByteBufs.create();
                 // Write your data here.
-                PlayerLookup.tracking(FluidTankEntity.this).forEach(player -> {
+                PlayerLookup.tracking(FluidTankBlockEntity.this).forEach(player -> {
                     ServerPlayNetworking.send(player, fluid, buf);
                 });
             }
         }
     };
-    public FluidTankEntity(BlockPos pos, BlockState state) {
+    public FluidTankBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.FLUID_TANK_ENTITY_TYPE,pos, state);
     }
 

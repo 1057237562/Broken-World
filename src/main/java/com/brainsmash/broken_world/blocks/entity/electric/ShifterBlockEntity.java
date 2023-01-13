@@ -5,7 +5,6 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEnti
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.ShifterRegister;
-import com.brainsmash.broken_world.screenhandlers.descriptions.CrusherGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.ShifterGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.Block;
@@ -29,11 +28,11 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class ShifterEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
+public class ShifterBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(23, ItemStack.EMPTY);
     public final Random random = new Random();
 
-    public ShifterEntity(BlockPos pos, BlockState state) {
+    public ShifterBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.SHIFTER_ENTITY_TYPE,pos, state);
         setMaxCapacity(500);
         maxProgression = 75;

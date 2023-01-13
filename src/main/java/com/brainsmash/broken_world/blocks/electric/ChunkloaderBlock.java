@@ -2,7 +2,6 @@ package com.brainsmash.broken_world.blocks.electric;
 
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.ChunkloaderBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.CrusherEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;

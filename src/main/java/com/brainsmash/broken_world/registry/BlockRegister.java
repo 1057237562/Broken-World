@@ -8,8 +8,8 @@ import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.GeneratorBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.SolarPanelBlock;
-import com.brainsmash.broken_world.blocks.entity.FluidTankEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.TeleporterControllerEntity;
+import com.brainsmash.broken_world.blocks.entity.FluidTankBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.TeleporterControllerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
@@ -167,7 +167,7 @@ public class BlockRegister {
 
     private static final String[] configurenames = {"moon_sand","moon_iron_ore","moon_gold_ore","moon_redstone_ore","tungsten_ore"};
 
-    public static BlockEntityType<TeleporterControllerEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;
+    public static BlockEntityType<TeleporterControllerBlockEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;
     public static BlockEntityType<CableBlockEntity> CABLE_ENTITY_TYPE;
     public static BlockEntityType<BatteryBlockEntity> BATTERY_ENTITY_TYPE;
     public static BlockEntityType<CreativeBatteryBlockEntity> CREATIVE_BATTERY_ENTITY_TYPE;
@@ -175,14 +175,14 @@ public class BlockRegister {
     public static BlockEntityType<ConsumerBlockEntity> CONSUMER_ENTITY_TYPE;
     public static BlockEntityType<PowerBlockEntity> POWER_ENTITY_TYPE;
     public static BlockEntityType<GeneratorEntity> GENERATOR_ENTITY_TYPE;
-    public static BlockEntityType<CrusherEntity> CRUSHER_ENTITY_TYPE;
+    public static BlockEntityType<CrusherBlockEntity> CRUSHER_ENTITY_TYPE;
     public static BlockEntityType<SolarPanelEntity> SOLAR_PANEL_ENTITY_TYPE;
-    public static BlockEntityType<ShifterEntity> SHIFTER_ENTITY_TYPE;
+    public static BlockEntityType<ShifterBlockEntity> SHIFTER_ENTITY_TYPE;
     public static BlockEntityType<ScannerBlockEntity> SCANNER_ENTITY_TYPE;
     public static BlockEntityType<MinerBlockEntity> MINER_ENTITY_TYPE;
     public static BlockEntityType<ChunkloaderBlockEntity> LOADER_ENTITY_TYPE;
     public static BlockEntityType<TeleporterPlatformBlockEntity> TELEPORT_PLATFORM_ENTITY_TYPE;
-    public static BlockEntityType<FluidTankEntity> FLUID_TANK_ENTITY_TYPE;
+    public static BlockEntityType<FluidTankBlockEntity> FLUID_TANK_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -194,20 +194,20 @@ public class BlockRegister {
             Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(MODID, configurenames[i]), placedFeatures[i]);
         }
 
-        TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleporter_controller"), FabricBlockEntityTypeBuilder.create(TeleporterControllerEntity::new,blocks[8]).build());
+        TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleporter_controller"), FabricBlockEntityTypeBuilder.create(TeleporterControllerBlockEntity::new,blocks[8]).build());
         CABLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"cable"),FabricBlockEntityTypeBuilder.create(CableBlockEntity::new,blocks[16]).build());
         CREATIVE_BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"creative_battery"),FabricBlockEntityTypeBuilder.create(CreativeBatteryBlockEntity::new,blocks[17]).build());
         CREATIVE_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID, "creative_generator"),FabricBlockEntityTypeBuilder.create(CreativeGeneratorBlockEntity::new,blocks[18]).build());
         CONSUMER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"basic_machine"), FabricBlockEntityTypeBuilder.create(ConsumerBlockEntity::new,blocks[19]).build());
         GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"generator"), FabricBlockEntityTypeBuilder.create(GeneratorEntity::new,blocks[20]).build());
-        CRUSHER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"crusher"),FabricBlockEntityTypeBuilder.create(CrusherEntity::new,blocks[21]).build());
+        CRUSHER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"crusher"),FabricBlockEntityTypeBuilder.create(CrusherBlockEntity::new,blocks[21]).build());
         SOLAR_PANEL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"solar_panel"),FabricBlockEntityTypeBuilder.create(SolarPanelEntity::new,blocks[22]).build());
-        SHIFTER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"shifter"),FabricBlockEntityTypeBuilder.create(ShifterEntity::new,blocks[24]).build());
+        SHIFTER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"shifter"),FabricBlockEntityTypeBuilder.create(ShifterBlockEntity::new,blocks[24]).build());
         SCANNER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"scanner"),FabricBlockEntityTypeBuilder.create(ScannerBlockEntity::new,blocks[25]).build());
         MINER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"miner"),FabricBlockEntityTypeBuilder.create(MinerBlockEntity::new,blocks[26]).build());
         LOADER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"chunkloader"),FabricBlockEntityTypeBuilder.create(ChunkloaderBlockEntity::new,blocks[27]).build());
         TELEPORT_PLATFORM_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleport_platform"),FabricBlockEntityTypeBuilder.create(TeleporterPlatformBlockEntity::new,blocks[28]).build());
-        FLUID_TANK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"tank"),FabricBlockEntityTypeBuilder.create(FluidTankEntity::new,blocks[29]).build());
+        FLUID_TANK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"tank"),FabricBlockEntityTypeBuilder.create(FluidTankBlockEntity::new,blocks[29]).build());
     }
 
     public static void RegistBlocksClientSide() {

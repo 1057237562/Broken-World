@@ -28,11 +28,11 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class CrusherEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
+public class CrusherBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(23, ItemStack.EMPTY);
     public final Random random = new Random();
 
-    public CrusherEntity(BlockPos pos, BlockState state) {
+    public CrusherBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.CRUSHER_ENTITY_TYPE,pos, state);
         setMaxCapacity(500);
         maxProgression = 125;

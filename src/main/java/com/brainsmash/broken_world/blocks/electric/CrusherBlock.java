@@ -1,7 +1,7 @@
 package com.brainsmash.broken_world.blocks.electric;
 
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
-import com.brainsmash.broken_world.blocks.entity.electric.CrusherEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.CrusherBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -24,14 +24,14 @@ public class CrusherBlock extends ConsumerBlock {
     @Override
     @Nullable
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new CrusherEntity(pos, state);
+        return new CrusherBlockEntity(pos, state);
     }
 
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         if(!world.isClient)
-            return (world1, pos, state1, blockEntity) -> ((CrusherEntity) blockEntity).tick(world1, pos, state1, (CrusherEntity) blockEntity);
+            return (world1, pos, state1, blockEntity) -> ((CrusherBlockEntity) blockEntity).tick(world1, pos, state1, (CrusherBlockEntity) blockEntity);
         return null;
     }
 

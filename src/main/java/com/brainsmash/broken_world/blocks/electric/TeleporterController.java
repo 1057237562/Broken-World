@@ -1,7 +1,7 @@
 package com.brainsmash.broken_world.blocks.electric;
 
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
-import com.brainsmash.broken_world.blocks.entity.electric.TeleporterControllerEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.TeleporterControllerBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,7 +26,7 @@ public class TeleporterController extends ConsumerBlock {
 
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new TeleporterControllerEntity(pos, state);
+        return new TeleporterControllerBlockEntity(pos, state);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class TeleporterController extends ConsumerBlock {
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof TeleporterControllerEntity) {
+            if (blockEntity instanceof TeleporterControllerBlockEntity) {
                 if(world instanceof ServerWorld){
                     ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
                 }
