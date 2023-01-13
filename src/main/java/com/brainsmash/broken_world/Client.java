@@ -8,11 +8,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-
-import static com.brainsmash.broken_world.Main.MODID;
 
 @Environment(EnvType.CLIENT)
 public class Client implements ClientModInitializer {
@@ -26,7 +21,7 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.CRUSHER_GUI_DESCRIPTION, CrusherScreen::new);
         HandledScreens.register(Main.SHIFTER_GUI_DESCRIPTION, ShifterScreen::new);
         HandledScreens.register(Main.MINER_GUI_DESCRIPTION, MinerScreen::new);
-        HandledScreens.register(Main.TELEPORT_PLATFORM_GUI_DESCRIPTION,TeleporterPlatformScreen::new);
+        HandledScreens.register(Main.TELEPORT_PLATFORM_GUI_DESCRIPTION, TeleportPlatformScreen::new);
         HandledScreens.register(Main.THERMAL_GENERATOR_GUI_DESCRIPTION,ThermalGeneratorScreen::new);
 
         BlockRegister.RegistBlocksClientSide();

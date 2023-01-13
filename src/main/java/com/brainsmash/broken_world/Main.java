@@ -26,7 +26,7 @@ public class Main implements ModInitializer {
 	public static final ScreenHandlerType<CrusherGuiDescription> CRUSHER_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"crusher"),new ScreenHandlerType<>(((syncId, playerInventory) -> new CrusherGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 	public static final ScreenHandlerType<ShifterGuiDescription> SHIFTER_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"shifter"),new ScreenHandlerType<>(((syncId, playerInventory) -> new ShifterGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 	public static final ScreenHandlerType<MinerGuiDescription> MINER_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"miner"),new ScreenHandlerType<>(((syncId, playerInventory) -> new MinerGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
-	public static final ExtendedScreenHandlerType<TeleporterPlatformGuiDescription> TELEPORT_PLATFORM_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"teleport_platform"),new ExtendedScreenHandlerType<>(TeleporterPlatformGuiDescription::new));
+	public static final ExtendedScreenHandlerType<TeleportPlatformGuiDescription> TELEPORT_PLATFORM_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"teleport_platform"),new ExtendedScreenHandlerType<>(TeleportPlatformGuiDescription::new));
 	public static final ExtendedScreenHandlerType<ThermalGeneratorGuiDescription> THERMAL_GENERATOR_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"thermal_generator"),new ExtendedScreenHandlerType<>(ThermalGeneratorGuiDescription::new));
 
 	@Override

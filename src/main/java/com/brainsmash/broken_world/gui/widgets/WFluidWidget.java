@@ -24,10 +24,10 @@ public class WFluidWidget extends WWidget {
     @Environment(EnvType.CLIENT)
     @Override
     public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-        double x0 = x + 80 + 0;
-        double y0 = y + 23 + 48 - 48 * (double)propertyDelegate.get(fieldId) / (double)propertyDelegate.get(capacityId);
-        double x1 = x + 80 + 16;
-        double y1 = y + 23 + 48;
+        double x0 = x;
+        double y0 = y + 48 - 48 * (double)propertyDelegate.get(fieldId) / (double)propertyDelegate.get(capacityId);
+        double x1 = x + 16;
+        double y1 = y + 48;
         volume.renderGuiRect(x0, y0, x1, y1);
     }
 }

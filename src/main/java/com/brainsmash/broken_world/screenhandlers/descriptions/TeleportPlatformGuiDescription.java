@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
+public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
     private static final Identifier SELECT_MESSAGE = new Identifier("broken_world", "select_button_click");
     private static final Identifier NEW_ENTRY = new Identifier("broken_world","new_entry");
     private static final Identifier UNREGIST = new Identifier("broken_world","unregist");
@@ -39,11 +39,11 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
     private static final int PROPERTY_COUNT = 2;
     private String selectDest;
 
-    public TeleporterPlatformGuiDescription(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
+    public TeleportPlatformGuiDescription(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
         this(syncId, playerInventory, buf.readBlockPos(),buf);
     }
 
-    public TeleporterPlatformGuiDescription(int syncId, PlayerInventory playerInventory, BlockPos pos, PacketByteBuf buf) {
+    public TeleportPlatformGuiDescription(int syncId, PlayerInventory playerInventory, BlockPos pos, PacketByteBuf buf) {
         this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.world,pos));
         if(getNetworkSide() == NetworkSide.CLIENT) {
             PlayerEntity player = playerInventory.player;
@@ -85,7 +85,7 @@ public class TeleporterPlatformGuiDescription extends SyncedGuiDescription {
         }
     }
 
-    public TeleporterPlatformGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
+    public TeleportPlatformGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(Main.TELEPORT_PLATFORM_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
         PlayerEntity player = playerInventory.player;
         ScreenNetworking.of(this,NetworkSide.SERVER).receive(UNREGIST,buf -> {

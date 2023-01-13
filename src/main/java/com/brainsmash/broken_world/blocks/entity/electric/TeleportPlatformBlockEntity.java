@@ -4,8 +4,7 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEnti
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterControllerGuiDescription;
-import com.brainsmash.broken_world.screenhandlers.descriptions.TeleporterPlatformGuiDescription;
+import com.brainsmash.broken_world.screenhandlers.descriptions.TeleportPlatformGuiDescription;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,10 +12,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -26,7 +22,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
-public class TeleporterPlatformBlockEntity extends ConsumerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
+public class TeleportPlatformBlockEntity extends ConsumerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
@@ -52,7 +48,7 @@ public class TeleporterPlatformBlockEntity extends ConsumerBlockEntity implement
             return 2;
         }
     };
-    public TeleporterPlatformBlockEntity(BlockPos pos, BlockState state) {
+    public TeleportPlatformBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.TELEPORT_PLATFORM_ENTITY_TYPE,pos, state);
         setMaxCapacity(10000);
     }
@@ -83,7 +79,7 @@ public class TeleporterPlatformBlockEntity extends ConsumerBlockEntity implement
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new TeleporterPlatformGuiDescription(syncId, inv, ScreenHandlerContext.create(world,pos));
+        return new TeleportPlatformGuiDescription(syncId, inv, ScreenHandlerContext.create(world,pos));
     }
 
     @Override

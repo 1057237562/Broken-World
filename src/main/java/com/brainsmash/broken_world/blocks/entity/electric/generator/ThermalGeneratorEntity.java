@@ -37,12 +37,14 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Function;
+
 public class ThermalGeneratorEntity extends PowerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, PropertyDelegateHolder {
 
 
-    private static final FluidAmount SINGLE_TANK_CAPACITY = FluidAmount.BUCKET.mul(16);
+    private static final FluidAmount SINGLE_TANK_CAPACITY = FluidAmount.BUCKET.mul(8);
 
-    public final ThermalFluidInv fluidInv;
+    public final ThermalFluidInv fluidInv = new ThermalFluidInv(1, SINGLE_TANK_CAPACITY);
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
@@ -55,7 +57,7 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements Extended
                 case 1:
                     return getMaxCapacity();
                 case 2:
-                    return fluidInv.getInvFluid(0).amount().as1620();
+                    return getAmount();
                 case 3:
                     return SINGLE_TANK_CAPACITY.as1620();
                 default:
@@ -65,7 +67,16 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements Extended
 
         @Override
         public void set(int index, int value) {
-            setEnergy(value);
+            switch (index) {
+                case 0:
+                    setEnergy(value);
+                    break;
+                case 1:
+                    setMaxCapacity(value);
+                    break;
+                case 2:
+                    fluidAmount = value;
+            }
         }
 
         @Override
@@ -74,23 +85,32 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements Extended
         }
     };
 
+    private int fluidAmount = 0;
+    public int getAmount(){
+        if(world.isClient){
+            return fluidAmount;
+        }else{
+            return fluidInv.getInvFluid(0).amount().as1620();
+        }
+    }
+
     public ThermalGeneratorEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.THERMAL_GENERATOR_ENTITY_TYPE, pos, state);
         setMaxCapacity(2000);
         setGenerate(10);
-        fluidInv = new ThermalFluidInv(1, SINGLE_TANK_CAPACITY);
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient) {
-            if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.of1620(5)) && getEnergy() < getMaxCapacity()) {
+            if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.of1620(10)) && getEnergy() < getMaxCapacity()) {
                 running = true;
-                fluidInv.getInvFluid(0).split(FluidAmount.of1620(5));
-                markDirty();
+                fluidInv.getInvFluid(0).split(FluidAmount.of1620(10));
+
             } else {
                 running = false;
             }
+            markDirty();
             state = state.with(Properties.LIT, isRunning());
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
         }
