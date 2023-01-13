@@ -4,10 +4,13 @@ import alexiil.mc.lib.attributes.AttributeList;
 import alexiil.mc.lib.attributes.AttributeProvider;
 import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.ThermalGeneratorEntity;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -34,7 +37,19 @@ public class ThermalGeneratorBlock extends PowerBlock implements AttributeProvid
     }
 
     @Override
-    public void addAllAttributes(World world, BlockPos pos, BlockState state, AttributeList<?> to) {
+    public BlockRenderType getRenderType(BlockState state) {
+        //With inheriting from BlockWithEntity this defaults to INVISIBLE, so we need to change that!
+        return BlockRenderType.MODEL;
+    }
 
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(Properties.HORIZONTAL_FACING, Properties.LIT);
+    }
+
+    @Override
+    public void addAllAttributes(World world, BlockPos pos, BlockState state, AttributeList<?> to) {
+        ThermalGeneratorEntity blockEntity = (ThermalGeneratorEntity) world.getBlockEntity(pos);
+        to.offer(blockEntity.fluidInv.getInsertable());
     }
 }

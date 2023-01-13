@@ -1,11 +1,17 @@
 package com.brainsmash.broken_world.blocks.entity.electric.generator;
 
+import alexiil.mc.lib.attributes.Simulation;
+import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
+import alexiil.mc.lib.attributes.fluid.impl.JumboFixedFluidInv;
+import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
+import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.BurnTimeRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.GeneratorGuiDescription;
+import com.brainsmash.broken_world.util.ThermalFluidInv;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -27,10 +33,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory, PropertyDelegateHolder, SidedInventory {
+public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory, PropertyDelegateHolder {
 
-    public int fuelTime = 0;
-    public int maxFuelTime = 0;
 
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
@@ -40,10 +44,6 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
                     return getEnergy();
                 case 1:
                     return getMaxCapacity();
-                case 2:
-                    return fuelTime;
-                case 3:
-                    return maxFuelTime;
                 default:
                     return -1;
             }
@@ -56,38 +56,31 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
 
         @Override
         public int size() {
-            return 4;
+            return 2;
         }
     };
 
+    private static final FluidAmount SINGLE_TANK_CAPACITY = FluidAmount.BUCKET.mul(16);
+
+    public final ThermalFluidInv fluidInv;
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     public ThermalGeneratorEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.GENERATOR_ENTITY_TYPE, pos, state);
+        super(BlockRegister.THERMAL_GENERATOR_ENTITY_TYPE, pos, state);
         setMaxCapacity(500);
         setGenerate(10);
+        fluidInv = new ThermalFluidInv(1, SINGLE_TANK_CAPACITY);
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient) {
-            if (fuelTime > 0) {
+            if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isPositive() && getEnergy() < getMaxCapacity()) {
                 running = true;
-                fuelTime--;
+                fluidInv.getInvFluid(0).split(FluidAmount.of1620(1));
                 markDirty();
             } else {
-                ItemStack fuel = inventory.get(0);
-                if (!fuel.isEmpty() && getEnergy() < getMaxCapacity()) {
-                    BurnTimeRegister.getGeneratorMap();
-                    maxFuelTime = fuelTime = BurnTimeRegister.generator_fuel.getOrDefault(fuel.getItem(), 0);
-                    if (fuelTime > 0) {
-                        running = true;
-                        fuel.decrement(1);
-                        markDirty();
-                    }
-                } else {
-                    running = false;
-                }
+                running = false;
             }
             state = state.with(Properties.LIT, isRunning());
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
@@ -99,15 +92,19 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
-        fuelTime = nbt.getInt("fuelTime");
-        maxFuelTime = nbt.getInt("maxFuelTime");
+        FluidVolume invFluid = fluidInv.getInvFluid(0);
+        if (!invFluid.isEmpty()) {
+            nbt.put("fluid", invFluid.toTag());
+        }
     }
 
     @Override
     public void writeNbt(NbtCompound nbt) {
         Inventories.writeNbt(nbt, this.inventory);
-        nbt.putInt("fuelTime", fuelTime);
-        nbt.putInt("maxFuelTime", maxFuelTime);
+        if (nbt.contains("fluid")) {
+            FluidVolume fluid = FluidVolume.fromTag(nbt.getCompound("fluid"));
+            fluidInv.setInvFluid(0, fluid, Simulation.ACTION);
+        }
         super.writeNbt(nbt);
     }
 
@@ -136,25 +133,5 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
     @Override
     public PropertyDelegate getPropertyDelegate() {
         return propertyDelegate;
-    }
-
-    @Override
-    public int[] getAvailableSlots(Direction side) {
-        return new int[]{0};
-    }
-
-    @Override
-    public ItemStack getStack(int slot) {
-        return inventory.get(slot);
-    }
-
-    @Override
-    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-        return true;
-    }
-
-    @Override
-    public boolean canExtract(int slot, ItemStack stack, Direction dir) {
-        return true;
     }
 }

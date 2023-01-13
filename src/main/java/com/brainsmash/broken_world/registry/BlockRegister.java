@@ -7,6 +7,7 @@ import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.GeneratorBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.SolarPanelBlock;
+import com.brainsmash.broken_world.blocks.electric.generator.ThermalGeneratorBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.TeleporterControllerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
@@ -17,6 +18,7 @@ import com.brainsmash.broken_world.blocks.client.render.entity.CreativeBatteryBl
 import com.brainsmash.broken_world.blocks.client.render.entity.CreativeGeneratorBlockEntityRenderer;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.GeneratorEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.SolarPanelEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.generator.ThermalGeneratorEntity;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -78,6 +80,7 @@ public class BlockRegister {
             new MinerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new ChunkloaderBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new TeleporterPlatformBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+            new ThermalGeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -109,6 +112,7 @@ public class BlockRegister {
             new BlockItem(blocks[26],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[27],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[28],new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[29],new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -142,6 +146,7 @@ public class BlockRegister {
             "miner",
             "chunkloader",
             "teleport_platform",
+            "thermal_generator",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -177,6 +182,7 @@ public class BlockRegister {
     public static BlockEntityType<MinerBlockEntity> MINER_ENTITY_TYPE;
     public static BlockEntityType<ChunkloaderBlockEntity> LOADER_ENTITY_TYPE;
     public static BlockEntityType<TeleporterPlatformBlockEntity> TELEPORT_PLATFORM_ENTITY_TYPE;
+    public static BlockEntityType<ThermalGeneratorEntity> THERMAL_GENERATOR_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -201,6 +207,7 @@ public class BlockRegister {
         MINER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"miner"),FabricBlockEntityTypeBuilder.create(MinerBlockEntity::new,blocks[26]).build());
         LOADER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"chunkloader"),FabricBlockEntityTypeBuilder.create(ChunkloaderBlockEntity::new,blocks[27]).build());
         TELEPORT_PLATFORM_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleport_platform"),FabricBlockEntityTypeBuilder.create(TeleporterPlatformBlockEntity::new,blocks[28]).build());
+        THERMAL_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"thermal_generator"),FabricBlockEntityTypeBuilder.create(ThermalGeneratorEntity::new,blocks[29]).build());
     }
 
     public static void RegistBlocksClientSide() {

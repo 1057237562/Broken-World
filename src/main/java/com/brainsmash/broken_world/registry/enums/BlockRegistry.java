@@ -30,4 +30,5 @@ public enum BlockRegistry {
     MINER,
     CHUNKLOADER,
     TELEPORT_PLATFORM,
+    THERMAL_GENERATOR,
 }

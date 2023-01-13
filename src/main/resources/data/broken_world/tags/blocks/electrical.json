@@ -11,6 +11,7 @@
     "broken_world:shifter",
     "broken_world:scanner",
     "broken_world:miner",
-    "broken_world:chunkloader"
+    "broken_world:chunkloader",
+    "broken_world:thermal_generator"
   ]
 }

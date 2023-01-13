@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "side": "broken_world:block/thermal_generator_side",
+    "top": "broken_world:block/thermal_generator_top",
+    "front": "broken_world:block/thermal_generator_front"
+  }
+}
