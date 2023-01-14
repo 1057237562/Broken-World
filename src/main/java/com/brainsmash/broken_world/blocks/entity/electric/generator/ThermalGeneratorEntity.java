@@ -4,7 +4,7 @@ import alexiil.mc.lib.attributes.Simulation;
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.JumboFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
-import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
+import alexiil.mc.lib.attributes.fluid.volume.*;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
@@ -19,9 +19,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -39,14 +41,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public class ThermalGeneratorEntity extends PowerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, PropertyDelegateHolder {
+public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory, PropertyDelegateHolder {
 
 
     private static final FluidAmount SINGLE_TANK_CAPACITY = FluidAmount.BUCKET.mul(8);
 
     public final ThermalFluidInv fluidInv = new ThermalFluidInv(1, SINGLE_TANK_CAPACITY);
 
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
 
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
@@ -98,17 +100,28 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements Extended
         super(BlockRegister.THERMAL_GENERATOR_ENTITY_TYPE, pos, state);
         setMaxCapacity(2000);
         setGenerate(10);
+        fluidInv.setInvFluid(0,FluidKeys.LAVA.withAmount(FluidAmount.ZERO), Simulation.ACTION);
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient) {
-            if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.of1620(10)) && getEnergy() < getMaxCapacity()) {
+            if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.of1620(5)) && getEnergy() < getMaxCapacity()) {
                 running = true;
-                fluidInv.getInvFluid(0).split(FluidAmount.of1620(10));
-
+                fluidInv.getInvFluid(0).split(FluidAmount.of1620(5));
             } else {
                 running = false;
+            }
+            if(inventory.get(1).isOf(Items.LAVA_BUCKET)){
+                if(fluidInv.getInvFluid(0).isEmpty()){
+                    if(fluidInv.setInvFluid(0,FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), Simulation.ACTION)) {
+                        inventory.set(1, new ItemStack(Items.BUCKET, 1));
+                    }
+                }else {
+                    if(fluidInv.getInvFluid(0).amount().isLessThanOrEqual(SINGLE_TANK_CAPACITY.sub(FluidAmount.BUCKET)) && fluidInv.getInvFluid(0).merge(FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), Simulation.ACTION)){
+                        inventory.set(1,new ItemStack(Items.BUCKET,1));
+                    }
+                }
             }
             markDirty();
             state = state.with(Properties.LIT, isRunning());
@@ -121,18 +134,18 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements Extended
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
-        FluidVolume invFluid = fluidInv.getInvFluid(0);
-        if (!invFluid.isEmpty()) {
-            nbt.put("fluid", invFluid.toTag());
+        if (nbt.contains("fluid")) {
+            FluidVolume fluid = FluidVolume.fromTag(nbt.getCompound("fluid"));
+            fluidInv.setInvFluid(0, fluid, Simulation.ACTION);
         }
     }
 
     @Override
     public void writeNbt(NbtCompound nbt) {
         Inventories.writeNbt(nbt, this.inventory);
-        if (nbt.contains("fluid")) {
-            FluidVolume fluid = FluidVolume.fromTag(nbt.getCompound("fluid"));
-            fluidInv.setInvFluid(0, fluid, Simulation.ACTION);
+        FluidVolume invFluid = fluidInv.getInvFluid(0);
+        if (!invFluid.isEmpty()) {
+            nbt.put("fluid", invFluid.toTag());
         }
         super.writeNbt(nbt);
     }
@@ -142,15 +155,8 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements Extended
         return inventory;
     }
 
-    //These Methods are from the NamedScreenHandlerFactory Interface
-    //createMenu creates the ScreenHandler itself
-    //getDisplayName will Provide its name which is normally shown at the top
-
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        //We provide *this* to the screenHandler as our class Implements Inventory
-        //Only the Server has the Inventory at the start, this will be synced to the client in the ScreenHandler
-        //return new TeleporterControllerScreenHandler(syncId, playerInventory, this);
         return new ThermalGeneratorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
     }
 
@@ -162,11 +168,5 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements Extended
     @Override
     public PropertyDelegate getPropertyDelegate() {
         return propertyDelegate;
-    }
-
-    @Override
-    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-        buf.writeBlockPos(pos);
-        buf.writeNbt(fluidInv.getInvFluid(0).toTag());
     }
 }
