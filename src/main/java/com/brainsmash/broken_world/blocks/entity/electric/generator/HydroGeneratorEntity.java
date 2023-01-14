@@ -9,15 +9,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class HydroGeneratorEntity extends PowerBlockEntity {
-    private static final int RANGE = 3;
+    private static final int RANGE = 2;
     public HydroGeneratorEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.HYDRO_GENERATOR_ENTITY_TYPE, pos, state);
         setMaxCapacity(2000);
-        setGenerate(10);
+        setGenerate(0);
     }
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        boolean flag = false;
+        int cnt = 0;
         for(int dy = -RANGE; dy <= RANGE; dy++){
             final int r = (int) Math.round(Math.sqrt(RANGE*RANGE - dy*dy));
             for(int dx = -r; dx <= r; dx++){
@@ -25,16 +25,13 @@ public class HydroGeneratorEntity extends PowerBlockEntity {
                 for(int dz = -z; dz <= z; dz++){
                     FluidState fluidState = world.getFluidState(pos.east(dx).south(dz).up(dy));
                     if(!fluidState.isEmpty() && !fluidState.isStill()){
-                        flag = true;
-                        break;
+                        cnt++;
                     }
                 }
-                if(flag)
-                    break;
             }
-            if(flag)
-                break;
         }
-        running = flag;
+        running = cnt > 0;
+        setGenerate(cnt);
+        super.tick(world, pos, state, blockEntity);
     }
 }
