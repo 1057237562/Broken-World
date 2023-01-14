@@ -50,7 +50,7 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
     public PumpBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.PUMP_ENTITY_TYPE,pos, state);
         setMaxCapacity(500);
-        maxProgression = 25;
+        maxProgression = 12;
         powerConsumption = 4;
     }
 

@@ -17,21 +17,23 @@ public class HydroGeneratorEntity extends PowerBlockEntity {
     }
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        int cnt = 0;
-        for(int dy = -RANGE; dy <= RANGE; dy++){
-            final int r = (int) Math.round(Math.sqrt(RANGE*RANGE - dy*dy));
-            for(int dx = -r; dx <= r; dx++){
-                final int z = (int) Math.round(Math.sqrt(r*r - dx*dx));
-                for(int dz = -z; dz <= z; dz++){
-                    FluidState fluidState = world.getFluidState(pos.east(dx).south(dz).up(dy));
-                    if(!fluidState.isEmpty() && !fluidState.isStill()){
-                        cnt++;
+        if(!world.isClient) {
+            int cnt = 0;
+            for (int dy = -RANGE; dy <= RANGE; dy++) {
+                final int r = (int) Math.round(Math.sqrt(RANGE * RANGE - dy * dy));
+                for (int dx = -r; dx <= r; dx++) {
+                    final int z = (int) Math.round(Math.sqrt(r * r - dx * dx));
+                    for (int dz = -z; dz <= z; dz++) {
+                        FluidState fluidState = world.getFluidState(pos.east(dx).south(dz).up(dy));
+                        if (!fluidState.isEmpty() && !fluidState.isStill()) {
+                            cnt++;
+                        }
                     }
                 }
             }
+            running = cnt > 0;
+            setGenerate(cnt);
         }
-        running = cnt > 0;
-        setGenerate(cnt);
         super.tick(world, pos, state, blockEntity);
     }
 }
