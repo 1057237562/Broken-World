@@ -74,6 +74,10 @@ public class MinerBlockEntity extends ConsumerBlockEntity implements NamedScreen
                     if(!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
                         BlockPos pointPos = pos.add(pointer.getX(),pointer.getY(),pointer.getZ());
                         if(!world.isChunkLoaded(pointPos)){
+                            running = false;
+                            state = state.with(Properties.LIT, isRunning());
+                            world.setBlockState(pos, state, Block.NOTIFY_ALL);
+                            super.tick(world, pos, state, blockEntity);
                             return;
                         }
                         for(RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(ConventionalBlockTags.ORES)){

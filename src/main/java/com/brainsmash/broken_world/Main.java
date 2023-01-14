@@ -28,6 +28,7 @@ public class Main implements ModInitializer {
 	public static final ScreenHandlerType<MinerGuiDescription> MINER_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"miner"),new ScreenHandlerType<>(((syncId, playerInventory) -> new MinerGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 	public static final ExtendedScreenHandlerType<TeleportPlatformGuiDescription> TELEPORT_PLATFORM_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"teleport_platform"),new ExtendedScreenHandlerType<>(TeleportPlatformGuiDescription::new));
 	public static final ScreenHandlerType<ThermalGeneratorGuiDescription> THERMAL_GENERATOR_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"thermal_generator"),new ScreenHandlerType<>(((syncId, playerInventory) -> new ThermalGeneratorGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
+	public static final ScreenHandlerType<PumpGuiDescription> PUMP_GUI_DESCRIPTION = Registry.register(Registry.SCREEN_HANDLER,new Identifier(MODID,"pump"),new ScreenHandlerType<>(((syncId, playerInventory) -> new PumpGuiDescription(syncId,playerInventory,ScreenHandlerContext.EMPTY))));
 
 	@Override
 	public void onInitialize() {
