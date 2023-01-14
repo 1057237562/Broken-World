@@ -6,6 +6,7 @@ import com.brainsmash.broken_world.blocks.electric.*;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.GeneratorBlock;
+import com.brainsmash.broken_world.blocks.electric.generator.HydroGeneratorBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.SolarPanelBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.ThermalGeneratorBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.TeleporterControllerBlockEntity;
@@ -17,6 +18,7 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.client.render.entity.CreativeBatteryBlockEntityRenderer;
 import com.brainsmash.broken_world.blocks.client.render.entity.CreativeGeneratorBlockEntityRenderer;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.GeneratorEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.generator.HydroGeneratorEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.SolarPanelEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.ThermalGeneratorEntity;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
@@ -81,6 +83,7 @@ public class BlockRegister {
             new TeleportPlatformBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new ThermalGeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new PumpBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+            new HydroGeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -114,7 +117,7 @@ public class BlockRegister {
             new BlockItem(blocks[28],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[29],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[30],new FabricItemSettings().group(ITEM_GROUP)),
-
+            new BlockItem(blocks[31],new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -149,6 +152,7 @@ public class BlockRegister {
             "teleport_platform",
             "thermal_generator",
             "pump",
+            "hydro_generator",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -186,6 +190,7 @@ public class BlockRegister {
     public static BlockEntityType<TeleportPlatformBlockEntity> TELEPORT_PLATFORM_ENTITY_TYPE;
     public static BlockEntityType<ThermalGeneratorEntity> THERMAL_GENERATOR_ENTITY_TYPE;
     public static BlockEntityType<PumpBlockEntity> PUMP_ENTITY_TYPE;
+    public static BlockEntityType<HydroGeneratorEntity> HYDRO_GENERATOR_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -212,6 +217,7 @@ public class BlockRegister {
         TELEPORT_PLATFORM_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleport_platform"),FabricBlockEntityTypeBuilder.create(TeleportPlatformBlockEntity::new,blocks[28]).build());
         THERMAL_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"thermal_generator"),FabricBlockEntityTypeBuilder.create(ThermalGeneratorEntity::new,blocks[29]).build());
         PUMP_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"pump"),FabricBlockEntityTypeBuilder.create(PumpBlockEntity::new,blocks[30]).build());
+        HYDRO_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"hydro_generator"),FabricBlockEntityTypeBuilder.create(HydroGeneratorEntity::new,blocks[31]).build());
     }
 
     public static void RegistBlocksClientSide() {
