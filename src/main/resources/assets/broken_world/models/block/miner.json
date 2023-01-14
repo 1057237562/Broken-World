@@ -1,8 +1,9 @@
 {
-  "parent": "minecraft:block/orientable",
+  "parent": "minecraft:block/orientable_with_bottom",
   "textures": {
     "side": "broken_world:block/miner_side",
+    "front": "broken_world:block/miner_side",
     "top": "broken_world:block/miner_top",
-    "front": "broken_world:block/miner_side"
+    "bottom": "broken_world:block/miner_bottom"
   }
 }

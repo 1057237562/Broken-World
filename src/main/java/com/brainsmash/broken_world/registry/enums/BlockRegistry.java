@@ -31,4 +31,5 @@ public enum BlockRegistry {
     CHUNKLOADER,
     TELEPORT_PLATFORM,
     THERMAL_GENERATOR,
+    PUMP,
 }

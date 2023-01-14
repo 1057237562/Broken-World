@@ -80,6 +80,7 @@ public class BlockRegister {
             new ChunkloaderBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new TeleportPlatformBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new ThermalGeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+            new PumpBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -112,6 +113,7 @@ public class BlockRegister {
             new BlockItem(blocks[27],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[28],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[29],new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[30],new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -146,6 +148,7 @@ public class BlockRegister {
             "chunkloader",
             "teleport_platform",
             "thermal_generator",
+            "pump",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -182,6 +185,7 @@ public class BlockRegister {
     public static BlockEntityType<ChunkloaderBlockEntity> LOADER_ENTITY_TYPE;
     public static BlockEntityType<TeleportPlatformBlockEntity> TELEPORT_PLATFORM_ENTITY_TYPE;
     public static BlockEntityType<ThermalGeneratorEntity> THERMAL_GENERATOR_ENTITY_TYPE;
+    public static BlockEntityType<PumpBlockEntity> PUMP_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -207,6 +211,7 @@ public class BlockRegister {
         LOADER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"chunkloader"),FabricBlockEntityTypeBuilder.create(ChunkloaderBlockEntity::new,blocks[27]).build());
         TELEPORT_PLATFORM_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"teleport_platform"),FabricBlockEntityTypeBuilder.create(TeleportPlatformBlockEntity::new,blocks[28]).build());
         THERMAL_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"thermal_generator"),FabricBlockEntityTypeBuilder.create(ThermalGeneratorEntity::new,blocks[29]).build());
+        PUMP_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"pump"),FabricBlockEntityTypeBuilder.create(PumpBlockEntity::new,blocks[30]).build());
     }
 
     public static void RegistBlocksClientSide() {
