@@ -3,10 +3,12 @@ package com.brainsmash.broken_world.blocks.entity.electric.base;
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.PropertyDelegate;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 

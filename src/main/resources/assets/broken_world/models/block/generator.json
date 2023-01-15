@@ -3,7 +3,7 @@
   "textures": {
     "front": "broken_world:block/generator_front",
     "side": "broken_world:block/generator_side",
-    "top": "broken_world:block/generator_top", 
+    "top": "broken_world:block/generator_top",
     "bottom": "broken_world:block/generator_bottom"
   }
 }

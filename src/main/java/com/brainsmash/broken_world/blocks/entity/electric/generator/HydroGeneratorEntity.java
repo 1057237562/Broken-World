@@ -3,8 +3,10 @@ package com.brainsmash.broken_world.blocks.entity.electric.generator;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -34,6 +36,8 @@ public class HydroGeneratorEntity extends PowerBlockEntity {
             running = cnt > 0;
             setGenerate(cnt);
         }
+        state = state.with(Properties.LIT, isRunning());
+        world.setBlockState(pos, state, Block.NOTIFY_ALL);
         super.tick(world, pos, state, blockEntity);
     }
 }
