@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public class HydroGeneratorEntity extends PowerBlockEntity {
@@ -20,21 +21,38 @@ public class HydroGeneratorEntity extends PowerBlockEntity {
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient) {
-            int cnt = 0;
-            for (int dy = -RANGE; dy <= RANGE; dy++) {
-                final int r = (int) Math.round(Math.sqrt(RANGE * RANGE - dy * dy));
+            int in_cnt = 0;
+            int out_cnt = 0;
+            Direction face = state.get(Properties.HORIZONTAL_FACING);
+            Direction oppo = face.getOpposite();
+            BlockPos facepos = pos.offset(face,3);
+            BlockPos oppopos = pos.offset(oppo,3);
+            for (int dy = 0; dy <= RANGE; dy++) {
+                final int r = (int) Math.sqrt(RANGE * RANGE - dy * dy);
                 for (int dx = -r; dx <= r; dx++) {
-                    final int z = (int) Math.round(Math.sqrt(r * r - dx * dx));
+                    final int z = (int) Math.sqrt(r * r - dx * dx);
                     for (int dz = -z; dz <= z; dz++) {
-                        FluidState fluidState = world.getFluidState(pos.east(dx).south(dz).up(dy));
+                        FluidState fluidState = world.getFluidState(facepos.offset(oppo,dy).offset(oppo.rotateClockwise(Direction.Axis.Y),dx).offset(Direction.DOWN,dz));
                         if (!fluidState.isEmpty() && !fluidState.isStill()) {
-                            cnt++;
+                            in_cnt++;
                         }
                     }
                 }
             }
-            running = cnt > 0;
-            setGenerate(cnt);
+            for (int dy = 0; dy <= RANGE; dy++) {
+                final int r = (int) Math.sqrt(RANGE * RANGE - dy * dy);
+                for (int dx = -r; dx <= r; dx++) {
+                    final int z = (int) Math.sqrt(r * r - dx * dx);
+                    for (int dz = -z; dz <= z; dz++) {
+                        FluidState fluidState = world.getFluidState(oppopos.offset(face,dy).offset(face.rotateClockwise(Direction.Axis.Y),dx).offset(Direction.DOWN,dz));
+                        if (!fluidState.isEmpty() && !fluidState.isStill()) {
+                            out_cnt++;
+                        }
+                    }
+                }
+            }
+            running = Math.min(in_cnt,out_cnt) > 0;
+            setGenerate(Math.min(in_cnt,out_cnt));
         }
         state = state.with(Properties.LIT, isRunning());
         world.setBlockState(pos, state, Block.NOTIFY_ALL);

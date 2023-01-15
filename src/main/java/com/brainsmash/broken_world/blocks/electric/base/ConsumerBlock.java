@@ -19,6 +19,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
 public class ConsumerBlock extends BlockWithEntity {
@@ -69,6 +70,13 @@ public class ConsumerBlock extends BlockWithEntity {
         if(!world.isClient())
             EnergyManager.UpdateGraph(world,pos);
         super.onBroken(world, pos, state);
+    }
+
+    @Override
+    public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
+        if(!world.isClient)
+            EnergyManager.UpdateGraph(world,pos);
+        super.onDestroyedByExplosion(world, pos, explosion);
     }
 
     @Override

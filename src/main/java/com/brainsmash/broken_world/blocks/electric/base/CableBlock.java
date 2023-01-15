@@ -22,6 +22,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -143,6 +144,13 @@ public class CableBlock extends BlockWithEntity {
         if(!world.isClient())
             EnergyManager.UpdateGraph(world,pos);
         super.onBroken(world, pos, state);
+    }
+
+    @Override
+    public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
+        if(!world.isClient)
+            EnergyManager.UpdateGraph(world,pos);
+        super.onDestroyedByExplosion(world, pos, explosion);
     }
 
     @Override
