@@ -37,6 +37,7 @@ public class Main implements ModInitializer {
 		FluidRegister.RegistFluid();
 		DimensionRegister.RegistDimension();
 		EntityRegister.RegistEntities();
+		PointOfInterestRegister.registerPlacesOfInterest();
 
 		CrusherRegister.RegistCrusherRecipes();
 		ShifterRegister.RegistShifterRecipes();

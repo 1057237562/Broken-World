@@ -15,6 +15,7 @@
     "broken_world:thermal_generator",
     "broken_world:teleport_platform",
     "broken_world:pump",
-    "broken_world:hydro_generator"
+    "broken_world:hydro_generator",
+    "broken_world:wind_turbine"
   ]
 }

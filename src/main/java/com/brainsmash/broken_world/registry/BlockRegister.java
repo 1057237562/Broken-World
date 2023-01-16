@@ -5,10 +5,7 @@ import com.brainsmash.broken_world.blocks.client.render.entity.ScannerBlockEntit
 import com.brainsmash.broken_world.blocks.electric.*;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
-import com.brainsmash.broken_world.blocks.electric.generator.GeneratorBlock;
-import com.brainsmash.broken_world.blocks.electric.generator.HydroGeneratorBlock;
-import com.brainsmash.broken_world.blocks.electric.generator.SolarPanelBlock;
-import com.brainsmash.broken_world.blocks.electric.generator.ThermalGeneratorBlock;
+import com.brainsmash.broken_world.blocks.electric.generator.*;
 import com.brainsmash.broken_world.blocks.entity.electric.TeleporterControllerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
@@ -17,10 +14,7 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEnti
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.client.render.entity.CreativeBatteryBlockEntityRenderer;
 import com.brainsmash.broken_world.blocks.client.render.entity.CreativeGeneratorBlockEntityRenderer;
-import com.brainsmash.broken_world.blocks.entity.electric.generator.GeneratorEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.generator.HydroGeneratorEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.generator.SolarPanelEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.generator.ThermalGeneratorEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -84,6 +78,7 @@ public class BlockRegister {
             new ThermalGeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new PumpBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new HydroGeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+            new WindTurbineBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -118,6 +113,7 @@ public class BlockRegister {
             new BlockItem(blocks[29],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[30],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[31],new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[32],new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -153,6 +149,7 @@ public class BlockRegister {
             "thermal_generator",
             "pump",
             "hydro_generator",
+            "wind_turbine",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -191,6 +188,7 @@ public class BlockRegister {
     public static BlockEntityType<ThermalGeneratorEntity> THERMAL_GENERATOR_ENTITY_TYPE;
     public static BlockEntityType<PumpBlockEntity> PUMP_ENTITY_TYPE;
     public static BlockEntityType<HydroGeneratorEntity> HYDRO_GENERATOR_ENTITY_TYPE;
+    public static BlockEntityType<WindTurbineEntity> WIND_TURBINE_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -218,7 +216,7 @@ public class BlockRegister {
         THERMAL_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"thermal_generator"),FabricBlockEntityTypeBuilder.create(ThermalGeneratorEntity::new,blocks[29]).build());
         PUMP_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"pump"),FabricBlockEntityTypeBuilder.create(PumpBlockEntity::new,blocks[30]).build());
         HYDRO_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"hydro_generator"),FabricBlockEntityTypeBuilder.create(HydroGeneratorEntity::new,blocks[31]).build());
-    }
+        WIND_TURBINE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"wind_turbine"),FabricBlockEntityTypeBuilder.create(WindTurbineEntity::new,blocks[32]).build());    }
 
     public static void RegistBlocksClientSide() {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CREATIVE_BATTERY.ordinal()], RenderLayer.getTranslucent());
