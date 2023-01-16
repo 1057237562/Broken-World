@@ -3,6 +3,7 @@ package com.brainsmash.broken_world.blocks.entity.electric.base;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
 
@@ -52,6 +53,9 @@ public class EnergyManager {
             CableBlockEntity current = bfsQueue.removeFirst();
 
             for (Direction direction : Direction.values()) {
+                if(current.getWorld() instanceof ServerWorld sw && !sw.isChunkLoaded(current.getPos().offset(direction,1))){
+                    UpdateGraph(current.getWorld(),current.getPos());
+                }
                 if (current.getAdjacentBlockEntity(direction) instanceof CableBlockEntity adjCable) {
                     if (shouldTickCable(adjCable)) {
                         if(adjCable instanceof BatteryBlockEntity battery){
