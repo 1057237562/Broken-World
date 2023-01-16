@@ -1,12 +1,15 @@
 package com.brainsmash.broken_world.blocks.electric.generator;
 
 import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
+import com.brainsmash.broken_world.blocks.entity.electric.generator.ThermalGeneratorEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.WindTurbineEntity;
 import com.brainsmash.broken_world.registry.PointOfInterestRegister;
 import com.mojang.logging.LogUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
