@@ -78,7 +78,6 @@ public class WindTurbineBlock extends PowerBlock {
         super.onPlaced(world, pos, state, placer, itemStack);
         if(world.isClient)
             return;
-        LOGGER.info("Wind Turbine onPlace called. ");
         List<BlockPos> list = getNearbyWindTurbines((ServerWorld) world, pos);
         for(BlockPos blockPos : list){
             BlockEntity entity = world.getBlockEntity(blockPos);
@@ -95,28 +94,8 @@ public class WindTurbineBlock extends PowerBlock {
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(!world.isClient) {
-            BlockEntity entity = world.getBlockEntity(pos);
-            LOGGER.info("Running: " + (!(entity instanceof WindTurbineEntity) ?
-                                      "BlockEntity not instance of WindTurbineEntity. " :
-                                      ((WindTurbineEntity) entity).isRunning())
-            );
-            List<BlockPos> list = getNearbyWindTurbines((ServerWorld) world, pos);
-            LOGGER.info("Nearby wind turbines: ");
-            for(BlockPos blockPos : list){
-                LOGGER.info(blockPos.toString() + ", distance: " + pos.getSquaredDistance(blockPos));
-            }
-        }
-        return super.onUse(state, world, pos, player, hand, hit);
-    }
-    @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockEntity entity = ctx.getWorld().getBlockEntity(ctx.getBlockPos());
-        return super.getPlacementState(ctx)
-                .with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite())
-                .with(Properties.LIT, entity instanceof WindTurbineEntity && ((WindTurbineEntity) entity).isRunning());
-        // I know it won't work, but PJ says he will handle it
+        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
     }
 
     @Override
