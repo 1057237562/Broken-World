@@ -25,8 +25,13 @@ public class WindTurbineEntity extends PowerBlockEntity {
         world.setBlockState(pos,world.getBlockState(pos).with(Properties.LIT,isRunning()),Block.NOTIFY_ALL);
     }
 
+    private int sigmoid(int x,int s,int e){
+        double f = (e-s)/2.0*x-1;
+        return (int) (20*(1/(1+Math.exp(f))));
+    }
+
     protected int calculateGenerate(){
-        return Math.max(0,pos.getY() - world.getSeaLevel());
+        return sigmoid(Math.max(0,pos.getY() - world.getSeaLevel()),0,world.getDimension().height()-world.getSeaLevel());
     }
 
     public void moreCrowded(){
