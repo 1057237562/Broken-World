@@ -4,21 +4,24 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class WindTurbineEntity extends PowerBlockEntity {
 
     protected int nearbyTurbineCount = 0;
-    protected final boolean bellowSeaLvl;
     public WindTurbineEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.WIND_TURBINE_ENTITY_TYPE, pos, state);
         setMaxCapacity(2000);
-        bellowSeaLvl = pos.getY() < this.pos
+    }
+
+    @Override
+    public void setWorld(World world){
         setGenerate(calculateGenerate());
-        running = !bellowSeaLvl;
+        running = getGenerate() != 0;
     }
 
     protected int calculateGenerate(){
-        return 114514;
+        return Math.max(0,pos.getY() - world.getSeaLevel());
     }
 
     public void moreCrowded(){
