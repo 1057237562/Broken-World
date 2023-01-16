@@ -3,8 +3,10 @@ package com.brainsmash.broken_world.blocks.entity.electric.generator;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -20,6 +22,7 @@ public class WindTurbineEntity extends PowerBlockEntity {
     public void setWorld(World world){
         setGenerate(calculateGenerate());
         running = getGenerate() != 0;
+        world.setBlockState(pos,world.getBlockState(pos).with(Properties.LIT,isRunning()),Block.NOTIFY_ALL);
     }
 
     protected int calculateGenerate(){
