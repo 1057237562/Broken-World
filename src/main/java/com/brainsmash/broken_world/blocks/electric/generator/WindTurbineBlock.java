@@ -42,21 +42,6 @@ public class WindTurbineBlock extends PowerBlock {
         return new HydroGeneratorEntity(pos,state);
     }
 
-    @Override
-    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        if(!world.isClient){
-        }
-        super.onPlaced(world, pos, state, placer, itemStack);
-    }
-
-    //TODO ---onBroken won't be triggered by explosion. Fix it in the future.
-    @Override
-    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        if(!world.isClient()){
-        }
-        super.onBroken(world, pos, state);
-    }
-
     private List<BlockPos> getNearbyWindTurbines(ServerWorld world, BlockPos pos){
         PointOfInterestStorage pointOfInterestStorage = world.getPointOfInterestStorage();
         Stream<PointOfInterest> stream = pointOfInterestStorage.getInCircle(
