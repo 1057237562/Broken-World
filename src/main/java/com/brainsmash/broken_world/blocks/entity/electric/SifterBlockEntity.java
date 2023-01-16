@@ -4,8 +4,8 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import com.brainsmash.broken_world.registry.ShifterRegister;
-import com.brainsmash.broken_world.screenhandlers.descriptions.ShifterGuiDescription;
+import com.brainsmash.broken_world.registry.SifterRegister;
+import com.brainsmash.broken_world.screenhandlers.descriptions.SifterGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -28,12 +28,12 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class ShifterBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
+public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(23, ItemStack.EMPTY);
     public final Random random = new Random();
 
-    public ShifterBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.SHIFTER_ENTITY_TYPE,pos, state);
+    public SifterBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockRegister.SIFTER_ENTITY_TYPE,pos, state);
         setMaxCapacity(500);
         maxProgression = 75;
         powerConsumption = 4;
@@ -52,7 +52,7 @@ public class ShifterBlockEntity extends ConsumerBlockEntity implements NamedScre
         //We provide *this* to the screenHandler as our class Implements Inventory
         //Only the Server has the Inventory at the start, this will be synced to the client in the ScreenHandler
         //return new TeleporterControllerScreenHandler(syncId, playerInventory, this);
-        return new ShifterGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
+        return new SifterGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
     }
 
     public boolean insertItem(ItemStack stack){
@@ -77,12 +77,12 @@ public class ShifterBlockEntity extends ConsumerBlockEntity implements NamedScre
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(!world.isClient){
-            if(ShifterRegister.recipes.containsKey(inventory.get(0).getItem()) && canRun()){
+            if(SifterRegister.recipes.containsKey(inventory.get(0).getItem()) && canRun()){
                 running = true;
                 if(progression < maxProgression){
                     progression++;
                 }else{
-                    DefaultedList<Pair<Float, Item>> output = ShifterRegister.recipes.get(inventory.get(0).getItem());
+                    DefaultedList<Pair<Float, Item>> output = SifterRegister.recipes.get(inventory.get(0).getItem());
                     for(Pair<Float,Item> pair : output){
                         if(random.nextDouble() < pair.getLeft()){
                             if(!insertItem(new ItemStack(pair.getRight(),1))){

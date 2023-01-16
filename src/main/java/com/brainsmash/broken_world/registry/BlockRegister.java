@@ -70,7 +70,7 @@ public class BlockRegister {
             new CrusherBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new SolarPanelBlock(FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(1.0f,2.0f)),
             new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f,2.0f)),
-            new ShifterBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+            new SifterBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new ScannerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new MinerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new ChunkloaderBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
@@ -141,7 +141,7 @@ public class BlockRegister {
             "crusher",
             "solar_panel",
             "iron_sheet_box",
-            "shifter",
+            "sifter",
             "scanner",
             "miner",
             "chunkloader",
@@ -180,7 +180,7 @@ public class BlockRegister {
     public static BlockEntityType<GeneratorEntity> GENERATOR_ENTITY_TYPE;
     public static BlockEntityType<CrusherBlockEntity> CRUSHER_ENTITY_TYPE;
     public static BlockEntityType<SolarPanelEntity> SOLAR_PANEL_ENTITY_TYPE;
-    public static BlockEntityType<ShifterBlockEntity> SHIFTER_ENTITY_TYPE;
+    public static BlockEntityType<SifterBlockEntity> SIFTER_ENTITY_TYPE;
     public static BlockEntityType<ScannerBlockEntity> SCANNER_ENTITY_TYPE;
     public static BlockEntityType<MinerBlockEntity> MINER_ENTITY_TYPE;
     public static BlockEntityType<ChunkloaderBlockEntity> LOADER_ENTITY_TYPE;
@@ -208,7 +208,7 @@ public class BlockRegister {
         GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"generator"), FabricBlockEntityTypeBuilder.create(GeneratorEntity::new,blocks[20]).build());
         CRUSHER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"crusher"),FabricBlockEntityTypeBuilder.create(CrusherBlockEntity::new,blocks[21]).build());
         SOLAR_PANEL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"solar_panel"),FabricBlockEntityTypeBuilder.create(SolarPanelEntity::new,blocks[22]).build());
-        SHIFTER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"shifter"),FabricBlockEntityTypeBuilder.create(ShifterBlockEntity::new,blocks[24]).build());
+        SIFTER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"sifter"),FabricBlockEntityTypeBuilder.create(SifterBlockEntity::new,blocks[24]).build());
         SCANNER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"scanner"),FabricBlockEntityTypeBuilder.create(ScannerBlockEntity::new,blocks[25]).build());
         MINER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"miner"),FabricBlockEntityTypeBuilder.create(MinerBlockEntity::new,blocks[26]).build());
         LOADER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"chunkloader"),FabricBlockEntityTypeBuilder.create(ChunkloaderBlockEntity::new,blocks[27]).build());

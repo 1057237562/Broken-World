@@ -1,7 +1,7 @@
 package com.brainsmash.broken_world.blocks.electric;
 
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
-import com.brainsmash.broken_world.blocks.entity.electric.ShifterBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.SifterBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,8 +13,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ShifterBlock extends ConsumerBlock {
-    public ShifterBlock(Settings settings) {
+public class SifterBlock extends ConsumerBlock {
+    public SifterBlock(Settings settings) {
         super(settings);
         setDefaultState(stateManager.getDefaultState().with(Properties.LIT, false));
     }
@@ -22,14 +22,14 @@ public class ShifterBlock extends ConsumerBlock {
     @Override
     @Nullable
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new ShifterBlockEntity(pos, state);
+        return new SifterBlockEntity(pos, state);
     }
 
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         if(!world.isClient)
-            return (world1, pos, state1, blockEntity) -> ((ShifterBlockEntity) blockEntity).tick(world1, pos, state1, (ShifterBlockEntity) blockEntity);
+            return (world1, pos, state1, blockEntity) -> ((SifterBlockEntity) blockEntity).tick(world1, pos, state1, (SifterBlockEntity) blockEntity);
         return null;
     }
 

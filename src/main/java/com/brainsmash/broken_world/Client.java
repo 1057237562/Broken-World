@@ -8,7 +8,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
-import net.minecraft.util.Hand;
 
 @Environment(EnvType.CLIENT)
 public class Client implements ClientModInitializer {
@@ -20,7 +19,7 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.BATTERY_GUI_DESCRIPTION, BatteryScreen::new);
         HandledScreens.register(Main.GENERATOR_GUI_DESCRIPTION, GeneratorScreen::new);
         HandledScreens.register(Main.CRUSHER_GUI_DESCRIPTION, CrusherScreen::new);
-        HandledScreens.register(Main.SHIFTER_GUI_DESCRIPTION, ShifterScreen::new);
+        HandledScreens.register(Main.SIFTER_GUI_DESCRIPTION, SifterScreen::new);
         HandledScreens.register(Main.MINER_GUI_DESCRIPTION, MinerScreen::new);
         HandledScreens.register(Main.TELEPORT_PLATFORM_GUI_DESCRIPTION, TeleportPlatformScreen::new);
         HandledScreens.register(Main.THERMAL_GENERATOR_GUI_DESCRIPTION,ThermalGeneratorScreen::new);

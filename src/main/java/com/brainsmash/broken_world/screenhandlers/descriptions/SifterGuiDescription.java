@@ -7,20 +7,17 @@ import io.github.cottonmc.cotton.gui.widget.WBar.Direction;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.Identifier;
 
-public class ShifterGuiDescription extends SyncedGuiDescription {
+public class SifterGuiDescription extends SyncedGuiDescription {
 
     private static final int INVENTORY_SIZE = 23;
     private static final int PROPERTY_COUNT = 4;
 
-    public ShifterGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(Main.SHIFTER_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
+    public SifterGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
+        super(Main.SIFTER_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
 
         WGridPanel root = new WGridPanel();
         setRootPanel(root);

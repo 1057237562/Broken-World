@@ -25,7 +25,7 @@ public enum BlockRegistry {
     CRUSHER,
     SOLAR_PANEL,
     IRON_SHEET_BOX,
-    SHIFTER,
+    SIFTER,
     SCANNER,
     MINER,
     CHUNKLOADER,
