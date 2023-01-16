@@ -16,6 +16,7 @@
     "broken_world:teleport_platform",
     "broken_world:pump",
     "broken_world:hydro_generator",
-    "broken_world:wind_turbine"
+    "broken_world:wind_turbine",
+    "broken_world:advanced_furnace"
   ]
 }

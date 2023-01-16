@@ -79,6 +79,7 @@ public class BlockRegister {
             new PumpBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new HydroGeneratorBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new WindTurbineBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+            new AdvancedFurnaceBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -114,6 +115,7 @@ public class BlockRegister {
             new BlockItem(blocks[30],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[31],new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[32],new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[33],new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -150,6 +152,7 @@ public class BlockRegister {
             "pump",
             "hydro_generator",
             "wind_turbine",
+            "advanced_furnace"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -189,6 +192,7 @@ public class BlockRegister {
     public static BlockEntityType<PumpBlockEntity> PUMP_ENTITY_TYPE;
     public static BlockEntityType<HydroGeneratorEntity> HYDRO_GENERATOR_ENTITY_TYPE;
     public static BlockEntityType<WindTurbineEntity> WIND_TURBINE_ENTITY_TYPE;
+    public static BlockEntityType<AdvancedFurnaceBlockEntity> ADVANCED_FURNACE_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -216,7 +220,9 @@ public class BlockRegister {
         THERMAL_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"thermal_generator"),FabricBlockEntityTypeBuilder.create(ThermalGeneratorEntity::new,blocks[29]).build());
         PUMP_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"pump"),FabricBlockEntityTypeBuilder.create(PumpBlockEntity::new,blocks[30]).build());
         HYDRO_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"hydro_generator"),FabricBlockEntityTypeBuilder.create(HydroGeneratorEntity::new,blocks[31]).build());
-        WIND_TURBINE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"wind_turbine"),FabricBlockEntityTypeBuilder.create(WindTurbineEntity::new,blocks[32]).build());    }
+        WIND_TURBINE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"wind_turbine"),FabricBlockEntityTypeBuilder.create(WindTurbineEntity::new,blocks[32]).build());
+        ADVANCED_FURNACE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,new Identifier(MODID,"advanced_furnace"),FabricBlockEntityTypeBuilder.create(AdvancedFurnaceBlockEntity::new,blocks[33]).build());
+    }
 
     public static void RegistBlocksClientSide() {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CREATIVE_BATTERY.ordinal()], RenderLayer.getTranslucent());
