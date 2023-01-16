@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "broken_world:shifter"
+          "name": "broken_world:sifter"
         }
       ],
       "conditions": [

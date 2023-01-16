@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "front": "broken_world:block/shifter_front",
-    "side": "broken_world:block/shifter_side",
-    "top": "broken_world:block/shifter_top"
-  }
-}

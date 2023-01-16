@@ -11,11 +11,11 @@ import net.minecraft.util.collection.DefaultedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ShifterRegister {
+public class SifterRegister {
 
     public static Map<Item, DefaultedList<Pair<Float,Item>>> recipes = new ConcurrentHashMap<>();
 
-    public static void RegistShifterRecipes(){
+    public static void RegistSifterRecipes(){
         recipes.put(Blocks.DIRT.asItem(), DefaultedList.copyOf(
                 new Pair<>(0.06f, Items.RAW_IRON),
                 new Pair<>(0.80f,Items.SAND),
