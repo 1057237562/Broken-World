@@ -18,19 +18,12 @@ public class WindTurbineEntity extends PowerBlockEntity {
         setMaxCapacity(2000);
     }
 
-    @Override
-    public void setWorld(World world){
-        setGenerate(calculateGenerate());
-        running = getGenerate() != 0;
-        world.setBlockState(pos,world.getBlockState(pos).with(Properties.LIT,isRunning()),Block.NOTIFY_ALL);
-    }
-
     private int sigmoid(int x,int s,int e){
         double f = 2.0*x/(e-s)-1;
         return (int) (20*(1/(1+Math.exp(f))));
     }
 
-    protected int calculateGenerate(){
+    protected int calculateGenerate(World world){
         return sigmoid(Math.max(0,pos.getY() - world.getSeaLevel()),0,world.getDimension().height()-world.getSeaLevel());
     }
 

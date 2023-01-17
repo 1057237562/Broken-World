@@ -32,4 +32,6 @@ public enum BlockRegistry {
     TELEPORT_PLATFORM,
     THERMAL_GENERATOR,
     PUMP,
+    WIND_TURBINE,
+    ADVANCED_FURNACE,
 }

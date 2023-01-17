@@ -1,0 +1,78 @@
+package com.brainsmash.broken_world.blocks.client.render.entity;
+
+import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.blocks.entity.electric.generator.WindTurbineEntity;
+import net.minecraft.client.model.*;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.render.block.BlockRenderManager;
+import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3f;
+
+public class WindTurbineEntityRenderer implements BlockEntityRenderer<WindTurbineEntity> {
+
+    public static final EntityModelLayer WIND_TURBINE = new EntityModelLayer(new Identifier(Main.MODID, "wind_turbine"), "main");
+
+    private static final Identifier TEXTURE = new Identifier(Main.MODID, "textures/entity/wind_turbine.png");
+    private static final String BLADE1 = "blade1";
+    private static final String BLADE2 = "blade2";
+    private static final String BLADE3 = "blade3";
+
+    private final ModelPart blade1;
+    private final ModelPart blade2;
+    private final ModelPart blade3;
+
+    public WindTurbineEntityRenderer(BlockEntityRendererFactory.Context ctx){
+        ModelPart modelPart = ctx.getLayerModelPart(WIND_TURBINE);
+        blade1 = modelPart.getChild(BLADE1);
+        blade2 = modelPart.getChild(BLADE2);
+        blade3 = modelPart.getChild(BLADE3);
+    }
+
+    public static TexturedModelData getTexturedModelData(){
+        ModelData modelData = new ModelData();
+        ModelPartData modelPartData = modelData.getRoot();
+        modelPartData.addChild(
+                BLADE1,
+                ModelPartBuilder
+                        .create()
+                        .uv(0, 0)
+                        .cuboid(0.0F, -144.0F, -6.0F, 1.0f, 144f, 12f),
+                ModelTransform.rotation(2.0608F, 0.1925F, -0.3444F)
+        );
+        modelPartData.addChild(
+                BLADE2,
+                ModelPartBuilder
+                        .create()
+                        .uv(26, 0)
+                        .cuboid(0.0F, -144.0F, -6.0F, 1.0f, 144f, 12f),
+                ModelTransform.rotation(-2.0608F, 0.1925F, 0.3444F)
+        );
+        modelPartData.addChild(
+                BLADE3,
+                ModelPartBuilder
+                        .create()
+                        .uv(52, 0)
+                        .cuboid(0.0F, -144.0F, -6.0F, 1.0f, 144f, 12f),
+                ModelTransform.rotation(0.0F, 0.3927F, 0.0F)
+        );
+        return TexturedModelData.of(modelData, 256, 256);
+    }
+
+    @Override
+    public void render(WindTurbineEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        matrices.push();
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
+        blade1.render(matrices,vertexConsumer,15728880,overlay);
+        blade2.render(matrices,vertexConsumer,15728880,overlay);
+        blade3.render(matrices,vertexConsumer,15728880,overlay);
+        matrices.pop();
+    }
+}

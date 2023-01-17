@@ -33,10 +33,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class WindTurbineBlock extends PowerBlock {
-    private static final Logger LOGGER = LogUtils.getLogger();
     public WindTurbineBlock(Settings settings) {
         super(settings);
-        setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT, false));
+        setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Nullable
@@ -100,6 +99,6 @@ public class WindTurbineBlock extends PowerBlock {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING, Properties.LIT);
+        builder.add(Properties.HORIZONTAL_FACING);
     }
 }
