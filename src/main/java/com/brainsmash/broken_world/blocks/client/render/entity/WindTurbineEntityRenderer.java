@@ -46,23 +46,23 @@ public class WindTurbineEntityRenderer implements BlockEntityRenderer<WindTurbin
                 ModelPartBuilder
                         .create()
                         .uv(0, 0)
-                        .cuboid(0.0F, -144.0F, -6.0F, 1.0f, 144f, 12f),
-                ModelTransform.rotation(2.0608F, 0.1925F, -0.3444F)
+                        .cuboid(-6.0F, -144.0F, -1.0F, 12.0F, 144.0F, 1.0F),
+                ModelTransform.rotation(0.0F, 0.3927F, 2.0944F)
         );
         modelPartData.addChild(
                 BLADE2,
                 ModelPartBuilder
                         .create()
                         .uv(26, 0)
-                        .cuboid(0.0F, -144.0F, -6.0F, 1.0f, 144f, 12f),
-                ModelTransform.rotation(-2.0608F, 0.1925F, 0.3444F)
+                        .cuboid(-6.0F, -144.0F, -1.0F, 12.0F, 144.0F, 1.0F),
+                ModelTransform.rotation(0.0F, 0.3927F, -2.0944F)
         );
         modelPartData.addChild(
                 BLADE3,
                 ModelPartBuilder
                         .create()
                         .uv(52, 0)
-                        .cuboid(0.0F, -144.0F, -6.0F, 1.0f, 144f, 12f),
+                        .cuboid(-6.0F, -144.0F, -1.0F, 12.0F, 144.0F, 1.0F),
                 ModelTransform.rotation(0.0F, 0.3927F, 0.0F)
         );
         return TexturedModelData.of(modelData, 256, 256);
