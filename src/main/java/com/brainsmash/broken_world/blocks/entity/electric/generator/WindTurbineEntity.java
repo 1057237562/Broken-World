@@ -8,17 +8,25 @@ import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Quaternion;
 import net.minecraft.world.World;
 
 public class WindTurbineEntity extends PowerBlockEntity {
 
     protected int nearbyTurbineCount = 0;
+    public Quaternion rotationMatrix;
     public WindTurbineEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.WIND_TURBINE_ENTITY_TYPE, pos, state);
         setMaxCapacity(2000);
     }
 
-    private int sigmoid(int x,int s,int e){
+    @Override
+    public void setWorld(World world) {
+        rotationMatrix = world.getBlockState(pos).get(Properties.HORIZONTAL_FACING).getRotationQuaternion();
+        super.setWorld(world);
+    }
+
+    private int sigmoid(int x, int s, int e){
         double f = 2.0*x/(e-s)-1;
         return (int) (20*(1/(1+Math.exp(f))));
     }

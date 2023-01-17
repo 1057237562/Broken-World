@@ -13,7 +13,9 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
 
 public class WindTurbineEntityRenderer implements BlockEntityRenderer<WindTurbineEntity> {
@@ -69,6 +71,8 @@ public class WindTurbineEntityRenderer implements BlockEntityRenderer<WindTurbin
     @Override
     public void render(WindTurbineEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
+        matrices.translate(0.5,0.5,0.0);
+        matrices.multiply(entity.rotationMatrix);
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
         blade1.render(matrices,vertexConsumer,15728880,overlay);
         blade2.render(matrices,vertexConsumer,15728880,overlay);
