@@ -14,16 +14,9 @@ import net.minecraft.world.World;
 public class WindTurbineEntity extends PowerBlockEntity {
 
     protected int nearbyTurbineCount = 0;
-    public Quaternion rotationMatrix;
     public WindTurbineEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.WIND_TURBINE_ENTITY_TYPE, pos, state);
         setMaxCapacity(2000);
-    }
-
-    @Override
-    public void setWorld(World world) {
-        rotationMatrix = world.getBlockState(pos).get(Properties.HORIZONTAL_FACING).getRotationQuaternion();
-        super.setWorld(world);
     }
 
     private int sigmoid(int x, int s, int e){
