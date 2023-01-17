@@ -1,31 +1,33 @@
 package com.brainsmash.broken_world.blocks.entity.electric.generator;
 
-import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.state.property.Properties;
+import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Quaternion;
-import net.minecraft.world.World;
+import net.minecraft.util.math.random.Random;
+import org.jetbrains.annotations.Nullable;
 
 public class WindTurbineEntity extends PowerBlockEntity {
 
     protected int nearbyTurbineCount = 0;
+    public final int maxOutput = 20;
     public WindTurbineEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.WIND_TURBINE_ENTITY_TYPE, pos, state);
         setMaxCapacity(2000);
     }
 
-    private int sigmoid(int x, int s, int e){
+    private double sigmoid(int x, int s, int e){
         double f = 2.0*x/(e-s)-1;
-        return (int) (20*(1/(1+Math.exp(f))));
+        return 1/(1+Math.exp(f));
     }
 
-    protected int calculateGenerate(World world){
-        return sigmoid(Math.max(0,pos.getY() - world.getSeaLevel()),0,world.getDimension().height()-world.getSeaLevel());
+    public void randomTick(Random random){
+        setGenerate((int)((1+0.25*random.nextDouble())*maxOutput*sigmoid(Math.max(0,pos.getY() - world.getSeaLevel()),0,world.getDimension().height()-world.getSeaLevel())));
+        markDirty();
     }
 
     public void moreCrowded(){
@@ -44,6 +46,7 @@ public class WindTurbineEntity extends PowerBlockEntity {
     @Override
     public void writeNbt(NbtCompound nbt) {
         nbt.putInt("nearby",nearbyTurbineCount);
+        nbt.putInt("powerGen",getGenerate());
         super.writeNbt(nbt);
     }
 
@@ -51,5 +54,19 @@ public class WindTurbineEntity extends PowerBlockEntity {
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         nearbyTurbineCount = nbt.getInt("nearby");
+        setGenerate(nbt.getInt("powerGen"));
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.create(this);
+    }
+
+    @Override
+    public NbtCompound toInitialChunkDataNbt() {
+        NbtCompound compound = new NbtCompound();
+        writeNbt(compound);
+        return compound;
     }
 }

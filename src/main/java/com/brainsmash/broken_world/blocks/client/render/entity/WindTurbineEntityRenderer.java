@@ -74,7 +74,7 @@ public class WindTurbineEntityRenderer implements BlockEntityRenderer<WindTurbin
     @Override
     public void render(WindTurbineEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
-        tick += 0.1f * tickDelta;
+        tick += 0.1f * entity.getGenerate() / entity.maxOutput * tickDelta;
         matrices.translate(0.5,0.5,0.5);
         Direction direction = entity.getCachedState().get(Properties.HORIZONTAL_FACING);
         matrices.translate(0.6*direction.getOffsetX(),0.6*direction.getOffsetY(),0.6*direction.getOffsetZ());

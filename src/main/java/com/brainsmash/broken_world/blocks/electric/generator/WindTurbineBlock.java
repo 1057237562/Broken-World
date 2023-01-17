@@ -22,6 +22,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.poi.PointOfInterest;
 import net.minecraft.world.poi.PointOfInterestStorage;
@@ -63,13 +64,16 @@ public class WindTurbineBlock extends PowerBlock {
 
         List<BlockPos> list = getNearbyWindTurbines((ServerWorld) world, pos);
         for(BlockPos blockPos : list){
-            BlockEntity entity = world.getBlockEntity(blockPos);
-            if(!(entity instanceof WindTurbineEntity))
-                continue;
-            ((WindTurbineEntity) entity).lessCrowded();
-            BlockState blockState = world.getBlockState(blockPos).with(Properties.LIT, ((WindTurbineEntity) entity).isRunning());
-            world.setBlockState(blockPos, blockState);
+            if(world.getBlockEntity(blockPos) instanceof WindTurbineEntity windTurbineEntity) {
+                windTurbineEntity.lessCrowded();
+            }
         }
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        super.randomTick(state, world, pos, random);
+        ((WindTurbineEntity)world.getBlockEntity(pos)).randomTick(random);
     }
 
     @Override
@@ -79,16 +83,13 @@ public class WindTurbineBlock extends PowerBlock {
             return;
         List<BlockPos> list = getNearbyWindTurbines((ServerWorld) world, pos);
         for(BlockPos blockPos : list){
-            BlockEntity entity = world.getBlockEntity(blockPos);
-            if(!(entity instanceof WindTurbineEntity))
-                continue;
-            ((WindTurbineEntity) entity).moreCrowded();
-            BlockState blockState = world.getBlockState(blockPos).with(Properties.LIT, ((WindTurbineEntity)entity).isRunning());
-            world.setBlockState(blockPos, blockState);
+            if(world.getBlockEntity(blockPos) instanceof WindTurbineEntity windTurbineEntity) {
+                windTurbineEntity.moreCrowded();
+                windTurbineEntity.randomTick(world.random);
+            }
         }
-        BlockEntity entity = world.getBlockEntity(pos);
-        if(entity instanceof WindTurbineEntity && !list.isEmpty()){
-            ((WindTurbineEntity) entity).moreCrowded();
+        if(world.getBlockEntity(pos) instanceof WindTurbineEntity windTurbineEntity && !list.isEmpty()){
+            windTurbineEntity.moreCrowded();
         }
     }
 
