@@ -34,9 +34,9 @@ public class AdvancedFurnaceBlockEntity extends ConsumerBlockEntity implements N
 
     public AdvancedFurnaceBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.ADVANCED_FURNACE_ENTITY_TYPE,pos, state);
-        setMaxCapacity(500);
-        maxProgression = 125;
-        powerConsumption = 4;
+        setMaxCapacity(2000);
+        maxProgression = 150;
+        powerConsumption = 10;
     }
     @Override
     public DefaultedList<ItemStack> getItems() {
