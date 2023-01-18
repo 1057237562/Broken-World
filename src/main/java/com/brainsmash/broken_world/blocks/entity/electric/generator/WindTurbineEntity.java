@@ -22,7 +22,7 @@ public class WindTurbineEntity extends PowerBlockEntity {
     }
 
     private double sigmoid(int x, int s, int e){
-        double f = 10.0*x/(e-s);
+        double f = 7.5*x/(e-s);
         return 1/(1+Math.exp(-f));
     }
 
