@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 public class PowerBlockEntity extends CableBlockEntity {
 
     protected boolean running = false;
-    private int generatePower = 50;
+    protected int generatePower = 50;
 
     public PowerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.POWER_ENTITY_TYPE, pos, state);

@@ -85,11 +85,13 @@ public class WindTurbineBlock extends PowerBlock {
         for(BlockPos blockPos : list){
             if(world.getBlockEntity(blockPos) instanceof WindTurbineEntity windTurbineEntity) {
                 windTurbineEntity.moreCrowded();
-                windTurbineEntity.randomTick(world.random);
             }
         }
-        if(world.getBlockEntity(pos) instanceof WindTurbineEntity windTurbineEntity && !list.isEmpty()){
-            windTurbineEntity.moreCrowded();
+        if(world.getBlockEntity(pos) instanceof WindTurbineEntity windTurbineEntity) {
+            windTurbineEntity.randomTick(world.random);
+            if (!list.isEmpty()) {
+                windTurbineEntity.moreCrowded();
+            }
         }
     }
 

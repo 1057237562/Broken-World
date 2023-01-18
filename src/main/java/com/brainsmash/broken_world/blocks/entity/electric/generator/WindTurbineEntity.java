@@ -9,6 +9,7 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class WindTurbineEntity extends PowerBlockEntity {
@@ -21,12 +22,14 @@ public class WindTurbineEntity extends PowerBlockEntity {
     }
 
     private double sigmoid(int x, int s, int e){
-        double f = 2.0*x/(e-s)-1;
-        return 1/(1+Math.exp(f));
+        double f = 10.0*x/(e-s);
+        return 1/(1+Math.exp(-f));
     }
 
     public void randomTick(Random random){
-        setGenerate((int)((1+0.25*random.nextDouble())*maxOutput*sigmoid(Math.max(0,pos.getY() - world.getSeaLevel()),0,world.getDimension().height()-world.getSeaLevel())));
+        setGenerate((int)((1+0.25*random.nextGaussian())*maxOutput*sigmoid(pos.getY() - world.getSeaLevel(),0,world.getTopY()-world.getSeaLevel())));
+        if(nearbyTurbineCount == 0)
+            running = true;
         markDirty();
     }
 
@@ -39,8 +42,10 @@ public class WindTurbineEntity extends PowerBlockEntity {
     public void lessCrowded(){
         nearbyTurbineCount--;
         markDirty();
-        if(nearbyTurbineCount == 0)
-            running = getGenerate() != 0;
+        if(nearbyTurbineCount == 0) {
+            randomTick(world.getRandom());
+            running = true;
+        }
     }
 
     @Override
@@ -55,6 +60,8 @@ public class WindTurbineEntity extends PowerBlockEntity {
         super.readNbt(nbt);
         nearbyTurbineCount = nbt.getInt("nearby");
         setGenerate(nbt.getInt("powerGen"));
+        if(nearbyTurbineCount == 0)
+            running = true;
     }
 
     @Nullable
