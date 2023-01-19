@@ -1,8 +1,7 @@
 package com.brainsmash.broken_world.registry;
 
-import com.brainsmash.broken_world.blocks.client.render.entity.WindTurbineEntityRenderer;
+import com.brainsmash.broken_world.blocks.client.render.entity.*;
 import com.brainsmash.broken_world.blocks.electric.TeleporterController;
-import com.brainsmash.broken_world.blocks.client.render.entity.ScannerBlockEntityRenderer;
 import com.brainsmash.broken_world.blocks.electric.*;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
@@ -13,8 +12,6 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntit
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
-import com.brainsmash.broken_world.blocks.client.render.entity.CreativeBatteryBlockEntityRenderer;
-import com.brainsmash.broken_world.blocks.client.render.entity.CreativeGeneratorBlockEntityRenderer;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -237,5 +234,6 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(CREATIVE_GENERATOR_ENTITY_TYPE, CreativeGeneratorBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(SCANNER_ENTITY_TYPE, ScannerBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(WIND_TURBINE_ENTITY_TYPE, WindTurbineEntityRenderer::new);
+        BlockEntityRendererRegistry.register(SIFTER_ENTITY_TYPE, SifterBlockEntityRenderer::new);
     }
 }
