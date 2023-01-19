@@ -71,7 +71,7 @@ public class BlockRegister {
             new CrusherBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new SolarPanelBlock(FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(1.0f,2.0f)),
             new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f,2.0f)),
-            new SifterBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
+            new SifterBlock(FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new ScannerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new MinerBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
             new ChunkloaderBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,3.0f)),
@@ -230,6 +230,7 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CREATIVE_GENERATOR.ordinal()], RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.SCANNER.ordinal()], RenderLayer.getSolid());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.WIND_TURBINE.ordinal()],RenderLayer.getSolid());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.SIFTER.ordinal()],RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR, CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,WindTurbineEntityRenderer::getTexturedModelData);
         BlockEntityRendererRegistry.register(CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
