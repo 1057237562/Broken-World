@@ -37,6 +37,8 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(23, ItemStack.EMPTY);
     public final Random random = new Random();
 
+    private Item lastItem;
+
     public SifterBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.SIFTER_ENTITY_TYPE,pos, state);
         setMaxCapacity(500);
@@ -83,10 +85,7 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if(world instanceof ServerWorld serverWorld){
             if(SifterRegister.recipes.containsKey(inventory.get(0).getItem()) && canRun()){
-                if(!running){
-                    running = true;
-                    serverWorld.getChunkManager().markForUpdate(pos);
-                }
+                running = true;
                 if(progression < maxProgression){
                     progression++;
                 }else{
@@ -100,6 +99,11 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
                     }
                     inventory.get(0).decrement(1);
                     progression = 0;
+                }
+                if(!inventory.get(0).getItem().equals(lastItem)){
+                    lastItem = inventory.get(0).getItem();
+                    progression = 0;
+                    serverWorld.getChunkManager().markForUpdate(pos);
                 }
             }else{
                 if(running){
@@ -125,6 +129,7 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
         running = nbt.getBoolean("running");
+        lastItem = inventory.get(0).getItem();
     }
 
     @Override

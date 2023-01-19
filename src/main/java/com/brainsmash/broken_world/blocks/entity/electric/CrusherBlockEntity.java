@@ -31,6 +31,7 @@ import java.util.Random;
 public class CrusherBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(23, ItemStack.EMPTY);
     public final Random random = new Random();
+    private Item lastItem;
 
     public CrusherBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.CRUSHER_ENTITY_TYPE,pos, state);
@@ -86,6 +87,10 @@ public class CrusherBlockEntity extends ConsumerBlockEntity implements NamedScre
                     inventory.get(0).decrement(1);
                     progression = 0;
                 }
+                if(inventory.get(0).getItem().equals(lastItem)){
+                    lastItem = inventory.get(0).getItem();
+                    progression = 0;
+                }
             }else{
                 running = false;
                 progression = 0;
@@ -105,6 +110,7 @@ public class CrusherBlockEntity extends ConsumerBlockEntity implements NamedScre
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
+        lastItem = inventory.get(0).getItem();
     }
 
     @Override
