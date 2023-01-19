@@ -24,7 +24,7 @@ public class SifterBlockEntityRenderer implements BlockEntityRenderer<SifterBloc
         matrices.translate(0.5, 0.5, 0.5);
         matrices.multiply(Quaternion.fromEulerXyz(0,entity.getWorld().getTime()+tickDelta,0));
         ItemStack itemStack = entity.getItems().get(0);
-        if(!itemStack.isEmpty())
+        if(entity.isRunning())
             INSTANCE.renderItem(itemStack, ModelTransformation.Mode.GROUND, 15728880, overlay, matrices, vertexConsumers, 0);
         matrices.pop();
     }

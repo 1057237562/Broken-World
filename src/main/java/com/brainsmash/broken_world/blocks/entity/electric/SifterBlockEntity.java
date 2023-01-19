@@ -21,6 +21,7 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
@@ -80,9 +81,12 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient){
+        if(world instanceof ServerWorld serverWorld){
             if(SifterRegister.recipes.containsKey(inventory.get(0).getItem()) && canRun()){
-                running = true;
+                if(!running){
+                    running = true;
+                    serverWorld.getChunkManager().markForUpdate(pos);
+                }
                 if(progression < maxProgression){
                     progression++;
                 }else{
@@ -98,8 +102,11 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
                     progression = 0;
                 }
             }else{
-                running = false;
-                markDirty();
+                if(running){
+                    running = false;
+                    serverWorld.getChunkManager().markForUpdate(pos);
+                }
+
                 progression = 0;
             }
             state = state.with(Properties.LIT, isRunning());
@@ -117,11 +124,13 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
+        running = nbt.getBoolean("running");
     }
 
     @Override
     public void writeNbt(NbtCompound nbt) {
         Inventories.writeNbt(nbt, this.inventory);
+        nbt.putBoolean("running",running);
         super.writeNbt(nbt);
     }
 
