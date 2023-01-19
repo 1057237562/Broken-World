@@ -87,7 +87,7 @@ public class CrusherBlockEntity extends ConsumerBlockEntity implements NamedScre
                     inventory.get(0).decrement(1);
                     progression = 0;
                 }
-                if(inventory.get(0).getItem().equals(lastItem)){
+                if(!inventory.get(0).getItem().equals(lastItem)){
                     lastItem = inventory.get(0).getItem();
                     progression = 0;
                 }
