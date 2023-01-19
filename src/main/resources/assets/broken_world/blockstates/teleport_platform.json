@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "broken_world:block/miner" }
+    "": { "model": "broken_world:block/teleport_platform" }
   }
 }
