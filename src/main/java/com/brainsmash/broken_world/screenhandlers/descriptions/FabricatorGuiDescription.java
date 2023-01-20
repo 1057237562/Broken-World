@@ -7,7 +7,9 @@ import io.github.cottonmc.cotton.gui.widget.WBar;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
@@ -35,5 +37,10 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
         root.add(this.createPlayerInventoryPanel(), 0, 5);
 
         root.validate(this);
+    }
+
+    @Override
+    public void close(PlayerEntity player) {
+        super.close(player);
     }
 }

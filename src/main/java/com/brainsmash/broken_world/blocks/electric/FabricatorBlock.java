@@ -4,13 +4,21 @@ import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.FabricatorBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.MinerBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.base.EnergyManager;
+import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -38,6 +46,25 @@ public class FabricatorBlock extends ConsumerBlock {
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(Properties.LIT).add(Properties.HORIZONTAL_FACING);
+    }
+
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof ConsumerBlockEntity) {
+                if(world instanceof ServerWorld){
+                    if(blockEntity instanceof ImplementedInventory inventory) {
+                        inventory.getItems().subList(9,17).forEach(stack -> ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), stack));
+                    }
+                    world.removeBlockEntity(pos);
+                    EnergyManager.UpdateGraph(world,pos);
+                }
+                // update comparators
+                world.updateComparators(pos,this);
+            }
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
     }
 
 }
