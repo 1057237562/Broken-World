@@ -53,7 +53,6 @@ public class WIndicatorItemSlot extends WWidget {
     private int focusedSlot = -1;
     private int hoveredSlot = -1;
     private Predicate<ItemStack> filter = IndicatorSlot.DEFAULT_ITEM_FILTER;
-    private final Set<WIndicatorItemSlot.ChangeListener> listeners = new HashSet<>();
 
     public WIndicatorItemSlot(Inventory inventory, int startIndex, int slotsWide, int slotsHigh, boolean big) {
         this();
@@ -95,29 +94,6 @@ public class WIndicatorItemSlot extends WWidget {
         w.inventory = inventory;
         w.startIndex = index;
         w.big = true;
-
-        return w;
-    }
-
-    /**
-     * Creates a 9x3 slot widget from the "main" part of a player inventory.
-     *
-     * @param inventory the player inventory
-     * @return the created slot widget
-     * @see WPlayerInvPanel
-     */
-    public static WIndicatorItemSlot ofPlayerStorage(Inventory inventory) {
-        WIndicatorItemSlot w = new WIndicatorItemSlot() {
-            @Override
-            protected Text getNarrationName() {
-                return inventory instanceof PlayerInventory inv ? inv.getDisplayName() : NarrationMessages.Vanilla.INVENTORY;
-            }
-        };
-        w.inventory = inventory;
-        w.startIndex = 9;
-        w.slotsWide = 9;
-        w.slotsHigh = 3;
-        //w.ltr = false;
 
         return w;
     }
@@ -261,9 +237,6 @@ public class WIndicatorItemSlot extends WWidget {
                 slot.setInsertingAllowed(insertingAllowed);
                 slot.setTakingAllowed(takingAllowed);
                 slot.setFilter(filter);
-                /*for (WIndicatorItemSlot.ChangeListener listener : listeners) {
-                    slot.addChangeListener(this, listener);
-                }*/
                 peers.add(slot);
                 host.addSlotPeer(slot);
                 index++;
@@ -283,16 +256,6 @@ public class WIndicatorItemSlot extends WWidget {
         }
     }
 
-    /**
-     * Creates a slot peer for this slot widget.
-     *
-     * @param inventory the slot inventory
-     * @param index     the index in the inventory
-     * @param x         the X coordinate
-     * @param y         the Y coordinate
-     * @return the created slot instance
-     * @since 1.11.0
-     */
     protected IndicatorSlot createSlotPeer(Inventory inventory, int index, int x, int y) {
         return new IndicatorSlot(inventory, index, x, y);
     }
@@ -383,23 +346,6 @@ public class WIndicatorItemSlot extends WWidget {
         focusedSlot = -1;
     }
 
-    /**
-     * Adds a change listener to this slot.
-     * Does nothing if the listener is already registered.
-     *
-     * @param listener the added listener
-     * @throws NullPointerException if the listener is null
-     * @since 3.0.0
-     */
-    public void addChangeListener(WIndicatorItemSlot.ChangeListener listener) {
-        Objects.requireNonNull(listener, "listener");
-        listeners.add(listener);
-
-        /*for (IndicatorSlot peer : peers) {
-            peer.addChangeListener(this, listener);
-        }*/
-    }
-
     @Override
     public void onShown() {
         for (IndicatorSlot peer : peers) {
@@ -456,24 +402,6 @@ public class WIndicatorItemSlot extends WWidget {
     @Nullable
     protected Text getNarrationName() {
         return null;
-    }
-
-    /**
-     * A listener for changes in an item slot.
-     *
-     * @since 3.0.0
-     */
-    @FunctionalInterface
-    public interface ChangeListener {
-        /**
-         * Handles a changed item stack in an item slot.
-         *
-         * @param slot      the item slot widget
-         * @param inventory the item inventory of the slot
-         * @param index     the index of the slot in the inventory
-         * @param stack     the changed item stack
-         */
-        void onStackChanged(WIndicatorItemSlot slot, Inventory inventory, int index, ItemStack stack);
     }
 }
 

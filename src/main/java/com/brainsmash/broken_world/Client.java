@@ -26,6 +26,7 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.THERMAL_GENERATOR_GUI_DESCRIPTION,ThermalGeneratorScreen::new);
         HandledScreens.register(Main.PUMP_GUI_DESCRIPTION,PumpScreen::new);
         HandledScreens.register(Main.ADVANCED_FURNACE_GUI_DESCRIPTION,AdvancedFurnaceScreen::new);
+        HandledScreens.register(Main.FABRICATOR_GUI_DESCRIPTION,FabricatorScreen::new);
 
         BlockRegister.RegistBlocksClientSide();
         EntityRegister.RegistEntitiesClientSide();

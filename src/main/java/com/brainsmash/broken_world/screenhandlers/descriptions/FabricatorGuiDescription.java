@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.screenhandlers.descriptions;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.gui.widgets.WIndicatorItemSlot;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.WBar;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
@@ -16,7 +17,7 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
     private static final int PROPERTY_COUNT = 4;
 
     public FabricatorGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(Main.GENERATOR_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
+        super(Main.FABRICATOR_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
         WGridPanel root = new WGridPanel();
         setRootPanel(root);
         root.setSize(150, 191);
@@ -24,10 +25,12 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
         WBar bar = new WBar(new Identifier(Main.MODID,"textures/gui/horizontal_electric_bar.png"),new Identifier(Main.MODID,"textures/gui/horizontal_electric_bar_filled.png"),0,1, WBar.Direction.RIGHT);
         bar.setProperties(propertyDelegate);
         root.add(bar, 5, 2,2,1);
-        for(int i = 0; i < 9; i++){
-            WItemSlot itemSlot = WItemSlot.of(blockInventory, i);
-            root.add(itemSlot, 1+i%3, i/3);
-        }
+        WIndicatorItemSlot craftingSlot = new WIndicatorItemSlot(blockInventory,0,3,3,false);
+        root.add(craftingSlot,1,1);
+        /*for(int i = 8; i >= 0; i--){
+            WIndicatorItemSlot itemSlot = WIndicatorItemSlot.of(blockInventory, i);
+            root.add(itemSlot, 1+i%3, i/3+1);
+        }*/
 
         root.add(this.createPlayerInventoryPanel(), 0, 5);
 

@@ -34,4 +34,5 @@ public enum BlockRegistry {
     PUMP,
     WIND_TURBINE,
     ADVANCED_FURNACE,
+    FABRICATOR,
 }
