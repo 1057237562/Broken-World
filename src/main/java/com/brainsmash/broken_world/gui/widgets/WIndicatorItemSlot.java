@@ -108,7 +108,6 @@ public class WIndicatorItemSlot extends WItemSlot {
 
     @Override
     public void validate(GuiDescription host) {
-        //super.validate(host);
         peers.clear();
         int index = startIndex;
 

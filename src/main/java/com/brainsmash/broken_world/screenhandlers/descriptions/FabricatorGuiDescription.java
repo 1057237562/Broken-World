@@ -7,11 +7,15 @@ import io.github.cottonmc.cotton.gui.widget.WBar;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Identifier;
 
 public class FabricatorGuiDescription extends SyncedGuiDescription {
@@ -40,7 +44,11 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
     }
 
     @Override
-    public void close(PlayerEntity player) {
-        super.close(player);
+    public boolean canInsertIntoSlot(Slot slot) {
+        if(slot.getStack().isEmpty()) {
+            MinecraftClient client = MinecraftClient.getInstance();
+            client.interactionManager.clickSlot(syncId, slot.id, 0, SlotActionType.PICKUP, client.player);
+        }
+        return false;
     }
 }

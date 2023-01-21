@@ -13,12 +13,20 @@ public class IndicatorSlot extends ValidatedSlot {
 
     @Override
     public boolean canInsert(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public ItemStack insertStack(ItemStack stack, int count) {
         ItemStack itemStack = stack.copy();
         itemStack.setCount(1);
         setStack(itemStack);
-        markDirty();
-        inventory.markDirty();
-        return false;
+        return stack;
+    }
+
+    @Override
+    public int getMaxItemCount() {
+        return 1;
     }
 
     @Override
