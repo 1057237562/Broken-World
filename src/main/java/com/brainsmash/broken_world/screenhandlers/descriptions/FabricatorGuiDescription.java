@@ -60,12 +60,14 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
     @Override
     public boolean canInsertIntoSlot(Slot slot) {
         if(slot.getStack().isEmpty() && slot instanceof IndicatorSlot) {
-            indicator++;
+            if(!slot.equals(lslot))
+                indicator++;
             if (indicator == 1) {
                 lslot = slot;
             }
             MinecraftClient client = MinecraftClient.getInstance();
-            client.interactionManager.clickSlot(syncId, lslot.id, 0, SlotActionType.PICKUP, client.player);
+            if(indicator == 1)
+                client.interactionManager.clickSlot(syncId, slot.id, 0, SlotActionType.PICKUP, client.player);
             client.interactionManager.clickSlot(syncId, slot.id, 0, SlotActionType.PICKUP, client.player);
             return true;
         }else{

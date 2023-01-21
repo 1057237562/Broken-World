@@ -16,6 +16,7 @@ public class FabricatorScreen extends CottonInventoryScreen<FabricatorGuiDescrip
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
         handler.indicator = 0;
+        handler.lslot = null;
         return super.mouseReleased(mouseX, mouseY, mouseButton);
     }
 }
