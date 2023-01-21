@@ -8,16 +8,18 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 
 public class FabricatorScreen extends CottonInventoryScreen<FabricatorGuiDescription> {
+
     public FabricatorScreen(FabricatorGuiDescription description, PlayerInventory playerInventory, Text title) {
         super(description, playerInventory, title);
     }
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
-        if(cursorDragSlots.isEmpty()){
-            return super.mouseReleased(mouseX, mouseY, mouseButton);
-        }else{
+        if(handler.indicating == 1){
+            handler.indicating = 0;
             return true;
         }
+        handler.indicating = 0;
+        return super.mouseReleased(mouseX, mouseY, mouseButton);
     }
 }

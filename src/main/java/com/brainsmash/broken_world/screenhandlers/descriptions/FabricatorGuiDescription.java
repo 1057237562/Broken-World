@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.screenhandlers.descriptions;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.gui.util.IndicatorSlot;
 import com.brainsmash.broken_world.gui.widgets.WIndicatorItemSlot;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.WBar;
@@ -18,9 +19,13 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Identifier;
 
+import java.util.Set;
+
 public class FabricatorGuiDescription extends SyncedGuiDescription {
     private static final int INVENTORY_SIZE = 18;
     private static final int PROPERTY_COUNT = 4;
+
+    public int indicating = 0;
 
     public FabricatorGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(Main.FABRICATOR_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
@@ -45,10 +50,13 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
 
     @Override
     public boolean canInsertIntoSlot(Slot slot) {
-        if(slot.getStack().isEmpty()) {
+        if(slot.getStack().isEmpty() && slot instanceof IndicatorSlot) {
             MinecraftClient client = MinecraftClient.getInstance();
             client.interactionManager.clickSlot(syncId, slot.id, 0, SlotActionType.PICKUP, client.player);
+            indicating++;
+            return false;
+        }else{
+            return super.canInsertIntoSlot(slot);
         }
-        return false;
     }
 }
