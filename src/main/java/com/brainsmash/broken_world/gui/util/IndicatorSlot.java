@@ -21,7 +21,6 @@ public class IndicatorSlot extends ValidatedSlot {
         ItemStack itemStack = stack.copy();
         itemStack.setCount(1);
         setStack(itemStack);
-
         return stack;
     }
 
