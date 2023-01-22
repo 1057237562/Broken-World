@@ -34,6 +34,8 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
     public FabricatorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.FABRICATOR_ENTITY_TYPE, pos, state);
         maxProgression = 100;
+        powerConsumption = 6;
+        setMaxCapacity(1000);
     }
 
     public void setOutput(ItemStack output) {
@@ -77,7 +79,7 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (world instanceof ServerWorld) {
-            if (!output.isEmpty() && canRun() && !output.isEmpty() && (inventory.get(18).getItem().equals(output) || inventory.get(18).isEmpty())) {
+            if (!output.isEmpty() && canRun() && !output.isEmpty() && inventory.get(18).getCount() + output.getCount() < inventory.get(18).getMaxCount() && (inventory.get(18).getItem().equals(output) || inventory.get(18).isEmpty())) {
                 if (!isRunning()) {
                     if (checkMaterial()) running = true;
                     else running = false;
@@ -90,7 +92,7 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
                         if (inventory.get(18).isEmpty()) {
                             inventory.set(18, output);
                         } else {
-                            inventory.get(18).increment(1);
+                            inventory.get(18).increment(output.getCount());
                         }
                         super.tick(world, pos, state, blockEntity);
                         running = false;
