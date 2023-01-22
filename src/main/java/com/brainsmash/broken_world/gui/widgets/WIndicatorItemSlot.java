@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.gui.widgets;
 
 import com.brainsmash.broken_world.gui.util.IndicatorSlot;
 import io.github.cottonmc.cotton.gui.GuiDescription;
+import io.github.cottonmc.cotton.gui.ValidatedSlot;
 import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
 import io.github.cottonmc.cotton.gui.impl.LibGuiCommon;
 import io.github.cottonmc.cotton.gui.impl.VisualLogger;
@@ -24,8 +25,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class WIndicatorItemSlot extends WItemSlot {
@@ -50,6 +50,7 @@ public class WIndicatorItemSlot extends WItemSlot {
     private final boolean big;
     private int focusedSlot = -1;
     private Predicate<ItemStack> filter = IndicatorSlot.DEFAULT_ITEM_FILTER;
+    private final Set<ChangeListener> listeners = new HashSet<>();
 
     public WIndicatorItemSlot(Inventory inventory, int startIndex, int slotsWide, int slotsHigh, boolean big) {
         super(inventory, startIndex, slotsWide, slotsHigh, big);
@@ -116,6 +117,9 @@ public class WIndicatorItemSlot extends WItemSlot {
                 // The Slot object is offset +1 because it's the inner area of the slot.
                 IndicatorSlot slot = createSlotPeer(inventory, index, this.getAbsoluteX() + (x * 18) + 1, this.getAbsoluteY() + (y * 18) + 1);
                 slot.setFilter(filter);
+                for (ChangeListener listener : listeners) {
+                    slot.addChangeListener(this, listener);
+                }
                 peers.add(slot);
                 host.addSlotPeer(slot);
                 index++;
@@ -132,6 +136,15 @@ public class WIndicatorItemSlot extends WItemSlot {
 
             IndicatorSlot peer = peers.get(focusedSlot);
             client.interactionManager.clickSlot(handler.syncId, peer.id, 0, SlotActionType.PICKUP, client.player);
+        }
+    }
+
+    public void addChangeListener(ChangeListener listener) {
+        Objects.requireNonNull(listener, "listener");
+        listeners.add(listener);
+
+        for (IndicatorSlot peer : peers) {
+            peer.addChangeListener(this, listener);
         }
     }
 
@@ -199,6 +212,11 @@ public class WIndicatorItemSlot extends WItemSlot {
         for (IndicatorSlot peer : peers) {
             peer.setVisible(false);
         }
+    }
+
+    @FunctionalInterface
+    public interface ChangeListener {
+        void onStackChanged(WIndicatorItemSlot slot, Inventory inventory, int index, ItemStack stack);
     }
 }
 
