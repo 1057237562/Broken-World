@@ -5,6 +5,7 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEnti
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.FabricatorGuiDescription;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,6 +17,7 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -79,7 +81,7 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (world instanceof ServerWorld) {
-            if (!output.isEmpty() && canRun() && !output.isEmpty() && inventory.get(18).getCount() + output.getCount() < inventory.get(18).getMaxCount() && (inventory.get(18).getItem().equals(output) || inventory.get(18).isEmpty())) {
+            if (!output.isEmpty() && canRun() && !output.isEmpty() && ((inventory.get(18).isOf(output.getItem()) && inventory.get(18).getCount() + output.getCount() <= output.getMaxCount()) || inventory.get(18).isEmpty())) {
                 if (!isRunning()) {
                     if (checkMaterial()) running = true;
                     else running = false;
@@ -102,6 +104,8 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
             } else {
                 running = false;
             }
+            state = state.with(Properties.LIT, isRunning());
+            world.setBlockState(pos, state, Block.NOTIFY_ALL);
         }
         super.tick(world, pos, state, blockEntity);
     }
@@ -125,6 +129,9 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
     @Override
     public void writeNbt(NbtCompound nbt) {
         Inventories.writeNbt(nbt, inventory);
+        NbtCompound compound = new NbtCompound();
+        output.writeNbt(compound);
+        nbt.put("output", compound);
         super.writeNbt(nbt);
     }
 
@@ -132,5 +139,6 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, inventory);
+        setOutput(ItemStack.fromNbt(nbt.getCompound("output")));
     }
 }

@@ -49,14 +49,16 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
         bar.setProperties(propertyDelegate);
         root.add(bar, 5, 1, 2, 1);
         WItemSlot output = new WItemSlot(blockInventory, 18, 1, 1, false);
-        root.add(output, 5, 3);
+        root.add(output, 6, 3);
         WIndicatorItemSlot craftingSlot = new WIndicatorItemSlot(blockInventory, 0, 3, 3, false);
         craftingSlot.addChangeListener((WIndicatorItemSlot.ChangeListener) (slot, inventory, index, stack) -> {
-            if(getNetworkSide() == NetworkSide.SERVER){
+            if (getNetworkSide() == NetworkSide.SERVER) {
                 CheckRecipe();
             }
         });
         root.add(craftingSlot, 1, 1);
+        WBar bar1 = new WBar(new Identifier(Main.MODID, "textures/gui/progressbar_right.png"), new Identifier(Main.MODID, "textures/gui/progressbar_right_filled.png"), 2, 3, WBar.Direction.RIGHT);
+        root.add(bar1, 4, 3, 2, 1);
         WItemSlot storageSlot = new WItemSlot(blockInventory, 9, 9, 1, false);
         root.add(storageSlot, 0, 5);
 
@@ -65,16 +67,16 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
         root.validate(this);
     }
 
-    public void CheckRecipe(){
-        if(getNetworkSide() == NetworkSide.SERVER){
-            CraftingInventory craftingInventory = new CraftingInventory(this,3,3);
-            for(int i = 0;i<9;i++){
-                craftingInventory.setStack(i,blockInventory.getStack(i));
+    public void CheckRecipe() {
+        if (getNetworkSide() == NetworkSide.SERVER) {
+            CraftingInventory craftingInventory = new CraftingInventory(this, 3, 3);
+            for (int i = 0; i < 9; i++) {
+                craftingInventory.setStack(i, blockInventory.getStack(i));
             }
             Optional<CraftingRecipe> optional = world.getServer().getRecipeManager().getFirstMatch(RecipeType.CRAFTING, craftingInventory, world);
             if (optional.isPresent()) {
                 entity.setOutput(optional.get().craft(craftingInventory));
-            }else{
+            } else {
                 entity.setOutput(ItemStack.EMPTY);
             }
         }
@@ -82,18 +84,17 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
 
     @Override
     public boolean canInsertIntoSlot(Slot slot) {
-        if(slot.getStack().isEmpty() && slot instanceof IndicatorSlot) {
-            if(!slot.equals(lslot))
-                indicator++;
+        if (slot.getStack().isEmpty() && slot instanceof IndicatorSlot) {
+            if (!slot.equals(lslot)) indicator++;
             if (indicator == 1) {
                 lslot = slot;
             }
             MinecraftClient client = MinecraftClient.getInstance();
-            if(indicator == 1)
+            if (indicator == 1)
                 client.interactionManager.clickSlot(syncId, slot.id, 0, SlotActionType.PICKUP, client.player);
             client.interactionManager.clickSlot(syncId, slot.id, 0, SlotActionType.PICKUP, client.player);
             return true;
-        }else{
+        } else {
             return super.canInsertIntoSlot(slot);
         }
     }
