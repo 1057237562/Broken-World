@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(19, ItemStack.EMPTY);
-    public ItemStack output;
+    public ItemStack output = ItemStack.EMPTY;
     public Map<Item, Integer> requiredMaterial = new ConcurrentHashMap<>();
 
     public FabricatorBlockEntity(BlockPos pos, BlockState state) {
@@ -77,7 +77,7 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (world instanceof ServerWorld) {
-            if (!output.isEmpty() && canRun() && (inventory.get(18).getItem().equals(output) || inventory.get(18).isEmpty())) {
+            if (!output.isEmpty() && canRun() && !output.isEmpty() && (inventory.get(18).getItem().equals(output) || inventory.get(18).isEmpty())) {
                 if (!isRunning()) {
                     if (checkMaterial()) running = true;
                     else running = false;
