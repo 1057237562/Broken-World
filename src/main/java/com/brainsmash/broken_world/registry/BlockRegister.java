@@ -204,6 +204,7 @@ public class BlockRegister {
     public static BlockEntityType<WindTurbineEntity> WIND_TURBINE_ENTITY_TYPE;
     public static BlockEntityType<AdvancedFurnaceBlockEntity> ADVANCED_FURNACE_ENTITY_TYPE;
     public static BlockEntityType<FabricatorBlockEntity> FABRICATOR_ENTITY_TYPE;
+    public static BlockEntityType<FabricatorExtensionBlockEntity> FABRICATOR_EXTENSION_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -234,6 +235,7 @@ public class BlockRegister {
         WIND_TURBINE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "wind_turbine"), FabricBlockEntityTypeBuilder.create(WindTurbineEntity::new, blocks[32]).build());
         ADVANCED_FURNACE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "advanced_furnace"), FabricBlockEntityTypeBuilder.create(AdvancedFurnaceBlockEntity::new, blocks[33]).build());
         FABRICATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "fabricator"), FabricBlockEntityTypeBuilder.create(FabricatorBlockEntity::new, blocks[34]).build());
+        FABRICATOR_EXTENSION_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "fabricator_extension"), FabricBlockEntityTypeBuilder.create(FabricatorExtensionBlockEntity::new, blocks[35]).build());
     }
 
     public static void RegistBlocksClientSide() {

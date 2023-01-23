@@ -33,11 +33,18 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
     public ItemStack output = ItemStack.EMPTY;
     public Map<Item, Integer> requiredMaterial = new ConcurrentHashMap<>();
 
+    protected boolean powered = false;
+
+    public boolean isPowered() {
+        return powered;
+    }
+
     public FabricatorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.FABRICATOR_ENTITY_TYPE, pos, state);
         maxProgression = 100;
         powerConsumption = 6;
         setMaxCapacity(1000);
+        powered = true;
     }
 
     public void setOutput(ItemStack output) {
@@ -78,10 +85,27 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
         }
     }
 
+    public boolean insertItem(ItemStack stack) {
+        for (int i = 9; i < 18; i++) {
+            if (inventory.get(i).isEmpty()) {
+                inventory.set(i, stack);
+                return true;
+            }
+            if (inventory.get(i).getItem().equals(stack.getItem())) {
+                int insertCount = Math.min(inventory.get(i).getMaxCount() - inventory.get(i).getCount(), stack.getCount());
+                inventory.get(i).increment(insertCount);
+                stack.decrement(insertCount);
+            }
+            if (stack.getCount() == 0) return true;
+        }
+        if (stack.getCount() == 0) return true;
+        return false;
+    }
+
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (world instanceof ServerWorld) {
-            if (!output.isEmpty() && canRun() && !output.isEmpty() && ((inventory.get(18).isOf(output.getItem()) && inventory.get(18).getCount() + output.getCount() <= output.getMaxCount()) || inventory.get(18).isEmpty())) {
+            if (!output.isEmpty() && isPowered() && canRun() && !output.isEmpty() && ((inventory.get(18).isOf(output.getItem()) && inventory.get(18).getCount() + output.getCount() <= output.getMaxCount()) || inventory.get(18).isEmpty())) {
                 if (!isRunning()) {
                     if (checkMaterial()) running = true;
                     else running = false;
