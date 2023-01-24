@@ -52,7 +52,7 @@ public class FabricatorExtensionBlock extends ConsumerBlock {
             if (blockEntity instanceof ConsumerBlockEntity) {
                 if (world instanceof ServerWorld) {
                     if (blockEntity instanceof ImplementedInventory inventory) {
-                        inventory.getItems().subList(9, 17).forEach(stack -> ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), stack));
+                        inventory.getItems().subList(9, 18).forEach(stack -> ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), stack));
                     }
                     world.removeBlockEntity(pos);
                     EnergyManager.UpdateGraph(world, pos);
