@@ -18,6 +18,7 @@
     "broken_world:hydro_generator",
     "broken_world:wind_turbine",
     "broken_world:advanced_furnace",
-    "broken_world:fabricator"
+    "broken_world:fabricator",
+    "broken_world:fabricator_extension"
   ]
 }

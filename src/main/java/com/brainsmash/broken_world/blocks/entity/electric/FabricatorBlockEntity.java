@@ -7,6 +7,7 @@ import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.FabricatorGuiDescription;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -47,6 +48,10 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
         powered = true;
     }
 
+    public FabricatorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
+
     public void setOutput(ItemStack output) {
         if (!this.output.equals(output)) {
             progression = 0;
@@ -79,8 +84,8 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
             int request = rest.getOrDefault(stack.getItem(), 0);
             if (request > 0) {
                 int managed = Math.min(request, stack.getCount());
-                stack.decrement(managed);
                 rest.compute(stack.getItem(), (item, integer) -> integer - managed);
+                stack.decrement(managed);
             }
         }
     }
@@ -116,7 +121,7 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
                         progression = 0;
                         consumeMaterial();
                         if (inventory.get(18).isEmpty()) {
-                            inventory.set(18, output);
+                            inventory.set(18, output.copy());
                         } else {
                             inventory.get(18).increment(output.getCount());
                         }

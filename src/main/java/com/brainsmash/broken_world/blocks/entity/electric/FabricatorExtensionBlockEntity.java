@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.entity.electric;
 
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
+import com.brainsmash.broken_world.registry.BlockRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
@@ -11,7 +12,10 @@ import net.minecraft.world.World;
 public class FabricatorExtensionBlockEntity extends FabricatorBlockEntity {
 
     public FabricatorExtensionBlockEntity(BlockPos pos, BlockState state) {
-        super(pos, state);
+        super(BlockRegister.FABRICATOR_EXTENSION_ENTITY_TYPE, pos, state);
+        maxProgression = 100;
+        powerConsumption = 6;
+        setMaxCapacity(1000);
     }
 
     @Override
