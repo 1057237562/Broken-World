@@ -68,10 +68,10 @@ public class BlockRegister {
             new CrusherBlock(STANDARD_BLOCK),
             new SolarPanelBlock(FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f)),
             new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f)),
-            new SifterBlock(FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f, 3.0f)),
+            new SifterBlock(STANDARD_BLOCK.nonOpaque()),
             new ScannerBlock(STANDARD_BLOCK),
             new MinerBlock(STANDARD_BLOCK),
-            new ChunkloaderBlock(STANDARD_BLOCK),
+            new ChunkloaderBlock(STANDARD_BLOCK.nonOpaque()),
             new TeleportPlatformBlock(FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f, 3.0f)),
             new ThermalGeneratorBlock(STANDARD_BLOCK),
             new PumpBlock(STANDARD_BLOCK),
@@ -245,6 +245,7 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.WIND_TURBINE.ordinal()], RenderLayer.getSolid());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.SIFTER.ordinal()], RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.TELEPORT_PLATFORM.ordinal()], RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CHUNKLOADER.ordinal()], RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR, CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE, WindTurbineEntityRenderer::getTexturedModelData);
         BlockEntityRendererRegistry.register(CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
