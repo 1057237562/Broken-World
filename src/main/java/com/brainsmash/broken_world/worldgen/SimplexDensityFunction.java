@@ -10,9 +10,9 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.densityfunction.DensityFunction;
 
 public class SimplexDensityFunction implements DensityFunction.Base {
-    public static final CodecHolder<CraterDensityFunction> CODEC_HOLDER =
+    public static final CodecHolder<SimplexDensityFunction> CODEC_HOLDER =
             CodecHolder.of(
-                    MapCodec.unit(new CraterDensityFunction(0L))
+                    MapCodec.unit(new SimplexDensityFunction(0L))
             );
 
     private static final double THRESHOLD = 0.985F;
@@ -27,7 +27,8 @@ public class SimplexDensityFunction implements DensityFunction.Base {
     }
     @Override
     public double sample(NoisePos pos) {
-        return sampler.sample(pos.blockX(), pos.blockZ());
+        double val = sampler.sample(pos.blockX()*NOISE_SCALE, pos.blockZ()*NOISE_SCALE);
+        return val > THRESHOLD ? val : 0;
     }
 
     @Override
@@ -42,7 +43,7 @@ public class SimplexDensityFunction implements DensityFunction.Base {
 
     @Override
     public CodecHolder<? extends DensityFunction> getCodecHolder() {
-        return null;
+        return CODEC_HOLDER;
     }
     public static void register(){
         Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());

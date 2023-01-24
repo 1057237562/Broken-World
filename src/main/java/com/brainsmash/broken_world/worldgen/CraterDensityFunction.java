@@ -15,9 +15,9 @@ public class CraterDensityFunction implements DensityFunction.Base {
             CodecHolder.of(
                     MapCodec.unit(new CraterDensityFunction(0L))
             );
-    private static final double THRESHOLD = 0.985F;
-    private static final double NOISE_SCALE = 0.035F;
-    private static final int RADIUS = 5;
+    private static final double THRESHOLD = 0.99F;
+    private static final double NOISE_SCALE = 0.018F;
+    private static final int RADIUS = 20;
     private final SimplexNoiseSampler sampler;
     public static final Identifier ID = new Identifier(Main.MODID, "crater");
 
@@ -29,6 +29,7 @@ public class CraterDensityFunction implements DensityFunction.Base {
     }
 
     private static double height(double r){
+        r *= 2.5;
         return (1- Math.pow(r/2, 4))*Math.exp(-25*r*r/49)
                 + 5*Math.exp(-MathHelper.square((r-15)/3))
                 - Math.exp(-MathHelper.square((r-5)/5));
@@ -36,23 +37,24 @@ public class CraterDensityFunction implements DensityFunction.Base {
 
     @Override
     public double sample(NoisePos pos) {
-        double r = -1;
-        int dz=0, dx=0;
-        for(dz = -RADIUS; dz <= RADIUS; dz++){
+        double r = 0;
+        int cnt = 0;
+        int avrX = 0, avrZ = 0;
+        for(int dz = -RADIUS; dz <= RADIUS; dz++){
             int i = (int) Math.round(Math.sqrt(RADIUS*RADIUS - dz*dz));
-            for(dx = -i; dx <= i; dx++){
+            for(int dx = -i; dx <= i; dx++){
                 double noise = sampler.sample((pos.blockX()+dx)*NOISE_SCALE, (pos.blockZ()+dz)*NOISE_SCALE);
                 if(noise > THRESHOLD){
-                    r = Math.sqrt(dx*dx+dz*dz);
-                    break;
+                    avrX += dx;
+                    avrZ += dz;
+                    cnt++;
                 }
             }
-            if(r >= 0)
-                break;
         }
-        if(r >= 0) {
-            double val = height(r*5);
-            System.out.println("Valid crater noise pos: " + noisePosString(pos) + ", r: " + r + ", v: "+val+", dx: "+dx+", dz: "+dz);
+        if(cnt > 0) {
+            r = Math.sqrt(avrX*avrX + avrZ*avrZ);
+            double val = height(r/cnt);
+            System.out.println("Valid crater noise pos: " + noisePosString(pos) + ", cnt: " + cnt + ", r: " + r/cnt + ", v: "+val+", avrX: "+avrX/cnt+", avrZ: "+avrZ/cnt);
             return val;
         }
         return 0;
