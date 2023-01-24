@@ -4,6 +4,7 @@ import com.brainsmash.broken_world.Main;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.dynamic.CodecHolder;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.noise.SimplexNoiseSampler;
 import net.minecraft.util.math.random.CheckedRandom;
 import net.minecraft.util.registry.Registry;
@@ -14,8 +15,9 @@ public class CraterDensityFunction implements DensityFunction.Base {
             CodecHolder.of(
                     MapCodec.unit(new CraterDensityFunction(0L))
             );
-    private static final float THRESHOLD = 0.98F;
-    private static final float NOISE_SCALE = 0.035F;
+    private static final double THRESHOLD = 0.985F;
+    private static final double NOISE_SCALE = 0.035F;
+    private static final int RADIUS = 5;
     private final SimplexNoiseSampler sampler;
     public static final Identifier ID = new Identifier(Main.MODID, "crater");
 
@@ -26,10 +28,38 @@ public class CraterDensityFunction implements DensityFunction.Base {
         this.sampler = new SimplexNoiseSampler(random);
     }
 
+    private static double height(double r){
+        return (1- Math.pow(r/2, 4))*Math.exp(-25*r*r/49)
+                + 5*Math.exp(-MathHelper.square((r-15)/3))
+                - Math.exp(-MathHelper.square((r-5)/5));
+    }
+
     @Override
     public double sample(NoisePos pos) {
-        double val = sampler.sample(pos.blockX()*NOISE_SCALE, pos.blockZ()*NOISE_SCALE);
-        return val > THRESHOLD ? 1 : -1;
+        double r = -1;
+        int dz=0, dx=0;
+        for(dz = -RADIUS; dz <= RADIUS; dz++){
+            int i = (int) Math.round(Math.sqrt(RADIUS*RADIUS - dz*dz));
+            for(dx = -i; dx <= i; dx++){
+                double noise = sampler.sample((pos.blockX()+dx)*NOISE_SCALE, (pos.blockZ()+dz)*NOISE_SCALE);
+                if(noise > THRESHOLD){
+                    r = Math.sqrt(dx*dx+dz*dz);
+                    break;
+                }
+            }
+            if(r >= 0)
+                break;
+        }
+        if(r >= 0) {
+            double val = height(r*5);
+            System.out.println("Valid crater noise pos: " + noisePosString(pos) + ", r: " + r + ", v: "+val+", dx: "+dx+", dz: "+dz);
+            return val;
+        }
+        return 0;
+    }
+
+    private String noisePosString(NoisePos pos){
+        return "x: "+pos.blockX()+", z: "+pos.blockZ();
     }
 
     @Override
@@ -39,7 +69,7 @@ public class CraterDensityFunction implements DensityFunction.Base {
 
     @Override
     public double maxValue() {
-        return 1;
+        return 5;
     }
 
     @Override

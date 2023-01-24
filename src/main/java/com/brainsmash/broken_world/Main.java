@@ -5,6 +5,7 @@ import com.brainsmash.broken_world.registry.*;
 import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
 import com.brainsmash.broken_world.screenhandlers.descriptions.*;
 import com.brainsmash.broken_world.worldgen.CraterDensityFunction;
+import com.brainsmash.broken_world.worldgen.SimplexDensityFunction;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -54,5 +55,6 @@ public class Main implements ModInitializer {
 		FabricatingRecipe.register();
 
 		CraterDensityFunction.register();
+		SimplexDensityFunction.register();
 	}
 }
