@@ -5,8 +5,8 @@
 	"textures": {
 		"1": "broken_world:block/teleport_platform_beam",
 		"2": "broken_world:block/teleport_platform_base",
-		"3": "broken_world:block/miner_top",
-		"particle": "broken_world:block/miner_top"
+		"3": "broken_world:block/miner_top_on",
+		"particle": "broken_world:block/miner_top_on"
 	},
 	"elements": [
 		{
@@ -25,24 +25,24 @@
 			"from": [5, 3, 5],
 			"to": [11, 6, 11],
 			"faces": {
-				"north": {"uv": [0, 0, 8, 3], "texture": "#1"},
-				"east": {"uv": [0, 0, 8, 3], "texture": "#1"},
-				"south": {"uv": [0, 0, 8, 3], "texture": "#1"},
-				"west": {"uv": [0, 0, 8, 3], "texture": "#1"},
-				"up": {"uv": [0, 0, 8, 3], "texture": "#1"},
-				"down": {"uv": [0, 0, 8, 3], "texture": "#1"}
+				"north": {"uv": [8, 0, 16, 3], "texture": "#1"},
+				"east": {"uv": [8, 0, 16, 3], "texture": "#1"},
+				"south": {"uv": [8, 0, 16, 3], "texture": "#1"},
+				"west": {"uv": [8, 0, 16, 3], "texture": "#1"},
+				"up": {"uv": [8, 0, 16, 3], "texture": "#1"},
+				"down": {"uv": [8, 0, 16, 3], "texture": "#1"}
 			}
 		},
 		{
 			"from": [2, 3, 2],
 			"to": [14, 7, 14],
 			"faces": {
-				"north": {"uv": [8, 8, 16, 11], "texture": "#1"},
-				"east": {"uv": [8, 8, 16, 11], "texture": "#1"},
-				"south": {"uv": [8, 8, 16, 11], "texture": "#1"},
-				"west": {"uv": [8, 8, 16, 11], "texture": "#1"},
-				"up": {"uv": [8, 8, 16, 11], "texture": "#1"},
-				"down": {"uv": [8, 8, 16, 11], "texture": "#1"}
+				"north": {"uv": [0, 8, 8, 11], "texture": "#1"},
+				"east": {"uv": [0, 8, 8, 11], "texture": "#1"},
+				"south": {"uv": [0, 8, 8, 11], "texture": "#1"},
+				"west": {"uv": [0, 8, 8, 11], "texture": "#1"},
+				"up": {"uv": [0, 8, 8, 11], "texture": "#1"},
+				"down": {"uv": [0, 8, 8, 11], "texture": "#1"}
 			}
 		},
 		{
