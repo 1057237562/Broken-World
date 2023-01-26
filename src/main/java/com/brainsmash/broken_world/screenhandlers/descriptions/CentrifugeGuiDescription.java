@@ -31,7 +31,7 @@ public class CentrifugeGuiDescription extends SyncedGuiDescription {
             setRootPanel(root);
             root.setSize(150, 175);
             root.setInsets(Insets.ROOT_PANEL);
-            WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"), new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1, WBar.Direction.DOWN);
+            WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"), new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1, WBar.Direction.UP);
             bar.setProperties(propertyDelegate);
             root.add(bar, 1, 2, 1, 1);
 
@@ -42,7 +42,7 @@ public class CentrifugeGuiDescription extends SyncedGuiDescription {
             WItemSlot powerSlot = WItemSlot.of(blockInventory, 0);
             root.add(powerSlot, 1, 3);
             WItemSlot inputSlot = WItemSlot.of(blockInventory, 1);
-            root.add(inputSlot, 2, 1);
+            root.add(inputSlot, 1, 1);
             WItemSlot outputSlot = WItemSlot.of(blockInventory, 1, 6, 3);
             root.add(outputSlot, 3, 1);
 
@@ -61,9 +61,9 @@ public class CentrifugeGuiDescription extends SyncedGuiDescription {
             setRootPanel(root);
             root.setSize(150, 175);
             root.setInsets(Insets.ROOT_PANEL);
-            WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"), new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1, WBar.Direction.DOWN);
+            WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"), new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1, WBar.Direction.UP);
             bar.setProperties(propertyDelegate);
-            root.add(bar, 6, 2, 2, 1);
+            root.add(bar, 1, 2, 1, 1);
 
             WBar bar1 = new WBar(new Identifier(Main.MODID, "textures/gui/small_pb_right.png"), new Identifier(Main.MODID, "textures/gui/small_pb_right_filled.png"), 2, 3, WBar.Direction.RIGHT);
             bar.setProperties(propertyDelegate);

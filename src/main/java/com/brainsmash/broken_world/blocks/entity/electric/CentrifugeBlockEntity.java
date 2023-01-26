@@ -48,7 +48,6 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
 
     protected final void sendLiquidChange() {
         for (ActiveConnection connection : activeConnections) {
-            System.out.println(connection.getPlayer().getDisplayName());
             CHANGED_LIQUID.send(connection, this, (be, buf, ctx) -> {
                 ctx.assertServerSide();
 

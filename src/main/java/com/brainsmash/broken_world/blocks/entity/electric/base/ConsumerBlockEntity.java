@@ -1,14 +1,11 @@
 package com.brainsmash.broken_world.blocks.entity.electric.base;
 
-import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.PropertyDelegate;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -17,7 +14,7 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            switch (index){
+            switch (index) {
                 case 0:
                     return getEnergy();
                 case 1:
@@ -33,7 +30,13 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
 
         @Override
         public void set(int index, int value) {
-            setEnergy(value);
+            switch (index) {
+                case 0:
+                    setEnergy(value);
+                    break;
+                default:
+                    break;
+            }
         }
 
         @Override
@@ -52,11 +55,11 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
         setMaxCapacity(10000);
     }
 
-    public boolean isRunning(){
+    public boolean isRunning() {
         return running;
     }
 
-    public ConsumerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state){
+    public ConsumerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
@@ -72,17 +75,17 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient && world.isChunkLoaded(pos)) {
+        if (!world.isClient && world.isChunkLoaded(pos)) {
             increaseEnergy(deltaFlow);
-            if(running){
+            if (running) {
                 increaseEnergy(-powerConsumption);
             }
             EnergyManager.processTick(this);
         }
     }
 
-    public boolean canRun(){
-        if(powerConsumption <= getEnergy()){
+    public boolean canRun() {
+        if (powerConsumption <= getEnergy()) {
             return true;
         }
         return false;
