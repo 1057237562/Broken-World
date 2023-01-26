@@ -21,9 +21,11 @@ public class CraterDensityFunction implements DensityFunction.Base, K1 {
             CodecHolder.of(
                     MapCodec.unit(new CraterDensityFunction(0L))
             );
-    private static final double THRESHOLD = 0.99F;
-    private static final double NOISE_SCALE = 0.018F;
-    private static final int RADIUS = 20;
+    private static final double THRESHOLD = 0.98D;
+    private static final double NOISE_SCALE = 0.08D;
+    private static final double SCALE = 0.1D;
+    private static final int SEARCH_RADIUS = 15;
+    private static final double CRATER_RADIUS = 11;
     private final SimplexNoiseSampler sampler;
     private final long seed;
     public static final Identifier ID = new Identifier(Main.MODID, "crater");
@@ -38,15 +40,15 @@ public class CraterDensityFunction implements DensityFunction.Base, K1 {
     }
 
     private static double height(double r){
-        r *= 2.5;
+        r *= 22/CRATER_RADIUS;
         return (1- Math.pow(r/2, 4))*Math.exp(-25*r*r/49)
                 + 5*Math.exp(-MathHelper.square((r-15)/3))
                 - Math.exp(-MathHelper.square((r-5)/5));
     }
 
     public class Pos{
-        private int x, y;
-        public Pos(int x, int y){
+        private double x, y;
+        public Pos(double x, double y){
             this.x = x;
             this.y = y;
         }
@@ -55,39 +57,41 @@ public class CraterDensityFunction implements DensityFunction.Base, K1 {
         }
     }
 
-    @Override
-    public double sample(NoisePos pos) {
+    public double sample(double x, double z) {
         DefaultedList<Pos> list = DefaultedList.of();
-        double r = 0;
+        double r;
         int cnt = 0;
         int avrX = 0, avrZ = 0;
-        for(int dz = -RADIUS; dz <= RADIUS; dz++){
-            int i = (int) Math.round(Math.sqrt(RADIUS*RADIUS - dz*dz));
+        for(int dz = -SEARCH_RADIUS; dz <= SEARCH_RADIUS; dz++){
+            int i = (int) Math.round(Math.sqrt(SEARCH_RADIUS * SEARCH_RADIUS - dz*dz));
             for(int dx = -i; dx <= i; dx++){
-                double noise = sampler.sample((pos.blockX()+dx)*NOISE_SCALE, (pos.blockZ()+dz)*NOISE_SCALE);
-                if(noise != sampler.sample((pos.blockX()+dx)*NOISE_SCALE, (pos.blockZ()+dz)*NOISE_SCALE))
-                    System.out.println("ALERT! DIFF NOISE");
+                double noise = sampler.sample((x+dx)*NOISE_SCALE, (z+dz)*NOISE_SCALE);
                 if(noise > THRESHOLD){
                     avrX += dx;
                     avrZ += dz;
                     cnt++;
-                    list.add(new Pos(pos.blockX()+dx, pos.blockZ()+dz));
+                    list.add(new Pos(x+dx, z+dz));
                 }
             }
         }
         if(cnt > 0) {
             r = Math.sqrt(avrX*avrX + avrZ*avrZ);
             double val = height(r/cnt);
-            System.out.println("Valid crater noise pos: " + noisePosString(pos) + ", cnt: " + cnt + ", r: " + r/cnt + ", v: "+val+", avrX: "+avrX/cnt+", avrZ: "+avrZ/cnt+", list: "+ list+", seed: "+seed);
+            System.out.println("Valid crater noise pos: " + noisePosString(x, z) + ", cnt: " + cnt + ", r: " + r/cnt + ", v: "+val+", avrX: "+avrX/cnt+", avrZ: "+avrZ/cnt+", list: "+ list+", seed: "+seed);
             return val;
         }else{
-            LOGGER.debug("No valid crater center found near " + noisePosString(pos) + ", seed: "+seed);
+            LOGGER.debug("No valid crater center found near " + noisePosString(x, z) + ", seed: "+seed);
             return 0;
         }
     }
 
-    private String noisePosString(NoisePos pos){
-        return "x: "+pos.blockX()+", z: "+pos.blockZ();
+    @Override
+    public double sample(NoisePos pos){
+        return sample(pos.blockX()*SCALE, pos.blockZ()*SCALE);
+    }
+
+    private String noisePosString(double x, double z){
+        return "x: "+x+", z: "+z;
     }
 
     @Override
