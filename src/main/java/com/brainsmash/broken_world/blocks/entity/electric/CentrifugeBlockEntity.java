@@ -26,6 +26,9 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class CentrifugeBlockEntity extends ConsumerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
 
     private static final FluidAmount SINGLE_TANK_CAPACITY = FluidAmount.BUCKET.mul(8);
@@ -36,6 +39,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
 
     public static final ParentNetIdSingle<CentrifugeBlockEntity> NET_PARENT;
     public static final NetIdDataK<CentrifugeBlockEntity> CHANGED_LIQUID;
+    private Set<ActiveConnection> activeConnections = new HashSet<>();
 
     static {
         NET_PARENT = McNetworkStack.BLOCK_ENTITY.subType(CentrifugeBlockEntity.class, "broken_world:centrifuge");
@@ -43,7 +47,8 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
     }
 
     protected final void sendLiquidChange() {
-        for (ActiveConnection connection : CoreMinecraftNetUtil.getPlayersWatching(getWorld(), getPos())) {
+        for (ActiveConnection connection : activeConnections) {
+            System.out.println(connection.getPlayer().getDisplayName());
             CHANGED_LIQUID.send(connection, this, (be, buf, ctx) -> {
                 ctx.assertServerSide();
 
@@ -58,8 +63,23 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
         fluidInv.fromTag(buf.readNbt());
     }
 
+    @Override
+    public void onOpen(PlayerEntity player) {
+        ImplementedInventory.super.onOpen(player);
+        activeConnections.add(CoreMinecraftNetUtil.getConnection(player));
+    }
+
+    @Override
+    public void onClose(PlayerEntity player) {
+        ImplementedInventory.super.onClose(player);
+        activeConnections.remove(CoreMinecraftNetUtil.getConnection(player));
+    }
+
     public CentrifugeBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.CENTRIFUGE_ENTITY_TYPE, pos, state);
+        maxProgression = 100;
+        setMaxCapacity(1000);
+        powerConsumption = 5;
     }
 
     public boolean checkRecipe() {

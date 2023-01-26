@@ -60,6 +60,10 @@ public class CentrifugeGuiDescription extends SyncedGuiDescription {
             WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"), new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1, WBar.Direction.RIGHT);
             bar.setProperties(propertyDelegate);
             root.add(bar, 6, 2, 2, 1);
+            
+            WBar bar1 = new WBar(new Identifier(Main.MODID, "textures/gui/small_pb_right.png"), new Identifier(Main.MODID, "textures/gui/small_pb_right_filled.png"), 2, 3, WBar.Direction.RIGHT);
+            bar.setProperties(propertyDelegate);
+            root.add(bar1, 2, 2, 1, 1);
 
             WItemSlot powerSlot = WItemSlot.of(blockInventory, 0);
             root.add(powerSlot, 2, 3);

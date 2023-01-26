@@ -17,10 +17,7 @@ import org.slf4j.Logger;
 public class CraterDensityFunction implements DensityFunction.Base, K1 {
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public static final CodecHolder<CraterDensityFunction> CODEC_HOLDER =
-            CodecHolder.of(
-                    MapCodec.unit(new CraterDensityFunction(0L))
-            );
+    public static final CodecHolder<CraterDensityFunction> CODEC_HOLDER = CodecHolder.of(MapCodec.unit(new CraterDensityFunction(0L)));
     private static final double THRESHOLD = 0.98D;
     private static final double NOISE_SCALE = 0.08D;
     private static final double SCALE = 0.1D;
@@ -39,21 +36,21 @@ public class CraterDensityFunction implements DensityFunction.Base, K1 {
         this.sampler = new SimplexNoiseSampler(random);
     }
 
-    private static double height(double r){
-        r *= 22/CRATER_RADIUS;
-        return (1- Math.pow(r/2, 4))*Math.exp(-25*r*r/49)
-                + 5*Math.exp(-MathHelper.square((r-15)/3))
-                - Math.exp(-MathHelper.square((r-5)/5));
+    private static double height(double r) {
+        r *= 22 / CRATER_RADIUS;
+        return (1 - Math.pow(r / 2, 4)) * Math.exp(-25 * r * r / 49) + 5 * Math.exp(-MathHelper.square((r - 15) / 3)) - Math.exp(-MathHelper.square((r - 5) / 5));
     }
 
-    public class Pos{
+    public class Pos {
         private double x, y;
-        public Pos(double x, double y){
+
+        public Pos(double x, double y) {
             this.x = x;
             this.y = y;
         }
-        public String toString(){
-            return "{x: "+x+", y: "+y+"}";
+
+        public String toString() {
+            return "{x: " + x + ", y: " + y + "}";
         }
     }
 
@@ -62,36 +59,35 @@ public class CraterDensityFunction implements DensityFunction.Base, K1 {
         double r;
         int cnt = 0;
         int avrX = 0, avrZ = 0;
-        for(int dz = -SEARCH_RADIUS; dz <= SEARCH_RADIUS; dz++){
-            int i = (int) Math.round(Math.sqrt(SEARCH_RADIUS * SEARCH_RADIUS - dz*dz));
-            for(int dx = -i; dx <= i; dx++){
-                double noise = sampler.sample((x+dx)*NOISE_SCALE, (z+dz)*NOISE_SCALE);
-                if(noise > THRESHOLD){
+        for (int dz = -SEARCH_RADIUS; dz <= SEARCH_RADIUS; dz++) {
+            int i = (int) Math.round(Math.sqrt(SEARCH_RADIUS * SEARCH_RADIUS - dz * dz));
+            for (int dx = -i; dx <= i; dx++) {
+                double noise = sampler.sample((x + dx) * NOISE_SCALE, (z + dz) * NOISE_SCALE);
+                if (noise > THRESHOLD) {
                     avrX += dx;
                     avrZ += dz;
                     cnt++;
-                    list.add(new Pos(x+dx, z+dz));
+                    list.add(new Pos(x + dx, z + dz));
                 }
             }
         }
-        if(cnt > 0) {
-            r = Math.sqrt(avrX*avrX + avrZ*avrZ);
-            double val = height(r/cnt);
-            System.out.println("Valid crater noise pos: " + noisePosString(x, z) + ", cnt: " + cnt + ", r: " + r/cnt + ", v: "+val+", avrX: "+avrX/cnt+", avrZ: "+avrZ/cnt+", list: "+ list+", seed: "+seed);
+        if (cnt > 0) {
+            r = Math.sqrt(avrX * avrX + avrZ * avrZ);
+            double val = height(r / cnt);
+            System.out.println("Valid crater noise pos: " + noisePosString(x, z) + ", cnt: " + cnt + ", r: " + r / cnt + ", v: " + val + ", avrX: " + avrX / cnt + ", avrZ: " + avrZ / cnt + ", list: " + list + ", seed: " + seed);
             return val;
-        }else{
-            LOGGER.debug("No valid crater center found near " + noisePosString(x, z) + ", seed: "+seed);
+        } else {
             return 0;
         }
     }
 
     @Override
-    public double sample(NoisePos pos){
-        return sample(pos.blockX()*SCALE, pos.blockZ()*SCALE);
+    public double sample(NoisePos pos) {
+        return sample(pos.blockX() * SCALE, pos.blockZ() * SCALE);
     }
 
-    private String noisePosString(double x, double z){
-        return "x: "+x+", z: "+z;
+    private String noisePosString(double x, double z) {
+        return "x: " + x + ", z: " + z;
     }
 
     @Override
@@ -109,7 +105,7 @@ public class CraterDensityFunction implements DensityFunction.Base, K1 {
         return CODEC_HOLDER;
     }
 
-    public static void register(){
+    public static void register() {
         Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
     }
 }
