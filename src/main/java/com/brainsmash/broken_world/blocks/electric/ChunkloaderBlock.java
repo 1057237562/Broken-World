@@ -13,6 +13,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
@@ -21,6 +22,7 @@ public class ChunkloaderBlock extends ConsumerBlock {
     public static final int radius = 1;
     public ChunkloaderBlock(Settings settings) {
         super(settings);
+        setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT, false));
     }
 
     @Override
