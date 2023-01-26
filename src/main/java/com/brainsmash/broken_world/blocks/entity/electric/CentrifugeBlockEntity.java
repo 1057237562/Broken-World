@@ -8,13 +8,17 @@ import alexiil.mc.lib.net.impl.McNetworkStack;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
+import com.brainsmash.broken_world.recipe.CentrifugeRecipe;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.CentrifugeGuiDescription;
+import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
@@ -82,7 +86,20 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
     }
 
     public boolean checkRecipe() {
-
+        if (!inventory.get(1).isEmpty()) {
+            Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), inventory.get(1).getItem());
+            if (CentrifugeRecipe.recipes.containsKey(key)) {
+                return true;
+            }
+            key = new Pair<>(null, inventory.get(1).getItem());
+            if (CentrifugeRecipe.recipes.containsKey(key)) {
+                return true;
+            }
+        }
+        Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), null);
+        if (CentrifugeRecipe.recipes.containsKey(key)) {
+            return true;
+        }
 
         return false;
     }
@@ -91,8 +108,10 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
             sendLiquidChange();
-            if (canRun()) {
-
+            if (canRun() && checkRecipe()) {
+                running = true;
+            } else {
+                running = false;
             }
             state = state.with(Properties.LIT, isRunning());
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
