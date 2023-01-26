@@ -80,6 +80,7 @@ public class BlockRegister {
             new AdvancedFurnaceBlock(STANDARD_BLOCK),
             new FabricatorBlock(STANDARD_BLOCK),
             new FabricatorExtensionBlock(STANDARD_BLOCK),
+            new CentrifugeBlock(STANDARD_BLOCK),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -118,6 +119,7 @@ public class BlockRegister {
             new BlockItem(blocks[33], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[34], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[35], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[36], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -157,6 +159,7 @@ public class BlockRegister {
             "advanced_furnace",
             "fabricator",
             "fabricator_extension",
+            "centrifuge",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -205,6 +208,7 @@ public class BlockRegister {
     public static BlockEntityType<AdvancedFurnaceBlockEntity> ADVANCED_FURNACE_ENTITY_TYPE;
     public static BlockEntityType<FabricatorBlockEntity> FABRICATOR_ENTITY_TYPE;
     public static BlockEntityType<FabricatorExtensionBlockEntity> FABRICATOR_EXTENSION_ENTITY_TYPE;
+    public static BlockEntityType<CentrifugeBlockEntity> CENTRIFUGE_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -236,6 +240,7 @@ public class BlockRegister {
         ADVANCED_FURNACE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "advanced_furnace"), FabricBlockEntityTypeBuilder.create(AdvancedFurnaceBlockEntity::new, blocks[33]).build());
         FABRICATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "fabricator"), FabricBlockEntityTypeBuilder.create(FabricatorBlockEntity::new, blocks[34]).build());
         FABRICATOR_EXTENSION_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "fabricator_extension"), FabricBlockEntityTypeBuilder.create(FabricatorExtensionBlockEntity::new, blocks[35]).build());
+        CENTRIFUGE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "centrifuge"), FabricBlockEntityTypeBuilder.create(CentrifugeBlockEntity::new, blocks[36]).build());
     }
 
     public static void RegistBlocksClientSide() {

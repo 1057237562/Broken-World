@@ -2,44 +2,32 @@ package com.brainsmash.broken_world.blocks.entity.electric.generator;
 
 import alexiil.mc.lib.attributes.Simulation;
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
-import alexiil.mc.lib.attributes.fluid.impl.JumboFixedFluidInv;
-import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
-import alexiil.mc.lib.attributes.fluid.volume.*;
+import alexiil.mc.lib.attributes.fluid.volume.FluidKeys;
+import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import com.brainsmash.broken_world.registry.BurnTimeRegister;
-import com.brainsmash.broken_world.screenhandlers.descriptions.GeneratorGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.ThermalGeneratorGuiDescription;
 import com.brainsmash.broken_world.util.ThermalFluidInv;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Function;
 
 public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory, PropertyDelegateHolder {
 
@@ -53,7 +41,7 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            switch (index){
+            switch (index) {
                 case 0:
                     return getEnergy();
                 case 1:
@@ -88,10 +76,11 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
     };
 
     private int fluidAmount = 0;
-    public int getAmount(){
-        if(world.isClient){
+
+    public int getAmount() {
+        if (world.isClient) {
             return fluidAmount;
-        }else{
+        } else {
             return fluidInv.getInvFluid(0).amount().as1620();
         }
     }
@@ -100,30 +89,29 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
         super(BlockRegister.THERMAL_GENERATOR_ENTITY_TYPE, pos, state);
         setMaxCapacity(2000);
         setGenerate(12);
-        fluidInv.setInvFluid(0,FluidKeys.LAVA.withAmount(FluidAmount.ZERO), Simulation.ACTION);
+        fluidInv.setInvFluid(0, FluidKeys.LAVA.withAmount(FluidAmount.ZERO), Simulation.ACTION);
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient) {
+        if (!world.isClient) {
             if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.of1620(6)) && getEnergy() < getMaxCapacity()) {
                 running = true;
                 fluidInv.getInvFluid(0).split(FluidAmount.of1620(6));
             } else {
                 running = false;
             }
-            if(inventory.get(1).isOf(Items.LAVA_BUCKET)){
-                if(fluidInv.getInvFluid(0).isEmpty()){
-                    if(fluidInv.setInvFluid(0,FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), Simulation.ACTION)) {
+            if (inventory.get(1).isOf(Items.LAVA_BUCKET)) {
+                if (fluidInv.getInvFluid(0).isEmpty()) {
+                    if (fluidInv.setInvFluid(0, FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), Simulation.ACTION)) {
                         inventory.set(1, new ItemStack(Items.BUCKET, 1));
                     }
-                }else {
-                    if(fluidInv.getInvFluid(0).amount().isLessThanOrEqual(SINGLE_TANK_CAPACITY.sub(FluidAmount.BUCKET)) && fluidInv.getInvFluid(0).merge(FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), Simulation.ACTION)){
-                        inventory.set(1,new ItemStack(Items.BUCKET,1));
+                } else {
+                    if (fluidInv.getInvFluid(0).amount().isLessThanOrEqual(SINGLE_TANK_CAPACITY.sub(FluidAmount.BUCKET)) && fluidInv.getInvFluid(0).merge(FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), Simulation.ACTION)) {
+                        inventory.set(1, new ItemStack(Items.BUCKET, 1));
                     }
                 }
             }
-            markDirty();
             state = state.with(Properties.LIT, isRunning());
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
         }
@@ -157,7 +145,7 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new ThermalGeneratorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
+        return new ThermalGeneratorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world, pos));
     }
 
     @Override

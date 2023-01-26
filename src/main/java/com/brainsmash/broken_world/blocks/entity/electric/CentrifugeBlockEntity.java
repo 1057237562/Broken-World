@@ -5,10 +5,13 @@ import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.net.*;
 import alexiil.mc.lib.net.impl.CoreMinecraftNetUtil;
 import alexiil.mc.lib.net.impl.McNetworkStack;
+import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
-import com.brainsmash.broken_world.screenhandlers.descriptions.CentifugeGuiDescription;
+import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.screenhandlers.descriptions.CentrifugeGuiDescription;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -17,24 +20,26 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-public class CentifugeBlockEntity extends ConsumerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
+public class CentrifugeBlockEntity extends ConsumerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
 
     private static final FluidAmount SINGLE_TANK_CAPACITY = FluidAmount.BUCKET.mul(8);
 
     public final SimpleFixedFluidInv fluidInv = new SimpleFixedFluidInv(1, SINGLE_TANK_CAPACITY);
 
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(20, ItemStack.EMPTY);
 
-    public static final ParentNetIdSingle<CentifugeBlockEntity> NET_PARENT;
-    public static final NetIdDataK<CentifugeBlockEntity> CHANGED_LIQUID;
+    public static final ParentNetIdSingle<CentrifugeBlockEntity> NET_PARENT;
+    public static final NetIdDataK<CentrifugeBlockEntity> CHANGED_LIQUID;
 
     static {
-        NET_PARENT = McNetworkStack.BLOCK_ENTITY.subType(CentifugeBlockEntity.class, "broken_world:centifuge");
-        CHANGED_LIQUID = NET_PARENT.idData("CHANGE_BRIGHTNESS").setReceiver(CentifugeBlockEntity::receiveLiquidChange);
+        NET_PARENT = McNetworkStack.BLOCK_ENTITY.subType(CentrifugeBlockEntity.class, "broken_world:centrifuge");
+        CHANGED_LIQUID = NET_PARENT.idData("CHANGE_BRIGHTNESS").setReceiver(CentrifugeBlockEntity::receiveLiquidChange);
     }
 
     protected final void sendLiquidChange() {
@@ -53,8 +58,27 @@ public class CentifugeBlockEntity extends ConsumerBlockEntity implements Extende
         fluidInv.fromTag(buf.readNbt());
     }
 
-    public CentifugeBlockEntity(BlockPos pos, BlockState state) {
-        super(pos, state);
+    public CentrifugeBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockRegister.CENTRIFUGE_ENTITY_TYPE, pos, state);
+    }
+
+    public boolean checkRecipe() {
+
+
+        return false;
+    }
+
+    @Override
+    public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
+        if (!world.isClient) {
+            sendLiquidChange();
+            if (canRun()) {
+
+            }
+            state = state.with(Properties.LIT, isRunning());
+            world.setBlockState(pos, state, Block.NOTIFY_ALL);
+        }
+        super.tick(world, pos, state, blockEntity);
     }
 
     @Override
@@ -69,7 +93,7 @@ public class CentifugeBlockEntity extends ConsumerBlockEntity implements Extende
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new CentifugeGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
+        return new CentrifugeGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world, pos));
     }
 
     @Override
