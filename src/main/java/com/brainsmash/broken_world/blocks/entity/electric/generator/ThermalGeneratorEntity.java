@@ -66,6 +66,7 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
                     break;
                 case 2:
                     fluidAmount = value;
+                    break;
             }
         }
 
@@ -95,7 +96,8 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.of1620(6)) && getEnergy() < getMaxCapacity()) {
+            if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.of1620(
+                    6)) && getEnergy() < getMaxCapacity()) {
                 running = true;
                 fluidInv.getInvFluid(0).split(FluidAmount.of1620(6));
             } else {
@@ -107,7 +109,8 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
                         inventory.set(1, new ItemStack(Items.BUCKET, 1));
                     }
                 } else {
-                    if (fluidInv.getInvFluid(0).amount().isLessThanOrEqual(SINGLE_TANK_CAPACITY.sub(FluidAmount.BUCKET)) && fluidInv.getInvFluid(0).merge(FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), Simulation.ACTION)) {
+                    if (fluidInv.getInvFluid(0).amount().isLessThanOrEqual(SINGLE_TANK_CAPACITY.sub(FluidAmount.BUCKET)) && fluidInv.getInvFluid(
+                            0).merge(FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), Simulation.ACTION)) {
                         inventory.set(1, new ItemStack(Items.BUCKET, 1));
                     }
                 }

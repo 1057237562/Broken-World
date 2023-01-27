@@ -6,12 +6,15 @@ import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
+import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import io.github.cottonmc.cotton.gui.widget.data.Texture;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.util.Identifier;
+
+import java.util.function.Function;
 
 public class WFluidWidget extends WWidget {
 
@@ -23,6 +26,13 @@ public class WFluidWidget extends WWidget {
     private Texture background;
     private Texture scale;
 
+    private Function<Integer, Boolean> onClick;
+    private int index = 0;
+
+    public void setOnClick(Function<Integer, Boolean> onClick) {
+        this.onClick = onClick;
+    }
+
     public WFluidWidget(FluidVolume fluidVolume, PropertyDelegate delegate, Identifier bg, Identifier scale, int field, int capacity) {
         inv = new SimpleFixedFluidInv(1, FluidAmount.BUCKET);
         inv.forceSetInvFluid(0, fluidVolume);
@@ -33,11 +43,12 @@ public class WFluidWidget extends WWidget {
         this.scale = new Texture(scale);
     }
 
-    public WFluidWidget(FixedFluidInv fluidInv, PropertyDelegate delegate, Identifier bg, Identifier scale) {
+    public WFluidWidget(FixedFluidInv fluidInv, PropertyDelegate delegate, Identifier bg, Identifier scale, int index) {
         inv = fluidInv;
         propertyDelegate = delegate;
         background = new Texture(bg);
         this.scale = new Texture(scale);
+        this.index = index;
     }
 
     @Environment(EnvType.CLIENT)
@@ -47,16 +58,22 @@ public class WFluidWidget extends WWidget {
 
         double x0 = x;
         double y0;
-        FluidVolume volume = inv.getInvFluid(0);
+        FluidVolume volume = inv.getInvFluid(index);
         if (fieldId == -1 || capacityId == -1) {
-            y0 = y + 48 - 48 * (double) volume.amount().as1620() / (double) inv.getMaxAmount_F(0).as1620();
+            y0 = y + 48 - 48 * (double) volume.amount().as1620() / (double) inv.getMaxAmount_F(index).as1620();
         } else {
             y0 = y + 48 - 48 * (double) propertyDelegate.get(fieldId) / (double) propertyDelegate.get(capacityId);
         }
         double x1 = x + 16;
         double y1 = y + 48;
-        inv.getInvFluid(0).renderGuiRect(x0, y0, x1, y1);
+        inv.getInvFluid(index).renderGuiRect(x0, y0, x1, y1);
 
         ScreenDrawing.texturedRect(matrices, x, y, 16, 48, scale, 0xFFFFFFFF);
+    }
+
+    @Override
+    public InputResult onClick(int x, int y, int button) {
+        if (onClick != null) return InputResult.of(onClick.apply(button));
+        return super.onMouseDown(x, y, button);
     }
 }

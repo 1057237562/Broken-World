@@ -34,6 +34,15 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
                 case 0:
                     setEnergy(value);
                     break;
+                case 1:
+                    setMaxCapacity(value);
+                    break;
+                case 2:
+                    progression = value;
+                    break;
+                case 3:
+                    maxProgression = value;
+                    break;
                 default:
                     break;
             }

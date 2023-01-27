@@ -35,7 +35,7 @@ import java.util.Random;
 
 public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(23, ItemStack.EMPTY);
-    public final Random random = new Random();
+    private final Random random = new Random();
 
     private Item lastItem;
 
@@ -70,7 +70,8 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
                 return true;
             }
             if (inventory.get(i).getItem().equals(stack.getItem())) {
-                int insertCount = Math.min(inventory.get(i).getMaxCount() - inventory.get(i).getCount(), stack.getCount());
+                int insertCount = Math.min(inventory.get(i).getMaxCount() - inventory.get(i).getCount(),
+                        stack.getCount());
                 inventory.get(i).increment(insertCount);
                 stack.decrement(insertCount);
             }

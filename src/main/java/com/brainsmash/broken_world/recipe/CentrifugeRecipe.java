@@ -14,10 +14,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CentrifugeRecipe {
 
-    public static Map<Pair<Fluid, Item>, DefaultedList<Pair<Float, Item>>> recipes = new ConcurrentHashMap<>();
+    public static Map<Pair<Fluid, Item>, Pair<DefaultedList<Pair<Float, Item>>, Fluid>> recipes = new ConcurrentHashMap<>();
 
     public static void registCentrifugeRecipes() {
         recipes.put(new Pair<>(FluidRegister.still_fluid[FluidRegistry.OIL.ordinal()], null),
-                DefaultedList.copyOf(new Pair<>(0.85f, ItemRegister.items[ItemRegistry.PLASTIC_PLATE.ordinal()])));
+                new Pair<>(DefaultedList.copyOf(new Pair<>(0.85f,
+                        ItemRegister.items[ItemRegistry.PLASTIC_PLATE.ordinal()])),
+                        FluidRegister.still_fluid[FluidRegistry.GASOLINE.ordinal()]));
     }
 }
