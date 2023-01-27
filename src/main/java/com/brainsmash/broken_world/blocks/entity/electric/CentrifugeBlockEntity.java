@@ -1,6 +1,10 @@
 package com.brainsmash.broken_world.blocks.entity.electric;
 
+import alexiil.mc.lib.attributes.CombinableAttribute;
+import alexiil.mc.lib.attributes.SearchOptions;
 import alexiil.mc.lib.attributes.Simulation;
+import alexiil.mc.lib.attributes.fluid.FluidAttributes;
+import alexiil.mc.lib.attributes.fluid.FluidInsertable;
 import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidKeys;
@@ -36,6 +40,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -217,9 +222,22 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
         }
     }
 
+    @Nonnull
+    public <T> T getNeighbourAttribute(CombinableAttribute<T> attr, Direction dir) {
+        return attr.get(getWorld(), getPos().offset(dir), SearchOptions.inDirection(dir));
+    }
+
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
+            if (!fluidInv.getInvFluid(1).isEmpty()) {
+                for (Direction direction : Direction.values()) {
+                    FluidInsertable insertable = getNeighbourAttribute(FluidAttributes.INSERTABLE, direction);
+                    fluidInv.setInvFluid(1,
+                            insertable.attemptInsertion(fluidInv.getInvFluid(1), Simulation.ACTION),
+                            Simulation.ACTION);
+                }
+            }
             sendLiquidChange();
             if (canRun() && checkRecipe()) {
                 running = true;
