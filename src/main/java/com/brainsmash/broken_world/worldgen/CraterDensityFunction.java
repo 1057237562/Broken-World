@@ -21,8 +21,8 @@ public class CraterDensityFunction implements DensityFunction.Base, K1 {
             CodecHolder.of(
                     MapCodec.unit(new CraterDensityFunction(0L))
             );
-    private static final double THRESHOLD = 0.98D;
-    private static final double NOISE_SCALE = 0.08D;
+    private static final double THRESHOLD = 0.97D;
+    private static final double NOISE_SCALE = 0.12D;
     private static final double SCALE = 0.1D;
     private static final int SEARCH_RADIUS = 15;
     private static final double CRATER_RADIUS = 11;
@@ -70,17 +70,26 @@ public class CraterDensityFunction implements DensityFunction.Base, K1 {
                     avrX += dx;
                     avrZ += dz;
                     cnt++;
-                    list.add(new Pos(x+dx, z+dz));
+                    list.add(new Pos((x+dx)/SCALE, (z+dz)/SCALE));
                 }
             }
         }
         if(cnt > 0) {
             r = Math.sqrt(avrX*avrX + avrZ*avrZ);
             double val = height(r/cnt);
-            System.out.println("Valid crater noise pos: " + noisePosString(x, z) + ", cnt: " + cnt + ", r: " + r/cnt + ", v: "+val+", avrX: "+avrX/cnt+", avrZ: "+avrZ/cnt+", list: "+ list+", seed: "+seed);
+            System.out.println(
+                    "Valid crater noise pos: " + noisePosString(x/SCALE, z/SCALE) +
+                    ", cnt: " + cnt +
+                    ", r: " + r/cnt/SCALE +
+                    ", v: "+val+
+                    ", avrX: "+avrX/cnt/SCALE+
+                    ", avrZ: "+avrZ/cnt/SCALE+
+                    ", list: "+ list+
+                    ", seed: "+seed
+            );
             return val;
         }else{
-            LOGGER.debug("No valid crater center found near " + noisePosString(x, z) + ", seed: "+seed);
+            LOGGER.debug("No valid crater center found near " + noisePosString(x/SCALE, z/SCALE) + ", seed: "+seed);
             return 0;
         }
     }
