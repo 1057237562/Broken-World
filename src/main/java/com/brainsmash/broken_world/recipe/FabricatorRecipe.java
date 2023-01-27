@@ -12,18 +12,20 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
 
-public class FabricatingRecipe extends ShapedRecipe {
+public class FabricatorRecipe extends ShapedRecipe {
 
-    public FabricatingRecipe(Identifier id, String group, int width, int height, DefaultedList<Ingredient> input, ItemStack output) {
+    public FabricatorRecipe(Identifier id, String group, int width, int height, DefaultedList<Ingredient> input, ItemStack output) {
         super(id, group, width, height, input, output);
     }
 
-    public static class Type implements RecipeType<FabricatingRecipe>{
+    public static class Type implements RecipeType<FabricatorRecipe> {
         public static final Type INSTANCE = new Type();
         public static final Identifier ID = new Identifier(Main.MODID, "fabricating");
-        private Type(){
+
+        private Type() {
         }
-        public String toString(){
+
+        public String toString() {
             return "fabricating";
         }
     }
@@ -33,43 +35,39 @@ public class FabricatingRecipe extends ShapedRecipe {
         public static final Identifier ID = new Identifier(Main.MODID, "fabricating");
 
         @Override
-        public FabricatingRecipe read(Identifier identifier, PacketByteBuf packetByteBuf) {
+        public FabricatorRecipe read(Identifier identifier, PacketByteBuf packetByteBuf) {
             ShapedRecipe father = super.read(identifier, packetByteBuf);
-            return new FabricatingRecipe(
-                    father.getId(),
+            return new FabricatorRecipe(father.getId(),
                     father.getGroup(),
                     father.getWidth(),
                     father.getHeight(),
                     father.getIngredients(),
-                    father.getOutput()
-            );
+                    father.getOutput());
         }
 
         @Override
-        public FabricatingRecipe read(Identifier identifier, JsonObject jsonObject) {
+        public FabricatorRecipe read(Identifier identifier, JsonObject jsonObject) {
             ShapedRecipe father = super.read(identifier, jsonObject);
-            return new FabricatingRecipe(
-                    father.getId(),
+            return new FabricatorRecipe(father.getId(),
                     father.getGroup(),
                     father.getWidth(),
                     father.getHeight(),
                     father.getIngredients(),
-                    father.getOutput()
-            );
+                    father.getOutput());
         }
     }
 
     @Override
-    public RecipeType<?> getType(){
+    public RecipeType<?> getType() {
         return Type.INSTANCE;
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer(){
+    public RecipeSerializer<?> getSerializer() {
         return Serializer.INSTANCE;
     }
 
-    public static void register(){
+    public static void register() {
         Registry.register(Registry.RECIPE_TYPE, Type.ID, Type.INSTANCE);
         Registry.register(Registry.RECIPE_SERIALIZER, Serializer.ID, Serializer.INSTANCE);
     }

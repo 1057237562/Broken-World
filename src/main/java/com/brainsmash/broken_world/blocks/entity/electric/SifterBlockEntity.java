@@ -31,6 +31,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Random;
 
 public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
@@ -89,7 +90,7 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
                 if (progression < maxProgression) {
                     progression++;
                 } else {
-                    DefaultedList<Pair<Float, Item>> output = SifterRecipe.recipes.get(inventory.get(0).getItem());
+                    List<Pair<Float, Item>> output = SifterRecipe.recipes.get(inventory.get(0).getItem());
                     for (Pair<Float, Item> pair : output) {
                         if (random.nextDouble() < pair.getLeft()) {
                             if (!insertItem(new ItemStack(pair.getRight(), 1))) {

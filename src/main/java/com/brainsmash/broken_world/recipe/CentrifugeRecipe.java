@@ -7,19 +7,19 @@ import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
-import net.minecraft.util.collection.DefaultedList;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CentrifugeRecipe {
 
-    public static Map<Pair<Fluid, Item>, Pair<DefaultedList<Pair<Float, Item>>, Fluid>> recipes = new ConcurrentHashMap<>();
+    public static Map<Pair<Fluid, Item>, Pair<List<Pair<Float, Item>>, Fluid>> recipes = new ConcurrentHashMap<>();
 
     public static void registCentrifugeRecipes() {
         recipes.put(new Pair<>(FluidRegister.still_fluid[FluidRegistry.OIL.ordinal()], null),
-                new Pair<>(DefaultedList.copyOf(new Pair<>(0.85f,
-                        ItemRegister.items[ItemRegistry.PLASTIC_PLATE.ordinal()])),
+                new Pair<>(Arrays.asList(new Pair<>(0.75f, ItemRegister.items[ItemRegistry.PLASTIC_PLATE.ordinal()])),
                         FluidRegister.still_fluid[FluidRegistry.GASOLINE.ordinal()]));
     }
 }

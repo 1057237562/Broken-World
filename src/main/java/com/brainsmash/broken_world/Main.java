@@ -1,9 +1,6 @@
 package com.brainsmash.broken_world;
 
-import com.brainsmash.broken_world.recipe.CentrifugeRecipe;
-import com.brainsmash.broken_world.recipe.CrusherRecipe;
-import com.brainsmash.broken_world.recipe.FabricatingRecipe;
-import com.brainsmash.broken_world.recipe.SifterRecipe;
+import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.*;
 import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
 import com.brainsmash.broken_world.screenhandlers.descriptions.*;
@@ -100,7 +97,7 @@ public class Main implements ModInitializer {
         EntityRegister.RegistEntities();
         PointOfInterestRegister.registerPlacesOfInterest();
 
-        AdvancedFurnaceRegister.RegistCrusherRecipes();
+        AdvancedFurnaceRecipe.registAdvancedFurnaceRecipe();
         CrusherRecipe.registCrusherRecipes();
         SifterRecipe.registSifterRecipes();
         CentrifugeRecipe.registCentrifugeRecipes();
@@ -111,7 +108,7 @@ public class Main implements ModInitializer {
                 GenerationStep.Feature.UNDERGROUND_ORES,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "tungsten_ore")));
 
-        FabricatingRecipe.register();
+        FabricatorRecipe.register();
 
         CraterDensityFunction.register();
         SimplexDensityFunction.register();

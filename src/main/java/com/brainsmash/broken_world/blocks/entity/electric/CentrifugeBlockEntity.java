@@ -37,6 +37,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -116,18 +117,22 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
 
     public boolean checkRecipe() {
         if (!inventory.get(1).isEmpty()) {
-            Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), inventory.get(1).getItem());
-            if (CentrifugeRecipe.recipes.containsKey(key)) {
-                return true;
+            if (fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.BUCKET)) {
+                Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), inventory.get(1).getItem());
+                if (CentrifugeRecipe.recipes.containsKey(key)) {
+                    return fluidInv.getInvFluid(1).amount().isLessThanOrEqual(fluidInv.getMaxAmount_F(1).sub(FluidAmount.BOTTLE));
+                }
             }
-            key = new Pair<>(null, inventory.get(1).getItem());
+            Pair<Fluid, Item> key = new Pair<>(null, inventory.get(1).getItem());
             if (CentrifugeRecipe.recipes.containsKey(key)) {
-                return true;
+                return fluidInv.getInvFluid(1).amount().isLessThanOrEqual(fluidInv.getMaxAmount_F(1).sub(FluidAmount.BOTTLE));
             }
         }
-        Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), null);
-        if (CentrifugeRecipe.recipes.containsKey(key)) {
-            return true;
+        if (fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.BUCKET)) {
+            Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), null);
+            if (CentrifugeRecipe.recipes.containsKey(key)) {
+                return fluidInv.getInvFluid(1).amount().isLessThanOrEqual(fluidInv.getMaxAmount_F(1).sub(FluidAmount.BOTTLE));
+            }
         }
 
         return false;
@@ -137,7 +142,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
         if (!inventory.get(1).isEmpty()) {
             Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), inventory.get(1).getItem());
             if (CentrifugeRecipe.recipes.containsKey(key)) {
-                Pair<DefaultedList<Pair<Float, Item>>, Fluid> recipe = CentrifugeRecipe.recipes.get(key);
+                Pair<List<Pair<Float, Item>>, Fluid> recipe = CentrifugeRecipe.recipes.get(key);
 
                 for (Pair<Float, Item> pair : recipe.getFirst()) {
                     if (random.nextDouble() < pair.getFirst()) {
@@ -162,7 +167,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
             }
             key = new Pair<>(null, inventory.get(1).getItem());
             if (CentrifugeRecipe.recipes.containsKey(key)) {
-                Pair<DefaultedList<Pair<Float, Item>>, Fluid> recipe = CentrifugeRecipe.recipes.get(key);
+                Pair<List<Pair<Float, Item>>, Fluid> recipe = CentrifugeRecipe.recipes.get(key);
 
                 for (Pair<Float, Item> pair : recipe.getFirst()) {
                     if (random.nextDouble() < pair.getFirst()) {
@@ -188,8 +193,9 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
         }
         Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), null);
         if (CentrifugeRecipe.recipes.containsKey(key)) {
-            Pair<DefaultedList<Pair<Float, Item>>, Fluid> recipe = CentrifugeRecipe.recipes.get(key);
+            Pair<List<Pair<Float, Item>>, Fluid> recipe = CentrifugeRecipe.recipes.get(key);
 
+            System.out.println(recipe);
             for (Pair<Float, Item> pair : recipe.getFirst()) {
                 if (random.nextDouble() < pair.getFirst()) {
                     if (!insertItem(new ItemStack(pair.getSecond(), 1))) {
