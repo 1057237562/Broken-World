@@ -19,7 +19,7 @@ public class CentrifugeRecipe {
 
     public static void registCentrifugeRecipes() {
         recipes.put(new Pair<>(FluidRegister.still_fluid[FluidRegistry.OIL.ordinal()], null),
-                new Pair<>(Arrays.asList(new Pair<>(0.75f, ItemRegister.items[ItemRegistry.PLASTIC_PLATE.ordinal()])),
+                new Pair<>(Arrays.asList(new Pair<>(0.35f, ItemRegister.items[ItemRegistry.PLASTIC_PLATE.ordinal()])),
                         FluidRegister.still_fluid[FluidRegistry.GASOLINE.ordinal()]));
     }
 }

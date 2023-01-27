@@ -195,7 +195,6 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
         if (CentrifugeRecipe.recipes.containsKey(key)) {
             Pair<List<Pair<Float, Item>>, Fluid> recipe = CentrifugeRecipe.recipes.get(key);
 
-            System.out.println(recipe);
             for (Pair<Float, Item> pair : recipe.getFirst()) {
                 if (random.nextDouble() < pair.getFirst()) {
                     if (!insertItem(new ItemStack(pair.getSecond(), 1))) {

@@ -51,6 +51,11 @@ public class WFluidWidget extends WWidget {
         this.index = index;
     }
 
+    @Override
+    public boolean canResize() {
+        return true;
+    }
+
     @Environment(EnvType.CLIENT)
     @Override
     public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
