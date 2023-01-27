@@ -14,4 +14,5 @@ public enum ItemRegistry {
     COPPER_COIL,
     PLASTIC_PLATE,
     MEMORY_CHIP,
+    STEEL_INGOT,
 }
