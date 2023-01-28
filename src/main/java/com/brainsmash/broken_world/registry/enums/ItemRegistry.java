@@ -15,4 +15,5 @@ public enum ItemRegistry {
     PLASTIC_PLATE,
     MEMORY_CHIP,
     STEEL_INGOT,
+    ASPHALT,
 }
