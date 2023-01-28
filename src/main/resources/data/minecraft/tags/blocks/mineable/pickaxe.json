@@ -12,6 +12,8 @@
     "broken_world:sulfuric_stone",
     "broken_world:generator",
     "broken_world:crusher",
-    "broken_world:solar_panel"
+    "broken_world:sifter",
+    "broken_world:solar_panel",
+    "broken_world:magnetite"
   ]
 }

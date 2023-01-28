@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "broken_world:motor"
+    },
+    "B": {
+      "item": "minecraft:water_bucket"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "pattern": [
+    " D ",
+    "CBC",
+    "CAC"
+  ],
+  "result": {
+    "item": "broken_world:generator"
+  }
+}

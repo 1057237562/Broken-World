@@ -110,7 +110,8 @@ public class BlockRegister {
             new FabricatorBlock(STANDARD_BLOCK),
             new FabricatorExtensionBlock(STANDARD_BLOCK),
             new CentrifugeBlock(STANDARD_BLOCK),
-            new Block(STANDARD_BLOCK.velocityMultiplier(1.5f)),
+            new Block(STANDARD_BLOCK.velocityMultiplier(1.1f).slipperiness(0.3f)),
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -151,6 +152,7 @@ public class BlockRegister {
             new BlockItem(blocks[35], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[36], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[37], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[38], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -192,6 +194,7 @@ public class BlockRegister {
             "fabricator_extension",
             "centrifuge",
             "road",
+            "magnetite"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -206,7 +209,11 @@ public class BlockRegister {
             new ConfiguredFeature<>(Feature.ORE,
                     new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[5].getDefaultState(), 6)),
             new ConfiguredFeature<>(Feature.ORE,
-                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[11].getDefaultState(), 8))
+                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
+                            blocks[11].getDefaultState(),
+                            8)),
+            new ConfiguredFeature<>(Feature.ORE,
+                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[38].getDefaultState(), 4))
     };
 
     private static final PlacedFeature[] placedFeatures = {
@@ -229,7 +236,11 @@ public class BlockRegister {
             new PlacedFeature(RegistryEntry.of(configuredFeatures[4]),
                     Arrays.asList(CountPlacementModifier.of(20),
                             SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64))))
+                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64)))),
+            new PlacedFeature(RegistryEntry.of(configuredFeatures[5]),
+                    Arrays.asList(CountPlacementModifier.of(20),
+                            SquarePlacementModifier.of(),
+                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(16))))
     };
 
     private static final String[] configurenames = {
@@ -237,7 +248,8 @@ public class BlockRegister {
             "moon_iron_ore",
             "moon_gold_ore",
             "moon_redstone_ore",
-            "tungsten_ore"
+            "tungsten_ore",
+            "magnetite"
     };
 
     public static BlockEntityType<TeleporterControllerBlockEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;

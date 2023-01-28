@@ -16,4 +16,7 @@ public enum ItemRegistry {
     MEMORY_CHIP,
     STEEL_INGOT,
     ASPHALT,
+    MOTOR,
+    IRON_PLATE,
+    MAGNET_INGOT,
 }

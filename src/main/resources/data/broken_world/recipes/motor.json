@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "broken_world:iron_plate"
+    },
+    "B": {
+      "item": "broken_world:magnet_ingot"
+    },
+    "C": {
+      "item": "broken_world:copper_coil"
+    }
+  },
+  "pattern": [
+    " A ",
+    "CBC",
+    " A "
+  ],
+  "result": {
+    "item": "broken_world:motor"
+  }
+}

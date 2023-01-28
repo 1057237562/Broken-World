@@ -60,7 +60,7 @@ public class AdvancedFurnaceBlock extends ConsumerBlock {
             return;
         }
         double d = pos.getX() + 0.5;
-        double e = pos.getY() + 0.2;
+        double e = pos.getY() + 0.3;
         double f = pos.getZ() + 0.5;
         if (random.nextDouble() < 0.1) {
             world.playSound(d, e, f, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
