@@ -1,31 +1,35 @@
 {
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
+	"texture_size": [64, 64],
+	"textures": {
+		"0": "broken_world:block/advanced_furnace",
+		"1": "broken_world:block/advanced_furnace_top",
+		"particle": "broken_world:block/advanced_furnace"
+	},
 	"elements": [
 		{
 			"from": [1, 0, 1],
 			"to": [15, 16, 15],
-			"color": 5,
 			"faces": {
-				"north": {"uv": [0, 0, 14, 16], "texture": "#missing"},
-				"east": {"uv": [0, 0, 14, 16], "texture": "#missing"},
-				"south": {"uv": [0, 0, 14, 16], "texture": "#missing"},
-				"west": {"uv": [0, 0, 14, 16], "texture": "#missing"},
-				"up": {"uv": [0, 0, 14, 14], "texture": "#missing"},
-				"down": {"uv": [0, 0, 14, 14], "texture": "#missing"}
+				"north": {"uv": [0, 0, 3.5, 4], "texture": "#0"},
+				"east": {"uv": [3.5, 0, 7, 4], "texture": "#0"},
+				"south": {"uv": [0, 4, 3.5, 8], "texture": "#0"},
+				"west": {"uv": [3.5, 4, 7, 8], "texture": "#0"},
+				"up": {"uv": [10.5, 3.5, 7, 0], "texture": "#0"},
+				"down": {"uv": [10.5, 3.5, 7, 7], "texture": "#0"}
 			}
 		},
 		{
 			"from": [0, 2, 0],
 			"to": [16, 14, 16],
-			"color": 1,
 			"faces": {
-				"north": {"uv": [0, 0, 16, 12], "texture": "#missing"},
-				"east": {"uv": [0, 0, 16, 12], "texture": "#missing"},
-				"south": {"uv": [0, 0, 16, 12], "texture": "#missing"},
-				"west": {"uv": [0, 0, 16, 12], "texture": "#missing"},
-				"up": {"uv": [0, 0, 16, 16], "texture": "#missing"},
-				"down": {"uv": [0, 0, 16, 16], "texture": "#missing"}
+				"north": {"uv": [4, 6, 8, 9], "texture": "#1"},
+				"east": {"uv": [4, 0, 8, 3], "texture": "#1"},
+				"south": {"uv": [4, 3, 8, 6], "texture": "#1"},
+				"west": {"uv": [0, 8, 4, 11], "texture": "#1"},
+				"up": {"uv": [0, 0, 4, 4], "texture": "#1"},
+				"down": {"uv": [0, 4, 4, 8], "texture": "#1"}
 			}
 		}
 	]
