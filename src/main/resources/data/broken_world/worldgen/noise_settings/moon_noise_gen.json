@@ -48,7 +48,60 @@
                       "argument2": {
                         "type": "minecraft:flat_cache",
                         "argument": {
-                          "type": "broken_world:crater"
+                          "type": "broken_world:crater",
+                          "input": {
+                            "type": "minecraft:interpolated",
+                            "argument": {
+                              "type": "minecraft:noise",
+                              "noise": {
+                                "firstOctave": -5,
+                                "amplitudes": [
+                                  2
+                                ]
+                              },
+                              "xz_scale": 0.5,
+                              "y_scale": 0.5
+                            }
+                          },
+                          "threshold": 1.9,
+                          "search_radius": 150,
+                          "radius": {
+
+                            "type": "minecraft:spline",
+                            "spline": {
+                              "coordinate": {
+                                "type": "minecraft:squeeze",
+                                "argument": {
+                                  "type": "minecraft:noise",
+                                  "noise": {
+                                    "firstOctave": -8,
+                                    "amplitudes": [
+                                      1
+                                    ]
+                                  },
+                                  "xz_scale": 1,
+                                  "y_scale": 1
+                                }
+                              },
+                              "points": [
+                                {
+                                  "location": -1,
+                                  "value": 100,
+                                  "derivative": 35
+                                },
+                                {
+                                  "location": 0,
+                                  "value": 125,
+                                  "derivative": 25
+                                },
+                                {
+                                  "location": 1,
+                                  "value": 150,
+                                  "derivative": 35
+                                }
+                              ]
+                            }
+                          }
                         }
                       }
                     },

@@ -3,44 +3,44 @@ package com.brainsmash.broken_world.worldgen;
 import com.brainsmash.broken_world.Main;
 import com.mojang.datafixers.kinds.K1;
 import com.mojang.logging.LogUtils;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.dynamic.CodecHolder;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.noise.SimplexNoiseSampler;
-import net.minecraft.util.math.random.CheckedRandom;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.densityfunction.DensityFunction;
 import org.slf4j.Logger;
 
-public class CraterDensityFunction implements DensityFunction.Base, K1 {
+
+public record CraterDensityFunction(DensityFunction input, double threshold, int searchRadius, DensityFunction radius) implements DensityFunction.Base, K1 {
+    public static final Codec<Double> CONSTANT_DOUBLE_RANGE = Codec.doubleRange(-1000000.0, 1000000.0);
+    public static final Codec<Integer> CONSTANT_INT_RANGE = Codec.intRange(-1000000, 1000000);
+
+    public static final MapCodec<CraterDensityFunction> CRATER_CODEC = RecordCodecBuilder.mapCodec((instance) -> {
+        return instance.group(
+                DensityFunction.FUNCTION_CODEC.fieldOf("input").forGetter(CraterDensityFunction::input),
+                CONSTANT_DOUBLE_RANGE.fieldOf("threshold").forGetter(CraterDensityFunction::threshold),
+                CONSTANT_INT_RANGE.fieldOf("search_radius").forGetter(CraterDensityFunction::searchRadius),
+                DensityFunction.FUNCTION_CODEC.fieldOf("input").forGetter(CraterDensityFunction::radius)
+        ).apply(instance, CraterDensityFunction::new);
+    });
+    public static final CodecHolder<CraterDensityFunction> CODEC_HOLDER = CodecHolder.of(CRATER_CODEC);
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public static final CodecHolder<CraterDensityFunction> CODEC_HOLDER =
-            CodecHolder.of(
-                    MapCodec.unit(new CraterDensityFunction(0L))
-            );
-    private static final double THRESHOLD = 0.97D;
-    private static final double NOISE_SCALE = 0.12D;
-    private static final double SCALE = 0.1D;
-    private static final int SEARCH_RADIUS = 15;
-    private static final double CRATER_RADIUS = 11;
-    private final SimplexNoiseSampler sampler;
-    private final long seed;
     public static final Identifier ID = new Identifier(Main.MODID, "crater");
 
+    private static double height(double r, double R){
+        // This is a math function that returns the height corresponding given radius (r) to the centre of the crater.
+        // Parameter R means the total radius of the crater.
+        // That is: height(r, R) = f(r * EFFECTIVE_RANGE / R)
+        // f(x) = [Mathematical Expression]
 
-    public CraterDensityFunction(long seed) {
-        this.seed = seed;
-        System.out.println("Constructing CDF with seed" + seed);
-        CheckedRandom random = new CheckedRandom(seed);
-        random.skip(5648);
-        this.sampler = new SimplexNoiseSampler(random);
-    }
-
-    private static double height(double r){
-        r *= 22/CRATER_RADIUS;
+        // The effective range means when x >= EFFECTIVE_RANGE, f(x) approximately equals to 0
+        final double EFFECTIVE_RANGE = 22;
+        r *= EFFECTIVE_RANGE / R;
         return (1- Math.pow(r/2, 4))*Math.exp(-25*r*r/49)
                 + 5*Math.exp(-MathHelper.square((r-15)/3))
                 - Math.exp(-MathHelper.square((r-5)/5));
@@ -57,46 +57,40 @@ public class CraterDensityFunction implements DensityFunction.Base, K1 {
         }
     }
 
-    public double sample(double x, double z) {
+    public double sample(NoisePos pos) {
         DefaultedList<Pos> list = DefaultedList.of();
         double r;
         int cnt = 0;
-        int avrX = 0, avrZ = 0;
-        for(int dz = -SEARCH_RADIUS; dz <= SEARCH_RADIUS; dz++){
-            int i = (int) Math.round(Math.sqrt(SEARCH_RADIUS * SEARCH_RADIUS - dz*dz));
-            for(int dx = -i; dx <= i; dx++){
-                double noise = sampler.sample((x+dx)*NOISE_SCALE, (z+dz)*NOISE_SCALE);
-                if(noise > THRESHOLD){
-                    avrX += dx;
-                    avrZ += dz;
-                    cnt++;
-                    list.add(new Pos((x+dx)/SCALE, (z+dz)/SCALE));
+        int maxX = 0, maxZ = 0;
+        double max = Double.NEGATIVE_INFINITY;
+        for(int dz = -searchRadius; dz <= searchRadius; dz += 4){
+            int i = (int) Math.round(Math.sqrt(searchRadius * searchRadius - dz*dz));
+            for(int dx = -i; dx <= i; dx += 4){
+                double noise = input.sample(new UnblendedNoisePos(pos.blockX()+dx, 0, pos.blockZ()+dz));
+                if(noise > threshold && noise > max){
+                    max = noise;
+                    maxX = dx;
+                    maxZ = dz;
                 }
             }
         }
-        if(cnt > 0) {
-            r = Math.sqrt(avrX*avrX + avrZ*avrZ);
-            double val = height(r/cnt);
+        if(max > Double.NEGATIVE_INFINITY) {
+            double R = radius.sample(new UnblendedNoisePos(pos.blockX()+maxX, 0, pos.blockZ()+maxZ));
+            r = Math.sqrt(maxX*maxX + maxZ*maxZ);
+            double val = height(r, R);
             System.out.println(
-                    "Valid crater noise pos: " + noisePosString(x/SCALE, z/SCALE) +
+                    "Valid crater noise pos: " + noisePosString(pos.blockX(), pos.blockZ()) +
                     ", cnt: " + cnt +
-                    ", r: " + r/cnt/SCALE +
+                    ", r: " + r +
+                    ", R: " + R +
                     ", v: "+val+
-                    ", avrX: "+avrX/cnt/SCALE+
-                    ", avrZ: "+avrZ/cnt/SCALE+
-                    ", list: "+ list+
-                    ", seed: "+seed
+                    ", center x: "+pos.blockX()+maxX+
+                    ", center z: "+pos.blockZ()+maxZ
             );
             return val;
-        }else{
-            LOGGER.debug("No valid crater center found near " + noisePosString(x/SCALE, z/SCALE) + ", seed: "+seed);
-            return 0;
         }
-    }
-
-    @Override
-    public double sample(NoisePos pos){
-        return sample(pos.blockX()*SCALE, pos.blockZ()*SCALE);
+//      LOGGER.debug("No valid crater center found near " + noisePosString(pos.blockX(), pos.blockZ()));
+        return 0;
     }
 
     private String noisePosString(double x, double z){
