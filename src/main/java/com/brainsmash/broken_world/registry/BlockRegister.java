@@ -47,13 +47,9 @@ public class BlockRegister {
 
     public static final Block[] blocks = {
             new FallingBlock(AbstractBlock.Settings.of(Material.AGGREGATE).sounds(BlockSoundGroup.SAND).strength(1.0f)),
-            new Block(FabricBlockSettings.copyOf(Blocks.STONE).strength(2.0f, 2.0f)),
-            new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(
-                    3.0f,
-                    3.0f)),
-            new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(
-                    5.0f,
-                    4.0f)),
+            new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
+            new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
+            new OreBlock(FabricBlockSettings.copyOf(Blocks.GOLD_ORE)),
             new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
                     10f)),
             new RedstoneOreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(
@@ -115,6 +111,7 @@ public class BlockRegister {
             new MagnetiteBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new Block(FabricBlockSettings.copyOf(Blocks.GLASS).strength(2.0f, 15.0f)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
+            new Block(FabricBlockSettings.copyOf(Blocks.DIRT)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -158,6 +155,7 @@ public class BlockRegister {
             new BlockItem(blocks[38], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[39], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[40], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[41], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -202,6 +200,7 @@ public class BlockRegister {
             "magnetite",
             "reinforced_glass",
             "machine_shell",
+            "charred_dirt",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
