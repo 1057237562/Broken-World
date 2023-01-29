@@ -73,7 +73,7 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
                     progression++;
                 } else {
                     progression = 0;
-                    pointer = new BlockPos(3, 0, 3);
+                    pointer = new BlockPos(3, -1, 3);
                     while (pointer.getY() >= -4) {
                         if (!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
                             BlockPos pointPos = pos.add(pointer.getX(), pointer.getY(), pointer.getZ());
