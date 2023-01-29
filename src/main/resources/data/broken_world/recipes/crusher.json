@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "broken_world:spring_roll"
+    },
+    "B": {
+      "item": "broken_world:motor"
+    },
+    "C": {
+      "item": "broken_world:iron_sheet_box"
+    },
+    "D": {
+      "item": "minecraft:chest"
+    },
+    "E": {
+      "item": "broken_world:iron_plate"
+    }
+  },
+  "pattern": [
+    "A A",
+    "BCB",
+    "EDE"
+  ],
+  "result": {
+    "item": "broken_world:crusher"
+  }
+}

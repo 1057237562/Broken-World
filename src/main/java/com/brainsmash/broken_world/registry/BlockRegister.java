@@ -11,6 +11,7 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
+import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -111,7 +112,8 @@ public class BlockRegister {
             new FabricatorExtensionBlock(STANDARD_BLOCK),
             new CentrifugeBlock(STANDARD_BLOCK),
             new Block(STANDARD_BLOCK.velocityMultiplier(1.1f).slipperiness(0.3f)),
-            new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
+            new MagnetiteBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
+            new Block(FabricBlockSettings.copyOf(Blocks.GLASS).strength(2.0f, 25.0f)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -153,6 +155,7 @@ public class BlockRegister {
             new BlockItem(blocks[36], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[37], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[38], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[39], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -194,7 +197,8 @@ public class BlockRegister {
             "fabricator_extension",
             "centrifuge",
             "road",
-            "magnetite"
+            "magnetite",
+            "reinforced_glass"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -238,7 +242,7 @@ public class BlockRegister {
                             SquarePlacementModifier.of(),
                             HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64)))),
             new PlacedFeature(RegistryEntry.of(configuredFeatures[5]),
-                    Arrays.asList(CountPlacementModifier.of(20),
+                    Arrays.asList(CountPlacementModifier.of(8),
                             SquarePlacementModifier.of(),
                             HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(16))))
     };

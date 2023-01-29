@@ -2,14 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "A": {
-      "item": "minecraft:copper_ingot"
+      "item": "broken_world:iron_plate"
     }
   },
   "pattern": [
+    "AAA",
+    "A A",
     "AAA"
   ],
   "result": {
-    "item": "broken_world:cable",
-    "count": 2
+    "item": "broken_world:iron_sheet_box"
   }
 }

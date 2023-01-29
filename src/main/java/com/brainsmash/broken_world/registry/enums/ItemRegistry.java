@@ -19,4 +19,6 @@ public enum ItemRegistry {
     MOTOR,
     IRON_PLATE,
     MAGNET_INGOT,
+    SPRING_ROLL,
+    MESH,
 }

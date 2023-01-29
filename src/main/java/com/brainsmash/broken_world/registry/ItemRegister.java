@@ -47,6 +47,8 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -69,6 +71,8 @@ public class ItemRegister {
             "motor",
             "iron_plate",
             "magnet_ingot",
+            "spring_roll",
+            "mesh"
     };
 
     public static void RegistItem() {

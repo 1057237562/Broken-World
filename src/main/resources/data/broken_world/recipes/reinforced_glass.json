@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:glass"
+    }
+  },
+  "pattern": [
+    "A A",
+    " A ",
+    "A A"
+  ],
+  "result": {
+    "item": "broken_world:reinforced_glass",
+    "count": 3
+  }
+}
