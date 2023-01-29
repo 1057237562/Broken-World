@@ -372,6 +372,8 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CHUNKLOADER.ordinal()],
                 RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.MINER.ordinal()], RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.REINFORCED_GLASS.ordinal()],
+                RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,

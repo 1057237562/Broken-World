@@ -39,4 +39,6 @@ public enum BlockRegistry {
     FABRICATOR_EXTENSION,
     CENTRIFUGE,
     ROAD,
+    MAGNETITE,
+    REINFORCED_GLASS
 }
