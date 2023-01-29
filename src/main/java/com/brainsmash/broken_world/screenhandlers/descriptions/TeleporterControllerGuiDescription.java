@@ -34,12 +34,16 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
     private String selectDim;
 
     public TeleporterControllerGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(Main.TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
+        super(Main.TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE,
+                syncId,
+                playerInventory,
+                getBlockInventory(context, INVENTORY_SIZE),
+                getBlockPropertyDelegate(context, PROPERTY_COUNT));
         ScreenNetworking.of(this, NetworkSide.SERVER).receive(SELECT_MESSAGE, buf -> {
             selectDim = buf.readString();
             context.get((world, pos) -> {
-                TeleporterControllerBlockEntity entity = (TeleporterControllerBlockEntity)world.getBlockEntity(pos);
-                if(entity.getEnergy() >= DimensionRegister.dimensionEnergyCost.get(selectDim)) {
+                TeleporterControllerBlockEntity entity = (TeleporterControllerBlockEntity) world.getBlockEntity(pos);
+                if (entity.getEnergy() >= DimensionRegister.dimensionEnergyCost.get(selectDim)) {
                     entity.increaseEnergy(-DimensionRegister.dimensionEnergyCost.get(selectDim));
                     BlockPos baseblock = CustomPortalHelper.getClosestFrameBlock(world, pos);
                     Block oldblock = world.getBlockState(baseblock).getBlock();
@@ -63,37 +67,45 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
         root.setSize(150, 175);
         root.setInsets(Insets.ROOT_PANEL);
         selectDim = "none";
-        BiConsumer<String,WButton> buttonBiConsumer = (s, wButton) -> {
+        BiConsumer<String, WButton> buttonBiConsumer = (s, wButton) -> {
             wButton.setLabel(Text.of(s));
-            wButton.setOnClick(() -> {selectDim = s;});
+            wButton.setOnClick(() -> {
+                selectDim = s;
+            });
         };
-        WBar bar = new WBar(new Identifier(Main.MODID,"textures/gui/small_electric_bar.png"),new Identifier(Main.MODID,"textures/gui/small_electric_bar_filled.png"),0,1);
+        WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"),
+                new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"),
+                0,
+                1);
         bar.setProperties(propertyDelegate);
-        root.add(bar, 8, 1,1,1);
-        WListPanel<String,WButton> dimList = new WListPanel<>(
-                List.of("broken_world:moon","broken_world:metallic","broken_world:lush","broken_world:sulfuric"),
-                () -> {
-            return new WButton(Text.of(""));
-        }, buttonBiConsumer);
-        root.add(dimList,0,1,8,3);
+        root.add(bar, 8, 1, 1, 1);
+        WListPanel<String, WButton> dimList = new WListPanel<>(List.of("broken_world:moon",
+                "broken_world:metallic",
+                "broken_world:lush",
+                "broken_world:sulfuric"), () -> new WButton(Text.of("")), buttonBiConsumer);
+        root.add(dimList, 0, 1, 8, 3);
         WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
         root.add(itemSlot, 8, 2);
         WButton select = new WButton(Text.of("✓"));
         select.setOnClick(() -> {
             ScreenNetworking.of(this, NetworkSide.CLIENT).send(SELECT_MESSAGE, buf -> {
-                    // Write the lucky number
-                    buf.writeString(selectDim);
+                // Write the lucky number
+                buf.writeString(selectDim);
             });
         });
-        root.add(select,8,3);
+        root.add(select, 8, 3);
 
         root.add(this.createPlayerInventoryPanel(), 0, 4);
 
         root.validate(this);
     }
 
-    private static boolean replacePortalBlock(PortalLink oldlink,Block oldBlock,World world,BlockPos portalPos,Block replacement){
-        Optional<PortalFrameTester> optional = oldlink.getFrameTester().createInstanceOfPortalFrameTester().getNewPortal(world, portalPos, Direction.Axis.X, oldBlock);
+    private static boolean replacePortalBlock(PortalLink oldlink, Block oldBlock, World world, BlockPos portalPos, Block replacement) {
+        Optional<PortalFrameTester> optional = oldlink.getFrameTester().createInstanceOfPortalFrameTester().getNewPortal(
+                world,
+                portalPos,
+                Direction.Axis.X,
+                oldBlock);
         //is valid frame, and is correct size(if applicable)
         if (optional.isPresent()) {
             if (optional.get().isRequestedSize(oldlink.forcedWidth, oldlink.forcedHeight)) {
@@ -101,8 +113,10 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
                 BlockLocating.Rectangle rectangle = pft.getRectangle();
                 for (int i = -1; i <= rectangle.width; i++) {
                     for (int j = -1; j <= rectangle.height; j++) {
-                        if (CustomPortalHelper.isInstanceOfPortalFrame(world, rectangle.lowerLeft.offset(pft.getAxis1(), i).offset(pft.getAxis2(), j))) {
-                            world.setBlockState(rectangle.lowerLeft.offset(pft.getAxis1(), i).offset(pft.getAxis2(), j), replacement.getDefaultState());
+                        if (CustomPortalHelper.isInstanceOfPortalFrame(world,
+                                rectangle.lowerLeft.offset(pft.getAxis1(), i).offset(pft.getAxis2(), j))) {
+                            world.setBlockState(rectangle.lowerLeft.offset(pft.getAxis1(), i).offset(pft.getAxis2(), j),
+                                    replacement.getDefaultState());
                         }
                     }
                 }
@@ -112,8 +126,13 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
         }
         return false;
     }
+
     private static boolean createPortal(PortalLink link, Block foundationBlock, World world, BlockPos portalPos) {
-        Optional<PortalFrameTester> optional = link.getFrameTester().createInstanceOfPortalFrameTester().getNewPortal(world, portalPos, Direction.Axis.X, foundationBlock);
+        Optional<PortalFrameTester> optional = link.getFrameTester().createInstanceOfPortalFrameTester().getNewPortal(
+                world,
+                portalPos,
+                Direction.Axis.X,
+                foundationBlock);
 
         //is valid frame, and is correct size(if applicable)
         if (optional.isPresent()) {

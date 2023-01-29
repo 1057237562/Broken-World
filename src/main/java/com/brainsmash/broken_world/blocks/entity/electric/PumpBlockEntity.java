@@ -45,7 +45,7 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
     public PumpBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.PUMP_ENTITY_TYPE, pos, state);
         setMaxCapacity(500);
-        maxProgression = 50;
+        maxProgression = 75;
         powerConsumption = 4;
     }
 
@@ -73,13 +73,12 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
                     progression++;
                 } else {
                     progression = 0;
-                    pointer = new BlockPos(3, -1, 3);
-                    while (pointer.getY() >= -4) {
-                        if (!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
-                            BlockPos pointPos = pos.add(pointer.getX(), pointer.getY(), pointer.getZ());
-                            if (world.isChunkLoaded(pointPos)) {
-                                if (stored.isEmpty() || inventory.get(0).isOf(Items.BUCKET)) {
-
+                    if (stored.isEmpty() || inventory.get(0).isOf(Items.BUCKET)) {
+                        pointer = new BlockPos(3, -1, 3);
+                        while (pointer.getY() >= -4) {
+                            if (!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
+                                BlockPos pointPos = pos.add(pointer.getX(), pointer.getY(), pointer.getZ());
+                                if (world.isChunkLoaded(pointPos)) {
                                     FluidVolume drained = FluidWorldUtil.drain(getWorld(), pointPos, Simulation.ACTION);
                                     if (inventory.get(0).isOf(Items.BUCKET) && drained.amount().isGreaterThanOrEqual(
                                             FluidAmount.BUCKET)) {
