@@ -236,6 +236,10 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
                     fluidInv.setInvFluid(1,
                             insertable.attemptInsertion(fluidInv.getInvFluid(1), Simulation.ACTION),
                             Simulation.ACTION);
+                    if (fluidInv.getInvFluid(1).isEmpty()) {
+                        break;
+                    }
+                    markDirty();
                 }
             }
             sendLiquidChange();
