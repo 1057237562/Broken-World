@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "broken_world:iron_plate"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "A A",
+    "AAA"
+  ],
+  "result": {
+    "item": "broken_world:machine_shell"
+  }
+}

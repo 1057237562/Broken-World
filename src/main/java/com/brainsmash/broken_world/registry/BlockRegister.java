@@ -56,7 +56,7 @@ public class BlockRegister {
                     4.0f)),
             new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
                     10f)),
-            new OreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(
+            new RedstoneOreBlock(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(
                     5.0f,
                     4.0f)),
             new Block(AbstractBlock.Settings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(
@@ -95,7 +95,7 @@ public class BlockRegister {
             new SolarPanelBlock(FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(
                     1.0f,
                     2.0f)),
-            new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f)),
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new SifterBlock(STANDARD_BLOCK.nonOpaque()),
             new ScannerBlock(STANDARD_BLOCK),
             new MinerBlock(STANDARD_BLOCK.nonOpaque()),
@@ -111,9 +111,10 @@ public class BlockRegister {
             new FabricatorBlock(STANDARD_BLOCK),
             new FabricatorExtensionBlock(STANDARD_BLOCK),
             new CentrifugeBlock(STANDARD_BLOCK),
-            new Block(STANDARD_BLOCK.velocityMultiplier(1.1f).slipperiness(0.3f)),
+            new Block(STANDARD_BLOCK.velocityMultiplier(1.1f).slipperiness(0.45f)),
             new MagnetiteBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
-            new Block(FabricBlockSettings.copyOf(Blocks.GLASS).strength(2.0f, 25.0f)),
+            new Block(FabricBlockSettings.copyOf(Blocks.GLASS).strength(2.0f, 15.0f)),
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -156,6 +157,7 @@ public class BlockRegister {
             new BlockItem(blocks[37], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[38], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[39], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[40], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -198,7 +200,8 @@ public class BlockRegister {
             "centrifuge",
             "road",
             "magnetite",
-            "reinforced_glass"
+            "reinforced_glass",
+            "machine_shell",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {

@@ -40,5 +40,6 @@ public enum BlockRegistry {
     CENTRIFUGE,
     ROAD,
     MAGNETITE,
-    REINFORCED_GLASS
+    REINFORCED_GLASS,
+    MACHINE_SHELL
 }
