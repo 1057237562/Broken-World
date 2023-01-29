@@ -5,7 +5,7 @@
       "item": "minecraft:iron_ingot"
     },
     "B": {
-      "item": "broken_world:cable"
+      "item": "broken_world:copper_cable"
     }
   },
   "pattern": [
