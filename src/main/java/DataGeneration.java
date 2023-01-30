@@ -1,5 +1,3 @@
-package com.brainsmash.broken_world;
-
 import com.brainsmash.broken_world.datagen.ItemModelGenerator;
 import com.brainsmash.broken_world.datagen.LootTableGenerator;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;

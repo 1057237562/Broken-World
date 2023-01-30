@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "fabric-datagen": [
-      "com.brainsmash.broken_world.DataGeneration"
+      "DataGeneration"
     ],
     "main": [
       "com.brainsmash.broken_world.Main"

@@ -17,7 +17,8 @@ import org.slf4j.Logger;
 public class CraterDensityFunction implements DensityFunction.Base, K1 {
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public static final CodecHolder<CraterDensityFunction> CODEC_HOLDER = CodecHolder.of(MapCodec.unit(new CraterDensityFunction(0L)));
+    public static final CodecHolder<CraterDensityFunction> CODEC_HOLDER = CodecHolder.of(MapCodec.unit(new CraterDensityFunction(
+            0L)));
     private static final double THRESHOLD = 0.98D;
     private static final double NOISE_SCALE = 0.08D;
     private static final double SCALE = 0.1D;
@@ -30,7 +31,6 @@ public class CraterDensityFunction implements DensityFunction.Base, K1 {
 
     public CraterDensityFunction(long seed) {
         this.seed = seed;
-        System.out.println("Constructing CDF with seed" + seed);
         CheckedRandom random = new CheckedRandom(seed);
         random.skip(5648);
         this.sampler = new SimplexNoiseSampler(random);
@@ -38,7 +38,9 @@ public class CraterDensityFunction implements DensityFunction.Base, K1 {
 
     private static double height(double r) {
         r *= 22 / CRATER_RADIUS;
-        return (1 - Math.pow(r / 2, 4)) * Math.exp(-25 * r * r / 49) + 5 * Math.exp(-MathHelper.square((r - 15) / 3)) - Math.exp(-MathHelper.square((r - 5) / 5));
+        return (1 - Math.pow(r / 2,
+                4)) * Math.exp(-25 * r * r / 49) + 5 * Math.exp(-MathHelper.square((r - 15) / 3)) - Math.exp(-MathHelper.square(
+                (r - 5) / 5));
     }
 
     public class Pos {
@@ -74,7 +76,8 @@ public class CraterDensityFunction implements DensityFunction.Base, K1 {
         if (cnt > 0) {
             r = Math.sqrt(avrX * avrX + avrZ * avrZ);
             double val = height(r / cnt);
-            System.out.println("Valid crater noise pos: " + noisePosString(x, z) + ", cnt: " + cnt + ", r: " + r / cnt + ", v: " + val + ", avrX: " + avrX / cnt + ", avrZ: " + avrZ / cnt + ", list: " + list + ", seed: " + seed);
+            System.out.println("Valid crater noise pos: " + noisePosString(x,
+                    z) + ", cnt: " + cnt + ", r: " + r / cnt + ", v: " + val + ", avrX: " + avrX / cnt + ", avrZ: " + avrZ / cnt + ", list: " + list + ", seed: " + seed);
             return val;
         } else {
             return 0;
