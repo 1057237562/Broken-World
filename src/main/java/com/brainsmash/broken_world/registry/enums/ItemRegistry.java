@@ -21,4 +21,5 @@ public enum ItemRegistry {
     MAGNET_INGOT,
     SPRING_ROLL,
     MESH,
+    HYPER_POCKET,
 }

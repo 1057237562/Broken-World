@@ -9,12 +9,15 @@
     },
     "C": {
       "item": "minecraft:copper_ingot"
+    },
+    "D": {
+      "item": "minecraft:furnace"
     }
   },
   "pattern": [
-    " D ",
+    " A ",
     "CBC",
-    "CAC"
+    "CDC"
   ],
   "result": {
     "item": "broken_world:generator"

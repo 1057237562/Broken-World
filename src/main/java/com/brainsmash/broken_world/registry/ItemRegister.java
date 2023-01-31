@@ -1,9 +1,6 @@
 package com.brainsmash.broken_world.registry;
 
-import com.brainsmash.broken_world.items.AdvancedEnderPearl;
-import com.brainsmash.broken_world.items.Boulder;
-import com.brainsmash.broken_world.items.BreathingEPP;
-import com.brainsmash.broken_world.items.EmergencyTeleporter;
+import com.brainsmash.broken_world.items.*;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
@@ -49,6 +46,7 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new HyperPocket(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
 
     };
 
@@ -72,7 +70,8 @@ public class ItemRegister {
             "iron_plate",
             "magnet_ingot",
             "spring_roll",
-            "mesh"
+            "mesh",
+            "hyper_pocket"
     };
 
     public static void RegistItem() {

@@ -1,6 +1,10 @@
 package com.brainsmash.broken_world.datagen;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.blocks.electric.base.BatteryBlock;
+import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
+import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
+import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -12,15 +16,15 @@ import net.minecraft.util.Identifier;
 
 import java.util.Optional;
 
-public class ItemModelGenerator extends FabricModelProvider {
-    public ItemModelGenerator(FabricDataGenerator dataGenerator) {
+public class ModelGenerator extends FabricModelProvider {
+    public ModelGenerator(FabricDataGenerator dataGenerator) {
         super(dataGenerator);
     }
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         for (int i = 0; i < BlockRegister.blocks.length; i++) {
-            if (BlockRegister.blocks[i].getStateManager().getProperties().isEmpty()) {
+            if (BlockRegister.blocks[i].getStateManager().getProperties().isEmpty() && !(BlockRegister.blocks[i] instanceof BatteryBlock) && !(BlockRegister.blocks[i] instanceof PowerBlock) && !(BlockRegister.blocks[i] instanceof ConsumerBlock) && !(BlockRegister.blocks[i] instanceof CableBlock)) {
                 blockStateModelGenerator.registerSimpleCubeAll(BlockRegister.blocks[i]);
             }
         }
@@ -36,7 +40,8 @@ public class ItemModelGenerator extends FabricModelProvider {
         }
         for (int i = 0; i < BlockRegister.blocks.length; i++) {
             itemModelGenerator.register(BlockRegister.blockitems[i],
-                    new Model(Optional.of(new Identifier(Main.MODID, BlockRegister.blocknames[i])), Optional.empty()));
+                    new Model(Optional.of(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i])),
+                            Optional.empty()));
         }
     }
 }
