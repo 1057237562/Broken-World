@@ -22,9 +22,8 @@ public class LootTableGenerator extends SimpleFabricLootTableProvider {
     public void accept(BiConsumer<Identifier, LootTable.Builder> identifierBuilderBiConsumer) {
         for (int i = 0; i < BlockRegister.blocks.length; i++) {
             if (BlockRegister.blocks[i] instanceof OreBlock) continue;
-            identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, BlockRegister.blocknames[i]),
-                    BlockLootTableGenerator.drops(BlockRegister.blocks[i],
-                            BlockRegister.blockitems[i],
+            identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i]),
+                    BlockLootTableGenerator.drops(BlockRegister.blocks[i], BlockRegister.blockitems[i],
                             ConstantLootNumberProvider.create(1f)));
         }
     }
