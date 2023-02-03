@@ -3,9 +3,11 @@ package com.brainsmash.broken_world.registry;
 import com.brainsmash.broken_world.items.*;
 import com.brainsmash.broken_world.items.weapons.ammo.HeavyAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.LightAmmo;
+import com.brainsmash.broken_world.items.weapons.ammo.SniperAmmo;
 import com.brainsmash.broken_world.items.weapons.guns.Pistol;
 import com.brainsmash.broken_world.items.weapons.guns.Rifle;
 import com.brainsmash.broken_world.items.weapons.guns.SMG;
+import com.brainsmash.broken_world.items.weapons.guns.SniperRifle;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
@@ -57,6 +59,8 @@ public class ItemRegister {
             new SMG(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new HeavyAmmo(new FabricItemSettings().group(ITEM_GROUP)),
             new Rifle(new FabricItemSettings().group(ITEM_GROUP)),
+            new SniperAmmo(new FabricItemSettings().group(ITEM_GROUP)),
+            new SniperRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
 
     };
 
@@ -86,7 +90,9 @@ public class ItemRegister {
             "light_ammo",
             "smg",
             "heavy_ammo",
-            "rifle"
+            "rifle",
+            "sniper_ammo",
+            "sniper_rifle"
     };
 
     public static void RegistItem() {

@@ -27,4 +27,6 @@ public enum ItemRegistry {
     SMG,
     HEAVY_AMMO,
     RIFLE,
+    SNIPER_AMMO,
+    SNIPER_RIFLE,
 }
