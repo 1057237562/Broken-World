@@ -1,6 +1,10 @@
 package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.items.*;
+import com.brainsmash.broken_world.items.weapons.ammo.HeavyAmmo;
+import com.brainsmash.broken_world.items.weapons.ammo.LightAmmo;
+import com.brainsmash.broken_world.items.weapons.guns.Pistol;
+import com.brainsmash.broken_world.items.weapons.guns.SMG;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.*;
@@ -47,6 +51,10 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new HyperPocket(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new LightAmmo(new FabricItemSettings().group(ITEM_GROUP)),
+            new SMG(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new HeavyAmmo(new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -71,7 +79,11 @@ public class ItemRegister {
             "magnet_ingot",
             "spring_roll",
             "mesh",
-            "hyper_pocket"
+            "hyper_pocket",
+            "pistol",
+            "light_ammo",
+            "smg",
+            "heavy_ammo"
     };
 
     public static void RegistItem() {

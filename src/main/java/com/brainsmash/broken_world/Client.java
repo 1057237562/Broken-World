@@ -29,7 +29,7 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.CENTRIFUGE_GUI_DESCRIPTION, CentrifugeScreen::new);
 
         BlockRegister.RegistBlocksClientSide();
-        EntityRegister.RegistEntitiesClientSide();
+        EntityRegister.registEntitiesClientSide();
 
         FluidRegister.RegistFluidClientSide();
     }

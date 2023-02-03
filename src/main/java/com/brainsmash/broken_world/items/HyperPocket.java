@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.items;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.StructureBlockBlockEntity;
 import net.minecraft.item.Item;
@@ -106,8 +107,12 @@ public class HyperPocket extends Item {
                 compound.putInt("direction", convert(direction));
                 itemStack.setNbt(compound);
                 for (BlockPos pos : BlockPos.iterate(startPos, endPos)) {
-                    context.getWorld().removeBlockEntity(pos);
-                    context.getWorld().removeBlock(pos, false);
+                    if (context.getWorld().getBlockState(pos).hasBlockEntity()) {
+                        context.getWorld().setBlockState(pos, Blocks.AIR.getDefaultState(), Block.SKIP_DROPS);
+                    } else {
+                        context.getWorld().setBlockState(pos, Blocks.AIR.getDefaultState(),
+                                Block.FORCE_STATE | Block.SKIP_DROPS | Block.NOTIFY_LISTENERS);
+                    }
                 }
             }
         }

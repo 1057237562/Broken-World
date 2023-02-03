@@ -22,4 +22,8 @@ public enum ItemRegistry {
     SPRING_ROLL,
     MESH,
     HYPER_POCKET,
+    PISTOL,
+    LIGHT_AMMO,
+    SMG,
+    HEAVY_AMMO,
 }
