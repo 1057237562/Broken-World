@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-03T16:00:13.5451298	Models
+// 1.19.2	2023-02-03T20:39:06.4793894	Models
 52c875ba6c1cda243a5065297781b58fec12aef7 assets\broken_world\models\item\acid_bucket.json
 b15cf060923f678b0dcbe179d21ebebbe9dbcbc1 assets\broken_world\models\block\moon_sand.json
 6b2d0891779b10d5ce875d0594c9a3942f1fe7c2 assets\broken_world\models\item\moon_teleporter_frame.json
@@ -14,6 +14,7 @@ f994dc94deed1a8873a55f8342dcf79e1748bfeb assets\broken_world\models\block\road.j
 b55386c744160f3fd8820b47d503831960b2d9ee assets\broken_world\models\item\tungsten_ore.json
 b374c98e2acf76f06b6d1d6c26dec7624ef7bdaf assets\broken_world\models\block\moon_sandstone.json
 53cc3ede1b33fb3ab29534ac5b98c1f1c621699f assets\broken_world\blockstates\sulfuric_teleporter_frame.json
+d1ae646282be0ea4930aa6f5aa8dbe928450e335 assets\broken_world\models\item\rifle.json
 e996fe0256ccde8582163e2284bcadcd727d439a assets\broken_world\models\item\silicon.json
 a080e3069061b131499515f09343cac03e322030 assets\broken_world\models\item\metallic_teleporter_frame.json
 c1dcb0afd227984a4e0d6f8e9f079db7387b91b3 assets\broken_world\models\item\creative_generator.json
@@ -55,8 +56,8 @@ c5c5fa254e1ac23913abef648f543361a92cfedd assets\broken_world\models\item\plastic
 2c5a85d26368777033be25af5bde400907feeeef assets\broken_world\models\block\tungsten_ore.json
 feae82808fc143db19fc51872832af91d423dac2 assets\broken_world\models\block\magnetite.json
 0449a3c0919ddf537a28fad51d0de4af2fc3671d assets\broken_world\models\item\copper_cable.json
-292c2baa17e32d285118f1bc94e5b35393fd0c6d assets\broken_world\blockstates\moon_sand.json
 32a5d9852bf1d53e03767329a190098be8a3a662 assets\broken_world\blockstates\moon_sandstone.json
+292c2baa17e32d285118f1bc94e5b35393fd0c6d assets\broken_world\blockstates\moon_sand.json
 67241906e0730d194e82bceb2f5521c70ab8e22c assets\broken_world\blockstates\iron_sheet_box.json
 2d42473862f627013af057f336cf6eecd3ed0b93 assets\broken_world\models\item\zinc_ingot.json
 4fa8105c7b1153110de5d0ae83bf408b5b33a5d1 assets\broken_world\models\block\lush_teleporter_frame.json
@@ -81,6 +82,7 @@ c9148e81484d15e37391e135d60c81758c492b73 assets\broken_world\models\item\advance
 83e7af8d67c51262b07e182041710f1da7709262 assets\broken_world\models\item\iron_sheet_box.json
 38dad721aea05e3a303f6eed1574a0b1bcc62d43 assets\broken_world\models\item\titanium_ingot.json
 585dd6c02e0bebeda7d5b5552c48a9600d8636cb assets\broken_world\models\item\moon_gold_ore.json
+712ac6bf8e9d7d07b56df34b4156e5bf5044eb7c assets\broken_world\models\item\heavy_ammo.json
 7bfc119abe4373f42388df25967075bc37aa7b27 assets\broken_world\models\item\basic_machine.json
 6221ee084e560d7c81b2b55ae0c3bc067888d0bd assets\broken_world\models\item\machine_shell.json
 07dd9df15b479bfd404233835733ddd3a2e2ea9c assets\broken_world\blockstates\lush_teleporter_frame.json

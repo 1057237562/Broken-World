@@ -4,6 +4,7 @@ import com.brainsmash.broken_world.items.*;
 import com.brainsmash.broken_world.items.weapons.ammo.HeavyAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.LightAmmo;
 import com.brainsmash.broken_world.items.weapons.guns.Pistol;
+import com.brainsmash.broken_world.items.weapons.guns.Rifle;
 import com.brainsmash.broken_world.items.weapons.guns.SMG;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -55,6 +56,7 @@ public class ItemRegister {
             new LightAmmo(new FabricItemSettings().group(ITEM_GROUP)),
             new SMG(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new HeavyAmmo(new FabricItemSettings().group(ITEM_GROUP)),
+            new Rifle(new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -83,7 +85,8 @@ public class ItemRegister {
             "pistol",
             "light_ammo",
             "smg",
-            "heavy_ammo"
+            "heavy_ammo",
+            "rifle"
     };
 
     public static void RegistItem() {

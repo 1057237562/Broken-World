@@ -16,6 +16,10 @@ import net.minecraft.world.World;
 
 public class SMG extends Item {
 
+    private float recoil = -0.8f;
+    private float spread = 0.4f;
+
+    private float spreadModifier = 0.05f;
 
     public SMG(Settings settings) {
         super(settings);
@@ -24,19 +28,24 @@ public class SMG extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        user.getItemCooldownManager().set(this, 2);
+        user.getItemCooldownManager().set(this, 1);
         world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ARROW_SHOOT,
                 SoundCategory.NEUTRAL, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
-        if (!world.isClient) {
-            if (!Util.getAmmo(user,
-                    ItemRegister.items[ItemRegistry.LIGHT_AMMO.ordinal()]).isEmpty() || user.getAbilities().creativeMode) {
-                BulletEntity lightAmmoEntity = new BulletEntity(world, user);
-                lightAmmoEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 4f, 1.0f);
+
+        if (!Util.getAmmo(user,
+                ItemRegister.items[ItemRegistry.LIGHT_AMMO.ordinal()]).isEmpty() || user.getAbilities().creativeMode) {
+            if (!world.isClient) {
+                BulletEntity lightAmmoEntity = new BulletEntity(world, user, 0.75f);
+
+                float s = (float) (spread + user.getVelocity().length() * spreadModifier);
+                lightAmmoEntity.setVelocity(user, user.getPitch() + world.getRandom().nextFloat() * 2 * s - s,
+                        user.getYaw() + world.getRandom().nextFloat() * 2 * s - s, 0.0f, 4f, 1.0f);
                 world.spawnEntity(lightAmmoEntity);
             }
-            if (!user.getAbilities().creativeMode) {
-                Util.getAmmo(user, ItemRegister.items[ItemRegistry.LIGHT_AMMO.ordinal()]).decrement(1);
-            }
+            user.setPitch(user.getPitch() + recoil);
+        }
+        if (!user.getAbilities().creativeMode) {
+            Util.getAmmo(user, ItemRegister.items[ItemRegistry.LIGHT_AMMO.ordinal()]).decrement(1);
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         return TypedActionResult.pass(itemStack);

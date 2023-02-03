@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class BulletEntity extends ProjectileEntity {
 
-    private double damage = 1.25f;
+    private double damage = 0.75f;
 
     private int life;
 
@@ -41,8 +41,9 @@ public class BulletEntity extends ProjectileEntity {
         this.setOwner(owner);
     }
 
-    public BulletEntity(World world, LivingEntity owner) {
+    public BulletEntity(World world, LivingEntity owner, double multiplier) {
         this(EntityRegister.BULLET_ENTITY_ENTITY_TYPE, owner, world);
+        damage = multiplier;
     }
 
     public BulletEntity(EntityType<BulletEntity> bulletEntityEntityType, World world) {
@@ -59,8 +60,11 @@ public class BulletEntity extends ProjectileEntity {
             long l = this.random.nextInt(i / 2 + 2);
             i = (int) Math.min(l + (long) i, Integer.MAX_VALUE);
         }
-        if (entity.damage(DamageSource.thrownProjectile(this, getOwner()), i)) {
-            if (entity.getType() == EntityType.ENDERMAN) return;
+        if (entity instanceof LivingEntity livingEntity) {
+            livingEntity.timeUntilRegen = livingEntity.hurtTime = 0;
+            if (livingEntity.damage(DamageSource.thrownProjectile(this, getOwner()), i)) {
+                if (entity.getType() == EntityType.ENDERMAN) return;
+            }
         }
         discard();
     }

@@ -16,6 +16,9 @@ import net.minecraft.world.World;
 
 public class Rifle extends Item {
 
+    private float recoil = -1.75f;
+    private float spread = 0.05f;
+    private float spreadModifier = 0.75f;
 
     public Rifle(Settings settings) {
         super(settings);
@@ -27,17 +30,23 @@ public class Rifle extends Item {
         user.getItemCooldownManager().set(this, 3);
         world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ARROW_SHOOT,
                 SoundCategory.NEUTRAL, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
-        if (!world.isClient) {
-            if (!Util.getAmmo(user,
-                    ItemRegister.items[ItemRegistry.HEAVY_AMMO.ordinal()]).isEmpty() || user.getAbilities().creativeMode) {
-                BulletEntity lightAmmoEntity = new BulletEntity(world, user);
-                lightAmmoEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 4f, 1.0f);
-                world.spawnEntity(lightAmmoEntity);
+
+        if (!Util.getAmmo(user,
+                ItemRegister.items[ItemRegistry.HEAVY_AMMO.ordinal()]).isEmpty() || user.getAbilities().creativeMode) {
+            if (!world.isClient) {
+                BulletEntity heavyAmmoEntity = new BulletEntity(world, user, 1.35f);
+                
+                float s = (float) (spread + user.getVelocity().length() * spreadModifier);
+                heavyAmmoEntity.setVelocity(user, user.getPitch() + world.getRandom().nextFloat() * 2 * s - s,
+                        user.getYaw() + world.getRandom().nextFloat() * 2 * s - s, 0.0f, 4f, 1.0f);
+                world.spawnEntity(heavyAmmoEntity);
             }
-            if (!user.getAbilities().creativeMode) {
-                Util.getAmmo(user, ItemRegister.items[ItemRegistry.HEAVY_AMMO.ordinal()]).decrement(1);
-            }
+            user.setPitch(user.getPitch() + recoil);
         }
+        if (!user.getAbilities().creativeMode) {
+            Util.getAmmo(user, ItemRegister.items[ItemRegistry.HEAVY_AMMO.ordinal()]).decrement(1);
+        }
+
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         return TypedActionResult.pass(itemStack);
     }
