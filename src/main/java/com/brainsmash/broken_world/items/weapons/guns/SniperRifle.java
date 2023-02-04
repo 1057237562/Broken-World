@@ -18,10 +18,10 @@ import net.minecraft.world.World;
 
 public class SniperRifle extends Item {
 
-    private float recoil = -3f;
+    private float recoil = -7.5f;
     private float spread = 0.001f;
 
-    private float spreadModifier = 5f;
+    private float spreadModifier = 20f;
 
     public SniperRifle(Settings settings) {
         super(settings);
@@ -31,11 +31,11 @@ public class SniperRifle extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         user.getItemCooldownManager().set(this, 4);
-        world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ARROW_SHOOT,
-                SoundCategory.NEUTRAL, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
 
         if (!Util.getAmmo(user,
                 ItemRegister.items[ItemRegistry.SNIPER_AMMO.ordinal()]).isEmpty() || user.getAbilities().creativeMode) {
+            world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ARROW_SHOOT,
+                    SoundCategory.NEUTRAL, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
             if (!world.isClient) {
                 BulletEntity sniperAmmo = new BulletEntity(world, user, 4.45f);
 

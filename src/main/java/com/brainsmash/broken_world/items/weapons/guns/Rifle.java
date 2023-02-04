@@ -18,7 +18,7 @@ public class Rifle extends Item {
 
     private float recoil = -1.50f;
     private float spread = 0.05f;
-    private float spreadModifier = 0.75f;
+    private float spreadModifier = 12.5f;
 
     public Rifle(Settings settings) {
         super(settings);
@@ -28,11 +28,12 @@ public class Rifle extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         user.getItemCooldownManager().set(this, 3);
-        world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ARROW_SHOOT,
-                SoundCategory.NEUTRAL, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
 
         if (!Util.getAmmo(user,
                 ItemRegister.items[ItemRegistry.HEAVY_AMMO.ordinal()]).isEmpty() || user.getAbilities().creativeMode) {
+
+            world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ARROW_SHOOT,
+                    SoundCategory.NEUTRAL, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
             if (!world.isClient) {
                 BulletEntity heavyAmmoEntity = new BulletEntity(world, user, 1.35f);
 
