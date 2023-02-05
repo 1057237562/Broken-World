@@ -29,4 +29,9 @@ public enum ItemRegistry {
     RIFLE,
     SNIPER_AMMO,
     SNIPER_RIFLE,
+    HYPER_SPEAR,
+    KINETIC_HELMET,
+    KINETIC_SUIT,
+    KINETIC_LEG,
+    KINETIC_BOOTS
 }

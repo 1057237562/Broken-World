@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public class SMG extends Item {
 
     private float recoil = -0.8f;
-    private float spread = 0.4f;
+    private float spread = 1f;
 
     private float spreadModifier = 5f;
 

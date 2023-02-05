@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.entity.BulletEntity;
+import com.brainsmash.broken_world.entity.HyperSpearEntity;
 import com.brainsmash.broken_world.entity.render.BulletEntityRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
@@ -17,6 +18,10 @@ public class EntityRegister {
     public static final EntityType<BulletEntity> BULLET_ENTITY_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MODID, "bullet"),
             FabricEntityTypeBuilder.<BulletEntity>create(SpawnGroup.MISC, BulletEntity::new).dimensions(
+                    EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(6).trackedUpdateRate(20).build());
+    public static final EntityType<HyperSpearEntity> HYPER_SPEAR_ENTITY_ENTITY_TYPE = Registry.register(
+            Registry.ENTITY_TYPE, new Identifier(MODID, "hyper_spear"),
+            FabricEntityTypeBuilder.<HyperSpearEntity>create(SpawnGroup.MISC, HyperSpearEntity::new).dimensions(
                     EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(4).trackedUpdateRate(20).build());
 
     public static void registEntitiesClientSide() {

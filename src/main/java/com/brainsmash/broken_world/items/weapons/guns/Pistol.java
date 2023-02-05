@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 public class Pistol extends Item {
 
     private float recoil = -0.5f;
-    private float spread = 0.07f;
+    private float spread = 0.17f;
 
     private float spreadModifier = 0.15f;
 

@@ -6,7 +6,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -25,28 +24,25 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class BulletEntity extends ProjectileEntity {
-
-    private double damage = 0.75f;
+public class HyperSpearEntity extends ProjectileEntity {
 
     private int life;
 
-    protected BulletEntity(EntityType<? extends BulletEntity> type, double x, double y, double z, World world) {
-        this((EntityType<BulletEntity>) type, world);
+    protected HyperSpearEntity(EntityType<? extends HyperSpearEntity> type, double x, double y, double z, World world) {
+        this((EntityType<HyperSpearEntity>) type, world);
         this.setPosition(x, y, z);
     }
 
-    protected BulletEntity(EntityType<? extends BulletEntity> type, LivingEntity owner, World world) {
+    protected HyperSpearEntity(EntityType<? extends HyperSpearEntity> type, LivingEntity owner, World world) {
         this(type, owner.getX(), owner.getEyeY() - (double) 0.1f, owner.getZ(), world);
         this.setOwner(owner);
     }
 
-    public BulletEntity(World world, LivingEntity owner, double multiplier) {
-        this(EntityRegister.BULLET_ENTITY_ENTITY_TYPE, owner, world);
-        damage = multiplier;
+    public HyperSpearEntity(World world, LivingEntity owner) {
+        this(EntityRegister.HYPER_SPEAR_ENTITY_ENTITY_TYPE, owner, world);
     }
 
-    public BulletEntity(EntityType<BulletEntity> bulletEntityEntityType, World world) {
+    public HyperSpearEntity(EntityType<HyperSpearEntity> bulletEntityEntityType, World world) {
         super(bulletEntityEntityType, world);
     }
 
@@ -54,17 +50,9 @@ public class BulletEntity extends ProjectileEntity {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
         if (!entity.canHit()) return;
-        float f = (float) this.getVelocity().length();
-        int i = MathHelper.ceil(MathHelper.clamp((double) f * this.damage, 0.0, 2.147483647E9));
-        if (this.isHeadShot()) {
-            long l = this.random.nextInt(i / 2 + 2);
-            i = (int) Math.min(l + (long) i, Integer.MAX_VALUE);
-        }
         if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.timeUntilRegen = livingEntity.hurtTime = 0;
-            if (livingEntity.damage(DamageSource.thrownProjectile(this, getOwner()), i)) {
-                if (entity.getType() == EntityType.ENDERMAN) return;
-            }
+            if (entity.getType() == EntityType.ENDERMAN) return;
+            livingEntity.discard();
         }
         discard();
     }
@@ -185,7 +173,7 @@ public class BulletEntity extends ProjectileEntity {
         this.setVelocity(vec3d.multiply(m));
         if (!this.hasNoGravity()) {
             Vec3d vec3d4 = this.getVelocity();
-            this.setVelocity(vec3d4.x, vec3d4.y - (double) 0.02f, vec3d4.z);
+            this.setVelocity(vec3d4.x, vec3d4.y, vec3d4.z);
         }
         this.setPosition(h, j, k);
         this.checkBlockCollision();

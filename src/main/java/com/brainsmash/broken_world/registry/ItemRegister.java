@@ -1,15 +1,14 @@
 package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.items.*;
+import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
 import com.brainsmash.broken_world.items.weapons.ammo.HeavyAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.LightAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.SniperAmmo;
-import com.brainsmash.broken_world.items.weapons.guns.Pistol;
-import com.brainsmash.broken_world.items.weapons.guns.Rifle;
-import com.brainsmash.broken_world.items.weapons.guns.SMG;
-import com.brainsmash.broken_world.items.weapons.guns.SniperRifle;
+import com.brainsmash.broken_world.items.weapons.guns.*;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -20,6 +19,8 @@ import static com.brainsmash.broken_world.registry.FluidRegister.still_fluid;
 public class ItemRegister {
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(MODID, "itemgroup"),
             () -> new ItemStack(BlockRegister.blockitems[0]));
+
+    public static final ArmorMaterial[] armorMaterials = {new KineticMaterial()};
 
     public static final Item[] bucket_item = {
             new BucketItem(still_fluid[0],
@@ -61,6 +62,15 @@ public class ItemRegister {
             new Rifle(new FabricItemSettings().group(ITEM_GROUP)),
             new SniperAmmo(new FabricItemSettings().group(ITEM_GROUP)),
             new SniperRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new HyperSpear(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new ArmorItem(armorMaterials[0], EquipmentSlot.HEAD,
+                    new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new ArmorItem(armorMaterials[0], EquipmentSlot.CHEST,
+                    new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new ArmorItem(armorMaterials[0], EquipmentSlot.LEGS,
+                    new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new ArmorItem(armorMaterials[0], EquipmentSlot.FEET,
+                    new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
 
     };
 
@@ -92,7 +102,12 @@ public class ItemRegister {
             "heavy_ammo",
             "rifle",
             "sniper_ammo",
-            "sniper_rifle"
+            "sniper_rifle",
+            "hyper_spear",
+            "kinetic_helmet",
+            "kinetic_suit",
+            "kinetic_leg",
+            "kinetic_boots"
     };
 
     public static void RegistItem() {

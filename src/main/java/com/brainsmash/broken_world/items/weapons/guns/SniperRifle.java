@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 public class SniperRifle extends Item {
 
     private float recoil = -7.5f;
-    private float spread = 0.001f;
+    private float spread = 0.01f;
 
     private float spreadModifier = 20f;
 

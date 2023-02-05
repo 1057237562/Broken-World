@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public class Rifle extends Item {
 
     private float recoil = -1.50f;
-    private float spread = 0.05f;
+    private float spread = 0.15f;
     private float spreadModifier = 12.5f;
 
     public Rifle(Settings settings) {

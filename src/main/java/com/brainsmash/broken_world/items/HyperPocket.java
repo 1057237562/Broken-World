@@ -107,12 +107,9 @@ public class HyperPocket extends Item {
                 compound.putInt("direction", convert(direction));
                 itemStack.setNbt(compound);
                 for (BlockPos pos : BlockPos.iterate(startPos, endPos)) {
-                    if (context.getWorld().getBlockState(pos).hasBlockEntity()) {
-                        context.getWorld().setBlockState(pos, Blocks.AIR.getDefaultState(), Block.SKIP_DROPS);
-                    } else {
-                        context.getWorld().setBlockState(pos, Blocks.AIR.getDefaultState(),
-                                Block.FORCE_STATE | Block.SKIP_DROPS | Block.NOTIFY_LISTENERS);
-                    }
+                    context.getWorld().removeBlockEntity(pos);
+                    context.getWorld().setBlockState(pos, Blocks.AIR.getDefaultState(),
+                            Block.FORCE_STATE | Block.SKIP_DROPS | Block.NOTIFY_LISTENERS);
                 }
             }
         }
