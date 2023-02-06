@@ -16,7 +16,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class SniperRifle extends Item {
+public class SniperRifle extends Item implements GunBase {
 
     private float recoil = -7.5f;
     private float spread = 0.01f;
@@ -30,7 +30,23 @@ public class SniperRifle extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        user.getItemCooldownManager().set(this, 4);
+        return ItemUsage.consumeHeldItem(world, user, hand);
+    }
+
+    @Override
+    public int getMaxUseTime(ItemStack stack) {
+        return 72000;
+    }
+
+    @Override
+    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        return super.finishUsing(stack, world, user);
+    }
+
+    @Override
+    public void fire(World world, PlayerEntity user) {
+        if (user.getItemCooldownManager().isCoolingDown(this)) return;
+        user.getItemCooldownManager().set(this, 10);
 
         if (!Util.getAmmo(user,
                 ItemRegister.items[ItemRegistry.SNIPER_AMMO.ordinal()]).isEmpty() || user.getAbilities().creativeMode) {
@@ -50,16 +66,10 @@ public class SniperRifle extends Item {
             Util.getAmmo(user, ItemRegister.items[ItemRegistry.SNIPER_AMMO.ordinal()]).decrement(1);
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
-        return ItemUsage.consumeHeldItem(world, user, hand);
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 72000;
-    }
+    public void fireTick(World world, PlayerEntity user) {
 
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        return super.finishUsing(stack, world, user);
     }
 }

@@ -8,7 +8,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsage;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -16,9 +15,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class Pistol extends Item {
+public class Pistol extends Item implements GunBase {
 
-    private float recoil = -0.5f;
+    private float recoil = -1f;
     private float spread = 0.17f;
 
     private float spreadModifier = 0.15f;
@@ -30,7 +29,23 @@ public class Pistol extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        user.getItemCooldownManager().set(this, 4);
+        return TypedActionResult.fail(itemStack);
+    }
+
+    @Override
+    public int getMaxUseTime(ItemStack stack) {
+        return 72000;
+    }
+
+    @Override
+    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        return super.finishUsing(stack, world, user);
+    }
+
+    @Override
+    public void fire(World world, PlayerEntity user) {
+        if (user.getItemCooldownManager().isCoolingDown(this)) return;
+        user.getItemCooldownManager().set(this, 3);
 
         if (!Util.getAmmo(user,
                 ItemRegister.items[ItemRegistry.LIGHT_AMMO.ordinal()]).isEmpty() || user.getAbilities().creativeMode) {
@@ -50,16 +65,10 @@ public class Pistol extends Item {
             Util.getAmmo(user, ItemRegister.items[ItemRegistry.LIGHT_AMMO.ordinal()]).decrement(1);
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
-        return ItemUsage.consumeHeldItem(world, user, hand);
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 72000;
-    }
+    public void fireTick(World world, PlayerEntity user) {
 
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        return super.finishUsing(stack, world, user);
     }
 }

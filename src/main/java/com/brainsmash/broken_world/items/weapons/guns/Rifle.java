@@ -14,7 +14,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class Rifle extends Item {
+public class Rifle extends Item implements GunBase {
 
     private float recoil = -1.50f;
     private float spread = 0.15f;
@@ -27,7 +27,18 @@ public class Rifle extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        user.getItemCooldownManager().set(this, 3);
+        return TypedActionResult.pass(itemStack);
+    }
+
+    @Override
+    public void fire(World world, PlayerEntity user) {
+
+    }
+
+    @Override
+    public void fireTick(World world, PlayerEntity user) {
+        if (user.getItemCooldownManager().isCoolingDown(this)) return;
+        user.getItemCooldownManager().set(this, 2);
 
         if (!Util.getAmmo(user,
                 ItemRegister.items[ItemRegistry.HEAVY_AMMO.ordinal()]).isEmpty() || user.getAbilities().creativeMode) {
@@ -49,6 +60,5 @@ public class Rifle extends Item {
         }
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));
-        return TypedActionResult.pass(itemStack);
     }
 }

@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world;
 
+import com.brainsmash.broken_world.items.weapons.guns.GunBase;
 import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.*;
 import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
@@ -9,6 +10,7 @@ import com.brainsmash.broken_world.worldgen.SimplexDensityFunction;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
@@ -96,5 +98,22 @@ public class Main implements ModInitializer {
 
         CraterDensityFunction.register();
         SimplexDensityFunction.register();
+
+        ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_pressed"),
+                (server, player, handler, buf, responseSender) -> {
+                    server.execute(() -> player.getHandItems().forEach(stack -> {
+                        if (stack.getItem() instanceof GunBase gunBase) {
+                            gunBase.fire(player.world, player);
+                        }
+                    }));
+                });
+        ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_hold"),
+                (server, player, handler, buf, responseSender) -> {
+                    server.execute(() -> player.getHandItems().forEach(stack -> {
+                        if (stack.getItem() instanceof GunBase gunBase) {
+                            gunBase.fireTick(player.world, player);
+                        }
+                    }));
+                });
     }
 }

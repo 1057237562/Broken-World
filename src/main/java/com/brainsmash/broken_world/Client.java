@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world;
 
+import com.brainsmash.broken_world.items.weapons.guns.GunBase;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.EntityRegister;
 import com.brainsmash.broken_world.registry.FluidRegister;
@@ -7,11 +8,23 @@ import com.brainsmash.broken_world.screens.cotton.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
+
+import static com.brainsmash.broken_world.Main.MODID;
 
 @Environment(EnvType.CLIENT)
 public class Client implements ClientModInitializer {
 
+
+    /*private static KeyBinding fire_key = KeyBindingHelper.registerKeyBinding(
+            new KeyBinding("key.broken_world.fire", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_LEFT,
+                    "category.broken_world.key"));*/
 
     @Override
     public void onInitializeClient() {
@@ -32,5 +45,17 @@ public class Client implements ClientModInitializer {
         EntityRegister.registEntitiesClientSide();
 
         FluidRegister.RegistFluidClientSide();
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (MinecraftClient.getInstance().options.attackKey.isPressed()) {
+                for (ItemStack stack : MinecraftClient.getInstance().player.getHandItems()) {
+                    if (stack.getItem() instanceof GunBase gunBase) {
+                        gunBase.fireTick(MinecraftClient.getInstance().player.world,
+                                MinecraftClient.getInstance().player);
+                    }
+                }
+                ClientPlayNetworking.send(new Identifier(MODID, "fire_key_hold"), PacketByteBufs.create());
+            }
+        });
     }
 }
