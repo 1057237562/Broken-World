@@ -7,6 +7,6 @@ public interface GunBase {
     void fire(World world, PlayerEntity user);
 
     default boolean fireTick(World world, PlayerEntity user) {
-        return false;
+        return true;
     }
 }

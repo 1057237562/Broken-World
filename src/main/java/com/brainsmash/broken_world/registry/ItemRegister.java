@@ -6,8 +6,10 @@ import com.brainsmash.broken_world.items.weapons.ammo.HeavyAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.LightAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.SniperAmmo;
 import com.brainsmash.broken_world.items.weapons.guns.*;
+import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
@@ -110,9 +112,27 @@ public class ItemRegister {
             "kinetic_boots"
     };
 
-    public static void RegistItem() {
+    public static final Item[] guns = {
+            items[ItemRegistry.PISTOL.ordinal()],
+            items[ItemRegistry.SMG.ordinal()],
+            items[ItemRegistry.RIFLE.ordinal()],
+            items[ItemRegistry.SNIPER_RIFLE.ordinal()]
+    };
+
+    public static void registItem() {
         for (int i = 0; i < items.length; i++) {
             Registry.register(Registry.ITEM, new Identifier(MODID, itemnames[i]), items[i]);
+        }
+    }
+
+    public static void registItemClientSide() {
+        for (Item gun : guns) {
+            ModelPredicateProviderRegistry.register(gun, new Identifier("aiming"), (stack, world, entity, seed) -> {
+                if (entity == null) {
+                    return 0.0f;
+                }
+                return entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0f : 0.0f;
+            });
         }
     }
 }

@@ -4,11 +4,9 @@ import com.brainsmash.broken_world.entity.BulletEntity;
 import com.brainsmash.broken_world.items.weapons.Util;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsage;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -30,17 +28,13 @@ public class SniperRifle extends Item implements GunBase {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        return ItemUsage.consumeHeldItem(world, user, hand);
+        user.setCurrentHand(hand);
+        return TypedActionResult.pass(itemStack);
     }
 
     @Override
     public int getMaxUseTime(ItemStack stack) {
         return 72000;
-    }
-
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        return super.finishUsing(stack, world, user);
     }
 
     @Override

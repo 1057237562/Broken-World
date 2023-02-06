@@ -3,6 +3,7 @@ package com.brainsmash.broken_world;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.EntityRegister;
 import com.brainsmash.broken_world.registry.FluidRegister;
+import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.screens.cotton.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -11,11 +12,6 @@ import net.minecraft.client.gui.screen.ingame.HandledScreens;
 
 @Environment(EnvType.CLIENT)
 public class Client implements ClientModInitializer {
-
-
-    /*private static KeyBinding fire_key = KeyBindingHelper.registerKeyBinding(
-            new KeyBinding("key.broken_world.fire", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_LEFT,
-                    "category.broken_world.key"));*/
 
     @Override
     public void onInitializeClient() {
@@ -34,6 +30,7 @@ public class Client implements ClientModInitializer {
 
         BlockRegister.RegistBlocksClientSide();
         EntityRegister.registEntitiesClientSide();
+        ItemRegister.registItemClientSide();
 
         FluidRegister.RegistFluidClientSide();
     }

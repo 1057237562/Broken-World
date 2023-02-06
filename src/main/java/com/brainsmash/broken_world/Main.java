@@ -76,7 +76,7 @@ public class Main implements ModInitializer {
     @Override
     public void onInitialize() {
         BlockRegister.RegistBlocks();
-        ItemRegister.RegistItem();
+        ItemRegister.registItem();
         FluidRegister.RegistFluid();
         DimensionRegister.RegistDimension();
         EntityRegister.registEntities();
@@ -101,19 +101,19 @@ public class Main implements ModInitializer {
 
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_pressed"),
                 (server, player, handler, buf, responseSender) -> {
-                    server.execute(() -> player.getHandItems().forEach(stack -> {
-                        if (stack.getItem() instanceof GunBase gunBase) {
+                    server.execute(() -> {
+                        if (player.getMainHandStack().getItem() instanceof GunBase gunBase) {
                             gunBase.fire(player.world, player);
                         }
-                    }));
+                    });
                 });
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_hold"),
                 (server, player, handler, buf, responseSender) -> {
-                    server.execute(() -> player.getHandItems().forEach(stack -> {
-                        if (stack.getItem() instanceof GunBase gunBase) {
+                    server.execute(() -> {
+                        if (player.getMainHandStack().getItem() instanceof GunBase gunBase) {
                             gunBase.fireTick(player.world, player);
                         }
-                    }));
+                    });
                 });
     }
 }
