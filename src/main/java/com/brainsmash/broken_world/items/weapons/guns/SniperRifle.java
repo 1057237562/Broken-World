@@ -46,7 +46,7 @@ public class SniperRifle extends Item implements GunBase {
     @Override
     public void fire(World world, PlayerEntity user) {
         if (user.getItemCooldownManager().isCoolingDown(this)) return;
-        user.getItemCooldownManager().set(this, 10);
+        user.getItemCooldownManager().set(this, 12);
 
         if (!Util.getAmmo(user,
                 ItemRegister.items[ItemRegistry.SNIPER_AMMO.ordinal()]).isEmpty() || user.getAbilities().creativeMode) {
@@ -66,10 +66,5 @@ public class SniperRifle extends Item implements GunBase {
             Util.getAmmo(user, ItemRegister.items[ItemRegistry.SNIPER_AMMO.ordinal()]).decrement(1);
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
-    }
-
-    @Override
-    public void fireTick(World world, PlayerEntity user) {
-
     }
 }

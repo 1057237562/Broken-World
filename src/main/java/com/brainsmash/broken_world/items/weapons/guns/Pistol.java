@@ -66,9 +66,4 @@ public class Pistol extends Item implements GunBase {
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
     }
-
-    @Override
-    public void fireTick(World world, PlayerEntity user) {
-
-    }
 }

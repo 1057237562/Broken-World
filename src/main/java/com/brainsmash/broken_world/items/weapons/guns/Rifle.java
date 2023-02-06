@@ -36,8 +36,8 @@ public class Rifle extends Item implements GunBase {
     }
 
     @Override
-    public void fireTick(World world, PlayerEntity user) {
-        if (user.getItemCooldownManager().isCoolingDown(this)) return;
+    public boolean fireTick(World world, PlayerEntity user) {
+        if (user.getItemCooldownManager().isCoolingDown(this)) return true;
         user.getItemCooldownManager().set(this, 2);
 
         if (!Util.getAmmo(user,
@@ -60,5 +60,6 @@ public class Rifle extends Item implements GunBase {
         }
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));
+        return true;
     }
 }

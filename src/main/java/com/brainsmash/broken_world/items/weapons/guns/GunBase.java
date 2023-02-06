@@ -4,7 +4,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
 public interface GunBase {
-    public void fire(World world, PlayerEntity user);
+    void fire(World world, PlayerEntity user);
 
-    public void fireTick(World world, PlayerEntity user);
+    default boolean fireTick(World world, PlayerEntity user) {
+        return false;
+    }
 }
