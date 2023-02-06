@@ -18,7 +18,7 @@ public class Rifle extends Item implements GunBase {
 
     private float recoil = -1.50f;
     private float spread = 0.15f;
-    private float spreadModifier = 12.5f;
+    private float spreadModifier = 15f;
 
     public Rifle(Settings settings) {
         super(settings);
@@ -43,6 +43,7 @@ public class Rifle extends Item implements GunBase {
 
     @Override
     public boolean fireTick(World world, PlayerEntity user) {
+        ItemStack itemStack = user.getStackInHand(Hand.MAIN_HAND);
         if (user.getItemCooldownManager().isCoolingDown(this)) return true;
         user.getItemCooldownManager().set(this, 2);
 
@@ -54,7 +55,7 @@ public class Rifle extends Item implements GunBase {
             if (!world.isClient) {
                 BulletEntity heavyAmmoEntity = new BulletEntity(world, user, 1.35f);
 
-                float s = (float) (spread + user.getVelocity().length() * spreadModifier);
+                float s = spread + ((user.isUsingItem() && user.getActiveItem() == itemStack) ? 0f : spreadModifier);
                 heavyAmmoEntity.setVelocity(user, user.getPitch() + world.getRandom().nextFloat() * 2 * s - s,
                         user.getYaw() + world.getRandom().nextFloat() * 2 * s - s, 0.0f, 4f, 1.0f);
                 world.spawnEntity(heavyAmmoEntity);

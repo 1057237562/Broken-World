@@ -19,7 +19,7 @@ public class SMG extends Item implements GunBase {
     private float recoil = -0.8f;
     private float spread = 1f;
 
-    private float spreadModifier = 5f;
+    private float spreadModifier = 3f;
 
     public SMG(Settings settings) {
         super(settings);
@@ -44,6 +44,7 @@ public class SMG extends Item implements GunBase {
 
     @Override
     public boolean fireTick(World world, PlayerEntity user) {
+        ItemStack itemStack = user.getStackInHand(Hand.MAIN_HAND);
         if (user.getItemCooldownManager().isCoolingDown(this)) return true;
         user.getItemCooldownManager().set(this, 1);
 
@@ -55,7 +56,7 @@ public class SMG extends Item implements GunBase {
             if (!world.isClient) {
                 BulletEntity heavyAmmoEntity = new BulletEntity(world, user, 1.35f);
 
-                float s = (float) (spread + user.getVelocity().length() * spreadModifier);
+                float s = spread + ((user.isUsingItem() && user.getActiveItem() == itemStack) ? 0f : spreadModifier);
                 heavyAmmoEntity.setVelocity(user, user.getPitch() + world.getRandom().nextFloat() * 2 * s - s,
                         user.getYaw() + world.getRandom().nextFloat() * 2 * s - s, 0.0f, 4f, 1.0f);
                 world.spawnEntity(heavyAmmoEntity);
