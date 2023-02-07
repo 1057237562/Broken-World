@@ -1,17 +1,36 @@
 package com.brainsmash.broken_world;
 
+import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.EntityRegister;
 import com.brainsmash.broken_world.registry.FluidRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.screens.cotton.*;
+import com.brainsmash.broken_world.util.EntityHelper;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.EntityPose;
+import net.minecraft.util.Identifier;
+import org.lwjgl.glfw.GLFW;
+
+import static com.brainsmash.broken_world.Main.MODID;
 
 @Environment(EnvType.CLIENT)
 public class Client implements ClientModInitializer {
+
+    public static KeyBinding crawlKey = KeyBindingHelper.registerKeyBinding(
+            new KeyBinding("key.broken_world.crawl", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Z,
+                    "key.category.broken_world"));
 
     @Override
     public void onInitializeClient() {
@@ -33,5 +52,17 @@ public class Client implements ClientModInitializer {
         ItemRegister.registItemClientSide();
 
         FluidRegister.RegistFluidClientSide();
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            ClientPlayerEntity player = MinecraftClient.getInstance().player;
+            if (crawlKey.isPressed()) {
+                if (player.world.isSpaceEmpty(player,
+                        EntityHelper.calculateBoundsForPose(player, EntityPose.SWIMMING).contract(1.0E-7))) {
+                    player.setPose(EntityPose.SWIMMING);
+                    ((PlayerDataExtension) player).forceSetFlag(2, true);
+                }
+                ClientPlayNetworking.send(new Identifier(MODID, "crawl_key_hold"), PacketByteBufs.create());
+            }
+        });
     }
 }

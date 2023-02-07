@@ -1,12 +1,13 @@
 package com.brainsmash.broken_world.items.armor.material;
 
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ArmorMaterial;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 
-public class KineticMaterial implements ArmorMaterial {
+public class KineticMaterial implements ArmorMaterialWithSetBonus {
 
 
     private static final int[] BASE_DURABILITY = new int[]{
@@ -60,5 +61,18 @@ public class KineticMaterial implements ArmorMaterial {
     @Override
     public float getKnockbackResistance() {
         return 0.5f;
+    }
+
+    @Override
+    public void processSetBonus(LivingEntity entity) {
+        if (entity instanceof PlayerEntity player) {
+            player.getAbilities().allowFlying = true;
+        }
+        System.out.println(entity + ":" + "has Set bonus");
+    }
+
+    @Override
+    public void processSetBonusOnPlayer(PlayerEntity player) {
+        player.getAbilities().allowFlying = true;
     }
 }

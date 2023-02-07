@@ -13,20 +13,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-public class EntityMixin implements EntityDataExtension {
-    @Shadow public World world;
+public abstract class EntityMixin implements EntityDataExtension {
+    @Shadow
+    public World world;
+
+    @Shadow
+    protected abstract void setFlag(int index, boolean value);
+
+    @Shadow
+    protected abstract boolean getFlag(int index);
 
     private NbtElement element = new NbtCompound();
 
-    @Inject(method = "readNbt",at = @At("TAIL"))
-    public void readData(NbtCompound nbt, CallbackInfo ci){
-        if(nbt.contains("bwdata")){
+
+    @Inject(method = "readNbt", at = @At("TAIL"))
+    public void readData(NbtCompound nbt, CallbackInfo ci) {
+        if (nbt.contains("bwdata")) {
             element = nbt.get("bwdata");
         }
     }
 
-    @Inject(method = "writeNbt",at = @At("HEAD"))
-    public void writeData(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir){
+    @Inject(method = "writeNbt", at = @At("HEAD"))
+    public void writeData(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
         nbt.put("bwdata", element);
     }
 
@@ -39,4 +47,5 @@ public class EntityMixin implements EntityDataExtension {
     public void setData(NbtElement ele) {
         element = ele;
     }
+
 }

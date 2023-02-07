@@ -1,10 +1,12 @@
 package com.brainsmash.broken_world;
 
+import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.items.weapons.guns.GunBase;
 import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.*;
 import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
 import com.brainsmash.broken_world.screenhandlers.descriptions.*;
+import com.brainsmash.broken_world.util.EntityHelper;
 import com.brainsmash.broken_world.worldgen.CraterDensityFunction;
 import com.brainsmash.broken_world.worldgen.SimplexDensityFunction;
 import net.fabricmc.api.ModInitializer;
@@ -12,6 +14,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
@@ -112,6 +115,16 @@ public class Main implements ModInitializer {
                     server.execute(() -> {
                         if (player.getMainHandStack().getItem() instanceof GunBase gunBase) {
                             gunBase.fireTick(player.world, player);
+                        }
+                    });
+                });
+        ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "crawl_key_hold"),
+                (server, player, handler, buf, responseSender) -> {
+                    server.execute(() -> {
+                        if (player.world.isSpaceEmpty(player,
+                                EntityHelper.calculateBoundsForPose(player, EntityPose.SWIMMING).contract(1.0E-7))) {
+                            player.setPose(EntityPose.SWIMMING);
+                            ((PlayerDataExtension) player).forceSetFlag(2, true);
                         }
                     });
                 });
