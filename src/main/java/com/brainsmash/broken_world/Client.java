@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world;
 
+import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.EntityRegister;
@@ -20,6 +21,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.EntityPose;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
@@ -62,6 +64,21 @@ public class Client implements ClientModInitializer {
                     ((PlayerDataExtension) player).forceSetFlag(2, true);
                 }
                 ClientPlayNetworking.send(new Identifier(MODID, "crawl_key_hold"), PacketByteBufs.create());
+            }
+            if (client.options.jumpKey.isPressed()) {
+                if (!player.getAbilities().flying) {
+                    if (player instanceof EntityDataExtension dataExtension) {
+                        if (dataExtension.getData() instanceof NbtCompound nbtCompound) {
+                            if (nbtCompound.getBoolean("jet")) {
+                                if (player.getVelocity().y < 1)
+                                    player.addVelocity(0, Math.min(1 - player.getVelocity().y, 0.3), 0);
+                                player.fallDistance = 0;
+                                ClientPlayNetworking.send(new Identifier(MODID, "jump_key_hold"),
+                                        PacketByteBufs.create());
+                            }
+                        }
+                    }
+                }
             }
         });
     }

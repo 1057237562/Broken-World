@@ -1,8 +1,8 @@
 package com.brainsmash.broken_world.items.armor.material;
 
+import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -64,15 +64,16 @@ public class KineticMaterial implements ArmorMaterialWithSetBonus {
     }
 
     @Override
-    public void processSetBonus(LivingEntity entity) {
-        if (entity instanceof PlayerEntity player) {
-            player.getAbilities().allowFlying = true;
-        }
-        System.out.println(entity + ":" + "has Set bonus");
+    public void processSetBonus(EntityDataExtension dataExtension) {
+        NbtCompound nbtCompound = (NbtCompound) dataExtension.getData();
+        nbtCompound.putBoolean("jet", true);
+        dataExtension.setData(nbtCompound);
     }
 
     @Override
-    public void processSetBonusOnPlayer(PlayerEntity player) {
-        player.getAbilities().allowFlying = true;
+    public void reverseSetBonus(EntityDataExtension dataExtension) {
+        NbtCompound nbtCompound = (NbtCompound) dataExtension.getData();
+        nbtCompound.putBoolean("jet", false);
+        dataExtension.setData(nbtCompound);
     }
 }

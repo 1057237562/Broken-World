@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world;
 
+import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.items.weapons.guns.GunBase;
 import com.brainsmash.broken_world.recipe.*;
@@ -15,6 +16,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.entity.EntityPose;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
@@ -125,6 +127,22 @@ public class Main implements ModInitializer {
                                 EntityHelper.calculateBoundsForPose(player, EntityPose.SWIMMING).contract(1.0E-7))) {
                             player.setPose(EntityPose.SWIMMING);
                             ((PlayerDataExtension) player).forceSetFlag(2, true);
+                        }
+                    });
+                });
+        ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "jump_key_hold"),
+                (server, player, handler, buf, responseSender) -> {
+                    server.execute(() -> {
+                        if (!player.getAbilities().flying) {
+                            if (player instanceof EntityDataExtension dataExtension) {
+                                if (dataExtension.getData() instanceof NbtCompound nbtCompound) {
+                                    if (nbtCompound.getBoolean("jet")) {
+                                        if (player.getVelocity().y < 1)
+                                            player.addVelocity(0, Math.min(1 - player.getVelocity().y, 0.3), 0);
+                                        player.fallDistance = 0;
+                                    }
+                                }
+                            }
                         }
                     });
                 });

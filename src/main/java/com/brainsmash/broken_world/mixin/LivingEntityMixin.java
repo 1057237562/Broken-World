@@ -4,6 +4,7 @@ import com.brainsmash.broken_world.items.armor.material.ArmorMaterialWithSetBonu
 import com.brainsmash.broken_world.registry.DimensionRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import dev.emi.trinkets.api.TrinketsApi;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -13,22 +14,16 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.MathHelper;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends EntityMixin {
 
     @Shadow
-    public abstract @Nullable LivingEntity getPrimeAdversary();
-
-    @Shadow
-    protected abstract void playEquipSound(ItemStack stack);
+    public abstract Iterable<ItemStack> getArmorItems();
 
     @Redirect(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isSubmergedIn(Lnet/minecraft/tag/TagKey;)Z"))
     private boolean hasNoAir(LivingEntity instance, TagKey<Fluid> tagKey) {
@@ -63,22 +58,29 @@ public abstract class LivingEntityMixin extends EntityMixin {
         return MathHelper.ceil((fallDistance * Math.sqrt(multiplier) - 3.0f - f) * damageMultiplier);
     }
 
-    @Redirect(method = "onEquipStack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;playEquipSound(Lnet/minecraft/item/ItemStack;)V"))
-    public void checkSetBonus(LivingEntity instance, ItemStack stack) {
-        ArmorItem armorItem = (ArmorItem) stack.getItem();
-        if (armorItem.getMaterial() instanceof ArmorMaterialWithSetBonus material) {
-            boolean flag = true;
-            for (ItemStack equipment : instance.getArmorItems()) {
-                if (!(equipment.getItem() instanceof ArmorItem item && item.getMaterial().getClass().equals(
-                        material.getClass()))) {
-                    flag = false;
-                    break;
+    @Inject(method = "onEquipStack", at = @At("HEAD"))
+    public void resetSetBonus(EquipmentSlot slot, ItemStack oldStack, ItemStack newStack, CallbackInfo ci) {
+        if (slot.getType() == EquipmentSlot.Type.ARMOR) {
+            if (oldStack.getItem() instanceof ArmorItem armorItem) {
+                if (armorItem.getMaterial() instanceof ArmorMaterialWithSetBonus material) {
+                    material.reverseSetBonus(this);
                 }
             }
-            if (flag) {
-                material.processSetBonus(instance);
+            if (newStack.getItem() instanceof ArmorItem armorItem) {
+                if (armorItem.getMaterial() instanceof ArmorMaterialWithSetBonus material) {
+                    boolean flag = true;
+                    for (ItemStack equipment : getArmorItems()) {
+                        if (!(equipment.getItem() instanceof ArmorItem item && item.getMaterial().getClass().equals(
+                                material.getClass()))) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        material.processSetBonus(this);
+                    }
+                }
             }
         }
-        playEquipSound(stack);
     }
 }

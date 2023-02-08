@@ -1,11 +1,10 @@
 package com.brainsmash.broken_world.items.armor.material;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import net.minecraft.item.ArmorMaterial;
 
 public interface ArmorMaterialWithSetBonus extends ArmorMaterial {
-    void processSetBonus(LivingEntity entity);
+    void processSetBonus(EntityDataExtension dataExtension);
 
-    void processSetBonusOnPlayer(PlayerEntity player);
+    void reverseSetBonus(EntityDataExtension dataExtension);
 }

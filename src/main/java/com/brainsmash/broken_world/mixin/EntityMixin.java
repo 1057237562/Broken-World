@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.mixin;
 
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.world.World;
@@ -22,6 +23,9 @@ public abstract class EntityMixin implements EntityDataExtension {
 
     @Shadow
     protected abstract boolean getFlag(int index);
+
+    @Shadow
+    public abstract Iterable<ItemStack> getArmorItems();
 
     private NbtElement element = new NbtCompound();
 
