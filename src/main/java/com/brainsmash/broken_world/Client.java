@@ -7,6 +7,7 @@ import com.brainsmash.broken_world.registry.EntityRegister;
 import com.brainsmash.broken_world.registry.FluidRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.screens.cotton.*;
+import com.brainsmash.broken_world.util.BonusHelper;
 import com.brainsmash.broken_world.util.EntityHelper;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -69,7 +70,7 @@ public class Client implements ClientModInitializer {
                 if (!player.getAbilities().flying) {
                     if (player instanceof EntityDataExtension dataExtension) {
                         if (dataExtension.getData() instanceof NbtCompound nbtCompound) {
-                            if (((NbtCompound) nbtCompound.get("bonus")).getBoolean("jet")) {
+                            if (BonusHelper.getBoolean(nbtCompound, "jet")) {
                                 if (player.getVelocity().y < 1)
                                     player.addVelocity(0, Math.min(1 - player.getVelocity().y, 0.3), 0);
                                 player.fallDistance = 0;

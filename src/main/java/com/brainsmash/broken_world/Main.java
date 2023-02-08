@@ -7,6 +7,7 @@ import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.*;
 import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
 import com.brainsmash.broken_world.screenhandlers.descriptions.*;
+import com.brainsmash.broken_world.util.BonusHelper;
 import com.brainsmash.broken_world.util.EntityHelper;
 import com.brainsmash.broken_world.worldgen.CraterDensityFunction;
 import com.brainsmash.broken_world.worldgen.SimplexDensityFunction;
@@ -136,7 +137,7 @@ public class Main implements ModInitializer {
                         if (!player.getAbilities().flying) {
                             if (player instanceof EntityDataExtension dataExtension) {
                                 if (dataExtension.getData() instanceof NbtCompound nbtCompound) {
-                                    if (((NbtCompound) nbtCompound.get("bonus")).getBoolean("jet")) {
+                                    if (BonusHelper.getBoolean(nbtCompound, "jet")) {
                                         if (player.getVelocity().y < 1)
                                             player.addVelocity(0, Math.min(1 - player.getVelocity().y, 0.3), 0);
                                         player.fallDistance = 0;

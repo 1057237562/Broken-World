@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.mixin;
 
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
+import com.brainsmash.broken_world.util.BonusHelper;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -33,7 +34,7 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin implements Pla
     @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;setMovementSpeed(F)V"))
     public void setAirStrafingSpeed(CallbackInfo ci) {
         if (this.getData() instanceof NbtCompound nbtCompound) {
-            if (((NbtCompound) nbtCompound.get("bonus")).getBoolean("jet")) {
+            if (BonusHelper.getBoolean(nbtCompound, "jet")) {
                 airStrafingSpeed *= 1.5f;
             }
         }
