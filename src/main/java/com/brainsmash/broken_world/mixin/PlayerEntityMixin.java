@@ -4,10 +4,13 @@ import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntityMixin implements PlayerDataExtension {
@@ -25,5 +28,14 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin implements Pla
     @Override
     public void forceSetFlag(int index, boolean value) {
         setFlag(index, value);
+    }
+
+    @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;setMovementSpeed(F)V"))
+    public void setAirStrafingSpeed(CallbackInfo ci) {
+        if (this.getData() instanceof NbtCompound nbtCompound) {
+            if (((NbtCompound) nbtCompound.get("bonus")).getBoolean("jet")) {
+                airStrafingSpeed *= 1.5f;
+            }
+        }
     }
 }

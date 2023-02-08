@@ -5,6 +5,4 @@ import net.minecraft.item.ArmorMaterial;
 
 public interface ArmorMaterialWithSetBonus extends ArmorMaterial {
     void processSetBonus(EntityDataExtension dataExtension);
-
-    void reverseSetBonus(EntityDataExtension dataExtension);
 }

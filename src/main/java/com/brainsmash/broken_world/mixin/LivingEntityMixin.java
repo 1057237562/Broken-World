@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,6 +25,9 @@ public abstract class LivingEntityMixin extends EntityMixin {
 
     @Shadow
     public abstract Iterable<ItemStack> getArmorItems();
+
+    @Shadow
+    public float airStrafingSpeed;
 
     @Redirect(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isSubmergedIn(Lnet/minecraft/tag/TagKey;)Z"))
     private boolean hasNoAir(LivingEntity instance, TagKey<Fluid> tagKey) {
@@ -60,12 +64,11 @@ public abstract class LivingEntityMixin extends EntityMixin {
 
     @Inject(method = "onEquipStack", at = @At("HEAD"))
     public void resetSetBonus(EquipmentSlot slot, ItemStack oldStack, ItemStack newStack, CallbackInfo ci) {
+        if (getData() instanceof NbtCompound nbtCompound) {
+            nbtCompound.remove("bonus");
+            setData(nbtCompound);
+        }
         if (slot.getType() == EquipmentSlot.Type.ARMOR) {
-            if (oldStack.getItem() instanceof ArmorItem armorItem) {
-                if (armorItem.getMaterial() instanceof ArmorMaterialWithSetBonus material) {
-                    material.reverseSetBonus(this);
-                }
-            }
             if (newStack.getItem() instanceof ArmorItem armorItem) {
                 if (armorItem.getMaterial() instanceof ArmorMaterialWithSetBonus material) {
                     boolean flag = true;

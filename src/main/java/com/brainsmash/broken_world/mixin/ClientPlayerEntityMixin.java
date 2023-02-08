@@ -27,6 +27,7 @@ public abstract class ClientPlayerEntityMixin extends LivingEntityMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     public void checkSetBonus(CallbackInfo ci) {
         if (requireUpdate) {
+            System.out.println("updating");
             if (getArmorItems().iterator().next().getItem() instanceof ArmorItem armorItem) {
                 if (armorItem.getMaterial() instanceof ArmorMaterialWithSetBonus material) {
                     boolean flag = true;

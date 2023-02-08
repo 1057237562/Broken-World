@@ -136,7 +136,7 @@ public class Main implements ModInitializer {
                         if (!player.getAbilities().flying) {
                             if (player instanceof EntityDataExtension dataExtension) {
                                 if (dataExtension.getData() instanceof NbtCompound nbtCompound) {
-                                    if (nbtCompound.getBoolean("jet")) {
+                                    if (((NbtCompound) nbtCompound.get("bonus")).getBoolean("jet")) {
                                         if (player.getVelocity().y < 1)
                                             player.addVelocity(0, Math.min(1 - player.getVelocity().y, 0.3), 0);
                                         player.fallDistance = 0;

@@ -66,14 +66,9 @@ public class KineticMaterial implements ArmorMaterialWithSetBonus {
     @Override
     public void processSetBonus(EntityDataExtension dataExtension) {
         NbtCompound nbtCompound = (NbtCompound) dataExtension.getData();
-        nbtCompound.putBoolean("jet", true);
-        dataExtension.setData(nbtCompound);
-    }
-
-    @Override
-    public void reverseSetBonus(EntityDataExtension dataExtension) {
-        NbtCompound nbtCompound = (NbtCompound) dataExtension.getData();
-        nbtCompound.putBoolean("jet", false);
+        NbtCompound bonus = new NbtCompound();
+        bonus.putBoolean("jet", true);
+        nbtCompound.put("bonus", bonus);
         dataExtension.setData(nbtCompound);
     }
 }
