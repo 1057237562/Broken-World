@@ -7,7 +7,6 @@ import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -16,7 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class SniperRifle extends Item implements GunBase, CustomUsePoseItem {
+public class SniperRifle extends GunItem implements CustomUsePoseItem {
 
     private float recoil = -7.5f;
     private float spread = 0.01f;
@@ -25,6 +24,7 @@ public class SniperRifle extends Item implements GunBase, CustomUsePoseItem {
 
     public SniperRifle(Settings settings) {
         super(settings);
+        maxMagazine = 10;
     }
 
     @Override
@@ -45,8 +45,7 @@ public class SniperRifle extends Item implements GunBase, CustomUsePoseItem {
         if (user.getItemCooldownManager().isCoolingDown(this)) return;
         user.getItemCooldownManager().set(this, 12);
 
-        if (!Util.getAmmo(user,
-                ItemRegister.items[ItemRegistry.SNIPER_AMMO.ordinal()]).isEmpty() || user.getAbilities().creativeMode) {
+        if (hasAmmo(itemStack) || user.getAbilities().creativeMode) {
             world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ARROW_SHOOT,
                     SoundCategory.NEUTRAL, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
             if (!world.isClient) {
@@ -60,7 +59,7 @@ public class SniperRifle extends Item implements GunBase, CustomUsePoseItem {
             user.setPitch(user.getPitch() + recoil);
         }
         if (!user.getAbilities().creativeMode) {
-            Util.getAmmo(user, ItemRegister.items[ItemRegistry.SNIPER_AMMO.ordinal()]).decrement(1);
+            reduceAmmo(itemStack);
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
     }
@@ -68,5 +67,20 @@ public class SniperRifle extends Item implements GunBase, CustomUsePoseItem {
     @Override
     public BipedEntityModel.ArmPose getUsePose() {
         return BipedEntityModel.ArmPose.CROSSBOW_HOLD;
+    }
+
+    @Override
+    public int countAmmo(PlayerEntity entity) {
+        int result = 0;
+        ItemStack itemStack = Util.getAmmo(entity, ItemRegister.items[ItemRegistry.SNIPER_AMMO.ordinal()]);
+        while (!itemStack.isEmpty() && result < maxMagazine) {
+            int count = Math.min(itemStack.getCount(), maxMagazine - result);
+            if (count > 0) {
+                itemStack.decrement(count);
+                result += count;
+            }
+            itemStack = Util.getAmmo(entity, ItemRegister.items[ItemRegistry.SNIPER_AMMO.ordinal()]);
+        }
+        return result;
     }
 }

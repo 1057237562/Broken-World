@@ -1,6 +1,6 @@
 package com.brainsmash.broken_world.mixin;
 
-import com.brainsmash.broken_world.items.weapons.guns.GunBase;
+import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
@@ -21,7 +21,7 @@ public abstract class InGameHudMixin {
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderCrosshair(Lnet/minecraft/client/util/math/MatrixStack;)V"))
     private void checkRenderCrosshair(InGameHud instance, MatrixStack matrices) {
-        if (client.player.isUsingItem() && client.player.getActiveItem().getItem() instanceof GunBase) {
+        if (client.player.isUsingItem() && client.player.getActiveItem().getItem() instanceof GunItem) {
             return;
         }
         renderCrosshair(matrices);

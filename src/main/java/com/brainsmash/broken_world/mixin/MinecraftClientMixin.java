@@ -1,6 +1,6 @@
 package com.brainsmash.broken_world.mixin;
 
-import com.brainsmash.broken_world.items.weapons.guns.GunBase;
+import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
@@ -37,8 +37,8 @@ public abstract class MinecraftClientMixin {
 
     @Inject(method = "doAttack", at = @At(value = "HEAD"), cancellable = true)
     private void fireGun(CallbackInfoReturnable<Boolean> cir) {
-        if (player.getMainHandStack().getItem() instanceof GunBase gunBase) {
-            gunBase.fire(player.world, player);
+        if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
+            gunItem.fire(player.world, player);
             ClientPlayNetworking.send(new Identifier(MODID, "fire_key_pressed"), PacketByteBufs.create());
             cir.setReturnValue(true);
         }
@@ -47,8 +47,8 @@ public abstract class MinecraftClientMixin {
     @ModifyVariable(method = "handleInputEvents", at = @At("STORE"), ordinal = 0)
     private boolean fireGunTick(boolean flag) {
         if (options.attackKey.isPressed()) {
-            if (player.getMainHandStack().getItem() instanceof GunBase gunBase) {
-                flag |= gunBase.fireTick(player.world, MinecraftClient.getInstance().player);
+            if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
+                flag |= gunItem.fireTick(player.world, MinecraftClient.getInstance().player);
             }
             ClientPlayNetworking.send(new Identifier(MODID, "fire_key_hold"), PacketByteBufs.create());
         }
@@ -57,7 +57,7 @@ public abstract class MinecraftClientMixin {
 
     @Redirect(method = "handleInputEvents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z", ordinal = 0))
     private boolean handleUsingItem(ClientPlayerEntity instance) {
-        if (instance.getMainHandStack().getItem() instanceof GunBase) {
+        if (instance.getMainHandStack().getItem() instanceof GunItem) {
             if (!options.useKey.isPressed()) {
                 interactionManager.stopUsingItem(player);
             }

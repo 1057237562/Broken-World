@@ -2,6 +2,7 @@ package com.brainsmash.broken_world;
 
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
+import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.EntityRegister;
 import com.brainsmash.broken_world.registry.FluidRegister;
@@ -22,6 +23,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.EntityPose;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
@@ -31,9 +33,13 @@ import static com.brainsmash.broken_world.Main.MODID;
 @Environment(EnvType.CLIENT)
 public class Client implements ClientModInitializer {
 
+    public static final String CATEGORY = "key.category.broken_world";
+
     public static KeyBinding crawlKey = KeyBindingHelper.registerKeyBinding(
-            new KeyBinding("key.broken_world.crawl", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Z,
-                    "key.category.broken_world"));
+            new KeyBinding("key.broken_world.crawl", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Z, CATEGORY));
+
+    public static KeyBinding reloadKey = KeyBindingHelper.registerKeyBinding(
+            new KeyBinding("key.broken_world.reload", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, CATEGORY));
 
     @Override
     public void onInitializeClient() {
@@ -79,6 +85,13 @@ public class Client implements ClientModInitializer {
                             }
                         }
                     }
+                }
+            }
+            while (reloadKey.wasPressed()) {
+                ItemStack stack = player.getMainHandStack();
+                if (stack.getItem() instanceof GunItem gunItem) {
+                    gunItem.reload(stack);
+                    ClientPlayNetworking.send(new Identifier(MODID, "reload_key_press"), PacketByteBufs.create());
                 }
             }
         });
