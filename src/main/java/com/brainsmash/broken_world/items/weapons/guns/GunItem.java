@@ -25,7 +25,7 @@ public class GunItem extends Item {
     public boolean hasAmmo(ItemStack stack) {
         NbtCompound nbtCompound = stack.getNbt();
         if (nbtCompound == null) return false;
-        return nbtCompound.getInt("ammoCount") > 0;
+        return nbtCompound.getInt("ammoCount") > 0 && !nbtCompound.getBoolean("reloading");
     }
 
     public void reduceAmmo(ItemStack stack) {
@@ -60,7 +60,8 @@ public class GunItem extends Item {
                     nbtCompound.putBoolean("reloading", false);
                     nbtCompound.putInt("reloadTick", 0);
 
-                    nbtCompound.putInt("ammoCount", countAmmo((PlayerEntity) entity));
+                    nbtCompound.putInt("ammoCount", nbtCompound.getInt("ammoCount") + countAmmo((PlayerEntity) entity,
+                            maxMagazine - nbtCompound.getInt("ammoCount")));
                 }
             }
         }
@@ -68,7 +69,7 @@ public class GunItem extends Item {
         super.inventoryTick(stack, world, entity, slot, selected);
     }
 
-    public int countAmmo(PlayerEntity entity) {
+    public int countAmmo(PlayerEntity entity, int maxAmmo) {
         return 0;
     }
 }

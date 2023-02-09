@@ -70,11 +70,11 @@ public class Pistol extends GunItem implements CustomUsePoseItem {
     }
 
     @Override
-    public int countAmmo(PlayerEntity entity) {
+    public int countAmmo(PlayerEntity entity, int maxAmmo) {
         int result = 0;
         ItemStack itemStack = Util.getAmmo(entity, ItemRegister.items[ItemRegistry.LIGHT_AMMO.ordinal()]);
-        while (!itemStack.isEmpty() && result < maxMagazine) {
-            int count = Math.min(itemStack.getCount(), maxMagazine - result);
+        while (!itemStack.isEmpty() && result < maxAmmo) {
+            int count = Math.min(itemStack.getCount(), maxAmmo - result);
             if (count > 0) {
                 itemStack.decrement(count);
                 result += count;
