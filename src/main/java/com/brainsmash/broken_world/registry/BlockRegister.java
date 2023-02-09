@@ -1,10 +1,12 @@
 package com.brainsmash.broken_world.registry;
 
+import com.brainsmash.broken_world.blocks.RollingDoorBlock;
 import com.brainsmash.broken_world.blocks.client.render.entity.*;
 import com.brainsmash.broken_world.blocks.electric.*;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.*;
+import com.brainsmash.broken_world.blocks.entity.RollingDoorBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
@@ -113,6 +115,7 @@ public class BlockRegister {
             new Block(FabricBlockSettings.copyOf(Blocks.DIRT)),
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
             new Block(FabricBlockSettings.copyOf(Blocks.BRICKS)),
+            new RollingDoorBlock(FabricBlockSettings.copyOf(Blocks.IRON_DOOR)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -159,6 +162,7 @@ public class BlockRegister {
             new BlockItem(blocks[41], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[42], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[43], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[44], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -205,7 +209,8 @@ public class BlockRegister {
             "machine_shell",
             "charred_dirt",
             "cracked_concrete",
-            "grassy_bricks"
+            "grassy_bricks",
+            "rolling_door"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -278,6 +283,7 @@ public class BlockRegister {
     public static BlockEntityType<FabricatorBlockEntity> FABRICATOR_ENTITY_TYPE;
     public static BlockEntityType<FabricatorExtensionBlockEntity> FABRICATOR_EXTENSION_ENTITY_TYPE;
     public static BlockEntityType<CentrifugeBlockEntity> CENTRIFUGE_ENTITY_TYPE;
+    public static BlockEntityType<RollingDoorBlockEntity> ROLLING_DOOR_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -341,6 +347,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(FabricatorExtensionBlockEntity::new, blocks[35]).build());
         CENTRIFUGE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "centrifuge"),
                 FabricBlockEntityTypeBuilder.create(CentrifugeBlockEntity::new, blocks[36]).build());
+        ROLLING_DOOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "rolling_door"),
+                FabricBlockEntityTypeBuilder.create(RollingDoorBlockEntity::new, blocks[44]).build());
     }
 
     public static void RegistBlocksClientSide() {

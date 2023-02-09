@@ -41,5 +41,9 @@ public enum BlockRegistry {
     ROAD,
     MAGNETITE,
     REINFORCED_GLASS,
-    MACHINE_SHELL
+    MACHINE_SHELL,
+    CHARRED_DIRT,
+    CRACKED_CONCRETE,
+    GRASSY_BRICKS,
+    ROLLING_DOOR
 }
