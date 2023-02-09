@@ -1,9 +1,11 @@
 package com.brainsmash.broken_world.items.weapons.guns;
 
 import com.brainsmash.broken_world.entity.BulletEntity;
+import com.brainsmash.broken_world.items.CustomUsePoseItem;
 import com.brainsmash.broken_world.items.weapons.Util;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
+import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,7 +16,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class Rifle extends Item implements GunBase {
+public class Rifle extends Item implements GunBase, CustomUsePoseItem {
 
     private float recoil = -1.50f;
     private float spread = 0.15f;
@@ -68,5 +70,10 @@ public class Rifle extends Item implements GunBase {
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         return true;
+    }
+
+    @Override
+    public BipedEntityModel.ArmPose getUsePose() {
+        return BipedEntityModel.ArmPose.CROSSBOW_HOLD;
     }
 }

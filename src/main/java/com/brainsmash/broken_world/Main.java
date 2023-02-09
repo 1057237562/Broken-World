@@ -138,8 +138,8 @@ public class Main implements ModInitializer {
                             if (player instanceof EntityDataExtension dataExtension) {
                                 if (dataExtension.getData() instanceof NbtCompound nbtCompound) {
                                     if (BonusHelper.getBoolean(nbtCompound, "jet")) {
-                                        if (player.getVelocity().y < 1)
-                                            player.addVelocity(0, Math.min(1 - player.getVelocity().y, 0.3), 0);
+                                        if (player.getVelocity().y < 0.7f)
+                                            player.addVelocity(0, Math.min(0.7f - player.getVelocity().y, 0.3), 0);
                                         player.fallDistance = 0;
                                     }
                                 }
