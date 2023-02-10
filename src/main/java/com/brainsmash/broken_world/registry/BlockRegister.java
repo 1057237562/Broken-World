@@ -116,6 +116,7 @@ public class BlockRegister {
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
             new Block(FabricBlockSettings.copyOf(Blocks.BRICKS)),
             new RollingDoorBlock(FabricBlockSettings.copyOf(Blocks.IRON_DOOR)),
+            new DoorBlock(FabricBlockSettings.copyOf(Blocks.OAK_DOOR).sounds(BlockSoundGroup.GLASS).nonOpaque()),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -163,6 +164,8 @@ public class BlockRegister {
             new BlockItem(blocks[42], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[43], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[44], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[45], new FabricItemSettings().group(ITEM_GROUP)),
+
     };
 
     public static final String[] blocknames = {
@@ -210,7 +213,8 @@ public class BlockRegister {
             "charred_dirt",
             "cracked_concrete",
             "grassy_bricks",
-            "rolling_door"
+            "rolling_door",
+            "glass_door"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -366,6 +370,7 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.MINER.ordinal()], RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.REINFORCED_GLASS.ordinal()],
                 RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.GLASS_DOOR.ordinal()], RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,

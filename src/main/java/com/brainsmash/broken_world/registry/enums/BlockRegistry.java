@@ -45,5 +45,6 @@ public enum BlockRegistry {
     CHARRED_DIRT,
     CRACKED_CONCRETE,
     GRASSY_BRICKS,
-    ROLLING_DOOR
+    ROLLING_DOOR,
+    GLASS_DOOR
 }
