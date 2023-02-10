@@ -1,0 +1,22 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "bottom": "broken_world:block/rolling_door",
+    "top": "broken_world:block/rolling_door",
+    "side": "broken_world:block/rolling_door",
+    "particle": "#side"
+  },
+  "elements": [
+    {   "from": [ 0, 0, 0 ],
+      "to": [  16, 16, 8 ],
+      "faces": {
+        "down":  { "texture": "#bottom", "cullface": "down" },
+        "up":    { "texture": "#top",    "cullface": "up" },
+        "north": { "texture": "#side",   "cullface": "north" },
+        "south": { "texture": "#side",   "cullface": "south" },
+        "west":  { "texture": "#side",   "cullface": "west" },
+        "east":  { "texture": "#side",   "cullface": "east" }
+      }
+    }
+  ]
+}

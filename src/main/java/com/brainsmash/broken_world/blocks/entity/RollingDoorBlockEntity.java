@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
@@ -38,7 +39,9 @@ public class RollingDoorBlockEntity extends BlockEntity {
                 for (int i = 1; i <= level; i++) {
                     if (world.getBlockState(pos.offset(Direction.DOWN, i)).isOf(Blocks.AIR)) {
                         world.setBlockState(pos.offset(Direction.DOWN, i),
-                                BlockRegister.blocks[BlockRegistry.ROLLING_DOOR.ordinal()].getDefaultState());
+                                BlockRegister.blocks[BlockRegistry.ROLLING_DOOR.ordinal()].getDefaultState().with(
+                                        Properties.HORIZONTAL_FACING,
+                                        world.getBlockState(pos).get(Properties.HORIZONTAL_FACING)));
                     } else if (i == 1) {
                         return false;
                     } else {
