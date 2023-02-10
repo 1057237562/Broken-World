@@ -5,9 +5,6 @@
 		"0": "broken_world:item/mmg_15/mmg_15_mag",
 		"1": "broken_world:item/mmg_15/mmg_15"
 	},
-	"overrides": [
-	{"predicate": {"aiming": 1}, "model": "broken_world:item/smg_aiming"}
-	],
 	"elements": [
 		{
 			"from": [6, 18, 5],
@@ -413,6 +410,9 @@
 			}
 		}
 	],
+	"overrides": [
+		{"predicate": {"aiming": 1}, "model": "broken_world:item/smg_aiming"}
+	],
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [0, 180, 0],
@@ -430,6 +430,9 @@
 		},
 		"firstperson_lefthand": {
 			"rotation": [0, 180, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"ground": {
 			"scale": [0.5, 0.5, 0.5]
 		},
 		"gui": {

@@ -23,7 +23,7 @@ public class SMG extends GunItem implements CustomUsePoseItem {
 
     public SMG(Settings settings) {
         super(settings);
-        maxMagazine = 30;
+        maxMagazine = 15;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class SMG extends GunItem implements CustomUsePoseItem {
             world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ARROW_SHOOT,
                     SoundCategory.NEUTRAL, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
             if (!world.isClient) {
-                BulletEntity heavyAmmoEntity = new BulletEntity(world, user, 1.35f);
+                BulletEntity heavyAmmoEntity = new BulletEntity(world, user, 0.65f);
 
                 float s = spread + ((user.isUsingItem() && user.getActiveItem() == itemStack) ? 0f : spreadModifier);
                 heavyAmmoEntity.setVelocity(user, user.getPitch() + world.getRandom().nextFloat() * 2 * s - s,
