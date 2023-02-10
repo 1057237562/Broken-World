@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks;
 
 import com.brainsmash.broken_world.blocks.entity.RollingDoorBlockEntity;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -26,11 +27,27 @@ public class RollingDoorBlock extends BlockWithEntity {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        System.out.println("onUse");
         RollingDoorBlockEntity rollingDoorBlockEntity = (RollingDoorBlockEntity) world.getBlockEntity(pos);
         if (!rollingDoorBlockEntity.extract()) {
             rollingDoorBlockEntity.contract();
         }
         return ActionResult.CONSUME;
+    }
+
+    @Override
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+        if (world.isClient) {
+            return;
+        }
+
+        if (world.getBlockEntity(pos) instanceof RollingDoorBlockEntity entity) {
+            if (world.isReceivingRedstonePower(pos)) {
+                entity.extract();
+            } else {
+                if (entity.extended) {
+                    entity.contract();
+                }
+            }
+        }
     }
 }

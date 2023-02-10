@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.blocks.entity;
 
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -11,6 +12,7 @@ import net.minecraft.util.math.Direction;
 
 public class RollingDoorBlockEntity extends BlockEntity {
     private int level = 0;
+    public boolean extended = false;
 
     public RollingDoorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.ROLLING_DOOR_ENTITY_TYPE, pos, state);
@@ -23,9 +25,9 @@ public class RollingDoorBlockEntity extends BlockEntity {
             } else if (world.getBlockEntity(
                     pos.offset(Direction.UP, 1)) instanceof RollingDoorBlockEntity rollingDoorBlockEntity) {
                 rollingDoorBlockEntity.level += level + 1;
-                world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                rollingDoorBlockEntity.extended = false;
+                world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_LISTENERS);
                 rollingDoorBlockEntity.contract();
-                
             }
         }
     }
@@ -41,6 +43,7 @@ public class RollingDoorBlockEntity extends BlockEntity {
                         return false;
                     } else {
                         level -= i - 1;
+                        extended = true;
                         return true;
                     }
                 }
@@ -49,12 +52,14 @@ public class RollingDoorBlockEntity extends BlockEntity {
                 return false;
             }
         }
+        extended = true;
         return true;
     }
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
         nbt.putInt("level", level);
+        nbt.putBoolean("extended", extended);
         super.writeNbt(nbt);
     }
 
@@ -62,5 +67,6 @@ public class RollingDoorBlockEntity extends BlockEntity {
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         level = nbt.getInt("level");
+        extended = nbt.getBoolean("extended");
     }
 }
