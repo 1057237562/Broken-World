@@ -5,6 +5,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 public class GunItem extends Item {
@@ -13,6 +15,18 @@ public class GunItem extends Item {
 
     public GunItem(Settings settings) {
         super(settings);
+    }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        if (user.getOffHandStack().isEmpty()) {
+            ItemStack itemStack = user.getStackInHand(hand);
+            user.setCurrentHand(hand);
+            return TypedActionResult.consume(itemStack);
+        } else {
+            ItemStack itemStack = user.getStackInHand(hand);
+            return TypedActionResult.fail(itemStack);
+        }
     }
 
     public void fire(World world, PlayerEntity user) {

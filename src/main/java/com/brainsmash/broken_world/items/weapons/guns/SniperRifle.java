@@ -12,7 +12,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 public class SniperRifle extends GunItem implements CustomUsePoseItem {
@@ -25,13 +24,6 @@ public class SniperRifle extends GunItem implements CustomUsePoseItem {
     public SniperRifle(Settings settings) {
         super(settings);
         maxMagazine = 10;
-    }
-
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        ItemStack itemStack = user.getStackInHand(hand);
-        user.setCurrentHand(hand);
-        return TypedActionResult.pass(itemStack);
     }
 
     @Override

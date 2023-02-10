@@ -1,0 +1,15 @@
+{
+	"parent": "broken_world:item/smg",
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [ 0, 180, 0 ],
+			"translation": [ -9.24, 1.07, 0],
+			"scale": [ 0.5, 0.5, 0.5 ]
+		},
+		"firstperson_lefthand": {
+			"rotation": [ 0, 180, 0 ],
+			"translation": [ -9.24, 1.07, 0],
+			"scale": [ 0.5, 0.5, 0.5 ]
+		}
+	}
+}

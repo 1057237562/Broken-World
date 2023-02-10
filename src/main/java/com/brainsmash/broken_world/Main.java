@@ -112,12 +112,18 @@ public class Main implements ModInitializer {
                         if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
                             gunItem.fire(player.world, player);
                         }
+                        if (player.getOffHandStack().getItem() instanceof GunItem gunItem) {
+                            gunItem.fire(player.world, player);
+                        }
                     });
                 });
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_hold"),
                 (server, player, handler, buf, responseSender) -> {
                     server.execute(() -> {
                         if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
+                            gunItem.fireTick(player.world, player);
+                        }
+                        if (player.getOffHandStack().getItem() instanceof GunItem gunItem) {
                             gunItem.fireTick(player.world, player);
                         }
                     });

@@ -13,56 +13,6 @@
 		"9": "broken_world:item/g17/g17_9",
 		"particle": "broken_world:item/g17/g17_1"
 	},
-	"display": {
-		"thirdperson_righthand": {
-			"rotation": [ 0, 80, 0 ],
-			"translation": [ 0, 3, -2],
-			"scale":[ 0.23, 0.23, 0.23]
-		},
-		"firstperson_righthand": {
-			"rotation": [ 0, 80, 0 ],
-			"translation": [ 0, 1, 0],
-			"scale":[ 0.375, 0.375, 0.375]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [ 0, -80, 0 ],
-			"translation": [ 0, 3, -2],
-			"scale":[ 0.23, 0.23, 0.23]
-		},
-		"firstperson_lefthand": {
-			"rotation": [ 0, -80, 0 ],
-			"translation": [ 0, 1, 0],
-			"scale":[ 0.375, 0.375, 0.375]
-		},
-		"gui": {
-			"rotation": [ 20, 160, 0 ],
-			"translation": [ 0, -1, 0],
-			"scale":[ 0.6, 0.6, 0.6]
-		},
-		"ground": {
-			"rotation": [ 0, 0, 0 ],
-			"translation": [ 0, 1, 2],
-			"scale":[ 0.25, 0.25, 0.25]
-		},
-		"head": {
-			"rotation": [ 0, 180, 0 ],
-			"translation": [ 0, 10, -8],
-			"scale":[ 1,1,1 ]
-		},
-		"fixed": {
-			"rotation": [ 270, 0, 0 ],
-			"translation": [ 0, 4, -2],
-			"scale":[ 0.5, 0.5, 0.5]
-		}
-	},
-	"overrides": [
-		{
-			"predicate": {
-				"aiming": 1
-			},
-			"model": "broken_world:item/pistol_aiming"
-		}
-	],
 	"elements": [
 		{
 			"from": [-4, 16.5, 7],
@@ -1253,5 +1203,48 @@
 				"down": {"uv": [4.25, 11, 4, 12.5], "texture": "#9"}
 			}
 		}
-	]
+	],
+	"overrides": [
+		{"predicate": {"aiming": 1}, "model": "broken_world:item/pistol_aiming"}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 90, 0],
+			"translation": [0, -1, -0.5],
+			"scale": [0.23, 0.23, 0.23]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, -90, 0],
+			"translation": [0, -1, -0.5],
+			"scale": [0.23, 0.23, 0.23]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 80, 0],
+			"translation": [0, 1, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, -80, 0],
+			"translation": [0, 1, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"ground": {
+			"translation": [0, 1, 2],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [20, 160, 0],
+			"translation": [0, -1, 0],
+			"scale": [0.6, 0.6, 0.6]
+		},
+		"head": {
+			"rotation": [0, 180, 0],
+			"translation": [0, 10, -8]
+		},
+		"fixed": {
+			"rotation": [270, 0, 0],
+			"translation": [0, 4, -2],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
 }
