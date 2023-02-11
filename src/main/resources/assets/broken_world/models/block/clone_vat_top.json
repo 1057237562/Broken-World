@@ -1,0 +1,36 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"0": "broken_world:block/machine_shell",
+		"1": "broken_world:block/clone_vat",
+		"2": "broken_world:block/transparent",
+		"particle": "broken_world:block/machine_shell"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 13],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#0"},
+				"east": {"uv": [6, 0, 9, 16], "texture": "#0"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#0"},
+				"west": {"uv": [3, 0, 6, 16], "texture": "#0"},
+				"up": {"uv": [0, 3, 16, 6], "texture": "#0"},
+				"down": {"uv": [0, 6, 16, 9], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 13],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"east": {"uv": [1, 0, 14, 16], "texture": "#1"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"west": {"uv": [1, 0, 14, 16], "texture": "#1"},
+				"up": {"uv": [0, 1, 16, 14], "texture": "#1"},
+				"down": {"uv": [0, 1, 16, 14], "texture": "#2"}
+			}
+		}
+	]
+}

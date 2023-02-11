@@ -39,4 +39,5 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin implements Pla
             }
         }
     }
+
 }

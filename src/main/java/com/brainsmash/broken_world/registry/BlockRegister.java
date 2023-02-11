@@ -1,11 +1,13 @@
 package com.brainsmash.broken_world.registry;
 
+import com.brainsmash.broken_world.blocks.CloneVatBlock;
 import com.brainsmash.broken_world.blocks.RollingDoorBlock;
 import com.brainsmash.broken_world.blocks.client.render.entity.*;
 import com.brainsmash.broken_world.blocks.electric.*;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.*;
+import com.brainsmash.broken_world.blocks.entity.CloneVatBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.RollingDoorBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
@@ -117,6 +119,7 @@ public class BlockRegister {
             new Block(FabricBlockSettings.copyOf(Blocks.BRICKS)),
             new RollingDoorBlock(FabricBlockSettings.copyOf(Blocks.IRON_DOOR)),
             new DoorBlock(FabricBlockSettings.copyOf(Blocks.OAK_DOOR).sounds(BlockSoundGroup.GLASS).nonOpaque()),
+            new CloneVatBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).sounds(BlockSoundGroup.GLASS).nonOpaque()),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -165,6 +168,7 @@ public class BlockRegister {
             new BlockItem(blocks[43], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[44], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[45], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[46], new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -214,7 +218,8 @@ public class BlockRegister {
             "cracked_concrete",
             "grassy_bricks",
             "rolling_door",
-            "glass_door"
+            "glass_door",
+            "clone_vat"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -288,6 +293,7 @@ public class BlockRegister {
     public static BlockEntityType<FabricatorExtensionBlockEntity> FABRICATOR_EXTENSION_ENTITY_TYPE;
     public static BlockEntityType<CentrifugeBlockEntity> CENTRIFUGE_ENTITY_TYPE;
     public static BlockEntityType<RollingDoorBlockEntity> ROLLING_DOOR_ENTITY_TYPE;
+    public static BlockEntityType<CloneVatBlockEntity> CLONE_VAT_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -353,6 +359,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(CentrifugeBlockEntity::new, blocks[36]).build());
         ROLLING_DOOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "rolling_door"),
                 FabricBlockEntityTypeBuilder.create(RollingDoorBlockEntity::new, blocks[44]).build());
+        CLONE_VAT_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "clone_vat"),
+                FabricBlockEntityTypeBuilder.create(CloneVatBlockEntity::new, blocks[46]).build());
     }
 
     public static void RegistBlocksClientSide() {
@@ -371,6 +379,7 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.REINFORCED_GLASS.ordinal()],
                 RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.GLASS_DOOR.ordinal()], RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CLONE_VAT.ordinal()], RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,
@@ -380,5 +389,6 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(SCANNER_ENTITY_TYPE, ScannerBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(WIND_TURBINE_ENTITY_TYPE, WindTurbineEntityRenderer::new);
         BlockEntityRendererRegistry.register(SIFTER_ENTITY_TYPE, SifterBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(CLONE_VAT_ENTITY_TYPE, CloneVatBlockEntityRenderer::new);
     }
 }
