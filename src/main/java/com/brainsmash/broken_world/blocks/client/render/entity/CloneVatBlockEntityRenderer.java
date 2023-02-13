@@ -1,7 +1,7 @@
 package com.brainsmash.broken_world.blocks.client.render.entity;
 
 import com.brainsmash.broken_world.blocks.entity.CloneVatBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.VatPlayerEntity;
+import com.brainsmash.broken_world.entity.VatPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;

@@ -22,7 +22,7 @@ public enum ItemRegistry {
     SPRING_ROLL,
     MESH,
     HYPER_POCKET,
-    PISTOL,
+    G17,
     LIGHT_AMMO,
     SMG,
     HEAVY_AMMO,
@@ -33,5 +33,6 @@ public enum ItemRegistry {
     KINETIC_HELMET,
     KINETIC_SUIT,
     KINETIC_LEG,
-    KINETIC_BOOTS
+    KINETIC_BOOTS,
+    GS_093
 }

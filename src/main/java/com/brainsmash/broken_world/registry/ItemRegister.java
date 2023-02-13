@@ -73,6 +73,7 @@ public class ItemRegister {
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new ArmorItem(armorMaterials[0], EquipmentSlot.FEET,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1))
 
     };
 
@@ -98,7 +99,7 @@ public class ItemRegister {
             "spring_roll",
             "mesh",
             "hyper_pocket",
-            "pistol",
+            "g17",
             "light_ammo",
             "smg",
             "heavy_ammo",
@@ -109,14 +110,16 @@ public class ItemRegister {
             "kinetic_helmet",
             "kinetic_suit",
             "kinetic_leg",
-            "kinetic_boots"
+            "kinetic_boots",
+            "qs_093"
     };
 
     public static final Item[] guns = {
-            items[ItemRegistry.PISTOL.ordinal()],
+            items[ItemRegistry.G17.ordinal()],
             items[ItemRegistry.SMG.ordinal()],
             items[ItemRegistry.RIFLE.ordinal()],
-            items[ItemRegistry.SNIPER_RIFLE.ordinal()]
+            items[ItemRegistry.SNIPER_RIFLE.ordinal()],
+            items[ItemRegistry.GS_093.ordinal()]
     };
 
     public static void registItem() {

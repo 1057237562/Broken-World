@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.blocks.entity;
 
+import com.brainsmash.broken_world.entity.VatPlayerEntity;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

@@ -1205,28 +1205,28 @@
 		}
 	],
 	"overrides": [
-		{"predicate": {"aiming": 1}, "model": "broken_world:item/pistol_aiming"}
+		{"predicate": {"aiming": 1}, "model": "broken_world:item/g17_aiming"}
 	],
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [0, 90, 0],
-			"translation": [0, -1, -0.5],
+			"translation": [0, -1.5, -0.5],
 			"scale": [0.3, 0.3, 0.3]
 		},
 		"thirdperson_lefthand": {
 			"rotation": [0, -90, 0],
-			"translation": [0, -1, -0.5],
+			"translation": [0, -1.5, -0.5],
 			"scale": [0.3, 0.3, 0.3]
 		},
 		"firstperson_righthand": {
 			"rotation": [0, 80, 0],
 			"translation": [0, 1, 0],
-			"scale": [0.375, 0.375, 0.375]
+			"scale": [0.3, 0.3, 0.3]
 		},
 		"firstperson_lefthand": {
 			"rotation": [0, -80, 0],
 			"translation": [0, 1, 0],
-			"scale": [0.375, 0.375, 0.375]
+			"scale": [0.3, 0.3, 0.3]
 		},
 		"ground": {
 			"scale": [0.4, 0.4, 0.4]

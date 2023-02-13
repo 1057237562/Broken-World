@@ -47,5 +47,6 @@ public enum BlockRegistry {
     GRASSY_BRICKS,
     ROLLING_DOOR,
     GLASS_DOOR,
-    CLONE_VAT
+    CLONE_VAT,
+    GLITCH
 }

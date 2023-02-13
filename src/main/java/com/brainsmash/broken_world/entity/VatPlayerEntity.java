@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.entity;
+package com.brainsmash.broken_world.entity;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;

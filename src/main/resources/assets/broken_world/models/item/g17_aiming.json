@@ -1,5 +1,5 @@
 {
-  "parent": "broken_world:item/pistol",
+  "parent": "broken_world:item/g17",
   "display": {
     "firstperson_righthand": {
       "rotation": [ 0, 90, 0 ],

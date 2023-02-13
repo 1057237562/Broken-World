@@ -1,0 +1,15 @@
+{
+  "parent": "broken_world:item/qs_093",
+  "display": {
+    "firstperson_righthand": {
+      "rotation": [ 0, 90, 0 ],
+      "translation": [ -9.45, 2.4, 2.35],
+      "scale": [ 0.3, 0.3, 0.3 ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [ 0, 90, 0 ],
+      "translation": [ -9.45, 2.4, 2.35],
+      "scale": [ 0.3, 0.3, 0.3 ]
+    }
+  }
+}

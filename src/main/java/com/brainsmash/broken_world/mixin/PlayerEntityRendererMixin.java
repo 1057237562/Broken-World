@@ -1,6 +1,6 @@
 package com.brainsmash.broken_world.mixin;
 
-import com.brainsmash.broken_world.blocks.entity.VatPlayerEntity;
+import com.brainsmash.broken_world.entity.VatPlayerEntity;
 import com.brainsmash.broken_world.items.CustomUsePoseItem;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
