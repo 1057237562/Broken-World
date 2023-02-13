@@ -53,12 +53,7 @@
                             "type": "minecraft:interpolated",
                             "argument": {
                               "type": "minecraft:noise",
-                              "noise": {
-                                "firstOctave": -5,
-                                "amplitudes": [
-                                  2
-                                ]
-                              },
+                              "noise": "broken_world:crater_center",
                               "xz_scale": 0.5,
                               "y_scale": 0.5
                             }
@@ -73,12 +68,7 @@
                                 "type": "minecraft:squeeze",
                                 "argument": {
                                   "type": "minecraft:noise",
-                                  "noise": {
-                                    "firstOctave": -8,
-                                    "amplitudes": [
-                                      1
-                                    ]
-                                  },
+                                  "noise": "broken_world:crater_radius",
                                   "xz_scale": 1,
                                   "y_scale": 1
                                 }

@@ -24,10 +24,14 @@ public record CraterDensityFunction(DensityFunction input, double threshold, int
                 DensityFunction.FUNCTION_CODEC.fieldOf("input").forGetter(CraterDensityFunction::input),
                 CONSTANT_DOUBLE_RANGE.fieldOf("threshold").forGetter(CraterDensityFunction::threshold),
                 CONSTANT_INT_RANGE.fieldOf("search_radius").forGetter(CraterDensityFunction::searchRadius),
-                DensityFunction.FUNCTION_CODEC.fieldOf("input").forGetter(CraterDensityFunction::radius)
+                DensityFunction.FUNCTION_CODEC.fieldOf("radius").forGetter(CraterDensityFunction::radius)
         ).apply(instance, CraterDensityFunction::new);
     });
-    public static final CodecHolder<CraterDensityFunction> CODEC_HOLDER = CodecHolder.of(CRATER_CODEC);
+    public static final CodecHolder<CraterDensityFunction> CODEC_HOLDER;
+
+    static{
+        CODEC_HOLDER = CodecHolder.of(CRATER_CODEC);
+    }
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static final Identifier ID = new Identifier(Main.MODID, "crater");
@@ -58,15 +62,20 @@ public record CraterDensityFunction(DensityFunction input, double threshold, int
     }
 
     public double sample(NoisePos pos) {
+        System.out.println("threshold: " + threshold + ", searchRadius: " + searchRadius);
         DefaultedList<Pos> list = DefaultedList.of();
         double r;
         int cnt = 0;
         int maxX = 0, maxZ = 0;
         double max = Double.NEGATIVE_INFINITY;
+        boolean flag = true;
         for(int dz = -searchRadius; dz <= searchRadius; dz += 4){
             int i = (int) Math.round(Math.sqrt(searchRadius * searchRadius - dz*dz));
             for(int dx = -i; dx <= i; dx += 4){
                 double noise = input.sample(new UnblendedNoisePos(pos.blockX()+dx, 0, pos.blockZ()+dz));
+                if(noise != 0)
+                    flag = false;
+//                LOGGER.info("noise: " + noise + " at: x: " + (pos.blockX()+dx) + ", z: " + (pos.blockZ()+dz));
                 if(noise > threshold && noise > max){
                     max = noise;
                     maxX = dx;
@@ -74,6 +83,8 @@ public record CraterDensityFunction(DensityFunction input, double threshold, int
                 }
             }
         }
+        if(flag)
+            LOGGER.error("Noise keeps getting 0!");
         if(max > Double.NEGATIVE_INFINITY) {
             double R = radius.sample(new UnblendedNoisePos(pos.blockX()+maxX, 0, pos.blockZ()+maxZ));
             r = Math.sqrt(maxX*maxX + maxZ*maxZ);
@@ -89,7 +100,7 @@ public record CraterDensityFunction(DensityFunction input, double threshold, int
             );
             return val;
         }
-//      LOGGER.debug("No valid crater center found near " + noisePosString(pos.blockX(), pos.blockZ()));
+//        LOGGER.debug("No valid crater center found near " + noisePosString(pos.blockX(), pos.blockZ()) + ", max: " + max);
         return 0;
     }
 
