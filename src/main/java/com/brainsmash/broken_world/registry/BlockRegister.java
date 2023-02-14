@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.blocks.CloneVatBlock;
+import com.brainsmash.broken_world.blocks.CodeBlock;
 import com.brainsmash.broken_world.blocks.GlitchBlock;
 import com.brainsmash.broken_world.blocks.RollingDoorBlock;
 import com.brainsmash.broken_world.blocks.client.render.entity.*;
@@ -122,6 +123,8 @@ public class BlockRegister {
             new DoorBlock(FabricBlockSettings.copyOf(Blocks.OAK_DOOR).sounds(BlockSoundGroup.GLASS).nonOpaque()),
             new CloneVatBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).sounds(BlockSoundGroup.GLASS).nonOpaque()),
             new GlitchBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
+            new CodeBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
+
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -172,6 +175,7 @@ public class BlockRegister {
             new BlockItem(blocks[45], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[46], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[47], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[48], new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -223,7 +227,8 @@ public class BlockRegister {
             "rolling_door",
             "glass_door",
             "clone_vat",
-            "glitch"
+            "glitch",
+            "code"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {

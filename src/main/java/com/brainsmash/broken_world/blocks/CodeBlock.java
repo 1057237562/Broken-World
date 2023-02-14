@@ -1,19 +1,18 @@
 package com.brainsmash.broken_world.blocks;
 
+import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.tag.TagKey;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
 
-public class GlitchBlock extends Block {
+public class CodeBlock extends Block {
 
     private final int range = 3;
 
-    public GlitchBlock(Settings settings) {
+    public CodeBlock(Settings settings) {
         super(settings);
     }
 
@@ -28,8 +27,7 @@ public class GlitchBlock extends Block {
         int j = random.nextBetween(-range, range);
         int k = random.nextBetween(-range, range);
         BlockPos pos1 = pos.add(i, j, k);
-        if (!world.getBlockState(pos1).isAir() && !world.getBlockState(pos1).isIn(
-                TagKey.of(Registry.BLOCK_KEY, new Identifier("broken_world:antiglitch")))) {
+        if (world.getBlockState(pos1) == BlockRegister.blocks[BlockRegistry.GLITCH.ordinal()].getDefaultState()) {
             world.setBlockState(pos1, getDefaultState());
         }
     }
