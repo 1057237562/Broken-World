@@ -43,11 +43,11 @@ public record CraterDensityFunction(DensityFunction input, double threshold, int
         // f(x) = [Mathematical Expression]
 
         // The effective range means when x >= EFFECTIVE_RANGE, f(x) approximately equals to 0
-        final double EFFECTIVE_RANGE = 22;
+        final double EFFECTIVE_RANGE = 20;
         r *= EFFECTIVE_RANGE / R;
         return (1- Math.pow(r/2, 4))*Math.exp(-25*r*r/49)
                 + 5*Math.exp(-MathHelper.square((r-15)/3))
-                - Math.exp(-MathHelper.square((r-5)/5));
+                - 2*Math.exp(-MathHelper.square((r-5)/5));
     }
 
     public class Pos{
@@ -62,8 +62,6 @@ public record CraterDensityFunction(DensityFunction input, double threshold, int
     }
 
     public double sample(NoisePos pos) {
-        System.out.println("threshold: " + threshold + ", searchRadius: " + searchRadius);
-        DefaultedList<Pos> list = DefaultedList.of();
         double r;
         int cnt = 0;
         int maxX = 0, maxZ = 0;
@@ -83,8 +81,6 @@ public record CraterDensityFunction(DensityFunction input, double threshold, int
                 }
             }
         }
-        if(flag)
-            LOGGER.error("Noise keeps getting 0!");
         if(max > Double.NEGATIVE_INFINITY) {
             double R = radius.sample(new UnblendedNoisePos(pos.blockX()+maxX, 0, pos.blockZ()+maxZ));
             r = Math.sqrt(maxX*maxX + maxZ*maxZ);
