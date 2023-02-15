@@ -1,14 +1,26 @@
 {
-  "type": "broken_world:fabricating",
+  "type": "minecraft:crafting_shaped",
   "key": {
-    "#": {
-      "item": "minecraft:copper_block"
+    "A": {
+      "item": "broken_world:spring_roll"
+    },
+    "B": {
+      "item": "broken_world:motor"
+    },
+    "C": {
+      "item": "broken_world:machine_shell"
+    },
+    "D": {
+      "item": "minecraft:chest"
+    },
+    "E": {
+      "item": "broken_world:iron_plate"
     }
   },
   "pattern": [
-    "###",
-    "# #",
-    "###"
+    "A A",
+    "BCB",
+    "EDE"
   ],
   "result": {
     "item": "broken_world:crusher"

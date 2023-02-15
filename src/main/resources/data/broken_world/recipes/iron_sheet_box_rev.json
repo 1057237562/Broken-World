@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "broken_world:iron_sheet_box"
+    }
+  ],
+  "result": {
+    "item": "broken_world:iron_plate"
+  }
+}

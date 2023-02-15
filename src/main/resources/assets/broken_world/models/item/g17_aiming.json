@@ -1,0 +1,15 @@
+{
+  "parent": "broken_world:item/g17",
+  "display": {
+    "firstperson_righthand": {
+      "rotation": [ 0, 90, 0 ],
+      "translation": [ -9.65, 0, -4],
+      "scale": [ 0.68, 0.68, 0.68 ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [ 0, 90, 0 ],
+      "translation": [ -9.5, 0, -4],
+      "scale": [ 0.68, 0.68, 0.68 ]
+    }
+  }
+}

@@ -3,8 +3,8 @@ package com.brainsmash.broken_world.blocks.entity.electric;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
+import com.brainsmash.broken_world.recipe.SifterRecipe;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import com.brainsmash.broken_world.registry.SifterRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.SifterGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.Block;
@@ -12,6 +12,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -31,20 +32,22 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Random;
 
-public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
+public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory, SidedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(23, ItemStack.EMPTY);
-    public final Random random = new Random();
+    private final Random random = new Random();
 
     private Item lastItem;
 
     public SifterBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.SIFTER_ENTITY_TYPE,pos, state);
+        super(BlockRegister.SIFTER_ENTITY_TYPE, pos, state);
         setMaxCapacity(500);
         maxProgression = 75;
         powerConsumption = 4;
     }
+
     @Override
     public DefaultedList<ItemStack> getItems() {
         return inventory;
@@ -59,54 +62,53 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
         //We provide *this* to the screenHandler as our class Implements Inventory
         //Only the Server has the Inventory at the start, this will be synced to the client in the ScreenHandler
         //return new TeleporterControllerScreenHandler(syncId, playerInventory, this);
-        return new SifterGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
+        return new SifterGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world, pos));
     }
 
-    public boolean insertItem(ItemStack stack){
-        for(int i = 2;i<inventory.size();i++){
-            if(inventory.get(i).isEmpty()){
-                inventory.set(i,stack);
+    public boolean insertItem(ItemStack stack) {
+        for (int i = 2; i < inventory.size(); i++) {
+            if (inventory.get(i).isEmpty()) {
+                inventory.set(i, stack);
                 return true;
             }
-            if(inventory.get(i).getItem().equals(stack.getItem())){
-                int insertCount = Math.min(inventory.get(i).getMaxCount() - inventory.get(i).getCount(),stack.getCount());
+            if (inventory.get(i).getItem().equals(stack.getItem())) {
+                int insertCount = Math.min(inventory.get(i).getMaxCount() - inventory.get(i).getCount(),
+                        stack.getCount());
                 inventory.get(i).increment(insertCount);
                 stack.decrement(insertCount);
             }
-            if(stack.getCount() == 0)
-                return true;
+            if (stack.getCount() == 0) return true;
         }
-        if(stack.getCount() == 0)
-            return true;
+        if (stack.getCount() == 0) return true;
         return false;
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(world instanceof ServerWorld serverWorld){
-            if(SifterRegister.recipes.containsKey(inventory.get(0).getItem()) && canRun()){
+        if (world instanceof ServerWorld serverWorld) {
+            if (SifterRecipe.recipes.containsKey(inventory.get(0).getItem()) && canRun()) {
                 running = true;
-                if(progression < maxProgression){
+                if (progression < maxProgression) {
                     progression++;
-                }else{
-                    DefaultedList<Pair<Float, Item>> output = SifterRegister.recipes.get(inventory.get(0).getItem());
-                    for(Pair<Float,Item> pair : output){
-                        if(random.nextDouble() < pair.getLeft()){
-                            if(!insertItem(new ItemStack(pair.getRight(),1))){
-                                EntityHelper.spawnItem(world,new ItemStack(pair.getRight(),1),1, Direction.UP,pos);
+                } else {
+                    List<Pair<Float, Item>> output = SifterRecipe.recipes.get(inventory.get(0).getItem());
+                    for (Pair<Float, Item> pair : output) {
+                        if (random.nextDouble() < pair.getLeft()) {
+                            if (!insertItem(new ItemStack(pair.getRight(), 1))) {
+                                EntityHelper.spawnItem(world, new ItemStack(pair.getRight(), 1), 1, Direction.UP, pos);
                             }
                         }
                     }
                     inventory.get(0).decrement(1);
                     progression = 0;
                 }
-                if(!inventory.get(0).getItem().equals(lastItem)){
+                if (!inventory.get(0).getItem().equals(lastItem)) {
                     lastItem = inventory.get(0).getItem();
                     progression = 0;
                     serverWorld.getChunkManager().markForUpdate(pos);
                 }
-            }else{
-                if(running){
+            } else {
+                if (running) {
                     running = false;
                     serverWorld.getChunkManager().markForUpdate(pos);
                 }
@@ -135,7 +137,7 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
     @Override
     public void writeNbt(NbtCompound nbt) {
         Inventories.writeNbt(nbt, this.inventory);
-        nbt.putBoolean("running",running);
+        nbt.putBoolean("running", running);
         super.writeNbt(nbt);
     }
 
@@ -150,6 +152,25 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
         NbtCompound compound = new NbtCompound();
         writeNbt(compound);
         return compound;
+    }
+
+    @Override
+    public int[] getAvailableSlots(Direction side) {
+        int[] result = new int[getItems().size()];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = i;
+        }
+        return result;
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+        return slot == 1;
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+        return slot >= 2;
     }
 
 }

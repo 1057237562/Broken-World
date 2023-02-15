@@ -4,15 +4,19 @@
   "package": "com.brainsmash.broken_world.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "EntityMixin",
     "LivingEntityMixin",
-    "EntityMixin"
+    "PlayerEntityMixin"
   ],
   "client": [
+    "ClientPlayerEntityMixin",
+    "InGameHudMixin",
     "MainMixin",
+    "MinecraftClientMixin",
+    "PlayerEntityRendererMixin",
     "WorldRendererMixin"
   ],
   "server": [
-
   ],
   "injectors": {
     "defaultRequire": 1

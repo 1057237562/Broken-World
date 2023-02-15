@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "broken_world:block/rolling_door", "uvlock": true },
+    "facing=east":  { "model": "broken_world:block/rolling_door", "y":  90, "uvlock": true },
+    "facing=south": { "model": "broken_world:block/rolling_door", "y": 180, "uvlock": true },
+    "facing=west":  { "model": "broken_world:block/rolling_door", "y": 270, "uvlock": true }
+  }
+}

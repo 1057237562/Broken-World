@@ -2,11 +2,12 @@ package com.brainsmash.broken_world.gui.widgets;
 
 import com.brainsmash.broken_world.gui.util.IndicatorSlot;
 import io.github.cottonmc.cotton.gui.GuiDescription;
+import io.github.cottonmc.cotton.gui.ValidatedSlot;
 import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
 import io.github.cottonmc.cotton.gui.impl.LibGuiCommon;
 import io.github.cottonmc.cotton.gui.impl.VisualLogger;
 import io.github.cottonmc.cotton.gui.impl.client.NarrationMessages;
-import io.github.cottonmc.cotton.gui.widget.WPlayerInvPanel;
+import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
 import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import io.github.cottonmc.cotton.gui.widget.icon.Icon;
@@ -16,7 +17,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class WIndicatorItemSlot extends WWidget {
+public class WIndicatorItemSlot extends WItemSlot {
     /**
      * The default texture of item slots and {@link BackgroundPainter#SLOT}.
      *
@@ -43,93 +43,22 @@ public class WIndicatorItemSlot extends WWidget {
     private BackgroundPainter backgroundPainter = null;
     @Nullable
     private Icon icon = null;
-    private Inventory inventory;
-    private int startIndex = 0;
-    private int slotsWide = 1;
-    private int slotsHigh = 1;
-    private boolean big = false;
-    private boolean insertingAllowed = true;
-    private boolean takingAllowed = true;
+    private final Inventory inventory;
+    private final int startIndex;
+    private final int slotsWide;
+    private final int slotsHigh;
+    private final boolean big;
     private int focusedSlot = -1;
-    private int hoveredSlot = -1;
     private Predicate<ItemStack> filter = IndicatorSlot.DEFAULT_ITEM_FILTER;
-    private final Set<WIndicatorItemSlot.ChangeListener> listeners = new HashSet<>();
+    private final Set<ChangeListener> listeners = new HashSet<>();
 
     public WIndicatorItemSlot(Inventory inventory, int startIndex, int slotsWide, int slotsHigh, boolean big) {
-        this();
+        super(inventory, startIndex, slotsWide, slotsHigh, big);
         this.inventory = inventory;
         this.startIndex = startIndex;
         this.slotsWide = slotsWide;
         this.slotsHigh = slotsHigh;
         this.big = big;
-        //this.ltr = ltr;
-    }
-
-    private WIndicatorItemSlot() {
-        hoveredProperty().addListener((property, from, to) -> {
-            assert to != null;
-            if (!to) hoveredSlot = -1;
-        });
-    }
-
-    public static WIndicatorItemSlot of(Inventory inventory, int index) {
-        WIndicatorItemSlot w = new WIndicatorItemSlot();
-        w.inventory = inventory;
-        w.startIndex = index;
-
-        return w;
-    }
-
-    public static WIndicatorItemSlot of(Inventory inventory, int startIndex, int slotsWide, int slotsHigh) {
-        WIndicatorItemSlot w = new WIndicatorItemSlot();
-        w.inventory = inventory;
-        w.startIndex = startIndex;
-        w.slotsWide = slotsWide;
-        w.slotsHigh = slotsHigh;
-
-        return w;
-    }
-
-    public static WIndicatorItemSlot outputOf(Inventory inventory, int index) {
-        WIndicatorItemSlot w = new WIndicatorItemSlot();
-        w.inventory = inventory;
-        w.startIndex = index;
-        w.big = true;
-
-        return w;
-    }
-
-    /**
-     * Creates a 9x3 slot widget from the "main" part of a player inventory.
-     *
-     * @param inventory the player inventory
-     * @return the created slot widget
-     * @see WPlayerInvPanel
-     */
-    public static WIndicatorItemSlot ofPlayerStorage(Inventory inventory) {
-        WIndicatorItemSlot w = new WIndicatorItemSlot() {
-            @Override
-            protected Text getNarrationName() {
-                return inventory instanceof PlayerInventory inv ? inv.getDisplayName() : NarrationMessages.Vanilla.INVENTORY;
-            }
-        };
-        w.inventory = inventory;
-        w.startIndex = 9;
-        w.slotsWide = 9;
-        w.slotsHigh = 3;
-        //w.ltr = false;
-
-        return w;
-    }
-
-    @Override
-    public int getWidth() {
-        return slotsWide * 18;
-    }
-
-    @Override
-    public int getHeight() {
-        return slotsHigh * 18;
     }
 
     @Override
@@ -169,76 +98,6 @@ public class WIndicatorItemSlot extends WWidget {
     }
 
     /**
-     * Returns true if the contents of this {@code WItemSlot} can be modified by players.
-     *
-     * @return true if items can be inserted into or taken from this slot widget, false otherwise
-     * @since 1.8.0
-     */
-    public boolean isModifiable() {
-        return takingAllowed || insertingAllowed;
-    }
-
-    public WIndicatorItemSlot setModifiable(boolean modifiable) {
-        this.insertingAllowed = modifiable;
-        this.takingAllowed = modifiable;
-        for (IndicatorSlot peer : peers) {
-            peer.setInsertingAllowed(modifiable);
-            peer.setTakingAllowed(modifiable);
-        }
-        return this;
-    }
-
-    /**
-     * Returns whether items can be inserted into this slot.
-     *
-     * @return true if items can be inserted, false otherwise
-     * @since 1.10.0
-     */
-    public boolean isInsertingAllowed() {
-        return insertingAllowed;
-    }
-
-    /**
-     * Sets whether inserting items into this slot is allowed.
-     *
-     * @param insertingAllowed true if items can be inserted, false otherwise
-     * @return this slot widget
-     * @since 1.10.0
-     */
-    public WIndicatorItemSlot setInsertingAllowed(boolean insertingAllowed) {
-        this.insertingAllowed = insertingAllowed;
-        for (IndicatorSlot peer : peers) {
-            peer.setInsertingAllowed(insertingAllowed);
-        }
-        return this;
-    }
-
-    /**
-     * Returns whether items can be taken from this slot.
-     *
-     * @return true if items can be taken, false otherwise
-     * @since 1.10.0
-     */
-    public boolean isTakingAllowed() {
-        return takingAllowed;
-    }
-
-    /**
-     * Sets whether taking items from this slot is allowed.
-     *
-     * @param takingAllowed true if items can be taken, false otherwise
-     * @return this slot widget
-     * @since 1.10.0
-     */
-    public WIndicatorItemSlot setTakingAllowed(boolean takingAllowed) {
-        this.takingAllowed = takingAllowed;
-        for (IndicatorSlot peer : peers) {
-            peer.setTakingAllowed(takingAllowed);
-        }
-        return this;
-    }
-
-    /**
      * Gets the currently focused slot index.
      *
      * @return the currently focused slot, or -1 if this widget isn't focused
@@ -250,7 +109,6 @@ public class WIndicatorItemSlot extends WWidget {
 
     @Override
     public void validate(GuiDescription host) {
-        super.validate(host);
         peers.clear();
         int index = startIndex;
 
@@ -258,12 +116,10 @@ public class WIndicatorItemSlot extends WWidget {
             for (int x = 0; x < slotsWide; x++) {
                 // The Slot object is offset +1 because it's the inner area of the slot.
                 IndicatorSlot slot = createSlotPeer(inventory, index, this.getAbsoluteX() + (x * 18) + 1, this.getAbsoluteY() + (y * 18) + 1);
-                slot.setInsertingAllowed(insertingAllowed);
-                slot.setTakingAllowed(takingAllowed);
                 slot.setFilter(filter);
-                /*for (WIndicatorItemSlot.ChangeListener listener : listeners) {
+                for (ChangeListener listener : listeners) {
                     slot.addChangeListener(this, listener);
-                }*/
+                }
                 peers.add(slot);
                 host.addSlotPeer(slot);
                 index++;
@@ -283,48 +139,19 @@ public class WIndicatorItemSlot extends WWidget {
         }
     }
 
-    /**
-     * Creates a slot peer for this slot widget.
-     *
-     * @param inventory the slot inventory
-     * @param index     the index in the inventory
-     * @param x         the X coordinate
-     * @param y         the Y coordinate
-     * @return the created slot instance
-     * @since 1.11.0
-     */
+    public void addChangeListener(ChangeListener listener) {
+        Objects.requireNonNull(listener, "listener");
+        listeners.add(listener);
+
+        for (IndicatorSlot peer : peers) {
+            peer.addChangeListener(this, listener);
+        }
+    }
+
     protected IndicatorSlot createSlotPeer(Inventory inventory, int index, int x, int y) {
         return new IndicatorSlot(inventory, index, x, y);
     }
 
-    /**
-     * Gets this slot widget's background painter.
-     *
-     * @return the background painter
-     * @since 2.0.0
-     */
-    @Nullable
-    @Environment(EnvType.CLIENT)
-    public BackgroundPainter getBackgroundPainter() {
-        return backgroundPainter;
-    }
-
-    /**
-     * Sets this item slot's background painter.
-     *
-     * @param painter the new painter
-     */
-    @Environment(EnvType.CLIENT)
-    public void setBackgroundPainter(@Nullable BackgroundPainter painter) {
-        this.backgroundPainter = painter;
-    }
-
-    /**
-     * Gets the item filter of this item slot.
-     *
-     * @return the item filter
-     * @since 2.0.0
-     */
     public Predicate<ItemStack> getFilter() {
         return filter;
     }
@@ -342,18 +169,6 @@ public class WIndicatorItemSlot extends WWidget {
             peer.setFilter(filter);
         }
         return this;
-    }
-
-    @Environment(EnvType.CLIENT)
-    @Override
-    public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-        if (backgroundPainter != null) {
-            backgroundPainter.paintBackground(matrices, x, y, this);
-        }
-
-        if (icon != null) {
-            icon.paint(matrices, x + 1, y + 1, 16);
-        }
     }
 
     @Nullable
@@ -383,36 +198,11 @@ public class WIndicatorItemSlot extends WWidget {
         focusedSlot = -1;
     }
 
-    /**
-     * Adds a change listener to this slot.
-     * Does nothing if the listener is already registered.
-     *
-     * @param listener the added listener
-     * @throws NullPointerException if the listener is null
-     * @since 3.0.0
-     */
-    public void addChangeListener(WIndicatorItemSlot.ChangeListener listener) {
-        Objects.requireNonNull(listener, "listener");
-        listeners.add(listener);
-
-        /*for (IndicatorSlot peer : peers) {
-            peer.addChangeListener(this, listener);
-        }*/
-    }
-
     @Override
     public void onShown() {
         for (IndicatorSlot peer : peers) {
             peer.setVisible(true);
         }
-    }
-
-    @Override
-    public InputResult onMouseMove(int x, int y) {
-        int slotX = x / 18;
-        int slotY = y / 18;
-        hoveredSlot = slotX + slotY * slotsWide;
-        return InputResult.PROCESSED;
     }
 
     @Override
@@ -424,55 +214,8 @@ public class WIndicatorItemSlot extends WWidget {
         }
     }
 
-    @Environment(EnvType.CLIENT)
-    @Override
-    public void addPainters() {
-        backgroundPainter = BackgroundPainter.SLOT;
-    }
-
-    @Environment(EnvType.CLIENT)
-    @Override
-    public void addNarrations(NarrationMessageBuilder builder) {
-        List<Text> parts = new ArrayList<>();
-        Text name = getNarrationName();
-        if (name != null) parts.add(name);
-
-        if (focusedSlot >= 0) {
-            parts.add(Text.translatable(NarrationMessages.ITEM_SLOT_TITLE_KEY, focusedSlot + 1, slotsWide * slotsHigh));
-        } else if (hoveredSlot >= 0) {
-            parts.add(Text.translatable(NarrationMessages.ITEM_SLOT_TITLE_KEY, hoveredSlot + 1, slotsWide * slotsHigh));
-        }
-
-        builder.put(NarrationPart.TITLE, parts.toArray(new Text[0]));
-    }
-
-    /**
-     * Returns a "narration name" for this slot.
-     * It's narrated before the slot index. One example of a narration name would be "hotbar" for the player's hotbar.
-     *
-     * @return the narration name, or null if there's none for this slot
-     * @since 4.2.0
-     */
-    @Nullable
-    protected Text getNarrationName() {
-        return null;
-    }
-
-    /**
-     * A listener for changes in an item slot.
-     *
-     * @since 3.0.0
-     */
     @FunctionalInterface
     public interface ChangeListener {
-        /**
-         * Handles a changed item stack in an item slot.
-         *
-         * @param slot      the item slot widget
-         * @param inventory the item inventory of the slot
-         * @param index     the index of the slot in the inventory
-         * @param stack     the changed item stack
-         */
         void onStackChanged(WIndicatorItemSlot slot, Inventory inventory, int index, ItemStack stack);
     }
 }

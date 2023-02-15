@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "broken_world:asphalt"
+    },
+    {
+      "item": "broken_world:asphalt"
+    },
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "item": "minecraft:gravel"
+    }
+  ],
+  "result": {
+    "item": "broken_world:road",
+    "count": 4
+  }
+}

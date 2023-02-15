@@ -1,0 +1,22 @@
+{
+  "type": "broken_world:fabricating",
+  "key": {
+    "A": {
+      "item": "broken_world:titanium_ingot"
+    },
+    "B": {
+      "item": "minecraft:creeper_head"
+    },
+    "C": {
+      "item": "broken_world:reinforced_glass"
+    }
+  },
+  "pattern": [
+    "CAC",
+    "CBC",
+    "CAC"
+  ],
+  "result": {
+    "item": "broken_world:creative_battery"
+  }
+}

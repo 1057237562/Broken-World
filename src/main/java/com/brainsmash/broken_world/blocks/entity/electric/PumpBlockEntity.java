@@ -13,13 +13,10 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import com.brainsmash.broken_world.screenhandlers.descriptions.MinerGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.PumpGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -34,8 +31,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,12 +40,12 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
     private FluidVolume stored = FluidVolumeUtil.EMPTY;
-    public BlockPos pointer = new BlockPos(3,-1,3);
+    public BlockPos pointer = new BlockPos(3, -1, 3);
 
     public PumpBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.PUMP_ENTITY_TYPE,pos, state);
+        super(BlockRegister.PUMP_ENTITY_TYPE, pos, state);
         setMaxCapacity(500);
-        maxProgression = 12;
+        maxProgression = 75;
         powerConsumption = 4;
     }
 
@@ -61,61 +56,64 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient){
-            if(canRun() && pointer.getY() <= 5) {
+        if (!world.isClient) {
+            for (Direction direction : Direction.values()) {
+                if (!stored.isEmpty() && direction != Direction.DOWN) {
+                    FluidInsertable insertable = getNeighbourAttribute(FluidAttributes.INSERTABLE, direction);
+                    stored = insertable.attemptInsertion(stored, Simulation.ACTION);
+                    if (stored.isEmpty()) {
+                        break;
+                    }
+                    markDirty();
+                }
+            }
+            if (canRun()) {
                 running = true;
-                    if (!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
-                        BlockPos pointPos = pos.add(pointer.getX(), pointer.getY(), pointer.getZ());
-                        if (!world.isChunkLoaded(pointPos)) {
-                            running = false;
-                            state = state.with(Properties.LIT, isRunning());
-                            world.setBlockState(pos, state, Block.NOTIFY_ALL);
-                            super.tick(world, pos, state, blockEntity);
-                            return;
-                        }
-                        for (Direction direction : Direction.values()) {
-                            if (!stored.isEmpty() && direction != Direction.DOWN) {
-                                FluidInsertable insertable = getNeighbourAttribute(FluidAttributes.INSERTABLE, direction);
-                                stored = insertable.attemptInsertion(stored, Simulation.ACTION);
-                                if (stored.isEmpty()) {
-                                    break;
-                                }
-                                markDirty();
-                            }
-                        }
-                        if (stored.isEmpty() || inventory.get(0).isOf(Items.BUCKET)) {
-                            if(progression < maxProgression){
-                                progression++;
-                            }else {
-                                FluidVolume drained = FluidWorldUtil.drain(getWorld(), pointPos, Simulation.ACTION);
-                                if (inventory.get(0).isOf(Items.BUCKET) && drained.amount().isGreaterThanOrEqual(FluidAmount.BUCKET)) {
-                                    inventory.get(0).decrement(1);
-                                    if (inventory.get(0).isEmpty()) {
-                                        inventory.set(0, new ItemStack(drained.fluidKey.getRawFluid().getBucketItem(), 1));
-                                    } else {
-                                        EntityHelper.spawnItem(world, new ItemStack(drained.fluidKey.getRawFluid().getBucketItem(), 1), 1, Direction.UP, pos);
+                if (progression < maxProgression) {
+                    progression++;
+                } else {
+                    progression = 0;
+                    if (stored.isEmpty() || inventory.get(0).isOf(Items.BUCKET)) {
+                        pointer = new BlockPos(3, -1, 3);
+                        while (pointer.getY() >= -4) {
+                            if (!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
+                                BlockPos pointPos = pos.add(pointer.getX(), pointer.getY(), pointer.getZ());
+                                if (world.isChunkLoaded(pointPos)) {
+                                    FluidVolume drained = FluidWorldUtil.drain(getWorld(), pointPos, Simulation.ACTION);
+                                    if (inventory.get(0).isOf(Items.BUCKET) && drained.amount().isGreaterThanOrEqual(
+                                            FluidAmount.BUCKET)) {
+                                        inventory.get(0).decrement(1);
+                                        if (inventory.get(0).isEmpty()) {
+                                            inventory.set(0,
+                                                    new ItemStack(drained.fluidKey.getRawFluid().getBucketItem(), 1));
+                                        } else {
+                                            EntityHelper.spawnItem(world,
+                                                    new ItemStack(drained.fluidKey.getRawFluid().getBucketItem(), 1),
+                                                    1,
+                                                    Direction.UP,
+                                                    pos);
+                                        }
+                                        drained.split(FluidAmount.BUCKET);
                                     }
-                                    drained.split(FluidAmount.BUCKET);
-                                }
-                                if (!drained.isEmpty()) {
-                                    stored = drained;
-                                    markDirty();
-                                }
+                                    if (!drained.isEmpty()) {
+                                        stored = drained;
+                                        markDirty();
+                                        break;
+                                    }
 
-                                if (pointer.getX() > -3) {
-                                    pointer = pointer.add(-1, 0, 0);
-                                } else if (pointer.getZ() > -3) {
-                                    pointer = pointer.add(6, 0, -1);
-                                } else {
-                                    pointer = pointer.add(6, -1, 6);
+                                    if (pointer.getX() > -3) {
+                                        pointer = pointer.add(-1, 0, 0);
+                                    } else if (pointer.getZ() > -3) {
+                                        pointer = pointer.add(6, 0, -1);
+                                    } else {
+                                        pointer = pointer.add(6, -1, 6);
+                                    }
                                 }
-                                progression = 0;
                             }
-                        }else{
-                            running = false;
                         }
                     }
-            }else{
+                }
+            } else {
                 running = false;
             }
             state = state.with(Properties.LIT, isRunning());
@@ -126,9 +124,9 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
 
     @Override
     public void writeNbt(NbtCompound nbt) {
-        nbt.putLong("pointer",pointer.asLong());
+        nbt.putLong("pointer", pointer.asLong());
         nbt.put("fluid", stored.toTag());
-        Inventories.writeNbt(nbt,inventory);
+        Inventories.writeNbt(nbt, inventory);
         super.writeNbt(nbt);
     }
 
@@ -137,7 +135,7 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
         super.readNbt(nbt);
         pointer = BlockPos.fromLong(nbt.getLong("pointer"));
         stored = FluidVolume.fromTag(nbt.getCompound("fluid"));
-        Inventories.readNbt(nbt,inventory);
+        Inventories.readNbt(nbt, inventory);
     }
 
     @Override

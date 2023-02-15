@@ -35,7 +35,7 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            switch (index){
+            switch (index) {
                 case 0:
                     return getEnergy();
                 case 1:
@@ -51,7 +51,20 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
 
         @Override
         public void set(int index, int value) {
-            setEnergy(value);
+            switch (index) {
+                case 0:
+                    setEnergy(value);
+                    break;
+                case 1:
+                    setMaxCapacity(value);
+                    break;
+                case 2:
+                    fuelTime = value;
+                    break;
+                case 3:
+                    maxFuelTime = value;
+                    break;
+            }
         }
 
         @Override
@@ -62,6 +75,7 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
 
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+
     public GeneratorEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.GENERATOR_ENTITY_TYPE, pos, state);
         setMaxCapacity(500);
@@ -70,7 +84,7 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient) {
+        if (!world.isClient) {
             if (fuelTime > 0) {
                 running = true;
                 fuelTime--;
@@ -125,7 +139,7 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
         //We provide *this* to the screenHandler as our class Implements Inventory
         //Only the Server has the Inventory at the start, this will be synced to the client in the ScreenHandler
         //return new TeleporterControllerScreenHandler(syncId, playerInventory, this);
-        return new GeneratorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world,pos));
+        return new GeneratorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world, pos));
     }
 
     @Override

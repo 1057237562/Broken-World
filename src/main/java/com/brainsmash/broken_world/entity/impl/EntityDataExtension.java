@@ -7,4 +7,5 @@ public interface EntityDataExtension {
     NbtElement getData();
 
     void setData(NbtElement ele);
+
 }

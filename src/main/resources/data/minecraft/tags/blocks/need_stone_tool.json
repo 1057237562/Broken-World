@@ -3,6 +3,9 @@
   "values": [
     "broken_world:moon_iron_ore",
     "broken_world:teleporter_frame",
-    "broken_world:generator"
+    "broken_world:generator",
+    "broken_world:magnetite",
+    "broken_world:crusher",
+    "broken_world:sifter"
   ]
 }

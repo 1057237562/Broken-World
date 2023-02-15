@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "broken_world:block/machine_shell" }
+  }
+}
