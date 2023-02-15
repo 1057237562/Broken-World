@@ -15,7 +15,7 @@ import net.minecraft.world.gen.densityfunction.DensityFunction;
 import org.slf4j.Logger;
 
 
-public record CraterDensityFunction(DensityFunction input, double threshold, int searchRadius, DensityFunction radius) implements DensityFunction.Base, K1 {
+public record CraterDensityFunction(DensityFunction input, double threshold, int searchRadius, DensityFunction radius) implements DensityFunction.Base {
     public static final Codec<Double> CONSTANT_DOUBLE_RANGE = Codec.doubleRange(-1000000.0, 1000000.0);
     public static final Codec<Integer> CONSTANT_INT_RANGE = Codec.intRange(-1000000, 1000000);
 
@@ -102,6 +102,11 @@ public record CraterDensityFunction(DensityFunction input, double threshold, int
         }
 //        LOGGER.debug("No valid crater center found near " + noisePosString(pos.blockX(), pos.blockZ()) + ", max: " + max);
         return 0;
+    }
+
+    @Override
+    public DensityFunction apply(DensityFunctionVisitor visitor) {
+        return visitor.apply(new CraterDensityFunction(input.apply(visitor), threshold, searchRadius, radius.apply(visitor)));
     }
 
     private String noisePosString(double x, double z){
