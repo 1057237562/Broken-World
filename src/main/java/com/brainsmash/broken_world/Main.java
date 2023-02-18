@@ -9,8 +9,7 @@ import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
 import com.brainsmash.broken_world.screenhandlers.descriptions.*;
 import com.brainsmash.broken_world.util.BonusHelper;
 import com.brainsmash.broken_world.util.EntityHelper;
-import com.brainsmash.broken_world.worldgen.CraterDensityFunction;
-import com.brainsmash.broken_world.worldgen.SimplexDensityFunction;
+import com.brainsmash.broken_world.worldgen.BWDensityFunctionTypes;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -103,8 +102,7 @@ public class Main implements ModInitializer {
 
         FabricatorRecipe.register();
 
-        CraterDensityFunction.register();
-        SimplexDensityFunction.register();
+        BWDensityFunctionTypes.register();
 
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_pressed"),
                 (server, player, handler, buf, responseSender) -> {
