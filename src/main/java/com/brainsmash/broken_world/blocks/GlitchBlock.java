@@ -2,12 +2,14 @@ package com.brainsmash.broken_world.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 
 public class GlitchBlock extends Block {
 
@@ -32,5 +34,10 @@ public class GlitchBlock extends Block {
                 TagKey.of(Registry.BLOCK_KEY, new Identifier("broken_world:antiglitch")))) {
             world.setBlockState(pos1, getDefaultState());
         }
+    }
+
+    @Override
+    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
+        super.onSteppedOn(world, pos, state, entity);
     }
 }

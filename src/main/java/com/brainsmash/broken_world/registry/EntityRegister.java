@@ -3,14 +3,18 @@ package com.brainsmash.broken_world.registry;
 import com.brainsmash.broken_world.entity.BulletEntity;
 import com.brainsmash.broken_world.entity.HyperSpearEntity;
 import com.brainsmash.broken_world.entity.hostile.FishboneEntity;
+import com.brainsmash.broken_world.entity.hostile.GlitchedZombieEntity;
 import com.brainsmash.broken_world.entity.model.FishboneEntityModel;
 import com.brainsmash.broken_world.entity.render.BulletEntityRenderer;
 import com.brainsmash.broken_world.entity.render.FishboneEntityRenderer;
+import com.brainsmash.broken_world.entity.render.GlitchedZombieEntityRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
+import net.minecraft.client.render.entity.model.ZombieEntityModel;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -35,6 +39,11 @@ public class EntityRegister {
             FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, FishboneEntity::new).dimensions(
                     EntityDimensions.fixed(0.7f, 0.4f)).trackRangeBlocks(12).build());
 
+    public static final EntityType<GlitchedZombieEntity> GLITCHED_ZOMBIE_ENTITY_TYPE = Registry.register(
+            Registry.ENTITY_TYPE, new Identifier(MODID, "glitched_zombie"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GlitchedZombieEntity::new).dimensions(
+                    EntityDimensions.fixed(0.6f, 1.95f)).trackRangeBlocks(24).build());
+
 
     public static final EntityModelLayer MODEL_FISHBONE_LAYER = new EntityModelLayer(new Identifier(MODID, "fishbone"),
             "main");
@@ -43,11 +52,18 @@ public class EntityRegister {
         EntityRendererRegistry.register(BULLET_ENTITY_ENTITY_TYPE, (context) -> new BulletEntityRenderer<>(context));
 
         EntityRendererRegistry.register(FISHBONE_ENTITY_ENTITY_TYPE, (context) -> new FishboneEntityRenderer(context));
+        EntityRendererRegistry.register(GLITCHED_ZOMBIE_ENTITY_TYPE,
+                (context) -> new GlitchedZombieEntityRenderer(context,
+                        new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE)),
+                        new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_INNER_ARMOR)),
+                        new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_OUTER_ARMOR))));
 
         EntityModelLayerRegistry.registerModelLayer(MODEL_FISHBONE_LAYER, FishboneEntityModel::getTexturedModelData);
     }
 
     public static void registEntities() {
         FabricDefaultAttributeRegistry.register(FISHBONE_ENTITY_ENTITY_TYPE, FishboneEntity.createFishAttributes());
+        FabricDefaultAttributeRegistry.register(GLITCHED_ZOMBIE_ENTITY_TYPE,
+                GlitchedZombieEntity.createZombieAttributes());
     }
 }
