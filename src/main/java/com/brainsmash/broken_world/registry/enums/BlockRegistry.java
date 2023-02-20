@@ -49,5 +49,6 @@ public enum BlockRegistry {
     GLASS_DOOR,
     CLONE_VAT,
     GLITCH,
-    CODE
+    CODE,
+    DATA_UPLOAD_NODE,
 }

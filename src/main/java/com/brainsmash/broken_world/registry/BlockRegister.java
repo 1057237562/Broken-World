@@ -1,9 +1,6 @@
 package com.brainsmash.broken_world.registry;
 
-import com.brainsmash.broken_world.blocks.CloneVatBlock;
-import com.brainsmash.broken_world.blocks.CodeBlock;
-import com.brainsmash.broken_world.blocks.GlitchBlock;
-import com.brainsmash.broken_world.blocks.RollingDoorBlock;
+import com.brainsmash.broken_world.blocks.*;
 import com.brainsmash.broken_world.blocks.client.render.entity.*;
 import com.brainsmash.broken_world.blocks.electric.*;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
@@ -124,6 +121,7 @@ public class BlockRegister {
             new CloneVatBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).sounds(BlockSoundGroup.GLASS).nonOpaque()),
             new GlitchBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
             new CodeBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
+            new DataUploadNodeBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
 
     };
     public static final Item[] blockitems = {
@@ -176,6 +174,7 @@ public class BlockRegister {
             new BlockItem(blocks[46], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[47], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[48], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[49], new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -228,7 +227,8 @@ public class BlockRegister {
             "glass_door",
             "clone_vat",
             "glitch",
-            "code"
+            "code",
+            "data_upload_node"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {

@@ -34,11 +34,8 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
     private String selectDim;
 
     public TeleporterControllerGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(Main.TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE,
-                syncId,
-                playerInventory,
-                getBlockInventory(context, INVENTORY_SIZE),
-                getBlockPropertyDelegate(context, PROPERTY_COUNT));
+        super(Main.TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE, syncId, playerInventory,
+                getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context, PROPERTY_COUNT));
         ScreenNetworking.of(this, NetworkSide.SERVER).receive(SELECT_MESSAGE, buf -> {
             selectDim = buf.readString();
             context.get((world, pos) -> {
@@ -68,21 +65,18 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
         root.setInsets(Insets.ROOT_PANEL);
         selectDim = "none";
         BiConsumer<String, WButton> buttonBiConsumer = (s, wButton) -> {
-            wButton.setLabel(Text.of(s));
+            wButton.setLabel(Text.translatable(s));
             wButton.setOnClick(() -> {
                 selectDim = s;
             });
         };
         WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"),
-                new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"),
-                0,
-                1);
+                new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1);
         bar.setProperties(propertyDelegate);
         root.add(bar, 8, 1, 1, 1);
-        WListPanel<String, WButton> dimList = new WListPanel<>(List.of("broken_world:moon",
-                "broken_world:metallic",
-                "broken_world:lush",
-                "broken_world:sulfuric"), () -> new WButton(Text.of("")), buttonBiConsumer);
+        WListPanel<String, WButton> dimList = new WListPanel<>(
+                List.of("broken_world:moon", "broken_world:metallic", "broken_world:lush", "broken_world:sulfuric"),
+                () -> new WButton(Text.of("")), buttonBiConsumer);
         root.add(dimList, 0, 1, 8, 3);
         WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
         root.add(itemSlot, 8, 2);
@@ -102,10 +96,7 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
 
     private static boolean replacePortalBlock(PortalLink oldlink, Block oldBlock, World world, BlockPos portalPos, Block replacement) {
         Optional<PortalFrameTester> optional = oldlink.getFrameTester().createInstanceOfPortalFrameTester().getNewPortal(
-                world,
-                portalPos,
-                Direction.Axis.X,
-                oldBlock);
+                world, portalPos, Direction.Axis.X, oldBlock);
         //is valid frame, and is correct size(if applicable)
         if (optional.isPresent()) {
             if (optional.get().isRequestedSize(oldlink.forcedWidth, oldlink.forcedHeight)) {
@@ -129,10 +120,7 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
 
     private static boolean createPortal(PortalLink link, Block foundationBlock, World world, BlockPos portalPos) {
         Optional<PortalFrameTester> optional = link.getFrameTester().createInstanceOfPortalFrameTester().getNewPortal(
-                world,
-                portalPos,
-                Direction.Axis.X,
-                foundationBlock);
+                world, portalPos, Direction.Axis.X, foundationBlock);
 
         //is valid frame, and is correct size(if applicable)
         if (optional.isPresent()) {
