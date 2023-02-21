@@ -1,8 +1,14 @@
 package com.brainsmash.broken_world.blocks;
 
+import com.brainsmash.broken_world.entity.hostile.GlitchedZombieEntity;
+import com.brainsmash.broken_world.registry.EntityRegister;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.mob.DrownedEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
@@ -38,6 +44,16 @@ public class GlitchBlock extends Block {
 
     @Override
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-        super.onSteppedOn(world, pos, state, entity);
+        if (!world.isClient) {
+            if (entity instanceof MobEntity mob) {
+                if (entity instanceof ZombieEntity || entity instanceof ZombieVillagerEntity || entity instanceof DrownedEntity) {
+                    GlitchedZombieEntity glitchedZombie = mob.convertTo(EntityRegister.GLITCHED_ZOMBIE_ENTITY_TYPE,
+                            true);
+                    assert glitchedZombie != null;
+                    glitchedZombie.setCanPickUpLoot(true);
+                    glitchedZombie.setCanBreakDoors(true);
+                }
+            }
+        }
     }
 }
