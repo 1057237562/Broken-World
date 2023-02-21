@@ -1,5 +1,7 @@
 {
   "values": [
-    "broken_world:glitch"
+    "broken_world:glitch",
+    "broken_world:data_upload_node",
+    "broken_world:core"
   ]
 }

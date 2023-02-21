@@ -1,14 +1,12 @@
 package com.brainsmash.broken_world.blocks;
 
+import com.brainsmash.broken_world.entity.hostile.GlitchedSkeletonEntity;
 import com.brainsmash.broken_world.entity.hostile.GlitchedZombieEntity;
 import com.brainsmash.broken_world.registry.EntityRegister;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.mob.DrownedEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.ZombieEntity;
-import net.minecraft.entity.mob.ZombieVillagerEntity;
+import net.minecraft.entity.mob.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
@@ -19,7 +17,7 @@ import net.minecraft.world.World;
 
 public class GlitchBlock extends Block {
 
-    private final int range = 3;
+    private final int range = 2;
 
     public GlitchBlock(Settings settings) {
         super(settings);
@@ -52,6 +50,12 @@ public class GlitchBlock extends Block {
                     assert glitchedZombie != null;
                     glitchedZombie.setCanPickUpLoot(true);
                     glitchedZombie.setCanBreakDoors(true);
+                }
+                if (entity instanceof SkeletonEntity || entity instanceof StrayEntity) {
+                    GlitchedSkeletonEntity glitchedSkeleton = mob.convertTo(
+                            EntityRegister.GLITCHED_SKELETON_ENTITY_TYPE, true);
+                    assert glitchedSkeleton != null;
+                    glitchedSkeleton.setCanPickUpLoot(true);
                 }
             }
         }

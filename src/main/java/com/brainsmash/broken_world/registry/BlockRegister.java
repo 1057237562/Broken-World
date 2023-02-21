@@ -122,6 +122,7 @@ public class BlockRegister {
             new GlitchBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
             new CodeBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
             new DataUploadNodeBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
 
     };
     public static final Item[] blockitems = {
@@ -175,6 +176,7 @@ public class BlockRegister {
             new BlockItem(blocks[47], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[48], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[49], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[50], new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -228,7 +230,8 @@ public class BlockRegister {
             "clone_vat",
             "glitch",
             "code",
-            "data_upload_node"
+            "data_upload_node",
+            "core"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
