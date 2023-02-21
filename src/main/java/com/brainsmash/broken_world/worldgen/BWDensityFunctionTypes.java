@@ -10,65 +10,19 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.densityfunction.DensityFunction;
 
-import static com.brainsmash.broken_world.worldgen.BWDensityFunctionTypes.Crater.CONSTANT_DOUBLE_RANGE;
-
 public class BWDensityFunctionTypes {
     
     public static void register(){
         Crater.register();
-        CraterCenter.register();
-    }
-
-    public record CraterCenter(DensityFunction input, double threshold) implements DensityFunction.Base{
-
-        public static final MapCodec<CraterCenter> CRATER_CENTER_CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
-            DensityFunction.FUNCTION_CODEC.fieldOf("input").forGetter(CraterCenter::input),
-            CONSTANT_DOUBLE_RANGE.fieldOf("threshold").forGetter(CraterCenter::threshold)
-        ).apply(instance, CraterCenter::new));
-
-        public static final CodecHolder<CraterCenter> CODEC_HOLDER = CodecHolder.of(CRATER_CENTER_CODEC);
-        public static final Identifier ID = new Identifier(Main.MODID, "crater_center");
-
-        @Override
-        public DensityFunction apply(DensityFunctionVisitor visitor) {
-            return visitor.apply(new CraterCenter(input.apply(visitor), threshold));
-        }
-
-        @Override
-        public double sample(NoisePos pos) {
-            double val = input.sample(pos);
-            Pos p = new Pos(pos);
-            if(     val < threshold ||
-                    input.sample(p.offsetX(Crater.STEP)) >= val ||
-                    input.sample((p.offsetX(-Crater.STEP))) >= val ||
-                    input.sample((p.offsetZ(Crater.STEP))) >= val ||
-                    input.sample((p.offsetZ(-Crater.STEP))) >= val
-            )
-                return -10;
-            return val;
-        }
-
-        @Override
-        public double minValue() {
-            return -10;
-        }
-
-        @Override
-        public double maxValue() {
-            return input.maxValue();
-        }
-
-        @Override
-        public CodecHolder<? extends DensityFunction> getCodecHolder() {
-            return CODEC_HOLDER;
-        }
-
-        public static void register(){
-            Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
-        }
     }
 
     public record Crater(DensityFunction center, double threshold, int searchRadius, DensityFunction radius) implements DensityFunction.Base {
+        public Crater(DensityFunction center, double threshold, int searchRadius, DensityFunction radius){
+            this.center = center;
+            this.threshold = threshold;
+            this.searchRadius = searchRadius - searchRadius%4;
+            this.radius = radius;
+        }
         public static final Codec<Double> CONSTANT_DOUBLE_RANGE = Codec.doubleRange(-1000000.0, 1000000.0);
         public static final Codec<Integer> CONSTANT_INT_RANGE = Codec.intRange(-1000000, 1000000);
 
@@ -117,6 +71,7 @@ public class BWDensityFunctionTypes {
             double secTotWeight = 0;
             for(int dz = -searchRadius; dz <= searchRadius; dz += STEP){
                 int i = (int) Math.round(Math.sqrt(searchRadius * searchRadius - dz*dz));
+                i -= i%4;
                 for(int dx = -i; dx <= i; dx += STEP){
                     Pos pp = p.offsetZ(dz).offsetX(dx);
                     double val = center.sample(pp);

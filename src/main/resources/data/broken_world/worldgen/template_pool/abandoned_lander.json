@@ -1,12 +1,12 @@
 {
-  "name": "minecraft:domes",
+  "name": "broken_world:abandoned_lander",
   "fallback": "minecraft:empty", 
   "elements": [
     {
       "weight": 1, 
       "element": {
 	"element_type": "minecraft:single_pool_element", 
-	"location": "broken_world:moon_structure/dome",
+	"location": "broken_world:moon_structure/abandoned_lander",
 	"projection": "rigid", 
 	"processors": "minecraft:empty"
       }

@@ -1,0 +1,11 @@
+{
+  "structures": [
+    { "structure": "broken_world:moon_rover", "weight": 1 }
+  ], 
+  "placement": {
+    "type": "minecraft:random_spread", 
+    "spacing": 28,
+    "separation": 8,
+    "salt": 8854432
+  }
+}

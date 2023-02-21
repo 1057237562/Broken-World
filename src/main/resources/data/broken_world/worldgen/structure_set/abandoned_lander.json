@@ -1,0 +1,11 @@
+{
+  "structures": [
+    { "structure": "broken_world:abandoned_lander", "weight": 1 }
+  ], 
+  "placement": {
+    "type": "minecraft:random_spread", 
+    "spacing": 48,
+    "separation": 14,
+    "salt": 3217364
+  }
+}
