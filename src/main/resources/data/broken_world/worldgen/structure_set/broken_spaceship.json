@@ -1,0 +1,11 @@
+{
+  "structures": [
+    { "structure": "broken_world:broken_spaceship", "weight": 1 }
+  ], 
+  "placement": {
+    "type": "minecraft:random_spread", 
+    "spacing": 48,
+    "separation": 26,
+    "salt": 5421765
+  }
+}
