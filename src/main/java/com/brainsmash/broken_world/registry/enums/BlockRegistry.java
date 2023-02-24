@@ -53,4 +53,7 @@ public enum BlockRegistry {
     DATA_UPLOAD_NODE,
     CORE,
     SPAWN_POINTER,
+    CAKE,
+    CREAM,
+    CANDY_BAR,
 }

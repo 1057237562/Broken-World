@@ -124,6 +124,9 @@ public class BlockRegister {
             new DataUploadNodeBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new SpawnPointerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).dropsNothing()),
+            new Block(FabricBlockSettings.copyOf(Blocks.WHITE_WOOL)),
+            new Block(FabricBlockSettings.copyOf(Blocks.SNOW)),
+            new Block(FabricBlockSettings.copyOf(Blocks.STRIPPED_OAK_LOG)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -178,6 +181,9 @@ public class BlockRegister {
             new BlockItem(blocks[49], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[50], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[51], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[52], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[53], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[54], new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -234,6 +240,9 @@ public class BlockRegister {
             "data_upload_node",
             "core",
             "spawn_pointer",
+            "cake",
+            "cream",
+            "candy_bar",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
