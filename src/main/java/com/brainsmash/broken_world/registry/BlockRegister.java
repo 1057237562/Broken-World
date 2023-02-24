@@ -123,7 +123,7 @@ public class BlockRegister {
             new CodeBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
             new DataUploadNodeBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
-
+            new SpawnPointerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).dropsNothing()),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -177,6 +177,7 @@ public class BlockRegister {
             new BlockItem(blocks[48], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[49], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[50], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[51], new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -231,7 +232,8 @@ public class BlockRegister {
             "glitch",
             "code",
             "data_upload_node",
-            "core"
+            "core",
+            "spawn_pointer",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {

@@ -51,4 +51,6 @@ public enum BlockRegistry {
     GLITCH,
     CODE,
     DATA_UPLOAD_NODE,
+    CORE,
+    SPAWN_POINTER,
 }
