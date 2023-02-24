@@ -1,0 +1,15 @@
+{
+  "name": "broken_world:dome",
+  "fallback": "minecraft:empty", 
+  "elements": [
+    {
+      "weight": 1, 
+      "element": {
+	"element_type": "minecraft:single_pool_element", 
+	"location": "broken_world:moon_structure/dome",
+	"projection": "rigid", 
+	"processors": "minecraft:empty"
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "broken_world:broken_spaceship",
+  "fallback": "minecraft:empty", 
+  "elements": [
+    {
+      "weight": 1, 
+      "element": {
+	"element_type": "minecraft:single_pool_element", 
+	"location": "broken_world:moon_structure/broken_spaceship",
+	"projection": "rigid", 
+	"processors": "minecraft:empty"
+      }
+    }
+  ]
+}

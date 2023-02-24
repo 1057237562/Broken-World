@@ -1,0 +1,12 @@
+{
+  "structures": [
+    { "structure": "broken_world:dome", "weight": 1 }, 
+    { "structure": "broken_world:dome_broken", "weight": 3 }
+  ], 
+  "placement": {
+    "type": "minecraft:random_spread", 
+    "spacing": 34,
+    "separation": 10,
+    "salt": 523131
+  }
+}

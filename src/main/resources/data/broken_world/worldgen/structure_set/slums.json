@@ -1,0 +1,11 @@
+{
+  "structures": [
+    { "structure": "broken_world:slum", "weight": 1 }
+  ], 
+  "placement": {
+    "type": "minecraft:random_spread", 
+    "spacing": 18,
+    "separation": 10,
+    "salt": 95177864
+  }
+}
