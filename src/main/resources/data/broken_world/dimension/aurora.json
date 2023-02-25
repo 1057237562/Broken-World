@@ -2,12 +2,12 @@
   "type": "broken_world:candy",
   "generator": {
     "type": "minecraft:noise",
-    "settings": "minecraft:overworld",
+    "settings": "minecraft:floating_islands",
     "biome_source": {
       "type": "multi_noise",
       "biomes": [
         {
-          "biome": "broken_world:candy",
+          "biome": "broken_world:halo",
           "parameters": {
             "temperature": 0,
             "humidity": 0,
@@ -22,7 +22,22 @@
           }
         },
         {
-          "biome": "broken_world:candy",
+          "biome": "broken_world:pole",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": [
+              -1,
+              -0.01
+            ],
+            "erosion": 0,
+            "weirdness": 0,
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "broken_world:prism",
           "parameters": {
             "temperature": 0,
             "humidity": 0,
@@ -37,7 +52,7 @@
           }
         },
         {
-          "biome": "broken_world:chocolate_river",
+          "biome": "broken_world:aether_river",
           "parameters": {
             "temperature": 0,
             "humidity": 0,
