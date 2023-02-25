@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "broken_world:block/magnetic_stone"
+    }
+  }
+}
