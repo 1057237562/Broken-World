@@ -1,0 +1,11 @@
+{
+  "type": "broken_world:floating",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "minecraft:floating_islands",
+    "biome_source": {
+      "type": "fixed",
+      "biome": "broken_world:floating"
+    }
+  }
+}

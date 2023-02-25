@@ -1,8 +1,8 @@
 {
-  "type": "broken_world:candy",
+  "type": "broken_world:aurora",
   "generator": {
     "type": "minecraft:noise",
-    "settings": "minecraft:floating_islands",
+    "settings": "minecraft:overworld",
     "biome_source": {
       "type": "multi_noise",
       "biomes": [
