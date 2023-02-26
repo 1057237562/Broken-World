@@ -4,7 +4,8 @@
     "type": "minecraft:noise",
     "settings": "broken_world:floating_noise_gen",
     "biome_source": {
-      "type": "broken_world:floating"
+      "type": "fixed",
+      "biome": "broken_world:floating"
     }
   }
 }

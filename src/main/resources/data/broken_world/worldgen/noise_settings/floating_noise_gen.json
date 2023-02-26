@@ -5,7 +5,7 @@
   "ore_veins_enabled": false,
   "legacy_random_source": false,
   "default_block": {
-    "Name": "paradise_lost:floestone"
+    "Name": "minecraft:stone"
   },
   "default_fluid": {
     "Name": "minecraft:water",
@@ -24,12 +24,28 @@
     "fluid_level_floodedness": -1,
     "fluid_level_spread": 0,
     "lava": 0,
-    "temperature": "paradise_lost:generator/temperature",
-    "vegetation": "paradise_lost:generator/vegetation",
-    "continents": "paradise_lost:generator/continents",
-    "erosion": "paradise_lost:generator/erosion",
-    "depth": "paradise_lost:generator/depth",
-    "ridges": "paradise_lost:generator/ridges",
+    "continents": "minecraft:overworld/continents",
+    "erosion": "minecraft:overworld/erosion",
+    "depth": "minecraft:overworld/depth",
+    "ridges": "minecraft:overworld/ridges",
+    "temperature": {
+      "type": "minecraft:shifted_noise",
+      "noise": "minecraft:temperature",
+      "shift_x": "minecraft:shift_x",
+      "shift_y": 0.0,
+      "shift_z": "minecraft:shift_z",
+      "xz_scale": 0.25,
+      "y_scale": 0.0
+    },
+    "vegetation": {
+      "type": "minecraft:shifted_noise",
+      "noise": "minecraft:vegetation",
+      "shift_x": "minecraft:shift_x",
+      "shift_y": 0.0,
+      "shift_z": "minecraft:shift_z",
+      "xz_scale": 0.25,
+      "y_scale": 0.0
+    },
     "initial_density_without_jaggedness": {
       "type": "minecraft:interpolated",
       "argument": {
@@ -48,12 +64,12 @@
           "type": "minecraft:add",
           "argument1": {
             "type": "minecraft:add",
-            "argument1": "paradise_lost:bulk",
-            "argument2": "paradise_lost:spackle"
+            "argument1": "broken_world:island",
+            "argument2": "broken_world:side"
           },
-          "argument2": "paradise_lost:ridges"
+          "argument2": "broken_world:ridge"
         },
-        "argument2": "paradise_lost:hills"
+        "argument2": "broken_world:hill"
       }
     },
     "vein_toggle": 0,
@@ -168,185 +184,22 @@
                         "if_true": {
                           "type": "minecraft:biome",
                           "biome_is": [
-                            "paradise_lost:highlands_forest"
+                            "broken_world:floating"
                           ]
                         },
                         "then_run": {
                           "type": "minecraft:condition",
                           "if_true": {
-                            "type": "minecraft:noise_threshold",
-                            "noise": "paradise_lost:topsoil/forest_noise",
-                            "min_threshold": 0.4,
-                            "max_threshold": 1
+                            "type": "minecraft:stone_depth",
+                            "add_surface_depth": false,
+                            "offset": 0,
+                            "secondary_depth_range": 0,
+                            "surface_type": "ceiling"
                           },
                           "then_run": {
                             "type": "minecraft:block",
                             "result_state": {
-                              "Name": "paradise_lost:coarse_dirt"
-                            }
-                          }
-                        }
-                      }
-                    ]
-                  }
-
-                },
-                {
-
-                  "type": "minecraft:condition",
-                  "if_true": {
-                    "type": "minecraft:stone_depth",
-                    "offset": 0,
-                    "surface_type": "floor",
-                    "add_surface_depth": false,
-                    "secondary_depth_range": 0
-                  },
-                  "then_run": {
-                    "type": "minecraft:sequence",
-                    "sequence": [
-                      {
-                        "type": "minecraft:condition",
-                        "if_true": {
-                          "type": "minecraft:biome",
-                          "biome_is": [
-                            "paradise_lost:highlands_thicket"
-                          ]
-                        },
-                        "then_run": {
-                          "type": "minecraft:condition",
-                          "if_true": {
-                            "type": "minecraft:noise_threshold",
-                            "noise": "paradise_lost:topsoil/thicket_noise",
-                            "min_threshold": 0.85,
-                            "max_threshold": 2
-                          },
-                          "then_run": {
-                            "type": "minecraft:block",
-                            "result_state": {
-                              "Name": "paradise_lost:liverwort"
-                            }
-                          }
-                        }
-                      }
-                    ]
-                  }
-
-                },
-                {
-
-                  "type": "minecraft:condition",
-                  "if_true": {
-                    "type": "minecraft:stone_depth",
-                    "offset": 0,
-                    "surface_type": "floor",
-                    "add_surface_depth": false,
-                    "secondary_depth_range": 0
-                  },
-                  "then_run": {
-                    "type": "minecraft:sequence",
-                    "sequence": [
-                      {
-                        "type": "minecraft:condition",
-                        "if_true": {
-                          "type": "minecraft:biome",
-                          "biome_is": [
-                            "paradise_lost:highlands_grand_glade"
-                          ]
-                        },
-                        "then_run": {
-                          "type": "minecraft:condition",
-                          "if_true": {
-                            "type": "minecraft:noise_threshold",
-                            "noise": "paradise_lost:topsoil/thicket_noise",
-                            "min_threshold": 0.7,
-                            "max_threshold": 2
-                          },
-                          "then_run": {
-                            "type": "minecraft:block",
-                            "result_state": {
-                              "Name": "paradise_lost:liverwort"
-                            }
-                          }
-                        }
-                      }
-                    ]
-                  }
-
-                },
-                {
-
-                  "type": "minecraft:condition",
-                  "if_true": {
-                    "type": "minecraft:stone_depth",
-                    "offset": 3,
-                    "surface_type": "floor",
-                    "add_surface_depth": false,
-                    "secondary_depth_range": 0
-                  },
-                  "then_run": {
-                    "type": "minecraft:sequence",
-                    "sequence": [
-                      {
-                        "type": "minecraft:condition",
-                        "if_true": {
-                          "type": "minecraft:biome",
-                          "biome_is": [
-                            "paradise_lost:highlands_shield"
-                          ]
-                        },
-                        "then_run": {
-                          "type": "minecraft:condition",
-                          "if_true": {
-                            "type": "minecraft:noise_threshold",
-                            "noise": "paradise_lost:topsoil/shield_noise",
-                            "min_threshold": 0.4,
-                            "max_threshold": 2
-                          },
-                          "then_run": {
-                            "type": "minecraft:block",
-                            "result_state": {
-                              "Name": "paradise_lost:floestone"
-                            }
-                          }
-                        }
-                      }
-                    ]
-                  }
-
-                },
-                {
-
-                  "type": "minecraft:condition",
-                  "if_true": {
-                    "type": "minecraft:stone_depth",
-                    "offset": 0,
-                    "surface_type": "floor",
-                    "add_surface_depth": false,
-                    "secondary_depth_range": 0
-                  },
-                  "then_run": {
-                    "type": "minecraft:sequence",
-                    "sequence": [
-                      {
-                        "type": "minecraft:condition",
-                        "if_true": {
-                          "type": "minecraft:biome",
-                          "biome_is": [
-                            "paradise_lost:highlands_shield"
-                          ]
-                        },
-                        "then_run": {
-                          "type": "minecraft:condition",
-                          "if_true": {
-                            "type": "minecraft:noise_threshold",
-                            "noise": "paradise_lost:topsoil/shield_noise",
-                            "min_threshold": 0.3,
-                            "max_threshold": 0.45
-                          },
-                          "then_run": {
-                            "type": "minecraft:block",
-                            "result_state": {
-                              "Name": "paradise_lost:cobbled_floestone"
+                              "Name": "minecraft:dirt"
                             }
                           }
                         }
@@ -377,48 +230,6 @@
 
                       "type": "minecraft:sequence",
                       "sequence": [
-                        {
-                          "type": "minecraft:condition",
-                          "if_true": {
-                            "type": "minecraft:stone_depth",
-                            "offset": 0,
-                            "surface_type": "floor",
-                            "add_surface_depth": false,
-                            "secondary_depth_range": 0
-                          },
-                          "then_run": {
-                            "type": "minecraft:sequence",
-                            "sequence": [
-                              {
-                                "type": "minecraft:condition",
-                                "if_true": {
-                                  "type": "minecraft:biome",
-                                  "biome_is": [
-                                    "paradise_lost:autumnal_tundra"
-                                  ]
-                                },
-                                "then_run": {
-                                  "type": "minecraft:block",
-                                  "result_state": {
-                                    "Name": "paradise_lost:frozen_grass",
-                                    "Properties": {
-                                      "snowy": ""
-                                    }
-                                  }
-                                }
-                              },
-                              {
-                                "type": "minecraft:block",
-                                "result_state": {
-                                  "Name": "minecraft:grass",
-                                  "Properties": {
-                                    "snowy": "false"
-                                  }
-                                }
-                              }
-                            ]
-                          }
-                        },
                         {
                           "type": "minecraft:condition",
                           "if_true": {
@@ -458,10 +269,11 @@
                         {
                           "type": "minecraft:condition",
                           "if_true": {
-                            "type": "minecraft:noise_threshold",
-                            "noise": "paradise_lost:topsoil/dirt_layer",
-                            "min_threshold": 0,
-                            "max_threshold": 1
+                            "type": "minecraft:stone_depth",
+                            "add_surface_depth": false,
+                            "offset": 0,
+                            "secondary_depth_range": 0,
+                            "surface_type": "ceiling"
                           },
                           "then_run": {
                             "type": "minecraft:condition",
