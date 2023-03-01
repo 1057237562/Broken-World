@@ -30,7 +30,7 @@ public class apocalyptor<T extends Entity> extends EntityModel<T> {
 		.texOffs(0, 42).addBox(-7.0F, -22.0F, -4.0F, 14.0F, 5.0F, 8.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 25).addBox(-8.0F, -29.0F, -5.0F, 16.0F, 7.0F, 10.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 0).addBox(-10.0F, -42.0F, -6.0F, 20.0F, 13.0F, 12.0F, new CubeDeformation(0.0F))
-		.texOffs(74, 39).addBox(-6.0F, -17.0F, 2.0F, 13.0F, 5.0F, 0.0F, new CubeDeformation(0.0F))
+		.texOffs(74, 39).addBox(-6.0F, -17.0F, 2.1F, 13.0F, 5.0F, 0.0F, new CubeDeformation(0.0F))
 		.texOffs(74, 16).addBox(-6.0F, -17.0F, -2.1F, 13.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
 		PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 77).addBox(1.0F, -17.0F, -2.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
