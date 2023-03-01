@@ -302,7 +302,7 @@ public class PhoenixEntity extends HostileEntity {
             Random random = this.phoenixEntity.getRandom();
             double d = this.phoenixEntity.getX() + (double) ((random.nextFloat() * 2.0f - 1.0f) * 16.0f);
             double e = MathHelper.clamp(
-                    this.phoenixEntity.getY() + (double) ((random.nextFloat() * 2.0f - 1.0f) * 16.0f), 90, 140);
+                    this.phoenixEntity.getY() + (double) ((random.nextFloat() * 2.0f - 1.0f) * 16.0f), 70, 180);
             double f = this.phoenixEntity.getZ() + (double) ((random.nextFloat() * 2.0f - 1.0f) * 16.0f);
             this.phoenixEntity.getMoveControl().moveTo(d, e, f, 1.0);
         }
