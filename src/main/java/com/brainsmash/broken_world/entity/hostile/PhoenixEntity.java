@@ -6,6 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
@@ -41,14 +42,19 @@ public class PhoenixEntity extends HostileEntity {
         moveControl = new PhoenixMoveControl(this);
     }
 
+    public static DefaultAttributeContainer.Builder createPhoenixAttributes() {
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0).add(
+                EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0).add(EntityAttributes.GENERIC_MAX_HEALTH, 400);
+    }
+
     @Override
     protected void initGoals() {
         this.goalSelector.add(4, new ShootFireballGoal(this));
-        this.goalSelector.add(5, new FlyRandomlyGoal(this));
-        this.goalSelector.add(6, new GoToWalkTargetGoal(this, 1.0));
+        this.goalSelector.add(5, new GoToWalkTargetGoal(this, 1.0));
+        this.goalSelector.add(6, new LookAtTargetGoal(this));
+        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
+        this.goalSelector.add(7, new FlyRandomlyGoal(this));
         this.goalSelector.add(7, new WanderAroundFarGoal((PathAwareEntity) this, 1.0, 0.0f));
-        this.goalSelector.add(7, new LookAtTargetGoal(this));
-        this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
         this.goalSelector.add(8, new LookAroundGoal(this));
         this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge());
         this.targetSelector.add(2, new ActiveTargetGoal<PlayerEntity>((MobEntity) this, PlayerEntity.class, true));
@@ -161,7 +167,7 @@ public class PhoenixEntity extends HostileEntity {
                         this.targetY - this.phoenixEntity.getY(), this.targetZ - this.phoenixEntity.getZ());
                 double d = vec3d.length();
                 if (this.willCollide(vec3d = vec3d.normalize(), MathHelper.ceil(d))) {
-                    this.phoenixEntity.setVelocity(this.phoenixEntity.getVelocity().add(vec3d.multiply(0.1)));
+                    this.phoenixEntity.setVelocity(this.phoenixEntity.getVelocity().add(vec3d.multiply(0.5)));
                 } else {
                     this.state = MoveControl.State.WAIT;
                 }
@@ -251,8 +257,8 @@ public class PhoenixEntity extends HostileEntity {
                                     this.phoenixEntity.getBlockPos(), 0);
                         }
                         SmallFireballEntity smallFireballEntity = new SmallFireballEntity(this.phoenixEntity.world,
-                                this.phoenixEntity, this.phoenixEntity.getRandom().nextTriangular(e, 2.297 * h), f,
-                                this.phoenixEntity.getRandom().nextTriangular(g, 2.297 * h));
+                                this.phoenixEntity, this.phoenixEntity.getRandom().nextTriangular(e, 0.78f * h), f,
+                                this.phoenixEntity.getRandom().nextTriangular(g, 0.78f * h));
                         smallFireballEntity.setPosition(smallFireballEntity.getX(),
                                 this.phoenixEntity.getBodyY(0.5) + 0.5, smallFireballEntity.getZ());
                         this.phoenixEntity.world.spawnEntity(smallFireballEntity);

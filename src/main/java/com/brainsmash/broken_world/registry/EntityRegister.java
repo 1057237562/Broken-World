@@ -76,6 +76,6 @@ public class EntityRegister {
                 GlitchedZombieEntity.createGlitchedZombieAttributes());
         FabricDefaultAttributeRegistry.register(GLITCHED_SKELETON_ENTITY_TYPE,
                 GlitchedSkeletonEntity.createGlitchedSkeletonAttributes());
-        FabricDefaultAttributeRegistry.register(PHOENIX_ENTITY_TYPE, PhoenixEntity.createHostileAttributes());
+        FabricDefaultAttributeRegistry.register(PHOENIX_ENTITY_TYPE, PhoenixEntity.createPhoenixAttributes());
     }
 }
