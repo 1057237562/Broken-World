@@ -86,34 +86,34 @@ public class PhoenixEntityModel<T extends Entity> extends AnimalModel<T> {
                 ModelTransform.of(3.0F, 2.0F, 0.0F, 0.1409F, 0.4343F, 0.0311F));
 
         ModelPartData left_leg = modelPartData.addChild(EntityModelPartNames.LEFT_LEG,
-                ModelPartBuilder.create().uv(4, 10).cuboid(0.0F, -8.0F, 2.0F, 1.0F, 8.0F, 1.0F).uv(0, 32).cuboid(-1.0F,
-                        0.0F, -1.0F, 3.0F, 0.0F, 3.0F), ModelTransform.pivot(1.0F, 24.0F, 1.0F));
+                ModelPartBuilder.create().uv(4, 10).cuboid(-1.0F, -1.0F, -1.0F, 1.0F, 8.0F, 1.0F).uv(0, 32).cuboid(
+                        -2.0F, 7.0F, -4.0F, 3.0F, 0.0F, 3.0F), ModelTransform.pivot(2.0F, 17.0F, 4.0F));
 
         ModelPartData right_leg = modelPartData.addChild(EntityModelPartNames.RIGHT_LEG,
-                ModelPartBuilder.create().uv(0, 10).cuboid(0.0F, -8.0F, 2.0F, 1.0F, 8.0F, 1.0F).uv(0, 32).cuboid(-1.0F,
-                        0.0F, -1.0F, 3.0F, 0.0F, 3.0F), ModelTransform.pivot(-3.0F, 24.0F, 1.0F));
+                ModelPartBuilder.create().uv(0, 10).cuboid(0.0F, -1.0F, -1.0F, 1.0F, 8.0F, 1.0F).uv(0, 32).cuboid(-1.0F,
+                        7.0F, -4.0F, 3.0F, 0.0F, 3.0F), ModelTransform.pivot(-3.0F, 17.0F, 4.0F));
 
         ModelPartData left_wing = modelPartData.addChild(EntityModelPartNames.LEFT_WING,
                 ModelPartBuilder.create().uv(0, 50).cuboid(-1.0F, -1.0F, -1.0F, 1.0F, 6.0F, 23.0F),
-                ModelTransform.of(0.0F, 2.0F, 0.0F, -0.4363F, 0.0F, 0.0F));
+                ModelTransform.of(3.0F, 11.0F, -3.0F, -0.4363F, 0.0F, 0.0F));
         ModelPartData right_wing = modelPartData.addChild(EntityModelPartNames.RIGHT_WING,
                 ModelPartBuilder.create().uv(0, 50).cuboid(-1.0F, -1.0F, -1.0F, 1.0F, 6.0F, 23.0F),
-                ModelTransform.of(0.0F, 2.0F, 0.0F, -0.4363F, 0.0F, 0.0F));
+                ModelTransform.of(-2.0F, 11.0F, -3.0F, -0.4363F, 0.0F, 0.0F));
 
-        ModelPartData head = modelPartData.addChild("head",
+        ModelPartData head = modelPartData.addChild(EntityModelPartNames.HEAD,
                 ModelPartBuilder.create().uv(109, 98).cuboid(-2.0F, -4.0F, -1.0F, 3.0F, 3.0F, 1.0F).uv(12, 3).cuboid(
                         -2.0F, -1.0F, -3.0F, 3.0F, 1.0F, 1.0F).uv(9, 14).cuboid(-1.0F, 0.0F, -6.0F, 1.0F, 2.0F,
                         5.0F).uv(9, 0).cuboid(-2.0F, 0.0F, -4.0F, 3.0F, 1.0F, 2.0F).uv(9, 7).cuboid(-2.0F, -1.0F, -2.0F,
                         3.0F, 4.0F, 3.0F), ModelTransform.pivot(0.0F, 3.0F, -6.0F));
 
-        ModelPartData bb_main = modelPartData.addChild("bb_main", ModelPartBuilder.create(),
+        ModelPartData body = modelPartData.addChild(EntityModelPartNames.BODY, ModelPartBuilder.create(),
                 ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 
-        ModelPartData neck_r1 = bb_main.addChild("neck_r1",
+        ModelPartData neck_r1 = body.addChild("neck",
                 ModelPartBuilder.create().uv(0, 0).cuboid(-2.0F, -4.0F, -3.0F, 3.0F, 7.0F, 3.0F),
                 ModelTransform.of(0.0F, -16.0F, -3.0F, 0.3927F, 0.0F, 0.0F));
 
-        ModelPartData body_r1 = bb_main.addChild("body_r1",
+        ModelPartData body_r1 = body.addChild("body",
                 ModelPartBuilder.create().uv(55, 31).cuboid(-3.0F, -8.0F, -8.0F, 5.0F, 4.0F, 11.0F),
                 ModelTransform.of(0.0F, -4.0F, 0.0F, -0.3927F, 0.0F, 0.0F));
 
@@ -135,8 +135,8 @@ public class PhoenixEntityModel<T extends Entity> extends AnimalModel<T> {
     public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         this.head.pitch = headPitch * ((float) Math.PI / 180);
         this.head.yaw = headYaw * ((float) Math.PI / 180);
-        this.rightLeg.pitch = MathHelper.cos(limbAngle * 0.6662f) * 1.4f * limbDistance;
-        this.leftLeg.pitch = MathHelper.cos(limbAngle * 0.6662f + (float) Math.PI) * 1.4f * limbDistance;
+        this.rightLeg.pitch = MathHelper.cos(limbAngle * 0.3331f) * 0.7f * limbDistance;
+        this.leftLeg.pitch = MathHelper.cos(limbAngle * 0.3331f + (float) Math.PI) * 0.7f * limbDistance;
         this.rightWing.roll = animationProgress;
         this.leftWing.roll = -animationProgress;
     }

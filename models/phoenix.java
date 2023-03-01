@@ -52,11 +52,11 @@ public class phoenix<T extends Entity> extends EntityModel<T> {
 
 		PartDefinition cube_r13 = tail.addOrReplaceChild("cube_r13", CubeListBuilder.create().texOffs(4, 29).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 0.0F, 20.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, 2.0F, 0.0F, 0.1409F, 0.4343F, 0.0311F));
 
-		PartDefinition left_leg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(4, 10).addBox(0.0F, -8.0F, 2.0F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 32).addBox(-1.0F, 0.0F, -1.0F, 3.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(1.0F, 24.0F, 1.0F));
+		PartDefinition left_leg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(4, 10).addBox(-1.0F, -1.0F, -1.0F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(0, 32).addBox(-2.0F, 7.0F, -4.0F, 3.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, 17.0F, 4.0F));
 
-		PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 10).addBox(0.0F, -8.0F, 2.0F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 32).addBox(-1.0F, 0.0F, -1.0F, 3.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.0F, 24.0F, 1.0F));
+		PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 10).addBox(0.0F, -1.0F, -1.0F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F))
+		.texOffs(0, 32).addBox(-1.0F, 7.0F, -4.0F, 3.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.0F, 17.0F, 4.0F));
 
 		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(109, 98).addBox(-2.0F, -4.0F, -1.0F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
 		.texOffs(12, 3).addBox(-2.0F, -1.0F, -3.0F, 3.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
