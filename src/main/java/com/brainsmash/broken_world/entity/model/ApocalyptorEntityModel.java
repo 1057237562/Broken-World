@@ -2,14 +2,26 @@ package com.brainsmash.broken_world.entity.model;
 
 import com.brainsmash.broken_world.entity.hostile.ApocalyptorEntity;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.model.CrossbowPosing;
+import net.minecraft.client.render.entity.model.EntityModelPartNames;
+import net.minecraft.client.render.entity.model.SinglePartEntityModel;
+import net.minecraft.util.math.MathHelper;
 
-public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends BipedEntityModel<T> {
+public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends SinglePartEntityModel<T> {
 
+    private final ModelPart root;
+    private final ModelPart head;
+    private final ModelPart rightArm;
+    private final ModelPart leftArm;
+    private final ModelPart rightLeg;
+    private final ModelPart leftLeg;
 
     public ApocalyptorEntityModel(ModelPart root) {
-        super(root);
+        this.root = root;
+        this.head = root.getChild(EntityModelPartNames.HEAD);
+        this.rightArm = root.getChild(EntityModelPartNames.RIGHT_ARM);
+        this.leftArm = root.getChild(EntityModelPartNames.LEFT_ARM);
+        this.rightLeg = root.getChild(EntityModelPartNames.RIGHT_LEG);
+        this.leftLeg = root.getChild(EntityModelPartNames.LEFT_LEG);
     }
 
 
@@ -35,18 +47,18 @@ public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends BipedEn
                 ModelTransform.pivot(-3.0F, 7.0F, 0.0F));
 
         ModelPartData right_arm = modelPartData.addChild("right_arm",
-                ModelPartBuilder.create().uv(74, 28).cuboid(1.0F, -2.0F, -3.0F, 5.0F, 5.0F, 6.0F).uv(0, 55).cuboid(2.0F,
-                        -3.0F, -4.0F, 7.0F, 14.0F, 8.0F).uv(66, 56).cuboid(3.0F, 11.0F, -3.0F, 5.0F, 9.0F, 6.0F),
-                ModelTransform.pivot(9.0F, -14.0F, 0.0F));
+                ModelPartBuilder.create().uv(74, 28).cuboid(10.0F, -3.0F, -3.0F, 5.0F, 5.0F, 6.0F).uv(0, 55).cuboid(
+                        11.0F, -4.0F, -4.0F, 7.0F, 14.0F, 8.0F).uv(66, 56).cuboid(12.0F, 10.0F, -3.0F, 5.0F, 9.0F,
+                        6.0F), ModelTransform.pivot(0.0F, -13.0F, 0.0F));
 
         ModelPartData left_arm = modelPartData.addChild("left_arm",
-                ModelPartBuilder.create().uv(60, 71).cuboid(-4.0F, -2.0F, -3.0F, 5.0F, 5.0F, 6.0F).uv(44, 34).cuboid(
-                        -7.0F, -3.0F, -4.0F, 7.0F, 14.0F, 8.0F).uv(58, 19).cuboid(-6.0F, 11.0F, -3.0F, 5.0F, 9.0F,
-                        6.0F), ModelTransform.pivot(-11.0F, -14.0F, 0.0F));
+                ModelPartBuilder.create().uv(60, 71).cuboid(-15.0F, -3.0F, -3.0F, 5.0F, 5.0F, 6.0F).uv(44, 34).cuboid(
+                        -18.0F, -4.0F, -4.0F, 7.0F, 14.0F, 8.0F).uv(58, 19).cuboid(-17.0F, 10.0F, -3.0F, 5.0F, 9.0F,
+                        6.0F), ModelTransform.pivot(0.0F, -13.0F, 0.0F));
 
         ModelPartData shield_r1 = left_arm.addChild("shield_r1",
                 ModelPartBuilder.create().uv(88, 45).cuboid(-3.0F, -35.0F, 10.0F, 2.0F, 32.0F, 10.0F),
-                ModelTransform.of(7.0F, 38.0F, 3.0F, 2.3521F, -1.3334F, -2.285F));
+                ModelTransform.of(-4.0F, 37.0F, 3.0F, 2.3521F, -1.3334F, -2.285F));
 
         ModelPartData head = modelPartData.addChild("head", ModelPartBuilder.create(),
                 ModelTransform.pivot(0.0F, 24.0F, 0.0F));
@@ -59,28 +71,21 @@ public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends BipedEn
     }
 
     @Override
-    public ModelPart getHead() {
-        return head;
-    }
-
-    @Override
-    protected Iterable<ModelPart> getBodyParts() {
-        return super.getBodyParts();
-    }
-
-    @Override
     public void setAngles(T livingEntity, float f, float g, float h, float i, float j) {
-        //super.setAngles(livingEntity, f, g, h, i, j);
+        this.head.yaw = i * ((float) Math.PI / 180);
+        this.head.pitch = j * ((float) Math.PI / 180);
+        this.rightLeg.pitch = -1.5f * MathHelper.wrap(f, 13.0f) * g;
+        this.leftLeg.pitch = 1.5f * MathHelper.wrap(f, 13.0f) * g;
+        this.rightLeg.yaw = 0.0f;
+        this.leftLeg.yaw = 0.0f;
         this.rotateMainArm(livingEntity);
     }
 
     @Override
-    protected void animateArms(T mobEntity, float f) {
-        if (this.handSwingProgress > 0.0f) {
-            CrossbowPosing.meleeAttack(this.rightArm, this.leftArm, mobEntity, this.handSwingProgress, f);
-            return;
-        }
-        super.animateArms(mobEntity, f);
+    public void animateModel(T livingEntity, float f, float g, float h) {
+        this.rightArm.pitch = (-0.2f + 1.5f * MathHelper.wrap(f, 13.0f)) * g;
+        this.leftArm.pitch = (-0.2f - 1.5f * MathHelper.wrap(f, 13.0f)) * g;
+        this.rotateMainArm(livingEntity);
     }
 
     private void rotateMainArm(T entity) {
@@ -89,5 +94,10 @@ public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends BipedEn
         } else {
             this.rightArm.pitch = -1.8f;
         }
+    }
+
+    @Override
+    public ModelPart getPart() {
+        return root;
     }
 }

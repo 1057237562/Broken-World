@@ -39,15 +39,15 @@ public class apocalyptor<T extends Entity> extends EntityModel<T> {
 		.uv(44, 72).cuboid(-5.0F, 3.0F, -2.0F, 4.0F, 4.0F, 4.0F)
 		.uv(64, 0).cuboid(-7.0F, 7.0F, -3.0F, 5.0F, 10.0F, 6.0F), ModelTransform.pivot(-3.0F, 7.0F, 0.0F));
 
-		ModelPartData right_arm = modelPartData.addChild("right_arm", ModelPartBuilder.create().uv(74, 28).cuboid(1.0F, -2.0F, -3.0F, 5.0F, 5.0F, 6.0F)
-		.uv(0, 55).cuboid(2.0F, -3.0F, -4.0F, 7.0F, 14.0F, 8.0F)
-		.uv(66, 56).cuboid(3.0F, 11.0F, -3.0F, 5.0F, 9.0F, 6.0F), ModelTransform.pivot(9.0F, -14.0F, 0.0F));
+		ModelPartData right_arm = modelPartData.addChild("right_arm", ModelPartBuilder.create().uv(74, 28).cuboid(10.0F, -3.0F, -3.0F, 5.0F, 5.0F, 6.0F)
+		.uv(0, 55).cuboid(11.0F, -4.0F, -4.0F, 7.0F, 14.0F, 8.0F)
+		.uv(66, 56).cuboid(12.0F, 10.0F, -3.0F, 5.0F, 9.0F, 6.0F), ModelTransform.pivot(0.0F, -13.0F, 0.0F));
 
-		ModelPartData left_arm = modelPartData.addChild("left_arm", ModelPartBuilder.create().uv(60, 71).cuboid(-4.0F, -2.0F, -3.0F, 5.0F, 5.0F, 6.0F)
-		.uv(44, 34).cuboid(-7.0F, -3.0F, -4.0F, 7.0F, 14.0F, 8.0F)
-		.uv(58, 19).cuboid(-6.0F, 11.0F, -3.0F, 5.0F, 9.0F, 6.0F), ModelTransform.pivot(-11.0F, -14.0F, 0.0F));
+		ModelPartData left_arm = modelPartData.addChild("left_arm", ModelPartBuilder.create().uv(60, 71).cuboid(-15.0F, -3.0F, -3.0F, 5.0F, 5.0F, 6.0F)
+		.uv(44, 34).cuboid(-18.0F, -4.0F, -4.0F, 7.0F, 14.0F, 8.0F)
+		.uv(58, 19).cuboid(-17.0F, 10.0F, -3.0F, 5.0F, 9.0F, 6.0F), ModelTransform.pivot(0.0F, -13.0F, 0.0F));
 
-		ModelPartData shield_r1 = left_arm.addChild("shield_r1", ModelPartBuilder.create().uv(88, 45).cuboid(-3.0F, -35.0F, 10.0F, 2.0F, 32.0F, 10.0F), ModelTransform.of(7.0F, 38.0F, 3.0F, 2.3521F, -1.3334F, -2.285F));
+		ModelPartData shield_r1 = left_arm.addChild("shield_r1", ModelPartBuilder.create().uv(88, 45).cuboid(-3.0F, -35.0F, 10.0F, 2.0F, 32.0F, 10.0F), ModelTransform.of(-4.0F, 37.0F, 3.0F, 2.3521F, -1.3334F, -2.285F));
 
 		return TexturedModelData.of(modelData, 128, 128);
 	}
