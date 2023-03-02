@@ -2,10 +2,8 @@ package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.entity.BulletEntity;
 import com.brainsmash.broken_world.entity.HyperSpearEntity;
-import com.brainsmash.broken_world.entity.hostile.FishboneEntity;
-import com.brainsmash.broken_world.entity.hostile.GlitchedSkeletonEntity;
-import com.brainsmash.broken_world.entity.hostile.GlitchedZombieEntity;
-import com.brainsmash.broken_world.entity.hostile.PhoenixEntity;
+import com.brainsmash.broken_world.entity.hostile.*;
+import com.brainsmash.broken_world.entity.model.ApocalyptorEntityModel;
 import com.brainsmash.broken_world.entity.model.FishboneEntityModel;
 import com.brainsmash.broken_world.entity.model.PhoenixEntityModel;
 import com.brainsmash.broken_world.entity.render.*;
@@ -52,11 +50,17 @@ public class EntityRegister {
             new Identifier(MODID, "phoenix"),
             FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, PhoenixEntity::new).dimensions(
                     EntityDimensions.fixed(1f, 2f)).trackRangeBlocks(64).build());
+    public static final EntityType<ApocalyptorEntity> APOCALYPTOR_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MODID, "apocalyptor"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ApocalyptorEntity::new).dimensions(
+                    EntityDimensions.fixed(1.75f, 3f)).trackRangeBlocks(64).build());
 
     public static final EntityModelLayer MODEL_FISHBONE_LAYER = new EntityModelLayer(new Identifier(MODID, "fishbone"),
             "main");
     public static final EntityModelLayer MODEL_PHOENIX_LAYER = new EntityModelLayer(new Identifier(MODID, "phoenix"),
             "main");
+    public static final EntityModelLayer MODEL_APOCALYPTOR_LAYER = new EntityModelLayer(
+            new Identifier(MODID, "apocalyptor"), "main");
 
     public static void registEntitiesClientSide() {
         EntityRendererRegistry.register(BULLET_ENTITY_ENTITY_TYPE, BulletEntityRenderer::new);
@@ -65,9 +69,12 @@ public class EntityRegister {
         EntityRendererRegistry.register(GLITCHED_ZOMBIE_ENTITY_TYPE, GlitchedZombieEntityRenderer::new);
         EntityRendererRegistry.register(GLITCHED_SKELETON_ENTITY_TYPE, GlitchedSkeletonEntityRenderer::new);
         EntityRendererRegistry.register(PHOENIX_ENTITY_TYPE, PhoenixEntityRenderer::new);
+        EntityRendererRegistry.register(APOCALYPTOR_ENTITY_TYPE, ApocalyptorEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(MODEL_FISHBONE_LAYER, FishboneEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_PHOENIX_LAYER, PhoenixEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_APOCALYPTOR_LAYER,
+                ApocalyptorEntityModel::getTexturedModelData);
     }
 
     public static void registEntities() {
@@ -77,5 +84,7 @@ public class EntityRegister {
         FabricDefaultAttributeRegistry.register(GLITCHED_SKELETON_ENTITY_TYPE,
                 GlitchedSkeletonEntity.createGlitchedSkeletonAttributes());
         FabricDefaultAttributeRegistry.register(PHOENIX_ENTITY_TYPE, PhoenixEntity.createPhoenixAttributes());
+        FabricDefaultAttributeRegistry.register(APOCALYPTOR_ENTITY_TYPE,
+                ApocalyptorEntity.createApocalyptorAttributes());
     }
 }
