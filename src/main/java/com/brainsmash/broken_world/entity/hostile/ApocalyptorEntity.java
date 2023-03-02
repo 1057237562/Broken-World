@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.entity.hostile;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.world.World;
 
@@ -11,6 +12,6 @@ public class ApocalyptorEntity extends HostileEntity {
     }
 
     public static DefaultAttributeContainer createApocalyptorAttributes() {
-        return createHostileAttributes().build();
+        return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 400).build();
     }
 }
