@@ -1,7 +1,6 @@
 package com.brainsmash.broken_world.entity.hostile;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -10,7 +9,14 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.raid.RaiderEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class ApocalyptorEntity extends HostileEntity {
     public ApocalyptorEntity(EntityType<? extends HostileEntity> entityType, World world) {
@@ -32,7 +38,24 @@ public class ApocalyptorEntity extends HostileEntity {
     }
 
     public static DefaultAttributeContainer createApocalyptorAttributes() {
-        return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 400).build();
+        return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 400).add(
+                EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED,
+                0.5).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0).build();
+    }
+
+    @Nullable
+    @Override
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        EntityData data = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+        this.initEquipment(random, difficulty);
+        System.out.println("init");
+        return data;
+    }
+
+    @Override
+    protected void initEquipment(Random random, LocalDifficulty localDifficulty) {
+        this.equipStack(EquipmentSlot.MAINHAND,
+                new ItemStack(random.nextDouble() < 0.75f ? Items.STONE_AXE : Items.GOLDEN_AXE));
     }
 
     class AttackGoal extends MeleeAttackGoal {

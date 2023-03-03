@@ -2,11 +2,15 @@ package com.brainsmash.broken_world.entity.model;
 
 import com.brainsmash.broken_world.entity.hostile.ApocalyptorEntity;
 import net.minecraft.client.model.*;
+import net.minecraft.client.render.entity.model.CrossbowPosing;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
+import net.minecraft.client.render.entity.model.ModelWithArms;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Arm;
 import net.minecraft.util.math.MathHelper;
 
-public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends SinglePartEntityModel<T> {
+public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends SinglePartEntityModel<T> implements ModelWithArms {
 
     private final ModelPart root;
     private final ModelPart head;
@@ -79,12 +83,18 @@ public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends SingleP
         this.rightLeg.yaw = 0.0f;
         this.leftLeg.yaw = 0.0f;
         this.rotateMainArm(livingEntity);
+        if (livingEntity.isAttacking()) {
+            CrossbowPosing.meleeAttack(this.head, this.rightArm, true, this.handSwingProgress, h);
+        }
     }
 
     @Override
     public void animateModel(T livingEntity, float f, float g, float h) {
         this.rightArm.pitch = (-0.2f + 1.5f * MathHelper.wrap(f, 13.0f)) * g;
         this.leftArm.pitch = (-0.2f - 1.5f * MathHelper.wrap(f, 13.0f)) * g;
+        if (livingEntity.isAttacking()) {
+            CrossbowPosing.meleeAttack(this.head, this.rightArm, true, this.handSwingProgress, h);
+        }
         this.rotateMainArm(livingEntity);
     }
 
@@ -96,8 +106,22 @@ public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends SingleP
         }
     }
 
+    private ModelPart getAttackingArm(Arm arm) {
+        if (arm == Arm.LEFT) {
+            return this.leftArm;
+        }
+        return this.rightArm;
+    }
+
     @Override
     public ModelPart getPart() {
         return root;
+    }
+
+    @Override
+    public void setArmAngle(Arm arm, MatrixStack matrices) {
+        this.getAttackingArm(arm).rotate(matrices);
+        matrices.translate(1.0f, 8.0f / 16.0f, 0.0f);
+        matrices.scale(1.5f, 1.5f, 1.5f);
     }
 }
