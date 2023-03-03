@@ -12,6 +12,7 @@ import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -43,12 +44,22 @@ public class ApocalyptorEntity extends HostileEntity {
                 0.5).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0).build();
     }
 
+    @Override
+    public void tickMovement() {
+        if (this.world.isClient) {
+            for (int i = 0; i < 2; ++i) {
+                this.world.addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(0.15), this.getBodyY(1.1),
+                        this.getParticleZ(0.15), 0.0, 0.0, 0.0);
+            }
+        }
+        super.tickMovement();
+    }
+
     @Nullable
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         EntityData data = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
         this.initEquipment(random, difficulty);
-        System.out.println("init");
         return data;
     }
 
@@ -56,6 +67,7 @@ public class ApocalyptorEntity extends HostileEntity {
     protected void initEquipment(Random random, LocalDifficulty localDifficulty) {
         this.equipStack(EquipmentSlot.MAINHAND,
                 new ItemStack(random.nextDouble() < 0.75f ? Items.STONE_AXE : Items.GOLDEN_AXE));
+        this.equipStack(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
     }
 
     class AttackGoal extends MeleeAttackGoal {

@@ -9,6 +9,7 @@ import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Arm;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3f;
 
 public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends SinglePartEntityModel<T> implements ModelWithArms {
 
@@ -59,10 +60,6 @@ public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends SingleP
                 ModelPartBuilder.create().uv(60, 71).cuboid(-15.0F, -3.0F, -3.0F, 5.0F, 5.0F, 6.0F).uv(44, 34).cuboid(
                         -18.0F, -4.0F, -4.0F, 7.0F, 14.0F, 8.0F).uv(58, 19).cuboid(-17.0F, 10.0F, -3.0F, 5.0F, 9.0F,
                         6.0F), ModelTransform.pivot(0.0F, -13.0F, 0.0F));
-
-        ModelPartData shield_r1 = left_arm.addChild("shield_r1",
-                ModelPartBuilder.create().uv(88, 45).cuboid(-3.0F, -35.0F, 10.0F, 2.0F, 32.0F, 10.0F),
-                ModelTransform.of(-4.0F, 37.0F, 3.0F, 2.3521F, -1.3334F, -2.285F));
 
         ModelPartData head = modelPartData.addChild("head", ModelPartBuilder.create(),
                 ModelTransform.pivot(0.0F, 24.0F, 0.0F));
@@ -121,7 +118,12 @@ public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends SingleP
     @Override
     public void setArmAngle(Arm arm, MatrixStack matrices) {
         this.getAttackingArm(arm).rotate(matrices);
-        matrices.translate(1.0f, 8.0f / 16.0f, 0.0f);
+        if (arm == Arm.RIGHT) {
+            matrices.translate(1.0f, 8.0f / 16.0f, 0.0f);
+        } else {
+            matrices.translate(-0.8f, 8.0f / 16.0f, 0.0f);
+            matrices.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(3.1416f));
+        }
         matrices.scale(1.5f, 1.5f, 1.5f);
     }
 }

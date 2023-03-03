@@ -6,7 +6,6 @@ import com.brainsmash.broken_world.registry.EntityRegister;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
@@ -20,8 +19,7 @@ public class ApocalyptorEntityRenderer extends MobEntityRenderer<ApocalyptorEnti
 
     public ApocalyptorEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new ApocalyptorEntityModel<>(context.getPart(EntityRegister.MODEL_APOCALYPTOR_LAYER)), 1f);
-        this.addFeature(new HeldItemFeatureRenderer<ApocalyptorEntity, ApocalyptorEntityModel<ApocalyptorEntity>>(
-                (FeatureRendererContext) this, context.getHeldItemRenderer()) {
+        this.addFeature(new HeldItemFeatureRenderer<>(this, context.getHeldItemRenderer()) {
 
             @Override
             public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, ApocalyptorEntity apocalyptorEntity, float f, float g, float h, float j, float k, float l) {
