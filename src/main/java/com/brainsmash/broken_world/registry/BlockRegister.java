@@ -127,6 +127,7 @@ public class BlockRegister {
             new Block(FabricBlockSettings.copyOf(Blocks.BLUE_ICE)),
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
             new Block(FabricBlockSettings.copyOf(Blocks.SNOW_BLOCK)),
+            new Block(FabricBlockSettings.copyOf(Blocks.MAGMA_BLOCK)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -184,6 +185,7 @@ public class BlockRegister {
             new BlockItem(blocks[52], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[53], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[54], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[55], new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -243,6 +245,7 @@ public class BlockRegister {
             "isotropic_ice",
             "magnetic_stone",
             "solid_plasma",
+            "volcanic_stone",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {

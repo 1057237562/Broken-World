@@ -46,10 +46,13 @@
     ],
     [
       "minecraft:glow_lichen",
-      "minecraft:patch_tall_grass_2",
-      "minecraft:trees_plains",
-      "minecraft:flower_plains",
-      "minecraft:patch_grass_plain",
+      "minecraft:patch_large_fern",
+      "minecraft:trees_old_growth_pine_taiga",
+      "minecraft:flower_default",
+      "minecraft:patch_grass_taiga",
+      "minecraft:patch_dead_bush",
+      "minecraft:brown_mushroom_old_growth",
+      "minecraft:red_mushroom_old_growth",
       "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
       "minecraft:patch_sugar_cane",
@@ -66,10 +69,10 @@
     "misc": [],
     "monster": [
       {
-        "type": "broken_world:apocalyptor",
+        "type": "broken_world:werewolf",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 100
+        "weight": 60
       }
     ],
     "underground_water_creature": [],

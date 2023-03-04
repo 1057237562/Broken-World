@@ -1,7 +1,8 @@
 {
   "carvers": {
     "air": [
-      "minecraft:cave"
+      "minecraft:cave",
+      "minecraft:canyon"
     ]
   },
   "downfall": 1.0,
@@ -20,12 +21,15 @@
   },
   "features": [
     [],
-    [],
+    [
+      "minecraft:lake_lava_surface"
+    ],
     [],
     [],
     [],
     [],
     [
+      "minecraft:ore_magma",
       "minecraft:ore_coal_upper",
       "minecraft:ore_coal_lower",
       "minecraft:ore_iron_upper",
@@ -41,15 +45,17 @@
     ],
     [],
     [
-      "minecraft:spring_water",
       "minecraft:spring_lava"
     ],
     [
       "minecraft:glow_lichen",
-      "minecraft:patch_tall_grass_2",
-      "minecraft:trees_plains",
-      "minecraft:flower_plains",
-      "minecraft:patch_grass_plain",
+      "minecraft:patch_large_fern",
+      "minecraft:trees_old_growth_pine_taiga",
+      "minecraft:flower_default",
+      "minecraft:patch_grass_taiga",
+      "minecraft:patch_dead_bush",
+      "minecraft:brown_mushroom_old_growth",
+      "minecraft:red_mushroom_old_growth",
       "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
       "minecraft:patch_sugar_cane",
@@ -62,16 +68,14 @@
   "spawners": {
     "ambient": [],
     "axolotls": [],
-    "creature": [],
+    "creature": [{
+      "type": "broken_world:phoenix",
+      "maxCount": 2,
+      "minCount": 2,
+      "weight": 20
+    }],
     "misc": [],
-    "monster": [
-      {
-        "type": "broken_world:apocalyptor",
-        "maxCount": 1,
-        "minCount": 1,
-        "weight": 100
-      }
-    ],
+    "monster": [],
     "underground_water_creature": [],
     "water_ambient": [],
     "water_creature": []

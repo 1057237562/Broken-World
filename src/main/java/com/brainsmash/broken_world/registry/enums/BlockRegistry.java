@@ -56,4 +56,5 @@ public enum BlockRegistry {
     ISOTROPIC_ICE,
     MAGNETIC_STONE,
     SOLID_PLASMA,
+    VOLCANIC_STONE,
 }

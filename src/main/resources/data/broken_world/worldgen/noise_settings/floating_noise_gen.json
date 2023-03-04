@@ -182,6 +182,56 @@
                           }
                         }
                       }
+                    },
+                    {
+                      "type": "minecraft:condition",
+                      "if_true": {
+                        "type": "minecraft:biome",
+                        "biome_is": [
+                          "broken_world:floating_forest"
+                        ]
+                      },
+                      "then_run": {
+                        "type": "minecraft:condition",
+                        "if_true": {
+                          "type": "minecraft:stone_depth",
+                          "offset": 0,
+                          "surface_type": "floor",
+                          "add_surface_depth": false,
+                          "secondary_depth_range": 0
+                        },
+                        "then_run": {
+                          "type": "minecraft:block",
+                          "result_state": {
+                            "Name": "minecraft:grass_block"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "minecraft:condition",
+                      "if_true": {
+                        "type": "minecraft:biome",
+                        "biome_is": [
+                          "broken_world:volcanic"
+                        ]
+                      },
+                      "then_run": {
+                        "type": "minecraft:condition",
+                        "if_true": {
+                          "type": "minecraft:stone_depth",
+                          "offset": 0,
+                          "surface_type": "floor",
+                          "add_surface_depth": false,
+                          "secondary_depth_range": 0
+                        },
+                        "then_run": {
+                          "type": "minecraft:block",
+                          "result_state": {
+                            "Name": "broken_world:volcanic_stone"
+                          }
+                        }
+                      }
                     }
                   ]
                 }
@@ -230,9 +280,33 @@
                               }
                             },
                             {
-                              "type": "minecraft:block",
-                              "result_state": {
-                                "Name": "minecraft:grass_block"
+                              "type": "minecraft:condition",
+                              "if_true": {
+                                "type": "minecraft:biome",
+                                "biome_is": [
+                                  "broken_world:floating_forest"
+                                ]
+                              },
+                              "then_run": {
+                                "type": "minecraft:block",
+                                "result_state": {
+                                  "Name": "minecraft:dirt"
+                                }
+                              }
+                            },
+                            {
+                              "type": "minecraft:condition",
+                              "if_true": {
+                                "type": "minecraft:biome",
+                                "biome_is": [
+                                  "broken_world:volcanic"
+                                ]
+                              },
+                              "then_run": {
+                                "type": "minecraft:block",
+                                "result_state": {
+                                  "Name": "broken_world:volcanic_stone"
+                                }
                               }
                             }
                           ]
@@ -267,68 +341,6 @@
                               }
                             ]
                           }
-                        }
-                      }
-                    ]
-                  }
-                }
-              },
-              {
-                "type": "minecraft:condition",
-                "if_true": {
-                  "type": "minecraft:not",
-                  "invert": {
-                    "type": "minecraft:water",
-                    "offset": -1,
-                    "surface_depth_multiplier": 0,
-                    "add_stone_depth": false
-                  }
-                },
-                "then_run": {
-                  "type": "condition",
-                  "if_true": {
-                    "type": "above_preliminary_surface"
-                  },
-                  "then_run": {
-                    "type": "minecraft:sequence",
-                    "sequence": [
-                      {
-                        "type": "minecraft:condition",
-                        "if_true": {
-                          "type": "minecraft:stone_depth",
-                          "offset": 3,
-                          "surface_type": "floor",
-                          "add_surface_depth": true,
-                          "secondary_depth_range": 0
-                        },
-                        "then_run": {
-                          "type": "minecraft:sequence",
-                          "sequence": [
-                            {
-                              "type": "minecraft:condition",
-                              "if_true": {
-                                "type": "minecraft:biome",
-                                "biome_is": [
-                                  "broken_world:floating"
-                                ]
-                              },
-                              "then_run": {
-                                "type": "minecraft:block",
-                                "result_state": {
-                                  "Name": "minecraft:dirt"
-                                }
-                              }
-                            },
-                            {
-                              "type": "minecraft:block",
-                              "result_state": {
-                                "Name": "minecraft:grass_block",
-                                "Properties": {
-                                  "snowy": "false"
-                                }
-                              }
-                            }
-                          ]
                         }
                       }
                     ]

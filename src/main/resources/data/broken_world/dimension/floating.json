@@ -4,8 +4,54 @@
     "type": "minecraft:noise",
     "settings": "broken_world:floating_noise_gen",
     "biome_source": {
-      "type": "fixed",
-      "biome": "broken_world:floating"
+      "type": "minecraft:multi_noise",
+      "biomes": [
+        {
+          "biome": "broken_world:floating",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": [
+              -1,
+              -0.01
+            ],
+            "erosion": 0,
+            "weirdness": 0,
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "broken_world:floating_forest",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0.2,
+            "continentalness": [
+              0.05,
+              1
+            ],
+            "erosion": 0,
+            "weirdness": 0,
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "broken_world:volcanic",
+          "parameters": {
+            "temperature": 1,
+            "humidity": 0,
+            "continentalness": [
+              0.05,
+              1
+            ],
+            "erosion": 0,
+            "weirdness": 0,
+            "depth": 0,
+            "offset": 0
+          }
+        }
+      ]
     }
   }
 }
