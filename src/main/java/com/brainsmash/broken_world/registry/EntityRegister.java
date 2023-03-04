@@ -59,7 +59,7 @@ public class EntityRegister {
     public static final EntityType<WerewolfEntity> WEREWOLF_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MODID, "werewolf"),
             FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, WerewolfEntity::new).dimensions(
-                    EntityDimensions.fixed(0.85f, 1.85f)).trackRangeBlocks(48).build());
+                    EntityDimensions.fixed(0.85f, 2.5f)).trackRangeBlocks(48).build());
 
     public static final EntityModelLayer MODEL_FISHBONE_LAYER = new EntityModelLayer(new Identifier(MODID, "fishbone"),
             "main");

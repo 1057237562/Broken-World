@@ -37,7 +37,7 @@ public class ApocalyptorEntity extends HostileEntity {
     public static DefaultAttributeContainer createApocalyptorAttributes() {
         return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 300).add(
                 EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED,
-                0.21f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0).build();
+                0.35f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0).build();
     }
 
     @Override

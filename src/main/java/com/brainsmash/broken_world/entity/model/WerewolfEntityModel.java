@@ -35,25 +35,25 @@ public class WerewolfEntityModel<T extends LivingEntity> extends PlayerEntityMod
                 ModelPartBuilder.create().uv(0, 0).cuboid(-2.0f, -3.0f, -2.0f, 6.0f, 6.0f, 4.0f).uv(16, 14).cuboid(
                         -2.0f, -5.0f, 0.0f, 2.0f, 2.0f, 1.0f).uv(16, 14).cuboid(2.0f, -5.0f, 0.0f, 2.0f, 2.0f, 1.0f).uv(
                         0, 10).cuboid(-0.5f, -0.001f, -5.0f, 3.0f, 3.0f, 4.0f),
-                ModelTransform.pivot(-1.0f, -3.0f, 5.0f));
+                ModelTransform.pivot(-1.0f, -3.0f, 1.0f));
         modelPartData.addChild(EntityModelPartNames.BODY,
                 ModelPartBuilder.create().uv(18, 14).cuboid(-3.0f, -2.0f, -3.0f, 6.0f, 9.0f, 6.0f),
-                ModelTransform.of(0.0f, 9.0f, 7.0f, 0.0f, 0.0f, 0.0f));
+                ModelTransform.of(0.0f, 9.0f, 3.0f, 0.0f, 0.0f, 0.0f));
         modelPartData.addChild(UPPER_BODY,
                 ModelPartBuilder.create().uv(21, 0).cuboid(-3.0f, -3.0f, -3.0f, 8.0f, 6.0f, 7.0f),
-                ModelTransform.of(-1.0f, 4.0f, 7.0f, 0.0f, 0.0f, 0.0f));
+                ModelTransform.of(-1.0f, 4.0f, 3.0f, 0.0f, 0.0f, 0.0f));
         ModelPartBuilder modelPartBuilder = ModelPartBuilder.create().uv(0, 18).cuboid(0.0f, 0.0f, -1.0f, 2.0f, 8.0f,
                 2.0f);
         modelPartData.addChild(EntityModelPartNames.RIGHT_LEG, modelPartBuilder,
-                ModelTransform.pivot(-2.5f, 16.0f, 7.0f));
+                ModelTransform.pivot(-2.5f, 16.0f, 3.0f));
         modelPartData.addChild(EntityModelPartNames.LEFT_LEG, modelPartBuilder,
-                ModelTransform.pivot(0.5f, 16.0f, 7.0f));
+                ModelTransform.pivot(0.5f, 16.0f, 3.0f));
         modelPartData.addChild(EntityModelPartNames.RIGHT_ARM, modelPartBuilder,
-                ModelTransform.pivot(-5.5f, 2.0f, 7.0f));
-        modelPartData.addChild(EntityModelPartNames.LEFT_ARM, modelPartBuilder, ModelTransform.pivot(3.5f, 2.0f, 7.0f));
+                ModelTransform.pivot(-5.5f, 2.0f, 3.0f));
+        modelPartData.addChild(EntityModelPartNames.LEFT_ARM, modelPartBuilder, ModelTransform.pivot(3.5f, 2.0f, 3.0f));
         ModelPartData tail = modelPartData.addChild(EntityModelPartNames.TAIL,
                 ModelPartBuilder.create().uv(9, 18).cuboid(0.0f, 0.0f, -1.0f, 2.0f, 8.0f, 2.0f),
-                ModelTransform.of(-1.0f, 12.0f, 9.0f, 0.62831855f, 0.0f, 0.0f));
+                ModelTransform.of(-1.0f, 12.0f, 5.0f, 0.62831855f, 0.0f, 0.0f));
 
         modelPartData.addChild(EntityModelPartNames.HAT, ModelPartBuilder.create(), ModelTransform.NONE);
         modelPartData.addChild("ear", ModelPartBuilder.create(), ModelTransform.NONE);
@@ -80,10 +80,7 @@ public class WerewolfEntityModel<T extends LivingEntity> extends PlayerEntityMod
     @Override
     public void animateModel(T wolfEntity, float f, float g, float h) {
         this.tail.yaw = MathHelper.cos(f * 0.6662f) * 1.4f * g;
-        this.tail.setPivot(-1.0f, 12.0f, 8.0f);
         this.neck.pitch = (float) (Math.PI / 2);
-        this.rightHindLeg.setPivot(-2.5f, 16.0f, 7.0f);
-        this.leftHindLeg.setPivot(0.5f, 16.0f, 7.0f);
         this.rightHindLeg.pitch = MathHelper.cos(f * 0.6662f) * 1.4f * g;
         this.leftHindLeg.pitch = MathHelper.cos(f * 0.6662f + (float) Math.PI) * 1.4f * g;
         this.rightFrontLeg.pitch = MathHelper.cos(f * 0.6662f + (float) Math.PI) * 1.4f * g;

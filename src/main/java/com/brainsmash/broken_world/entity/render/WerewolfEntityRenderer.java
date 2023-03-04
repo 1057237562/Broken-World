@@ -18,7 +18,7 @@ public class WerewolfEntityRenderer extends MobEntityRenderer<WerewolfEntity, We
     private static final Identifier TEXTURE = new Identifier(MODID, "textures/entity/werewolf.png");
 
     public WerewolfEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new WerewolfEntityModel<>(context.getPart(EntityRegister.MODEL_WEREWOLF_LAYER)), 1f);
+        super(context, new WerewolfEntityModel<>(context.getPart(EntityRegister.MODEL_WEREWOLF_LAYER)), 0.35f);
         this.addFeature(new HeldItemFeatureRenderer<>(this, context.getHeldItemRenderer()) {
 
             @Override
