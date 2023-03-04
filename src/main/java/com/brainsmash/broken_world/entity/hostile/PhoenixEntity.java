@@ -10,7 +10,6 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.SmallFireballEntity;
@@ -44,7 +43,7 @@ public class PhoenixEntity extends HostileEntity {
 
     public static DefaultAttributeContainer.Builder createPhoenixAttributes() {
         return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0).add(
-                EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0).add(EntityAttributes.GENERIC_MAX_HEALTH, 400);
+                EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0).add(EntityAttributes.GENERIC_MAX_HEALTH, 400);
     }
 
     @Override
@@ -57,7 +56,7 @@ public class PhoenixEntity extends HostileEntity {
         this.goalSelector.add(7, new WanderAroundFarGoal((PathAwareEntity) this, 1.0, 0.0f));
         this.goalSelector.add(8, new LookAroundGoal(this));
         this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge());
-        this.targetSelector.add(2, new ActiveTargetGoal<PlayerEntity>((MobEntity) this, PlayerEntity.class, true));
+        //this.targetSelector.add(2, new ActiveTargetGoal<PlayerEntity>((MobEntity) this, PlayerEntity.class, true));
     }
 
     @Override

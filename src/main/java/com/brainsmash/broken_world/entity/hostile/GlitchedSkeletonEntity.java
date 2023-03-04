@@ -13,8 +13,8 @@ public class GlitchedSkeletonEntity extends SkeletonEntity {
     }
 
     public static DefaultAttributeContainer.Builder createGlitchedSkeletonAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 50.0).add(
-                EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23).add(
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 150.0).add(
+                EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.42).add(
                 EntityAttributes.GENERIC_MAX_HEALTH, 40).add(EntityAttributes.GENERIC_ARMOR, 3.0);
     }
 

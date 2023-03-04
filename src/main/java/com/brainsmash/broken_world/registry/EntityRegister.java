@@ -6,6 +6,7 @@ import com.brainsmash.broken_world.entity.hostile.*;
 import com.brainsmash.broken_world.entity.model.ApocalyptorEntityModel;
 import com.brainsmash.broken_world.entity.model.FishboneEntityModel;
 import com.brainsmash.broken_world.entity.model.PhoenixEntityModel;
+import com.brainsmash.broken_world.entity.model.WerewolfEntityModel;
 import com.brainsmash.broken_world.entity.render.*;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -55,12 +56,20 @@ public class EntityRegister {
             FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ApocalyptorEntity::new).dimensions(
                     EntityDimensions.fixed(1.75f, 3f)).trackRangeBlocks(64).build());
 
+    public static final EntityType<WerewolfEntity> WEREWOLF_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MODID, "werewolf"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, WerewolfEntity::new).dimensions(
+                    EntityDimensions.fixed(0.85f, 1.85f)).trackRangeBlocks(48).build());
+
     public static final EntityModelLayer MODEL_FISHBONE_LAYER = new EntityModelLayer(new Identifier(MODID, "fishbone"),
             "main");
     public static final EntityModelLayer MODEL_PHOENIX_LAYER = new EntityModelLayer(new Identifier(MODID, "phoenix"),
             "main");
     public static final EntityModelLayer MODEL_APOCALYPTOR_LAYER = new EntityModelLayer(
             new Identifier(MODID, "apocalyptor"), "main");
+
+    public static final EntityModelLayer MODEL_WEREWOLF_LAYER = new EntityModelLayer(new Identifier(MODID, "werewolf"),
+            "main");
 
     public static void registEntitiesClientSide() {
         EntityRendererRegistry.register(BULLET_ENTITY_ENTITY_TYPE, BulletEntityRenderer::new);
@@ -70,11 +79,13 @@ public class EntityRegister {
         EntityRendererRegistry.register(GLITCHED_SKELETON_ENTITY_TYPE, GlitchedSkeletonEntityRenderer::new);
         EntityRendererRegistry.register(PHOENIX_ENTITY_TYPE, PhoenixEntityRenderer::new);
         EntityRendererRegistry.register(APOCALYPTOR_ENTITY_TYPE, ApocalyptorEntityRenderer::new);
+        EntityRendererRegistry.register(WEREWOLF_ENTITY_TYPE, WerewolfEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(MODEL_FISHBONE_LAYER, FishboneEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_PHOENIX_LAYER, PhoenixEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_APOCALYPTOR_LAYER,
                 ApocalyptorEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_WEREWOLF_LAYER, WerewolfEntityModel::getTexturedModelData);
     }
 
     public static void registEntities() {
@@ -86,5 +97,6 @@ public class EntityRegister {
         FabricDefaultAttributeRegistry.register(PHOENIX_ENTITY_TYPE, PhoenixEntity.createPhoenixAttributes());
         FabricDefaultAttributeRegistry.register(APOCALYPTOR_ENTITY_TYPE,
                 ApocalyptorEntity.createApocalyptorAttributes());
+        FabricDefaultAttributeRegistry.register(WEREWOLF_ENTITY_TYPE, WerewolfEntity.createWereworlfAttributes());
     }
 }

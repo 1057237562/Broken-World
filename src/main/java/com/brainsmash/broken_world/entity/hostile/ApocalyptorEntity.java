@@ -6,9 +6,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -28,20 +26,18 @@ public class ApocalyptorEntity extends HostileEntity {
     protected void initGoals() {
         super.initGoals();
         this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(4, new AttackGoal(this));
-        this.targetSelector.add(1, new RevengeGoal(this, RaiderEntity.class).setGroupRevenge(new Class[0]));
-        this.targetSelector.add(2, new ActiveTargetGoal<PlayerEntity>((MobEntity) this, PlayerEntity.class, true));
-        this.targetSelector.add(3, new ActiveTargetGoal<MerchantEntity>((MobEntity) this, MerchantEntity.class, true));
-        this.targetSelector.add(4, new TargetGoal(this));
-        this.goalSelector.add(8, new WanderAroundGoal(this, 0.6));
-        this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 3.0f, 1.0f));
-        this.goalSelector.add(10, new LookAtEntityGoal(this, MobEntity.class, 8.0f));
+        this.targetSelector.add(1, new RevengeGoal(this).setGroupRevenge(new Class[0]));
+        this.goalSelector.add(2, new AttackGoal(this));
+        this.targetSelector.add(3, new TargetGoal(this));
+        this.goalSelector.add(4, new WanderAroundGoal(this, 0.6));
+        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 3.0f, 1.0f));
+        this.goalSelector.add(6, new LookAtEntityGoal(this, MobEntity.class, 8.0f));
     }
 
     public static DefaultAttributeContainer createApocalyptorAttributes() {
-        return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 400).add(
+        return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 300).add(
                 EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED,
-                0.5).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0).build();
+                0.21f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0).build();
     }
 
     @Override

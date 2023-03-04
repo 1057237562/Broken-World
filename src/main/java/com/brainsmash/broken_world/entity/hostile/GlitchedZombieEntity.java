@@ -25,8 +25,8 @@ public class GlitchedZombieEntity extends ZombieEntity {
 
     public static DefaultAttributeContainer.Builder createGlitchedZombieAttributes() {
         return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 64.0).add(
-                EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.20f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0).add(
-                EntityAttributes.GENERIC_ARMOR, 5.0).add(EntityAttributes.GENERIC_MAX_HEALTH, 40).add(
+                EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0).add(
+                EntityAttributes.GENERIC_ARMOR, 5.0).add(EntityAttributes.GENERIC_MAX_HEALTH, 250).add(
                 EntityAttributes.ZOMBIE_SPAWN_REINFORCEMENTS);
     }
 }
