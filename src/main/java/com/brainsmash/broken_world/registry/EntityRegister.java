@@ -49,7 +49,7 @@ public class EntityRegister {
 
     public static final EntityType<PhoenixEntity> PHOENIX_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MODID, "phoenix"),
-            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, PhoenixEntity::new).dimensions(
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, PhoenixEntity::new).dimensions(
                     EntityDimensions.fixed(1f, 2f)).trackRangeBlocks(64).build());
     public static final EntityType<ApocalyptorEntity> APOCALYPTOR_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MODID, "apocalyptor"),
