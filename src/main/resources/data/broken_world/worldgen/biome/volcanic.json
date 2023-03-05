@@ -29,7 +29,7 @@
     [],
     [],
     [
-      "minecraft:ore_magma",
+      "broken_world:ore_magma",
       "minecraft:ore_coal_upper",
       "minecraft:ore_coal_lower",
       "minecraft:ore_iron_upper",
@@ -72,7 +72,7 @@
       "type": "broken_world:phoenix",
       "maxCount": 2,
       "minCount": 2,
-      "weight": 20
+      "weight": 5
     }],
     "misc": [],
     "monster": [],
