@@ -126,7 +126,7 @@ public class BlockRegister {
             new SpawnPointerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).dropsNothing()),
             new Block(FabricBlockSettings.copyOf(Blocks.BLUE_ICE)),
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
-            new Block(FabricBlockSettings.copyOf(Blocks.SNOW_BLOCK)),
+            new Block(FabricBlockSettings.copyOf(Blocks.SNOW_BLOCK).luminance(11)),
             new Block(FabricBlockSettings.copyOf(Blocks.MAGMA_BLOCK)),
     };
     public static final Item[] blockitems = {
@@ -406,6 +406,8 @@ public class BlockRegister {
                 RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.GLASS_DOOR.ordinal()], RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CLONE_VAT.ordinal()], RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.ISOTROPIC_ICE.ordinal()],
+                RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,

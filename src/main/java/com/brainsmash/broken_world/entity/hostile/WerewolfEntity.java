@@ -34,4 +34,5 @@ public class WerewolfEntity extends HostileEntity {
                 EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.2f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED,
                 0.5).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0).build();
     }
+    
 }
