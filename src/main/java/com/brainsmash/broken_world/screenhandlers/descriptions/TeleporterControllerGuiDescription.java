@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.screenhandlers.descriptions;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.TeleporterControllerBlockEntity;
+import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.registry.DimensionRegister;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.networking.NetworkSide;
@@ -14,6 +15,10 @@ import net.kyrptonaught.customportalapi.util.CustomPortalHelper;
 import net.kyrptonaught.customportalapi.util.PortalLink;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -32,6 +37,15 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
     private static final int INVENTORY_SIZE = 1;
     private static final int PROPERTY_COUNT = 2;
     private String selectDim;
+
+    public TeleporterControllerGuiDescription(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
+        this(syncId, playerInventory, buf.readBlockPos(), buf);
+    }
+
+    public TeleporterControllerGuiDescription(int syncId, PlayerInventory playerInventory, BlockPos pos, PacketByteBuf buf) {
+        this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.world, pos));
+        ((EntityDataExtension) playerInventory.player).setData(buf.readNbt());
+    }
 
     public TeleporterControllerGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(Main.TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE, syncId, playerInventory,
@@ -74,9 +88,19 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
                 new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1);
         bar.setProperties(propertyDelegate);
         root.add(bar, 8, 1, 1, 1);
-        WListPanel<String, WButton> dimList = new WListPanel<>(
-                List.of("broken_world:moon", "broken_world:metallic", "broken_world:lush", "broken_world:sulfuric"),
-                () -> new WButton(Text.of("")), buttonBiConsumer);
+        List<String> dimensionList = List.of("broken_world:moon");
+
+        NbtCompound nbtCompound = (NbtCompound) ((EntityDataExtension) playerInventory.player).getData();
+        NbtList list = nbtCompound.getList("dimension", NbtElement.COMPOUND_TYPE);
+        for (NbtElement element : list) {
+            if (element instanceof NbtCompound compound) {
+                dimensionList.add(compound.getString("key"));
+            }
+        }
+
+
+        WListPanel<String, WButton> dimList = new WListPanel<>(dimensionList, () -> new WButton(Text.of("")),
+                buttonBiConsumer);
         root.add(dimList, 0, 1, 8, 3);
         WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
         root.add(itemSlot, 8, 2);

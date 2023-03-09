@@ -61,6 +61,11 @@ public class EntityRegister {
             FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, WerewolfEntity::new).dimensions(
                     EntityDimensions.fixed(0.85f, 2.5f)).trackRangeBlocks(48).build());
 
+    public static final EntityType<DroneEntity> DRONE_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MODID, "drone"),
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, DroneEntity::new).dimensions(
+                    EntityDimensions.fixed(0.5f, 0.5f)).trackRangeBlocks(100).build());
+
     public static final EntityModelLayer MODEL_FISHBONE_LAYER = new EntityModelLayer(new Identifier(MODID, "fishbone"),
             "main");
     public static final EntityModelLayer MODEL_PHOENIX_LAYER = new EntityModelLayer(new Identifier(MODID, "phoenix"),

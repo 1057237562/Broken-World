@@ -32,9 +32,8 @@ public class Main implements ModInitializer {
     public static final String MODID = "broken_world";
 
     public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_controller"), new ScreenHandlerType<>(
-                    (syncId, inventory) -> new TeleporterControllerGuiDescription(syncId, inventory,
-                            ScreenHandlerContext.EMPTY)));
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_controller"),
+            new ExtendedScreenHandlerType<>(TeleporterControllerGuiDescription::new));
     public static final ScreenHandlerType<BatteryGuiDescription> BATTERY_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "creative_battery"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new BatteryGuiDescription(syncId, playerInventory,
