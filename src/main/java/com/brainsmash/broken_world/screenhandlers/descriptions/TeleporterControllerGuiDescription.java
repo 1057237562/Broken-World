@@ -28,6 +28,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockLocating;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -44,78 +45,130 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
 
     public TeleporterControllerGuiDescription(int syncId, PlayerInventory playerInventory, BlockPos pos, PacketByteBuf buf) {
         this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.world, pos));
-        ((EntityDataExtension) playerInventory.player).setData(buf.readNbt());
+        if (getNetworkSide() == NetworkSide.CLIENT) {
+            ((EntityDataExtension) playerInventory.player).setData(buf.readNbt());
+            WGridPanel root = new WGridPanel();
+            setRootPanel(root);
+            root.setSize(150, 175);
+            root.setInsets(Insets.ROOT_PANEL);
+            selectDim = "none";
+            BiConsumer<String, WButton> buttonBiConsumer = (s, wButton) -> {
+                wButton.setLabel(Text.translatable(s));
+                wButton.setOnClick(() -> {
+                    selectDim = s;
+                });
+            };
+            WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"),
+                    new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1);
+            bar.setProperties(propertyDelegate);
+            root.add(bar, 8, 1, 1, 1);
+            ArrayList<String> dimensionList = new ArrayList<>(List.of("broken_world:moon"));
+
+            NbtCompound nbtCompound = (NbtCompound) ((EntityDataExtension) playerInventory.player).getData();
+            NbtList list = nbtCompound.getList("dimension", NbtElement.COMPOUND_TYPE);
+            if (list != null) {
+                for (NbtElement element : list) {
+                    if (element instanceof NbtCompound compound) {
+                        dimensionList.add(compound.getString("key"));
+                    }
+                }
+            }
+
+
+            WListPanel<String, WButton> dimList = new WListPanel<>(dimensionList, () -> new WButton(Text.of("")),
+                    buttonBiConsumer);
+            root.add(dimList, 0, 1, 8, 3);
+            WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
+            root.add(itemSlot, 8, 2);
+            WButton select = new WButton(Text.of("✓"));
+            select.setOnClick(() -> {
+                ScreenNetworking.of(this, NetworkSide.CLIENT).send(SELECT_MESSAGE, buf1 -> {
+                    // Write the lucky number
+                    buf1.writeString(selectDim);
+                });
+            });
+            root.add(select, 8, 3);
+
+            root.add(this.createPlayerInventoryPanel(), 0, 4);
+
+            root.validate(this);
+        }
     }
 
     public TeleporterControllerGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(Main.TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE, syncId, playerInventory,
                 getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context, PROPERTY_COUNT));
-        ScreenNetworking.of(this, NetworkSide.SERVER).receive(SELECT_MESSAGE, buf -> {
-            selectDim = buf.readString();
-            context.get((world, pos) -> {
-                TeleporterControllerBlockEntity entity = (TeleporterControllerBlockEntity) world.getBlockEntity(pos);
-                if (entity.getEnergy() >= DimensionRegister.dimensionEnergyCost.get(selectDim)) {
-                    entity.increaseEnergy(-DimensionRegister.dimensionEnergyCost.get(selectDim));
-                    BlockPos baseblock = CustomPortalHelper.getClosestFrameBlock(world, pos);
-                    Block oldblock = world.getBlockState(baseblock).getBlock();
-                    PortalLink oldlink = CustomPortalApiRegistry.getPortalLinkFromBase(oldblock);
-                    BlockPos portalbase = baseblock.add(0, 1, 0);
-                    world.breakBlock(portalbase, false);
-                    PortalLink link = DimensionRegister.dimensions.get(selectDim);
-                    Block linkblock = Registry.BLOCK.get(link.block);
-                    if (replacePortalBlock(oldlink, oldblock, world, portalbase, linkblock)) {
-                        if (link != null && link.canLightInDim(world.getRegistryKey().getValue())) {
-                            createPortal(link, linkblock, world, portalbase);
+        if (getNetworkSide() == NetworkSide.SERVER) {
+            ScreenNetworking.of(this, NetworkSide.SERVER).receive(SELECT_MESSAGE, buf -> {
+                selectDim = buf.readString();
+                context.get((world, pos) -> {
+                    TeleporterControllerBlockEntity entity = (TeleporterControllerBlockEntity) world.getBlockEntity(
+                            pos);
+                    if (entity.getEnergy() >= DimensionRegister.dimensionEnergyCost.get(selectDim)) {
+                        entity.increaseEnergy(-DimensionRegister.dimensionEnergyCost.get(selectDim));
+                        BlockPos baseblock = CustomPortalHelper.getClosestFrameBlock(world, pos);
+                        Block oldblock = world.getBlockState(baseblock).getBlock();
+                        PortalLink oldlink = CustomPortalApiRegistry.getPortalLinkFromBase(oldblock);
+                        BlockPos portalbase = baseblock.add(0, 1, 0);
+                        world.breakBlock(portalbase, false);
+                        PortalLink link = DimensionRegister.dimensions.get(selectDim);
+                        Block linkblock = Registry.BLOCK.get(link.block);
+                        if (replacePortalBlock(oldlink, oldblock, world, portalbase, linkblock)) {
+                            if (link != null && link.canLightInDim(world.getRegistryKey().getValue())) {
+                                createPortal(link, linkblock, world, portalbase);
+                            }
                         }
                     }
+                    return true;
+                });
+            });
+
+            WGridPanel root = new WGridPanel();
+            setRootPanel(root);
+            root.setSize(150, 175);
+            root.setInsets(Insets.ROOT_PANEL);
+            selectDim = "none";
+            BiConsumer<String, WButton> buttonBiConsumer = (s, wButton) -> {
+                wButton.setLabel(Text.translatable(s));
+                wButton.setOnClick(() -> {
+                    selectDim = s;
+                });
+            };
+            WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"),
+                    new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1);
+            bar.setProperties(propertyDelegate);
+            root.add(bar, 8, 1, 1, 1);
+            ArrayList<String> dimensionList = new ArrayList<>(List.of("broken_world:moon"));
+
+            NbtCompound nbtCompound = (NbtCompound) ((EntityDataExtension) playerInventory.player).getData();
+            NbtList list = nbtCompound.getList("dimension", NbtElement.COMPOUND_TYPE);
+            if (list != null) {
+                for (NbtElement element : list) {
+                    if (element instanceof NbtCompound compound) {
+                        dimensionList.add(compound.getString("key"));
+                    }
                 }
-                return true;
-            });
-        });
-
-        WGridPanel root = new WGridPanel();
-        setRootPanel(root);
-        root.setSize(150, 175);
-        root.setInsets(Insets.ROOT_PANEL);
-        selectDim = "none";
-        BiConsumer<String, WButton> buttonBiConsumer = (s, wButton) -> {
-            wButton.setLabel(Text.translatable(s));
-            wButton.setOnClick(() -> {
-                selectDim = s;
-            });
-        };
-        WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"),
-                new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1);
-        bar.setProperties(propertyDelegate);
-        root.add(bar, 8, 1, 1, 1);
-        List<String> dimensionList = List.of("broken_world:moon");
-
-        NbtCompound nbtCompound = (NbtCompound) ((EntityDataExtension) playerInventory.player).getData();
-        NbtList list = nbtCompound.getList("dimension", NbtElement.COMPOUND_TYPE);
-        for (NbtElement element : list) {
-            if (element instanceof NbtCompound compound) {
-                dimensionList.add(compound.getString("key"));
             }
-        }
 
 
-        WListPanel<String, WButton> dimList = new WListPanel<>(dimensionList, () -> new WButton(Text.of("")),
-                buttonBiConsumer);
-        root.add(dimList, 0, 1, 8, 3);
-        WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
-        root.add(itemSlot, 8, 2);
-        WButton select = new WButton(Text.of("✓"));
-        select.setOnClick(() -> {
-            ScreenNetworking.of(this, NetworkSide.CLIENT).send(SELECT_MESSAGE, buf -> {
-                // Write the lucky number
-                buf.writeString(selectDim);
+            WListPanel<String, WButton> dimList = new WListPanel<>(dimensionList, () -> new WButton(Text.of("")),
+                    buttonBiConsumer);
+            root.add(dimList, 0, 1, 8, 3);
+            WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
+            root.add(itemSlot, 8, 2);
+            WButton select = new WButton(Text.of("✓"));
+            select.setOnClick(() -> {
+                ScreenNetworking.of(this, NetworkSide.CLIENT).send(SELECT_MESSAGE, buf -> {
+                    // Write the lucky number
+                    buf.writeString(selectDim);
+                });
             });
-        });
-        root.add(select, 8, 3);
+            root.add(select, 8, 3);
 
-        root.add(this.createPlayerInventoryPanel(), 0, 4);
+            root.add(this.createPlayerInventoryPanel(), 0, 4);
 
-        root.validate(this);
+            root.validate(this);
+        }
     }
 
     private static boolean replacePortalBlock(PortalLink oldlink, Block oldBlock, World world, BlockPos portalPos, Block replacement) {

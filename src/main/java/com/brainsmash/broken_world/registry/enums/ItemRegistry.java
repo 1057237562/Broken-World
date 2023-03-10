@@ -34,5 +34,10 @@ public enum ItemRegistry {
     KINETIC_SUIT,
     KINETIC_LEG,
     KINETIC_BOOTS,
-    GS_093
+    GS_093,
+    METALLIC_CARD,
+    SULFURIC_CARD,
+    LUSH_CARD,
+    FLOATING_CARD,
+    AURORA_CARD,
 }

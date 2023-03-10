@@ -12,11 +12,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class CoordinateCardBase extends Item {
+public class CoordinateCard extends Item {
 
     private String dimensionName;
 
-    public CoordinateCardBase(Settings settings, String dimensionName) {
+    public CoordinateCard(Settings settings, String dimensionName) {
         super(settings);
         this.dimensionName = dimensionName;
     }
@@ -27,12 +27,24 @@ public class CoordinateCardBase extends Item {
 
         NbtCompound nbtCompound = (NbtCompound) ((EntityDataExtension) user).getData();
 
-        NbtList nbtList = nbtCompound.getList("dimension", NbtElement.COMPOUND_TYPE);
-        NbtCompound keyValue = new NbtCompound();
-        keyValue.putString("key", dimensionName);
-        nbtList.add(keyValue);
+        boolean flag = false;
 
-        ((EntityDataExtension) user).setData(nbtCompound);
+        NbtList nbtList = nbtCompound.getList("dimension", NbtElement.COMPOUND_TYPE);
+        if (nbtList != null) {
+            for (NbtElement element : nbtList) {
+                if (element instanceof NbtCompound compound) {
+                    if (compound.getString("key").equals(dimensionName)) flag = true;
+                }
+            }
+        }
+        if (!flag) {
+            NbtCompound keyValue = new NbtCompound();
+            keyValue.putString("key", dimensionName);
+            nbtList.add(keyValue);
+            nbtCompound.put("dimension", nbtList);
+            
+            ((EntityDataExtension) user).setData(nbtCompound);
+        }
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         if (!user.getAbilities().creativeMode) {

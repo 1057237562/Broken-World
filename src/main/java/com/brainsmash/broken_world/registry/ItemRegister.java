@@ -73,7 +73,12 @@ public class ItemRegister {
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new ArmorItem(armorMaterials[0], EquipmentSlot.FEET,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1))
+            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:metallic"),
+            new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:sulfuric"),
+            new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:lush"),
+            new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:floating"),
+            new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:aurora")
 
     };
 
@@ -111,7 +116,12 @@ public class ItemRegister {
             "kinetic_suit",
             "kinetic_leg",
             "kinetic_boots",
-            "qs_093"
+            "qs_093",
+            "metallic_card",
+            "sulfuric_card",
+            "lush_card",
+            "floating_card",
+            "aurora_card"
     };
 
     public static final Item[] guns = {
