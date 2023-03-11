@@ -24,7 +24,8 @@ public class FluidRegister {
             new OilFluid.Still(),
             new PollutedWaterFluid.Still(),
             new AcidFluid.Still(),
-            new GasolineFluid.Still()
+            new GasolineFluid.Still(),
+            new AetherFluid.Still()
     };
 
     public static final FlowableFluid[] flowing_fluid = {
@@ -32,6 +33,7 @@ public class FluidRegister {
             new PollutedWaterFluid.Flowing(),
             new AcidFluid.Flowing(),
             new GasolineFluid.Flowing(),
+            new AetherFluid.Flowing()
     };
 
     public static final Block[] fluid_blocks = {
@@ -40,19 +42,22 @@ public class FluidRegister {
             new FluidBlock(still_fluid[1], FabricBlockSettings.copyOf(Blocks.WATER)),
             new IFluidBlock(still_fluid[2], FabricBlockSettings.copyOf(Blocks.WATER)),
             new IFluidBlock(still_fluid[3], FabricBlockSettings.copyOf(Blocks.WATER)),
+            new IFluidBlock(still_fluid[4], FabricBlockSettings.copyOf(Blocks.WATER)),
     };
 
     public static final String[] fluidnames = {
             "oil",
             "polluted_water",
             "acid",
-            "gasoline"
+            "gasoline",
+            "aether"
     };
     public static final Color[] fluidColor = {
             Color.BLACK,
             new Color(0, 10, 100),
             new Color(210, 180, 0),
             new Color(255, 238, 153),
+            new Color(187, 0, 255)
     };
 
     public static void RegistFluid() {
@@ -66,11 +71,9 @@ public class FluidRegister {
 
     public static void RegistFluidClientSide() {
         for (int i = 0; i < still_fluid.length; i++) {
-            FluidRenderHandlerRegistry.INSTANCE.register(still_fluid[i],
-                    flowing_fluid[i],
+            FluidRenderHandlerRegistry.INSTANCE.register(still_fluid[i], flowing_fluid[i],
                     new SimpleFluidRenderHandler(new Identifier("minecraft:block/water_still"),
-                            new Identifier("minecraft:block/water_flow"),
-                            fluidColor[i].getRGB()));
+                            new Identifier("minecraft:block/water_flow"), fluidColor[i].getRGB()));
 
             BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), still_fluid[i], flowing_fluid[i]);
         }

@@ -5,4 +5,5 @@ public enum FluidRegistry {
     POLLUTED_WATER,
     ACID,
     GASOLINE,
+    AETHER,
 }

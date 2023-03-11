@@ -33,6 +33,8 @@ public class ItemRegister {
                     new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP)),
             new BucketItem(still_fluid[3],
                     new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP)),
+            new BucketItem(still_fluid[4],
+                    new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP)),
     };
 
     public static final Item[] items = {

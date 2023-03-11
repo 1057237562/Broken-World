@@ -128,6 +128,10 @@ public class BlockRegister {
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
             new Block(FabricBlockSettings.copyOf(Blocks.SNOW_BLOCK).luminance(11)),
             new Block(FabricBlockSettings.copyOf(Blocks.MAGMA_BLOCK)),
+            new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
+                    10f)),
+            new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
+                    10f))
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -186,6 +190,8 @@ public class BlockRegister {
             new BlockItem(blocks[53], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[54], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[55], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[56], new FabricItemSettings()),
+            new BlockItem(blocks[57], new FabricItemSettings()),
 
     };
 
@@ -246,6 +252,8 @@ public class BlockRegister {
             "magnetic_stone",
             "solid_plasma",
             "volcanic_stone",
+            "aurora_teleporter_frame",
+            "floating_teleporter_frame"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
