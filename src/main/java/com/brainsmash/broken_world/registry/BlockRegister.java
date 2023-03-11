@@ -124,7 +124,7 @@ public class BlockRegister {
             new DataUploadNodeBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new SpawnPointerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).dropsNothing()),
-            new Block(FabricBlockSettings.copyOf(Blocks.BLUE_ICE)),
+            new GlassBlock(FabricBlockSettings.copyOf(Blocks.BLUE_ICE).nonOpaque().luminance(2)),
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
             new Block(FabricBlockSettings.copyOf(Blocks.SNOW_BLOCK).luminance(11)),
             new Block(FabricBlockSettings.copyOf(Blocks.MAGMA_BLOCK)),
