@@ -16,26 +16,26 @@ public class mutator<T extends Entity> extends EntityModel<T> {
 		this.bb_main = root.getChild("bb_main");
 	}
 
-	public static LayerDefinition createBodyLayer() {
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
+	public static TexturedModelData getTexturedModelData() {
+		ModelData modelData = new ModelData();
+		ModelPartData modelPartData = modelData.getRoot();
 
-		PartDefinition leg = partdefinition.addOrReplaceChild("leg", CubeListBuilder.create(), PartPose.offset(-6.0F, 12.0F, 0.0F));
+		ModelPartData leg = modelPartData.addChild("leg", ModelPartBuilder.create(), ModelTransform.pivot(-6.0F, 12.0F, 0.0F));
 
-		PartDefinition cube_r1 = leg.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-10.0F, 2.0F, -1.0F, 11.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.3054F));
+		ModelPartData cube_r1 = leg.addChild("cube_r1", ModelPartBuilder.create().uv(0, 0).cuboid(-10.0F, 2.0F, -1.0F, 11.0F, 2.0F, 2.0F), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.3054F));
 
-		PartDefinition cube_r2 = leg.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 11.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-9.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0873F));
+		ModelPartData cube_r2 = leg.addChild("cube_r2", ModelPartBuilder.create().uv(0, 0).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 11.0F, 2.0F), ModelTransform.of(-9.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0873F));
 
-		PartDefinition leg2 = partdefinition.addOrReplaceChild("leg2", CubeListBuilder.create(), PartPose.offsetAndRotation(6.0F, 15.0F, 0.0F, 0.0F, 3.1416F, 0.0F));
+		ModelPartData leg2 = modelPartData.addChild("leg2", ModelPartBuilder.create(), ModelTransform.of(6.0F, 15.0F, 0.0F, 0.0F, 3.1416F, 0.0F));
 
-		PartDefinition cube_r3 = leg2.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(0, 0).addBox(-10.0F, 2.0F, -1.0F, 11.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.0F, 0.0F, 0.3054F));
+		ModelPartData cube_r3 = leg2.addChild("cube_r3", ModelPartBuilder.create().uv(0, 0).cuboid(-10.0F, 2.0F, -1.0F, 11.0F, 2.0F, 2.0F), ModelTransform.of(0.0F, -3.0F, 0.0F, 0.0F, 0.0F, 0.3054F));
 
-		PartDefinition cube_r4 = leg2.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 11.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-9.0F, -3.0F, 0.0F, 0.0F, 0.0F, 0.0873F));
+		ModelPartData cube_r4 = leg2.addChild("cube_r4", ModelPartBuilder.create().uv(0, 0).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 11.0F, 2.0F), ModelTransform.of(-9.0F, -3.0F, 0.0F, 0.0F, 0.0F, 0.0873F));
 
-		PartDefinition bb_main = partdefinition.addOrReplaceChild("bb_main", CubeListBuilder.create().texOffs(0, 0).addBox(-6.0F, -39.0F, -6.0F, 12.0F, 31.0F, 12.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 0).addBox(-10.0F, -33.0F, -10.0F, 20.0F, 19.0F, 20.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+		ModelPartData bb_main = modelPartData.addChild("bb_main", ModelPartBuilder.create().uv(0, 0).cuboid(-6.0F, -39.0F, -6.0F, 12.0F, 31.0F, 12.0F)
+		.uv(0, 0).cuboid(-10.0F, -33.0F, -10.0F, 20.0F, 19.0F, 20.0F), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 16, 16);
+		return TexturedModelData.of(modelData, 16, 16);
 	}
 
 	@Override

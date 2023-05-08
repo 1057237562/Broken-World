@@ -3,10 +3,7 @@ package com.brainsmash.broken_world.registry;
 import com.brainsmash.broken_world.entity.BulletEntity;
 import com.brainsmash.broken_world.entity.HyperSpearEntity;
 import com.brainsmash.broken_world.entity.hostile.*;
-import com.brainsmash.broken_world.entity.model.ApocalyptorEntityModel;
-import com.brainsmash.broken_world.entity.model.FishboneEntityModel;
-import com.brainsmash.broken_world.entity.model.PhoenixEntityModel;
-import com.brainsmash.broken_world.entity.model.WerewolfEntityModel;
+import com.brainsmash.broken_world.entity.model.*;
 import com.brainsmash.broken_world.entity.render.*;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -66,6 +63,7 @@ public class EntityRegister {
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, DroneEntity::new).dimensions(
                     EntityDimensions.fixed(0.5f, 0.5f)).trackRangeBlocks(100).build());
 
+
     public static final EntityModelLayer MODEL_FISHBONE_LAYER = new EntityModelLayer(new Identifier(MODID, "fishbone"),
             "main");
     public static final EntityModelLayer MODEL_PHOENIX_LAYER = new EntityModelLayer(new Identifier(MODID, "phoenix"),
@@ -74,6 +72,12 @@ public class EntityRegister {
             new Identifier(MODID, "apocalyptor"), "main");
 
     public static final EntityModelLayer MODEL_WEREWOLF_LAYER = new EntityModelLayer(new Identifier(MODID, "werewolf"),
+            "main");
+
+    public static final EntityModelLayer MODEL_DRONE_LAYER = new EntityModelLayer(new Identifier(MODID, "drone"),
+            "main");
+
+    public static final EntityModelLayer MODEL_MAGIC_BROOM = new EntityModelLayer(new Identifier(MODID, "magic_broom"),
             "main");
 
     public static void registEntitiesClientSide() {
@@ -91,6 +95,7 @@ public class EntityRegister {
         EntityModelLayerRegistry.registerModelLayer(MODEL_APOCALYPTOR_LAYER,
                 ApocalyptorEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_WEREWOLF_LAYER, WerewolfEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_DRONE_LAYER, DroneEntityModel::getTexturedModelData);
     }
 
     public static void registEntities() {
@@ -103,5 +108,6 @@ public class EntityRegister {
         FabricDefaultAttributeRegistry.register(APOCALYPTOR_ENTITY_TYPE,
                 ApocalyptorEntity.createApocalyptorAttributes());
         FabricDefaultAttributeRegistry.register(WEREWOLF_ENTITY_TYPE, WerewolfEntity.createWereworlfAttributes());
+        FabricDefaultAttributeRegistry.register(DRONE_ENTITY_TYPE, DroneEntity.createLivingAttributes());
     }
 }

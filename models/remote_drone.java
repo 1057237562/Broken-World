@@ -12,22 +12,22 @@ public class remote_drone<T extends Entity> extends EntityModel<T> {
 		this.bb_main = root.getChild("bb_main");
 	}
 
-	public static LayerDefinition createBodyLayer() {
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
+	public static TexturedModelData getTexturedModelData() {
+		ModelData modelData = new ModelData();
+		ModelPartData modelPartData = modelData.getRoot();
 
-		PartDefinition bb_main = partdefinition.addOrReplaceChild("bb_main", CubeListBuilder.create().texOffs(0, 25).addBox(-3.0F, -5.0F, -3.0F, 6.0F, 4.0F, 6.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 3.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(24, 25).addBox(-2.0F, -11.0F, -2.0F, 4.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 11).addBox(-1.0F, -16.0F, 3.0F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+		ModelPartData bb_main = modelPartData.addChild("bb_main", ModelPartBuilder.create().uv(0, 25).cuboid(-3.0F, -5.0F, -3.0F, 6.0F, 4.0F, 6.0F)
+		.uv(0, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 3.0F, 8.0F)
+		.uv(24, 25).cuboid(-2.0F, -11.0F, -2.0F, 4.0F, 3.0F, 4.0F)
+		.uv(0, 11).cuboid(-1.0F, -16.0F, 3.0F, 1.0F, 8.0F, 1.0F), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 
-		PartDefinition cube_r1 = bb_main.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(0, 11).addBox(-1.0F, -1.0F, -9.0F, 3.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, -2.9671F, 0.0F, 3.1416F));
+		ModelPartData cube_r1 = bb_main.addChild("cube_r1", ModelPartBuilder.create().uv(0, 11).cuboid(-1.0F, -1.0F, -9.0F, 3.0F, 2.0F, 10.0F), ModelTransform.of(0.0F, -3.0F, 0.0F, -2.9671F, 0.0F, 3.1416F));
 
-		PartDefinition cube_r2 = bb_main.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(16, 13).addBox(-1.0F, -1.0F, -9.0F, 3.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.1745F, 1.0472F, 0.0F));
+		ModelPartData cube_r2 = bb_main.addChild("cube_r2", ModelPartBuilder.create().uv(16, 13).cuboid(-1.0F, -1.0F, -9.0F, 3.0F, 2.0F, 10.0F), ModelTransform.of(0.0F, -3.0F, 0.0F, 0.1745F, 1.0472F, 0.0F));
 
-		PartDefinition cube_r3 = bb_main.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(22, 1).addBox(-1.0F, -1.0F, -9.0F, 3.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0F, 0.0F, 0.1745F, -1.0472F, 0.0F));
+		ModelPartData cube_r3 = bb_main.addChild("cube_r3", ModelPartBuilder.create().uv(22, 1).cuboid(-1.0F, -1.0F, -9.0F, 3.0F, 2.0F, 10.0F), ModelTransform.of(0.0F, -3.0F, 0.0F, 0.1745F, -1.0472F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 64, 64);
+		return TexturedModelData.of(modelData, 64, 64);
 	}
 
 	@Override
