@@ -16,7 +16,7 @@
               -0.01
             ],
             "erosion": 0,
-            "weirdness": 0,
+            "weirdness": [-1,-0.05],
             "depth": 0,
             "offset": 0
           }
@@ -31,7 +31,7 @@
               -0.01
             ],
             "erosion": 0,
-            "weirdness": 0,
+            "weirdness": [-1,-0.05],
             "depth": 0,
             "offset": 0
           }
@@ -46,7 +46,7 @@
               1
             ],
             "erosion": 0,
-            "weirdness": 0,
+            "weirdness": [-1,-0.05],
             "depth": 0,
             "offset": 0
           }
@@ -56,12 +56,54 @@
           "parameters": {
             "temperature": 0,
             "humidity": 0,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": [-0.05,0.05],
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "broken_world:halo",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
             "continentalness": [
-              -0.01,
-              0.01
+              -1,
+              -0.01
             ],
             "erosion": 0,
-            "weirdness": 0,
+            "weirdness": [0.05,1],
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "broken_world:pole",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": [
+              -1,
+              -0.01
+            ],
+            "erosion": 0,
+            "weirdness": [0.05,1],
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "broken_world:prism",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": [
+              0.05,
+              1
+            ],
+            "erosion": 0,
+            "weirdness": [0.05,1],
             "depth": 0,
             "offset": 0
           }

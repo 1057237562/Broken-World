@@ -104,61 +104,51 @@ public class Main implements ModInitializer {
         BWDensityFunctionTypes.register();
 
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_pressed"),
-                (server, player, handler, buf, responseSender) -> {
-                    server.execute(() -> {
-                        if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
-                            gunItem.fire(player.world, player);
-                            if (player.getOffHandStack().getItem() instanceof GunItem gunItem1) {
-                                gunItem1.fire(player.world, player);
-                            }
+                (server, player, handler, buf, responseSender) -> server.execute(() -> {
+                    if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
+                        gunItem.fire(player.world, player);
+                        if (player.getOffHandStack().getItem() instanceof GunItem gunItem1) {
+                            gunItem1.fire(player.world, player);
                         }
-                    });
-                });
+                    }
+                }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_hold"),
-                (server, player, handler, buf, responseSender) -> {
-                    server.execute(() -> {
-                        if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
-                            gunItem.fireTick(player.world, player);
-                            if (player.getOffHandStack().getItem() instanceof GunItem gunItem1) {
-                                gunItem1.fireTick(player.world, player);
-                            }
+                (server, player, handler, buf, responseSender) -> server.execute(() -> {
+                    if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
+                        gunItem.fireTick(player.world, player);
+                        if (player.getOffHandStack().getItem() instanceof GunItem gunItem1) {
+                            gunItem1.fireTick(player.world, player);
                         }
-                    });
-                });
+                    }
+                }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "crawl_key_hold"),
-                (server, player, handler, buf, responseSender) -> {
-                    server.execute(() -> {
-                        if (player.world.isSpaceEmpty(player,
-                                EntityHelper.calculateBoundsForPose(player, EntityPose.SWIMMING).contract(1.0E-7))) {
-                            player.setPose(EntityPose.SWIMMING);
-                            ((PlayerDataExtension) player).forceSetFlag(2, true);
-                        }
-                    });
-                });
+                (server, player, handler, buf, responseSender) -> server.execute(() -> {
+                    if (player.world.isSpaceEmpty(player,
+                            EntityHelper.calculateBoundsForPose(player, EntityPose.SWIMMING).contract(1.0E-7))) {
+                        player.setPose(EntityPose.SWIMMING);
+                        ((PlayerDataExtension) player).forceSetFlag(2, true);
+                    }
+                }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "jump_key_hold"),
-                (server, player, handler, buf, responseSender) -> {
-                    server.execute(() -> {
-                        if (!player.getAbilities().flying) {
-                            if (player instanceof EntityDataExtension dataExtension) {
-                                if (dataExtension.getData() instanceof NbtCompound nbtCompound) {
-                                    if (BonusHelper.getBoolean(nbtCompound, "jet")) {
-                                        if (player.getVelocity().y < 0.7f)
-                                            player.addVelocity(0, Math.min(0.7f - player.getVelocity().y, 0.3), 0);
-                                        player.fallDistance = 0;
-                                    }
+                (server, player, handler, buf, responseSender) -> server.execute(() -> {
+                    if (!player.getAbilities().flying) {
+                        if (player instanceof EntityDataExtension dataExtension) {
+                            if (dataExtension.getData() instanceof NbtCompound nbtCompound) {
+                                if (BonusHelper.getBoolean(nbtCompound, "jet")) {
+                                    if (player.getVelocity().y < 0.7f)
+                                        player.addVelocity(0, Math.min(0.7f - player.getVelocity().y, 0.3), 0);
+                                    player.fallDistance = 0;
                                 }
                             }
                         }
-                    });
-                });
+                    }
+                }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "reload_key_press"),
-                (server, player, handler, buf, responseSender) -> {
-                    server.execute(() -> {
-                        ItemStack itemStack = player.getMainHandStack();
-                        if (itemStack.getItem() instanceof GunItem gunItem) {
-                            gunItem.reload(itemStack);
-                        }
-                    });
-                });
+                (server, player, handler, buf, responseSender) -> server.execute(() -> {
+                    ItemStack itemStack = player.getMainHandStack();
+                    if (itemStack.getItem() instanceof GunItem gunItem) {
+                        gunItem.reload(itemStack);
+                    }
+                }));
     }
 }

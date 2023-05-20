@@ -7,46 +7,73 @@
       "type": "minecraft:multi_noise",
       "biomes": [
         {
+          "biome": "minecraft:river",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": [-0.19,1],
+            "erosion": 0,
+            "weirdness": [-0.05,0.05],
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
           "biome": "minecraft:plains",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": [-0.19,1],
+            "erosion": 0,
+            "weirdness": [-1,-0.05],
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "minecraft:plains",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": [-0.19,1],
+            "erosion": 0,
+            "weirdness": [0.05,1],
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "minecraft:deep_ocean",
           "parameters": {
             "temperature": 0,
             "humidity": 0,
             "continentalness": [
               -1,
-              -0.01
+              -0.455
             ],
             "erosion": 0,
-            "weirdness": 0,
-            "depth": 0,
-            "offset": 0
-          }
-        },
-        {
-          "biome": "minecraft:plains",
-          "parameters": {
-            "temperature": 0,
-            "humidity": 0,
-            "continentalness": [
-              0.05,
+            "weirdness": [
+              -1,
               1
             ],
-            "erosion": 0,
-            "weirdness": 0,
             "depth": 0,
             "offset": 0
           }
         },
         {
-          "biome": "minecraft:river",
+          "biome": "minecraft:ocean",
           "parameters": {
             "temperature": 0,
             "humidity": 0,
             "continentalness": [
-              -0.01,
-              0.01
+              -0.455,
+              -0.19
             ],
             "erosion": 0,
-            "weirdness": 0,
+            "weirdness": [
+              -1,
+              1
+            ],
             "depth": 0,
             "offset": 0
           }
