@@ -1,4 +1,4 @@
-// 1.19.2	2023-03-10T22:51:48.6247971	minecraft:block Loot Table
+// 1.19.2	2023-06-07T16:06:25.621936	minecraft:block Loot Table
 b2ae79939933e8066be8be11b38a4a74084577b1 data\broken_world\loot_tables\block\spawn_pointer.json
 c5785aa23827f39aef72bf40ee65ed4e2d62ea30 data\broken_world\loot_tables\block\volcanic_stone.json
 ef3ddfadcbfb4b02725770469b0807cab1f714a7 data\broken_world\loot_tables\block\moon_sandstone.json
@@ -14,10 +14,12 @@ c99727a748a8bfc714cfb3b1c8fd701994bf593f data\broken_world\loot_tables\block\cor
 4b9d63841ff7a095d395ec905c01578a5ea53789 data\broken_world\loot_tables\block\pump.json
 898abce71c46e0fe368c859bf2a0b53fe30423ac data\broken_world\loot_tables\block\creative_generator.json
 007d669a9986eb26edabbfda09c85cf82cb64484 data\broken_world\loot_tables\block\metallic_teleporter_frame.json
+a5ea98ac9f45cb8afe47b354b47a0005cdab8364 data\broken_world\loot_tables\block\floating_teleporter_frame.json
 7c2f4449992925956e429c539b8df6011f5bc850 data\broken_world\loot_tables\block\cracked_concrete.json
 29011cdcf560e274ca879039eec8dad522c660fc data\broken_world\loot_tables\block\code.json
 81a68e996d8911694794738f2188a1084768e0aa data\broken_world\loot_tables\block\teleporter_frame.json
 872a797d50459ec99b03014c1fa8cf5cf9bafab7 data\broken_world\loot_tables\block\solar_panel.json
+222e2ff1606b26dac47db5df29a95fd793c8b601 data\broken_world\loot_tables\block\aurora_teleporter_frame.json
 dff403dae1c1df11ff38e50c73cab4f3ee387007 data\broken_world\loot_tables\block\machine_shell.json
 0bf3c9ef9f8458edefa272f8203ebf3ea59b0920 data\broken_world\loot_tables\block\advanced_furnace.json
 dd56885a36b733f9bc9125e95a4945a1b114dda5 data\broken_world\loot_tables\block\iron_sheet_box.json
