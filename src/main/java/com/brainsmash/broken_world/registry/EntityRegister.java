@@ -5,11 +5,12 @@ import com.brainsmash.broken_world.entity.HyperSpearEntity;
 import com.brainsmash.broken_world.entity.hostile.*;
 import com.brainsmash.broken_world.entity.model.*;
 import com.brainsmash.broken_world.entity.render.*;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -17,6 +18,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import static com.brainsmash.broken_world.Main.MODID;
+import static com.brainsmash.broken_world.registry.EntityModelLayerRegister.*;
 
 public class EntityRegister {
 
@@ -64,22 +66,7 @@ public class EntityRegister {
                     EntityDimensions.fixed(0.5f, 0.5f)).trackRangeBlocks(100).build());
 
 
-    public static final EntityModelLayer MODEL_FISHBONE_LAYER = new EntityModelLayer(new Identifier(MODID, "fishbone"),
-            "main");
-    public static final EntityModelLayer MODEL_PHOENIX_LAYER = new EntityModelLayer(new Identifier(MODID, "phoenix"),
-            "main");
-    public static final EntityModelLayer MODEL_APOCALYPTOR_LAYER = new EntityModelLayer(
-            new Identifier(MODID, "apocalyptor"), "main");
-
-    public static final EntityModelLayer MODEL_WEREWOLF_LAYER = new EntityModelLayer(new Identifier(MODID, "werewolf"),
-            "main");
-
-    public static final EntityModelLayer MODEL_DRONE_LAYER = new EntityModelLayer(new Identifier(MODID, "drone"),
-            "main");
-
-    public static final EntityModelLayer MODEL_MAGIC_BROOM = new EntityModelLayer(new Identifier(MODID, "magic_broom"),
-            "main");
-
+    @Environment(EnvType.CLIENT)
     public static void registEntitiesClientSide() {
         EntityRendererRegistry.register(BULLET_ENTITY_ENTITY_TYPE, BulletEntityRenderer::new);
 

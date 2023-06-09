@@ -2,7 +2,7 @@ package com.brainsmash.broken_world.entity.render;
 
 import com.brainsmash.broken_world.entity.hostile.PhoenixEntity;
 import com.brainsmash.broken_world.entity.model.PhoenixEntityModel;
-import com.brainsmash.broken_world.registry.EntityRegister;
+import com.brainsmash.broken_world.registry.EntityModelLayerRegister;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -16,7 +16,7 @@ public class PhoenixEntityRenderer extends MobEntityRenderer<PhoenixEntity, Phoe
     private static final Identifier TEXTURE = new Identifier(MODID, "textures/entity/phoenix.png");
 
     public PhoenixEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new PhoenixEntityModel<>(context.getPart(EntityRegister.MODEL_PHOENIX_LAYER)), 0.8f);
+        super(context, new PhoenixEntityModel<>(context.getPart(EntityModelLayerRegister.MODEL_PHOENIX_LAYER)), 0.8f);
     }
 
     @Override

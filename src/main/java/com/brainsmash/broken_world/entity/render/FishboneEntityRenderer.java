@@ -2,7 +2,7 @@ package com.brainsmash.broken_world.entity.render;
 
 import com.brainsmash.broken_world.entity.hostile.FishboneEntity;
 import com.brainsmash.broken_world.entity.model.FishboneEntityModel;
-import com.brainsmash.broken_world.registry.EntityRegister;
+import com.brainsmash.broken_world.registry.EntityModelLayerRegister;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -19,7 +19,7 @@ public class FishboneEntityRenderer extends MobEntityRenderer<FishboneEntity, Fi
     private static final Identifier TEXTURE = new Identifier(MODID, "textures/entity/fish/fishbone.png");
 
     public FishboneEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new FishboneEntityModel(context.getPart(EntityRegister.MODEL_FISHBONE_LAYER)), 0.4f);
+        super(context, new FishboneEntityModel(context.getPart(EntityModelLayerRegister.MODEL_FISHBONE_LAYER)), 0.4f);
     }
 
     @Override

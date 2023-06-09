@@ -2,7 +2,7 @@ package com.brainsmash.broken_world.entity.render;
 
 import com.brainsmash.broken_world.entity.hostile.WerewolfEntity;
 import com.brainsmash.broken_world.entity.model.WerewolfEntityModel;
-import com.brainsmash.broken_world.registry.EntityRegister;
+import com.brainsmash.broken_world.registry.EntityModelLayerRegister;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -18,7 +18,8 @@ public class WerewolfEntityRenderer extends MobEntityRenderer<WerewolfEntity, We
     private static final Identifier TEXTURE = new Identifier(MODID, "textures/entity/werewolf.png");
 
     public WerewolfEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new WerewolfEntityModel<>(context.getPart(EntityRegister.MODEL_WEREWOLF_LAYER)), 0.35f);
+        super(context, new WerewolfEntityModel<>(context.getPart(EntityModelLayerRegister.MODEL_WEREWOLF_LAYER)),
+                0.35f);
         this.addFeature(new HeldItemFeatureRenderer<>(this, context.getHeldItemRenderer()) {
 
             @Override

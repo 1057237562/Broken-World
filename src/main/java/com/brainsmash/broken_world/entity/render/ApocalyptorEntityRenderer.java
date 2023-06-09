@@ -2,7 +2,7 @@ package com.brainsmash.broken_world.entity.render;
 
 import com.brainsmash.broken_world.entity.hostile.ApocalyptorEntity;
 import com.brainsmash.broken_world.entity.model.ApocalyptorEntityModel;
-import com.brainsmash.broken_world.registry.EntityRegister;
+import com.brainsmash.broken_world.registry.EntityModelLayerRegister;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -18,7 +18,8 @@ public class ApocalyptorEntityRenderer extends MobEntityRenderer<ApocalyptorEnti
     private static final Identifier TEXTURE = new Identifier(MODID, "textures/entity/apocalyptor.png");
 
     public ApocalyptorEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new ApocalyptorEntityModel<>(context.getPart(EntityRegister.MODEL_APOCALYPTOR_LAYER)), 1f);
+        super(context, new ApocalyptorEntityModel<>(context.getPart(EntityModelLayerRegister.MODEL_APOCALYPTOR_LAYER)),
+                1f);
         this.addFeature(new HeldItemFeatureRenderer<>(this, context.getHeldItemRenderer()) {
 
             @Override

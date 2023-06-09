@@ -1,6 +1,8 @@
 package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.blocks.fluid.*;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
@@ -69,6 +71,7 @@ public class FluidRegister {
         }
     }
 
+    @Environment(EnvType.CLIENT)
     public static void RegistFluidClientSide() {
         for (int i = 0; i < still_fluid.length; i++) {
             FluidRenderHandlerRegistry.INSTANCE.register(still_fluid[i], flowing_fluid[i],
