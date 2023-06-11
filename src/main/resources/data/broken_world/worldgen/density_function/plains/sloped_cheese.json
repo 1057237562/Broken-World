@@ -12,7 +12,7 @@
           "argument1": "broken_world:plains/depth",
           "argument2": {
             "type": "minecraft:mul",
-            "argument1": "minecraft:overworld/jaggedness",
+            "argument1": "broken_world:plains/jaggedness",
             "argument2": {
               "type": "minecraft:half_negative",
               "argument": {
