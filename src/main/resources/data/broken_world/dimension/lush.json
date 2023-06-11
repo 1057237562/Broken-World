@@ -2,7 +2,7 @@
   "type": "broken_world:lush",
   "generator": {
     "type": "minecraft:noise",
-    "settings": "minecraft:overworld",
+    "settings": "broken_world:lush_noise_gen",
     "biome_source": {
       "type": "minecraft:multi_noise",
       "biomes": [
@@ -11,9 +11,33 @@
           "parameters": {
             "temperature": 0,
             "humidity": 0,
-            "continentalness": [-0.19,1],
+            "continentalness": [-0.19,0.46],
             "erosion": 0,
             "weirdness": [-0.05,0.05],
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "minecraft:beach",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": [-0.19,-0.11],
+            "erosion": 0,
+            "weirdness": [-1, -0.05],
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "minecraft:beach",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": [-0.19,-0.11],
+            "erosion": 0,
+            "weirdness": [0.05, 1],
             "depth": 0,
             "offset": 0
           }
@@ -23,7 +47,7 @@
           "parameters": {
             "temperature": 0,
             "humidity": 0,
-            "continentalness": [-0.19,1],
+            "continentalness": [-0.11,1],
             "erosion": 0,
             "weirdness": [-1,-0.05],
             "depth": 0,
@@ -35,7 +59,7 @@
           "parameters": {
             "temperature": 0,
             "humidity": 0,
-            "continentalness": [-0.19,1],
+            "continentalness": [-0.11,1],
             "erosion": 0,
             "weirdness": [0.05,1],
             "depth": 0,
