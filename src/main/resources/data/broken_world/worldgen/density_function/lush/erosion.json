@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:spline",
+  "spline": {
+    "coordinate": "minecraft:overworld/erosion",
+    "points": [
+      {
+        "location": -1,
+        "derivative": 0,
+        "value": -1
+      },
+      {
+        "location": 1,
+        "derivative": 0,
+        "value": 0.05
+      }
+    ]
+  }
+}
