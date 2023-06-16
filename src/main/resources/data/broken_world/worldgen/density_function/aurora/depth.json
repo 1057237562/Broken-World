@@ -7,5 +7,5 @@
     "to_value": -1.5,
     "to_y": 256
   },
-  "argument2": "minecraft:overworld/offset"
+  "argument2": "broken_world:aurora/offset"
 }

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:add",
+  "argument1": {
+    "type": "minecraft:mul",
+    "argument1": 4.0,
+    "argument2": {
+      "type": "minecraft:quarter_negative",
+      "argument": {
+        "type": "minecraft:mul",
+        "argument1": "broken_world:aurora/depth",
+        "argument2": "broken_world:aurora/factor"
+      }
+    }
+  },
+  "argument2": 0.0
+}
