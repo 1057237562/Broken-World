@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks;
+package com.brainsmash.broken_world.blocks.model;
 
 import net.minecraft.block.Block;
 

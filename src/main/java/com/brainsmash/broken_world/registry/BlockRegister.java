@@ -14,6 +14,8 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
+import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
+import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -53,14 +55,14 @@ public class BlockRegister {
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.GOLD_ORE)),
-            new TeleporterFrameBlock(
-                    FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
-                            10f)),
+            new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
+                    10f)),
             new RedstoneOreBlock(
                     FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(5.0f,
                             4.0f)),
-            new Block(AbstractBlock.Settings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(
-                    2.0f, 2.0f)),
+            new BottomTopBlock(
+                    AbstractBlock.Settings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(
+                            2.0f, 2.0f)),
             new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).requiresTool().strength(3.0f,
                     3.0f)),
             new TeleporterController(

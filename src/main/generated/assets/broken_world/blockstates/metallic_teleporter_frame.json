@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "broken_world:block/teleporter_frame" }
+    "": {
+      "model": "broken_world:block/teleporter_frame"
+    }
   }
 }
