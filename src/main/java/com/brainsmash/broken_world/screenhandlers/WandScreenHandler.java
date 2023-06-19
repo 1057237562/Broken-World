@@ -23,11 +23,13 @@ public class WandScreenHandler extends ScreenHandler {
         int j;
         this.inventory = new SimpleInventory(9 * rows);
 
-        NbtCompound nbtCompound = playerInventory.getMainHandStack().getNbt();
+        NbtCompound nbtCompound = playerInventory.getMainHandStack().getOrCreateNbt();
         NbtList list = nbtCompound.getList("inventory", NbtElement.COMPOUND_TYPE);
-        for (int i = 0; i < list.size(); i++) {
-            NbtElement element = list.get(i);
-            inventory.setStack(i, ItemStack.fromNbt((NbtCompound) element));
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                NbtElement element = list.get(i);
+                inventory.setStack(i, ItemStack.fromNbt((NbtCompound) element));
+            }
         }
         this.rows = rows;
         inventory.onOpen(playerInventory.player);
@@ -78,9 +80,13 @@ public class WandScreenHandler extends ScreenHandler {
         this.inventory.onClose(player);
         NbtList list = new NbtList();
         for (int i = 0; i < inventory.size(); i++) {
-            list.add(i, inventory.getStack(i).getNbt());
+            NbtCompound itemstack = new NbtCompound();
+            inventory.getStack(i).writeNbt(itemstack);
+            list.add(i, itemstack);
         }
-        player.getMainHandStack().getNbt().put("inventory", list);
+        NbtCompound nbtCompound = player.getMainHandStack().getOrCreateNbt();
+        nbtCompound.put("inventory", list);
+        player.getMainHandStack().setNbt(nbtCompound);
     }
 
     public Inventory getInventory() {

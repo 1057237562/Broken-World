@@ -32,10 +32,11 @@ public class Wand extends Item {
                     (syncId, inventory, player) -> new WandScreenHandler(ScreenHandlerType.GENERIC_9X1, syncId,
                             inventory, 1), CONTAINER_NAME));
         } else {
-            NbtCompound nbtCompound = user.getStackInHand(hand).getNbt();
-            for (NbtElement element : nbtCompound.getList("inventory", NbtElement.COMPOUND_TYPE)) {
+            NbtCompound nbtCompound = user.getStackInHand(hand).getOrCreateNbt();
+            if (nbtCompound != null && !nbtCompound.isEmpty())
+                for (NbtElement element : nbtCompound.getList("inventory", NbtElement.COMPOUND_TYPE)) {
 
-            }
+                }
         }
         return super.use(world, user, hand);
     }

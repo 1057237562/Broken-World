@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.items.*;
 import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
+import com.brainsmash.broken_world.items.magical.Wand;
 import com.brainsmash.broken_world.items.weapons.ammo.HeavyAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.LightAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.SniperAmmo;
@@ -63,7 +64,7 @@ public class ItemRegister {
             new LightAmmo(new FabricItemSettings().group(ITEM_GROUP)),
             new SMG(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new HeavyAmmo(new FabricItemSettings().group(ITEM_GROUP)),
-            new Rifle(new FabricItemSettings().group(ITEM_GROUP)),
+            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new SniperAmmo(new FabricItemSettings().group(ITEM_GROUP)),
             new SniperRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new HyperSpear(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
@@ -80,7 +81,8 @@ public class ItemRegister {
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:sulfuric"),
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:lush"),
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:floating"),
-            new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:aurora")
+            new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:aurora"),
+            new Wand(new FabricItemSettings().group(ITEM_GROUP), 9)
 
     };
 
@@ -110,7 +112,7 @@ public class ItemRegister {
             "light_ammo",
             "smg",
             "heavy_ammo",
-            "rifle",
+            "mk144",
             "sniper_ammo",
             "sniper_rifle",
             "hyper_spear",
@@ -123,13 +125,14 @@ public class ItemRegister {
             "sulfuric_card",
             "lush_card",
             "floating_card",
-            "aurora_card"
+            "aurora_card",
+            "wand"
     };
 
     public static final Item[] guns = {
             items[ItemRegistry.G17.ordinal()],
             items[ItemRegistry.SMG.ordinal()],
-            items[ItemRegistry.RIFLE.ordinal()],
+            items[ItemRegistry.MK144.ordinal()],
             items[ItemRegistry.SNIPER_RIFLE.ordinal()],
             items[ItemRegistry.GS_093.ordinal()]
     };
