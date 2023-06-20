@@ -26,7 +26,7 @@ public enum ItemRegistry {
     LIGHT_AMMO,
     SMG,
     HEAVY_AMMO,
-    RIFLE,
+    MK144,
     SNIPER_AMMO,
     SNIPER_RIFLE,
     HYPER_SPEAR,
@@ -40,4 +40,5 @@ public enum ItemRegistry {
     LUSH_CARD,
     FLOATING_CARD,
     AURORA_CARD,
+    WAND
 }

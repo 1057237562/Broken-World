@@ -1,5 +1,5 @@
 {
-  "sea_level": 63,
+  "sea_level": 47,
   "disable_mob_generation": false,
   "aquifers_enabled": false,
   "ore_veins_enabled": false,
@@ -44,7 +44,7 @@
     },
     "continents": "minecraft:overworld/continents",
     "erosion": "minecraft:overworld/erosion",
-    "depth": "broken_world:plains/depth",
+    "depth": "broken_world:aurora/depth",
     "ridges": "minecraft:overworld/ridges",
     "initial_density_without_jaggedness": {
       "type": "minecraft:add",
@@ -88,10 +88,10 @@
                         "type": "minecraft:quarter_negative",
                         "argument": {
                           "type": "minecraft:mul",
-                          "argument1": "broken_world:plains/depth",
+                          "argument1": "broken_world:aurora/depth",
                           "argument2": {
                             "type": "minecraft:cache_2d",
-                            "argument": "broken_world:plains/factor"
+                            "argument": "broken_world:aurora/factor"
                           }
                         }
                       }
@@ -147,7 +147,7 @@
                         "argument2": {
                           "type": "minecraft:add",
                           "argument1": 0.078125,
-                          "argument2": "broken_world:plains/sloped_cheese"
+                          "argument2": "broken_world:aurora/sloped_cheese"
                         }
                       }
                     }
