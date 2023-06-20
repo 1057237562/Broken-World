@@ -1,6 +1,6 @@
 package com.brainsmash.broken_world.items.magical;
 
-import com.brainsmash.broken_world.screenhandlers.WandScreenHandler;
+import com.brainsmash.broken_world.screenhandlers.descriptions.WandGuiDescription;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,12 +15,14 @@ import net.minecraft.world.World;
 
 public class Wand extends Item {
 
-    public int runeSize = 9;
+    public ScreenHandlerType<WandGuiDescription> screenHandlerType;
     public static Text CONTAINER_NAME = Text.translatable("container.wand");
+    final int size;
 
-    public Wand(Settings settings, int size) {
+    public Wand(Settings settings, ScreenHandlerType<WandGuiDescription> type, int size) {
         super(settings);
-        runeSize = size;
+        screenHandlerType = type;
+        this.size = size;
     }
 
 
@@ -29,8 +31,8 @@ public class Wand extends Item {
 
         if (user.isSneaking() && hand == Hand.MAIN_HAND) {
             user.openHandledScreen(new SimpleNamedScreenHandlerFactory(
-                    (syncId, inventory, player) -> new WandScreenHandler(ScreenHandlerType.GENERIC_9X1, syncId,
-                            inventory, 1), CONTAINER_NAME));
+                    (syncId, inventory, player) -> new WandGuiDescription(screenHandlerType, syncId, inventory, size),
+                    CONTAINER_NAME));
         } else {
             NbtCompound nbtCompound = user.getStackInHand(hand).getOrCreateNbt();
             if (nbtCompound != null && !nbtCompound.isEmpty())

@@ -77,7 +77,7 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
 
             WListPanel<String, WButton> dimList = new WListPanel<>(dimensionList, () -> new WButton(Text.of("")),
                     buttonBiConsumer);
-            root.add(dimList, 0, 1, 8, 3);
+            root.add(dimList, 0, 1, 8, 5);
             WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
             root.add(itemSlot, 8, 2);
             WButton select = new WButton(Text.of("✓"));
@@ -87,9 +87,9 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
                     buf1.writeString(selectDim);
                 });
             });
-            root.add(select, 8, 3);
+            root.add(select, 8, 5);
 
-            root.add(this.createPlayerInventoryPanel(), 0, 4);
+            root.add(this.createPlayerInventoryPanel(), 0, 6);
 
             root.validate(this);
         }

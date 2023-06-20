@@ -36,7 +36,6 @@ public class ModelGenerator extends FabricModelProvider {
                 continue;
             }
             if (BlockRegister.blocks[i] instanceof BottomTopBlock) {
-//                blockStateModelGenerator.registerCubeAllModelTexturePool(BlockRegister.blocks[i]);
                 continue;
             }
             if (BlockRegister.blocks[i] instanceof DoorBlock) {

@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.registry;
 
+import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.items.*;
 import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
 import com.brainsmash.broken_world.items.magical.Wand;
@@ -82,7 +83,10 @@ public class ItemRegister {
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:lush"),
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:floating"),
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:aurora"),
-            new Wand(new FabricItemSettings().group(ITEM_GROUP), 9)
+            new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.ROOKIE_WAND_SCREEN_HANDLER, 1),
+            new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.EXPERT_WAND_SCREEN_HANDLER, 3),
+            new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.MASTER_WAND_SCREEN_HANDLER, 6),
+            new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.GRANDMASTER_WAND_SCREEN_HANDLER, 9)
 
     };
 
@@ -126,7 +130,10 @@ public class ItemRegister {
             "lush_card",
             "floating_card",
             "aurora_card",
-            "wand"
+            "rookie_wand",
+            "expert_wand",
+            "master_wand",
+            "grandmaster_wand"
     };
 
     public static final Item[] guns = {

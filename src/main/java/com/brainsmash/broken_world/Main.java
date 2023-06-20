@@ -77,6 +77,19 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "centrifuge"),
             new ExtendedScreenHandlerType<>(CentrifugeGuiDescription::new));
 
+    public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createRookieWand));
+    public static final ScreenHandlerType<WandGuiDescription> EXPERT_WAND_SCREEN_HANDLER = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "expert_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createExpertWand));
+    public static final ScreenHandlerType<WandGuiDescription> MASTER_WAND_SCREEN_HANDLER = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "master_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createMasterWand));
+    public static final ScreenHandlerType<WandGuiDescription> GRANDMASTER_WAND_SCREEN_HANDLER = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "grandmaster_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createGrandMasterWand));
+
 
     @Override
     public void onInitialize() {
