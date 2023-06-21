@@ -86,7 +86,8 @@ public class ItemRegister {
             new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.ROOKIE_WAND_SCREEN_HANDLER, 1),
             new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.EXPERT_WAND_SCREEN_HANDLER, 3),
             new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.MASTER_WAND_SCREEN_HANDLER, 6),
-            new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.GRANDMASTER_WAND_SCREEN_HANDLER, 9)
+            new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.GRANDMASTER_WAND_SCREEN_HANDLER, 9),
+            new Item(new FabricItemSettings().group(ITEM_GROUP))
 
     };
 
@@ -133,7 +134,8 @@ public class ItemRegister {
             "rookie_wand",
             "expert_wand",
             "master_wand",
-            "grandmaster_wand"
+            "grandmaster_wand",
+            "kyanite_shard"
     };
 
     public static final Item[] guns = {
@@ -141,7 +143,7 @@ public class ItemRegister {
             items[ItemRegistry.SMG.ordinal()],
             items[ItemRegistry.MK144.ordinal()],
             items[ItemRegistry.SNIPER_RIFLE.ordinal()],
-            items[ItemRegistry.GS_093.ordinal()]
+            items[ItemRegistry.QS_093.ordinal()]
     };
 
     public static void registItem() {

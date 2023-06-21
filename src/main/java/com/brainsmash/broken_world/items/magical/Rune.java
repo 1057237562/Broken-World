@@ -1,10 +1,15 @@
 package com.brainsmash.broken_world.items.magical;
 
+import com.brainsmash.broken_world.items.magical.enums.RuneEnum;
 import net.minecraft.item.Item;
 
 public class Rune extends Item {
-    public Rune(Settings settings) {
+
+    final RuneEnum type;
+
+    public Rune(Settings settings, RuneEnum type) {
         super(settings);
+        this.type = type;
     }
-    
+
 }

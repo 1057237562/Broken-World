@@ -14,6 +14,8 @@
     "broken_world:crusher",
     "broken_world:sifter",
     "broken_world:solar_panel",
-    "broken_world:magnetite"
+    "broken_world:magnetite",
+    "broken_world:kyanite_ore",
+    "broken_world:tin_ore"
   ]
 }

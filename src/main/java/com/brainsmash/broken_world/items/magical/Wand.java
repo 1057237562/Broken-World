@@ -37,7 +37,7 @@ public class Wand extends Item {
             NbtCompound nbtCompound = user.getStackInHand(hand).getOrCreateNbt();
             if (nbtCompound != null && !nbtCompound.isEmpty())
                 for (NbtElement element : nbtCompound.getList("inventory", NbtElement.COMPOUND_TYPE)) {
-
+                    ItemStack rune = ItemStack.fromNbt((NbtCompound) element);
                 }
         }
         return super.use(world, user, hand);

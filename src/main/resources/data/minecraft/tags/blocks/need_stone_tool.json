@@ -6,6 +6,7 @@
     "broken_world:generator",
     "broken_world:magnetite",
     "broken_world:crusher",
-    "broken_world:sifter"
+    "broken_world:sifter",
+    "broken_world:tin_ore"
   ]
 }

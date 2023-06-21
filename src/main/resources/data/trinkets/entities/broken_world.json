@@ -3,6 +3,8 @@
     "player"
   ],
   "slots": [
-    "chest/back"
+    "chest/back",
+    "hand/ring",
+    "offhand/ring"
   ]
 }

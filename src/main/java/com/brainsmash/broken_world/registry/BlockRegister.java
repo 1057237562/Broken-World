@@ -14,6 +14,8 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
+import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalEntity;
+import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
@@ -140,7 +142,10 @@ public class BlockRegister {
                             10f)),
             new TeleporterFrameBlock(
                     FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
-                            10f))
+                            10f)),
+            new OreBlock(FabricBlockSettings.copyOf(Blocks.DIAMOND_ORE)),
+            new OreBlock(FabricBlockSettings.copyOf(Blocks.COPPER_ORE)),
+            new InfusedCrystalBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK))
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -201,6 +206,9 @@ public class BlockRegister {
             new BlockItem(blocks[55], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[56], new FabricItemSettings()),
             new BlockItem(blocks[57], new FabricItemSettings()),
+            new BlockItem(blocks[58], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[59], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[60], new FabricItemSettings().group(ITEM_GROUP))
 
     };
 
@@ -262,7 +270,10 @@ public class BlockRegister {
             "solid_plasma",
             "volcanic_stone",
             "aurora_teleporter_frame",
-            "floating_teleporter_frame"
+            "floating_teleporter_frame",
+            "kyanite_ore",
+            "tin_ore",
+            "infused_crystal"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -279,7 +290,13 @@ public class BlockRegister {
                     new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[11].getDefaultState(),
                             8)),
             new ConfiguredFeature<>(Feature.ORE,
-                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[38].getDefaultState(), 4))
+                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[38].getDefaultState(),
+                            4)),
+            new ConfiguredFeature<>(Feature.ORE,
+                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[58].getDefaultState(),
+                            5)),
+            new ConfiguredFeature<>(Feature.ORE,
+                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[59].getDefaultState(), 6))
     };
 
     private static final PlacedFeature[] placedFeatures = {
@@ -300,7 +317,11 @@ public class BlockRegister {
                             HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64)))),
             new PlacedFeature(RegistryEntry.of(configuredFeatures[5]),
                     Arrays.asList(CountPlacementModifier.of(8), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(16))))
+                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(16)))),
+            new PlacedFeature(RegistryEntry.of(configuredFeatures[6]), Arrays.asList(SquarePlacementModifier.of(),
+                    HeightRangePlacementModifier.uniform(YOffset.fixed(48), YOffset.TOP))),
+            new PlacedFeature(RegistryEntry.of(configuredFeatures[7]), Arrays.asList(SquarePlacementModifier.of(),
+                    HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.aboveBottom(72))))
     };
 
     private static final String[] configurenames = {
@@ -309,7 +330,9 @@ public class BlockRegister {
             "moon_gold_ore",
             "moon_redstone_ore",
             "tungsten_ore",
-            "magnetite"
+            "magnetite",
+            "kyanite_ore",
+            "tin_ore"
     };
 
     public static BlockEntityType<TeleporterControllerBlockEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;
@@ -337,6 +360,7 @@ public class BlockRegister {
     public static BlockEntityType<CentrifugeBlockEntity> CENTRIFUGE_ENTITY_TYPE;
     public static BlockEntityType<RollingDoorBlockEntity> ROLLING_DOOR_ENTITY_TYPE;
     public static BlockEntityType<CloneVatBlockEntity> CLONE_VAT_ENTITY_TYPE;
+    public static BlockEntityType<InfusedCrystalEntity> INFUSED_CRYSTAL_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -404,6 +428,10 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(RollingDoorBlockEntity::new, blocks[44]).build());
         CLONE_VAT_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "clone_vat"),
                 FabricBlockEntityTypeBuilder.create(CloneVatBlockEntity::new, blocks[46]).build());
+
+        INFUSED_CRYSTAL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "infused_crystal"),
+                FabricBlockEntityTypeBuilder.create(InfusedCrystalEntity::new, blocks[60]).build());
     }
 
     public static void RegistBlocksClientSide() {

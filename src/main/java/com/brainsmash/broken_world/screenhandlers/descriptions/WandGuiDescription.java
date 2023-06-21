@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.screenhandlers.descriptions;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.items.magical.Rune;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
@@ -56,6 +57,7 @@ public class WandGuiDescription extends SyncedGuiDescription {
         root.setInsets(Insets.ROOT_PANEL);
         for (int k = 0; k < size; ++k) {
             WItemSlot slot = WItemSlot.of(inventory, k);
+            slot.setFilter(itemStack -> itemStack.getItem() instanceof Rune);
             root.add(slot, k, 1);
             slot.setLocation(slot.getX(), slot.getY() - 2);
         }
@@ -71,7 +73,7 @@ public class WandGuiDescription extends SyncedGuiDescription {
     @Override
     public ItemStack transferSlot(PlayerEntity player, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
-        Slot slot = (Slot) this.slots.get(index);
+        Slot slot = this.slots.get(index);
         if (slot != null && slot.hasStack()) {
             ItemStack itemStack2 = slot.getStack();
             itemStack = itemStack2.copy();

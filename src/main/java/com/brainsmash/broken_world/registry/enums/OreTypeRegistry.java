@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class OreTypeRegistry {
 
-    public static Map<Block,Integer> mapping = new ConcurrentHashMap<>();
+    public static Map<Block, Integer> mapping = new ConcurrentHashMap<>();
 
     public static void RegistOreType() {
         mapping.put(Blocks.REDSTONE_ORE, 0);
@@ -34,6 +34,8 @@ public class OreTypeRegistry {
         mapping.put(BlockRegister.blocks[BlockRegistry.MOON_GOLD_ORE.ordinal()], 19);
         mapping.put(BlockRegister.blocks[BlockRegistry.MOON_REDSTONE_ORE.ordinal()], 20);
         mapping.put(BlockRegister.blocks[BlockRegistry.TUNGSTEN_ORE.ordinal()], 21);
+        mapping.put(BlockRegister.blocks[BlockRegistry.KYANITE_ORE.ordinal()], 22);
+        mapping.put(BlockRegister.blocks[BlockRegistry.TIN_ORE.ordinal()], 23);
     }
 
 }
