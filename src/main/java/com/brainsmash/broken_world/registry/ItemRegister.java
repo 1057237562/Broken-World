@@ -119,7 +119,7 @@ public class ItemRegister {
             "heavy_ammo",
             "mk144",
             "sniper_ammo",
-            "sniper_rifle",
+            "hass_03",
             "hyper_spear",
             "kinetic_helmet",
             "kinetic_suit",
@@ -142,7 +142,7 @@ public class ItemRegister {
             items[ItemRegistry.G17.ordinal()],
             items[ItemRegistry.SMG.ordinal()],
             items[ItemRegistry.MK144.ordinal()],
-            items[ItemRegistry.SNIPER_RIFLE.ordinal()],
+            items[ItemRegistry.HASS_03.ordinal()],
             items[ItemRegistry.QS_093.ordinal()]
     };
 

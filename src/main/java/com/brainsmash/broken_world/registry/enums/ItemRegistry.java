@@ -28,7 +28,7 @@ public enum ItemRegistry {
     HEAVY_AMMO,
     MK144,
     SNIPER_AMMO,
-    SNIPER_RIFLE,
+    HASS_03,
     HYPER_SPEAR,
     KINETIC_HELMET,
     KINETIC_SUIT,
