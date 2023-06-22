@@ -6,6 +6,9 @@
 		"3": "broken_world:item/hass_03/hass_03",
 		"4": "broken_world:item/hass_03/hass_03_mag"
 	},
+	"overrides": [
+	{"predicate": {"aiming": 1}, "model": "broken_world:item/hass_03_aiming"}
+	],
 	"elements": [
 		{
 			"from": [-0.05, 6.05, 0],

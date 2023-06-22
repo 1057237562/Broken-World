@@ -145,7 +145,9 @@ public class BlockRegister {
                             10f)),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.DIAMOND_ORE)),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.COPPER_ORE)),
-            new InfusedCrystalBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK))
+            new InfusedCrystalBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
+            new Block(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK))
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -208,7 +210,9 @@ public class BlockRegister {
             new BlockItem(blocks[57], new FabricItemSettings()),
             new BlockItem(blocks[58], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[59], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[60], new FabricItemSettings().group(ITEM_GROUP))
+            new BlockItem(blocks[60], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[61], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[62], new FabricItemSettings().group(ITEM_GROUP))
 
     };
 
@@ -273,7 +277,9 @@ public class BlockRegister {
             "floating_teleporter_frame",
             "kyanite_ore",
             "tin_ore",
-            "infused_crystal"
+            "infused_crystal",
+            "kyanite_block",
+            "tungsten_block"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {

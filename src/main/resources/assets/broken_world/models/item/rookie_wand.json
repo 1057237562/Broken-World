@@ -1,0 +1,52 @@
+{
+	"textures": {
+		"0": "block/oak_log",
+		"1": "block/gold_block",
+		"particle": "block/oak_log"
+	},
+	"elements": [
+		{
+			"from": [7, 0, 7],
+			"to": [9, 27, 9],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 16], "texture": "#0"},
+				"east": {"uv": [0, 0, 2, 16], "texture": "#0"},
+				"south": {"uv": [0, 0, 2, 16], "texture": "#0"},
+				"west": {"uv": [0, 0, 2, 16], "texture": "#0"},
+				"up": {"uv": [0, 0, 2, 2], "texture": "#0"},
+				"down": {"uv": [0, 0, 2, 2], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6.5, 25, 6.5],
+			"to": [9.5, 28, 9.5],
+			"faces": {
+				"north": {"uv": [1, 7, 4, 10], "texture": "#1"},
+				"east": {"uv": [12, 1, 15, 4], "texture": "#1"},
+				"south": {"uv": [1, 4, 4, 7], "texture": "#1"},
+				"west": {"uv": [4, 1, 7, 4], "texture": "#1"},
+				"up": {"uv": [1, 1, 4, 4], "texture": "#1"},
+				"down": {"uv": [12, 5, 15, 8], "texture": "#1"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"scale": [0.7, 0.7, 0.7]
+		},
+		"thirdperson_lefthand": {
+			"scale": [0.7, 0.7, 0.7]
+		},
+		"firstperson_righthand": {
+			"scale": [0.7, 0.7, 0.7]
+		},
+		"firstperson_lefthand": {
+			"scale": [0.7, 0.7, 0.7]
+		},
+		"gui": {
+			"rotation": [-42.32, 2.48, -35.79],
+			"translation": [-2.25, -2.25, 0],
+			"scale": [0.7, 0.7, 0.7]
+		}
+	}
+}
