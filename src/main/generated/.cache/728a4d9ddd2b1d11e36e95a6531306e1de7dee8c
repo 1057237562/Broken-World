@@ -1,4 +1,4 @@
-// 1.19.2	2023-06-22T22:04:52.2671656	minecraft:block Loot Table
+// 1.19.2	2023-06-23T10:51:02.9800662	minecraft:block Loot Table
 b2ae79939933e8066be8be11b38a4a74084577b1 data\broken_world\loot_tables\block\spawn_pointer.json
 c5785aa23827f39aef72bf40ee65ed4e2d62ea30 data\broken_world\loot_tables\block\volcanic_stone.json
 ef3ddfadcbfb4b02725770469b0807cab1f714a7 data\broken_world\loot_tables\block\moon_sandstone.json
@@ -35,6 +35,7 @@ f96e82e40d3157bc58de569d9c133afdc331169b data\broken_world\loot_tables\block\sol
 bb713981240285d3970b996edd01f7d5399198eb data\broken_world\loot_tables\block\scanner.json
 cb0dc7b3d45de29af61d749c924817bc87591718 data\broken_world\loot_tables\block\tungsten_block.json
 ca66667e35c47cd131c0b7aafb30ed6aa3883ffd data\broken_world\loot_tables\block\glitch.json
+406e62fe4f3967df1a0458b6551a586f2c48f4ef data\broken_world\loot_tables\block\compressor.json
 5c78c2104356ce4376cdd526b213a84652f98011 data\broken_world\loot_tables\block\wind_turbine.json
 5fa330cd6cf4760dc4031bb41e2a0f916f9ed039 data\broken_world\loot_tables\block\magnetic_stone.json
 6370eaa091a1e3463896ebeb462452a76f58d890 data\broken_world\loot_tables\block\miner.json

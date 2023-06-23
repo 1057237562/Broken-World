@@ -3,7 +3,9 @@ package com.brainsmash.broken_world.registry;
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.items.*;
 import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
+import com.brainsmash.broken_world.items.magical.Rune;
 import com.brainsmash.broken_world.items.magical.Wand;
+import com.brainsmash.broken_world.items.magical.enums.RuneEnum;
 import com.brainsmash.broken_world.items.weapons.ammo.HeavyAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.LightAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.SniperAmmo;
@@ -87,7 +89,16 @@ public class ItemRegister {
             new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.EXPERT_WAND_SCREEN_HANDLER, 3),
             new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.MASTER_WAND_SCREEN_HANDLER, 6),
             new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.GRANDMASTER_WAND_SCREEN_HANDLER, 9),
-            new Item(new FabricItemSettings().group(ITEM_GROUP))
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.GALACTICA),
+            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.EARTH),
+            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.FIRE),
+            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.LIQUID),
+            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.WIND),
+            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.MOUNTAINOUS),
+            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.SINK),
+            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.THUNDER)
 
     };
 
@@ -135,7 +146,16 @@ public class ItemRegister {
             "expert_wand",
             "master_wand",
             "grandmaster_wand",
-            "kyanite_shard"
+            "kyanite_shard",
+            "blank_rune",
+            "galactica_rune",
+            "earth_rune",
+            "fire_rune",
+            "liquid_rune",
+            "wind_rune",
+            "mountainous_rune",
+            "sink_rune",
+            "thunder_rune"
     };
 
     public static final Item[] guns = {

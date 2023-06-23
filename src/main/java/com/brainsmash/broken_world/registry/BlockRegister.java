@@ -147,7 +147,8 @@ public class BlockRegister {
             new OreBlock(FabricBlockSettings.copyOf(Blocks.COPPER_ORE)),
             new InfusedCrystalBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
             new Block(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
-            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK))
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
+            new CompressorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK))
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -212,7 +213,8 @@ public class BlockRegister {
             new BlockItem(blocks[59], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[60], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[61], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[62], new FabricItemSettings().group(ITEM_GROUP))
+            new BlockItem(blocks[62], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[63], new FabricItemSettings().group(ITEM_GROUP))
 
     };
 
@@ -279,7 +281,8 @@ public class BlockRegister {
             "tin_ore",
             "infused_crystal",
             "kyanite_block",
-            "tungsten_block"
+            "tungsten_block",
+            "compressor"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -368,6 +371,8 @@ public class BlockRegister {
     public static BlockEntityType<CloneVatBlockEntity> CLONE_VAT_ENTITY_TYPE;
     public static BlockEntityType<InfusedCrystalEntity> INFUSED_CRYSTAL_ENTITY_TYPE;
 
+    public static BlockEntityType<CompressorBlockEntity> COMPRESSOR_ENTITY_TYPE;
+
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
             Registry.register(Registry.BLOCK, new Identifier(MODID, blocknames[i]), blocks[i]);
@@ -438,6 +443,8 @@ public class BlockRegister {
         INFUSED_CRYSTAL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "infused_crystal"),
                 FabricBlockEntityTypeBuilder.create(InfusedCrystalEntity::new, blocks[60]).build());
+        COMPRESSOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "compressor"),
+                FabricBlockEntityTypeBuilder.create(CompressorBlockEntity::new, blocks[63]).build());
     }
 
     public static void RegistBlocksClientSide() {
