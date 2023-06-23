@@ -14,6 +14,7 @@ public class BWDensityFunctionTypes {
     
     public static void register(){
         Crater.register();
+        ClampedGradient.register();
     }
 
     public record Crater(DensityFunction center, double threshold, int searchRadius, DensityFunction radius) implements DensityFunction.Base {
@@ -114,6 +115,63 @@ public class BWDensityFunctionTypes {
         @Override
         public CodecHolder<? extends DensityFunction> getCodecHolder() {
             return CODEC_HOLDER;
+        }
+
+        public static void register(){
+            Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
+        }
+    }
+
+    public record ClampedGradient(DensityFunction input, double fromInput, double toInput, double fromValue, double toValue) implements DensityFunction.Base {
+        public ClampedGradient(DensityFunction input, double fromInput, double toInput, double fromValue, double toValue) {
+            this.input = input;
+            this.fromInput = fromInput;
+            this.toInput = toInput;
+            this.fromValue = fromValue;
+            this.toValue = toValue;
+        }
+
+        public static final Codec<Double> CONSTANT_DOUBLE_RANGE = Codec.doubleRange(-1000000.0, 1000000.0);
+
+        public static final MapCodec<ClampedGradient> CLAMPED_GRADIENT_CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
+                DensityFunction.FUNCTION_CODEC.fieldOf("input").forGetter(ClampedGradient::input),
+                CONSTANT_DOUBLE_RANGE.fieldOf("from_input").forGetter(ClampedGradient::fromInput),
+                CONSTANT_DOUBLE_RANGE.fieldOf("to_input").forGetter(ClampedGradient::toInput),
+                CONSTANT_DOUBLE_RANGE.fieldOf("from_value").forGetter(ClampedGradient::fromValue),
+                CONSTANT_DOUBLE_RANGE.fieldOf("to_value").forGetter(ClampedGradient::toValue)
+        ).apply(instance, ClampedGradient::new));
+        public static final CodecHolder<ClampedGradient> CODEC_HOLDER = CodecHolder.of(CLAMPED_GRADIENT_CODEC);
+
+        public static final Identifier ID = new Identifier(Main.MODID, "clamped_gradient");
+
+        @Override
+        public DensityFunction apply(DensityFunctionVisitor visitor) {
+            return visitor.apply(new ClampedGradient(input.apply(visitor), fromInput, toInput, fromValue, toValue));
+        }
+
+        public double minValue() {
+            return fromValue < toValue ? fromValue : toValue;
+        }
+
+        @Override
+        public double maxValue() {
+            return fromValue > toValue ? fromValue : toValue;
+        }
+
+        @Override
+        public CodecHolder<? extends DensityFunction> getCodecHolder() {
+            return CODEC_HOLDER;
+        }
+
+        public double sample(NoisePos pos) {
+            double in = input.sample(pos);
+            if (in <= fromInput)
+                return fromValue;
+            if (in >= toInput)
+                return toValue;
+            double k = (toValue - fromValue) / (toInput - fromInput);
+            double res = (in - fromInput) * k + fromValue;
+            return res;
         }
 
         public static void register(){
