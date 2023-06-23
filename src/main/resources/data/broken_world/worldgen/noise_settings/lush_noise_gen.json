@@ -24,9 +24,9 @@
       "xz_scale": 1.0,
       "y_scale": 0.5
     },
-    "continents": "minecraft:overworld/continents",
+    "continents": "broken_world:lush/continents",
     "depth": "broken_world:lush/depth",
-    "erosion": "minecraft:overworld/erosion",
+    "erosion": "broken_world:lush/erosion",
     "final_density": {
       "type": "minecraft:min",
       "argument1": {
@@ -236,7 +236,7 @@
       "xz_scale": 1.0,
       "y_scale": 1.0
     },
-    "ridges": "minecraft:overworld/ridges",
+    "ridges": "broken_world:lush/ridges",
     "temperature": {
       "type": "minecraft:shifted_noise",
       "noise": "minecraft:temperature",

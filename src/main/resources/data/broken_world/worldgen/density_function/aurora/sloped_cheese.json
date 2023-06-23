@@ -7,10 +7,25 @@
       "type": "minecraft:quarter_negative",
       "argument": {
         "type": "minecraft:mul",
-        "argument1": "broken_world:aurora/depth",
-        "argument2": "broken_world:aurora/factor"
+        "argument1": {
+          "type": "minecraft:add",
+          "argument1": "broken_world:aurora/depth",
+          "argument2": 0
+        },
+        "argument2": 3.95
       }
     }
   },
-  "argument2": 0.0
+  "argument2": {
+    "type": "minecraft:mul",
+    "argument1": {
+      "type": "minecraft:old_blended_noise",
+      "xz_scale": 0.25,
+      "y_scale": 0.125,
+      "xz_factor": 160,
+      "y_factor": 160,
+      "smear_scale_multiplier": 8
+    },
+    "argument2": 0.5
+  }
 }
