@@ -101,6 +101,7 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
         if (getNetworkSide() == NetworkSide.SERVER) {
             ScreenNetworking.of(this, NetworkSide.SERVER).receive(SELECT_MESSAGE, buf -> {
                 selectDim = buf.readString();
+                
                 context.get((world, pos) -> {
                     TeleporterControllerBlockEntity entity = (TeleporterControllerBlockEntity) world.getBlockEntity(
                             pos);

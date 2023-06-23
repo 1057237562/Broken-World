@@ -65,11 +65,11 @@ public class DimensionRegister {
 
 
         dimensionEnergyCost.put("broken_world:lush", 100000);
-        dimensionEnergyCost.put("broken_world:moon", 500000);
-        dimensionEnergyCost.put("broken_world:metallic", 100000);
-        dimensionEnergyCost.put("broken_world:sulfuric", 100000);
-        dimensionEnergyCost.put("broken_world:aurora", 100000);
-        dimensionEnergyCost.put("broken_world:floating", 100000);
+        dimensionEnergyCost.put("broken_world:moon", 100000);
+        dimensionEnergyCost.put("broken_world:metallic", 200000);
+        dimensionEnergyCost.put("broken_world:sulfuric", 200000);
+        dimensionEnergyCost.put("broken_world:aurora", 300000);
+        dimensionEnergyCost.put("broken_world:floating", 300000);
 
     }
 }

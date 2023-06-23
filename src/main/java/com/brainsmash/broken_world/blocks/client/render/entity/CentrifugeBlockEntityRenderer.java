@@ -32,12 +32,12 @@ public class CentrifugeBlockEntityRenderer implements BlockEntityRenderer<Centri
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
 
-        ModelPartData bone = modelPartData.addChild("inner",
+        modelPartData.addChild("inner",
                 ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -13.0F, 7.0F, 2.0F, 8.0F, 2.0F).uv(8, 0).cuboid(-9.0F,
                         -16.0F, 7.0F, 2.0F, 14.0F, 2.0F).uv(0, 0).cuboid(-14.0F, -13.0F, 7.0F, 2.0F, 8.0F, 2.0F).uv(0,
                         0).cuboid(-9.0F, -13.0F, 12.0F, 2.0F, 8.0F, 2.0F).uv(0, 0).cuboid(-9.0F, -13.0F, 2.0F, 2.0F,
-                        8.0F, 2.0F).uv(0, 4).cuboid(-9.0F, -11.0F, 2.0F, 2.0F, 0.0F, 12.0F).uv(-2, 16).cuboid(-14.0F,
-                        -11.0F, 7.0F, 12.0F, 0.0F, 2.0F), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+                        8.0F, 2.0F).uv(2, 4).cuboid(-9.0F, -11.0F, 2.0F, 2.0F, 0.0F, 12.0F).uv(-2, 16).cuboid(-14.0F,
+                        -11.0F, 7.0F, 12.0F, 0.0F, 2.0F), ModelTransform.pivot(8.0F, 0.0F, -8.0F));
 
         return TexturedModelData.of(modelData, 24, 18);
     }
@@ -45,9 +45,10 @@ public class CentrifugeBlockEntityRenderer implements BlockEntityRenderer<Centri
     @Override
     public void render(CentrifugeBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
+        matrices.translate(0.5, 0, 0.5);
         matrices.multiply(Quaternion.fromEulerXyz(0, 0, (float) Math.PI));
         if (entity.isRunning()) tick += tickDelta;
-        matrices.multiply(Quaternion.fromEulerXyz(0, (float) (tick * 2 * Math.PI / 180.0), 0));
+        matrices.multiply(Quaternion.fromEulerXyz(0, (float) (tick * 16 * Math.PI / 180.0), 0));
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
         int lightAbove = WorldRenderer.getLightmapCoordinates(entity.getWorld(), entity.getPos().up());
         inner.render(matrices, vertexConsumer, lightAbove, overlay);

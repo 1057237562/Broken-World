@@ -328,8 +328,8 @@ public class BlockRegister {
                     Arrays.asList(CountPlacementModifier.of(8), SquarePlacementModifier.of(),
                             HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(16)))),
             new PlacedFeature(RegistryEntry.of(configuredFeatures[6]),
-                    Arrays.asList(CountPlacementModifier.of(24), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.fixed(48), YOffset.TOP))),
+                    Arrays.asList(CountPlacementModifier.of(32), SquarePlacementModifier.of(),
+                            HeightRangePlacementModifier.uniform(YOffset.fixed(64), YOffset.TOP))),
             new PlacedFeature(RegistryEntry.of(configuredFeatures[7]),
                     Arrays.asList(CountPlacementModifier.of(20), SquarePlacementModifier.of(),
                             HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.aboveBottom(72))))
