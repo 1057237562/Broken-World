@@ -303,7 +303,7 @@ public class BlockRegister {
                             4)),
             new ConfiguredFeature<>(Feature.ORE,
                     new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[58].getDefaultState(),
-                            5)),
+                            3)),
             new ConfiguredFeature<>(Feature.ORE,
                     new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[59].getDefaultState(), 6))
     };
@@ -327,10 +327,12 @@ public class BlockRegister {
             new PlacedFeature(RegistryEntry.of(configuredFeatures[5]),
                     Arrays.asList(CountPlacementModifier.of(8), SquarePlacementModifier.of(),
                             HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(16)))),
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[6]), Arrays.asList(SquarePlacementModifier.of(),
-                    HeightRangePlacementModifier.uniform(YOffset.fixed(48), YOffset.TOP))),
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[7]), Arrays.asList(SquarePlacementModifier.of(),
-                    HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.aboveBottom(72))))
+            new PlacedFeature(RegistryEntry.of(configuredFeatures[6]),
+                    Arrays.asList(CountPlacementModifier.of(24), SquarePlacementModifier.of(),
+                            HeightRangePlacementModifier.uniform(YOffset.fixed(48), YOffset.TOP))),
+            new PlacedFeature(RegistryEntry.of(configuredFeatures[7]),
+                    Arrays.asList(CountPlacementModifier.of(20), SquarePlacementModifier.of(),
+                            HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.aboveBottom(72))))
     };
 
     private static final String[] configurenames = {
