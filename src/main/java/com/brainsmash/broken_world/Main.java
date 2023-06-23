@@ -71,7 +71,7 @@ public class Main implements ModInitializer {
                             ScreenHandlerContext.EMPTY))));
 
     public static final ScreenHandlerType<CompressorGuiDescription> COMPRESSOR_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "advanced_furnace"), new ScreenHandlerType<>(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "compressor"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new CompressorGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
     public static final ScreenHandlerType<FabricatorGuiDescription> FABRICATOR_GUI_DESCRIPTION = Registry.register(
