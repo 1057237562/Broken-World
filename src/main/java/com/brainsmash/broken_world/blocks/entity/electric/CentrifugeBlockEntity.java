@@ -125,18 +125,21 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
             if (fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.BUCKET)) {
                 Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), inventory.get(1).getItem());
                 if (CentrifugeRecipe.recipes.containsKey(key)) {
-                    return fluidInv.getInvFluid(1).amount().isLessThanOrEqual(fluidInv.getMaxAmount_F(1).sub(FluidAmount.BOTTLE));
+                    return fluidInv.getInvFluid(1).amount().isLessThanOrEqual(
+                            fluidInv.getMaxAmount_F(1).sub(FluidAmount.BOTTLE));
                 }
             }
             Pair<Fluid, Item> key = new Pair<>(null, inventory.get(1).getItem());
             if (CentrifugeRecipe.recipes.containsKey(key)) {
-                return fluidInv.getInvFluid(1).amount().isLessThanOrEqual(fluidInv.getMaxAmount_F(1).sub(FluidAmount.BOTTLE));
+                return fluidInv.getInvFluid(1).amount().isLessThanOrEqual(
+                        fluidInv.getMaxAmount_F(1).sub(FluidAmount.BOTTLE));
             }
         }
         if (fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.BUCKET)) {
             Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), null);
             if (CentrifugeRecipe.recipes.containsKey(key)) {
-                return fluidInv.getInvFluid(1).amount().isLessThanOrEqual(fluidInv.getMaxAmount_F(1).sub(FluidAmount.BOTTLE));
+                return fluidInv.getInvFluid(1).amount().isLessThanOrEqual(
+                        fluidInv.getMaxAmount_F(1).sub(FluidAmount.BOTTLE));
             }
         }
 
@@ -158,8 +161,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
                 }
                 if (recipe.getSecond() != null) {
                     if (fluidInv.getInvFluid(1).isEmpty()) {
-                        fluidInv.setInvFluid(1,
-                                FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
+                        fluidInv.setInvFluid(1, FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
                                 Simulation.ACTION);
                     } else {
                         fluidInv.getInvFluid(1).merge(FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
@@ -183,8 +185,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
                 }
                 if (recipe.getSecond() != null) {
                     if (fluidInv.getInvFluid(1).isEmpty()) {
-                        fluidInv.setInvFluid(1,
-                                FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
+                        fluidInv.setInvFluid(1, FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
                                 Simulation.ACTION);
                     } else {
                         fluidInv.getInvFluid(1).merge(FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
@@ -210,8 +211,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
 
             if (recipe.getSecond() != null) {
                 if (fluidInv.getInvFluid(1).isEmpty()) {
-                    fluidInv.setInvFluid(1,
-                            FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
+                    fluidInv.setInvFluid(1, FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
                             Simulation.ACTION);
                 } else {
                     fluidInv.getInvFluid(1).merge(FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
@@ -233,8 +233,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
             if (!fluidInv.getInvFluid(1).isEmpty()) {
                 for (Direction direction : Direction.values()) {
                     FluidInsertable insertable = getNeighbourAttribute(FluidAttributes.INSERTABLE, direction);
-                    fluidInv.setInvFluid(1,
-                            insertable.attemptInsertion(fluidInv.getInvFluid(1), Simulation.ACTION),
+                    fluidInv.setInvFluid(1, insertable.attemptInsertion(fluidInv.getInvFluid(1), Simulation.ACTION),
                             Simulation.ACTION);
                     if (fluidInv.getInvFluid(1).isEmpty()) {
                         break;

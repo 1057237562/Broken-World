@@ -117,7 +117,7 @@ public class BlockRegister {
             new AdvancedFurnaceBlock(STANDARD_BLOCK),
             new FabricatorBlock(STANDARD_BLOCK),
             new FabricatorExtensionBlock(STANDARD_BLOCK),
-            new CentrifugeBlock(STANDARD_BLOCK),
+            new CentrifugeBlock(STANDARD_BLOCK.nonOpaque()),
             new Block(STANDARD_BLOCK.velocityMultiplier(1.1f).slipperiness(0.45f)),
             new MagnetiteBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new Block(FabricBlockSettings.copyOf(Blocks.GLASS).strength(2.0f, 15.0f)),
@@ -148,7 +148,7 @@ public class BlockRegister {
             new InfusedCrystalBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
             new Block(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
-            new CompressorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK))
+            new CompressorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque())
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -468,15 +468,22 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CLONE_VAT.ordinal()], RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.ISOTROPIC_ICE.ordinal()],
                 RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CENTRIFUGE.ordinal()], RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,
                 WindTurbineEntityRenderer::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(CompressorBlockEntityRenderer.COMPRESSOR,
+                CompressorBlockEntityRenderer::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(CentrifugeBlockEntityRenderer.CENTRIFUGE,
+                CentrifugeBlockEntityRenderer::getTexturedModelData);
         BlockEntityRendererRegistry.register(CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(CREATIVE_GENERATOR_ENTITY_TYPE, CreativeGeneratorBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(SCANNER_ENTITY_TYPE, ScannerBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(WIND_TURBINE_ENTITY_TYPE, WindTurbineEntityRenderer::new);
         BlockEntityRendererRegistry.register(SIFTER_ENTITY_TYPE, SifterBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(CLONE_VAT_ENTITY_TYPE, CloneVatBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(COMPRESSOR_ENTITY_TYPE, CompressorBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(CENTRIFUGE_ENTITY_TYPE, CentrifugeBlockEntityRenderer::new);
     }
 }

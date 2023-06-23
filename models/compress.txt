@@ -1,0 +1,10 @@
+
+public static final Animation COMPRESSOR_COMPRESS = Animation.Builder.create(1f)
+.addBoneAnimation("group",
+	new Transformation(Transformation.Targets.TRANSLATE, 
+		new Keyframe(0f, AnimationHelper.createTranslationalVector(0f, 0f, 0f),
+			Transformation.Interpolations.LINEAR), 
+		new Keyframe(0.5f, AnimationHelper.createTranslationalVector(0f, -4f, 0f),
+			Transformation.Interpolations.LINEAR), 
+		new Keyframe(1f, AnimationHelper.createTranslationalVector(0f, 0f, 0f),
+			Transformation.Interpolations.LINEAR))).build();

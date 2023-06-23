@@ -109,6 +109,7 @@ public class Main implements ModInitializer {
         CrusherRecipe.registCrusherRecipes();
         SifterRecipe.registSifterRecipes();
         CentrifugeRecipe.registCentrifugeRecipes();
+        CompressorRecipe.registCompressorRecipes();
 
         OreTypeRegistry.RegistOreType();
 

@@ -20,6 +20,7 @@
     "broken_world:advanced_furnace",
     "broken_world:fabricator",
     "broken_world:fabricator_extension",
-    "broken_world:centrifuge"
+    "broken_world:centrifuge",
+    "broken_world:compressor"
   ]
 }

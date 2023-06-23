@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "front": "broken_world:block/fabricator_out",
+    "side": "broken_world:block/fabricator_side",
+    "top": "broken_world:block/fabricator_top",
+    "bottom": "#side"
+  }
+}
