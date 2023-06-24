@@ -41,6 +41,8 @@ public class Client implements ClientModInitializer {
     public static KeyBinding reloadKey = KeyBindingHelper.registerKeyBinding(
             new KeyBinding("key.broken_world.reload", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, CATEGORY));
 
+    public static boolean shading = true;
+
     @Override
     public void onInitializeClient() {
         HandledScreens.register(Main.TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE, TeleporterControllerScreen::new);

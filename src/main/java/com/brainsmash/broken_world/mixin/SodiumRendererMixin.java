@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
+import static com.brainsmash.broken_world.Client.shading;
+
 @Mixin(SodiumWorldRenderer.class)
 public class SodiumRendererMixin {
 
@@ -25,6 +27,7 @@ public class SodiumRendererMixin {
     public void drawOutLine(Args args) {
         if (args.get(0) instanceof ScannerBlockEntity) {
             args.set(3, outlineVertexConsumerProvider);
+            shading = false;
         }
     }
 }

@@ -34,7 +34,8 @@ public class ScannerBlockEntityRenderer implements BlockEntityRenderer<ScannerBl
                 Color color = ScanColorRegister.colorList.get(p.getRight());
                 outlineVertexConsumerProvider.setColor(color.getRed(), color.getGreen(), color.getBlue(), 255);
                 matrices.push();
-                matrices.translate(pos.getX(), pos.getY(), pos.getZ());
+                matrices.translate(pos.getX() + 0.005f, pos.getY() + 0.005f, pos.getZ() + 0.005f);
+                matrices.scale(0.99f, 0.99f, 0.99f);
                 INSTANCE.renderBlockAsEntity(
                         entity.getWorld().getBlockState(entity.getPos().add(pos.getX(), pos.getY(), pos.getZ())),
                         matrices, outlineVertexConsumerProvider, light, overlay);

@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
+import static com.brainsmash.broken_world.Client.shading;
 import static com.brainsmash.broken_world.Main.MODID;
 
 @Mixin(WorldRenderer.class)
@@ -33,7 +34,6 @@ public abstract class WorldRendererMixin {
 
     @Shadow
     private @Nullable ShaderEffect entityOutlineShader;
-    private boolean shading = true;
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/GameOptions;getCloudRenderModeValue()Lnet/minecraft/client/option/CloudRenderMode;"))
     public CloudRenderMode hasCloud(GameOptions instance) {
@@ -74,12 +74,17 @@ public abstract class WorldRendererMixin {
         }
     }
 
+    @Inject(method = "render", at = @At(value = "HEAD"))
+    public void resetShader(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f positionMatrix, CallbackInfo ci) {
+        shading = true;
+    }
+
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/ShaderEffect;render(F)V", ordinal = 0))
     public void enabledShader(CallbackInfo cbi) {
         shading = true;
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", ordinal = 12))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/OutlineVertexConsumerProvider;draw()V", shift = At.Shift.AFTER))
     public void shouldEnableShader(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f positionMatrix, CallbackInfo ci) {
         if (!shading) {
             entityOutlineShader.render(tickDelta);
