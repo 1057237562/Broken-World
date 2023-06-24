@@ -2,7 +2,6 @@ package com.brainsmash.broken_world.mixin;
 
 import com.brainsmash.broken_world.blocks.entity.electric.ScannerBlockEntity;
 import com.brainsmash.broken_world.registry.DimensionRegister;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.ShaderEffect;
 import net.minecraft.client.option.CloudRenderMode;
@@ -20,8 +19,6 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
-import java.util.Set;
-
 import static com.brainsmash.broken_world.Main.MODID;
 
 @Mixin(WorldRenderer.class)
@@ -37,9 +34,6 @@ public abstract class WorldRendererMixin {
     @Shadow
     private @Nullable ShaderEffect entityOutlineShader;
     private boolean shading = true;
-    @Final
-    @Shadow
-    private Set<BlockEntity> noCullingBlockEntities;
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/GameOptions;getCloudRenderModeValue()Lnet/minecraft/client/option/CloudRenderMode;"))
     public CloudRenderMode hasCloud(GameOptions instance) {

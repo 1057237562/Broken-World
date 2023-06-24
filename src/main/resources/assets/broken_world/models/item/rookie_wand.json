@@ -43,6 +43,10 @@
 		"firstperson_lefthand": {
 			"scale": [0.7, 0.7, 0.7]
 		},
+		"ground": {
+			"rotation": [20, 0, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
 		"gui": {
 			"rotation": [-42.32, 2.48, -35.79],
 			"translation": [-2.25, -2.25, 0],
@@ -50,7 +54,7 @@
 		},
 		"fixed": {
 			"rotation": [0, 0, 45],
-			"translation": [3, -2.5, 0],
+			"translation": [2.25, -2.5, 0],
 			"scale": [0.7, 0.7, 0.7]
 		}
 	}

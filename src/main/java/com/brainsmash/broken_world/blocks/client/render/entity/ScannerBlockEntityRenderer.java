@@ -40,6 +40,8 @@ public class ScannerBlockEntityRenderer implements BlockEntityRenderer<ScannerBl
                         matrices, outlineVertexConsumerProvider, light, overlay);
                 matrices.pop();
             }
+        } else {
+            throw new NullPointerException();
         }
     }
 }

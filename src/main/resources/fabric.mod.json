@@ -40,5 +40,8 @@
   },
   "suggests": {
     "another-mod": "*"
+  },
+  "custom": {
+    "fabric-renderer-api-v1:contains_renderer": true
   }
 }

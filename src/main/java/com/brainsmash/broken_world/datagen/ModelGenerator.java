@@ -2,12 +2,14 @@ package com.brainsmash.broken_world.datagen;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.CloneVatBlock;
+import com.brainsmash.broken_world.blocks.SpawnPointerBlock;
 import com.brainsmash.broken_world.blocks.electric.base.BatteryBlock;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
+import com.brainsmash.broken_world.items.magical.Wand;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
@@ -38,6 +40,9 @@ public class ModelGenerator extends FabricModelProvider {
             if (BlockRegister.blocks[i] instanceof BottomTopBlock) {
                 continue;
             }
+            if (BlockRegister.blocks[i] instanceof SpawnPointerBlock) {
+                continue;
+            }
             if (BlockRegister.blocks[i] instanceof DoorBlock) {
                 blockStateModelGenerator.registerDoor(BlockRegister.blocks[i]);
                 continue;
@@ -51,9 +56,13 @@ public class ModelGenerator extends FabricModelProvider {
     @Override
     public void generateItemModels(net.minecraft.data.client.ItemModelGenerator itemModelGenerator) {
         for (int i = 0; i < ItemRegister.items.length; i++) {
-            if (!(ItemRegister.items[i] instanceof GunItem)) {
-                itemModelGenerator.register(ItemRegister.items[i], Models.GENERATED);
+            if (ItemRegister.items[i] instanceof GunItem) {
+                continue;
             }
+            if (ItemRegister.items[i] instanceof Wand) {
+                continue;
+            }
+            itemModelGenerator.register(ItemRegister.items[i], Models.GENERATED);
         }
         for (int i = 0; i < ItemRegister.bucket_item.length; i++) {
             itemModelGenerator.register(ItemRegister.bucket_item[i], Models.GENERATED);
