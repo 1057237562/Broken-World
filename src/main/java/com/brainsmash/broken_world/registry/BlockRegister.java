@@ -14,7 +14,7 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
-import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
@@ -145,7 +145,7 @@ public class BlockRegister {
                             10f)),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.DIAMOND_ORE)),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.COPPER_ORE)),
-            new InfusedCrystalBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
+            new InfusedCrystalBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
             new Block(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new CompressorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque())
@@ -303,9 +303,9 @@ public class BlockRegister {
                             4)),
             new ConfiguredFeature<>(Feature.ORE,
                     new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[58].getDefaultState(),
-                            3)),
+                            6)),
             new ConfiguredFeature<>(Feature.ORE,
-                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[59].getDefaultState(), 6))
+                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[59].getDefaultState(), 9))
     };
 
     private static final PlacedFeature[] placedFeatures = {
@@ -371,7 +371,7 @@ public class BlockRegister {
     public static BlockEntityType<CentrifugeBlockEntity> CENTRIFUGE_ENTITY_TYPE;
     public static BlockEntityType<RollingDoorBlockEntity> ROLLING_DOOR_ENTITY_TYPE;
     public static BlockEntityType<CloneVatBlockEntity> CLONE_VAT_ENTITY_TYPE;
-    public static BlockEntityType<InfusedCrystalEntity> INFUSED_CRYSTAL_ENTITY_TYPE;
+    public static BlockEntityType<InfusedCrystalBlockEntity> INFUSED_CRYSTAL_ENTITY_TYPE;
 
     public static BlockEntityType<CompressorBlockEntity> COMPRESSOR_ENTITY_TYPE;
 
@@ -444,7 +444,7 @@ public class BlockRegister {
 
         INFUSED_CRYSTAL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "infused_crystal"),
-                FabricBlockEntityTypeBuilder.create(InfusedCrystalEntity::new, blocks[60]).build());
+                FabricBlockEntityTypeBuilder.create(InfusedCrystalBlockEntity::new, blocks[60]).build());
         COMPRESSOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "compressor"),
                 FabricBlockEntityTypeBuilder.create(CompressorBlockEntity::new, blocks[63]).build());
     }
@@ -469,6 +469,7 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.ISOTROPIC_ICE.ordinal()],
                 RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CENTRIFUGE.ordinal()], RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.INFUSED_CRYSTAL.ordinal()], RenderLayer.getCutout());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,
@@ -477,6 +478,8 @@ public class BlockRegister {
                 CompressorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(CentrifugeBlockEntityRenderer.CENTRIFUGE,
                 CentrifugeBlockEntityRenderer::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(InfusedCrystalBlockEntityRenderer.INFUSED_CRYSTAL,
+                InfusedCrystalBlockEntityRenderer::getTexturedModelData);
         BlockEntityRendererRegistry.register(CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(CREATIVE_GENERATOR_ENTITY_TYPE, CreativeGeneratorBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(SCANNER_ENTITY_TYPE, ScannerBlockEntityRenderer::new);
@@ -485,5 +488,6 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(CLONE_VAT_ENTITY_TYPE, CloneVatBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(COMPRESSOR_ENTITY_TYPE, CompressorBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(CENTRIFUGE_ENTITY_TYPE, CentrifugeBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(INFUSED_CRYSTAL_ENTITY_TYPE, InfusedCrystalBlockEntityRenderer::new);
     }
 }

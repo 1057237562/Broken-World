@@ -46,6 +46,8 @@ public class CompressorBlockEntityRenderer implements BlockEntityRenderer<Compre
         matrices.multiply(Quaternion.fromEulerXyz(0, 0, (float) Math.PI));
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
         int lightAbove = WorldRenderer.getLightmapCoordinates(entity.getWorld(), entity.getPos().up());
+        if (entity.isRunning()) entity.tick += tickDelta;
+        matrices.translate(0, -Math.sin(entity.tick * 2 * Math.PI / 180) * 0.3, 0);
         head.render(matrices, vertexConsumer, lightAbove, overlay);
         matrices.pop();
     }

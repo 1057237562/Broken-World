@@ -21,8 +21,6 @@ public class CentrifugeBlockEntityRenderer implements BlockEntityRenderer<Centri
     public static final EntityModelLayer CENTRIFUGE = new EntityModelLayer(new Identifier(Main.MODID, "centrifuge"),
             "main");
 
-    float tick = 0;
-
     public CentrifugeBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
         ModelPart modelPart = ctx.getLayerModelPart(CENTRIFUGE);
         inner = modelPart.getChild("inner");
@@ -47,8 +45,8 @@ public class CentrifugeBlockEntityRenderer implements BlockEntityRenderer<Centri
         matrices.push();
         matrices.translate(0.5, 0, 0.5);
         matrices.multiply(Quaternion.fromEulerXyz(0, 0, (float) Math.PI));
-        if (entity.isRunning()) tick += tickDelta;
-        matrices.multiply(Quaternion.fromEulerXyz(0, (float) (tick * 16 * Math.PI / 180.0), 0));
+        if (entity.isRunning()) entity.tick += tickDelta;
+        matrices.multiply(Quaternion.fromEulerXyz(0, (float) (entity.tick * 16 * Math.PI / 180.0), 0));
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
         int lightAbove = WorldRenderer.getLightmapCoordinates(entity.getWorld(), entity.getPos().up());
         inner.render(matrices, vertexConsumer, lightAbove, overlay);

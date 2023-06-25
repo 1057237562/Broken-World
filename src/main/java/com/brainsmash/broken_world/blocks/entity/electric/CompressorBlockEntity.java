@@ -15,6 +15,9 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -30,6 +33,7 @@ public class CompressorBlockEntity extends ConsumerBlockEntity implements NamedS
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     private Item lastItem;
+    public float tick = 0;
 
     public CompressorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.COMPRESSOR_ENTITY_TYPE, pos, state);
@@ -106,13 +110,28 @@ public class CompressorBlockEntity extends ConsumerBlockEntity implements NamedS
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
+        running = nbt.getBoolean("running");
         lastItem = inventory.get(0).getItem();
     }
 
     @Override
     public void writeNbt(NbtCompound nbt) {
         Inventories.writeNbt(nbt, this.inventory);
+        nbt.putBoolean("running", running);
         super.writeNbt(nbt);
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.create(this);
+    }
+
+    @Override
+    public NbtCompound toInitialChunkDataNbt() {
+        NbtCompound compound = new NbtCompound();
+        writeNbt(compound);
+        return compound;
     }
 
 }

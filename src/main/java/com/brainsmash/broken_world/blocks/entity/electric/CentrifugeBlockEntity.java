@@ -69,6 +69,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
 
     private final Random random = new Random();
     private Item lastItem;
+    public float tick = 0;
 
     protected final void sendLiquidChange() {
         for (ActiveConnection connection : activeConnections) {
