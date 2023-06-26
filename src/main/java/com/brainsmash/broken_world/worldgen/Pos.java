@@ -13,6 +13,12 @@ public class Pos implements NoisePos {
         blockZ = pos.blockZ();
     }
 
+    public Pos(int x, int y, int z){
+        blockX = x;
+        blockY = y;
+        blockZ = x;
+    }
+
     public Pos offsetX(int offset){
         Pos pos = new Pos(this);
         pos.blockX += offset;

@@ -57,19 +57,81 @@
       }
     },
     "final_density": {
-      "type": "minecraft:interpolated",
-      "argument": {
-        "type": "minecraft:add",
-        "argument1": {
+      "type": "minecraft:add",
+      "argument1": {
+        "type": "minecraft:interpolated",
+        "argument": {
           "type": "minecraft:add",
           "argument1": {
             "type": "minecraft:add",
-            "argument1": "broken_world:island",
-            "argument2": "broken_world:side"
+            "argument1": {
+              "type": "minecraft:add",
+              "argument1": "broken_world:floating/island",
+              "argument2": "broken_world:floating/side"
+            },
+            "argument2": "broken_world:floating/ridge"
           },
-          "argument2": "broken_world:ridge"
+          "argument2": "broken_world:floating/hill"
+        }
+      },
+      "argument2": {
+        "type": "minecraft:add",
+        "argument1": {
+          "type": "minecraft:mul", 
+          "argument1": {
+            "type": "minecraft:spline",
+            "spline": {
+              "coordinate": "broken_world:floating/volcano",
+              "points": [
+                {
+                  "location": -1,
+                  "derivative": 0,
+                  "value": 0
+                },
+                {
+                  "location": 0,
+                  "derivative": 0,
+                  "value": -0.05
+                },
+                {
+                  "location": 0.5,
+                  "derivative": 0,
+                  "value": 0.2
+                },
+                {
+                  "location": 1,
+                  "derivative": 0,
+                  "value": 0
+                }
+              ]
+            }
+          },
+          "argument2": {
+            "type": "minecraft:y_clamped_gradient",
+            "from_y": 115,
+            "to_y": 120,
+            "from_value": 0,
+            "to_value": 1
+          }
         },
-        "argument2": "broken_world:hill"
+        "argument2": {
+          "type": "minecraft:mul",
+          "argument1": {
+            "type": "minecraft:y_clamped_gradient",
+            "from_y": 115,
+            "to_y": 120,
+            "from_value": 1,
+            "to_value": 0
+          },
+          "argument2": {
+            "type": "broken_world:clamped_gradient",
+            "input": "broken_world:floating/volcano",
+            "from_input": 1,
+            "to_input": 1.3,
+            "from_value": 0.5,
+            "to_value": 0
+          }
+        }
       }
     },
     "vein_toggle": 0,
