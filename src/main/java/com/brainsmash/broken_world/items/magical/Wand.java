@@ -38,6 +38,8 @@ public class Wand extends Item {
             if (nbtCompound != null && !nbtCompound.isEmpty())
                 for (NbtElement element : nbtCompound.getList("inventory", NbtElement.COMPOUND_TYPE)) {
                     ItemStack rune = ItemStack.fromNbt((NbtCompound) element);
+
+                    // TODO : Apply Magic Rune Interpreter
                 }
         }
         return super.use(world, user, hand);
