@@ -1,47 +1,51 @@
 {
-  "type": "minecraft:cache_2d",
+  "type": "broken_world:debug",
+  "tag": "volcano",
   "argument": {
-    "type": "broken_world:discrete_points",
-    "grid_width": 48,
-    "grid_padding": 18,
-    "min_radius": 9,
-    "max_radius": 16,
-    "when_positive": {
-      "type": "minecraft:flat_cache",
-      "argument": {
-        "type": "minecraft:add",
-        "argument1": -0.2,
-        "argument2": {
+    "type": "minecraft:cache_2d",
+    "argument": {
+      "type": "broken_world:discrete_points",
+      "grid_width": 48,
+      "grid_padding": 18,
+      "min_radius": 9,
+      "max_radius": 16,
+      "when_positive": {
+        "type": "minecraft:flat_cache",
+        "argument": {
           "type": "minecraft:add",
-          "argument1": {
-            "type": "minecraft:mul",
-            "argument1": -0.5,
-            "argument2": "broken_world:floating/erosion"
-          },
+          "argument1": -0.2,
           "argument2": {
             "type": "minecraft:add",
             "argument1": {
               "type": "minecraft:mul",
-              "argument1": 0.5,
-              "argument2": "broken_world:floating/elevation"
+              "argument1": -0.5,
+              "argument2": "broken_world:floating/erosion"
             },
             "argument2": {
-              "type": "minecraft:mul",
-              "argument1": -3,
+              "type": "minecraft:add",
+              "argument1": {
+                "type": "minecraft:mul",
+                "argument1": 0.5,
+                "argument2": "broken_world:floating/elevation"
+              },
               "argument2": {
-                "type": "minecraft:add",
-                "argument1": 0,
+                "type": "minecraft:mul",
+                "argument1": -3,
                 "argument2": {
-                  "type": "minecraft:cube",
-                  "argument": {
-                    "type": "minecraft:clamp",
-                    "input": {
-                      "type": "minecraft:add",
-                      "argument1": 0.2,
-                      "argument2": "broken_world:floating/ridge_noise"
-                    },
-                    "min": -0.3,
-                    "max": 999
+                  "type": "minecraft:add",
+                  "argument1": 0,
+                  "argument2": {
+                    "type": "minecraft:cube",
+                    "argument": {
+                      "type": "minecraft:clamp",
+                      "input": {
+                        "type": "minecraft:add",
+                        "argument1": 0.2,
+                        "argument2": "broken_world:floating/ridge_noise"
+                      },
+                      "min": -0.3,
+                      "max": 999
+                    }
                   }
                 }
               }

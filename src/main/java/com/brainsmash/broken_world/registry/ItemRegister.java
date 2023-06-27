@@ -98,7 +98,8 @@ public class ItemRegister {
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.WIND),
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.MOUNTAINOUS),
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.SINK),
-            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.THUNDER)
+            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.THUNDER),
+            new DensityMeter(new FabricItemSettings().group(ITEM_GROUP))
 
     };
 
@@ -155,7 +156,8 @@ public class ItemRegister {
             "wind_rune",
             "mountainous_rune",
             "sink_rune",
-            "thunder_rune"
+            "thunder_rune",
+            "density_meter"
     };
 
     public static final Item[] guns = {

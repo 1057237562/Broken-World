@@ -1,30 +1,34 @@
 {
-  "type": "minecraft:clamp",
-  "input": {
-    "type": "minecraft:max",
-    "argument1": {
-      "type": "minecraft:y_clamped_gradient",
-      "from_y": 320,
-      "to_y": 70,
-      "from_value": -100,
-      "to_value": -1
-    },
-    "argument2": {
-      "type": "minecraft:add",
+  "type": "broken_world:debug",
+  "tag": "island",
+  "argument": {
+    "type": "minecraft:clamp",
+    "input": {
+      "type": "minecraft:max",
       "argument1": {
         "type": "minecraft:y_clamped_gradient",
-        "from_y": 70,
-        "to_y": -200,
-        "from_value": 0,
-        "to_value": -3
+        "from_y": 320,
+        "to_y": 70,
+        "from_value": -100,
+        "to_value": -1
       },
       "argument2": {
-        "type": "minecraft:mul",
-        "argument1": -0.5,
-        "argument2": "broken_world:floating/erosion"
+        "type": "minecraft:add",
+        "argument1": {
+          "type": "minecraft:y_clamped_gradient",
+          "from_y": 70,
+          "to_y": -200,
+          "from_value": 0,
+          "to_value": -3
+        },
+        "argument2": {
+          "type": "minecraft:mul",
+          "argument1": -0.5,
+          "argument2": "broken_world:floating/erosion"
+        }
       }
-    }
-  },
-  "min": -1,
-  "max": 0.5
+    },
+    "min": -1,
+    "max": 0.5
+  }
 }

@@ -1,9 +1,13 @@
 {
-  "type": "minecraft:cache_2d",
+  "type": "broken_world:debug", 
+  "tag": "elevation",
   "argument": {
-    "type": "minecraft:noise",
-    "noise": "broken_world:elevation",
-    "xz_scale": 1,
-    "y_scale": 1
+    "type": "minecraft:cache_2d",
+    "argument": {
+      "type": "minecraft:noise",
+      "noise": "broken_world:elevation",
+      "xz_scale": 1,
+      "y_scale": 1
+    }
   }
 }

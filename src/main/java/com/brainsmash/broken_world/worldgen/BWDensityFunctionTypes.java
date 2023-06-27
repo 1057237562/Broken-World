@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.worldgen;
 
 import com.brainsmash.broken_world.Main;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.Identifier;
@@ -11,7 +12,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.densityfunction.DensityFunction;
 
 import java.lang.Math;
-import java.util.Random;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 
 public class BWDensityFunctionTypes {
@@ -20,6 +22,7 @@ public class BWDensityFunctionTypes {
         Crater.register();
         ClampedGradient.register();
         DiscretePoints.register();
+        Debug.register();
     }
 
     public record Crater(DensityFunction center, double threshold, int searchRadius, DensityFunction radius) implements DensityFunction.Base {
@@ -250,6 +253,55 @@ public class BWDensityFunctionTypes {
                 return -1;
             double radius = minRadius + Math.abs(random.nextInt()) % (maxRadius + 1 - minRadius);
             return Math.sqrt((x - blockX) * (x - blockX) + (z - blockZ) * (z - blockZ)) / radius;
+        }
+
+        public static void register(){
+            Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
+        }
+    }
+
+    public record Debug(String tag, DensityFunction argument) implements DensityFunction.Base {
+        public Debug(String tag, DensityFunction argument) {
+            this.tag = tag;
+            this.argument = argument;
+            Debug.TAGS.put(tag, this);
+        }
+
+        static final Function<String, DataResult<String>> DUMMY_CHECKER = value -> DataResult.success(value);
+        static final Codec<String> STRING_CODEC = Codec.STRING.flatXmap(DUMMY_CHECKER, DUMMY_CHECKER);
+
+        public static final HashMap<String, Debug> TAGS = new HashMap();
+
+        public static final MapCodec<Debug> DEBUG_CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
+                STRING_CODEC.fieldOf("tag").forGetter(Debug::tag),
+                DensityFunction.FUNCTION_CODEC.fieldOf("argument").forGetter(Debug::argument)
+        ).apply(instance, Debug::new));
+        public static final CodecHolder<Debug> CODEC_HOLDER = CodecHolder.of(DEBUG_CODEC);
+
+        public static final Identifier ID = new Identifier(Main.MODID, "debug");
+
+        @Override
+        public DensityFunction apply(DensityFunctionVisitor visitor) {
+            return visitor.apply(new Debug(tag, argument.apply(visitor)));
+        }
+
+        @Override
+        public double minValue() {
+            return argument.minValue();
+        }
+
+        @Override
+        public double maxValue() {
+            return argument.maxValue();
+        }
+
+        @Override
+        public CodecHolder<? extends DensityFunction> getCodecHolder() {
+            return CODEC_HOLDER;
+        }
+
+        public double sample(NoisePos pos) {
+            return argument.sample(pos);
         }
 
         public static void register(){
