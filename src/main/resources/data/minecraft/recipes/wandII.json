@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " AA",
+    " BA",
+    "C  "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "B": {
+      "item": "broken_world:rookie_wand"
+    },
+    "C": {
+      "item": "broken_world:blank_rune"
+    }
+  },
+  "result": {
+    "item": "broken_world:expert_wand"
+  }
+}

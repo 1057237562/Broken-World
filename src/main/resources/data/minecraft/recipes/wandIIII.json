@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:blank_rune"
+    },
+    "B": {
+      "item": "broken_world:kyanite_block"
+    },
+    "C": {
+      "item": "broken_world:master_wand"
+    }
+  },
+  "result": {
+    "item": "broken_world:grandmaster_wand"
+  }
+}

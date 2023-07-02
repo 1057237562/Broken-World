@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    " A ",
+    "   "
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:kyanite_block"
+    }
+  },
+  "result": {
+    "item": "broken_world:kyanite_shard",
+    "count": 4
+  }
+}

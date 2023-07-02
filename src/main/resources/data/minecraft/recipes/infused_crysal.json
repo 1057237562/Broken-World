@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "B": {
+      "item": "minecraft:amethyst_cluster"
+    },
+    "C": {
+      "item": "minecraft:gold_block"
+    }
+  },
+  "result": {
+    "item": "broken_world:infused_crystal"
+  }
+}

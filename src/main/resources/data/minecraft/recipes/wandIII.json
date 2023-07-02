@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " AB",
+    " CA",
+    "D  "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:diamond"
+    },
+    "B": {
+      "item": "minecraft:blaze_rod"
+    },
+    "C": {
+      "item": "broken_world:expert_wand"
+    },
+    "D": {
+      "item": "broken_world:blank_rune"
+    }
+  },
+  "result": {
+    "item": "broken_world:master_wand"
+  }
+}
