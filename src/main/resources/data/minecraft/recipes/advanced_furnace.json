@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ACA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:cobbled_deepslate"
+    },
+    "B": {
+      "item": "minecraft:blast_furnace"
+    },
+    "C": {
+      "item": "broken_world:copper_coil"
+    },
+    "D": {
+      "item": "broken_world:machine_shell"
+    }
+  },
+  "result": {
+    "item": "broken_world:advanced_furnace"
+  }
+}

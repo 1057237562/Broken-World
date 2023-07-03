@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDE",
+    "AFA"
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:tungsten_ingot"
+    },
+    "B": {
+      "item": "broken_world:memory_chip"
+    },
+    "C": {
+      "item": "broken_world:emergency_teleporter"
+    },
+    "D": {
+      "item": "broken_world:advanced_ender_pearl"
+    },
+    "E": {
+      "item": "minecraft:redstone_lamp"
+    },
+    "F": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "broken_world:teleporter_controller"
+  }
+}

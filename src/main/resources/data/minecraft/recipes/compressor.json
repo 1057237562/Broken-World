@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CCC",
+    " D "
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:motor"
+    },
+    "B": {
+      "item": "minecraft:water_bucket"
+    },
+    "C": {
+      "item": "minecraft:obsidian"
+    },
+    "D": {
+      "item": "broken_world:tungsten_block"
+    }
+  },
+  "result": {
+    "item": "broken_world:compressor"
+  }
+}

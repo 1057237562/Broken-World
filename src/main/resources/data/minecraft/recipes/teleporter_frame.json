@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:tungsten_ingot"
+    },
+    "B": {
+      "item": "broken_world:advanced_ender_pearl"
+    },
+    "C": {
+      "item": "broken_world:copper_coil"
+    },
+    "D": {
+      "item": "broken_world:emergency_teleporter"
+    }
+  },
+  "result": {
+    "item": "broken_world:teleporter_frame"
+  }
+}

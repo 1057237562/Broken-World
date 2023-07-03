@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    " C ",
+    "DED"
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:plastic_plate"
+    },
+    "B": {
+      "item": "broken_world:memory_chip"
+    },
+    "C": {
+      "item": "minecraft:redstone_block"
+    },
+    "D": {
+      "item": "broken_world:tungsten_ingot"
+    },
+    "E": {
+      "item": "broken_world:advanced_ender_pearl"
+    }
+  },
+  "result": {
+    "item": "broken_world:miner"
+  }
+}

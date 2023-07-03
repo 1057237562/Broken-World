@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    " B ",
+    "CDC"
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:memory_chip"
+    },
+    "B": {
+      "item": "broken_world:scanner"
+    },
+    "C": {
+      "item": "broken_world:tungsten_ingot"
+    },
+    "D": {
+      "item": "broken_world:teleport_platform"
+    }
+  },
+  "result": {
+    "item": "broken_world:miner"
+  }
+}
