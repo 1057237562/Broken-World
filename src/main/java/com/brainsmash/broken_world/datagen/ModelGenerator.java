@@ -21,6 +21,7 @@ import net.minecraft.block.DoorBlock;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.Models;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 
 import java.util.Optional;
@@ -70,6 +71,9 @@ public class ModelGenerator extends FabricModelProvider {
         }
         for (int i = 0; i < ItemRegister.bucket_item.length; i++) {
             itemModelGenerator.register(ItemRegister.bucket_item[i], Models.GENERATED);
+        }
+        for (Item tool : ItemRegister.toolsItem) {
+            itemModelGenerator.register(tool, Models.GENERATED);
         }
         for (int i = 0; i < BlockRegister.blocks.length; i++) {
             if (BlockRegister.blocks[i] instanceof TeleporterFrameBlock) continue;

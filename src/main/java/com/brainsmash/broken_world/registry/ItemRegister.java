@@ -6,11 +6,13 @@ import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
 import com.brainsmash.broken_world.items.magical.Rune;
 import com.brainsmash.broken_world.items.magical.Wand;
 import com.brainsmash.broken_world.items.magical.enums.RuneEnum;
+import com.brainsmash.broken_world.items.weapons.HoeItem;
 import com.brainsmash.broken_world.items.weapons.ammo.HeavyAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.LightAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.SniperAmmo;
 import com.brainsmash.broken_world.items.weapons.guns.*;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
+import com.brainsmash.broken_world.registry.enums.ToolRegistry;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
@@ -18,6 +20,8 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+
+import java.util.ArrayList;
 
 import static com.brainsmash.broken_world.Main.MODID;
 import static com.brainsmash.broken_world.registry.FluidRegister.still_fluid;
@@ -166,10 +170,33 @@ public class ItemRegister {
             items[ItemRegistry.QS_093.ordinal()]
     };
 
+    public static final String[] tools = {
+            "copper",
+            "tungsten"
+    };
+
+    public static final ArrayList<Item> toolsItem = new ArrayList<>();
+
     public static void registItem() {
+        for (int i = 0; i < tools.length; i++) {
+            String materialName = tools[i];
+            ToolMaterial material = ToolRegistry.values()[i];
+            toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_pickaxe"),
+                    new PickaxeItem(material, 1, -2.8F, new FabricItemSettings().group(ItemGroup.TOOLS))));
+            toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_axe"),
+                    new AxeItem(material, 6.0F, -3.1F, new FabricItemSettings().group(ItemGroup.TOOLS))));
+            toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_sword"),
+                    new SwordItem(material, 3, -2.4F, new FabricItemSettings().group(ItemGroup.TOOLS))));
+            toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_shovel"),
+                    new ShovelItem(material, 1.5F, -3.0F, new FabricItemSettings().group(ItemGroup.TOOLS))));
+            toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_hoe"),
+                    new HoeItem(material, -2, -1.0F, new FabricItemSettings().group(ItemGroup.TOOLS))));
+        }
+
         for (int i = 0; i < items.length; i++) {
             Registry.register(Registry.ITEM, new Identifier(MODID, itemnames[i]), items[i]);
         }
+
     }
 
     public static void registItemClientSide() {

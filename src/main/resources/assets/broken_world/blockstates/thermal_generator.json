@@ -1,5 +1,35 @@
+
 {
   "variants": {
-    "": { "model": "broken_world:block/thermal_generator" }
+    "facing=east,lit=false": {
+      "model": "broken_world:block/thermal_generator",
+      "y": 90
+    },
+    "facing=east,lit=true": {
+      "model": "broken_world:block/thermal_generator_on",
+      "y": 90
+    },
+    "facing=north,lit=false": {
+      "model": "broken_world:block/thermal_generator"
+    },
+    "facing=north,lit=true": {
+      "model": "broken_world:block/thermal_generator_on"
+    },
+    "facing=south,lit=false": {
+      "model": "broken_world:block/thermal_generator",
+      "y": 180
+    },
+    "facing=south,lit=true": {
+      "model": "broken_world:block/thermal_generator_on",
+      "y": 180
+    },
+    "facing=west,lit=false": {
+      "model": "broken_world:block/thermal_generator",
+      "y": 270
+    },
+    "facing=west,lit=true": {
+      "model": "broken_world:block/thermal_generator_on",
+      "y": 270
+    }
   }
 }
