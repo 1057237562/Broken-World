@@ -24,7 +24,9 @@
     [
       "minecraft:lake_lava_surface"
     ],
-    [],
+    [
+      "broken_world:volcano"
+    ],
     [],
     [],
     [],

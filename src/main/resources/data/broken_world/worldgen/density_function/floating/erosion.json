@@ -1,13 +1,9 @@
 {
-  "type": "broken_world:debug",
-  "tag": "erosion",
+  "type": "minecraft:flat_cache",
   "argument": {
-    "type": "minecraft:flat_cache",
-    "argument": {
-      "type": "minecraft:noise",
-      "noise": "minecraft:erosion",
-      "xz_scale": 0.5,
-      "y_scale": 1
-    }
+    "type": "minecraft:noise",
+    "noise": "minecraft:erosion",
+    "xz_scale": 0.5,
+    "y_scale": 1
   }
 }

@@ -1,0 +1,10 @@
+{
+  "type": "broken_world:volcano",
+  "config": {
+    "grid_width": 4,
+    "grid_padding": 1,
+    "min_radius": 12,
+    "max_radius": 20,
+    "k_threshold": 1.5
+  }
+}

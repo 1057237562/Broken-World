@@ -10,6 +10,7 @@ import com.brainsmash.broken_world.screenhandlers.descriptions.*;
 import com.brainsmash.broken_world.util.BonusHelper;
 import com.brainsmash.broken_world.util.EntityHelper;
 import com.brainsmash.broken_world.worldgen.BWDensityFunctionTypes;
+import com.brainsmash.broken_world.worldgen.features.VolcanoFeature;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -122,6 +123,7 @@ public class Main implements ModInitializer {
         FabricatorRecipe.register();
 
         BWDensityFunctionTypes.register();
+        VolcanoFeature.register();
 
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_pressed"),
                 (server, player, handler, buf, responseSender) -> server.execute(() -> {

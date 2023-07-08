@@ -1,6 +1,5 @@
 {
-  "type": "broken_world:debug",
-  "tag": "ridge_noise",
+  "type": "broken_world:flat",
   "argument": {
     "type": "minecraft:flat_cache",
     "argument": {

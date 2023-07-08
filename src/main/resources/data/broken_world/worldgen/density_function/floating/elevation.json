@@ -1,6 +1,5 @@
 {
-  "type": "broken_world:debug", 
-  "tag": "elevation",
+  "type": "broken_world:flat",
   "argument": {
     "type": "minecraft:cache_2d",
     "argument": {
