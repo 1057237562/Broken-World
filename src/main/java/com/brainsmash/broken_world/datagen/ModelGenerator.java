@@ -73,7 +73,7 @@ public class ModelGenerator extends FabricModelProvider {
             itemModelGenerator.register(ItemRegister.bucket_item[i], Models.GENERATED);
         }
         for (Item tool : ItemRegister.toolsItem) {
-            itemModelGenerator.register(tool, Models.GENERATED);
+            itemModelGenerator.register(tool, Models.HANDHELD);
         }
         for (int i = 0; i < BlockRegister.blocks.length; i++) {
             if (BlockRegister.blocks[i] instanceof TeleporterFrameBlock) continue;
