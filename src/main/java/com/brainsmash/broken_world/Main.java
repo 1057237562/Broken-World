@@ -104,6 +104,7 @@ public class Main implements ModInitializer {
         FluidRegister.RegistFluid();
         DimensionRegister.RegistDimension();
         EntityRegister.registEntities();
+        EntityRegister.registSpawnRegistration();
         PointOfInterestRegister.registerPlacesOfInterest();
 
         AdvancedFurnaceRecipe.registAdvancedFurnaceRecipe();

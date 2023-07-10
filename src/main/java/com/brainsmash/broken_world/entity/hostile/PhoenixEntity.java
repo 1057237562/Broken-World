@@ -1,15 +1,18 @@
 package com.brainsmash.broken_world.entity.hostile;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.SmallFireballEntity;
@@ -21,6 +24,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldEvents;
 
 import java.util.EnumSet;
@@ -144,6 +148,11 @@ public class PhoenixEntity extends HostileEntity {
         }
         this.updateLimbs(this, false);
         //super.travel(movementInput);
+    }
+
+    public static boolean canSpawn(EntityType<? extends MobEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
+        LogUtils.getLogger().debug("Phoenix was asked to spawn at"+pos+"for reason: "+spawnReason);
+        return true;
     }
 
     static class PhoenixMoveControl extends MoveControl {

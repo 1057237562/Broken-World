@@ -14,8 +14,11 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.SpawnRestriction;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.Heightmap;
 
 import static com.brainsmash.broken_world.Main.MODID;
 import static com.brainsmash.broken_world.registry.EntityModelLayerRegister.*;
@@ -96,5 +99,13 @@ public class EntityRegister {
                 ApocalyptorEntity.createApocalyptorAttributes());
         FabricDefaultAttributeRegistry.register(WEREWOLF_ENTITY_TYPE, WerewolfEntity.createWereworlfAttributes());
         FabricDefaultAttributeRegistry.register(DRONE_ENTITY_TYPE, DroneEntity.createLivingAttributes());
+    }
+
+    public static void registSpawnRegistration() {
+        SpawnRestriction.register(APOCALYPTOR_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+        SpawnRestriction.register(WEREWOLF_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+        SpawnRestriction.register(GLITCHED_ZOMBIE_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+        SpawnRestriction.register(GLITCHED_SKELETON_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+        SpawnRestriction.register(PHOENIX_ENTITY_TYPE, SpawnRestriction.Location.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, PhoenixEntity::canSpawn);
     }
 }
