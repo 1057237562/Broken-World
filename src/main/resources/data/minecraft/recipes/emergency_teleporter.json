@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:tungsten_ingot"
+    },
+    "B": {
+      "item": "minecraft:redstone"
+    },
+    "C": {
+      "item": "broken_world:advanced_ender_pearl"
+    }
+  },
+  "result": {
+    "item": "broken_world:emergency_teleporter"
+  }
+}
