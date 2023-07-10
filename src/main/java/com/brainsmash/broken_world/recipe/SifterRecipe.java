@@ -20,17 +20,15 @@ public class SifterRecipe {
 
     public static void registSifterRecipes() {
         recipes.put(Blocks.DIRT.asItem(),
-                Arrays.asList(new Pair<>(0.06f, Items.RAW_IRON),
-                        new Pair<>(0.80f, Items.SAND),
-                        new Pair<>(0.1f, Items.WHEAT_SEEDS),
-                        new Pair<>(0.03f, Items.MELON_SEEDS),
+                Arrays.asList(new Pair<>(0.06f, Items.RAW_IRON), new Pair<>(0.80f, Items.SAND),
+                        new Pair<>(0.1f, Items.WHEAT_SEEDS), new Pair<>(0.03f, Items.MELON_SEEDS),
                         new Pair<>(0.04f, Items.PUMPKIN_SEEDS)));
-        recipes.put(Blocks.SAND.asItem(),
-                Arrays.asList(new Pair<>(0.0015f, Items.RAW_GOLD),
-                        new Pair<>(0.2f, ItemRegister.items[ItemRegistry.SILICON.ordinal()])));
+        recipes.put(Blocks.SAND.asItem(), Arrays.asList(new Pair<>(0.0015f, Items.RAW_GOLD),
+                new Pair<>(0.2f, ItemRegister.items[ItemRegistry.SILICON.ordinal()])));
         recipes.put(BlockRegister.blocks[BlockRegistry.MOON_SAND.ordinal()].asItem(),
-                Arrays.asList(new Pair<>(0.0015f, Items.RAW_IRON),
-                        new Pair<>(0.012f, Items.RAW_IRON),
+                Arrays.asList(new Pair<>(0.0015f, Items.RAW_IRON), new Pair<>(0.012f, Items.RAW_IRON),
                         new Pair<>(0.2f, ItemRegister.items[ItemRegistry.SILICON.ordinal()])));
+        recipes.put(Blocks.GRAVEL.asItem(),
+                Arrays.asList(new Pair<>(0.4f, Items.FLINT), new Pair<>(0.4f, Blocks.SAND.asItem())));
     }
 }
