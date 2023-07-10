@@ -6,5 +6,5 @@
   "ingredient": {
     "item": "broken_world:tin_ore"
   },
-  "result": "minecraft:tin_ingot"
+  "result": "broken_world:tin_ingot"
 }
