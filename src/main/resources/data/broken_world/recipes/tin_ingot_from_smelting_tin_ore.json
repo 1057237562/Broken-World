@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.3,
+  "group": "tin_ingot",
+  "ingredient": {
+    "item": "broken_world:tin_ore"
+  },
+  "result": "minecraft:tin_ingot"
+}
