@@ -29,6 +29,6 @@ public class SifterRecipe {
                 Arrays.asList(new Pair<>(0.0015f, Items.RAW_IRON), new Pair<>(0.012f, Items.RAW_IRON),
                         new Pair<>(0.2f, ItemRegister.items[ItemRegistry.SILICON.ordinal()])));
         recipes.put(Blocks.GRAVEL.asItem(),
-                Arrays.asList(new Pair<>(0.4f, Items.FLINT), new Pair<>(0.4f, Blocks.SAND.asItem())));
+                Arrays.asList(new Pair<>(0.12f, Items.FLINT), new Pair<>(0.4f, Blocks.SAND.asItem())));
     }
 }

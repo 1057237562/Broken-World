@@ -19,7 +19,7 @@ public class CrusherRecipe {
     public static void registCrusherRecipes() {
         recipes.put(Blocks.STONE.asItem(),
                 Arrays.asList(new Pair<>(0.08f, Items.RAW_IRON), new Pair<>(0.80f, Items.GRAVEL),
-                        new Pair<>(0.04f, Items.RAW_GOLD), new Pair<>(0.15f, Items.RAW_COPPER),
+                        new Pair<>(0.02f, Items.RAW_GOLD), new Pair<>(0.15f, Items.RAW_COPPER),
                         new Pair<>(0.1f, Items.DIRT)));
         recipes.put(Blocks.COBBLESTONE.asItem(),
                 Arrays.asList(new Pair<>(0.08f, Items.RAW_IRON), new Pair<>(0.80f, Items.GRAVEL),

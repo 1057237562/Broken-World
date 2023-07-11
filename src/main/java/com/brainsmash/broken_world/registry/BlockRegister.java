@@ -372,6 +372,7 @@ public class BlockRegister {
     public static BlockEntityType<InfusedCrystalBlockEntity> INFUSED_CRYSTAL_ENTITY_TYPE;
 
     public static BlockEntityType<CompressorBlockEntity> COMPRESSOR_ENTITY_TYPE;
+    public static BlockEntityType<AssemblerBlockEntity> ASSEMBLER_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -445,6 +446,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(InfusedCrystalBlockEntity::new, blocks[60]).build());
         COMPRESSOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "compressor"),
                 FabricBlockEntityTypeBuilder.create(CompressorBlockEntity::new, blocks[63]).build());
+        ASSEMBLER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "assembler"),
+                FabricBlockEntityTypeBuilder.create(AssemblerBlockEntity::new, blocks[64]).build());
     }
 
     public static void RegistBlocksClientSide() {

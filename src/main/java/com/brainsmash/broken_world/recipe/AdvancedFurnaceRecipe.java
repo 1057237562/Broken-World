@@ -19,19 +19,14 @@ public class AdvancedFurnaceRecipe {
         recipes.put(Items.IRON_INGOT,
                 Arrays.asList(new Pair<>(0.975f, ItemRegister.items[ItemRegistry.STEEL_INGOT.ordinal()]),
                         new Pair<>(0.075f, Items.COAL)));
-        recipes.put(Items.RAW_IRON,
-                Arrays.asList(new Pair(1f, Items.IRON_INGOT),
-                        new Pair<>(0.15f, Items.COAL),
-                        new Pair<>(0.35f, Items.IRON_NUGGET),
-                        new Pair<>(0.12f, Items.GOLD_NUGGET)));
+        recipes.put(Items.RAW_IRON, Arrays.asList(new Pair(1f, Items.IRON_INGOT), new Pair<>(0.15f, Items.COAL),
+                new Pair<>(0.35f, Items.IRON_NUGGET), new Pair<>(0.12f, Items.GOLD_NUGGET)));
         recipes.put(Items.COBBLESTONE,
-                Arrays.asList(new Pair<>(0.55f, Items.MAGMA_BLOCK), new Pair<>(0.15f, Items.IRON_NUGGET)));
+                Arrays.asList(new Pair<>(0.2f, Items.MAGMA_BLOCK), new Pair<>(0.06f, Items.IRON_NUGGET)));
         recipes.put(Items.STONE,
-                Arrays.asList(new Pair<>(0.55f, Items.MAGMA_BLOCK), new Pair<>(0.15f, Items.IRON_NUGGET)));
+                Arrays.asList(new Pair<>(0.2f, Items.MAGMA_BLOCK), new Pair<>(0.06f, Items.IRON_NUGGET)));
         recipes.put(Items.DEEPSLATE,
-                Arrays.asList(new Pair<>(0.75f, Items.MAGMA_BLOCK),
-                        new Pair<>(0.12f, Items.IRON_INGOT),
-                        new Pair<>(0.15f, Items.IRON_NUGGET),
-                        new Pair<>(0.02f, Items.GOLD_NUGGET)));
+                Arrays.asList(new Pair<>(0.2f, Items.MAGMA_BLOCK), new Pair<>(0.06f, Items.IRON_INGOT),
+                        new Pair<>(0.06f, Items.IRON_NUGGET), new Pair<>(0.01f, Items.GOLD_NUGGET)));
     }
 }
