@@ -7,6 +7,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
@@ -27,27 +28,26 @@ public class WindTurbineEntity extends PowerBlockEntity {
 
     public void updateGen(Random random){
         setGenerate((int)((1+0.25*random.nextGaussian())*maxOutput*sigmoid(pos.getY() - world.getSeaLevel(),0,world.getTopY()-world.getSeaLevel())));
-        if(nearbyTurbineCount == 0)
-            running = true;
+        running = nearbyTurbineCount == 0;
         markDirty();
+        if (!world.isClient()) {
+            ((ServerWorld)world).getChunkManager().markForUpdate(pos);
+        }
     }
 
     public void moreCrowded(){
-        running = false;
         nearbyTurbineCount++;
-        markDirty();
+        updateGen(world.getRandom());
     }
 
     public void lessCrowded(){
         nearbyTurbineCount--;
-        markDirty();
         updateGen(world.getRandom());
     }
 
     public void setCrowdedness(int crowdedness) {
         nearbyTurbineCount = crowdedness;
-        markDirty();
-        running = nearbyTurbineCount > 0;
+        updateGen(world.getRandom());
     }
 
     @Override

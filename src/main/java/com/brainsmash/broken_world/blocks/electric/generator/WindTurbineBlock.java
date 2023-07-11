@@ -80,7 +80,6 @@ public class WindTurbineBlock extends PowerBlock {
         }
         if(world.getBlockEntity(pos) instanceof WindTurbineEntity windTurbineEntity) {
             windTurbineEntity.setCrowdedness(list.size());
-            windTurbineEntity.updateGen(world.random);
         }
     }
 
