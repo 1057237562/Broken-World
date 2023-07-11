@@ -7,6 +7,7 @@ import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.*;
 import com.brainsmash.broken_world.blocks.entity.CloneVatBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.ReactorBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.RollingDoorBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
@@ -148,7 +149,10 @@ public class BlockRegister {
             new InfusedCrystalBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
             new Block(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
-            new CompressorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque())
+            new CompressorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
+            new AssemblerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
+            new ElectrolyzerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
+            new ReactorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque())
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -214,7 +218,10 @@ public class BlockRegister {
             new BlockItem(blocks[60], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[61], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[62], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[63], new FabricItemSettings().group(ITEM_GROUP))
+            new BlockItem(blocks[63], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[64], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[65], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[66], new FabricItemSettings().group(ITEM_GROUP)),
 
     };
 
@@ -282,7 +289,10 @@ public class BlockRegister {
             "infused_crystal",
             "kyanite_block",
             "tungsten_block",
-            "compressor"
+            "compressor",
+            "assembler",
+            "electrolyzer",
+            "reactor"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -373,6 +383,8 @@ public class BlockRegister {
 
     public static BlockEntityType<CompressorBlockEntity> COMPRESSOR_ENTITY_TYPE;
     public static BlockEntityType<AssemblerBlockEntity> ASSEMBLER_ENTITY_TYPE;
+    public static BlockEntityType<ElectrolyzerBlockEntity> ELECTROLYZER_ENTITY_TYPE;
+    public static BlockEntityType<ReactorBlockEntity> REACTOR_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -448,6 +460,10 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(CompressorBlockEntity::new, blocks[63]).build());
         ASSEMBLER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "assembler"),
                 FabricBlockEntityTypeBuilder.create(AssemblerBlockEntity::new, blocks[64]).build());
+        ELECTROLYZER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "electrolyzer"),
+                FabricBlockEntityTypeBuilder.create(ElectrolyzerBlockEntity::new, blocks[65]).build());
+        REACTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "reactor"),
+                FabricBlockEntityTypeBuilder.create(ReactorBlockEntity::new, blocks[66]).build());
     }
 
     public static void RegistBlocksClientSide() {
