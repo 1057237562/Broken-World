@@ -70,6 +70,11 @@ public class Main implements ModInitializer {
                     ((syncId, playerInventory) -> new AdvancedFurnaceGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
 
+    public static final ScreenHandlerType<AssemblerGuiDescription> ASSEMBLER_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "assembler"), new ScreenHandlerType<>(
+                    ((syncId, playerInventory) -> new AssemblerGuiDescription(syncId, playerInventory,
+                            ScreenHandlerContext.EMPTY))));
+
     public static final ScreenHandlerType<CompressorGuiDescription> COMPRESSOR_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "compressor"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new CompressorGuiDescription(syncId, playerInventory,

@@ -21,6 +21,8 @@
     "broken_world:fabricator",
     "broken_world:fabricator_extension",
     "broken_world:centrifuge",
-    "broken_world:compressor"
+    "broken_world:compressor",
+    "broken_world:assembler",
+    "broken_world:electrolyzer"
   ]
 }

@@ -62,6 +62,7 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.MASTER_WAND_SCREEN_HANDLER, WandScreen::new);
         HandledScreens.register(Main.GRANDMASTER_WAND_SCREEN_HANDLER, WandScreen::new);
         HandledScreens.register(Main.COMPRESSOR_GUI_DESCRIPTION, CompressorScreen::new);
+        HandledScreens.register(Main.ASSEMBLER_GUI_DESCRIPTION, AssemblerScreen::new);
 
 
         BlockRegister.RegistBlocksClientSide();

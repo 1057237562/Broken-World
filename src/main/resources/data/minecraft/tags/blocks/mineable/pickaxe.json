@@ -16,6 +16,19 @@
     "broken_world:solar_panel",
     "broken_world:magnetite",
     "broken_world:kyanite_ore",
-    "broken_world:tin_ore"
+    "broken_world:tin_ore",
+    "broken_world:generator",
+    "broken_world:thermal_generator",
+    "broken_world:assembler",
+    "broken_world:electrolyzer",
+    "broken_world:compressor",
+    "broken_world:advanced_furnace",
+    "broken_world:miner",
+    "broken_world:scanner",
+    "broken_world:emergency_teleporter",
+    "broken_world:infused_crystal",
+    "broken_world:teleporter_controller",
+    "broken_world:crusher",
+    "broken_world:sifter"
   ]
 }

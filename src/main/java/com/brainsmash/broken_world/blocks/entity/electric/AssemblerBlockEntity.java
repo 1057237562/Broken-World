@@ -3,8 +3,10 @@ package com.brainsmash.broken_world.blocks.entity.electric;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
-import com.brainsmash.broken_world.recipe.AdvancedFurnaceRecipe;
+import com.brainsmash.broken_world.recipe.AssemblerRecipe;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.screenhandlers.descriptions.AssemblerGuiDescription;
+import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,10 +17,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,7 +30,7 @@ public class AssemblerBlockEntity extends ConsumerBlockEntity implements NamedSc
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(4, ItemStack.EMPTY);
 
-    private Item lastItem;
+    private Item[] lastItem = new Item[2];
 
     public AssemblerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.ASSEMBLER_ENTITY_TYPE, pos, state);
@@ -43,24 +47,38 @@ public class AssemblerBlockEntity extends ConsumerBlockEntity implements NamedSc
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return null;
+        return new AssemblerGuiDescription(syncId, inv, ScreenHandlerContext.create(world, pos));
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (AdvancedFurnaceRecipe.recipes.containsKey(inventory.get(0).getItem()) && canRun()) {
+            if (AssemblerRecipe.recipes.containsKey(
+                    AssemblerRecipe.makePair(inventory.get(0).getItem(), inventory.get(1).getItem())) && canRun()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;
                 } else {
-
-
+                    ItemStack output = AssemblerRecipe.recipes.get(
+                            AssemblerRecipe.makePair(inventory.get(0).getItem(), inventory.get(1).getItem()));
+                    if (inventory.get(3).isEmpty()) {
+                        inventory.set(3, output);
+                    } else if (inventory.get(3).getItem().equals(output.getItem()) && inventory.get(
+                            3).getCount() + output.getCount() < inventory.get(3).getMaxCount()) {
+                        inventory.get(3).increment(output.getCount());
+                    } else {
+                        EntityHelper.spawnItem(world, output, 1, Direction.UP, pos);
+                    }
                     inventory.get(0).decrement(1);
+                    inventory.get(1).decrement(1);
                     progression = 0;
                 }
-                if (!inventory.get(0).getItem().equals(lastItem)) {
-                    lastItem = inventory.get(0).getItem();
+                if (!inventory.get(0).getItem().equals(lastItem[0]) || !inventory.get(1).getItem().equals(
+                        lastItem[1])) {
+                    lastItem = new Item[]{
+                            inventory.get(0).getItem(),
+                            inventory.get(1).getItem()
+                    };
                     progression = 0;
                 }
             } else {
@@ -82,7 +100,10 @@ public class AssemblerBlockEntity extends ConsumerBlockEntity implements NamedSc
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
-        lastItem = inventory.get(0).getItem();
+        lastItem = new Item[]{
+                inventory.get(0).getItem(),
+                inventory.get(1).getItem()
+        };
     }
 
     @Override
