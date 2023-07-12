@@ -6,12 +6,10 @@ import net.minecraft.block.PillarBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -52,15 +50,22 @@ public class RubberLogBlock extends PillarBlock {
         if (isBowl(stack)) {
             if (!state.isOf(Registry.BLOCK.get(new Identifier(Main.MODID, "cut_rubber_log"))))
                 return ActionResult.PASS;
-            world.setBlockState(pos, Registry.BLOCK.get(new Identifier(Main.MODID, "collected_rubber_log")).getDefaultState()
-                    .with(AXIS, state.get(AXIS))
-                    .with(CUT_FACING, state.get(CUT_FACING))
-            );
+            if (world.getRandom().nextFloat() < 0.5f)
+                world.setBlockState(pos, Registry.BLOCK.get(new Identifier(Main.MODID, "collected_rubber_log")).getDefaultState()
+                        .with(AXIS, state.get(AXIS))
+                        .with(CUT_FACING, state.get(CUT_FACING))
+                );
             return ActionResult.SUCCESS;
         } else if(isKnife(stack)) {
             if (!state.isOf(Registry.BLOCK.get(new Identifier(Main.MODID, "natural_rubber_log"))))
                 return ActionResult.PASS;
-            world.setBlockState(pos, state.with(CUT_FACING, hit.getSide()).with(COLLECT_STATE, State.CUT));
+            if (hit.getSide().getAxis() == state.get(AXIS))
+                return ActionResult.PASS;)
+            world.setBlockState(pos, Registry.BLOCK.get(new Identifier(Main.MODID, "cut_rubber_log"))
+                    .getDefaultState()
+                    .with(AXIS, state.get(AXIS))
+                    .with(CUT_FACING, hit.getSide())
+            );
             consumeEntireTree(world, pos);
             return ActionResult.SUCCESS;
         }

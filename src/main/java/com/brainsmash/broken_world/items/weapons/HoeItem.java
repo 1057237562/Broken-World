@@ -60,7 +60,7 @@ public class HoeItem extends MiningToolItem {
 
     public static Consumer<ItemUsageContext> createTillAction(BlockState result) {
         return (context) -> {
-            context.getWorld().setBlockState(context.getBlockPos(), result, 11);
+            context.getWorld().setBlockState(context.   getBlockPos(), result, 11);
             context.getWorld().emitGameEvent(GameEvent.BLOCK_CHANGE, context.getBlockPos(),
                     Emitter.of(context.getPlayer(), result));
         };
