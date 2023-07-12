@@ -148,7 +148,11 @@ public class BlockRegister {
             new InfusedCrystalBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
             new Block(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
-            new CompressorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK))
+            new CompressorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
+            new PillarBlock(AbstractBlock.Settings.of(Material.WOOD)),
+            new RubberLogBlock(AbstractBlock.Settings.of(Material.WOOD)),
+            new RubberLogBlock(AbstractBlock.Settings.of(Material.WOOD)),
+            new RubberLogBlock(AbstractBlock.Settings.of(Material.WOOD))
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -214,8 +218,11 @@ public class BlockRegister {
             new BlockItem(blocks[60], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[61], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[62], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[63], new FabricItemSettings().group(ITEM_GROUP))
-
+            new BlockItem(blocks[63], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[64], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[65], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[66], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[67], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -282,7 +289,11 @@ public class BlockRegister {
             "infused_crystal",
             "kyanite_block",
             "tungsten_block",
-            "compressor"
+            "compressor",
+            "rubber_log",
+            "natural_rubber_log",
+            "cut_rubber_log",
+            "collected_rubber_log"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
