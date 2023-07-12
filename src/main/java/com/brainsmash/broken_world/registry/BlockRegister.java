@@ -166,7 +166,8 @@ public class BlockRegister {
             new CutRubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
             // 70
             new RubberLeaves(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)),
-            new SaplingBlock(new RubberSaplingGenerator(), FabricBlockSettings.copyOf(Blocks.OAK_SAPLING))
+            new SaplingBlock(new RubberSaplingGenerator(), FabricBlockSettings.copyOf(Blocks.OAK_SAPLING)),
+            new ExtractorBlock(STANDARD_BLOCK)
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -241,6 +242,7 @@ public class BlockRegister {
             new BlockItem(blocks[69], new FabricItemSettings()),
             new BlockItem(blocks[70], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[71], new FabricItemSettings().group(ITEM_GROUP))
+            new BlockItem(blocks[72], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -315,7 +317,8 @@ public class BlockRegister {
             "natural_rubber_log",
             "cut_rubber_log",
             "rubber_leaves",
-            "rubber_sapling"
+            "rubber_sapling",
+            "extractor"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
