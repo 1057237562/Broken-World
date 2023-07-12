@@ -110,6 +110,7 @@ public class Main implements ModInitializer {
         DimensionRegister.RegistDimension();
         EntityRegister.registEntities();
         EntityRegister.registSpawnRegistration();
+        TreeRegister.registTrees();
         PointOfInterestRegister.registerPlacesOfInterest();
 
         AdvancedFurnaceRecipe.registAdvancedFurnaceRecipe();

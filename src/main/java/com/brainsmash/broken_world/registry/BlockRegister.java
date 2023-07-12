@@ -16,6 +16,7 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEnti
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
 import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
+import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
@@ -160,11 +161,12 @@ public class BlockRegister {
             new AssemblerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
             new ElectrolyzerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
             new ReactorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
-            new PillarBlock(AbstractBlock.Settings.of(Material.WOOD)),
-            new RubberLogBlock(AbstractBlock.Settings.of(Material.WOOD)),
-            new CutRubberLogBlock(AbstractBlock.Settings.of(Material.WOOD)),
+            new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
+            new RubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
+            new CutRubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
             // 70
-            new LeavesBlock(AbstractBlock.Settings.of(Material.LEAVES))
+            new RubberLeaves(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)),
+            new SaplingBlock(new RubberSaplingGenerator(), FabricBlockSettings.copyOf(Blocks.OAK_SAPLING))
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -238,6 +240,7 @@ public class BlockRegister {
             new BlockItem(blocks[68], new FabricItemSettings()),
             new BlockItem(blocks[69], new FabricItemSettings()),
             new BlockItem(blocks[70], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[71], new FabricItemSettings().group(ITEM_GROUP))
     };
 
     public static final String[] blocknames = {
@@ -311,7 +314,8 @@ public class BlockRegister {
             "rubber_log",
             "natural_rubber_log",
             "cut_rubber_log",
-            "rubber_leaves"
+            "rubber_leaves",
+            "rubber_sapling"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
