@@ -104,7 +104,7 @@ public class ItemRegister {
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.SINK),
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.THUNDER),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new DensityMeter(new FabricItemSettings().group(ITEM_GROUP))
+            new DensityMeter(new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -189,7 +189,7 @@ public class ItemRegister {
             toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_axe"),
                     new AxeItem(material, 6.0F, -3.1F, new FabricItemSettings().group(ItemGroup.TOOLS))));
             toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_sword"),
-                    new SwordItem(material, 3, -2.4F, new FabricItemSettings().group(ItemGroup.TOOLS))));
+                    new SwordItem(material, 3, -2.4F, new FabricItemSettings().group(ItemGroup.COMBAT))));
             toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_shovel"),
                     new ShovelItem(material, 1.5F, -3.0F, new FabricItemSettings().group(ItemGroup.TOOLS))));
             toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_hoe"),

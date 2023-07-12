@@ -164,7 +164,6 @@ public class BlockRegister {
             new RubberLogBlock(AbstractBlock.Settings.of(Material.WOOD)),
             new RubberLogBlock(AbstractBlock.Settings.of(Material.WOOD)),
             // 70
-            new RubberLogBlock(AbstractBlock.Settings.of(Material.WOOD)),
             new LeavesBlock(AbstractBlock.Settings.of(Material.LEAVES))
     };
     public static final Item[] blockitems = {
@@ -237,9 +236,8 @@ public class BlockRegister {
             new BlockItem(blocks[66], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[67], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[68], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[69], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[69], new FabricItemSettings()),
             new BlockItem(blocks[70], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[71], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -313,7 +311,6 @@ public class BlockRegister {
             "rubber_log",
             "natural_rubber_log",
             "cut_rubber_log",
-            "collected_rubber_log",
             "rubber_leaves"
     };
 
