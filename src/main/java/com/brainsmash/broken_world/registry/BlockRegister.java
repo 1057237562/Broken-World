@@ -162,7 +162,7 @@ public class BlockRegister {
             new ReactorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
             new PillarBlock(AbstractBlock.Settings.of(Material.WOOD)),
             new RubberLogBlock(AbstractBlock.Settings.of(Material.WOOD)),
-            new RubberLogBlock(AbstractBlock.Settings.of(Material.WOOD)),
+            new CutRubberLogBlock(AbstractBlock.Settings.of(Material.WOOD)),
             // 70
             new LeavesBlock(AbstractBlock.Settings.of(Material.LEAVES))
     };

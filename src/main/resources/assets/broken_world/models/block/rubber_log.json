@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "broken_world:block/logrubber_top",
-    "side": "broken_world:block/logrubber"
-  }
-}

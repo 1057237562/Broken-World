@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.datagen;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.CloneVatBlock;
+import com.brainsmash.broken_world.blocks.LogBlock;
 import com.brainsmash.broken_world.blocks.SpawnPointerBlock;
 import com.brainsmash.broken_world.blocks.electric.base.BatteryBlock;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
@@ -54,7 +55,11 @@ public class ModelGenerator extends FabricModelProvider {
                 continue;
             }
             if (BlockRegister.blocks[i] instanceof PillarBlock) {
-                blockStateModelGenerator.registerLog(BlockRegister.blocks[i]);
+                if (BlockRegister.blocks[i] instanceof LogBlock log) {
+                    blockStateModelGenerator.registerLog(log.getParent()).log(BlockRegister.blocks[i]);
+                    continue;
+                }
+                blockStateModelGenerator.registerLog(BlockRegister.blocks[i]).log(BlockRegister.blocks[i]);
                 continue;
             }
             if (BlockRegister.blocks[i].getStateManager().getProperties().isEmpty() && !(BlockRegister.blocks[i] instanceof BatteryBlock) && !(BlockRegister.blocks[i] instanceof PowerBlock) && !(BlockRegister.blocks[i] instanceof ConsumerBlock) && !(BlockRegister.blocks[i] instanceof CableBlock)) {
