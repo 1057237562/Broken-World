@@ -62,7 +62,7 @@ public class AssemblerBlockEntity extends ConsumerBlockEntity implements NamedSc
                     ItemStack output = AssemblerRecipe.recipes.get(
                             AssemblerRecipe.makePair(inventory.get(0).getItem(), inventory.get(1).getItem()));
                     if (inventory.get(3).isEmpty()) {
-                        inventory.set(3, output);
+                        inventory.set(3, output.copy());
                     } else if (inventory.get(3).getItem().equals(output.getItem()) && inventory.get(
                             3).getCount() + output.getCount() < inventory.get(3).getMaxCount()) {
                         inventory.get(3).increment(output.getCount());

@@ -5,19 +5,18 @@ import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class AssemblerRecipe {
-    public static Map<Pair<Item, Item>, ItemStack> recipes = new HashMap<>();
+    public static Map<String, ItemStack> recipes = new HashMap<>();
 
-    public static Pair<Item, Item> makePair(Item a, Item b) {
+    public static String makePair(Item a, Item b) {
         if (a.hashCode() > b.hashCode()) {
-            return new Pair<>(a, b);
+            return a.hashCode() + String.valueOf(b.hashCode());
         } else {
-            return new Pair<>(b, a);
+            return b.hashCode() + String.valueOf(a.hashCode());
         }
     }
 
