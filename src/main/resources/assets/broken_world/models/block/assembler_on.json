@@ -3,6 +3,6 @@
   "textures": {
     "front": "broken_world:block/assembler_front_on",
     "side": "broken_world:block/assembler_side",
-    "top": "broken_world:block/assembler_top",
+    "top": "broken_world:block/assembler_top"
   }
 }
