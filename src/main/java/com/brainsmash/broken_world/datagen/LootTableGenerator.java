@@ -1,6 +1,8 @@
 package com.brainsmash.broken_world.datagen;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.blocks.LogBlock;
+import com.brainsmash.broken_world.blocks.LootLeavesBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -24,6 +26,17 @@ public class LootTableGenerator extends SimpleFabricLootTableProvider {
         for (int i = 0; i < BlockRegister.blocks.length; i++) {
             if (BlockRegister.blocks[i] instanceof OreBlock) continue;
             if (BlockRegister.blocks[i] instanceof TeleporterFrameBlock) continue;
+            if (BlockRegister.blocks[i] instanceof LogBlock log) {
+                identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i]),
+                        BlockLootTableGenerator.drops(log.getParent(), log.getParent().asItem(),
+                                ConstantLootNumberProvider.create(1f)));
+                continue;
+            }
+            if (BlockRegister.blocks[i] instanceof LootLeavesBlock loot) {
+                identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i]),
+                        BlockLootTableGenerator.leavesDrop(loot, loot.getDrops(), 0.13f));
+                continue;
+            }
             identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i]),
                     BlockLootTableGenerator.drops(BlockRegister.blocks[i], BlockRegister.blockitems[i],
                             ConstantLootNumberProvider.create(1f)));

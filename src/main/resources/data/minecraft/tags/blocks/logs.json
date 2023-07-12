@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "broken_world:rubber_log",
+    "broken_world:natural_rubber_log",
+    "broken_world:cut_rubber_log"
+  ]
+}

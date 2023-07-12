@@ -20,6 +20,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.PillarBlock;
+import net.minecraft.block.SaplingBlock;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.Models;
@@ -62,6 +63,11 @@ public class ModelGenerator extends FabricModelProvider {
                 blockStateModelGenerator.registerLog(BlockRegister.blocks[i]).log(BlockRegister.blocks[i]);
                 continue;
             }
+            if (BlockRegister.blocks[i] instanceof SaplingBlock) {
+                blockStateModelGenerator.registerTintableCross(BlockRegister.blocks[i],
+                        BlockStateModelGenerator.TintType.NOT_TINTED);
+                continue;
+            }
             if (BlockRegister.blocks[i].getStateManager().getProperties().isEmpty() && !(BlockRegister.blocks[i] instanceof BatteryBlock) && !(BlockRegister.blocks[i] instanceof PowerBlock) && !(BlockRegister.blocks[i] instanceof ConsumerBlock) && !(BlockRegister.blocks[i] instanceof CableBlock)) {
                 blockStateModelGenerator.registerSimpleCubeAll(BlockRegister.blocks[i]);
             }
@@ -92,6 +98,7 @@ public class ModelGenerator extends FabricModelProvider {
                 itemModelGenerator.register(BlockRegister.blockitems[i], Models.GENERATED);
                 continue;
             }
+            if (BlockRegister.blocks[i] instanceof SaplingBlock) continue;
             itemModelGenerator.register(BlockRegister.blockitems[i],
                     new Model(Optional.of(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i])),
                             Optional.empty()));

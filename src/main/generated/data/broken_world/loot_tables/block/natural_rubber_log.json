@@ -24,7 +24,7 @@
                   }
                 }
               ],
-              "name": "broken_world:natural_rubber_log"
+              "name": "broken_world:rubber_log"
             },
             {
               "type": "minecraft:item",
@@ -38,7 +38,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "broken_world:natural_rubber_log"
+              "name": "broken_world:rubber_log"
             }
           ]
         }

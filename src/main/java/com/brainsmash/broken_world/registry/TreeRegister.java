@@ -9,7 +9,7 @@ import net.minecraft.world.gen.feature.ConfiguredFeatures;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
-import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
+import net.minecraft.world.gen.foliage.MegaPineFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 
@@ -24,12 +24,12 @@ public class TreeRegister {
         return new TreeFeatureConfig.Builder(BlockStateProvider.of(log),
                 new StraightTrunkPlacer(baseHeight, firstRandomHeight, secondRandomHeight),
                 BlockStateProvider.of(leaves),
-                new BlobFoliagePlacer(ConstantIntProvider.create(radius), ConstantIntProvider.create(0), 4),
-                new TwoLayersFeatureSize(1, 0, 1));
+                new MegaPineFoliagePlacer(ConstantIntProvider.create(radius), ConstantIntProvider.create(1),
+                        ConstantIntProvider.create(4)), new TwoLayersFeatureSize(1, 0, 1));
     }
 
     private static TreeFeatureConfig.Builder rubber() {
         return builder(BlockRegister.blocks[BlockRegistry.NATURAL_RUBBER_LOG.ordinal()],
-                BlockRegister.blocks[BlockRegistry.RUBBER_LEAVES.ordinal()], 4, 2, 0, 1).ignoreVines();
+                BlockRegister.blocks[BlockRegistry.RUBBER_LEAVES.ordinal()], 7, 1, 0, 1).ignoreVines();
     }
 }

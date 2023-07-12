@@ -1,6 +1,6 @@
-// 1.19.2	2023-07-12T16:44:37.87779	minecraft:block Loot Table
+// 1.19.2	2023-07-12T21:09:30.6174388	minecraft:block Loot Table
 b2ae79939933e8066be8be11b38a4a74084577b1 data\broken_world\loot_tables\block\spawn_pointer.json
-36190e181945094dc8bfc87f0ff9245e2a9ae927 data\broken_world\loot_tables\block\rubber_leaves.json
+a4de52374cecd30cfe5eb1900df20c03232d4f09 data\broken_world\loot_tables\block\rubber_leaves.json
 c5785aa23827f39aef72bf40ee65ed4e2d62ea30 data\broken_world\loot_tables\block\volcanic_stone.json
 ef3ddfadcbfb4b02725770469b0807cab1f714a7 data\broken_world\loot_tables\block\moon_sandstone.json
 de23e68793b3a2aa60925f0245a470c3babe8d0b data\broken_world\loot_tables\block\basic_machine.json
@@ -20,6 +20,7 @@ c8f68500654f3f17a8430288b233f4e730ef78c4 data\broken_world\loot_tables\block\inf
 7c2f4449992925956e429c539b8df6011f5bc850 data\broken_world\loot_tables\block\cracked_concrete.json
 29011cdcf560e274ca879039eec8dad522c660fc data\broken_world\loot_tables\block\code.json
 81a68e996d8911694794738f2188a1084768e0aa data\broken_world\loot_tables\block\teleporter_frame.json
+396681ae3badf88379e256f176666e02d977d958 data\broken_world\loot_tables\block\rubber_sapling.json
 872a797d50459ec99b03014c1fa8cf5cf9bafab7 data\broken_world\loot_tables\block\solar_panel.json
 f88257e3d6dd60053897f05730483537fb419882 data\broken_world\loot_tables\block\assembler.json
 dff403dae1c1df11ff38e50c73cab4f3ee387007 data\broken_world\loot_tables\block\machine_shell.json
@@ -29,7 +30,7 @@ dd56885a36b733f9bc9125e95a4945a1b114dda5 data\broken_world\loot_tables\block\iro
 c97508dfe48d30a05dfab7a481b72e30f2761e0b data\broken_world\loot_tables\block\teleporter_controller.json
 93e520d2f869d65c6c1eb0d63e57c599210959f1 data\broken_world\loot_tables\block\rusty_metal.json
 5282ef7ced3bf6bd362a3b62f2481593b6d182b8 data\broken_world\loot_tables\block\crusher.json
-d0155b05403c8dd591e6bb037326d6a551e04c02 data\broken_world\loot_tables\block\natural_rubber_log.json
+082336ed0a9a60d30fa93088b98f8e0fa7044ae7 data\broken_world\loot_tables\block\natural_rubber_log.json
 b72231028ec9a3dbf97702196d63a28370ec22b4 data\broken_world\loot_tables\block\glass_door.json
 153349503b90ffcab8fba73572fba8ad5152831f data\broken_world\loot_tables\block\moon_stone.json
 b3e7eb51bb2b523090cb7b631c699cdad9435d23 data\broken_world\loot_tables\block\copper_cable.json
@@ -54,7 +55,7 @@ cce0f4dce08cda5469c8a45d38d712c48b4af75d data\broken_world\loot_tables\block\moo
 64b225426971d0b0c12584133d2c5e13bda5928c data\broken_world\loot_tables\block\data_upload_node.json
 bf55ba5cd0bf69223f20923044864b0b5135814e data\broken_world\loot_tables\block\reactor.json
 ab104389621927aaba7df21a94564434fc28bec7 data\broken_world\loot_tables\block\teleport_platform.json
-8d2068414570ee7fccdebdcfb0459200d029f3cc data\broken_world\loot_tables\block\cut_rubber_log.json
+082336ed0a9a60d30fa93088b98f8e0fa7044ae7 data\broken_world\loot_tables\block\cut_rubber_log.json
 eace12604f1154e66da9d1afd2d29782b36189d2 data\broken_world\loot_tables\block\moon_redstone_ore.json
 6cfb0a7f6f41eccabd202a178c51427a1b9f8d46 data\broken_world\loot_tables\block\road.json
 0f12f1d1759f7d20ad5214f7313be033c6a8c996 data\broken_world\loot_tables\block\sulfuric_soil.json
