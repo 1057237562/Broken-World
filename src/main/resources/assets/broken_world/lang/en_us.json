@@ -119,6 +119,8 @@
   "item.broken_world.sink_rune": "Sink Rune",
   "item.broken_world.thunder_rune": "Thunder Rune",
 
+  "item.broken_world.density_meter": "Density Meter",
+
   "item.broken_world.oil_bucket": "Oil Bucket", 
   "item.broken_world.polluted_water_bucket": "Polluted Water Bucket", 
   "item.broken_world.acid_bucket": "Acid Bucket", 

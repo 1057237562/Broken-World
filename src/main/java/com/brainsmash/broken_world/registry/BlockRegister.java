@@ -54,6 +54,7 @@ public class BlockRegister {
             BlockSoundGroup.METAL).strength(3.0f, 3.0f);
 
     public static final Block[] blocks = {
+            // 0
             new FallingBlock(AbstractBlock.Settings.of(Material.AGGREGATE).sounds(BlockSoundGroup.SAND).strength(1.0f)),
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
@@ -74,6 +75,7 @@ public class BlockRegister {
             new TeleporterFrameBlock(
                     FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
                             10f)),
+            // 10
             new TeleporterFrameBlock(
                     FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
                             10f)),
@@ -97,6 +99,7 @@ public class BlockRegister {
                     FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(100.0f,
                             100.0f).luminance(6)),
             new ConsumerBlock(STANDARD_BLOCK),
+            // 20
             new GeneratorBlock(
                     FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f)),
             new CrusherBlock(STANDARD_BLOCK),
@@ -112,6 +115,7 @@ public class BlockRegister {
                     FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f,
                             3.0f)),
             new ThermalGeneratorBlock(STANDARD_BLOCK),
+            // 30
             new PumpBlock(STANDARD_BLOCK),
             new HydroGeneratorBlock(STANDARD_BLOCK),
             new WindTurbineBlock(STANDARD_BLOCK),
@@ -122,6 +126,7 @@ public class BlockRegister {
             new Block(STANDARD_BLOCK.velocityMultiplier(1.1f).slipperiness(0.45f)),
             new MagnetiteBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new Block(FabricBlockSettings.copyOf(Blocks.GLASS).strength(2.0f, 15.0f)),
+            // 40
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new Block(FabricBlockSettings.copyOf(Blocks.DIRT)),
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
@@ -132,6 +137,7 @@ public class BlockRegister {
             new GlitchBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
             new CodeBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
             new DataUploadNodeBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
+            // 50
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new SpawnPointerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).dropsNothing()),
             new GlassBlock(FabricBlockSettings.copyOf(Blocks.BLUE_ICE).nonOpaque().luminance(2)),
@@ -146,13 +152,19 @@ public class BlockRegister {
                             10f)),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.DIAMOND_ORE)),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.COPPER_ORE)),
+            // 60
             new InfusedCrystalBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
             new Block(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new CompressorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
             new AssemblerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
             new ElectrolyzerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
-            new ReactorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque())
+            new ReactorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
+            new PillarBlock(AbstractBlock.Settings.of(Material.WOOD)),
+            new RubberLogBlock(AbstractBlock.Settings.of(Material.WOOD)),
+            new RubberLogBlock(AbstractBlock.Settings.of(Material.WOOD)),
+            // 70
+            new RubberLogBlock(AbstractBlock.Settings.of(Material.WOOD))
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -222,7 +234,10 @@ public class BlockRegister {
             new BlockItem(blocks[64], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[65], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[66], new FabricItemSettings().group(ITEM_GROUP)),
-
+            new BlockItem(blocks[67], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[68], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[69], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[70], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -292,7 +307,11 @@ public class BlockRegister {
             "compressor",
             "assembler",
             "electrolyzer",
-            "reactor"
+            "reactor",
+            "rubber_log",
+            "natural_rubber_log",
+            "cut_rubber_log",
+            "collected_rubber_log"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {

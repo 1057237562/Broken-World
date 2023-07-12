@@ -2,15 +2,7 @@
   "type": "minecraft:mul",
   "argument1": {
     "type": "minecraft:mul",
-    "argument1": {
-      "type": "minecraft:cache_2d",
-      "argument": {
-        "type": "minecraft:noise",
-        "noise": "broken_world:elevation",
-        "xz_scale": 1,
-        "y_scale": 1
-      }
-    },
+    "argument1": "broken_world:floating/elevation",
     "argument2": {
       "type": "minecraft:add",
       "argument1": {

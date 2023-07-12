@@ -21,15 +21,7 @@
       "argument2": {
         "type": "minecraft:mul",
         "argument1": -0.5,
-        "argument2": {
-          "type": "minecraft:flat_cache",
-          "argument": {
-            "type": "minecraft:noise",
-            "noise": "minecraft:erosion",
-            "xz_scale": 0.5,
-            "y_scale": 1
-          }
-        }
+        "argument2": "broken_world:floating/erosion"
       }
     }
   },

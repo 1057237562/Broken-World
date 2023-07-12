@@ -24,7 +24,9 @@
     [
       "minecraft:lake_lava_surface"
     ],
-    [],
+    [
+      "broken_world:volcano"
+    ],
     [],
     [],
     [],
@@ -65,6 +67,7 @@
     []
   ],
   "precipitation": "none",
+  "creature_spawn_probability": 0.8,
   "spawn_costs": {},
   "spawners": {
     "ambient": [],
@@ -73,7 +76,7 @@
       "type": "broken_world:phoenix",
       "maxCount": 2,
       "minCount": 2,
-      "weight": 5
+      "weight": 100
     }],
     "misc": [],
     "monster": [],

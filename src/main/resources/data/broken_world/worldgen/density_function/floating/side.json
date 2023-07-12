@@ -29,15 +29,7 @@
             "input": {
               "type": "minecraft:add",
               "argument1": 0.2,
-              "argument2": {
-                "type": "minecraft:flat_cache",
-                "argument": {
-                  "type": "minecraft:noise",
-                  "noise": "minecraft:ridge",
-                  "xz_scale": 1,
-                  "y_scale": 1
-                }
-              }
+              "argument2": "broken_world:floating/ridge_noise"
             },
             "min": -0.3,
             "max": 999

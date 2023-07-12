@@ -1,8 +1,7 @@
 {
-  "type": "minecraft:mul",
-  "argument1": 0.6,
-  "argument2": {
-    "type": "minecraft:square",
+  "type": "broken_world:flat",
+  "argument": {
+    "type": "minecraft:flat_cache",
     "argument": {
       "type": "minecraft:noise",
       "noise": "minecraft:ridge",

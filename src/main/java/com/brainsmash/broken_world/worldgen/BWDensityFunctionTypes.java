@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.worldgen;
 
 import com.brainsmash.broken_world.Main;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.Identifier;
@@ -10,11 +11,18 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.densityfunction.DensityFunction;
 
+import java.lang.Math;
+import java.util.*;
+import java.util.function.Function;
+
 public class BWDensityFunctionTypes {
     
     public static void register(){
         Crater.register();
         ClampedGradient.register();
+        DiscretePoints.register();
+        Debug.register();
+        Flat.register();
     }
 
     public record Crater(DensityFunction center, double threshold, int searchRadius, DensityFunction radius) implements DensityFunction.Base {
@@ -64,7 +72,7 @@ public class BWDensityFunctionTypes {
         }
 
         public double sample(NoisePos pos) {
-            Pos p = new Pos(pos);
+            BWNoisePos p = new BWNoisePos(pos);
             double sum = 0;
             double primary = 0;
             double primaryHeight = 0;
@@ -74,11 +82,11 @@ public class BWDensityFunctionTypes {
                 int i = (int) Math.round(Math.sqrt(searchRadius * searchRadius - dz*dz));
                 i -= i%4;
                 for(int dx = -i; dx <= i; dx += STEP){
-                    Pos pp = p.offsetZ(dz).offsetX(dx);
+                    BWNoisePos pp = p.offsetZ(dz).offsetX(dx);
                     double val = center.sample(pp);
                     if(val > threshold) {
                         double r = Math.sqrt(dx * dx + dz * dz);
-                        double R = radius.sample((new Pos(pos)).offsetX(dx).offsetZ(dz));
+                        double R = radius.sample((new BWNoisePos(pos)).offsetX(dx).offsetZ(dz));
                         if (val > primary) {
                             sum += primaryHeight;
                             secTotWeight += primaryWeight;
@@ -149,6 +157,7 @@ public class BWDensityFunctionTypes {
             return visitor.apply(new ClampedGradient(input.apply(visitor), fromInput, toInput, fromValue, toValue));
         }
 
+        @Override
         public double minValue() {
             return fromValue < toValue ? fromValue : toValue;
         }
@@ -172,6 +181,179 @@ public class BWDensityFunctionTypes {
             double k = (toValue - fromValue) / (toInput - fromInput);
             double res = (in - fromInput) * k + fromValue;
             return res;
+        }
+
+        public static void register(){
+            Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
+        }
+    }
+
+    public record DiscretePoints(int gridWidth, int gridPadding, double minRadius, double maxRadius, DensityFunction whenPositive) implements DensityFunction.Base {
+        public DiscretePoints(int gridWidth, int gridPadding, double minRadius, double maxRadius, DensityFunction whenPositive) {
+            this.gridWidth = gridWidth;
+            this.gridPadding = gridPadding;
+            this.minRadius = minRadius;
+            this.maxRadius = maxRadius;
+            this.whenPositive = whenPositive;
+        }
+
+        public static final Codec<Double> CONSTANT_DOUBLE_RANGE = Codec.doubleRange(-1000000.0, 1000000.0);
+        public static final Codec<Integer> CONSTANT_INT_RANGE = Codec.intRange(-1000000, 1000000);
+
+        public static final MapCodec<DiscretePoints> VOLCANO_CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
+                CONSTANT_INT_RANGE.fieldOf("grid_width").forGetter(DiscretePoints::gridWidth),
+                CONSTANT_INT_RANGE.fieldOf("grid_padding").forGetter(DiscretePoints::gridPadding),
+                CONSTANT_DOUBLE_RANGE.fieldOf("min_radius").forGetter(DiscretePoints::minRadius),
+                CONSTANT_DOUBLE_RANGE.fieldOf("max_radius").forGetter(DiscretePoints::maxRadius),
+                DensityFunction.FUNCTION_CODEC.fieldOf("when_positive").forGetter(DiscretePoints::whenPositive)
+        ).apply(instance, DiscretePoints::new));
+        public static final CodecHolder<DiscretePoints> CODEC_HOLDER = CodecHolder.of(VOLCANO_CODEC);
+
+        public static final Identifier ID = new Identifier(Main.MODID, "discrete_points");
+
+        @Override
+        public DensityFunction apply(DensityFunctionVisitor visitor) {
+            return visitor.apply(new DiscretePoints(gridWidth, gridPadding, minRadius, maxRadius, whenPositive.apply(visitor)));
+        }
+
+        @Override
+        public double minValue() {
+            return -1;
+        }
+
+        @Override
+        public double maxValue() {
+            return 1;
+        }
+
+        @Override
+        public CodecHolder<? extends DensityFunction> getCodecHolder() {
+            return CODEC_HOLDER;
+        }
+
+        public double sample(NoisePos pos) {
+            int blockX = pos.blockX();
+            int blockZ = pos.blockZ();
+            int gridX = blockX >= 0 ? blockX / gridWidth : (blockX-gridWidth) / gridWidth;
+            int gridZ = blockZ >= 0 ? blockZ / gridWidth : (blockZ-gridWidth) / gridWidth;
+            // Because Random uses 48-bit seed.
+            long seed = Math.abs(gridX) * 16777216; // 16,777,216 = 2^24
+            seed += Math.abs(gridZ) % 16777216;
+            Random random = new Random(seed);
+            if (blockX < 0)
+                random.nextInt();
+            if (blockZ < 0) {
+                random.nextInt();
+                random.nextInt();
+            }
+            int x = gridX * gridWidth + gridPadding + Math.abs(random.nextInt()) % (gridWidth - 2*gridPadding);
+            int z = gridZ * gridWidth + gridPadding + Math.abs(random.nextInt()) % (gridWidth - 2*gridPadding);
+
+            if (whenPositive.sample(new BWNoisePos(x, 0, z)) <= 0)
+                return -1;
+            double radius = minRadius + Math.abs(random.nextInt()) % (maxRadius + 1 - minRadius);
+            return Math.sqrt((x - blockX) * (x - blockX) + (z - blockZ) * (z - blockZ)) / radius;
+        }
+
+        public static void register(){
+            Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
+        }
+    }
+
+    public record Debug(String tag, boolean enabled, DensityFunction argument) implements DensityFunction.Base {
+        public Debug(String tag, boolean enabled, DensityFunction argument) {
+            this.tag = tag;
+            this.enabled = enabled;
+            this.argument = argument;
+            if (enabled)
+                Debug.TAGS.put(tag, this);
+        }
+
+        static final Function<String, DataResult<String>> STRING_DUMMY = value -> DataResult.success(value);
+        static final Function<Boolean, DataResult<Boolean>> BOOL_DUMMY = value -> DataResult.success(value);
+        static final Codec<String> STRING_CODEC = Codec.STRING.flatXmap(STRING_DUMMY, STRING_DUMMY);
+        static final Codec<Boolean> BOOL_CODEC = Codec.BOOL.flatXmap(BOOL_DUMMY, BOOL_DUMMY);
+
+        public static final HashMap<String, Debug> TAGS = new HashMap();
+
+        public static final MapCodec<Debug> DEBUG_CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
+                STRING_CODEC.fieldOf("tag").forGetter(Debug::tag),
+                BOOL_CODEC.fieldOf("enabled").forGetter(Debug::enabled),
+                DensityFunction.FUNCTION_CODEC.fieldOf("argument").forGetter(Debug::argument)
+        ).apply(instance, Debug::new));
+        public static final CodecHolder<Debug> CODEC_HOLDER = CodecHolder.of(DEBUG_CODEC);
+
+        public static final Identifier ID = new Identifier(Main.MODID, "debug");
+
+        @Override
+        public DensityFunction apply(DensityFunctionVisitor visitor) {
+            return visitor.apply(new Debug(tag, enabled, argument.apply(visitor)));
+        }
+
+        @Override
+        public double minValue() {
+            return argument.minValue();
+        }
+
+        @Override
+        public double maxValue() {
+            return argument.maxValue();
+        }
+
+        @Override
+        public CodecHolder<? extends DensityFunction> getCodecHolder() {
+            return CODEC_HOLDER;
+        }
+
+        public double sample(NoisePos pos) {
+            int x = pos.blockX(), y = pos.blockY(), z = pos.blockZ();
+            if (enabled) {
+                int nop;
+                if (x % 10000 == 0 && Math.abs(y - 150) <= 10 && z % 10000 == 0)
+                    nop = 42;
+            }
+            double result = argument.sample(pos);
+            return result;
+        }
+
+        public static void register(){
+            Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
+        }
+    }
+
+    public record Flat(DensityFunction argument) implements DensityFunction.Base {
+        public static final MapCodec<Flat> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
+              DensityFunction.FUNCTION_CODEC.fieldOf("argument").forGetter(Flat::argument)
+        ).apply(instance, Flat::new));
+
+        public static final CodecHolder<Flat> CODEC_HOLDER = CodecHolder.of(CODEC);
+
+        public static final Identifier ID = new Identifier(Main.MODID, "flat");
+
+        @Override
+        public DensityFunction apply(DensityFunctionVisitor visitor) {
+            return visitor.apply(new Flat(argument.apply(visitor)));
+        }
+
+        @Override
+        public double minValue() {
+            return argument.minValue();
+        }
+
+        @Override
+        public double maxValue() {
+            return argument.maxValue();
+        }
+
+        @Override
+        public CodecHolder<? extends DensityFunction> getCodecHolder() {
+            return CODEC_HOLDER;
+        }
+
+        public double sample(NoisePos pos) {
+            int x = pos.blockX();
+            int z = pos.blockZ();
+            return argument.sample(new BWNoisePos(x, 0, z));
         }
 
         public static void register(){

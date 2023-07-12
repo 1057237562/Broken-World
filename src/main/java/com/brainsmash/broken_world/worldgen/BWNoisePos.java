@@ -2,25 +2,31 @@ package com.brainsmash.broken_world.worldgen;
 
 import net.minecraft.world.gen.densityfunction.DensityFunction.NoisePos;
 
-public class Pos implements NoisePos {
+public class BWNoisePos implements NoisePos {
     public int blockX;
     public int blockY;
     public int blockZ;
 
-    public Pos(NoisePos pos){
+    public BWNoisePos(NoisePos pos){
         blockX = pos.blockX();
         blockY = pos.blockY();
         blockZ = pos.blockZ();
     }
 
-    public Pos offsetX(int offset){
-        Pos pos = new Pos(this);
+    public BWNoisePos(int x, int y, int z){
+        blockX = x;
+        blockY = y;
+        blockZ = z;
+    }
+
+    public BWNoisePos offsetX(int offset){
+        BWNoisePos pos = new BWNoisePos(this);
         pos.blockX += offset;
         return pos;
     }
 
-    public Pos offsetZ(int offset){
-        Pos pos = new Pos(this);
+    public BWNoisePos offsetZ(int offset){
+        BWNoisePos pos = new BWNoisePos(this);
         pos.blockZ += offset;
         return pos;
     }
@@ -38,5 +44,10 @@ public class Pos implements NoisePos {
     @Override
     public int blockZ() {
         return blockZ;
+    }
+
+    @Override
+    public String toString() {
+        return "BWNoisePos " + "x:" + blockX + " y:" + blockY + " z:" + blockZ;
     }
 }
