@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "BCB",
+    " D "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "broken_world:iron_plate"
+    },
+    "C": {
+      "item": "broken_world:memory_chip"
+    },
+    "D": {
+      "item": "broken_world:aa_battery"
+    }
+  },
+  "result": {
+    "item": "broken_world:density_meter"
+  }
+}

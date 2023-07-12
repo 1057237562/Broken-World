@@ -1,7 +1,9 @@
 package com.brainsmash.broken_world.blocks;
 
 import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
+import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PillarBlock;
@@ -22,7 +24,7 @@ import net.minecraft.world.World;
 
 public class RubberLogBlock extends PillarBlock {
     public static final DirectionProperty CUT_FACING = Properties.FACING;
-    public static final IntProperty RUBBER_LEVEL = Properties.LEVEL_3;
+    public static final IntProperty RUBBER_LEVEL = Properties.AGE_3;
 
     public RubberLogBlock(Settings settings) {
         super(settings);
@@ -63,7 +65,7 @@ public class RubberLogBlock extends PillarBlock {
                         getDefaultState().with(AXIS, state.get(AXIS)).with(CUT_FACING, state.get(CUT_FACING)).with(
                                 RUBBER_LEVEL, 0));
                 stack.decrement(1);
-                player.giveItemStack(new ItemStack());
+                player.giveItemStack(new ItemStack(ItemRegister.items[ItemRegistry.BOWL_OF_RUBBER.ordinal()]));
                 return ActionResult.SUCCESS;
             }
         }
@@ -81,6 +83,7 @@ public class RubberLogBlock extends PillarBlock {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        super.appendProperties(builder);
         builder.add(CUT_FACING).add(RUBBER_LEVEL);
     }
 }

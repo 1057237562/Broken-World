@@ -18,6 +18,7 @@ import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.DoorBlock;
+import net.minecraft.block.PillarBlock;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.Models;
@@ -50,6 +51,10 @@ public class ModelGenerator extends FabricModelProvider {
             }
             if (BlockRegister.blocks[i] instanceof DoorBlock) {
                 blockStateModelGenerator.registerDoor(BlockRegister.blocks[i]);
+                continue;
+            }
+            if (BlockRegister.blocks[i] instanceof PillarBlock) {
+                blockStateModelGenerator.registerLog(BlockRegister.blocks[i]);
                 continue;
             }
             if (BlockRegister.blocks[i].getStateManager().getProperties().isEmpty() && !(BlockRegister.blocks[i] instanceof BatteryBlock) && !(BlockRegister.blocks[i] instanceof PowerBlock) && !(BlockRegister.blocks[i] instanceof ConsumerBlock) && !(BlockRegister.blocks[i] instanceof CableBlock)) {

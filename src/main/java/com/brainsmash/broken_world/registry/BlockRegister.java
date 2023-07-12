@@ -235,7 +235,7 @@ public class BlockRegister {
             new BlockItem(blocks[65], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[66], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[67], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[68], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[68], new FabricItemSettings()),
             new BlockItem(blocks[69], new FabricItemSettings()),
             new BlockItem(blocks[70], new FabricItemSettings().group(ITEM_GROUP)),
     };
