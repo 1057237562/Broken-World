@@ -101,7 +101,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
 
     public CentrifugeBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.CENTRIFUGE_ENTITY_TYPE, pos, state);
-        maxProgression = 100;
+        maxProgression = 200;
         setMaxCapacity(1000);
         powerConsumption = 5;
     }

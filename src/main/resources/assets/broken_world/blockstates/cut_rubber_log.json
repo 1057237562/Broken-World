@@ -1,0 +1,58 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "broken_world:block/cut_rubber_log_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,facing=north,age=2": {
+      "model": "broken_world:block/cut_rubber_log"
+    },
+    "axis=y,facing=east,age=2": {
+      "model": "broken_world:block/cut_rubber_log",
+      "y" : 90
+    },
+    "axis=y,facing=south,age=2": {
+      "model": "broken_world:block/cut_rubber_log",
+      "y" : 180
+    },
+    "axis=y,facing=west,age=2": {
+      "model": "broken_world:block/cut_rubber_log",
+      "y": 270
+    },
+    "axis=y,facing=north,age=0": {
+      "model": "broken_world:block/cut_rubber_log_norubber"
+    },
+    "axis=y,facing=east,age=0": {
+      "model": "broken_world:block/cut_rubber_log_norubber",
+      "y" : 90
+    },
+    "axis=y,facing=south,age=0": {
+      "model": "broken_world:block/cut_rubber_log_norubber",
+      "y" : 180
+    },
+    "axis=y,facing=west,age=0": {
+      "model": "broken_world:block/cut_rubber_log_norubber",
+      "y": 270
+    },
+    "axis=y,facing=north,age=1": {
+      "model": "broken_world:block/cut_rubber_log_norubber"
+    },
+    "axis=y,facing=east,age=1": {
+      "model": "broken_world:block/cut_rubber_log_norubber",
+      "y" : 90
+    },
+    "axis=y,facing=south,age=1": {
+      "model": "broken_world:block/cut_rubber_log_norubber",
+      "y" : 180
+    },
+    "axis=y,facing=west,age=1": {
+      "model": "broken_world:block/cut_rubber_log_norubber",
+      "y": 270
+    },
+    "axis=z": {
+      "model": "broken_world:block/cut_rubber_log_horizontal",
+      "x": 90
+    }
+  }
+}
