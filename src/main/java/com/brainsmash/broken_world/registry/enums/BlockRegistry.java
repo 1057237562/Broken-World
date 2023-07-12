@@ -72,5 +72,6 @@ public enum BlockRegistry {
     NATURAL_RUBBER_LOG,
     CUT_RUBBER_LOG,
     RUBBER_LEAVES,
-    RUBBER_SAPLING
+    RUBBER_SAPLING,
+    EXTRACTOR_BLOCK
 }
