@@ -64,31 +64,25 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements NamedSc
             inventory.get(2).increment(insertCount);
             stack.decrement(insertCount);
         }
-        if (stack.getCount() == 0) return true;
-        return false;
+        return stack.getCount() == 0;
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
+            ItemStack rawMaterial = inventory.get(0);
+            ItemStack product = inventory.get(2);
             if (
-                    ExtractorRecipe.recipes.containsKey(inventory.get(0).getItem())
-                    && (
-                            inventory.get(2).isEmpty()
-                            || inventory.get(2).getItem() ==
-                    )
-                    && canRun()
+                    ExtractorRecipe.recipes.containsKey(rawMaterial.getItem()) && canRun()
             ) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;
                 } else {
-                    List<Pair<Float, Item>> output = ExtractorRecipe.recipes.get(inventory.get(0).getItem());
-                    for (Pair<Float, Item> pair : output) {
-                        if (random.nextDouble() < pair.getLeft()) {
-                            if (!insertItem(new ItemStack(pair.getRight(), 1))) {
-                                EntityHelper.spawnItem(world, new ItemStack(pair.getRight(), 1), 1, Direction.UP, pos);
-                            }
+                    Pair<Float, Item> output = ExtractorRecipe.recipes.get(rawMaterial.getItem());
+                    if (random.nextDouble() < output.getLeft()) {
+                        if (!insertItem(new ItemStack(output.getRight(), 1))) {
+                            EntityHelper.spawnItem(world, new ItemStack(output.getRight(), 1), 1, Direction.UP, pos);
                         }
                     }
                     inventory.get(0).decrement(1);
@@ -142,6 +136,6 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements NamedSc
 
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction dir) {
-        return slot >= 2;
+        return slot == 2;
     }
 }

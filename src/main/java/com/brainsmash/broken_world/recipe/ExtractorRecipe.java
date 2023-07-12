@@ -19,6 +19,6 @@ public class ExtractorRecipe {
     public static Map<Item, Pair<Float, Item>> recipes = new ConcurrentHashMap<>();
 
     public static void registExtractorRecipes() {
-        recipes.put(ItemRegister.items[ItemRegistry.BOWL_OF_RUBBER.ordinal()], new Pair<>(0.5F, RUBBER_ITEM))
+        recipes.put(ItemRegister.items[ItemRegistry.BOWL_OF_RUBBER.ordinal()], new Pair<>(0.5F, Items.ACACIA_LOG));
     }
 }

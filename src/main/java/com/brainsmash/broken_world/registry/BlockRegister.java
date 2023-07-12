@@ -411,6 +411,7 @@ public class BlockRegister {
     public static BlockEntityType<AssemblerBlockEntity> ASSEMBLER_ENTITY_TYPE;
     public static BlockEntityType<ElectrolyzerBlockEntity> ELECTROLYZER_ENTITY_TYPE;
     public static BlockEntityType<ReactorBlockEntity> REACTOR_ENTITY_TYPE;
+    public static BlockEntityType<ExtractorBlockEntity> EXTRACTOR_ENTITY_TYPE;
 
     public static void RegistBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -490,6 +491,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(ElectrolyzerBlockEntity::new, blocks[65]).build());
         REACTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "reactor"),
                 FabricBlockEntityTypeBuilder.create(ReactorBlockEntity::new, blocks[66]).build());
+        EXTRACTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "extractor"),
+                FabricBlockEntityTypeBuilder.create(ExtractorBlockEntity::new, blocks[72]).build());
     }
 
     public static void RegistBlocksClientSide() {
