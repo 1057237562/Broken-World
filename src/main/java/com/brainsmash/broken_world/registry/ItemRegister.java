@@ -105,7 +105,8 @@ public class ItemRegister {
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.THUNDER),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new DensityMeter(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP))
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -164,7 +165,8 @@ public class ItemRegister {
             "thunder_rune",
             "tin_ingot",
             "density_meter",
-            "bowl_of_rubber"
+            "bowl_of_latex",
+            "rubber"
     };
 
     public static final Item[] guns = {
