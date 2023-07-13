@@ -123,6 +123,7 @@ public class Main implements ModInitializer {
         CentrifugeRecipe.registCentrifugeRecipes();
         AssemblerRecipe.registAssemblerRecipe();
         CompressorRecipe.registCompressorRecipes();
+        ExtractorRecipe.registExtractorRecipes();
 
         OreTypeRegistry.RegistOreType();
 

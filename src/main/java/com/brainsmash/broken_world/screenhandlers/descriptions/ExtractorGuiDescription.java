@@ -25,17 +25,17 @@ public class ExtractorGuiDescription extends SyncedGuiDescription {
         root.setInsets(Insets.ROOT_PANEL);
         WBar bar = new WBar(new Identifier(Main.MODID,"textures/gui/small_electric_bar.png"),new Identifier(Main.MODID,"textures/gui/small_electric_bar_filled.png"),0,1);
         bar.setProperties(propertyDelegate);
-        root.add(bar, 8, 2,1,1);
+        root.add(bar, 5, 2,1,1);
         WBar bar1 = new WBar(new Identifier(Main.MODID,"textures/gui/progressbar.png"),new Identifier(Main.MODID,"textures/gui/progressbar_filled.png"),2,3, Direction.LEFT);
         bar1.setProperties(propertyDelegate);
-        root.add(bar1, 7, 2,1,1);
+        root.add(bar1, 4, 2,1,1);
 
         WItemSlot source = WItemSlot.of(blockInventory,0);
-        root.add(source,8,1,1,1);
+        root.add(source,5,1,1,1);
         WItemSlot power = WItemSlot.of(blockInventory,1);
-        root.add(power,8,3,1,1);
+        root.add(power,5,3,1,1);
 
-        root.add(WItemSlot.of(blockInventory,2),6,2,1,1);
+        root.add(WItemSlot.of(blockInventory,2),3,2,1,1);
 
         root.add(this.createPlayerInventoryPanel(), 0, 4);
 

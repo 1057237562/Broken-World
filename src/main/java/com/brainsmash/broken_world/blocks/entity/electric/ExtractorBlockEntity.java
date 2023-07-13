@@ -71,7 +71,6 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements NamedSc
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
             ItemStack rawMaterial = inventory.get(0);
-            ItemStack product = inventory.get(2);
             if (
                     ExtractorRecipe.recipes.containsKey(rawMaterial.getItem()) && canRun()
             ) {
@@ -80,7 +79,7 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements NamedSc
                     progression++;
                 } else {
                     Pair<Float, Item> output = ExtractorRecipe.recipes.get(rawMaterial.getItem());
-                    if (random.nextDouble() < output.getLeft()) {
+                    if (random.nextFloat() < output.getLeft()) {
                         if (!insertItem(new ItemStack(output.getRight(), 1))) {
                             EntityHelper.spawnItem(world, new ItemStack(output.getRight(), 1), 1, Direction.UP, pos);
                         }

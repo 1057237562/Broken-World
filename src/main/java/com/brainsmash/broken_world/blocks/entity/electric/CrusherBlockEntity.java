@@ -81,7 +81,7 @@ public class CrusherBlockEntity extends ConsumerBlockEntity implements NamedScre
                 } else {
                     List<Pair<Float, Item>> output = CrusherRecipe.recipes.get(inventory.get(0).getItem());
                     for (Pair<Float, Item> pair : output) {
-                        if (random.nextDouble() < pair.getLeft()) {
+                        if (random.nextFloat() < pair.getLeft()) {
                             if (!insertItem(new ItemStack(pair.getRight(), 1))) {
                                 EntityHelper.spawnItem(world, new ItemStack(pair.getRight(), 1), 1, Direction.UP, pos);
                             }
