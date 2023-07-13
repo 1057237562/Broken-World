@@ -43,7 +43,7 @@ public class CutRubberLogBlock extends LogBlock {
                 world.setBlockState(pos,
                         getDefaultState().with(AXIS, state.get(AXIS)).with(CUT_FACING, state.get(CUT_FACING)).with(
                                 RUBBER_LEVEL, 0));
-                stack.decrement(1);
+                if (!player.isCreative()) stack.decrement(1);
                 player.giveItemStack(new ItemStack(ItemRegister.items[ItemRegistry.BOWL_OF_LATEX.ordinal()]));
                 return ActionResult.SUCCESS;
             }

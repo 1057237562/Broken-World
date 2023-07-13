@@ -105,7 +105,7 @@ public class ItemRegister {
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.THUNDER),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new DensityMeter(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).recipeRemainder(Items.BOWL)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
     };
 

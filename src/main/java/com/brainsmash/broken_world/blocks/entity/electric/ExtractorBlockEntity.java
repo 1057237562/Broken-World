@@ -59,8 +59,7 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements NamedSc
             return true;
         }
         if (inventory.get(2).getItem().equals(stack.getItem())) {
-            int insertCount = Math.min(inventory.get(2).getMaxCount() - inventory.get(2).getCount(),
-                    stack.getCount());
+            int insertCount = Math.min(inventory.get(2).getMaxCount() - inventory.get(2).getCount(), stack.getCount());
             inventory.get(2).increment(insertCount);
             stack.decrement(insertCount);
         }
@@ -71,20 +70,22 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements NamedSc
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
             ItemStack rawMaterial = inventory.get(0);
-            if (
-                    ExtractorRecipe.recipes.containsKey(rawMaterial.getItem()) && canRun()
-            ) {
+            if (ExtractorRecipe.recipes.containsKey(rawMaterial.getItem()) && canRun()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;
                 } else {
-                    Pair<Float, Item> output = ExtractorRecipe.recipes.get(rawMaterial.getItem());
-                    if (random.nextFloat() < output.getLeft()) {
-                        if (!insertItem(new ItemStack(output.getRight(), 1))) {
-                            EntityHelper.spawnItem(world, new ItemStack(output.getRight(), 1), 1, Direction.UP, pos);
+                    List<Pair<Float, Item>> list = ExtractorRecipe.recipes.get(rawMaterial.getItem());
+                    for (Pair<Float, Item> output : list) {
+                        if (random.nextFloat() < output.getLeft()) {
+                            if (!insertItem(new ItemStack(output.getRight(), 1))) {
+                                EntityHelper.spawnItem(world, new ItemStack(output.getRight(), 1), 1, Direction.UP,
+                                        pos);
+                            }
                         }
                     }
-                    inventory.get(0).decrement(1);
+                    if (inventory.get(0).getRecipeRemainder().isEmpty()) inventory.get(0).decrement(1);
+                    else inventory.set(0, inventory.get(0).getRecipeRemainder().copy());
                     progression = 0;
                 }
                 if (!inventory.get(0).getItem().equals(lastItem)) {
