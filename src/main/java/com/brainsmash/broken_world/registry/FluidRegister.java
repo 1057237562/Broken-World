@@ -62,7 +62,7 @@ public class FluidRegister {
             new Color(187, 0, 255)
     };
 
-    public static void RegistFluid() {
+    public static void registFluid() {
         for (int i = 0; i < still_fluid.length; i++) {
             Registry.register(Registry.FLUID, new Identifier(MODID, fluidnames[i]), still_fluid[i]);
             Registry.register(Registry.FLUID, new Identifier(MODID, "flowing_" + fluidnames[i]), flowing_fluid[i]);

@@ -24,12 +24,15 @@ import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.color.world.BiomeColors;
+import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -413,7 +416,7 @@ public class BlockRegister {
     public static BlockEntityType<ReactorBlockEntity> REACTOR_ENTITY_TYPE;
     public static BlockEntityType<ExtractorBlockEntity> EXTRACTOR_ENTITY_TYPE;
 
-    public static void RegistBlocks() {
+    public static void registBlocks() {
         for (int i = 0; i < blocks.length; i++) {
             Registry.register(Registry.BLOCK, new Identifier(MODID, blocknames[i]), blocks[i]);
             Registry.register(Registry.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
@@ -537,5 +540,9 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(INFUSED_CRYSTAL_ENTITY_TYPE, InfusedCrystalBlockEntityRenderer::new);
     }
 
-
+    public static void registBlockColor() {
+        ColorProviderRegistry.BLOCK.register(
+                (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world,
+                        pos) : FoliageColors.getDefaultColor(), blocks[BlockRegistry.RUBBER_LEAVES.ordinal()]);
+    }
 }

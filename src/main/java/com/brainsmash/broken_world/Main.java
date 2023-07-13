@@ -108,13 +108,14 @@ public class Main implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        BlockRegister.RegistBlocks();
+        BlockRegister.registBlocks();
         ItemRegister.registItem();
-        FluidRegister.RegistFluid();
-        DimensionRegister.RegistDimension();
+        FluidRegister.registFluid();
+        DimensionRegister.registDimension();
         EntityRegister.registEntities();
         EntityRegister.registSpawnRegistration();
         TreeRegister.registTrees();
+        BlockRegister.registBlockColor();
         PointOfInterestRegister.registerPlacesOfInterest();
 
         AdvancedFurnaceRecipe.registAdvancedFurnaceRecipe();
