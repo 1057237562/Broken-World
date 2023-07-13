@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "broken_world:item/bowl_of_rubber"
+    "layer0": "broken_world:item/rubber"
   }
 }

@@ -56,5 +56,6 @@ public enum ItemRegistry {
     THUNDER_RUNE,
     TIN_INGOT,
     DENSITY_METER,
-    BOWL_OF_RUBBER
+    BOWL_OF_LATEX,
+    RUBBER,
 }
