@@ -1,0 +1,6 @@
+{
+  "parent": "broken_world:block/quad_cable_post",
+  "textures": {
+    "texture": "broken_world:block/copper_cable"
+  }
+}

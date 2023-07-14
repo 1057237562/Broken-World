@@ -1,6 +1,5 @@
 package com.brainsmash.broken_world.blocks.entity.electric.base;
 
-import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -22,32 +21,42 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
     public int minFlow = 0;
     private int energy = 0;
     private int maxCapacity = 0;
+    private int maxFlow = 16;
     public boolean tickMark = false;
     public boolean visMark = false;
 
     public CableBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.CABLE_ENTITY_TYPE, pos, state);
     }
-    public CableBlockEntity(BlockEntityType<?> type, BlockPos pos,BlockState state){ super(type,pos,state);}
 
-    public int getMaxCapacity(){
+    public CableBlockEntity(BlockPos pos, BlockState state, int flow) {
+        super(BlockRegister.CABLE_ENTITY_TYPE, pos, state);
+        maxFlow = flow;
+    }
+
+    public CableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
+
+    public int getMaxCapacity() {
         return maxCapacity;
     }
 
-    public void setMaxCapacity(int cap){
+    public void setMaxCapacity(int cap) {
         maxCapacity = cap;
     }
 
-    public int getMaxFlow(){
-        return 16;
+    public int getMaxFlow() {
+        return maxFlow;
     }
 
-    public int getEnergy(){
+    public int getEnergy() {
         return energy;
     }
 
     @Override
-    public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {}
+    public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
+    }
 
     BlockEntity getAdjacentBlockEntity(Direction direction) {
         return world.getBlockEntity(getPos().offset(direction));
@@ -58,9 +67,9 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
         markDirty();
     }
 
-    public void increaseEnergy(int i){
+    public void increaseEnergy(int i) {
         energy += i;
-        setEnergy(Math.min(energy,getMaxCapacity()));
+        setEnergy(Math.min(energy, getMaxCapacity()));
     }
 
     @Override
@@ -69,6 +78,7 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
         energy = compound.getInt("energy");
         deltaFlow = compound.getInt("deltaFlow");
         maxCapacity = compound.getInt("maxCapacity");
+        maxFlow = compound.getInt("maxFlow");
         edges.put(Direction.NORTH, compound.getInt("north"));
         edges.put(Direction.SOUTH, compound.getInt("south"));
         edges.put(Direction.WEST, compound.getInt("west"));
@@ -80,22 +90,24 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
     @Override
     public void writeNbt(NbtCompound compound) {
         compound.putInt("energy", energy);
-        compound.putInt("deltaFlow",deltaFlow);
-        compound.putInt("maxCapacity",maxCapacity);
-        compound.putInt("north",edges.getOrDefault(Direction.NORTH,0));
-        compound.putInt("south",edges.getOrDefault(Direction.SOUTH,0));
-        compound.putInt("west",edges.getOrDefault(Direction.WEST,0));
-        compound.putInt("east",edges.getOrDefault(Direction.EAST,0));
-        compound.putInt("up",edges.getOrDefault(Direction.UP,0));
-        compound.putInt("down",edges.getOrDefault(Direction.DOWN,0));
+        compound.putInt("deltaFlow", deltaFlow);
+        compound.putInt("maxCapacity", maxCapacity);
+        compound.putInt("maxFlow", maxFlow);
+        compound.putInt("north", edges.getOrDefault(Direction.NORTH, 0));
+        compound.putInt("south", edges.getOrDefault(Direction.SOUTH, 0));
+        compound.putInt("west", edges.getOrDefault(Direction.WEST, 0));
+        compound.putInt("east", edges.getOrDefault(Direction.EAST, 0));
+        compound.putInt("up", edges.getOrDefault(Direction.UP, 0));
+        compound.putInt("down", edges.getOrDefault(Direction.DOWN, 0));
         super.writeNbt(compound);
     }
 
     public void ComputeDeltaFlow() {
         deltaFlow = 0;
-        for(Direction direction : Direction.values()){
-            if(getAdjacentBlockEntity(direction) instanceof CableBlockEntity neighbour){
-                deltaFlow += (edges.getOrDefault(direction,0) - neighbour.edges.getOrDefault(direction.getOpposite(),0))/2;
+        for (Direction direction : Direction.values()) {
+            if (getAdjacentBlockEntity(direction) instanceof CableBlockEntity neighbour) {
+                deltaFlow += (edges.getOrDefault(direction, 0) - neighbour.edges.getOrDefault(direction.getOpposite(),
+                        0)) / 2;
             }
         }
         markDirty();
