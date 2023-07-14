@@ -39,7 +39,7 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements NamedSc
     public ExtractorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.EXTRACTOR_ENTITY_TYPE, pos, state);
         setMaxCapacity(500);
-        maxProgression = 125;
+        maxProgression = 150;
         powerConsumption = 4;
     }
 
