@@ -14,6 +14,7 @@ import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.FluidRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
@@ -24,7 +25,7 @@ import javax.annotation.Nonnull;
 
 import static com.brainsmash.broken_world.blocks.CutRubberLogBlock.RUBBER_LEVEL;
 
-public class WoodenPipeBlockEntity extends BlockEntity {
+public class WoodenPipeBlockEntity extends BlockEntity implements BlockEntityTicker<WoodenPipeBlockEntity> {
 
     private FluidVolume stored = FluidVolumeUtil.EMPTY;
 
