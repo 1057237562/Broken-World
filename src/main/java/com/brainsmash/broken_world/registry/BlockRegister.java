@@ -549,6 +549,7 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(COMPRESSOR_ENTITY_TYPE, CompressorBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(CENTRIFUGE_ENTITY_TYPE, CentrifugeBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(INFUSED_CRYSTAL_ENTITY_TYPE, InfusedCrystalBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(WEAPONRY_ENTITY_TYPE, WeaponryBlockEntityRenderer::new);
     }
 
     public static void registBlockColor() {
