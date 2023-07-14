@@ -1,4 +1,4 @@
-// 1.19.2	2023-07-14T19:56:19.2462162	Models
+// 1.19.2	2023-07-14T20:54:09.8092421	Models
 dbdd7f2adcf333bbc6b4d548114a5e0cd555f47e assets\broken_world\blockstates\core.json
 52c875ba6c1cda243a5065297781b58fec12aef7 assets\broken_world\models\item\acid_bucket.json
 b15cf060923f678b0dcbe179d21ebebbe9dbcbc1 assets\broken_world\models\block\moon_sand.json
@@ -99,6 +99,7 @@ d6c7ef1b2b1ec6307a2e4ba898d3f906c095a64b assets\broken_world\models\item\oxygen_
 27392aab44f89634fae1a35beabb640e2ffb14ad assets\broken_world\blockstates\moon_stone.json
 4fc92291651b98de3bea65ebfcd7e6d510af5435 assets\broken_world\models\item\floating_card.json
 02421df8c5e51b16bac7f926ccd2823b3abeee89 assets\broken_world\models\item\reinforced_glass.json
+dd0652f295a5442fa78260e38c5fa2343a41d431 assets\broken_world\models\item\quad_copper_cable.json
 ab0ef97842994369133cf95cc593736e24f9b9f6 assets\broken_world\models\item\moon_sand.json
 a0cc814ede4699c9c70f5fc1eece9114298dcd3a assets\broken_world\models\item\polluted_water_bucket.json
 c9edcaf5e292b23ac067bfcc30aaf240fb0833be assets\broken_world\models\block\glass_door_bottom_right_open.json
@@ -201,6 +202,7 @@ fd8898a16df40dbc71602bf1dcfc6cc6cc5752da assets\broken_world\models\item\kinetic
 31b9b03a9556555e21342b71d4fd0e1ed7186239 assets\broken_world\models\item\aurora_card.json
 cd794d9daa57d19c19beb1e41bceb9e6fb1ea1ae assets\broken_world\models\item\solid_plasma.json
 157240e2b9e0515d1a94c263daf5042f7d90620c assets\broken_world\models\item\wooden_pipe.json
+362dcc31c243ccb8972918bde29e1ce9ef5889c5 assets\broken_world\models\item\double_copper_cable.json
 9f090160b75e173d813a885edd6c2be23d30c935 assets\broken_world\models\item\miner.json
 3b9addf97a827749f0e17358f4a7af08177006d9 assets\broken_world\models\block\sulfuric_soil.json
 456cdd703f501c72fa8e2f5f64bb999854334a64 assets\broken_world\models\item\fabricator.json
