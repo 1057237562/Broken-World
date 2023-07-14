@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.blocks.client.render.entity;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.CreativeGeneratorBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.WeaponryBlockEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -10,7 +11,9 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3f;
 
 public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<WeaponryBlockEntity> {
@@ -39,7 +42,7 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
     private final ModelPart handleLeft;
     private final ModelPart handleBaseRight;
     private final ModelPart handleRight;
-    private static final long CYCLE = 48;
+    private static float ticks = 0F;
 
     public WeaponryBlockEntityRenderer(BlockEntityRendererFactory.Context ctx){
         ModelPart modelPart = ctx.getLayerModelPart(WEAPONRY);
@@ -64,78 +67,78 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
                         .create()
                         .uv(64, 0)
                         .cuboid(0F, 0F, 0F, 16F, 6F, 16F),
-                ModelTransform.pivot(8.0f, 8.0f, 8.0f)
+                ModelTransform.NONE
         );
         modelPartData.addChild(
                 ARM_STAND,
                 ModelPartBuilder
                         .create()
                         .uv(64, 0)
-                        .cuboid(4F, 6F, 1F, 6F, 13F, 3F),
-                ModelTransform.pivot(8.0f, 8.0f, 8.0f)
+                        .cuboid(1F, 6F, 1F, 2F, 13F, 2F),
+                ModelTransform.NONE
         );
         modelPartData.addChild(
                 ARM,
                 ModelPartBuilder
                         .create()
                         .uv(64, 0)
-                        .cuboid(4F, 13F, 1F, 6F, 15F, 11F),
-                ModelTransform.pivot(8.0f, 8.0f, 8.0f)
+                        .cuboid(1F, 13F, 1F, 2F, 2F, 10F),
+                ModelTransform.NONE
         );
         modelPartData.addChild(
                 TOOL_RIGHT,
                 ModelPartBuilder
                         .create()
                         .uv(64, 0)
-                        .cuboid(6F, 11F, 8F, 7F, 15F, 10F),
-                ModelTransform.pivot(8.0f, 8.0f, 8.0f)
+                        .cuboid(3F, 11F, 8F, 1F, 4F, 2F),
+                ModelTransform.NONE
         );
         modelPartData.addChild(
                 TOOL_LEFT,
                 ModelPartBuilder
                         .create()
                         .uv(64, 0)
-                        .cuboid(3F, 11F, 8F, 4F, 15F, 10F),
-                ModelTransform.pivot(8.0f, 8.0f, 8.0f)
+                        .cuboid(0F, 11F, 8F, 1F, 4F, 2F),
+                ModelTransform.NONE
         );
         modelPartData.addChild(
                 PISTOL_GRIP,
                 ModelPartBuilder
                         .create()
                         .uv(64, 0)
-                        .cuboid(10F, 6F, 8F, 12F, 7F, 11F),
-                ModelTransform.pivot(8.0f, 8.0f, 8.0f)
+                        .cuboid(10F, 6F, 8F, 2F, 1F, 3F),
+                ModelTransform.NONE
         );
         modelPartData.addChild(
                 PISTOL_CHAMBER,
                 ModelPartBuilder
                         .create()
                         .uv(64, 0)
-                        .cuboid(5F, 6F, 6F, 12F, 7F, 8F),
-                ModelTransform.pivot(8.0f, 8.0f, 8.0f)
+                        .cuboid(5F, 6F, 6F, 7F, 1F, 2F),
+                ModelTransform.NONE
         );
         modelPartData.addChild(
                 HANDLE_BASE_RIGHT,
                 ModelPartBuilder
                         .create()
                         .uv(64, 0)
-                        .cuboid(13F, 6F, 13F, 15F, 7F, 15F),
-                ModelTransform.pivot(8.0f, 8.0f, 8.0f)
+                        .cuboid(13F, 6F, 13F, 2F, 1F, 2F),
+                ModelTransform.NONE
         );
         modelPartData.addChild(
                 HANDLE_BASE_LEFT,
                 ModelPartBuilder
                         .create()
                         .uv(64, 0)
-                        .cuboid(1F, 6F, 13F, 3F, 7F, 15F),
-                ModelTransform.pivot(8.0f, 8.0f, 8.0f)
+                        .cuboid(1F, 6F, 13F, 2F, 1F, 2F),
+                ModelTransform.NONE
         );
         modelPartData.addChild(
                 HANDLE_RIGHT,
                 ModelPartBuilder
                         .create()
                         .uv(64, 0)
-                        .cuboid(13.5F, 6F, 13.5F, 14.5F, 9F, 14.5F),
+                        .cuboid(13.5F, 6F, 13.5F, 1F, 3F, 1F),
                 ModelTransform.of(14, 7, 14, 22.5F, 0, 0)
         );
         modelPartData.addChild(
@@ -143,25 +146,55 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
                 ModelPartBuilder
                         .create()
                         .uv(64, 0)
-                        .cuboid(1.5F, 6F, 13.5F, 2.5F, 9F, 14.5F),
+                        .cuboid(1.5F, 6F, 13.5F, 1F, 3F, 1F),
                 ModelTransform.of(2, 7, 14, -22.5F, 0, 0)
         );
         return TexturedModelData.of(modelData, 128, 64);
     }
 
+    private float f(float tick) {
+        final float travelRight = 40F;
+        final float travelLeft = 20F;
+        final float pause = 50F;
+
+        tick %= travelRight + travelLeft + pause;
+        if (tick <= travelRight)
+            return 12F * tick / travelRight;
+        if (tick <= travelRight + travelLeft)
+            return 12F - 12F * (tick-travelLeft) / travelRight;
+        else return 0;
+    }
+
     @Override
-    public void render(CreativeGeneratorBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+    public void render(WeaponryBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
-        shell.render(matrices, vertexConsumer, 15728880, overlay);
-        frame.render(matrices, vertexConsumer, light, overlay);
-        long time = entity.getWorld().getTime();
-        float scale = 0.1f*(float)Math.sin((double)time/CYCLE*2*Math.PI);
-        midOrb.xScale = midOrb.yScale = midOrb.zScale = 1.0f + scale;
-        scale *= 0.5f;
-        innerOrb.xScale = innerOrb.yScale = innerOrb.zScale = 1.0f + scale;
-        midOrb.render(matrices, vertexConsumer, 15728880, overlay);
-        innerOrb.render(matrices, vertexConsumer, 15728880, overlay);
+        ticks += tickDelta;
+
+        body.render(matrices, vertexConsumer, light, overlay);
+
+        Direction facing = entity.getCachedState().get(Properties.HORIZONTAL_FACING);
+        Direction travelDirection = facing.rotateYCounterclockwise();
+        Vec3f travel = travelDirection.getUnitVector();
+        travel.scale(f(ticks));
+
+        armStand.translate(travel);
+        armStand.render(matrices, vertexConsumer, light, overlay);
+        arm.translate(travel);
+        arm.render(matrices, vertexConsumer, light, overlay);
+        toolLeft.translate(travel);
+        toolLeft.render(matrices, vertexConsumer, light, overlay);
+        toolRight.translate(travel);
+        toolRight.render(matrices, vertexConsumer, light, overlay);
+
+
+        pistolChamber.render(matrices, vertexConsumer, light, overlay);
+        pistolGrip.render(matrices, vertexConsumer, light, overlay);
+        handleBaseLeft.render(matrices, vertexConsumer, light, overlay);
+        handleLeft.render(matrices, vertexConsumer, light, overlay);
+        handleBaseRight.render(matrices, vertexConsumer, light, overlay);
+        handleRight.render(matrices, vertexConsumer, light, overlay);
+
         matrices.pop();
     }
 }
