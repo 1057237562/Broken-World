@@ -65,7 +65,8 @@ public class ModelGenerator extends FabricModelProvider {
                 continue;
             }
             if (BlockRegister.blocks[i] instanceof WoodenPipeBlock) {
-
+                blockStateModelGenerator.registerNorthDefaultHorizontalRotation(BlockRegister.blocks[i]);
+                continue;
             }
             if (BlockRegister.blocks[i] instanceof SaplingBlock) {
                 blockStateModelGenerator.registerTintableCross(BlockRegister.blocks[i],

@@ -173,7 +173,7 @@ public class BlockRegister {
             new SaplingBlock(new RubberSaplingGenerator(), FabricBlockSettings.copyOf(Blocks.OAK_SAPLING)),
             new ExtractorBlock(STANDARD_BLOCK),
             new WeaponryBlock(STANDARD_BLOCK),
-            new Block(FabricBlockSettings.copyOf(Blocks.OAK_WOOD))
+            new WoodenPipeBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD).nonOpaque())
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -507,6 +507,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(ExtractorBlockEntity::new, blocks[72]).build());
         WEAPONRY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "weaponry"),
                 FabricBlockEntityTypeBuilder.create(WeaponryBlockEntity::new, blocks[73]).build());
+        WOODEN_PIPE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "wooden_pipe"),
+                FabricBlockEntityTypeBuilder.create(WoodenPipeBlockEntity::new, blocks[74]).build());
     }
 
     public static void RegistBlocksClientSide() {
