@@ -1,5 +1,8 @@
 package com.brainsmash.broken_world.blocks;
 
+import alexiil.mc.lib.attributes.AttributeList;
+import alexiil.mc.lib.attributes.AttributeProvider;
+import alexiil.mc.lib.attributes.fluid.impl.EmptyFluidExtractable;
 import com.brainsmash.broken_world.blocks.entity.WoodenPipeBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -11,11 +14,12 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class WoodenPipeBlock extends BlockWithEntity {
+public class WoodenPipeBlock extends BlockWithEntity implements AttributeProvider {
     public WoodenPipeBlock(Settings settings) {
         super(settings);
         setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
@@ -47,11 +51,32 @@ public class WoodenPipeBlock extends BlockWithEntity {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getSide().getOpposite());
+        if (ctx.getSide() != Direction.UP && ctx.getSide() != Direction.DOWN)
+            return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getSide().getOpposite());
+        else return super.getPlacementState(ctx);
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return super.getCollisionShape(state, world, pos, context);
+    public void addAllAttributes(World world, BlockPos pos, BlockState state, AttributeList<?> to) {
+        if (to.getSearchDirection() == Direction.DOWN) to.offer(EmptyFluidExtractable.SUPPLIER);
+    }
+
+
+    @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        switch (state.get(Properties.HORIZONTAL_FACING)) {
+            case SOUTH -> {
+                return VoxelShapes.cuboid(6F / 16F, 6F / 16F, 6F / 16F, 10F / 16F, 9F / 16F, 1);
+            }
+            case WEST -> {
+                return VoxelShapes.cuboid(0, 6F / 16F, 6F / 16F, 10F / 16F, 9F / 16F, 10F / 16F);
+            }
+            case EAST -> {
+                return VoxelShapes.cuboid(6F / 16F, 6F / 16F, 6F / 16F, 1, 9F / 16F, 10F / 16F);
+            }
+            default -> {
+                return VoxelShapes.cuboid(6F / 16F, 6F / 16F, 0, 10F / 16F, 9F / 16F, 10F / 16F);
+            }
+        }
     }
 }
