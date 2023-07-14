@@ -73,5 +73,6 @@ public enum BlockRegistry {
     CUT_RUBBER_LOG,
     RUBBER_LEAVES,
     RUBBER_SAPLING,
-    EXTRACTOR_BLOCK
+    EXTRACTOR,
+    WEAPONRY,
 }

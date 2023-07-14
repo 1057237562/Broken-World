@@ -170,7 +170,8 @@ public class BlockRegister {
             // 70
             new RubberLeaves(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)),
             new SaplingBlock(new RubberSaplingGenerator(), FabricBlockSettings.copyOf(Blocks.OAK_SAPLING)),
-            new ExtractorBlock(STANDARD_BLOCK)
+            new ExtractorBlock(STANDARD_BLOCK),
+            new WeaponryBlock(STANDARD_BLOCK),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -246,6 +247,7 @@ public class BlockRegister {
             new BlockItem(blocks[70], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[71], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[72], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[73], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -321,7 +323,8 @@ public class BlockRegister {
             "cut_rubber_log",
             "rubber_leaves",
             "rubber_sapling",
-            "extractor"
+            "extractor",
+            "weaponry"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -415,6 +418,7 @@ public class BlockRegister {
     public static BlockEntityType<ElectrolyzerBlockEntity> ELECTROLYZER_ENTITY_TYPE;
     public static BlockEntityType<ReactorBlockEntity> REACTOR_ENTITY_TYPE;
     public static BlockEntityType<ExtractorBlockEntity> EXTRACTOR_ENTITY_TYPE;
+    public static BlockEntityType<WeaponryBlockEntity> WEAPONRY_ENTITY_TYPE;
 
     public static void registBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -496,6 +500,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(ReactorBlockEntity::new, blocks[66]).build());
         EXTRACTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "extractor"),
                 FabricBlockEntityTypeBuilder.create(ExtractorBlockEntity::new, blocks[72]).build());
+        WEAPONRY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "weaponry"),
+                FabricBlockEntityTypeBuilder.create(WeaponryBlockEntity::new, blocks[73]).build());
     }
 
     public static void RegistBlocksClientSide() {
