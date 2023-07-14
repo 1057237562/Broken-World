@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "A A",
+    " B "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:oak_planks"
+    },
+    "B": {
+      "item": "broken_world:iron_plate"
+    }
+  },
+  "result": {
+    "item": "broken_world:wooden_pipe"
+  }
+}
