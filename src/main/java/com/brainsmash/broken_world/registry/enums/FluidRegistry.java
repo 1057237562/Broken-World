@@ -6,4 +6,5 @@ public enum FluidRegistry {
     ACID,
     GASOLINE,
     AETHER,
+    LATEX,
 }

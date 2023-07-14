@@ -27,7 +27,8 @@ public class FluidRegister {
             new PollutedWaterFluid.Still(),
             new AcidFluid.Still(),
             new GasolineFluid.Still(),
-            new AetherFluid.Still()
+            new AetherFluid.Still(),
+            new LatexFluid.Still()
     };
 
     public static final FlowableFluid[] flowing_fluid = {
@@ -35,7 +36,8 @@ public class FluidRegister {
             new PollutedWaterFluid.Flowing(),
             new AcidFluid.Flowing(),
             new GasolineFluid.Flowing(),
-            new AetherFluid.Flowing()
+            new AetherFluid.Flowing(),
+            new LatexFluid.Flowing()
     };
 
     public static final Block[] fluid_blocks = {
@@ -45,6 +47,8 @@ public class FluidRegister {
             new IFluidBlock(still_fluid[2], FabricBlockSettings.copyOf(Blocks.WATER)),
             new IFluidBlock(still_fluid[3], FabricBlockSettings.copyOf(Blocks.WATER)),
             new IFluidBlock(still_fluid[4], FabricBlockSettings.copyOf(Blocks.WATER)),
+            new IFluidBlock(still_fluid[5],
+                    FabricBlockSettings.copyOf(Blocks.WATER).velocityMultiplier(0.3f).jumpVelocityMultiplier(0.3f))
     };
 
     public static final String[] fluidnames = {
@@ -52,14 +56,16 @@ public class FluidRegister {
             "polluted_water",
             "acid",
             "gasoline",
-            "aether"
+            "aether",
+            "latex"
     };
     public static final Color[] fluidColor = {
             Color.BLACK,
             new Color(0, 10, 100),
             new Color(210, 180, 0),
             new Color(255, 238, 153),
-            new Color(187, 0, 255)
+            new Color(187, 0, 255),
+            new Color(240, 230, 230)
     };
 
     public static void registFluid() {

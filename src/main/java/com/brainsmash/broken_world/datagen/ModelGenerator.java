@@ -1,10 +1,7 @@
 package com.brainsmash.broken_world.datagen;
 
 import com.brainsmash.broken_world.Main;
-import com.brainsmash.broken_world.blocks.CloneVatBlock;
-import com.brainsmash.broken_world.blocks.CutRubberLogBlock;
-import com.brainsmash.broken_world.blocks.LogBlock;
-import com.brainsmash.broken_world.blocks.SpawnPointerBlock;
+import com.brainsmash.broken_world.blocks.*;
 import com.brainsmash.broken_world.blocks.electric.base.BatteryBlock;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
@@ -66,6 +63,9 @@ public class ModelGenerator extends FabricModelProvider {
                 }
                 blockStateModelGenerator.registerLog(BlockRegister.blocks[i]).log(BlockRegister.blocks[i]);
                 continue;
+            }
+            if (BlockRegister.blocks[i] instanceof WoodenPipeBlock) {
+
             }
             if (BlockRegister.blocks[i] instanceof SaplingBlock) {
                 blockStateModelGenerator.registerTintableCross(BlockRegister.blocks[i],

@@ -9,6 +9,7 @@ import com.brainsmash.broken_world.blocks.electric.generator.*;
 import com.brainsmash.broken_world.blocks.entity.CloneVatBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.ReactorBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.RollingDoorBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.WoodenPipeBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
@@ -172,6 +173,7 @@ public class BlockRegister {
             new SaplingBlock(new RubberSaplingGenerator(), FabricBlockSettings.copyOf(Blocks.OAK_SAPLING)),
             new ExtractorBlock(STANDARD_BLOCK),
             new WeaponryBlock(STANDARD_BLOCK),
+            new Block(FabricBlockSettings.copyOf(Blocks.OAK_WOOD))
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -248,6 +250,7 @@ public class BlockRegister {
             new BlockItem(blocks[71], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[72], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[73], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[74], new FabricItemSettings().group(ITEM_GROUP))
     };
 
     public static final String[] blocknames = {
@@ -324,7 +327,8 @@ public class BlockRegister {
             "rubber_leaves",
             "rubber_sapling",
             "extractor",
-            "weaponry"
+            "weaponry",
+            "wooden_pipe"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -419,6 +423,7 @@ public class BlockRegister {
     public static BlockEntityType<ReactorBlockEntity> REACTOR_ENTITY_TYPE;
     public static BlockEntityType<ExtractorBlockEntity> EXTRACTOR_ENTITY_TYPE;
     public static BlockEntityType<WeaponryBlockEntity> WEAPONRY_ENTITY_TYPE;
+    public static BlockEntityType<WoodenPipeBlockEntity> WOODEN_PIPE_ENTITY_TYPE;
 
     public static void registBlocks() {
         for (int i = 0; i < blocks.length; i++) {

@@ -204,6 +204,9 @@ public class ItemRegister {
             Registry.register(Registry.ITEM, new Identifier(MODID, itemnames[i]), items[i]);
         }
 
+        /*Registry.register(Registry.ITEM, new Identifier("minecraft", "bowl"),
+                new BowlItem(new FabricItemSettings().group(ITEM_GROUP)));*/
+
     }
 
     public static void registItemClientSide() {
