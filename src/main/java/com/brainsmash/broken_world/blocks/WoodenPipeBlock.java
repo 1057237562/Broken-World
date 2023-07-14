@@ -58,7 +58,7 @@ public class WoodenPipeBlock extends BlockWithEntity implements AttributeProvide
 
     @Override
     public void addAllAttributes(World world, BlockPos pos, BlockState state, AttributeList<?> to) {
-        if (to.getSearchDirection() != Direction.UP) to.offer(EmptyFluidExtractable.SUPPLIER);
+        if (to.getSearchDirection() == Direction.UP) to.offer(EmptyFluidExtractable.SUPPLIER);
     }
 
 
