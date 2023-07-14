@@ -39,10 +39,9 @@ public class PumpBlock extends ConsumerBlock implements AttributeProvider {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if (!world.isClient) return (world1, pos, state1, blockEntity) -> ((PumpBlockEntity) blockEntity).tick(world1,
-                pos,
-                state1,
-                (PumpBlockEntity) blockEntity);
+        if (!world.isClient)
+            return (world1, pos, state1, blockEntity) -> ((PumpBlockEntity) blockEntity).tick(world1, pos, state1,
+                    (PumpBlockEntity) blockEntity);
         return null;
     }
 

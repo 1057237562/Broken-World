@@ -96,7 +96,8 @@ public class BlockRegister {
             new TeleporterFrameBlock(
                     FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
                             10f)),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f)),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+                    0.4375, false, 16),
             new CreativeBatteryBlock(
                     FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f,
                             3.0f)),
@@ -173,7 +174,11 @@ public class BlockRegister {
             new SaplingBlock(new RubberSaplingGenerator(), FabricBlockSettings.copyOf(Blocks.OAK_SAPLING)),
             new ExtractorBlock(STANDARD_BLOCK),
             new WeaponryBlock(STANDARD_BLOCK),
-            new Block(FabricBlockSettings.copyOf(Blocks.OAK_WOOD))
+            new WoodenPipeBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD).nonOpaque()),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+                    0.375, false, 32),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+                    0.25, false, 64)
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -250,7 +255,9 @@ public class BlockRegister {
             new BlockItem(blocks[71], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[72], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[73], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[74], new FabricItemSettings().group(ITEM_GROUP))
+            new BlockItem(blocks[74], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[75], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[76], new FabricItemSettings().group(ITEM_GROUP))
     };
 
     public static final String[] blocknames = {
@@ -328,7 +335,9 @@ public class BlockRegister {
             "rubber_sapling",
             "extractor",
             "weaponry",
-            "wooden_pipe"
+            "wooden_pipe",
+            "double_copper_cable",
+            "quad_copper_cable"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -507,6 +516,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(ExtractorBlockEntity::new, blocks[72]).build());
         WEAPONRY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "weaponry"),
                 FabricBlockEntityTypeBuilder.create(WeaponryBlockEntity::new, blocks[73]).build());
+        WOODEN_PIPE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "wooden_pipe"),
+                FabricBlockEntityTypeBuilder.create(WoodenPipeBlockEntity::new, blocks[74]).build());
     }
 
     public static void RegistBlocksClientSide() {

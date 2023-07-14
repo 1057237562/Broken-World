@@ -48,7 +48,7 @@ public class FluidRegister {
             new IFluidBlock(still_fluid[3], FabricBlockSettings.copyOf(Blocks.WATER)),
             new IFluidBlock(still_fluid[4], FabricBlockSettings.copyOf(Blocks.WATER)),
             new IFluidBlock(still_fluid[5],
-                    FabricBlockSettings.copyOf(Blocks.WATER).velocityMultiplier(0.3f).jumpVelocityMultiplier(0.3f))
+                    FabricBlockSettings.copyOf(Blocks.WATER).velocityMultiplier(0.6f).jumpVelocityMultiplier(0.6f))
     };
 
     public static final String[] fluidnames = {

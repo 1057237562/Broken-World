@@ -45,21 +45,28 @@ public class CableBlock extends BlockWithEntity {
         map.put(Direction.DOWN, DOWN);
     });
 
-    public double cableThickness = 0.375; //0.25 for thicker
-    public CableBlock(Settings settings) {
+    final double cableThickness; //0.25 for thicker
+    final boolean covered;
+    final int maxFlow;
+
+    public CableBlock(Settings settings, double thickness, boolean cover, int capa) {
         super(settings);
-        setDefaultState(this.getStateManager().getDefaultState().with(EAST, false).with(WEST, false).with(NORTH, false)
-                .with(SOUTH, false).with(UP, false).with(DOWN, false));
+        setDefaultState(
+                this.getStateManager().getDefaultState().with(EAST, false).with(WEST, false).with(NORTH, false).with(
+                        SOUTH, false).with(UP, false).with(DOWN, false));
+        cableThickness = thickness;
+        covered = cover;
+        maxFlow = capa;
     }
 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new CableBlockEntity(pos,state);
+        return new CableBlockEntity(pos, state, maxFlow);
     }
 
     public boolean canConnect(BlockState state) {
-        return state.isIn(TagKey.of(Registry.BLOCK_KEY,new Identifier("broken_world:electrical")));
+        return state.isIn(TagKey.of(Registry.BLOCK_KEY, new Identifier("broken_world:electrical")));
     }
 
     @Override
@@ -100,8 +107,16 @@ public class CableBlock extends BlockWithEntity {
         List<VoxelShape> connections = new ArrayList<>();
         for (Direction dir : Direction.values()) {
             if (state.get(CableBlock.PROPERTY_MAP.get(dir))) {
-                double[] mins = new double[] { size, size, size };
-                double[] maxs = new double[] { 1 - size, 1 - size, 1 - size };
+                double[] mins = new double[]{
+                        size,
+                        size,
+                        size
+                };
+                double[] maxs = new double[]{
+                        1 - size,
+                        1 - size,
+                        1 - size
+                };
                 int axis = dir.getAxis().ordinal();
                 if (dir.getDirection() == Direction.AxisDirection.POSITIVE) {
                     maxs[axis] = 1;
@@ -130,8 +145,9 @@ public class CableBlock extends BlockWithEntity {
         BlockState blockState4 = blockView.getBlockState(blockPos4);
         BlockState blockState5 = blockView.getBlockState(blockPos5);
         BlockState blockState6 = blockView.getBlockState(blockPos6);
-        return super.getPlacementState(ctx).with(NORTH, canConnect(blockState1)).with(EAST, canConnect(blockState2))
-                .with(SOUTH, canConnect(blockState3)).with(WEST, canConnect(blockState4)).with(UP, canConnect(blockState5)).with(DOWN,canConnect(blockState6));
+        return super.getPlacementState(ctx).with(NORTH, canConnect(blockState1)).with(EAST,
+                canConnect(blockState2)).with(SOUTH, canConnect(blockState3)).with(WEST, canConnect(blockState4)).with(
+                UP, canConnect(blockState5)).with(DOWN, canConnect(blockState6));
     }
 
     @Override
@@ -141,22 +157,21 @@ public class CableBlock extends BlockWithEntity {
 
     @Override
     public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        if(!world.isClient())
-            EnergyManager.UpdateGraph(world,pos);
+        if (!world.isClient()) EnergyManager.UpdateGraph(world, pos);
         super.onBroken(world, pos, state);
     }
 
     @Override
     public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
-        if(!world.isClient)
-            EnergyManager.UpdateGraph(world,pos);
+        if (!world.isClient) EnergyManager.UpdateGraph(world, pos);
         super.onDestroyedByExplosion(world, pos, explosion);
     }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(!world.isClient) {
-            System.out.println(((CableBlockEntity)world.getBlockEntity(pos)).deltaFlow +":"+((CableBlockEntity)world.getBlockEntity(pos)).edges.toString());
+        if (!world.isClient) {
+            System.out.println(((CableBlockEntity) world.getBlockEntity(
+                    pos)).deltaFlow + ":" + ((CableBlockEntity) world.getBlockEntity(pos)).edges.toString());
         }
         return super.onUse(state, world, pos, player, hand, hit);
     }
