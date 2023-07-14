@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "result": {
+    "item": "broken_world:double_copper_cable",
+    "count": 2
+  }
+}
