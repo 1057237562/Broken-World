@@ -29,6 +29,7 @@
     "broken_world:compressor",
     "broken_world:assembler",
     "broken_world:electrolyzer",
-    "broken_world:extractor"
+    "broken_world:extractor",
+    "broken_world:weaponry"
   ]
 }
