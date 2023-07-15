@@ -3,6 +3,7 @@
   "textures": {
     "front": "broken_world:block/extractor_front",
     "side": "broken_world:block/extractor_side",
-    "top": "broken_world:block/extractor_top"
+    "top": "broken_world:block/extractor_top",
+    "bottom" : "#top"
   }
 }
