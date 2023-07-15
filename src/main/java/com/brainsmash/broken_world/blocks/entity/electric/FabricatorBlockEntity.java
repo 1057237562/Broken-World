@@ -109,10 +109,9 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (world instanceof ServerWorld) {
-            if (!output.isEmpty() && isPowered() && canRun() && !output.isEmpty() && ((inventory.get(18).isOf(output.getItem()) && inventory.get(18).getCount() + output.getCount() <= output.getMaxCount()) || inventory.get(18).isEmpty())) {
+            if (!output.isEmpty() && isPowered() && canRun() && ((inventory.get(18).isOf(output.getItem()) && inventory.get(18).getCount() + output.getCount() <= output.getMaxCount()) || inventory.get(18).isEmpty())) {
                 if (!isRunning()) {
-                    if (checkMaterial()) running = true;
-                    else running = false;
+                    running = checkMaterial();
                 } else {
                     if (progression < maxProgression) {
                         progression++;

@@ -140,6 +140,7 @@ public class Main implements ModInitializer {
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "tin_ore")));
 
         FabricatorRecipe.register();
+        WeaponryRecipe.register();
 
         BWDensityFunctionTypes.register();
         VolcanoFeature.register();

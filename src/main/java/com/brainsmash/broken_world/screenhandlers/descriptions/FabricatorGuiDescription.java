@@ -4,6 +4,7 @@ import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.FabricatorBlockEntity;
 import com.brainsmash.broken_world.gui.util.IndicatorSlot;
 import com.brainsmash.broken_world.gui.widgets.WIndicatorItemSlot;
+import com.brainsmash.broken_world.recipe.FabricatorRecipe;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.networking.NetworkSide;
 import io.github.cottonmc.cotton.gui.widget.WBar;
@@ -73,7 +74,7 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
             for (int i = 0; i < 9; i++) {
                 craftingInventory.setStack(i, blockInventory.getStack(i));
             }
-            Optional<CraftingRecipe> optional = world.getServer().getRecipeManager().getFirstMatch(RecipeType.CRAFTING, craftingInventory, world);
+            Optional<FabricatorRecipe> optional = world.getServer().getRecipeManager().getFirstMatch(FabricatorRecipe.Type.INSTANCE, craftingInventory, world);
             if (optional.isPresent()) {
                 entity.setOutput(optional.get().craft(craftingInventory));
             } else {

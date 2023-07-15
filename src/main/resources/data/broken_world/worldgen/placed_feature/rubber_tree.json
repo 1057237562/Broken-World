@@ -1,5 +1,5 @@
 {
-  "feature": "minecraft:oak",
+  "feature": "broken_world:rubber_tree",
   "placement": [
     {
       "type": "minecraft:biome"
