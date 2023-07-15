@@ -31,8 +31,7 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
     private static final String HANDLE_BASE_RIGHT = "handle_base_right";
     private static final String HANDLE_RIGHT = "handle_right";
 
-    private static final Identifier TEXTURE_1 = new Identifier(Main.MODID, "textures/entity/weaponry/1.png");
-    private static final Identifier TEXTURE_2 = new Identifier(Main.MODID, "textures/entity/weaponry/2.png");
+    private static final Identifier TEXTURE = new Identifier(Main.MODID, "textures/entity/weaponry.png");
     public static final EntityModelLayer WEAPONRY = new EntityModelLayer(new Identifier(Main.MODID, "weaponry"), "main");
     private final ModelPart body;
     private final ModelPart armStand;
@@ -45,7 +44,6 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
     private final ModelPart handleLeft;
     private final ModelPart handleBaseRight;
     private final ModelPart handleRight;
-    private static float ticks = 0F;
 
     public WeaponryBlockEntityRenderer(BlockEntityRendererFactory.Context ctx){
         ModelPart modelPart = ctx.getLayerModelPart(WEAPONRY);
@@ -84,7 +82,7 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
                 ARM,
                 ModelPartBuilder
                         .create()
-                        .uv(0, 0)
+                        .uv(0, 32)
                         .cuboid(1F, 13F, 1F, 2F, 2F, 10F),
                 ModelTransform.NONE
         );
@@ -141,18 +139,18 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
                 ModelPartBuilder
                         .create()
                         .uv(40, 0)
-                        .cuboid(13.5F, 6F, 13.5F, 1F, 3F, 1F),
-                ModelTransform.of(14, 7, 14, 22.5F, 0, 0)
+                        .cuboid(-0.5F, -1F, -0.5F, 1F, 3F, 1F),
+                ModelTransform.of(14F, 7F, 14F, (float) Math.PI / 8, 0, 0)
         );
         modelPartData.addChild(
                 HANDLE_LEFT,
                 ModelPartBuilder
                         .create()
                         .uv(40, 0)
-                        .cuboid(1.5F, 6F, 13.5F, 1F, 3F, 1F),
-                ModelTransform.of(2, 7, 14, -22.5F, 0, 0)
+                        .cuboid(-0.5F, -1F, -0.5F, 1F, 3F, 1F),
+                ModelTransform.of(2F, 7F, 14F, (float) -Math.PI / 8, 0, 0)
         );
-        return TexturedModelData.of(modelData, 128, 64);
+        return TexturedModelData.of(modelData, 64, 64);
     }
 
     private float f(float tick) {
@@ -164,40 +162,40 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
         if (tick <= travelRight)
             return 12F * tick / travelRight;
         if (tick <= travelRight + travelLeft)
-            return 12F - 12F * (tick-travelLeft) / travelRight;
+            return 12F - 12F * (tick-travelRight) / travelLeft ;
         else return 0;
     }
 
     @Override
     public void render(WeaponryBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
-        VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE_1));
-        VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE_2));
-        ticks += tickDelta;
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
 
-        body.render(matrices, vertexConsumer1, light, overlay);
+        body.render(matrices, vertexConsumer, light, overlay);
 
-        Direction facing = entity.getCachedState().get(Properties.HORIZONTAL_FACING);
-        Direction travelDirection = facing.rotateYCounterclockwise();
-        Vec3f travel = travelDirection.getUnitVector();
-        travel.scale(f(ticks));
+        Vec3f travel = Direction.EAST.getUnitVector();
+        travel.scale(f(entity.getWorld().getTime() + tickDelta));
 
         armStand.translate(travel);
-        armStand.render(matrices, vertexConsumer1, light, overlay);
+        armStand.render(matrices, vertexConsumer, light, overlay);
         arm.translate(travel);
-        arm.render(matrices, vertexConsumer2, light, overlay);
+        arm.render(matrices, vertexConsumer, light, overlay);
         toolLeft.translate(travel);
-        toolLeft.render(matrices, vertexConsumer1, light, overlay);
+        toolLeft.render(matrices, vertexConsumer, light, overlay);
         toolRight.translate(travel);
-        toolRight.render(matrices, vertexConsumer1, light, overlay);
+        toolRight.render(matrices, vertexConsumer, light, overlay);
+        armStand.resetTransform();
+        arm.resetTransform();
+        toolLeft.resetTransform();
+        toolRight.resetTransform();
 
 
-        pistolChamber.render(matrices, vertexConsumer1, light, overlay);
-        pistolGrip.render(matrices, vertexConsumer1, light, overlay);
-        handleBaseLeft.render(matrices, vertexConsumer1, light, overlay);
-        handleLeft.render(matrices, vertexConsumer1, light, overlay);
-        handleBaseRight.render(matrices, vertexConsumer1, light, overlay);
-        handleRight.render(matrices, vertexConsumer1, light, overlay);
+        pistolChamber.render(matrices, vertexConsumer, light, overlay);
+        pistolGrip.render(matrices, vertexConsumer, light, overlay);
+        handleBaseLeft.render(matrices, vertexConsumer, light, overlay);
+        handleLeft.render(matrices, vertexConsumer, light, overlay);
+        handleBaseRight.render(matrices, vertexConsumer, light, overlay);
+        handleRight.render(matrices, vertexConsumer, light, overlay);
 
         matrices.pop();
     }

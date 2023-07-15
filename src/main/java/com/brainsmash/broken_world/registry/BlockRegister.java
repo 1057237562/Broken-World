@@ -541,6 +541,8 @@ public class BlockRegister {
                 RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CENTRIFUGE.ordinal()], RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.INFUSED_CRYSTAL.ordinal()], RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.WEAPONRY.ordinal()],
+                RenderLayer.getCutout());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,
@@ -551,6 +553,8 @@ public class BlockRegister {
                 CentrifugeBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(InfusedCrystalBlockEntityRenderer.INFUSED_CRYSTAL,
                 InfusedCrystalBlockEntityRenderer::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(WeaponryBlockEntityRenderer.WEAPONRY,
+                WeaponryBlockEntityRenderer::getTexturedModelData);
         BlockEntityRendererRegistry.register(CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(CREATIVE_GENERATOR_ENTITY_TYPE, CreativeGeneratorBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(SCANNER_ENTITY_TYPE, ScannerBlockEntityRenderer::new);

@@ -49,7 +49,7 @@ public class TeleportPlatformBlockEntity extends ConsumerBlockEntity implements 
         }
     };
     public TeleportPlatformBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.TELEPORT_PLATFORM_ENTITY_TYPE,pos, state);
+        super(BlockRegister.TELEPORT_PLATFORM_ENTITY_TYPE, pos, state);
         setMaxCapacity(10000);
     }
 
