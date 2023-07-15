@@ -66,7 +66,7 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.EXTRACTOR_GUI_DESCRIPTION, ExtractorScreen::new);
 
 
-        BlockRegister.RegistBlocksClientSide();
+        BlockRegister.registBlocksClientSide();
         EntityRegister.registEntitiesClientSide();
         ItemRegister.registItemClientSide();
 

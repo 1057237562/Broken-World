@@ -5,6 +5,9 @@
 		"0": "broken_world:item/mk144/mk144_mag",
 		"1": "broken_world:item/mk144/mk144"
 	},
+	"overrides": [
+	{"predicate": {"aiming": 1}, "model": "broken_world:item/mk144_aiming"}
+	],
 	"elements": [
 		{
 			"from": [9.5, 2.8, 7.8],

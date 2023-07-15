@@ -1,0 +1,6 @@
+{
+  "parent": "broken_world:block/double_cable_side",
+  "textures": {
+    "texture": "broken_world:block/covered_copper_cable"
+  }
+}

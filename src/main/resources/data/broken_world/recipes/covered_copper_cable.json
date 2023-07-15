@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "broken_world:copper_cable"
+    },
+    {
+      "item": "broken_world:rubber"
+    }
+  ],
+  "result": {
+    "item": "broken_world:covered_copper_cable"
+  }
+}

@@ -112,4 +112,12 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
         }
         markDirty();
     }
+
+    public int currentFlow() {
+        int sum = 0;
+        for (Direction direction : Direction.values()) {
+            sum += edges.getOrDefault(direction, 0);
+        }
+        return sum >> 1;
+    }
 }

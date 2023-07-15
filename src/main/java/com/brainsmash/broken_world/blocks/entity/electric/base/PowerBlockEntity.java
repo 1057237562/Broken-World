@@ -1,6 +1,5 @@
 package com.brainsmash.broken_world.blocks.entity.electric.base;
 
-import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
@@ -17,7 +16,7 @@ public class PowerBlockEntity extends CableBlockEntity {
         super(BlockRegister.POWER_ENTITY_TYPE, pos, state);
     }
 
-    public PowerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state){
+    public PowerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
@@ -26,9 +25,10 @@ public class PowerBlockEntity extends CableBlockEntity {
         return 32;
     }
 
-    public void setGenerate(int p){
+    public void setGenerate(int p) {
         generatePower = p;
     }
+
     public int getGenerate() {
         return running ? generatePower : 0;
     }
@@ -49,7 +49,7 @@ public class PowerBlockEntity extends CableBlockEntity {
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient && world.isChunkLoaded(pos)) {
+        if (!world.isClient && world.isChunkLoaded(pos)) {
             increaseEnergy(getGenerate());
             increaseEnergy(deltaFlow);
             EnergyManager.processTick(this);

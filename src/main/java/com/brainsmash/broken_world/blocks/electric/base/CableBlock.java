@@ -2,8 +2,10 @@ package com.brainsmash.broken_world.blocks.electric.base;
 
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.EnergyManager;
+import com.brainsmash.broken_world.registry.DamageSourceRegister;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
@@ -63,6 +65,13 @@ public class CableBlock extends BlockWithEntity {
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new CableBlockEntity(pos, state, maxFlow);
+    }
+
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        if (!world.isClient && !covered) {
+            int flow = ((CableBlockEntity) world.getBlockEntity(pos)).currentFlow();
+            if (flow > 0) entity.damage(DamageSourceRegister.ELECTRIC, flow / 16f);
+        }
     }
 
     public boolean canConnect(BlockState state) {
@@ -171,7 +180,8 @@ public class CableBlock extends BlockWithEntity {
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
             System.out.println(((CableBlockEntity) world.getBlockEntity(
-                    pos)).deltaFlow + ":" + ((CableBlockEntity) world.getBlockEntity(pos)).edges.toString());
+                    pos)).deltaFlow + ":" + ((CableBlockEntity) world.getBlockEntity(
+                    pos)).edges.toString() + ":" + ((CableBlockEntity) world.getBlockEntity(pos)).getMaxFlow());
         }
         return super.onUse(state, world, pos, player, hand, hit);
     }
