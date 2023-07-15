@@ -25,7 +25,7 @@ public class TreeRegister {
     public static PlacedFeature RUBBER_TREE_PLACED_FEATURE;
 
     public static void registTrees() {
-        RUBBER_TREE = ConfiguredFeatures.register("rubber_tree", Feature.TREE, rubber().build());
+        RUBBER_TREE = ConfiguredFeatures.register("broken_world:rubber_tree", Feature.TREE, rubber().build());
         RUBBER_TREE_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(RUBBER_TREE.value()),
                 List.of(SquarePlacementModifier.of()));
         Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(MODID, "rubber_tree"),
