@@ -1,5 +1,6 @@
-// 1.19.2	2023-07-14T23:15:05.3729587	minecraft:block Loot Table
+// 1.19.2	2023-07-15T10:07:51.670647	minecraft:block Loot Table
 b2ae79939933e8066be8be11b38a4a74084577b1 data\broken_world\loot_tables\block\spawn_pointer.json
+566a9e91e7a0f0bf65e061f447507ac29e2c3117 data\broken_world\loot_tables\block\covered_copper_cable.json
 a4de52374cecd30cfe5eb1900df20c03232d4f09 data\broken_world\loot_tables\block\rubber_leaves.json
 c5785aa23827f39aef72bf40ee65ed4e2d62ea30 data\broken_world\loot_tables\block\volcanic_stone.json
 ef3ddfadcbfb4b02725770469b0807cab1f714a7 data\broken_world\loot_tables\block\moon_sandstone.json
@@ -11,6 +12,7 @@ c99727a748a8bfc714cfb3b1c8fd701994bf593f data\broken_world\loot_tables\block\cor
 7315de045fe0bd1ec2db75b5c09b680192aa51cc data\broken_world\loot_tables\block\clone_vat.json
 85234b7e309425a5cca5c3399b893888a24b9a91 data\broken_world\loot_tables\block\charred_dirt.json
 ab581ff8970a24dafc93e2385349a3d6798413cb data\broken_world\loot_tables\block\weaponry.json
+8dc5a84f1c466126572443d59bc88d2589eb631b data\broken_world\loot_tables\block\covered_quad_copper_cable.json
 c8f68500654f3f17a8430288b233f4e730ef78c4 data\broken_world\loot_tables\block\infused_crystal.json
 942b55d61c542f1918d1e2f378b6d1a885b525d4 data\broken_world\loot_tables\block\reinforced_glass.json
 1d69763e41351cdbde85b0a23585f826ff4e7912 data\broken_world\loot_tables\block\chunkloader.json
@@ -40,6 +42,7 @@ b72231028ec9a3dbf97702196d63a28370ec22b4 data\broken_world\loot_tables\block\gla
 b3e7eb51bb2b523090cb7b631c699cdad9435d23 data\broken_world\loot_tables\block\copper_cable.json
 4d4034b880360455c71facd45d181ebbd01f91bd data\broken_world\loot_tables\block\grassy_bricks.json
 5a13efba08526a2afdd77406a255cb685d44056c data\broken_world\loot_tables\block\rolling_door.json
+cc6a8c0f0154031d83daa696cc7028d8b99a2925 data\broken_world\loot_tables\block\covered_double_copper_cable.json
 0d2e2c29cae5a63618dbe8067fc4d1d9b246d164 data\broken_world\loot_tables\block\hydro_generator.json
 f96e82e40d3157bc58de569d9c133afdc331169b data\broken_world\loot_tables\block\solid_plasma.json
 bb713981240285d3970b996edd01f7d5399198eb data\broken_world\loot_tables\block\scanner.json

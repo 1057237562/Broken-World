@@ -178,7 +178,13 @@ public class BlockRegister {
             new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
                     0.375, false, 16),
             new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
-                    0.25, false, 32)
+                    0.25, false, 32),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+                    0.4375f, true, 8),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+                    0.375f, true, 16),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+                    0.25f, true, 32)
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -257,7 +263,10 @@ public class BlockRegister {
             new BlockItem(blocks[73], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[74], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[75], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[76], new FabricItemSettings().group(ITEM_GROUP))
+            new BlockItem(blocks[76], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[77], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[78], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[79], new FabricItemSettings().group(ITEM_GROUP))
     };
 
     public static final String[] blocknames = {
@@ -337,7 +346,10 @@ public class BlockRegister {
             "weaponry",
             "wooden_pipe",
             "double_copper_cable",
-            "quad_copper_cable"
+            "quad_copper_cable",
+            "covered_copper_cable",
+            "covered_double_copper_cable",
+            "covered_quad_copper_cable"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -520,7 +532,7 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(WoodenPipeBlockEntity::new, blocks[74]).build());
     }
 
-    public static void RegistBlocksClientSide() {
+    public static void registBlocksClientSide() {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CREATIVE_BATTERY.ordinal()],
                 RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CREATIVE_GENERATOR.ordinal()],
