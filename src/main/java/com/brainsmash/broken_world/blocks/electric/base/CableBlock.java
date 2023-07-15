@@ -68,8 +68,10 @@ public class CableBlock extends BlockWithEntity {
     }
 
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        int flow = ((CableBlockEntity) world.getBlockEntity(pos)).currentFlow();
-        if (!covered && flow > 0) entity.damage(DamageSourceRegister.ELECTRIC, 4f);
+        if (!world.isClient && !covered) {
+            int flow = ((CableBlockEntity) world.getBlockEntity(pos)).currentFlow();
+            if (flow > 0) entity.damage(DamageSourceRegister.ELECTRIC, flow / 16f);
+        }
     }
 
     public boolean canConnect(BlockState state) {
