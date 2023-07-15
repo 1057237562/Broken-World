@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "broken_world:copper_cable",
+      "item": "broken_world:copper_cable"
+    },
+    {
       "item": "broken_world:rubber"
     }
   ],
