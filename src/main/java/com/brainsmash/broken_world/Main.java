@@ -21,6 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.tag.BiomeTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -109,7 +110,6 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "grandmaster_wand"),
             new ScreenHandlerType<>(WandGuiDescription::createGrandMasterWand));
 
-
     @Override
     public void onInitialize() {
         BlockRegister.registBlocks();
@@ -119,7 +119,7 @@ public class Main implements ModInitializer {
         EntityRegister.registEntities();
         EntityRegister.registSpawnRegistration();
         TreeRegister.registTrees();
-        BlockRegister.registBlockColor();
+        BlockRegister.registTreeColor();
         PointOfInterestRegister.registerPlacesOfInterest();
 
         AdvancedFurnaceRecipe.registAdvancedFurnaceRecipe();
@@ -138,6 +138,9 @@ public class Main implements ModInitializer {
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "magnetite")));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "tin_ore")));
+        BiomeModifications.addFeature(BiomeSelectors.tag(BiomeTags.IS_FOREST),
+                GenerationStep.Feature.VEGETAL_DECORATION,
+                RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "rubber_tree")));
 
         FabricatorRecipe.register();
 

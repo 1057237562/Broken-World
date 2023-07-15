@@ -2,22 +2,34 @@ package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
+import net.minecraft.util.registry.BuiltinRegistries;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.ConfiguredFeatures;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
+import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.MegaPineFoliagePlacer;
+import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 
+import java.util.List;
+
+import static com.brainsmash.broken_world.Main.MODID;
+
 public class TreeRegister {
-    public static RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> RUBBER;
+
+    public static RegistryEntry<ConfiguredFeature<TreeFeatureConfig, ?>> RUBBER_TREE;
+
+    public static PlacedFeature RUBBER_TREE_PLACED_FEATURE;
 
     public static void registTrees() {
-        RUBBER = ConfiguredFeatures.register("rubber", Feature.TREE, rubber().build());
+        RUBBER_TREE = ConfiguredFeatures.register("rubber_tree", Feature.TREE, rubber().build());
+        RUBBER_TREE_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(RUBBER_TREE.value()),
+                List.of(SquarePlacementModifier.of()));
+        Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(MODID, "rubber_tree"),
+                RUBBER_TREE_PLACED_FEATURE);
     }
 
     private static TreeFeatureConfig.Builder builder(Block log, Block leaves, int baseHeight, int firstRandomHeight, int secondRandomHeight, int radius) {
