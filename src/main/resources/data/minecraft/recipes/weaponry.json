@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "EFE"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:piston"
+    },
+    "B": {
+      "item": "broken_world:iron_plate"
+    },
+    "C": {
+      "item": "broken_world:tungsten_ingot"
+    },
+    "D": {
+      "item": "broken_world:memory_chip"
+    },
+    "E": {
+      "item": "minecraft:redstone"
+    },
+    "F": {
+      "item": "broken_world:machine_shell"
+    }
+  },
+  "result": {
+    "item": "broken_world:weaponry"
+  }
+}
