@@ -1,6 +1,13 @@
 {
-  "parent": "block/cube_all",
+  "parent": "block/cube",
   "textures": {
-    "all": "broken_world:block/transparent"
+    "all": "broken_world:block/transparent",
+    "north": "#all",
+    "south": "#all",
+    "east": "#all",
+    "west": "#all",
+    "up": "#all",
+    "down": "#all",
+    "particle": "minecraft:block/anvil"
   }
 }

@@ -2,8 +2,14 @@ package com.brainsmash.broken_world.blocks.client.render.entity;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.WeaponryBlockEntity;
+import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ChestBlock;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -16,6 +22,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.world.World;
 
 @Environment(EnvType.CLIENT)
 public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<WeaponryBlockEntity> {
@@ -75,7 +82,7 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
                 ModelPartBuilder
                         .create()
                         .uv(0, 0)
-                        .cuboid(1F, 6F, 1F, 2F, 13F, 2F),
+                        .cuboid(1F, 6F, 1F, 2F, 7F, 2F),
                 ModelTransform.NONE
         );
         modelPartData.addChild(
@@ -169,6 +176,14 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
     @Override
     public void render(WeaponryBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
+        matrices.translate(0.5, 0.5, 0.5);
+        World world = entity.getWorld();
+        boolean bl = world != null;
+        BlockState blockState = bl ?
+                entity.getCachedState() :
+                BlockRegister.blocks[BlockRegistry.WEAPONRY.ordinal()].getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.SOUTH);
+        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-blockState.get(Properties.HORIZONTAL_FACING).asRotation()));
+        matrices.translate(-0.5, -0.5, -0.5);
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
 
         body.render(matrices, vertexConsumer, light, overlay);

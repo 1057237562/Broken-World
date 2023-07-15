@@ -6,10 +6,7 @@ import com.brainsmash.broken_world.blocks.electric.*;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.*;
-import com.brainsmash.broken_world.blocks.entity.CloneVatBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.ReactorBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.RollingDoorBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.WoodenPipeBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.*;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
@@ -184,7 +181,9 @@ public class BlockRegister {
             new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
                     0.375f, true, 16),
             new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
-                    0.25f, true, 32)
+                    0.25f, true, 32),
+            // 80
+            new UVBlock(STANDARD_BLOCK),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -266,7 +265,8 @@ public class BlockRegister {
             new BlockItem(blocks[76], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[77], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[78], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[79], new FabricItemSettings().group(ITEM_GROUP))
+            new BlockItem(blocks[79], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[80], new FabricItemSettings()),
     };
 
     public static final String[] blocknames = {
@@ -349,7 +349,8 @@ public class BlockRegister {
             "quad_copper_cable",
             "covered_copper_cable",
             "covered_double_copper_cable",
-            "covered_quad_copper_cable"
+            "covered_quad_copper_cable",
+            "uv",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -445,6 +446,7 @@ public class BlockRegister {
     public static BlockEntityType<ExtractorBlockEntity> EXTRACTOR_ENTITY_TYPE;
     public static BlockEntityType<WeaponryBlockEntity> WEAPONRY_ENTITY_TYPE;
     public static BlockEntityType<WoodenPipeBlockEntity> WOODEN_PIPE_ENTITY_TYPE;
+    public static BlockEntityType<UVBlockEntity> UV_ENTITY_TYPE;
 
     public static void registBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -530,6 +532,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(WeaponryBlockEntity::new, blocks[73]).build());
         WOODEN_PIPE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "wooden_pipe"),
                 FabricBlockEntityTypeBuilder.create(WoodenPipeBlockEntity::new, blocks[74]).build());
+        UV_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "uv"),
+                FabricBlockEntityTypeBuilder.create(UVBlockEntity::new, blocks[80]).build());
     }
 
     public static void registBlocksClientSide() {
@@ -567,6 +571,8 @@ public class BlockRegister {
                 InfusedCrystalBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WeaponryBlockEntityRenderer.WEAPONRY,
                 WeaponryBlockEntityRenderer::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(UVBlockEntityRenderer.UV,
+                UVBlockEntityRenderer::getTexturedModelData);
         BlockEntityRendererRegistry.register(CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(CREATIVE_GENERATOR_ENTITY_TYPE, CreativeGeneratorBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(SCANNER_ENTITY_TYPE, ScannerBlockEntityRenderer::new);
@@ -577,6 +583,7 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(CENTRIFUGE_ENTITY_TYPE, CentrifugeBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(INFUSED_CRYSTAL_ENTITY_TYPE, InfusedCrystalBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(WEAPONRY_ENTITY_TYPE, WeaponryBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(UV_ENTITY_TYPE, UVBlockEntityRenderer::new);
     }
 
     public static void registBlockColor() {
