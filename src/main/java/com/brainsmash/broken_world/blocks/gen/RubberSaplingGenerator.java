@@ -11,6 +11,6 @@ public class RubberSaplingGenerator extends SaplingGenerator {
     @Nullable
     @Override
     protected RegistryEntry<? extends ConfiguredFeature<?, ?>> getTreeFeature(Random random, boolean bees) {
-        return TreeRegister.RUBBER;
+        return TreeRegister.RUBBER_TREE;
     }
 }

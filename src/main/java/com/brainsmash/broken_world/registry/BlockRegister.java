@@ -557,8 +557,7 @@ public class BlockRegister {
                 RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CENTRIFUGE.ordinal()], RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.INFUSED_CRYSTAL.ordinal()], RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.WEAPONRY.ordinal()],
-                RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.WEAPONRY.ordinal()], RenderLayer.getCutout());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,
@@ -586,9 +585,11 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(UV_ENTITY_TYPE, UVBlockEntityRenderer::new);
     }
 
-    public static void registBlockColor() {
+    public static void registTreeColor() {
         ColorProviderRegistry.BLOCK.register(
                 (state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world,
                         pos) : FoliageColors.getDefaultColor(), blocks[BlockRegistry.RUBBER_LEAVES.ordinal()]);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(),
+                blockitems[BlockRegistry.RUBBER_LEAVES.ordinal()]);
     }
 }
