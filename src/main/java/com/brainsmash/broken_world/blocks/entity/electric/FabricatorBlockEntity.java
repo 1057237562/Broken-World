@@ -68,13 +68,12 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
         for (int i = 9; i < 18; i++) {
             currentMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(), ((integer, integer2) -> integer + integer2));
         }
-        boolean result = true;
         for (Map.Entry<Item, Integer> pair : requiredMaterial.entrySet()) {
             if (currentMaterial.getOrDefault(pair.getKey(), 0) < pair.getValue()) {
-                result = false;
+                return false;
             }
         }
-        return result;
+        return true;
     }
 
     public void consumeMaterial() {

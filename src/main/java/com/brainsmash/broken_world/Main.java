@@ -91,6 +91,10 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "extractor"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ExtractorGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
+    public static final ScreenHandlerType<WeaponryGuiDescription> WEAPONRY_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "weaponry"), new ScreenHandlerType<>(
+                    ((syncId, playerInventory) -> new WeaponryGuiDescription(syncId, playerInventory,
+                            ScreenHandlerContext.EMPTY))));
 
     public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
