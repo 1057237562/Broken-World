@@ -10,6 +10,7 @@ import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.MegaPineFoliagePlacer;
+import net.minecraft.world.gen.placementmodifier.CountPlacementModifier;
 import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
@@ -27,7 +28,9 @@ public class TreeRegister {
     public static void registTrees() {
         RUBBER_TREE = ConfiguredFeatures.register("broken_world:rubber_tree", Feature.TREE, rubber().build());
         RUBBER_TREE_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(RUBBER_TREE.value()),
-                List.of(SquarePlacementModifier.of()));
+                List.of(CountPlacementModifier.of(4), SquarePlacementModifier.of(),
+                        PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP,
+                        PlacedFeatures.wouldSurvive(BlockRegister.blocks[BlockRegistry.RUBBER_SAPLING.ordinal()])));
         Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(MODID, "rubber_tree"),
                 RUBBER_TREE_PLACED_FEATURE);
     }
