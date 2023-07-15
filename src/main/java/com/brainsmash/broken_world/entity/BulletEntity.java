@@ -3,6 +3,8 @@ package com.brainsmash.broken_world.entity;
 import com.brainsmash.broken_world.registry.EntityRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.GlassBlock;
+import net.minecraft.block.PaneBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -193,11 +195,13 @@ public class BulletEntity extends ProjectileEntity {
 
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
-        ParticleEffect particleEffect = new BlockStateParticleEffect(ParticleTypes.BLOCK,
-                world.getBlockState(blockHitResult.getBlockPos()));
+        BlockState hitBlock = world.getBlockState(blockHitResult.getBlockPos());
+        ParticleEffect particleEffect = new BlockStateParticleEffect(ParticleTypes.BLOCK, hitBlock);
         for (int i = 0; i < 8; ++i) {
             this.world.addParticle(particleEffect, this.getX(), this.getY(), this.getZ(), 0.0, 0.0, 0.0);
         }
+        if (hitBlock.getBlock() instanceof GlassBlock || hitBlock.getBlock() instanceof PaneBlock)
+            world.breakBlock(blockHitResult.getBlockPos(), false);
         discard();
     }
 

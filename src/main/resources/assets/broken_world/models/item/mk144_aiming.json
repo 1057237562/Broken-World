@@ -1,0 +1,42 @@
+{
+	"parent": "broken_world:item/mk144",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 90, 0],
+			"translation": [-1, 8.25, 1.25],
+			"scale": [1.4, 1.4, 1.43]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, -90, 0],
+			"translation": [-0.5, 5.75, 1]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 90, 0],
+			"translation": [-9.6, 18.75, 1],
+			"scale": [2.53, 2.5, 2.5]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, -90, 0],
+			"translation": [-8.475, 18.75, 1],
+			"scale": [2.5, 2.5, 2.5]
+		},
+		"ground": {
+			"translation": [0, 11, 0],
+			"scale": [2.07, 2.07, 2.04]
+		},
+		"gui": {
+			"rotation": [0, 0, 29],
+			"translation": [-4.25, 7.5, 0],
+			"scale": [1.56, 1.55, 1.52]
+		},
+		"head": {
+			"rotation": [0, 90, 0],
+			"translation": [0, 25.75, 1],
+			"scale": [4, 4, 4]
+		},
+		"fixed": {
+			"translation": [-0.5, 10.75, 0],
+			"scale": [2.05, 2.01, 2.08]
+		}
+	}
+}
