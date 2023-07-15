@@ -6,7 +6,7 @@
     <module name="BrokenWorld.main" />
     <option name="PROGRAM_PARAMETERS" value="--username ML1bra --uuid a675cf092d84430aafc383a230cac91b --accessToken eyJhbGciOiJIUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQ2NzIzMDM5Nzc1NSIsImFnZyI6IkFkdWx0Iiwic3ViIjoiMjE2ODg4MzQtZWE5My00ZjM0LThlYTAtYmYyZjRiN2FkNDc2IiwibmJmIjoxNjcxNDMyMzUyLCJhdXRoIjoiWEJPWCIsInJvbGVzIjpbXSwiaXNzIjoiYXV0aGVudGljYXRpb24iLCJleHAiOjE2NzE1MTg3NTIsImlhdCI6MTY3MTQzMjM1MiwicGxhdGZvcm0iOiJVTktOT1dOIiwieXVpZCI6IjViNjQ0MjYzYTJiNTlkMDRiZTUyMTI0OTIwYWEwYWFmIn0.50o2ckYvGLs5gHbQXhWRWGjWxQuzsI8N2lZeSJJzGAk --clientId ${clientid} --xuid ${auth_xuid} --userType Mojang" />
     <shortenClasspath name="ARGS_FILE" />
-    <option name="VM_PARAMETERS" value="-Dfabric.dli.config=$PROJECT_DIR$/.gradle/loom-cache/launch.cfg -Dfabric.dli.env=client -Dfabric.dli.main=net.fabricmc.loader.impl.launch.knot.KnotClient -XX:+AllowEnhancedClassRedefinition -XX:+AllowRedefinitionToAddDeleteMethods -javaagent:$PROJECT_DIR$/sponge-mixin-0.12.4+mixin.0.8.5.jar" />
+    <option name="VM_PARAMETERS" value="-Dfabric.dli.config=$PROJECT_DIR$/.gradle/loom-cache/launch.cfg -Dfabric.dli.env=client -Dfabric.dli.main=net.fabricmc.loader.impl.launch.knot.KnotClient -XX:+AllowEnhancedClassRedefinition -XX:+AllowRedefinitionToAddDeleteMethods -javaagent:../sponge-mixin-0.12.4+mixin.0.8.5.jar" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run/" />
     <method v="2">
       <option name="Make" enabled="true" />
