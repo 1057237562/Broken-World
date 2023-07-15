@@ -119,7 +119,6 @@ public class Main implements ModInitializer {
         EntityRegister.registEntities();
         EntityRegister.registSpawnRegistration();
         TreeRegister.registTrees();
-        BlockRegister.registTreeColor();
         PointOfInterestRegister.registerPlacesOfInterest();
 
         AdvancedFurnaceRecipe.registAdvancedFurnaceRecipe();
