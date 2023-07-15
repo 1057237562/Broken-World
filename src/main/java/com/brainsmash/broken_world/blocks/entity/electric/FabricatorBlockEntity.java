@@ -58,7 +58,8 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
             this.output = output;
             requiredMaterial.clear();
             for (int i = 0; i < 9; i++) {
-                requiredMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(), (integer, integer2) -> integer + integer2);
+                requiredMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(),
+                        (integer, integer2) -> integer + integer2);
             }
         }
     }
@@ -66,7 +67,8 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
     public boolean checkMaterial() {
         Map<Item, Integer> currentMaterial = new ConcurrentHashMap<>();
         for (int i = 9; i < 18; i++) {
-            currentMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(), ((integer, integer2) -> integer + integer2));
+            currentMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(),
+                    ((integer, integer2) -> integer + integer2));
         }
         for (Map.Entry<Item, Integer> pair : requiredMaterial.entrySet()) {
             if (currentMaterial.getOrDefault(pair.getKey(), 0) < pair.getValue()) {
@@ -96,7 +98,8 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
                 return true;
             }
             if (inventory.get(i).getItem().equals(stack.getItem())) {
-                int insertCount = Math.min(inventory.get(i).getMaxCount() - inventory.get(i).getCount(), stack.getCount());
+                int insertCount = Math.min(inventory.get(i).getMaxCount() - inventory.get(i).getCount(),
+                        stack.getCount());
                 inventory.get(i).increment(insertCount);
                 stack.decrement(insertCount);
             }
@@ -109,10 +112,16 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (world instanceof ServerWorld) {
-            if (!output.isEmpty() && isPowered() && canRun() && ((inventory.get(18).isOf(output.getItem()) && inventory.get(18).getCount() + output.getCount() <= output.getMaxCount()) || inventory.get(18).isEmpty())) {
+            if (!output.isEmpty() && isPowered() && canRun() && ((inventory.get(18).isOf(
+                    output.getItem()) && inventory.get(
+                    18).getCount() + output.getCount() <= output.getMaxCount()) || inventory.get(18).isEmpty())) {
                 if (!isRunning()) {
                     running = checkMaterial();
                 } else {
+                    if (!checkMaterial()) {
+                        running = false;
+                        progression = 0;
+                    }
                     if (progression < maxProgression) {
                         progression++;
                     } else {

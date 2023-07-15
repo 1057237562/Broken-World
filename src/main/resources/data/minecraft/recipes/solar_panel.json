@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "BBB",
+    "CCC"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:glass"
+    },
+    "B": {
+      "item": "broken_world:silicon"
+    },
+    "C": {
+      "item": "broken_world:iron_plate"
+    }
+  },
+  "result": {
+    "item": "broken_world:solar_panel"
+  }
+}
