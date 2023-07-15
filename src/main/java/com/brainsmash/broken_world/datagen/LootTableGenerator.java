@@ -34,7 +34,7 @@ public class LootTableGenerator extends SimpleFabricLootTableProvider {
             }
             if (BlockRegister.blocks[i] instanceof LootLeavesBlock loot) {
                 identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i]),
-                        BlockLootTableGenerator.leavesDrop(loot, loot.getDrops(), 0.13f));
+                        BlockLootTableGenerator.leavesDrop(loot, loot.getDrops(), 0.05f, 0.0625f, 0.083333336f, 0.1f));
                 continue;
             }
             identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i]),
