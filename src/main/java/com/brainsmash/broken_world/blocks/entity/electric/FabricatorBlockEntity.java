@@ -35,6 +35,7 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
     public Map<Item, Integer> requiredMaterial = new ConcurrentHashMap<>();
 
     protected boolean powered = false;
+    public int lastHash;
 
     public boolean isPowered() {
         return powered;
@@ -109,6 +110,7 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
         return false;
     }
 
+
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (world instanceof ServerWorld) {
@@ -118,10 +120,6 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
                 if (!isRunning()) {
                     running = checkMaterial();
                 } else {
-                    if (!checkMaterial()) {
-                        running = false;
-                        progression = 0;
-                    }
                     if (progression < maxProgression) {
                         progression++;
                     } else {
@@ -135,6 +133,10 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
                         super.tick(world, pos, state, blockEntity);
                         running = false;
                         return;
+                    }
+                    if (!checkMaterial()) {
+                        running = false;
+                        progression = 0;
                     }
                 }
             } else {
