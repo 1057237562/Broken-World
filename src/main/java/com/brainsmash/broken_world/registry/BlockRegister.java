@@ -97,7 +97,7 @@ public class BlockRegister {
                     FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
                             10f)),
             new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
-                    0.4375, false, 16),
+                    0.4375, false, 8),
             new CreativeBatteryBlock(
                     FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f,
                             3.0f)),
@@ -176,9 +176,9 @@ public class BlockRegister {
             new WeaponryBlock(STANDARD_BLOCK),
             new WoodenPipeBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD).nonOpaque()),
             new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
-                    0.375, false, 32),
+                    0.375, false, 16),
             new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
-                    0.25, false, 64)
+                    0.25, false, 32)
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),

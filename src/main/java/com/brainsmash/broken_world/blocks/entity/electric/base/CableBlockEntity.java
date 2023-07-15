@@ -113,15 +113,11 @@ public class CableBlockEntity extends BlockEntity implements BlockEntityTicker<C
         markDirty();
     }
 
-    public int ComputeFlow() {
-        int maxm = 0;
-        int minm = Integer.MAX_VALUE;
+    public int currentFlow() {
+        int sum = 0;
         for (Direction direction : Direction.values()) {
-            if (getAdjacentBlockEntity(direction) instanceof CableBlockEntity) {
-                maxm = Math.max(edges.getOrDefault(direction, 0), maxm);
-                minm = Math.min(edges.getOrDefault(direction, 0), minm);
-            }
+            sum += edges.getOrDefault(direction, 0);
         }
-        return maxm - minm;
+        return sum >> 1;
     }
 }

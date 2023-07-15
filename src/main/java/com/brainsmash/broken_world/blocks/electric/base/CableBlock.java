@@ -68,8 +68,8 @@ public class CableBlock extends BlockWithEntity {
     }
 
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        int flow = ((CableBlockEntity) world.getBlockEntity(pos)).ComputeFlow();
-        if (!covered && flow > 0) entity.damage(DamageSourceRegister.ELECTRIC, flow / 16.0f);
+        int flow = ((CableBlockEntity) world.getBlockEntity(pos)).currentFlow();
+        if (!covered && flow > 0) entity.damage(DamageSourceRegister.ELECTRIC, 4f);
     }
 
     public boolean canConnect(BlockState state) {
@@ -178,7 +178,8 @@ public class CableBlock extends BlockWithEntity {
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
             System.out.println(((CableBlockEntity) world.getBlockEntity(
-                    pos)).deltaFlow + ":" + ((CableBlockEntity) world.getBlockEntity(pos)).edges.toString());
+                    pos)).deltaFlow + ":" + ((CableBlockEntity) world.getBlockEntity(
+                    pos)).edges.toString() + ":" + ((CableBlockEntity) world.getBlockEntity(pos)).getMaxFlow());
         }
         return super.onUse(state, world, pos, player, hand, hit);
     }
