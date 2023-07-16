@@ -16,6 +16,8 @@
     "broken_world:miner",
     "broken_world:scanner",
     "broken_world:infused_crystal",
-    "broken_world:teleporter_controller"
+    "broken_world:teleporter_controller",
+    "broken_world:fabricator",
+    "broken_world:fabricator_extension"
   ]
 }
