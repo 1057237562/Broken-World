@@ -17,6 +17,7 @@ import net.minecraft.util.Identifier;
 import java.util.function.BiConsumer;
 
 public class LootTableGenerator extends SimpleFabricLootTableProvider {
+
     public LootTableGenerator(FabricDataGenerator dataGenerator) {
         super(dataGenerator, LootContextTypes.BLOCK);
     }
@@ -27,19 +28,18 @@ public class LootTableGenerator extends SimpleFabricLootTableProvider {
             if (BlockRegister.blocks[i] instanceof OreBlock) continue;
             if (BlockRegister.blocks[i] instanceof TeleporterFrameBlock) continue;
             if (BlockRegister.blocks[i] instanceof LogBlock log) {
-                identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i]),
+                identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, "blocks/" + BlockRegister.blocknames[i]),
                         BlockLootTableGenerator.drops(log.getParent(), log.getParent().asItem(),
                                 ConstantLootNumberProvider.create(1f)));
                 continue;
             }
             if (BlockRegister.blocks[i] instanceof LootLeavesBlock loot) {
-                identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i]),
+                identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, "blocks/" + BlockRegister.blocknames[i]),
                         BlockLootTableGenerator.leavesDrop(loot, loot.getDrops(), 0.05f, 0.0625f, 0.083333336f, 0.1f));
                 continue;
             }
-            identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i]),
-                    BlockLootTableGenerator.drops(BlockRegister.blocks[i], BlockRegister.blockitems[i],
-                            ConstantLootNumberProvider.create(1f)));
+            identifierBuilderBiConsumer.accept(new Identifier(Main.MODID, "blocks/" + BlockRegister.blocknames[i]),
+                    BlockLootTableGenerator.drops(BlockRegister.blockitems[i]));
         }
     }
 }
