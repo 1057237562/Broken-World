@@ -184,6 +184,7 @@ public class BlockRegister {
                     0.25f, true, 32),
             // 80
             new UVBlock(STANDARD_BLOCK),
+            new Block(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -267,6 +268,7 @@ public class BlockRegister {
             new BlockItem(blocks[78], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[79], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[80], new FabricItemSettings()),
+            new BlockItem(blocks[81], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -351,6 +353,7 @@ public class BlockRegister {
             "covered_double_copper_cable",
             "covered_quad_copper_cable",
             "uv",
+            "rubber_planks"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
