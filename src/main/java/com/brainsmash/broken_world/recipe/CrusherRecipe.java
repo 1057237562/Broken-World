@@ -1,7 +1,9 @@
 package com.brainsmash.broken_world.recipe;
 
 import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
+import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -46,5 +48,11 @@ public class CrusherRecipe {
                         new Pair<>(0.65f, Items.GOLD_INGOT),
                         new Pair<>(0.30f, BlockRegister.blockitems[BlockRegistry.MOON_SAND.ordinal()]),
                         new Pair<>(0.04f, Items.RAW_IRON), new Pair<>(0.04f, Items.REDSTONE)));
+        recipes.put(BlockRegister.blockitems[BlockRegistry.TIN_ORE.ordinal()],
+                Arrays.asList(new Pair<>(0.90f, ItemRegister.items[ItemRegistry.RAW_TIN.ordinal()]),
+                        new Pair<>(0.90f, ItemRegister.items[ItemRegistry.RAW_TIN.ordinal()]),
+                        new Pair<>(0.08f, Items.RAW_IRON), new Pair<>(0.30f, Items.GRAVEL),
+                        new Pair<>(0.04f, Items.RAW_GOLD), new Pair<>(0.15f, Items.RAW_COPPER),
+                        new Pair<>(0.1f, Items.DIRT)));
     }
 }

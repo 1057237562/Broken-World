@@ -1,6 +1,5 @@
 package com.brainsmash.broken_world.blocks.fluid;
 
-import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.registry.FluidRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import net.minecraft.block.BlockState;
@@ -8,9 +7,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -43,9 +42,15 @@ public abstract class OilFluid extends FluidModel {
     public void flow(WorldAccess world, BlockPos pos, BlockState state, Direction direction, FluidState fluidState) {
         if (direction == Direction.DOWN) {
             FluidState fluidState2 = world.getFluidState(pos);
-            if(fluidState2.isIn(FluidTags.WATER)){
-                if(state.getBlock() instanceof FluidBlock){
-                    world.setBlockState(pos,FluidRegister.fluid_blocks[1].getDefaultState(),3);
+            if (fluidState2.isIn(FluidTags.WATER)) {
+                if (state.getBlock() instanceof FluidBlock) {
+                    world.setBlockState(pos, FluidRegister.fluid_blocks[1].getDefaultState(), 3);
+                }
+                return;
+            }
+            if (fluidState2.isOf(Fluids.LAVA)) {
+                if (state.getBlock() instanceof FluidBlock) {
+                    world.setBlockState(pos, Blocks.COAL_ORE.getDefaultState(), 3);
                 }
                 return;
             }
@@ -79,6 +84,7 @@ public abstract class OilFluid extends FluidModel {
             super.appendProperties(builder);
             builder.add(LEVEL);
         }
+
         @Override
         public int getLevel(FluidState fluidState) {
             return 8;

@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.datagen;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.*;
+import com.brainsmash.broken_world.blocks.electric.WeaponryBlock;
 import com.brainsmash.broken_world.blocks.electric.base.BatteryBlock;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
@@ -99,7 +100,7 @@ public class ModelGenerator extends FabricModelProvider {
         for (int i = 0; i < BlockRegister.blocks.length; i++) {
             if (BlockRegister.blocks[i] instanceof TeleporterFrameBlock) continue;
             if (BlockRegister.blocks[i] instanceof DoorBlock) continue;
-            if (BlockRegister.blocks[i] instanceof CloneVatBlock || BlockRegister.blocks[i] instanceof CableBlock) {
+            if (BlockRegister.blocks[i] instanceof CloneVatBlock || BlockRegister.blocks[i] instanceof CableBlock || BlockRegister.blocks[i] instanceof WeaponryBlock) {
                 itemModelGenerator.register(BlockRegister.blockitems[i], Models.GENERATED);
                 continue;
             }

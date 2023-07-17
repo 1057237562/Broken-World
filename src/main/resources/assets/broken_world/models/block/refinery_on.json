@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "front": "broken_world:block/refinery_front_on",
+    "side": "broken_world:block/refinery_side",
+    "top": "broken_world:block/refinery_top",
+    "bottom" : "#top"
+  }
+}

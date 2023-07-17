@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    " A ",
+    "   "
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:rubber_log"
+    }
+  },
+  "result": {
+    "item": "broken_world:rubber_planks",
+    "count": 4
+  }
+}

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "broken_world:item/weaponry"
+    "layer0": "broken_world:item/gas_tank"
   }
 }

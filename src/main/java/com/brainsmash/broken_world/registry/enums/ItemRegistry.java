@@ -58,4 +58,9 @@ public enum ItemRegistry {
     DENSITY_METER,
     BOWL_OF_LATEX,
     RUBBER,
+    RAW_TIN,
+    CENTRIFUGE_AXLE,
+    HEATING_WIRE,
+    GAS_TANK,
+    OXYGEN_TANK,
 }

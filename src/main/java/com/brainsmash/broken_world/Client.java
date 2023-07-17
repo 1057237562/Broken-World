@@ -56,6 +56,8 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.PUMP_GUI_DESCRIPTION, PumpScreen::new);
         HandledScreens.register(Main.ADVANCED_FURNACE_GUI_DESCRIPTION, AdvancedFurnaceScreen::new);
         HandledScreens.register(Main.FABRICATOR_GUI_DESCRIPTION, FabricatorScreen::new);
+        HandledScreens.register(Main.GAS_COLLECTOR_GUI_DESCRIPTION, GasCollectorScreen::new);
+        HandledScreens.register(Main.REFINERY_GUI_DESCRIPTION, RefineryScreen::new);
         HandledScreens.register(Main.CENTRIFUGE_GUI_DESCRIPTION, CentrifugeScreen::new);
         HandledScreens.register(Main.ROOKIE_WAND_SCREEN_HANDLER, WandScreen::new);
         HandledScreens.register(Main.EXPERT_WAND_SCREEN_HANDLER, WandScreen::new);
