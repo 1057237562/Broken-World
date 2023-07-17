@@ -8,10 +8,14 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,5 +50,21 @@ public class GasCollectorBlock extends ConsumerBlock {
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
+    }
+
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        if (state.get(Properties.LIT)) {
+            double d = pos.getX();
+            double e = (double) pos.getY() + 0.4;
+            double f = pos.getZ();
+            if (random.nextDouble() < 0.1) {
+                world.playSound(d, e, f, SoundEvents.BLOCK_SNOW_STEP, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+            }
+
+            for (int i = 0; i < 3; i++)
+                world.addParticle(ParticleTypes.CLOUD, d + random.nextDouble(), e + 1, f + random.nextDouble(), 0.0,
+                        -0.1, 0.0);
+        }
     }
 }

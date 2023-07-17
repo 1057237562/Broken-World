@@ -25,7 +25,6 @@ public class CentrifugeRecipe {
         recipes.put(new Pair<>(FluidRegister.still_fluid[FluidRegistry.LATEX.ordinal()], null), new Pair<>(
                 Arrays.asList(new Pair<>(0.95f, ItemRegister.items[ItemRegistry.RUBBER.ordinal()]),
                         new Pair<>(0.95f, ItemRegister.items[ItemRegistry.RUBBER.ordinal()]),
-                        new Pair<>(0.95f, ItemRegister.items[ItemRegistry.RUBBER.ordinal()]),
                         new Pair<>(0.8f, ItemRegister.items[ItemRegistry.RUBBER.ordinal()])), null));
     }
 }

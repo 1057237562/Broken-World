@@ -27,7 +27,7 @@ public class RubberLeaves extends LootLeavesBlock {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         super.randomTick(state, world, pos, random);
-        if (random.nextFloat() < 0.1f) updateRubberAge(state, world, pos);
+        if (random.nextFloat() < 0.02f) updateRubberAge(state, world, pos);
     }
 
     @Override
