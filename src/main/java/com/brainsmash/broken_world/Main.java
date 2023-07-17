@@ -137,6 +137,8 @@ public class Main implements ModInitializer {
         AssemblerRecipe.registAssemblerRecipe();
         CompressorRecipe.registCompressorRecipes();
         ExtractorRecipe.registExtractorRecipes();
+        GasCollectorRecipe.registGasCollectorRecipes();
+        RefineryRecipe.registRefineryRecipes();
 
         OreTypeRegistry.RegistOreType();
 

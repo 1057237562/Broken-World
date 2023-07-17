@@ -30,6 +30,8 @@
     "broken_world:assembler",
     "broken_world:electrolyzer",
     "broken_world:extractor",
-    "broken_world:weaponry"
+    "broken_world:weaponry",
+    "broken_world:gas_collector",
+    "broken_world:refinery"
   ]
 }

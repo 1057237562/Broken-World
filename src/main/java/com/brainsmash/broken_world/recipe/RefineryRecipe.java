@@ -20,7 +20,7 @@ public class RefineryRecipe {
         }
     }
 
-    public static void registAssemblerRecipe() {
+    public static void registRefineryRecipes() {
         recipes.put(makePair(ItemRegister.items[ItemRegistry.OXYGEN_TANK.ordinal()], Items.IRON_INGOT),
                 new ItemStack(ItemRegister.items[ItemRegistry.STEEL_INGOT.ordinal()]));
     }
