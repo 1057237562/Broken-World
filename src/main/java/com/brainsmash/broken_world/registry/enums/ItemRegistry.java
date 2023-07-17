@@ -63,4 +63,6 @@ public enum ItemRegistry {
     HEATING_WIRE,
     GAS_TANK,
     OXYGEN_TANK,
+    STEEL_PLATE,
+    CIRCUIT_BOARD,
 }

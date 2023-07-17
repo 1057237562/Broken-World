@@ -14,5 +14,7 @@ public class CompressorRecipe {
 
     public static void registCompressorRecipes() {
         recipes.put(Items.IRON_INGOT, new ItemStack(ItemRegister.items[ItemRegistry.IRON_PLATE.ordinal()], 2));
+        recipes.put(ItemRegister.items[ItemRegistry.STEEL_INGOT.ordinal()],
+                new ItemStack(ItemRegister.items[ItemRegistry.STEEL_PLATE.ordinal()], 1));
     }
 }

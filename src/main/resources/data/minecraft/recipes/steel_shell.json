@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "A A",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:steel_plate"
+    }
+  },
+  "result": {
+    "item": "broken_world:steel_shell"
+  }
+}

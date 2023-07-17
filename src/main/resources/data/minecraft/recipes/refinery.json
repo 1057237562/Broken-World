@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "AEA"
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:tungsten_ingot"
+    },
+    "B": {
+      "item": "minecraft:blast_furnace"
+    },
+    "C": {
+      "item": "broken_world:gas_tank"
+    },
+    "D": {
+      "item": "broken_world:machine_shell"
+    },
+    "E": {
+      "item": "broken_world:heating_wire"
+    }
+  },
+  "result": {
+    "item": "broken_world:refinery"
+  }
+}

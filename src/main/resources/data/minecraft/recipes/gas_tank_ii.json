@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "A A",
+    " A "
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:steel_ingot"
+    }
+  },
+  "result": {
+    "item": "broken_world:gas_tank",
+    "count": 3
+  }
+}

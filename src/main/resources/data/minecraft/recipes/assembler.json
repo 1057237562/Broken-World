@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "C C",
+    "DED"
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:iron_plate"
+    },
+    "B": {
+      "item": "minecraft:dried_kelp"
+    },
+    "C": {
+      "item": "broken_world:motor"
+    },
+    "D": {
+      "item": "broken_world:steel_plate"
+    },
+    "E": {
+      "item": "broken_world:steel_shell"
+    }
+  },
+  "result": {
+    "item": "broken_world:assembler"
+  }
+}

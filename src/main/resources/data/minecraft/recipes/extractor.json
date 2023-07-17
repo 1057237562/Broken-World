@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    " B ",
+    " C "
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:dried_kelp"
+    },
+    "B": {
+      "item": "broken_world:steel_shell"
+    },
+    "C": {
+      "item": "broken_world:heating_wire"
+    }
+  },
+  "result": {
+    "item": "broken_world:extractor"
+  }
+}

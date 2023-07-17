@@ -23,5 +23,7 @@ public class AssemblerRecipe {
     public static void registAssemblerRecipe() {
         recipes.put(makePair(ItemRegister.items[ItemRegistry.SILICON.ordinal()], Items.GOLD_INGOT),
                 new ItemStack(ItemRegister.items[ItemRegistry.MEMORY_CHIP.ordinal()]));
+        recipes.put(makePair(ItemRegister.items[ItemRegistry.PLASTIC_PLATE.ordinal()], Items.GOLD_INGOT),
+                new ItemStack(ItemRegister.items[ItemRegistry.CIRCUIT_BOARD.ordinal()]));
     }
 }
