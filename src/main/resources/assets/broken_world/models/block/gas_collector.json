@@ -4,6 +4,6 @@
     "front": "broken_world:block/gas_collector_front",
     "side": "broken_world:block/gas_collector_side",
     "top": "broken_world:block/gas_collector_top",
-    "bottom" : "#top"
+    "bottom" : "#side"
   }
 }

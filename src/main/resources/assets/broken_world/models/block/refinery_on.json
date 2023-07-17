@@ -4,6 +4,6 @@
     "front": "broken_world:block/refinery_front_on",
     "side": "broken_world:block/refinery_side",
     "top": "broken_world:block/refinery_top",
-    "bottom" : "#top"
+    "bottom" : "#side"
   }
 }
