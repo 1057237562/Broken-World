@@ -58,4 +58,5 @@ public enum ItemRegistry {
     DENSITY_METER,
     BOWL_OF_LATEX,
     RUBBER,
+    OXYGEN_UNIT
 }

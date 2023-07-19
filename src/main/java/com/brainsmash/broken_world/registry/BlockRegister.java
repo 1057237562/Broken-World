@@ -185,6 +185,7 @@ public class BlockRegister {
             // 80
             new UVBlock(STANDARD_BLOCK),
             new Block(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
+            new GasCollectorBlock(STANDARD_BLOCK)
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -269,6 +270,7 @@ public class BlockRegister {
             new BlockItem(blocks[79], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[80], new FabricItemSettings()),
             new BlockItem(blocks[81], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[82], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -353,7 +355,8 @@ public class BlockRegister {
             "covered_double_copper_cable",
             "covered_quad_copper_cable",
             "uv",
-            "rubber_planks"
+            "rubber_planks",
+            "gas_collector"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -450,6 +453,7 @@ public class BlockRegister {
     public static BlockEntityType<WeaponryBlockEntity> WEAPONRY_ENTITY_TYPE;
     public static BlockEntityType<WoodenPipeBlockEntity> WOODEN_PIPE_ENTITY_TYPE;
     public static BlockEntityType<UVBlockEntity> UV_ENTITY_TYPE;
+    public static BlockEntityType<GasCollectorBlockEntity> GAS_COLLECTOR_ENTITY_TYPE;
 
     public static void registBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -537,6 +541,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(WoodenPipeBlockEntity::new, blocks[74]).build());
         UV_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "uv"),
                 FabricBlockEntityTypeBuilder.create(UVBlockEntity::new, blocks[80]).build());
+        GAS_COLLECTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "gas_collector"),
+                FabricBlockEntityTypeBuilder.create(GasCollectorBlockEntity::new, blocks[82]).build());
     }
 
     public static void registBlocksClientSide() {

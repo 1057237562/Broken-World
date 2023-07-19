@@ -109,6 +109,7 @@ public class ItemRegister {
             new DensityMeter(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).recipeRemainder(Items.BOWL)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -168,7 +169,8 @@ public class ItemRegister {
             "tin_ingot",
             "density_meter",
             "bowl_of_latex",
-            "rubber"
+            "rubber",
+            "oxygen_unit"
     };
 
     public static final Item[] guns = {
