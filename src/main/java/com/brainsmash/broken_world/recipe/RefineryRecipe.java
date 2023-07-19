@@ -39,6 +39,9 @@ public class RefineryRecipe {
         registRefineryRecipe(new ItemStack(ItemRegister.items[ItemRegistry.TIN_INGOT.ordinal()]),
                 new ItemStack(Items.COPPER_INGOT, 3),
                 new ItemStack(ItemRegister.items[ItemRegistry.BRONZE_INGOT.ordinal()], 3));
+        registRefineryRecipe(new ItemStack(ItemRegister.items[ItemRegistry.TIN_INGOT.ordinal()]),
+                new ItemStack(Items.IRON_INGOT, 2),
+                new ItemStack(ItemRegister.items[ItemRegistry.TINPLATE.ordinal()], 2));
     }
 
     /**

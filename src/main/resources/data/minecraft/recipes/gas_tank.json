@@ -1,16 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " B ",
+    " A ",
     "A A",
-    " B "
+    " A "
   ],
   "key": {
     "A": {
-      "tag": "c:tin_ingots"
-    },
-    "B": {
-      "item": "minecraft:iron_ingot"
+      "item": "minecraft:tinplate"
     }
   },
   "result": {

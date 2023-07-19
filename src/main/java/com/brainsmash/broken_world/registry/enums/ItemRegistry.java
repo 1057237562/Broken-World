@@ -66,4 +66,5 @@ public enum ItemRegistry {
     STEEL_PLATE,
     CIRCUIT_BOARD,
     BRONZE_INGOT,
+    TINPLATE,
 }
