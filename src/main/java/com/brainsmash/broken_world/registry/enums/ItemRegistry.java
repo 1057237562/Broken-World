@@ -65,4 +65,5 @@ public enum ItemRegistry {
     OXYGEN_TANK,
     STEEL_PLATE,
     CIRCUIT_BOARD,
+    BRONZE_INGOT,
 }

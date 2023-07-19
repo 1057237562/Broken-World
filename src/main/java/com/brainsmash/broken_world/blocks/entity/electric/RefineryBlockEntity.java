@@ -20,6 +20,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
+import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -53,14 +54,13 @@ public class RefineryBlockEntity extends ConsumerBlockEntity implements NamedScr
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (RefineryRecipe.recipes.containsKey(
-                    RefineryRecipe.makePair(inventory.get(0).getItem(), inventory.get(1).getItem())) && canRun()) {
+            String key = RefineryRecipe.makePair(inventory.get(0).getItem(), inventory.get(1).getItem());
+            if (RefineryRecipe.recipes.containsKey(key) && checkCount(key) && canRun()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;
                 } else {
-                    ItemStack output = RefineryRecipe.recipes.get(
-                            RefineryRecipe.makePair(inventory.get(0).getItem(), inventory.get(1).getItem()));
+                    ItemStack output = RefineryRecipe.recipes.get(key);
                     if (inventory.get(3).isEmpty()) {
                         inventory.set(3, output.copy());
                     } else if (inventory.get(3).getItem().equals(output.getItem()) && inventory.get(
@@ -69,8 +69,14 @@ public class RefineryBlockEntity extends ConsumerBlockEntity implements NamedScr
                     } else {
                         EntityHelper.spawnItem(world, output, 1, Direction.UP, pos);
                     }
-                    inventory.get(0).decrement(1);
-                    inventory.get(1).decrement(1);
+                    Pair<Integer, Integer> count = RefineryRecipe.counts.get(key);
+                    if (inventory.get(0).getItem().hashCode() > inventory.get(1).getItem().hashCode()) {
+                        inventory.get(0).decrement(count.getLeft());
+                        inventory.get(1).decrement(count.getRight());
+                    } else {
+                        inventory.get(1).decrement(count.getLeft());
+                        inventory.get(0).decrement(count.getRight());
+                    }
                     progression = 0;
                 }
                 if (!inventory.get(0).getItem().equals(lastItem[0]) || !inventory.get(1).getItem().equals(
@@ -111,4 +117,19 @@ public class RefineryBlockEntity extends ConsumerBlockEntity implements NamedScr
         Inventories.writeNbt(nbt, this.inventory);
         super.writeNbt(nbt);
     }
+
+    /**
+     * Check whether the input items are enough to run the recipe by comparing the count of the items with the same key from counts map.
+     */
+    private boolean checkCount(String key) {
+        Pair<Integer, Integer> counts = RefineryRecipe.counts.get(key);
+        ItemStack a = inventory.get(0);
+        ItemStack b = inventory.get(1);
+        if (a.getItem().hashCode() > b.getItem().hashCode()) {
+            return a.getCount() >= counts.getLeft() && b.getCount() >= counts.getRight();
+        } else {
+            return a.getCount() >= counts.getRight() && b.getCount() >= counts.getLeft();
+        }
+    }
+
 }

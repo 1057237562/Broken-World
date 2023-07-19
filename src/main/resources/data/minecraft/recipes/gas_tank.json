@@ -1,13 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " A ",
+    " B ",
     "A A",
-    " A "
+    " B "
   ],
   "key": {
     "A": {
-      "item": "broken_world:tin_ingot"
+      "tag": "c:tin_ingots"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
     }
   },
   "result": {
