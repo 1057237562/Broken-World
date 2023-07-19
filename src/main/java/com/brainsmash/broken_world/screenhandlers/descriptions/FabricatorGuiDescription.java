@@ -15,8 +15,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.CraftingRecipe;
-import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -54,7 +52,7 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
         WIndicatorItemSlot craftingSlot = new WIndicatorItemSlot(blockInventory, 0, 3, 3, false);
         craftingSlot.addChangeListener((WIndicatorItemSlot.ChangeListener) (slot, inventory, index, stack) -> {
             if (getNetworkSide() == NetworkSide.SERVER) {
-                CheckRecipe();
+                checkRecipe();
             }
         });
         root.add(craftingSlot, 1, 1);
@@ -68,7 +66,7 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
         root.validate(this);
     }
 
-    public void CheckRecipe() {
+    public void checkRecipe() {
         if (getNetworkSide() == NetworkSide.SERVER) {
             CraftingInventory craftingInventory = new CraftingInventory(this, 3, 3);
             for (int i = 0; i < 9; i++) {

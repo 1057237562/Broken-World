@@ -4,7 +4,6 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import com.brainsmash.broken_world.screenhandlers.descriptions.ExtractorGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.GasCollectorGuiDescription;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -16,7 +15,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -27,12 +25,10 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 public class GasCollectorBlockEntity extends ConsumerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, SidedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
 
-    int gasOutput = 0;
+    int selectedGas = 0;
     private Item lastItem;
 
     public GasCollectorBlockEntity(BlockPos pos, BlockState state) {
@@ -42,7 +38,7 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
 
     public void selectGasOutput(int i) {
         System.out.println("Set to " + i);
-        gasOutput = i;
+        selectedGas = i;
     }
 
     @Override
@@ -52,7 +48,7 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new GasCollectorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world, pos));
+        return new GasCollectorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world, pos), selectedGas);
     }
 
     @Override
@@ -68,6 +64,7 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
     @Override
     public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
         buf.writeBlockPos(pos);
+        buf.writeInt(selectedGas);
     }
 
     @Override
