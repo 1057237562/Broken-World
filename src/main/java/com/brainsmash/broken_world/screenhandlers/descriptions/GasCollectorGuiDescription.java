@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.screenhandlers.descriptions;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.GasCollectorBlockEntity;
+import com.brainsmash.broken_world.gui.widgets.WTintedBar;
 import com.brainsmash.broken_world.registry.GasRegister;
 import com.brainsmash.broken_world.util.Reference;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
@@ -50,8 +51,8 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
         bar.setProperties(propertyDelegate);
         root.add(bar, 1, 3, 1, 1);
 
-        WBar bar1 = new WBar(new Identifier(Main.MODID, "textures/gui/progressbar_right.png"),
-                new Identifier(Main.MODID, "textures/gui/progressbar_right_filled.png"), 2, 3, Direction.RIGHT);
+        WTintedBar bar1 = new WTintedBar(new Identifier(Main.MODID, "textures/gui/progressbar_right.png"),
+                new Identifier(Main.MODID, "textures/gui/progressbar_right_filled.png"), 2, 3, Direction.DOWN);
         bar1.setProperties(propertyDelegate);
         root.add(bar1, 4, 2, 1, 3);
 
