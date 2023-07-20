@@ -1,0 +1,23 @@
+{
+  "type": "broken_world:weaponry",
+  "pattern": [
+    " A ",
+    " B ",
+    "CCC"
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:tungsten_ingot"
+    },
+    "B": {
+      "item": "broken_world:bronze_ingot"
+    },
+    "C": {
+      "item": "minecraft:gunpowder"
+    }
+  },
+  "result": {
+    "item": "broken_world:sniper_ammo",
+    "count": 3
+  }
+}
