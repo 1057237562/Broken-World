@@ -190,9 +190,6 @@ public class ItemRegister {
             "circuit_board",
             "bronze_ingot",
             "tinplate",
-            "oxygen_unit",
-            "nitrogen_unit",
-            "co2_unit",
     };
 
     public static final Item[] guns = {

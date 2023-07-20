@@ -2,18 +2,8 @@
   "gases": [
     {
       "name": "oxygen",
-      "product": "broken_world:oxygen_unit",
+      "product": "broken_world:oxygen_tank",
       "color": 1203699967
-    },
-    {
-      "name": "co2",
-      "product": "broken_world:co2_unit",
-      "color": 1203765247
-    },
-    {
-      "name": "nitrogen",
-      "product": "broken_world:nitrogen_unit",
-      "color": 1191182591
     }
   ]
 }
