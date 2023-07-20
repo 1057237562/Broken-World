@@ -48,6 +48,7 @@ public class ItemRegister {
     };
 
     public static final Item[] items = {
+            // 0
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new BreathingEPP(new FabricItemSettings().maxCount(1).group(ITEM_GROUP)),
@@ -58,6 +59,7 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            // 10
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
@@ -68,6 +70,7 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            // 20
             new HyperPocket(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new LightAmmo(new FabricItemSettings().group(ITEM_GROUP)),
@@ -79,6 +82,7 @@ public class ItemRegister {
             new HyperSpear(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new ArmorItem(armorMaterials[0], EquipmentSlot.HEAD,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            // 30
             new ArmorItem(armorMaterials[0], EquipmentSlot.CHEST,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new ArmorItem(armorMaterials[0], EquipmentSlot.LEGS,
@@ -92,6 +96,7 @@ public class ItemRegister {
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:floating"),
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:aurora"),
             new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.ROOKIE_WAND_SCREEN_HANDLER, 1),
+            // 40
             new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.EXPERT_WAND_SCREEN_HANDLER, 3),
             new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.MASTER_WAND_SCREEN_HANDLER, 6),
             new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.GRANDMASTER_WAND_SCREEN_HANDLER, 9),
@@ -102,6 +107,7 @@ public class ItemRegister {
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.FIRE),
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.LIQUID),
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.WIND),
+            // 50
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.MOUNTAINOUS),
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.SINK),
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.THUNDER),
@@ -112,9 +118,7 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            // 60
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
