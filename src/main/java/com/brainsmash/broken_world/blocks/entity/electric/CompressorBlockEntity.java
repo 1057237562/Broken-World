@@ -45,7 +45,8 @@ public class CompressorBlockEntity extends ConsumerBlockEntity implements NamedS
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (CompressorRecipe.recipes.containsKey(inventory.get(0).getItem()) && canRun()) {
+            if (CompressorRecipe.recipes.containsKey(inventory.get(0).getItem()) && inventory.get(
+                    0).getCount() >= CompressorRecipe.counts.get(inventory.get(0).getItem()) && canRun()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;
@@ -57,7 +58,8 @@ public class CompressorBlockEntity extends ConsumerBlockEntity implements NamedS
                     inventory.get(0).decrement(1);
                     progression = 0;
                 }
-                if (!inventory.get(0).getItem().equals(lastItem)) {
+                if (!inventory.get(0).getItem().equals(lastItem) || inventory.get(
+                        0).getCount() < CompressorRecipe.counts.get(inventory.get(0).getItem())) {
                     lastItem = inventory.get(0).getItem();
                     progression = 0;
                 }

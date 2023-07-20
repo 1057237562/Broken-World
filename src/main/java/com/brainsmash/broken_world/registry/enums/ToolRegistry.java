@@ -10,8 +10,8 @@ import java.util.function.Supplier;
 
 public enum ToolRegistry implements ToolMaterial {
 
-    COPPER(1, 250, 6.0F, 2.0F, 14, () -> Ingredient.ofItems(Items.COPPER_INGOT)),
-    TUNGSTEN(2, 1561, 8.0F, 3.0F, 10,
+    COPPER(1, 150, 5.0F, 1.5F, 11, () -> Ingredient.ofItems(Items.COPPER_INGOT)),
+    TUNGSTEN(2, 1561, 7.8F, 2.8F, 10,
             () -> Ingredient.ofItems(ItemRegister.items[ItemRegistry.TUNGSTEN_INGOT.ordinal()]));
 
     private final int miningLevel;

@@ -11,10 +11,19 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CompressorRecipe {
     public static Map<Item, ItemStack> recipes = new ConcurrentHashMap<>();
+    public static Map<Item, Integer> counts = new ConcurrentHashMap<>();
 
     public static void registCompressorRecipes() {
-        recipes.put(Items.IRON_INGOT, new ItemStack(ItemRegister.items[ItemRegistry.IRON_PLATE.ordinal()], 2));
-        recipes.put(ItemRegister.items[ItemRegistry.STEEL_INGOT.ordinal()],
+        registCompressorRecipe(Items.IRON_INGOT.getDefaultStack(),
+                new ItemStack(ItemRegister.items[ItemRegistry.IRON_PLATE.ordinal()], 2));
+        registCompressorRecipe(ItemRegister.items[ItemRegistry.STEEL_INGOT.ordinal()].getDefaultStack(),
                 new ItemStack(ItemRegister.items[ItemRegistry.STEEL_PLATE.ordinal()], 1));
+        registCompressorRecipe(new ItemStack(Items.STONE, 4), new ItemStack(Items.COBBLED_DEEPSLATE));
     }
+
+    public static void registCompressorRecipe(ItemStack a, ItemStack b) {
+        recipes.put(a.getItem(), b);
+        counts.put(a.getItem(), a.getCount());
+    }
+
 }

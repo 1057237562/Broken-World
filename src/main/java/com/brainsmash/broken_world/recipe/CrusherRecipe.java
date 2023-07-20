@@ -54,5 +54,9 @@ public class CrusherRecipe {
                         new Pair<>(0.08f, Items.RAW_IRON), new Pair<>(0.30f, Items.GRAVEL),
                         new Pair<>(0.04f, Items.RAW_GOLD), new Pair<>(0.15f, Items.RAW_COPPER),
                         new Pair<>(0.1f, Items.DIRT)));
+        recipes.put(Items.DIORITE, Arrays.asList(new Pair<>(0.25f, Items.QUARTZ), new Pair<>(0.20f, Items.GRAVEL),
+                new Pair<>(0.1f, Items.DIRT)));
+        recipes.put(Items.GRANITE, Arrays.asList(new Pair<>(0.15f, Items.REDSTONE), new Pair<>(0.3f, Items.COBBLESTONE),
+                new Pair<>(0.20f, Items.GRAVEL), new Pair<>(0.1f, Items.DIRT)));
     }
 }

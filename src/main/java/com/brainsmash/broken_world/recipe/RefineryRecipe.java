@@ -7,12 +7,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Pair;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RefineryRecipe {
-    public static Map<String, ItemStack> recipes = new HashMap<>();
-    public static Map<String, Pair<Integer, Integer>> counts = new HashMap<>();
+    public static Map<String, ItemStack> recipes = new ConcurrentHashMap<>();
+    public static Map<String, Pair<Integer, Integer>> counts = new ConcurrentHashMap<>();
 
     public static String makePair(Item a, Item b) {
         if (a.hashCode() > b.hashCode()) {
