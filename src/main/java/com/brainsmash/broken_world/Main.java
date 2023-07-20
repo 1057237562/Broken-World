@@ -11,6 +11,7 @@ import com.brainsmash.broken_world.util.BonusHelper;
 import com.brainsmash.broken_world.util.EntityHelper;
 import com.brainsmash.broken_world.worldgen.BWDensityFunctionTypes;
 import com.brainsmash.broken_world.worldgen.features.VolcanoFeature;
+import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -26,12 +27,16 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.gen.GenerationStep;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main implements ModInitializer {
     // This logger is used to write text to the console and the log file.
     // It is considered best practice to use your mod id as the logger's name.
     // That way, it's clear which mod wrote info, warnings, and errors.
     public static final String MODID = "broken_world";
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_controller"),
