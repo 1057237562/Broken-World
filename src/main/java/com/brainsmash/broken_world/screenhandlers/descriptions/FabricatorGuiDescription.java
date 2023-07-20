@@ -15,6 +15,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.CraftingRecipe;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -32,7 +34,8 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
     private FabricatorBlockEntity entity;
 
     public FabricatorGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(Main.FABRICATOR_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context, PROPERTY_COUNT));
+        super(Main.FABRICATOR_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE),
+                getBlockPropertyDelegate(context, PROPERTY_COUNT));
         context.get((world, pos) -> {
             if (world.getBlockEntity(pos) instanceof FabricatorBlockEntity fabricatorBlockEntity) {
                 entity = fabricatorBlockEntity;
@@ -44,7 +47,9 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
         setRootPanel(root);
         root.setSize(150, 207);
         root.setInsets(Insets.ROOT_PANEL);
-        WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/horizontal_electric_bar.png"), new Identifier(Main.MODID, "textures/gui/horizontal_electric_bar_filled.png"), 0, 1, WBar.Direction.RIGHT);
+        WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/horizontal_electric_bar.png"),
+                new Identifier(Main.MODID, "textures/gui/horizontal_electric_bar_filled.png"), 0, 1,
+                WBar.Direction.RIGHT);
         bar.setProperties(propertyDelegate);
         root.add(bar, 5, 1, 2, 1);
         WItemSlot output = new WItemSlot(blockInventory, 18, 1, 1, false);
@@ -56,7 +61,8 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
             }
         });
         root.add(craftingSlot, 1, 1);
-        WBar bar1 = new WBar(new Identifier(Main.MODID, "textures/gui/progressbar_right.png"), new Identifier(Main.MODID, "textures/gui/progressbar_right_filled.png"), 2, 3, WBar.Direction.RIGHT);
+        WBar bar1 = new WBar(new Identifier(Main.MODID, "textures/gui/progressbar_right.png"),
+                new Identifier(Main.MODID, "textures/gui/progressbar_right_filled.png"), 2, 3, WBar.Direction.RIGHT);
         root.add(bar1, 4, 3, 2, 1);
         WItemSlot storageSlot = new WItemSlot(blockInventory, 9, 9, 1, false);
         root.add(storageSlot, 0, 5);
@@ -72,11 +78,18 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
             for (int i = 0; i < 9; i++) {
                 craftingInventory.setStack(i, blockInventory.getStack(i));
             }
-            Optional<FabricatorRecipe> optional = world.getServer().getRecipeManager().getFirstMatch(FabricatorRecipe.Type.INSTANCE, craftingInventory, world);
-            if (optional.isPresent()) {
-                entity.setOutput(optional.get().craft(craftingInventory));
+            Optional<FabricatorRecipe> fabricatorRecipe = world.getServer().getRecipeManager().getFirstMatch(
+                    FabricatorRecipe.Type.INSTANCE, craftingInventory, world);
+            if (fabricatorRecipe.isPresent()) {
+                entity.setOutput(fabricatorRecipe.get().craft(craftingInventory));
             } else {
-                entity.setOutput(ItemStack.EMPTY);
+                Optional<CraftingRecipe> vanillaRecipe = world.getServer().getRecipeManager().getFirstMatch(
+                        RecipeType.CRAFTING, craftingInventory, world);
+                if (vanillaRecipe.isPresent()) {
+                    entity.setOutput(vanillaRecipe.get().craft(craftingInventory));
+                } else {
+                    entity.setOutput(ItemStack.EMPTY);
+                }
             }
         }
     }
