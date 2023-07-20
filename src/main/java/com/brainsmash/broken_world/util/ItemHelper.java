@@ -35,4 +35,15 @@ public class ItemHelper {
         }
         return items;
     }
+
+    /**
+     * Convert List<ItemStack> to List<Ingredient>
+     */
+    public static List<Ingredient> fromItemStacks(List<ItemStack> stacks) {
+        List<Ingredient> ingredients = new ArrayList<>();
+        for (ItemStack stack : stacks) {
+            ingredients.add(fromItemStack(stack));
+        }
+        return ingredients;
+    }
 }
