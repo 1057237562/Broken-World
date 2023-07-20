@@ -93,9 +93,8 @@ public class Main implements ModInitializer {
                     ((syncId, playerInventory) -> new ExtractorGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
     public static final ScreenHandlerType<GasCollectorGuiDescription> GAS_COLLECTOR_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "gas_collector"), new ScreenHandlerType<>(
-                    ((syncId, playerInventory) -> new GasCollectorGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "gas_collector"),
+            new ExtendedScreenHandlerType<>(GasCollectorGuiDescription::new));
 
     public static final ScreenHandlerType<RefineryGuiDescription> REFINERY_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "refinery"), new ScreenHandlerType<>(
@@ -139,6 +138,8 @@ public class Main implements ModInitializer {
         ExtractorRecipe.registExtractorRecipes();
         GasCollectorRecipe.registGasCollectorRecipes();
         RefineryRecipe.registRefineryRecipes();
+
+        GasRegister.register();
 
         OreTypeRegistry.RegistOreType();
 

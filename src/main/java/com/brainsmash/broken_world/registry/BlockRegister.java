@@ -186,8 +186,8 @@ public class BlockRegister {
             new UVBlock(STANDARD_BLOCK),
             new Block(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
-            new GasCollectorBlock(STANDARD_BLOCK),
             new RefineryBlock(STANDARD_BLOCK),
+            new GasCollectorBlock(STANDARD_BLOCK)
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -361,8 +361,8 @@ public class BlockRegister {
             "uv",
             "rubber_planks",
             "steel_shell",
-            "gas_collector",
             "refinery",
+            "gas_collector",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -550,9 +550,9 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(UVBlockEntity::new, blocks[80]).build());
         GAS_COLLECTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "gas_collector"),
-                FabricBlockEntityTypeBuilder.create(GasCollectorBlockEntity::new, blocks[83]).build());
+                FabricBlockEntityTypeBuilder.create(GasCollectorBlockEntity::new, blocks[84]).build());
         REFINERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "refinery"),
-                FabricBlockEntityTypeBuilder.create(RefineryBlockEntity::new, blocks[84]).build());
+                FabricBlockEntityTypeBuilder.create(RefineryBlockEntity::new, blocks[83]).build());
     }
 
     public static void registBlocksClientSide() {

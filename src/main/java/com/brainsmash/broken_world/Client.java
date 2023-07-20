@@ -67,6 +67,7 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.ASSEMBLER_GUI_DESCRIPTION, AssemblerScreen::new);
         HandledScreens.register(Main.EXTRACTOR_GUI_DESCRIPTION, ExtractorScreen::new);
         HandledScreens.register(Main.WEAPONRY_GUI_DESCRIPTION, WeaponryScreen::new);
+        HandledScreens.register(Main.GAS_COLLECTOR_GUI_DESCRIPTION, GasCollectorScreen::new);
 
 
         BlockRegister.registBlocksClientSide();
