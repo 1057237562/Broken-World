@@ -1,0 +1,20 @@
+{
+  "type": "broken_world:weaponry",
+  "pattern": [
+    "   ",
+    " A ",
+    " B "
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:bronze_ingot"
+    },
+    "B": {
+      "item": "minecraft:gunpowder"
+    }
+  },
+  "result": {
+    "item": "broken_world:light_ammo",
+    "count": 2
+  }
+}
