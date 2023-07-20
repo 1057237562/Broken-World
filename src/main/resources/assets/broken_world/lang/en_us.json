@@ -147,5 +147,7 @@
   "item.broken_world.polluted_water_bucket": "Polluted Water Bucket", 
   "item.broken_world.acid_bucket": "Acid Bucket", 
 
-  "itemGroup.broken_world.itemgroup": "Broken World"
+  "itemGroup.broken_world.itemgroup": "Broken World",
+
+  "death.attack.electricShock": "That's how %1$s lost engineering license. "
 }
