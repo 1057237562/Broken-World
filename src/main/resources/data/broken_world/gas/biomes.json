@@ -1,0 +1,21 @@
+{
+  "biomes": [
+    {
+      "biome": "minecraft:plains",
+      "gases": [
+        {
+          "gas": "broken_world:oxygen",
+          "ticks_per_product": 50
+        },
+        {
+          "gas": "broken_world:co2",
+          "ticks_per_product": 100
+        },
+        {
+          "gas": "broken_world:nitrogen",
+          "ticks_per_product": 10
+        }
+      ]
+    }
+  ]
+}
