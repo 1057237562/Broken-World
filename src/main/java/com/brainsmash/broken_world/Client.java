@@ -59,14 +59,15 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.GAS_COLLECTOR_GUI_DESCRIPTION, GasCollectorScreen::new);
         HandledScreens.register(Main.REFINERY_GUI_DESCRIPTION, RefineryScreen::new);
         HandledScreens.register(Main.CENTRIFUGE_GUI_DESCRIPTION, CentrifugeScreen::new);
-        HandledScreens.register(Main.ROOKIE_WAND_SCREEN_HANDLER, WandScreen::new);
-        HandledScreens.register(Main.EXPERT_WAND_SCREEN_HANDLER, WandScreen::new);
-        HandledScreens.register(Main.MASTER_WAND_SCREEN_HANDLER, WandScreen::new);
-        HandledScreens.register(Main.GRANDMASTER_WAND_SCREEN_HANDLER, WandScreen::new);
         HandledScreens.register(Main.COMPRESSOR_GUI_DESCRIPTION, CompressorScreen::new);
         HandledScreens.register(Main.ASSEMBLER_GUI_DESCRIPTION, AssemblerScreen::new);
         HandledScreens.register(Main.EXTRACTOR_GUI_DESCRIPTION, ExtractorScreen::new);
         HandledScreens.register(Main.WEAPONRY_GUI_DESCRIPTION, WeaponryScreen::new);
+        
+        HandledScreens.register(Main.ROOKIE_WAND_SCREEN_HANDLER, WandScreen::new);
+        HandledScreens.register(Main.EXPERT_WAND_SCREEN_HANDLER, WandScreen::new);
+        HandledScreens.register(Main.MASTER_WAND_SCREEN_HANDLER, WandScreen::new);
+        HandledScreens.register(Main.GRANDMASTER_WAND_SCREEN_HANDLER, WandScreen::new);
 
 
         BlockRegister.registBlocksClientSide();
