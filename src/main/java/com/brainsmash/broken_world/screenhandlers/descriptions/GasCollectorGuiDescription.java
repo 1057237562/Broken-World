@@ -14,9 +14,9 @@ import io.github.cottonmc.cotton.gui.widget.WButton;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
+import io.github.cottonmc.cotton.gui.widget.data.Texture;
 import io.github.cottonmc.cotton.gui.widget.icon.ItemIcon;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -30,6 +30,15 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
     private static final int INVENTORY_SIZE = 3;
     private static final int PROPERTY_COUNT = 4;
     private static final Identifier GAS_SELECTION = new Identifier(Main.MODID, "gas_selection");
+    private static final int TRACE_THRESHOLD = 80;
+    private static final int NORMAL_THRESHOLD = 40;
+    private static final Texture TRACE_BG = new Texture(new Identifier(Main.MODID, "textures/gui/trace_gas.png"));
+    private static final Texture TRACE_FG = new Texture(new Identifier(Main.MODID, "textures/gui/trace_gas_filled.png"));
+    private static final Texture NORMAL_BG = new Texture(new Identifier(Main.MODID, "textures/gui/normal_gas.png"));
+    private static final Texture NORMAL_FG = new Texture(new Identifier(Main.MODID, "textures/gui/normal_gas_filled.png"));
+    private static final Texture ABUNDANT_BG = new Texture(new Identifier(Main.MODID, "textures/gui/abundant_gas.png"));
+    private static final Texture ABUNDANT_FG = new Texture(new Identifier(Main.MODID, "textures/gui/abundant_gas_filled.png"));
+
     final Reference<Integer> selectedGas = new Reference<>(0);
     public GasCollectorGuiDescription(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
         this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.world, buf.readBlockPos()), buf.readInt());
@@ -51,8 +60,7 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
         bar.setProperties(propertyDelegate);
         root.add(bar, 1, 3, 1, 1);
 
-        WTintedBar bar1 = new WTintedBar(new Identifier(Main.MODID, "textures/gui/progressbar_right.png"),
-                new Identifier(Main.MODID, "textures/gui/progressbar_right_filled.png"), 2, 3, Direction.DOWN);
+        WTintedBar bar1 = new WTintedBar((Texture) null, (Texture) null, 2, 3, Direction.DOWN);
         bar1.setProperties(propertyDelegate);
         root.add(bar1, 4, 2, 1, 3);
 
@@ -64,23 +72,25 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
         root.add(product, 4, 5, 1, 1);
 
         context.get((world, pos) -> {
-            List<Pair<Item, Integer>> gasList = GasRegister.getEnvironmentGas(world, pos);
+            List<Pair<GasRegister.Gas, Integer>> gasList = GasRegister.getBiomeGases(world, pos);
             final WButton [] gasSelectors = new WButton[gasList.size()];
             final int l = gasSelectors.length;
             for (int i = 0; i < l; i++) {
-                gasSelectors[i] = new WButton(new ItemIcon(new ItemStack(gasList.get(i).getLeft())));
+                gasSelectors[i] = new WButton(new ItemIcon(new ItemStack(gasList.get(i).getLeft().product())));
 
                 final int j = i;
                 if (getNetworkSide() == NetworkSide.CLIENT) {
                     gasSelectors[i].setOnClick(() -> {
                         this.selectedGas.value = (l + this.selectedGas.value - l/2 + j) % l;
-                        refreshButtons(gasSelectors, gasList);
+                        updateButtons(gasSelectors, gasList);
+                        updateBarColor(bar1, gasList);
                         ScreenNetworking.of(this, NetworkSide.CLIENT).send(GAS_SELECTION, buf -> buf.writeInt(this.selectedGas.value));
                     });
                 }
-                refreshButtons(gasSelectors, gasList);
                 root.add(gasSelectors[i], 4 - l / 2 + i, 3);
             }
+            updateButtons(gasSelectors, gasList);
+            updateBarColor(bar1, gasList);
             if (getNetworkSide() == NetworkSide.SERVER) {
                 ScreenNetworking.of(this, NetworkSide.SERVER).receive(GAS_SELECTION, buf -> {
                     int i = buf.readInt();
@@ -96,10 +106,28 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
         root.validate(this);
     }
 
-    void refreshButtons(WButton [] buttons, List<Pair<Item, Integer>> gasList) {
+    void updateButtons(WButton [] buttons, List<Pair<GasRegister.Gas, Integer>> gasList) {
         int l = buttons.length;
         for (int i = 0; i < l; i++) {
-            buttons[l/2 + i].setIcon(new ItemIcon(gasList.get((selectedGas.value + i) % l).getLeft()));
+            buttons[(l/2 + i) % l].setIcon(new ItemIcon(gasList.get((selectedGas.value + i) % l).getLeft().product()));
         }
+    }
+
+    void updateBarColor(WTintedBar bar, List<Pair<GasRegister.Gas, Integer>> gasList) {
+        Pair<GasRegister.Gas, Integer> pair = gasList.get(selectedGas.value);
+        int color = pair.getLeft().color();
+        int ticks = pair.getRight();
+        if (ticks >= TRACE_THRESHOLD) {
+            bar.setBG(TRACE_BG);
+            bar.setBar(TRACE_FG);
+        } else if (ticks >= NORMAL_THRESHOLD) {
+            bar.setBG(NORMAL_BG);
+            bar.setBar(NORMAL_FG);
+        } else {
+            bar.setBG(ABUNDANT_BG);
+            bar.setBar(ABUNDANT_FG);
+        }
+
+        bar.setTint(color);
     }
 }

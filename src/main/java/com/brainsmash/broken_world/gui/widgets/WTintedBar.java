@@ -61,8 +61,8 @@ public class WTintedBar extends WBar {
     @Environment(EnvType.CLIENT)
     @Override
     public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-        if (bg != null) {
-            ScreenDrawing.texturedRect(matrices, x, y, getWidth(), getHeight(), bg, tint);
+        if (background != null) {
+            ScreenDrawing.texturedRect(matrices, x, y, getWidth(), getHeight(), background, tint);
         } else {
             ScreenDrawing.coloredRect(matrices, x, y, getWidth(), getHeight(), ScreenDrawing.colorAtOpacity(0x000000, 0.25f));
         }
