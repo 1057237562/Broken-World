@@ -26,6 +26,12 @@
     ],
     "client": [
       "com.brainsmash.broken_world.Client"
+    ],
+    "rei_client": [
+      "com.brainsmash.broken_world.rei.REIClient"
+    ],
+    "rei_server": [
+      "com.brainsmash.broken_world.rei.REIServer"
     ]
   },
   "mixins": [
