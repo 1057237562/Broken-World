@@ -1,9 +1,8 @@
 {
   "type": "broken_world:weaponry",
   "pattern": [
-    "   ",
-    " A ",
-    " B "
+    "A",
+    "B"
   ],
   "key": {
     "A": {
