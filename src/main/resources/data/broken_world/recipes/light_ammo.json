@@ -1,9 +1,8 @@
 {
   "type": "broken_world:weaponry",
   "pattern": [
-    " A ",
-    " A ",
-    " B "
+    "A",
+    "B"
   ],
   "key": {
     "A": {
@@ -14,7 +13,7 @@
     }
   },
   "result": {
-    "item": "broken_world:heavy_ammo",
+    "item": "broken_world:light_ammo",
     "count": 2
   }
 }

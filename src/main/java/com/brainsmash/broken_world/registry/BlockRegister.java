@@ -126,7 +126,8 @@ public class BlockRegister {
             new FabricatorBlock(STANDARD_BLOCK),
             new FabricatorExtensionBlock(STANDARD_BLOCK),
             new CentrifugeBlock(STANDARD_BLOCK.nonOpaque()),
-            new Block(STANDARD_BLOCK.velocityMultiplier(1.1f).slipperiness(0.45f)),
+            new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,
+                    3.0f).velocityMultiplier(1.1f).slipperiness(0.45f)),
             new MagnetiteBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new Block(FabricBlockSettings.copyOf(Blocks.GLASS).strength(2.0f, 15.0f)),
             // 40
