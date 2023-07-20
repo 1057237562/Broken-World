@@ -105,6 +105,9 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "weaponry"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new WeaponryGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
+    public static final ScreenHandlerType<GasCollectorGuiDescription> GAS_COLLECTOR_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "gas_collector"),
+            new ExtendedScreenHandlerType<>(GasCollectorGuiDescription::new));
 
     public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
@@ -139,6 +142,8 @@ public class Main implements ModInitializer {
         ExtractorRecipe.registExtractorRecipes();
         GasCollectorRecipe.registGasCollectorRecipes();
         RefineryRecipe.registRefineryRecipes();
+
+        GasRegister.register();
 
         OreTypeRegistry.RegistOreType();
 

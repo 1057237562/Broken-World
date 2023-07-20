@@ -35,12 +35,17 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Name
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     private final Random random = new Random();
     private Item lastItem;
+    int selectedGas = 0;
 
     public GasCollectorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.GAS_COLLECTOR_ENTITY_TYPE, pos, state);
         setMaxCapacity(500);
         maxProgression = 150;
         powerConsumption = 4;
+    }
+
+    public void selectGasOutput(int i) {
+        selectedGas = i;
     }
 
     @Override
@@ -50,7 +55,7 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Name
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new GasCollectorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world, pos));
+        return new GasCollectorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world, pos), selectedGas);
     }
 
     public boolean insertItem(ItemStack stack) {
@@ -107,16 +112,23 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Name
         return Text.translatable(getCachedState().getBlock().getTranslationKey());
     }
 
+    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
+        buf.writeBlockPos(pos);
+        buf.writeInt(selectedGas);
+    }
+
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
         lastItem = inventory.get(0).getItem();
+        selectedGas = nbt.getInt("selectedGas");
     }
 
     @Override
     public void writeNbt(NbtCompound nbt) {
         Inventories.writeNbt(nbt, this.inventory);
+        nbt.putInt("selectedGas", selectedGas);
         super.writeNbt(nbt);
     }
 
