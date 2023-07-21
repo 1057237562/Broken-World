@@ -11,10 +11,12 @@ import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.item.Item;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -28,7 +30,8 @@ public class GasRegister implements SimpleSynchronousResourceReloadListener {
     public static final GasRegister INSTANCE = new GasRegister();
     public static final Identifier ID = new Identifier(Main.MODID, "gas_registry");
     private static final Map<Identifier, Gas> gases = new HashMap<>();
-    private static final Map<Identifier, List<Pair<Gas, Integer>>> biomeGasProduction = new HashMap<>();
+    private static final Map<Identifier, Set<Pair<Gas, Integer>>> gasesByBiomes = new HashMap<>();
+    private static final Map<TagKey<Biome>, Set<Pair<Gas, Integer>>> gasesByBiomeTags = new HashMap<>();
     public static final int BIOME_GAS_LIMIT = 5;
     @Override
     public Identifier getFabricId() {
@@ -38,7 +41,7 @@ public class GasRegister implements SimpleSynchronousResourceReloadListener {
     @Override
     public void reload(ResourceManager manager) {
         gases.clear();
-        biomeGasProduction.clear();
+        gasesByBiomes.clear();
 
         manager.findResources("gas/", path -> path.getPath().equals("gas/gases.json")).forEach((id, resource) -> {
             try(InputStream stream = resource.getInputStream()) {
@@ -68,9 +71,15 @@ public class GasRegister implements SimpleSynchronousResourceReloadListener {
                 JsonArray biomeList = root.getAsJsonArray("biomes");
                 biomeList.forEach(element -> {
                     JsonObject biomeObj = (JsonObject) element;
-                    Identifier biomeID = new Identifier(biomeObj.get("biome").getAsString());
+                    String biomeStr = biomeObj.get("biome").getAsString();
+                    boolean isTag = biomeStr.startsWith("#");
+                    Identifier biomeID = new Identifier(isTag ? biomeStr.substring(1) : biomeStr);
 
-                    List<Pair<Gas, Integer>> gasList = new ArrayList<>();
+                    Set<Pair<Gas, Integer>> set;
+                    if (isTag)
+                        set = gasesByBiomeTags.computeIfAbsent(TagKey.of(Registry.BIOME_KEY, biomeID), k -> new HashSet<>());
+                    else
+                        set = gasesByBiomes.computeIfAbsent(biomeID, k -> new HashSet<>());
                     int cnt = 0;
                     for (JsonElement gasElement : biomeObj.getAsJsonArray("gases")) {
                         if (cnt++ >= BIOME_GAS_LIMIT) {
@@ -88,16 +97,12 @@ public class GasRegister implements SimpleSynchronousResourceReloadListener {
                         if (ticks <= 0) {
                             Main.LOGGER.error(
                                     "Error adding gas {} for biome {} in {} ticks_per_product must be positive",
-                                    gasID,
-                                    biomeID,
-                                    id
+                                    gasID, biomeID, id
                             );
                             break;
                         }
-                        gasList.add(new Pair<>(gas, ticks));
+                        set.add(new Pair<>(gas, ticks));
                     }
-
-                    biomeGasProduction.put(biomeID, gasList);
                 });
             } catch (Exception e) {
                 LogUtils.getLogger().error("Error loading biome gas production registry for " + id + ": " + e, e);
@@ -112,14 +117,29 @@ public class GasRegister implements SimpleSynchronousResourceReloadListener {
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(GasRegister.INSTANCE);
     }
 
-    public static List<Pair<Gas, Integer>> getBiomeGases(Identifier biome) {
-        return biomeGasProduction.getOrDefault(biome, new ArrayList<>());
+    public static List<Pair<Gas, Integer>> getBiomeGases(World world, BlockPos pos) {
+        RegistryEntry<Biome> entry = world.getBiome(pos);
+
+        Optional<RegistryKey<Biome>> optional = entry.getKey();
+        if (optional.isPresent()) {
+            Identifier biomeID = optional.get().getValue();
+            Set<Pair<Gas, Integer>> set = gasesByBiomes.get(biomeID);
+            if (set != null)
+                return convertToList(set);
+        }
+
+        Set<Pair<Gas, Integer>> set = new HashSet<>();
+        for (TagKey<Biome> tag : gasesByBiomeTags.keySet()) {
+            if (entry.isIn(tag))
+                set.addAll(gasesByBiomeTags.get(tag));
+        }
+        return convertToList(set);
     }
 
-    public static List<Pair<Gas, Integer>> getBiomeGases(World world, BlockPos pos) {
-        Optional<RegistryKey<Biome>> optional = world.getBiome(pos).getKey();
-        if (optional.isEmpty())
-            return new ArrayList<>();
-        return getBiomeGases(optional.get().getValue());
+    private static List<Pair<Gas, Integer>> convertToList(Set<Pair<Gas, Integer>> set) {
+        List<Pair<Gas, Integer>> list = new ArrayList<>(set);
+        list.sort((a, b) -> {
+
+        });
     }
 }
