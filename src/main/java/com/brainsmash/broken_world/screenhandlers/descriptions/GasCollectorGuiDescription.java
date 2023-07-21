@@ -116,7 +116,7 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
     void updateBarColor(WTintedBar bar, List<Pair<GasRegister.Gas, Integer>> gasList) {
         int color;
         int ticks;
-        if (!gasList.isEmpty()) {
+        if (gasList.isEmpty()) {
             color = 0xFF_FFFFFF;
             ticks = 40;
         } else {
