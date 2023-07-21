@@ -12,23 +12,23 @@ import net.minecraft.util.Pair;
 import java.util.Collections;
 import java.util.List;
 
-public class ExtractorDisplay extends BasicDisplay {
+public class AdvancedFurnaceDisplay extends BasicDisplay {
 
     public List<Pair<Float, Item>> olist;
 
-    public ExtractorDisplay(Item input, List<Pair<Float, Item>> output) {
+    public AdvancedFurnaceDisplay(Item input, List<Pair<Float, Item>> output) {
         this(Collections.singletonList(EntryIngredients.of(input)),
                 EntryIngredients.ofIngredients(ItemHelper.fromItemStacks(ItemHelper.getItemstackFromPairs(output))));
         olist = output;
     }
 
-    public ExtractorDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs) {
+    public AdvancedFurnaceDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs) {
         super(inputs, outputs);
     }
 
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
-        return REIClient.EXTRACTOR_DISPLAY;
+        return REIClient.ADVANCED_FURNACE_DISPLAY;
     }
 
 

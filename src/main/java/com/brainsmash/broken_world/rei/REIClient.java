@@ -1,19 +1,10 @@
 package com.brainsmash.broken_world.rei;
 
-import com.brainsmash.broken_world.recipe.AssemblerRecipe;
-import com.brainsmash.broken_world.recipe.CompressorRecipe;
-import com.brainsmash.broken_world.recipe.ExtractorRecipe;
-import com.brainsmash.broken_world.recipe.RefineryRecipe;
+import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
-import com.brainsmash.broken_world.rei.category.AssemblerDisplayCategory;
-import com.brainsmash.broken_world.rei.category.CompressorDisplayCategory;
-import com.brainsmash.broken_world.rei.category.ExtractorDisplayCategory;
-import com.brainsmash.broken_world.rei.category.RefineryDisplayCategory;
-import com.brainsmash.broken_world.rei.display.AssemblerDisplay;
-import com.brainsmash.broken_world.rei.display.CompressorDisplay;
-import com.brainsmash.broken_world.rei.display.ExtractorDisplay;
-import com.brainsmash.broken_world.rei.display.RefineryDisplay;
+import com.brainsmash.broken_world.rei.category.*;
+import com.brainsmash.broken_world.rei.display.*;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
@@ -37,6 +28,11 @@ public class REIClient implements REIClientPlugin {
 
     public static final CategoryIdentifier<RefineryDisplay> REFINERY_DISPLAY = CategoryIdentifier.of(MODID, "refinery");
 
+    public static final CategoryIdentifier<CrusherDisplay> CRUSHER_DISPLAY = CategoryIdentifier.of(MODID, "crusher");
+    public static final CategoryIdentifier<SifterDisplay> SIFTER_DISPLAY = CategoryIdentifier.of(MODID, "sifter");
+    public static final CategoryIdentifier<AdvancedFurnaceDisplay> ADVANCED_FURNACE_DISPLAY = CategoryIdentifier.of(
+            MODID, "advanced_furnace");
+
     @Override
     public void registerCategories(CategoryRegistry registry) {
         registry.add(new ExtractorDisplayCategory());
@@ -54,6 +50,18 @@ public class REIClient implements REIClientPlugin {
         registry.add(new RefineryDisplayCategory());
         registry.addWorkstations(REFINERY_DISPLAY,
                 EntryStacks.of(BlockRegister.blockitems[BlockRegistry.REFINERY.ordinal()]));
+
+        registry.add(new CrusherDisplayCategory());
+        registry.addWorkstations(CRUSHER_DISPLAY,
+                EntryStacks.of(BlockRegister.blockitems[BlockRegistry.CRUSHER.ordinal()]));
+
+        registry.add(new SifterDisplayCategory());
+        registry.addWorkstations(SIFTER_DISPLAY,
+                EntryStacks.of(BlockRegister.blockitems[BlockRegistry.SIFTER.ordinal()]));
+
+        registry.add(new AdvancedFurnaceDisplayCategory());
+        registry.addWorkstations(ADVANCED_FURNACE_DISPLAY,
+                EntryStacks.of(BlockRegister.blockitems[BlockRegistry.ADVANCED_FURNACE.ordinal()]));
     }
 
     @Override
@@ -66,5 +74,8 @@ public class REIClient implements REIClientPlugin {
                         output)));
         RefineryRecipe.rei.forEach((item, stack) -> registry.add(
                 new RefineryDisplay(Arrays.asList(item.getLeft(), item.getRight()), stack)));
+        CrusherRecipe.recipes.forEach((item, stack) -> registry.add(new CrusherDisplay(item, stack)));
+        SifterRecipe.recipes.forEach((item, stack) -> registry.add(new SifterDisplay(item, stack)));
+        AdvancedFurnaceRecipe.recipes.forEach((item, stack) -> registry.add(new AdvancedFurnaceDisplay(item, stack)));
     }
 }
