@@ -3,7 +3,7 @@ package com.brainsmash.broken_world.rei.category;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import com.brainsmash.broken_world.rei.REIClient;
-import com.brainsmash.broken_world.rei.display.ExtractorDisplay;
+import com.brainsmash.broken_world.rei.display.CrusherDisplay;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -17,25 +17,26 @@ import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
 
-public class ExtractorDisplayCategory implements DisplayCategory<ExtractorDisplay> {
+public class CrusherDisplayCategory implements DisplayCategory<CrusherDisplay> {
     @Override
-    public CategoryIdentifier<? extends ExtractorDisplay> getCategoryIdentifier() {
-        return REIClient.EXTRACTOR_DISPLAY;
+    public CategoryIdentifier<? extends CrusherDisplay> getCategoryIdentifier() {
+        return REIClient.CRUSHER_DISPLAY;
     }
 
     @Override
     public Text getTitle() {
-        return Text.translatable("category.broken_world.extractor");
+        return Text.translatable("category.broken_world.crusher");
     }
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(BlockRegister.blockitems[BlockRegistry.EXTRACTOR.ordinal()]);
+        return EntryStacks.of(BlockRegister.blockitems[BlockRegistry.CRUSHER.ordinal()]);
     }
 
     @Override
-    public List<Widget> setupDisplay(ExtractorDisplay display, Rectangle bounds) {
-        Point startPoint = new Point(bounds.getCenterX() - 32 - display.olist.size() * 9, bounds.getCenterY() - 13);
+    public List<Widget> setupDisplay(CrusherDisplay display, Rectangle bounds) {
+        Point startPoint = new Point(bounds.getCenterX() - 32 - Math.min(4, display.olist.size()) * 9,
+                bounds.getCenterY() - 13);
         List<Widget> widgets = Lists.newArrayList();
 
         widgets.add(Widgets.createRecipeBase(bounds));
@@ -46,12 +47,11 @@ public class ExtractorDisplayCategory implements DisplayCategory<ExtractorDispla
                 display.getInputEntries().get(0)).markOutput());
 
         for (int i = 0; i < display.olist.size(); i++) {
-            widgets.add(Widgets.withTooltip(
-                    Widgets.createSlot(new Point(startPoint.x + 61 + 18 * i, startPoint.y + 5)).entries(
+            widgets.add(Widgets.withTooltip(Widgets.createSlot(new Point(startPoint.x + 61 + 18 * (i % 4),
+                            startPoint.y + 5 - (display.olist.size() / 4) * 9 + (i / 4) * 18)).entries(
                             display.getOutputEntries().get(i)).markInput(),
                     Text.of(display.olist.get(i).getLeft() * 100 + "%")));
         }
-
 
         return widgets;
     }

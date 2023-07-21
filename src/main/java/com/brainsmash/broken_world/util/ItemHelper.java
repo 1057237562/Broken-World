@@ -1,13 +1,11 @@
 package com.brainsmash.broken_world.util;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ItemHelper {
@@ -28,10 +26,10 @@ public class ItemHelper {
     /**
      * Get List<Item> from List<Pair<Float,Item>>
      */
-    public static Collection<ItemConvertible> getItemsFromPairs(List<Pair<Float, Item>> pairs) {
-        List<ItemConvertible> items = new ArrayList<>();
+    public static List<ItemStack> getItemstackFromPairs(List<Pair<Float, Item>> pairs) {
+        List<ItemStack> items = new ArrayList<>();
         for (Pair<Float, Item> pair : pairs) {
-            items.add(pair.getRight());
+            items.add(pair.getRight().getDefaultStack());
         }
         return items;
     }
