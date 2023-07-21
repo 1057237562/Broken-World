@@ -38,7 +38,8 @@ public class ExtractorGuiDescription extends SyncedGuiDescription {
         WItemSlot power = WItemSlot.of(blockInventory, 1);
         root.add(power, 3, 3, 1, 1);
 
-        root.add(WItemSlot.of(blockInventory, 2), 6, 2, 1, 1);
+        WItemSlot output = new WItemSlot(blockInventory, 2, 1, 1, true).setInsertingAllowed(false);
+        root.add(output, 6, 2, 1, 1);
 
         root.add(this.createPlayerInventoryPanel(), 0, 4);
 

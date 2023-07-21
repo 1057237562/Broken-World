@@ -52,8 +52,6 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
                 WBar.Direction.RIGHT);
         bar.setProperties(propertyDelegate);
         root.add(bar, 5, 1, 2, 1);
-        WItemSlot output = new WItemSlot(blockInventory, 18, 1, 1, false);
-        root.add(output, 6, 3);
         WIndicatorItemSlot craftingSlot = new WIndicatorItemSlot(blockInventory, 0, 3, 3, false);
         craftingSlot.addChangeListener((WIndicatorItemSlot.ChangeListener) (slot, inventory, index, stack) -> {
             if (getNetworkSide() == NetworkSide.SERVER) {
@@ -64,6 +62,8 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
         WBar bar1 = new WBar(new Identifier(Main.MODID, "textures/gui/progressbar_right.png"),
                 new Identifier(Main.MODID, "textures/gui/progressbar_right_filled.png"), 2, 3, WBar.Direction.RIGHT);
         root.add(bar1, 4, 3, 2, 1);
+        WItemSlot output = new WItemSlot(blockInventory, 18, 1, 1, true).setInsertingAllowed(false);
+        root.add(output, 6, 3);
         WItemSlot storageSlot = new WItemSlot(blockInventory, 9, 9, 1, false);
         root.add(storageSlot, 0, 5);
 

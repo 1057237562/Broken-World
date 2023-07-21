@@ -36,7 +36,7 @@ public class CompressorGuiDescription extends SyncedGuiDescription {
         WItemSlot source = WItemSlot.of(blockInventory, 0);
         root.add(source, 2, 2, 1, 1);
 
-        WItemSlot output = WItemSlot.of(blockInventory, 2);
+        WItemSlot output = new WItemSlot(blockInventory, 2, 1, 1, true).setInsertingAllowed(false);
         root.add(output, 5, 2, 1, 1);
 
         WItemSlot power = WItemSlot.of(blockInventory, 1);
