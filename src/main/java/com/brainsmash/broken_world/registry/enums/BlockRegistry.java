@@ -86,5 +86,6 @@ public enum BlockRegistry {
     STEEL_SHELL,
     REFINERY,
     GAS_COLLECTOR,
-    SULFUR_ORE
+    SULFUR_ORE,
+    ALUMINUM_ORE,
 }

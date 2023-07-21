@@ -193,7 +193,7 @@ public class BlockRegister {
             new RefineryBlock(STANDARD_BLOCK),
             new GasCollectorBlock(STANDARD_BLOCK),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.LAPIS_ORE)),
-
+            new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -282,6 +282,7 @@ public class BlockRegister {
             new BlockItem(blocks[83], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[84], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[85], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[86], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -371,6 +372,7 @@ public class BlockRegister {
             "refinery",
             "gas_collector",
             "sulfur_ore",
+            "aluminum_ore"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -394,6 +396,8 @@ public class BlockRegister {
                     blocks[BlockRegistry.TIN_ORE.ordinal()].getDefaultState(), 9)),
             new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
                     blocks[BlockRegistry.SULFUR_ORE.ordinal()].getDefaultState(), 4)),
+            new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
+                    blocks[BlockRegistry.ALUMINUM_ORE.ordinal()].getDefaultState(), 6)),
     };
 
     private static final PlacedFeature[] placedFeatures = {
@@ -424,6 +428,9 @@ public class BlockRegister {
             new PlacedFeature(RegistryEntry.of(configuredFeatures[8]),
                     Arrays.asList(CountPlacementModifier.of(10), SquarePlacementModifier.of(),
                             HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.fixed(64)))),
+            new PlacedFeature(RegistryEntry.of(configuredFeatures[9]),
+                    Arrays.asList(CountPlacementModifier.of(12), SquarePlacementModifier.of(),
+                            HeightRangePlacementModifier.uniform(YOffset.fixed(8), YOffset.fixed(64)))),
     };
 
     private static final String[] configurenames = {
@@ -435,7 +442,8 @@ public class BlockRegister {
             "magnetite",
             "kyanite_ore",
             "tin_ore",
-            "sulfur_ore"
+            "sulfur_ore",
+            "aluminum_ore"
     };
 
     public static BlockEntityType<TeleporterControllerBlockEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;
