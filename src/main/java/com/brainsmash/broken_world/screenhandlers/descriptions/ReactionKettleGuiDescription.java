@@ -31,7 +31,7 @@ public class ReactionKettleGuiDescription extends SyncedGuiDescription {
         WBar bar1 = new WBar(new Identifier(Main.MODID, "textures/gui/progressbar_right.png"),
                 new Identifier(Main.MODID, "textures/gui/progressbar_right_filled.png"), 2, 3, Direction.LEFT);
         bar1.setProperties(propertyDelegate);
-        root.add(bar1, 3, 2, 1, 1);
+        root.add(bar1, 3, 2, 2, 1);
 
         WItemSlot s1 = WItemSlot.of(blockInventory, 0);
         root.add(s1, 2, 1, 1, 1);
@@ -42,7 +42,7 @@ public class ReactionKettleGuiDescription extends SyncedGuiDescription {
         WItemSlot power = WItemSlot.of(blockInventory, 3);
         root.add(power, 8, 3, 1, 1);
         WItemSlot out = WItemSlot.of(blockInventory, 4);
-        root.add(out, 6, 2, 1, 1);
+        root.add(out, 5, 2, 1, 1);
 
         root.add(this.createPlayerInventoryPanel(), 0, 4);
 
