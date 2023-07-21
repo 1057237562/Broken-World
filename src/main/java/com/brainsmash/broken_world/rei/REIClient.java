@@ -30,6 +30,8 @@ public class REIClient implements REIClientPlugin {
 
     public static final CategoryIdentifier<CrusherDisplay> CRUSHER_DISPLAY = CategoryIdentifier.of(MODID, "crusher");
     public static final CategoryIdentifier<SifterDisplay> SIFTER_DISPLAY = CategoryIdentifier.of(MODID, "sifter");
+    public static final CategoryIdentifier<AdvancedFurnaceDisplay> ADVANCED_FURNACE_DISPLAY = CategoryIdentifier.of(
+            MODID, "advanced_furnace");
 
     @Override
     public void registerCategories(CategoryRegistry registry) {
@@ -56,6 +58,10 @@ public class REIClient implements REIClientPlugin {
         registry.add(new SifterDisplayCategory());
         registry.addWorkstations(SIFTER_DISPLAY,
                 EntryStacks.of(BlockRegister.blockitems[BlockRegistry.SIFTER.ordinal()]));
+
+        registry.add(new AdvancedFurnaceDisplayCategory());
+        registry.addWorkstations(ADVANCED_FURNACE_DISPLAY,
+                EntryStacks.of(BlockRegister.blockitems[BlockRegistry.ADVANCED_FURNACE.ordinal()]));
     }
 
     @Override
@@ -70,5 +76,6 @@ public class REIClient implements REIClientPlugin {
                 new RefineryDisplay(Arrays.asList(item.getLeft(), item.getRight()), stack)));
         CrusherRecipe.recipes.forEach((item, stack) -> registry.add(new CrusherDisplay(item, stack)));
         SifterRecipe.recipes.forEach((item, stack) -> registry.add(new SifterDisplay(item, stack)));
+        AdvancedFurnaceRecipe.recipes.forEach((item, stack) -> registry.add(new AdvancedFurnaceDisplay(item, stack)));
     }
 }

@@ -50,7 +50,7 @@ public class CrusherDisplayCategory implements DisplayCategory<CrusherDisplay> {
             widgets.add(Widgets.withTooltip(Widgets.createSlot(new Point(startPoint.x + 61 + 18 * (i % 4),
                             startPoint.y + 5 - (display.olist.size() / 4) * 9 + (i / 4) * 18)).entries(
                             display.getOutputEntries().get(i)).markInput(),
-                    Text.of(display.olist.get(i).getLeft() * 100 + "%")));
+                    Text.of(display.olist.get(i).getLeft() * 100.0 + "%")));
         }
 
         return widgets;
