@@ -105,6 +105,11 @@ public class Main implements ModInitializer {
                     ((syncId, playerInventory) -> new WeaponryGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
 
+    public static final ScreenHandlerType<ReactionKettleGuiDescription> REACTION_KETTLE_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "reaction_kettle"), new ScreenHandlerType<>(
+                    ((syncId, playerInventory) -> new ReactionKettleGuiDescription(syncId, playerInventory,
+                            ScreenHandlerContext.EMPTY))));
+
     public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
             new ScreenHandlerType<>(WandGuiDescription::createRookieWand));
@@ -138,6 +143,7 @@ public class Main implements ModInitializer {
         ExtractorRecipe.registExtractorRecipes();
         GasCollectorRecipe.registGasCollectorRecipes();
         RefineryRecipe.registRefineryRecipes();
+        ReactionRecipe.registReactionRecipes();
 
         GasRegister.register();
 
@@ -149,6 +155,8 @@ public class Main implements ModInitializer {
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "magnetite")));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "tin_ore")));
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
+                RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "sulfur_ore")));
         BiomeModifications.addFeature(BiomeSelectors.tag(BiomeTags.IS_JUNGLE),
                 GenerationStep.Feature.VEGETAL_DECORATION,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "rubber_tree")));

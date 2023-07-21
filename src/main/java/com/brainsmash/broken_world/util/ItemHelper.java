@@ -6,7 +6,9 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemHelper {
     /**
@@ -43,5 +45,23 @@ public class ItemHelper {
             ingredients.add(fromItemStack(stack));
         }
         return ingredients;
+    }
+
+    /**
+     * Make pairs of item's hashcode based on the compare item's hashcode
+     */
+    public static String makePair(Item... items) {
+        ArrayList<Item> itemList = new ArrayList<>(List.of(items));
+        itemList.sort(Comparator.comparingInt(Item::hashCode));
+        return itemList.stream().map(Item::hashCode).map(String::valueOf).collect(Collectors.joining(":"));
+    }
+
+    /**
+     * Make pairs of itemstack's count based on the compare itemstack's item's hashcode
+     */
+    public static List<Integer> makePair(ItemStack... itemStacks) {
+        ArrayList<ItemStack> itemList = new ArrayList<>(List.of(itemStacks));
+        itemList.sort(Comparator.comparingInt(itemStack -> itemStack.getItem().hashCode()));
+        return itemList.stream().map(ItemStack::getCount).collect(Collectors.toList());
     }
 }

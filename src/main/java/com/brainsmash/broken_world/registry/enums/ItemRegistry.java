@@ -67,5 +67,6 @@ public enum ItemRegistry {
     CIRCUIT_BOARD,
     BRONZE_INGOT,
     TINPLATE,
-    OXYGEN_UNIT
+    CHIP,
+    SULFUR
 }

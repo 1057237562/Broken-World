@@ -18,9 +18,9 @@ public class RefineryRecipe {
 
     public static String makePair(Item a, Item b) {
         if (a.hashCode() > b.hashCode()) {
-            return a.hashCode() + String.valueOf(b.hashCode());
+            return a.hashCode() + ":" + b.hashCode();
         } else {
-            return b.hashCode() + String.valueOf(a.hashCode());
+            return b.hashCode() + ":" + a.hashCode();
         }
     }
 

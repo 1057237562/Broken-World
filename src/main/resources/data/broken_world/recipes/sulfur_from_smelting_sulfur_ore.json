@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "sulfur",
+  "ingredient": {
+    "item": "broken_world:sulfur_ore"
+  },
+  "result": "broken_world:sulfur"
+}

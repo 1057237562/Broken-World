@@ -67,7 +67,7 @@ public enum BlockRegistry {
     COMPRESSOR,
     ASSEMBLER,
     ELECTROLYZER,
-    REACTOR,
+    REACTION_KETTLE,
     RUBBER_LOG,
     NATURAL_RUBBER_LOG,
     CUT_RUBBER_LOG,
@@ -86,4 +86,5 @@ public enum BlockRegistry {
     STEEL_SHELL,
     REFINERY,
     GAS_COLLECTOR,
+    SULFUR_ORE
 }

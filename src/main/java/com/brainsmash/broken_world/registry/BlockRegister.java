@@ -6,7 +6,10 @@ import com.brainsmash.broken_world.blocks.electric.*;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.*;
-import com.brainsmash.broken_world.blocks.entity.*;
+import com.brainsmash.broken_world.blocks.entity.CloneVatBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.RollingDoorBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.UVBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.WoodenPipeBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.*;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
@@ -163,7 +166,7 @@ public class BlockRegister {
             new CompressorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
             new AssemblerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
             new ElectrolyzerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
-            new ReactorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
+            new ReactionKettleBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
             new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
             new RubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
             new CutRubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
@@ -188,7 +191,9 @@ public class BlockRegister {
             new Block(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new RefineryBlock(STANDARD_BLOCK),
-            new GasCollectorBlock(STANDARD_BLOCK)
+            new GasCollectorBlock(STANDARD_BLOCK),
+            new OreBlock(FabricBlockSettings.copyOf(Blocks.LAPIS_ORE)),
+
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -276,6 +281,7 @@ public class BlockRegister {
             new BlockItem(blocks[82], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[83], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[84], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[85], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -345,7 +351,7 @@ public class BlockRegister {
             "compressor",
             "assembler",
             "electrolyzer",
-            "reactor",
+            "reaction_kettle",
             "rubber_log",
             "natural_rubber_log",
             "cut_rubber_log",
@@ -364,6 +370,7 @@ public class BlockRegister {
             "steel_shell",
             "refinery",
             "gas_collector",
+            "sulfur_ore",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -384,7 +391,9 @@ public class BlockRegister {
                     new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[58].getDefaultState(),
                             6)),
             new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
-                    blocks[BlockRegistry.TIN_ORE.ordinal()].getDefaultState(), 9))
+                    blocks[BlockRegistry.TIN_ORE.ordinal()].getDefaultState(), 9)),
+            new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
+                    blocks[BlockRegistry.SULFUR_ORE.ordinal()].getDefaultState(), 4)),
     };
 
     private static final PlacedFeature[] placedFeatures = {
@@ -411,7 +420,10 @@ public class BlockRegister {
                             HeightRangePlacementModifier.uniform(YOffset.fixed(64), YOffset.TOP))),
             new PlacedFeature(RegistryEntry.of(configuredFeatures[7]),
                     Arrays.asList(CountPlacementModifier.of(20), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.fixed(64))))
+                            HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.fixed(64)))),
+            new PlacedFeature(RegistryEntry.of(configuredFeatures[8]),
+                    Arrays.asList(CountPlacementModifier.of(10), SquarePlacementModifier.of(),
+                            HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.fixed(64)))),
     };
 
     private static final String[] configurenames = {
@@ -422,7 +434,8 @@ public class BlockRegister {
             "tungsten_ore",
             "magnetite",
             "kyanite_ore",
-            "tin_ore"
+            "tin_ore",
+            "sulfur_ore"
     };
 
     public static BlockEntityType<TeleporterControllerBlockEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;
@@ -455,7 +468,7 @@ public class BlockRegister {
     public static BlockEntityType<CompressorBlockEntity> COMPRESSOR_ENTITY_TYPE;
     public static BlockEntityType<AssemblerBlockEntity> ASSEMBLER_ENTITY_TYPE;
     public static BlockEntityType<ElectrolyzerBlockEntity> ELECTROLYZER_ENTITY_TYPE;
-    public static BlockEntityType<ReactorBlockEntity> REACTOR_ENTITY_TYPE;
+    public static BlockEntityType<ReactionKettleBlockEntity> REACTION_KETTLE_ENTITY_TYPE;
     public static BlockEntityType<ExtractorBlockEntity> EXTRACTOR_ENTITY_TYPE;
     public static BlockEntityType<WeaponryBlockEntity> WEAPONRY_ENTITY_TYPE;
     public static BlockEntityType<WoodenPipeBlockEntity> WOODEN_PIPE_ENTITY_TYPE;
@@ -539,8 +552,9 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(AssemblerBlockEntity::new, blocks[64]).build());
         ELECTROLYZER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "electrolyzer"),
                 FabricBlockEntityTypeBuilder.create(ElectrolyzerBlockEntity::new, blocks[65]).build());
-        REACTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "reactor"),
-                FabricBlockEntityTypeBuilder.create(ReactorBlockEntity::new, blocks[66]).build());
+        REACTION_KETTLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "reaction_kettle"),
+                FabricBlockEntityTypeBuilder.create(ReactionKettleBlockEntity::new, blocks[66]).build());
         EXTRACTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "extractor"),
                 FabricBlockEntityTypeBuilder.create(ExtractorBlockEntity::new, blocks[72]).build());
         WEAPONRY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "weaponry"),

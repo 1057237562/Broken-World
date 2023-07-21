@@ -33,6 +33,8 @@ public class REIClient implements REIClientPlugin {
     public static final CategoryIdentifier<AdvancedFurnaceDisplay> ADVANCED_FURNACE_DISPLAY = CategoryIdentifier.of(
             MODID, "advanced_furnace");
 
+    public static final CategoryIdentifier<ReactionDisplay> REACTION_DISPLAY = CategoryIdentifier.of(MODID, "reaction");
+
     @Override
     public void registerCategories(CategoryRegistry registry) {
         registry.add(new ExtractorDisplayCategory());
@@ -62,6 +64,10 @@ public class REIClient implements REIClientPlugin {
         registry.add(new AdvancedFurnaceDisplayCategory());
         registry.addWorkstations(ADVANCED_FURNACE_DISPLAY,
                 EntryStacks.of(BlockRegister.blockitems[BlockRegistry.ADVANCED_FURNACE.ordinal()]));
+
+        registry.add(new ReactionDisplayCategory());
+        registry.addWorkstations(REACTION_DISPLAY,
+                EntryStacks.of(BlockRegister.blockitems[BlockRegistry.REACTION_KETTLE.ordinal()]));
     }
 
     @Override
@@ -77,5 +83,6 @@ public class REIClient implements REIClientPlugin {
         CrusherRecipe.recipes.forEach((item, stack) -> registry.add(new CrusherDisplay(item, stack)));
         SifterRecipe.recipes.forEach((item, stack) -> registry.add(new SifterDisplay(item, stack)));
         AdvancedFurnaceRecipe.recipes.forEach((item, stack) -> registry.add(new AdvancedFurnaceDisplay(item, stack)));
+        ReactionRecipe.rei.forEach((item, stack) -> registry.add(new ReactionDisplay(item, stack)));
     }
 }
