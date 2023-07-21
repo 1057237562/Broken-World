@@ -114,9 +114,16 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
     }
 
     void updateBarColor(WTintedBar bar, List<Pair<GasRegister.Gas, Integer>> gasList) {
-        Pair<GasRegister.Gas, Integer> pair = gasList.get(selectedGas.value);
-        int color = pair.getLeft().color();
-        int ticks = pair.getRight();
+        int color;
+        int ticks;
+        if (!gasList.isEmpty()) {
+            color = 0xFF_FFFFFF;
+            ticks = 40;
+        } else {
+            Pair<GasRegister.Gas, Integer> pair = gasList.get(selectedGas.value);
+            color = pair.getLeft().color();
+            ticks = pair.getRight();
+        }
         if (ticks >= TRACE_THRESHOLD) {
             bar.setBG(TRACE_BG);
             bar.setBar(TRACE_FG);
