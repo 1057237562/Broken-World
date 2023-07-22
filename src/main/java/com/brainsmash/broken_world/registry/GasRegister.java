@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -30,6 +31,7 @@ public class GasRegister implements SimpleSynchronousResourceReloadListener {
     private static final Map<Identifier, Gas> gases = new HashMap<>();
     private static final Map<Identifier, List<Pair<Gas, Integer>>> biomeGasProduction = new HashMap<>();
     public static final int BIOME_GAS_LIMIT = 5;
+
     @Override
     public Identifier getFabricId() {
         return ID;
@@ -41,16 +43,16 @@ public class GasRegister implements SimpleSynchronousResourceReloadListener {
         biomeGasProduction.clear();
 
         manager.findResources("gas/", path -> path.getPath().equals("gas/gases.json")).forEach((id, resource) -> {
-            try(InputStream stream = resource.getInputStream()) {
-                JsonObject root = (JsonObject) JsonParser.parseReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+            try (InputStream stream = resource.getInputStream()) {
+                JsonObject root = (JsonObject) JsonParser.parseReader(
+                        new InputStreamReader(stream, StandardCharsets.UTF_8));
                 JsonArray gasList = root.getAsJsonArray("gases");
                 for (JsonElement element : gasList) {
                     JsonObject gas = (JsonObject) element;
-                    Item product = Registry.ITEM.getOrEmpty(new Identifier(gas.get("product").getAsString())).orElseThrow();
-                    gases.put(
-                            new Identifier(id.getNamespace(), gas.get("name").getAsString()),
-                            new Gas(gas.get("color").getAsInt(), product)
-                    );
+                    Item product = Registry.ITEM.getOrEmpty(
+                            new Identifier(gas.get("product").getAsString())).orElseThrow();
+                    gases.put(new Identifier(id.getNamespace(), gas.get("name").getAsString()),
+                            new Gas(gas.get("color").getAsInt(), product));
                 }
             } catch (Exception e) {
                 LogUtils.getLogger().error("Error loading gas registry for " + id + ": " + e, e);
@@ -58,8 +60,9 @@ public class GasRegister implements SimpleSynchronousResourceReloadListener {
         });
 
         manager.findResources("gas/", path -> path.getPath().equals("gas/biomes.json")).forEach((id, resource) -> {
-            try(InputStream stream = resource.getInputStream()) {
-                JsonObject root = (JsonObject) JsonParser.parseReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+            try (InputStream stream = resource.getInputStream()) {
+                JsonObject root = (JsonObject) JsonParser.parseReader(
+                        new InputStreamReader(stream, StandardCharsets.UTF_8));
                 JsonArray biomeList = root.getAsJsonArray("biomes");
                 biomeList.forEach(element -> {
                     JsonObject biome = (JsonObject) element;
@@ -67,13 +70,10 @@ public class GasRegister implements SimpleSynchronousResourceReloadListener {
                     List<Pair<Gas, Integer>> gasList = new ArrayList<>();
                     int cnt = 0;
                     for (JsonElement gasElement : biome.getAsJsonArray("gases")) {
-                        if (cnt++ >= BIOME_GAS_LIMIT)
-                            break;
+                        if (cnt++ >= BIOME_GAS_LIMIT) break;
                         JsonObject gas = (JsonObject) gasElement;
-                        gasList.add(new Pair<>(
-                                gases.get(new Identifier(gas.get("gas").getAsString())),
-                                gas.get("ticks_per_product").getAsInt())
-                        );
+                        gasList.add(new Pair<>(gases.get(new Identifier(gas.get("gas").getAsString())),
+                                gas.get("ticks_per_product").getAsInt()));
                     }
 
                     biomeGasProduction.put(new Identifier(biome.get("biome").getAsString()), gasList);
@@ -92,13 +92,13 @@ public class GasRegister implements SimpleSynchronousResourceReloadListener {
     }
 
     public static List<Pair<Gas, Integer>> getBiomeGases(Identifier biome) {
-        return biomeGasProduction.getOrDefault(biome, new ArrayList<>());
+        return biomeGasProduction.getOrDefault(biome,
+                List.of(new Pair<>(new Gas(0x00FFFF, ItemRegister.items[ItemRegistry.OXYGEN_TANK.ordinal()]), 40)));
     }
 
     public static List<Pair<Gas, Integer>> getBiomeGases(World world, BlockPos pos) {
         Optional<RegistryKey<Biome>> optional = world.getBiome(pos).getKey();
-        if (optional.isEmpty())
-            return new ArrayList<>();
+        if (optional.isEmpty()) return new ArrayList<>();
         return getBiomeGases(optional.get().getValue());
     }
 }
