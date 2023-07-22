@@ -3,7 +3,7 @@ package com.brainsmash.broken_world.blocks.entity.electric;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
-import com.brainsmash.broken_world.recipe.CompressorRecipe;
+import com.brainsmash.broken_world.recipe.ElectrolyzerRecipe;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.ElectrolyzerGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
@@ -36,22 +36,22 @@ public class ElectrolyzerBlockEntity extends ConsumerBlockEntity implements Name
         super(BlockRegister.ELECTROLYZER_ENTITY_TYPE, pos, state);
         maxProgression = 100;
         setMaxCapacity(1000);
-        powerConsumption = 6;
+        powerConsumption = 16;
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (CompressorRecipe.recipes.containsKey(inventory.get(0).getItem()) && checkCount() && canRun()) {
+            if (ElectrolyzerRecipe.recipes.containsKey(inventory.get(0).getItem()) && checkCount() && canRun()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;
                 } else {
-                    ItemStack output = CompressorRecipe.recipes.get(inventory.get(0).getItem()).copy();
+                    ItemStack output = ElectrolyzerRecipe.recipes.get(inventory.get(0).getItem()).copy();
                     if (!insertItem(output)) {
                         EntityHelper.spawnItem(world, output, 1, Direction.UP, pos);
                     }
-                    inventory.get(0).decrement(1);
+                    inventory.get(0).decrement(ElectrolyzerRecipe.counts.get(inventory.get(0).getItem()));
                     progression = 0;
                 }
                 if (!inventory.get(0).getItem().equals(lastItem) || !checkCount()) {
@@ -70,7 +70,7 @@ public class ElectrolyzerBlockEntity extends ConsumerBlockEntity implements Name
     }
 
     private boolean checkCount() {
-        return inventory.get(0).getCount() >= CompressorRecipe.counts.get(inventory.get(0).getItem());
+        return inventory.get(0).getCount() >= ElectrolyzerRecipe.counts.get(inventory.get(0).getItem());
     }
 
     public boolean insertItem(ItemStack stack) {

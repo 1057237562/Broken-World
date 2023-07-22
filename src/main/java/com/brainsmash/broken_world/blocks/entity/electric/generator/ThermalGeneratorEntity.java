@@ -88,16 +88,16 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
 
     public ThermalGeneratorEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.THERMAL_GENERATOR_ENTITY_TYPE, pos, state);
-        setMaxCapacity(2000);
-        setGenerate(12);
+        setMaxCapacity(4000);
+        setGenerate(16);
         fluidInv.setInvFluid(0, FluidKeys.LAVA.withAmount(FluidAmount.ZERO), Simulation.ACTION);
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.of1620(
-                    6)) && getEnergy() < getMaxCapacity()) {
+            if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(
+                    FluidAmount.of1620(6)) && getEnergy() < getMaxCapacity()) {
                 running = true;
                 fluidInv.getInvFluid(0).split(FluidAmount.of1620(6));
             } else {
@@ -109,8 +109,9 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
                         inventory.set(1, new ItemStack(Items.BUCKET, 1));
                     }
                 } else {
-                    if (fluidInv.getInvFluid(0).amount().isLessThanOrEqual(SINGLE_TANK_CAPACITY.sub(FluidAmount.BUCKET)) && fluidInv.getInvFluid(
-                            0).merge(FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), Simulation.ACTION)) {
+                    if (fluidInv.getInvFluid(0).amount().isLessThanOrEqual(
+                            SINGLE_TANK_CAPACITY.sub(FluidAmount.BUCKET)) && fluidInv.getInvFluid(0).merge(
+                            FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), Simulation.ACTION)) {
                         inventory.set(1, new ItemStack(Items.BUCKET, 1));
                     }
                 }

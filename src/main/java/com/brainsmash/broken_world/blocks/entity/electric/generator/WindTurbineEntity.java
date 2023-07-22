@@ -16,31 +16,33 @@ public class WindTurbineEntity extends PowerBlockEntity {
 
     protected int nearbyTurbineCount = 0;
     public final int maxOutput = 20;
+
     public WindTurbineEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.WIND_TURBINE_ENTITY_TYPE, pos, state);
-        setMaxCapacity(2000);
+        setMaxCapacity(3000);
     }
 
-    private double sigmoid(int x, int s, int e){
-        double f = 7.5*x/(e-s);
-        return 1/(1+Math.exp(-f));
+    private double sigmoid(int x, int s, int e) {
+        double f = 7.5 * x / (e - s);
+        return 1 / (1 + Math.exp(-f));
     }
 
-    public void updateGen(Random random){
-        setGenerate((int)((1+0.25*random.nextGaussian())*maxOutput*sigmoid(pos.getY() - world.getSeaLevel(),0,world.getTopY()-world.getSeaLevel())));
+    public void updateGen(Random random) {
+        setGenerate((int) ((1 + 0.25 * random.nextGaussian()) * maxOutput * sigmoid(pos.getY() - world.getSeaLevel(), 0,
+                world.getTopY() - world.getSeaLevel())));
         running = nearbyTurbineCount == 0;
         markDirty();
         if (!world.isClient()) {
-            ((ServerWorld)world).getChunkManager().markForUpdate(pos);
+            ((ServerWorld) world).getChunkManager().markForUpdate(pos);
         }
     }
 
-    public void moreCrowded(){
+    public void moreCrowded() {
         nearbyTurbineCount++;
         updateGen(world.getRandom());
     }
 
-    public void lessCrowded(){
+    public void lessCrowded() {
         nearbyTurbineCount--;
         updateGen(world.getRandom());
     }
@@ -52,8 +54,8 @@ public class WindTurbineEntity extends PowerBlockEntity {
 
     @Override
     public void writeNbt(NbtCompound nbt) {
-        nbt.putInt("nearby",nearbyTurbineCount);
-        nbt.putInt("powerGen",getGenerate());
+        nbt.putInt("nearby", nearbyTurbineCount);
+        nbt.putInt("powerGen", getGenerate());
         super.writeNbt(nbt);
     }
 
@@ -62,8 +64,7 @@ public class WindTurbineEntity extends PowerBlockEntity {
         super.readNbt(nbt);
         nearbyTurbineCount = nbt.getInt("nearby");
         setGenerate(nbt.getInt("powerGen"));
-        if(nearbyTurbineCount == 0)
-            running = true;
+        if (nearbyTurbineCount == 0) running = true;
     }
 
     @Nullable

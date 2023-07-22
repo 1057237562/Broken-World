@@ -5,6 +5,7 @@ import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
+import io.github.cottonmc.cotton.gui.widget.TooltipBuilder;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
 import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import io.github.cottonmc.cotton.gui.widget.data.Texture;
@@ -12,6 +13,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.PropertyDelegate;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.function.Function;
@@ -80,5 +82,17 @@ public class WFluidWidget extends WWidget {
     public InputResult onClick(int x, int y, int button) {
         if (onClick != null) return InputResult.of(onClick.apply(button));
         return super.onMouseDown(x, y, button);
+    }
+
+    @Override
+    public void addTooltip(TooltipBuilder tooltip) {
+        super.addTooltip(tooltip);
+        if (fieldId == -1 || capacityId == -1) {
+            tooltip.add(Text.of(inv.getInvFluid(index).amount().asInt(1000) + " mB/" + inv.getMaxAmount_F(index).asInt(
+                    1000) + " mB"));
+        } else {
+            tooltip.add(Text.of(propertyDelegate.get(fieldId) + " mB/" + propertyDelegate.get(capacityId) + " mB"));
+        }
+
     }
 }

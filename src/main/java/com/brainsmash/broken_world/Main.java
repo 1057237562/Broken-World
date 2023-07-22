@@ -162,6 +162,8 @@ public class Main implements ModInitializer {
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "tin_ore")));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "sulfur_ore")));
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
+                RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "aluminum_ore")));
         BiomeModifications.addFeature(BiomeSelectors.tag(BiomeTags.IS_JUNGLE),
                 GenerationStep.Feature.VEGETAL_DECORATION,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "rubber_tree")));

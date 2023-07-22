@@ -5,18 +5,18 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.EnergyManager;
 import com.brainsmash.broken_world.registry.DamageSourceRegister;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.tag.TagKey;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
+import net.minecraft.text.Text;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -194,5 +194,11 @@ public class CableBlock extends BlockWithEntity {
                     pos)).edges.toString() + ":" + ((CableBlockEntity) world.getBlockEntity(pos)).getMaxFlow());
         }
         return super.onUse(state, world, pos, player, hand, hit);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        super.appendTooltip(stack, world, tooltip, options);
+        tooltip.add(Text.literal(maxFlow * 2 + " IU/t").formatted(Formatting.GRAY));
     }
 }

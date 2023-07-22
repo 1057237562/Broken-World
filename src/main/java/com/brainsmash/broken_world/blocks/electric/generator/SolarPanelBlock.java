@@ -10,10 +10,14 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -22,9 +26,12 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public class SolarPanelBlock extends PowerBlock {
 
     protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 6.0, 16.0);
+
     public SolarPanelBlock(Settings settings) {
         super(settings);
     }
@@ -32,13 +39,14 @@ public class SolarPanelBlock extends PowerBlock {
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new SolarPanelEntity(pos,state);
+        return new SolarPanelEntity(pos, state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if(!world.isClient && world.getDimension().hasSkyLight())
-            return (world1, pos, state1, blockEntity) -> ((SolarPanelEntity) blockEntity).tick(world1, pos, state1, (SolarPanelEntity) blockEntity);
+        if (!world.isClient && world.getDimension().hasSkyLight())
+            return (world1, pos, state1, blockEntity) -> ((SolarPanelEntity) blockEntity).tick(world1, pos, state1,
+                    (SolarPanelEntity) blockEntity);
         return null;
     }
 
@@ -79,7 +87,7 @@ public class SolarPanelBlock extends PowerBlock {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof GeneratorEntity) {
                 // update comparators
-                world.updateComparators(pos,this);
+                world.updateComparators(pos, this);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
@@ -93,5 +101,11 @@ public class SolarPanelBlock extends PowerBlock {
     @Override
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        super.appendTooltip(stack, world, tooltip, options);
+        tooltip.add(Text.literal("0-4 IU/t").formatted(Formatting.GRAY));
     }
 }
