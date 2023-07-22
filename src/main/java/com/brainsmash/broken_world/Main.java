@@ -109,6 +109,10 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "reaction_kettle"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ReactionKettleGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
+    public static final ScreenHandlerType<ElectrolyzerGuiDescription> ELECTROLYZER_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "electrolyzer"), new ScreenHandlerType<>(
+                    ((syncId, playerInventory) -> new ElectrolyzerGuiDescription(syncId, playerInventory,
+                            ScreenHandlerContext.EMPTY))));
 
     public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
@@ -144,6 +148,7 @@ public class Main implements ModInitializer {
         GasCollectorRecipe.registGasCollectorRecipes();
         RefineryRecipe.registRefineryRecipes();
         ReactionRecipe.registReactionRecipes();
+        ElectrolyzerRecipe.registElectrolyzerRecipes();
 
         GasRegister.register();
 

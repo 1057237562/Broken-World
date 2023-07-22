@@ -34,6 +34,8 @@ public class REIClient implements REIClientPlugin {
             MODID, "advanced_furnace");
 
     public static final CategoryIdentifier<ReactionDisplay> REACTION_DISPLAY = CategoryIdentifier.of(MODID, "reaction");
+    public static final CategoryIdentifier<ElectrolyzerDisplay> ELECTROLYZER_DISPLAY = CategoryIdentifier.of(MODID,
+            "electrolyzer");
 
     @Override
     public void registerCategories(CategoryRegistry registry) {
@@ -68,6 +70,11 @@ public class REIClient implements REIClientPlugin {
         registry.add(new ReactionDisplayCategory());
         registry.addWorkstations(REACTION_DISPLAY,
                 EntryStacks.of(BlockRegister.blockitems[BlockRegistry.REACTION_KETTLE.ordinal()]));
+
+        registry.add(new ElectrolyzerDisplayCategory());
+        registry.addWorkstations(ELECTROLYZER_DISPLAY,
+                EntryStacks.of(BlockRegister.blockitems[BlockRegistry.ELECTROLYZER.ordinal()]));
+
     }
 
     @Override
@@ -84,5 +91,7 @@ public class REIClient implements REIClientPlugin {
         SifterRecipe.recipes.forEach((item, stack) -> registry.add(new SifterDisplay(item, stack)));
         AdvancedFurnaceRecipe.recipes.forEach((item, stack) -> registry.add(new AdvancedFurnaceDisplay(item, stack)));
         ReactionRecipe.rei.forEach((item, stack) -> registry.add(new ReactionDisplay(item, stack)));
+        ElectrolyzerRecipe.recipes.forEach((item, stack) -> registry.add(
+                new ElectrolyzerDisplay(new ItemStack(item, ElectrolyzerRecipe.counts.get(item)), stack)));
     }
 }

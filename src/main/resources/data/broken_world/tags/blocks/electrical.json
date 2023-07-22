@@ -33,6 +33,7 @@
     "broken_world:weaponry",
     "broken_world:gas_collector",
     "broken_world:refinery",
-    "broken_world:reaction_kettle"
+    "broken_world:reaction_kettle",
+    "broken_world:electrolyzer"
   ]
 }

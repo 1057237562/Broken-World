@@ -127,6 +127,8 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP))
     };
 
     public static final String[] itemnames = {
@@ -197,7 +199,9 @@ public class ItemRegister {
             "bronze_ingot",
             "tinplate",
             "chip",
-            "sulfur"
+            "sulfur",
+            "raw_aluminum",
+            "aluminum_ingot",
     };
 
     public static final Item[] guns = {

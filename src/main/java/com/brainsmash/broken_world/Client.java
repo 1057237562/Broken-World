@@ -64,6 +64,7 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.EXTRACTOR_GUI_DESCRIPTION, ExtractorScreen::new);
         HandledScreens.register(Main.WEAPONRY_GUI_DESCRIPTION, WeaponryScreen::new);
         HandledScreens.register(Main.REACTION_KETTLE_GUI_DESCRIPTION, ReactionKettleScreen::new);
+        HandledScreens.register(Main.ELECTROLYZER_GUI_DESCRIPTION, ElectrolyzerScreen::new);
 
         HandledScreens.register(Main.ROOKIE_WAND_SCREEN_HANDLER, WandScreen::new);
         HandledScreens.register(Main.EXPERT_WAND_SCREEN_HANDLER, WandScreen::new);
