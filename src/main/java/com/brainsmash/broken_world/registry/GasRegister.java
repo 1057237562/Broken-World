@@ -1,11 +1,13 @@
 package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.Main;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mojang.logging.LogUtils;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.item.Item;
@@ -14,6 +16,7 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
+import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
@@ -23,15 +26,14 @@ import net.minecraft.world.biome.Biome;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class GasRegister implements SimpleSynchronousResourceReloadListener {
     public static final GasRegister INSTANCE = new GasRegister();
     public static final Identifier ID = new Identifier(Main.MODID, "gas_registry");
     private static final Map<Identifier, Gas> gases = new HashMap<>();
-    private static final Map<Identifier, Set<Pair<Gas, Integer>>> gasesByBiomes = new HashMap<>();
-    private static final Map<TagKey<Biome>, Set<Pair<Gas, Integer>>> gasesByBiomeTags = new HashMap<>();
+    private static final Map<Codecs.TagEntryId, Set<Pair<Gas, Integer>>> gasesByBiomes = new HashMap<>();
+    private static final Map<Codecs.TagEntryId, Set<Pair<Gas, Integer>>> gasesByBiomeTags = new HashMap<>();
     public static final int BIOME_GAS_LIMIT = 5;
     @Override
     public Identifier getFabricId() {
@@ -43,74 +45,54 @@ public class GasRegister implements SimpleSynchronousResourceReloadListener {
         gases.clear();
         gasesByBiomes.clear();
 
-        manager.findResources("gas/", path -> path.getPath().equals("gas/gases.json")).forEach((id, resource) -> {
+        manager.findResources("gas/", path -> path.getPath().endsWith(".json")).forEach((id, resource) -> {
             try(InputStream stream = resource.getInputStream()) {
-                JsonObject root = (JsonObject) JsonParser.parseReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-                JsonArray gasList = root.getAsJsonArray("gases");
-                for (JsonElement element : gasList) {
-                    JsonObject gas = (JsonObject) element;
-                    Identifier productID = new Identifier(gas.get("product").getAsString());
-                    Optional<Item> optional = Registry.ITEM.getOrEmpty(productID);
-                    if (optional.isEmpty()) {
-                        Main.LOGGER.error("No gas product item found for " + productID);
+                JsonElement element = JsonParser.parseReader(new InputStreamReader(stream));
+                Gas gas = Gas.CODEC.parse(new Dynamic<>(JsonOps.INSTANCE, element)).getOrThrow(false, Main.LOGGER::error);
+                
+                gases.put(id, gas);
+                loop: for (Environment environment : gas.environments) {
+                    Codecs.TagEntryId biome = environment.biome;
+
+                    Map<Codecs.TagEntryId, Set<Pair<Gas, Integer>>> map = biome.tag() ? gasesByBiomeTags : gasesByBiomes;
+                    Set<Pair<Gas, Integer>> set = map.computeIfAbsent(biome, arg -> new HashSet<>());
+                    if (set.size() >= 5) {
+                        Main.LOGGER.error("Cannot add {} to {} because a biome can have up to {} types of gases. ", id, biome, BIOME_GAS_LIMIT);
                         continue;
                     }
-                    gases.put(
-                            new Identifier(id.getNamespace(), gas.get("name").getAsString()),
-                            new Gas(gas.get("color").getAsInt(), optional.get())
-                    );
+                    for (Pair<Gas, Integer> pair : set) {
+                        if (pair.getLeft() == gas)
+                            Main.LOGGER.error("Duplicate gas {} in {}. ", id, biome);
+                        continue loop;
+                    }
+                    set.add(new Pair<>(gas, environment.ticksPerProduction()));
                 }
             } catch (Exception e) {
                 Main.LOGGER.error("Error loading gas registry for {}: {}", id, e);
             }
         });
-
-        manager.findResources("gas/", path -> path.getPath().equals("gas/biomes.json")).forEach((id, resource) -> {
-            try(InputStream stream = resource.getInputStream()) {
-                JsonObject root = (JsonObject) JsonParser.parseReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-                JsonArray biomeList = root.getAsJsonArray("biomes");
-                biomeList.forEach(element -> {
-                    JsonObject biomeObj = (JsonObject) element;
-                    String biomeStr = biomeObj.get("biome").getAsString();
-                    boolean isTag = biomeStr.startsWith("#");
-                    Identifier biomeID = new Identifier(isTag ? biomeStr.substring(1) : biomeStr);
-
-                    Set<Pair<Gas, Integer>> set;
-                    if (isTag)
-                        set = gasesByBiomeTags.computeIfAbsent(TagKey.of(Registry.BIOME_KEY, biomeID), k -> new HashSet<>());
-                    else
-                        set = gasesByBiomes.computeIfAbsent(biomeID, k -> new HashSet<>());
-                    int cnt = 0;
-                    for (JsonElement gasElement : biomeObj.getAsJsonArray("gases")) {
-                        if (cnt++ >= BIOME_GAS_LIMIT) {
-                            Main.LOGGER.warn("Too many gas types for biome {} (max {}), skipping. ", biomeID, BIOME_GAS_LIMIT);
-                            break;
-                        }
-                        JsonObject gasObj = (JsonObject) gasElement;
-                        Identifier gasID = new Identifier(gasObj.get("gas").getAsString());
-                        Gas gas = gases.get(gasID);
-                        if (gas == null) {
-                            Main.LOGGER.error("Gas {} not found for biome {} in {}", gasID, biomeID, id);
-                            continue;
-                        }
-                        int ticks = gasObj.get("ticks_per_product").getAsInt();
-                        if (ticks <= 0) {
-                            Main.LOGGER.error(
-                                    "Error adding gas {} for biome {} in {} ticks_per_product must be positive",
-                                    gasID, biomeID, id
-                            );
-                            break;
-                        }
-                        set.add(new Pair<>(gas, ticks));
-                    }
-                });
-            } catch (Exception e) {
-                LogUtils.getLogger().error("Error loading biome gas production registry for " + id + ": " + e, e);
-            }
-        });
     }
 
-    public record Gas(int color, Item product) {
+    public record Gas(int color, RegistryEntry<Item> product, List<Environment> environments) {
+        public static final Codec<Gas> CODEC = RecordCodecBuilder.create(instance ->
+                instance.group(
+                        Codec.INT.fieldOf("color").forGetter(Gas::color),
+                        Identifier.CODEC.flatXmap(
+                                id -> Registry.ITEM.getOrEmpty(id).map(item -> DataResult.success(item.getDefaultStack().getRegistryEntry())).orElse(DataResult.error("Cannot find gas product " + id)),
+                                entry -> entry.getKey().map(itemRegistryKey -> DataResult.success(itemRegistryKey.getValue())).orElseGet(() -> DataResult.error("Cannot get registry key for direct item entry. "))
+                        ).fieldOf("product").forGetter(Gas::product),
+                        Environment.CODEC.listOf().fieldOf("environments").forGetter(Gas::environments)
+                ).apply(instance, Gas::new)
+        );
+    }
+    
+    public record Environment(Codecs.TagEntryId biome, int ticksPerProduction) {
+        public static final Codec<Environment> CODEC = RecordCodecBuilder.create(instance -> 
+                instance.group(
+                        Codecs.TAG_ENTRY_ID.fieldOf("biome").forGetter(Environment::biome),
+                        Codecs.POSITIVE_INT.fieldOf("ticks_per_production").forGetter(Environment::ticksPerProduction)
+                ).apply(instance, Environment::new)
+        );
     }
 
     public static void register() {
@@ -123,23 +105,16 @@ public class GasRegister implements SimpleSynchronousResourceReloadListener {
         Optional<RegistryKey<Biome>> optional = entry.getKey();
         if (optional.isPresent()) {
             Identifier biomeID = optional.get().getValue();
-            Set<Pair<Gas, Integer>> set = gasesByBiomes.get(biomeID);
+            Set<Pair<Gas, Integer>> set = gasesByBiomes.get(new Codecs.TagEntryId(biomeID, false));
             if (set != null)
-                return convertToList(set);
+                return List.copyOf(set);
         }
 
         Set<Pair<Gas, Integer>> set = new HashSet<>();
-        for (TagKey<Biome> tag : gasesByBiomeTags.keySet()) {
-            if (entry.isIn(tag))
+        for (Codecs.TagEntryId tag : gasesByBiomeTags.keySet()) {
+            if (entry.isIn(TagKey.of(Registry.BIOME_KEY, tag.id())))
                 set.addAll(gasesByBiomeTags.get(tag));
         }
-        return convertToList(set);
-    }
-
-    private static List<Pair<Gas, Integer>> convertToList(Set<Pair<Gas, Integer>> set) {
-        List<Pair<Gas, Integer>> list = new ArrayList<>(set);
-        list.sort((a, b) -> {
-
-        });
+        return List.copyOf(set);
     }
 }

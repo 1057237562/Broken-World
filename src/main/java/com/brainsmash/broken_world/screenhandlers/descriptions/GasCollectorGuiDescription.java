@@ -109,7 +109,7 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
     void updateButtons(WButton [] buttons, List<Pair<GasRegister.Gas, Integer>> gasList) {
         int l = buttons.length;
         for (int i = 0; i < l; i++) {
-            buttons[(l/2 + i) % l].setIcon(new ItemIcon(gasList.get((selectedGas.value + i) % l).getLeft().product()));
+            buttons[(l/2 + i) % l].setIcon(new ItemIcon(gasList.get((selectedGas.value + i) % l).getLeft().product().value()));
         }
     }
 

@@ -1,0 +1,10 @@
+{
+  "color": 2130706528,
+  "product": "broken_world:oxygen_tank",
+  "environments": [
+    {
+      "biome": "#minecraft:is_overworld",
+      "ticks_per_production": 30
+    }
+  ]
+}

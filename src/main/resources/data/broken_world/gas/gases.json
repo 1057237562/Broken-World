@@ -1,9 +1,0 @@
-{
-  "gases": [
-    {
-      "name": "oxygen",
-      "product": "broken_world:oxygen_tank",
-      "color": 1203699967
-    }
-  ]
-}
