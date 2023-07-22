@@ -7,18 +7,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Pair;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RefineryRecipe {
     public static Map<String, ItemStack> recipes = new ConcurrentHashMap<>();
     public static Map<String, Pair<Integer, Integer>> counts = new ConcurrentHashMap<>();
+    public static Map<Pair<ItemStack, ItemStack>, ItemStack> rei = new HashMap<>();
 
     public static String makePair(Item a, Item b) {
         if (a.hashCode() > b.hashCode()) {
-            return a.hashCode() + String.valueOf(b.hashCode());
+            return a.hashCode() + ":" + b.hashCode();
         } else {
-            return b.hashCode() + String.valueOf(a.hashCode());
+            return b.hashCode() + ":" + a.hashCode();
         }
     }
 
@@ -50,5 +52,6 @@ public class RefineryRecipe {
     public static void registRefineryRecipe(ItemStack a, ItemStack b, ItemStack c) {
         recipes.put(makePair(a.getItem(), b.getItem()), c);
         counts.put(makePair(a.getItem(), b.getItem()), makePair(a, b));
+        rei.put(new Pair<>(a, b), c);
     }
 }

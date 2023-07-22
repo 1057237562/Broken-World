@@ -6,8 +6,10 @@ import com.brainsmash.broken_world.registry.DamageSourceRegister;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.tag.TagKey;
@@ -70,7 +72,15 @@ public class CableBlock extends BlockWithEntity {
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (!world.isClient && !covered) {
             int flow = ((CableBlockEntity) world.getBlockEntity(pos)).currentFlow();
-            if (flow > 0) entity.damage(DamageSourceRegister.ELECTRIC, flow / 16f);
+            if (flow > 0) {
+                if (entity instanceof CreeperEntity creeper) {
+                    NbtCompound nbt = new NbtCompound();
+                    creeper.writeCustomDataToNbt(nbt);
+                    nbt.putBoolean("powered", true);
+                    creeper.readCustomDataFromNbt(nbt);
+                }
+                entity.damage(DamageSourceRegister.ELECTRIC, flow / 16f);
+            }
         }
     }
 

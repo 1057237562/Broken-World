@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "broken_world:reactor"
+          "name": "broken_world:reaction_kettle"
         }
       ],
       "rolls": 1.0

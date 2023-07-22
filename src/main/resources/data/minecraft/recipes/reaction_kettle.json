@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ADA"
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:tinplate"
+    },
+    "B": {
+      "item": "broken_world:reinforced_glass"
+    },
+    "C": {
+      "item": "broken_world:steel_shell"
+    },
+    "D": {
+      "item": "broken_world:heating_wire"
+    }
+  },
+  "result": {
+    "item": "broken_world:reaction_kettle"
+  }
+}

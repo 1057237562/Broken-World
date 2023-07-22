@@ -33,7 +33,7 @@ public class CrusherRecipe {
                         new Pair<>(0.08f, Items.REDSTONE), new Pair<>(0.16f, Items.COAL)));
         recipes.put(Blocks.COBBLED_DEEPSLATE.asItem(),
                 Arrays.asList(new Pair<>(0.12f, Items.RAW_IRON), new Pair<>(0.40f, Items.COBBLESTONE),
-                        new Pair<>(0.004f, Items.DIAMOND), new Pair<>(0.08f, Items.RAW_GOLD),
+                        new Pair<>(0.001f, Items.DIAMOND), new Pair<>(0.08f, Items.RAW_GOLD),
                         new Pair<>(0.08f, Items.REDSTONE), new Pair<>(0.16f, Items.COAL)));
         recipes.put(BlockRegister.blocks[BlockRegistry.MOON_STONE.ordinal()].asItem(),
                 Arrays.asList(new Pair<>(0.08f, Items.RAW_IRON),

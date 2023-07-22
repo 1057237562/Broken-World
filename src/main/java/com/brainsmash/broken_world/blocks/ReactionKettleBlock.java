@@ -1,8 +1,7 @@
 package com.brainsmash.broken_world.blocks;
 
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
-import com.brainsmash.broken_world.blocks.entity.ReactorBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.ElectrolyzerBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.ReactionKettleBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -16,8 +15,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ReactorBlock extends ConsumerBlock {
-    public ReactorBlock(Settings settings) {
+public class ReactionKettleBlock extends ConsumerBlock {
+    public ReactionKettleBlock(Settings settings) {
         super(settings);
         setDefaultState(
                 stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT,
@@ -27,14 +26,14 @@ public class ReactorBlock extends ConsumerBlock {
     @Override
     @Nullable
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new ElectrolyzerBlockEntity(pos, state);
+        return new ReactionKettleBlockEntity(pos, state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         if (!world.isClient)
-            return (world1, pos, state1, blockEntity) -> ((ReactorBlockEntity) blockEntity).tick(world1, pos, state1,
-                    (ReactorBlockEntity) blockEntity);
+            return (world1, pos, state1, blockEntity) -> ((ReactionKettleBlockEntity) blockEntity).tick(world1, pos,
+                    state1, (ReactionKettleBlockEntity) blockEntity);
         return null;
     }
 
