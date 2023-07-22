@@ -32,6 +32,7 @@
     "broken_world:aluminum_ore",
     "broken_world:reaction_kettle",
     "broken_world:refinery",
-    "broken_world:weaponry"
+    "broken_world:weaponry",
+    "broken_world:gas_collector"
   ]
 }
