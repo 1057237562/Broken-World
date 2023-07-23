@@ -5,6 +5,9 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEnti
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.recipe.GasCollectorRecipe;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.registry.GasRegister;
+import com.brainsmash.broken_world.registry.ItemRegister;
+import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import com.brainsmash.broken_world.screenhandlers.descriptions.GasCollectorGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -30,6 +33,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -37,17 +41,22 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     private final Random random = new Random();
     private Item lastItem;
+    private List<Pair<GasRegister.Gas, Integer>> gasList = null;
     int selectedGas = 0;
 
     public GasCollectorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.GAS_COLLECTOR_ENTITY_TYPE, pos, state);
         setMaxCapacity(500);
-        maxProgression = 150;
+        maxProgression = 10000;
         powerConsumption = 4;
     }
 
     public void selectGasOutput(int i) {
+        if (i == selectedGas)
+            return;
         selectedGas = i;
+        progression = 0;
+        if (!gasList.isEmpty()) maxProgression = gasList.get(selectedGas).getRight();
     }
 
     @Override
@@ -76,24 +85,21 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
+        if (gasList == null) {
+            loadGasList();
+        }
         if (!world.isClient) {
-            ItemStack rawMaterial = inventory.get(0);
-            if (GasCollectorRecipe.recipes.containsKey(rawMaterial.getItem()) && canRun()) {
+            if (canRun()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;
                 } else {
-                    List<Pair<Float, Item>> list = GasCollectorRecipe.recipes.get(rawMaterial.getItem());
-                    for (Pair<Float, Item> output : list) {
-                        if (random.nextFloat() < output.getLeft()) {
-                            if (!insertItem(new ItemStack(output.getRight(), 1))) {
-                                EntityHelper.spawnItem(world, new ItemStack(output.getRight(), 1), 1, Direction.UP,
-                                        pos);
-                            }
-                        }
+                    Item product = gasList.get(selectedGas).getLeft().product().value();
+                    if (!insertItem(new ItemStack(product, 1))) {
+                        EntityHelper.spawnItem(world, new ItemStack(product, 1), 1, Direction.UP,
+                                pos);
                     }
-                    if (inventory.get(0).getRecipeRemainder().isEmpty()) inventory.get(0).decrement(1);
-                    else inventory.set(0, inventory.get(0).getRecipeRemainder().copy());
+                    inventory.get(0).decrement(1);
                     progression = 0;
                 }
                 if (!inventory.get(0).getItem().equals(lastItem)) {
@@ -109,6 +115,20 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
             chargeUseItem(inventory.get(1));
         }
         super.tick(world, pos, state, blockEntity);
+    }
+
+    protected void loadGasList() {
+        gasList = GasRegister.getBiomeGases(world, pos);
+        if (!gasList.isEmpty()) {
+            // If data pack is modified before loading this entity from save, gas list might be smaller, causing probable index out of bound.
+            selectGasOutput(selectedGas % gasList.size());
+            maxProgression = gasList.get(selectedGas).getRight();
+        }
+    }
+
+    @Override
+    public boolean canRun() {
+        return super.canRun() && !gasList.isEmpty() && inventory.get(0).isOf(ItemRegister.items[ItemRegistry.GAS_TANK.ordinal()]);
     }
 
     @Override
