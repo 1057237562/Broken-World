@@ -42,7 +42,7 @@ public class ItemHelper {
     public static List<Ingredient> fromItemStacks(List<ItemStack> stacks) {
         List<Ingredient> ingredients = new ArrayList<>();
         for (ItemStack stack : stacks) {
-            ingredients.add(fromItemStack(stack));
+            if (!stack.isEmpty()) ingredients.add(fromItemStack(stack));
         }
         return ingredients;
     }
