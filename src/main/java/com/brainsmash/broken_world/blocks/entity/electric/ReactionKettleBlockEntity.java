@@ -96,6 +96,7 @@ public class ReactionKettleBlockEntity extends ConsumerBlockEntity implements Na
             }
             state = state.with(Properties.LIT, isRunning());
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
+            chargeUseItem(inventory.get(3));
         }
         super.tick(world, pos, state, blockEntity);
     }

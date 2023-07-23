@@ -1,9 +1,11 @@
 package com.brainsmash.broken_world.blocks.entity.electric.base;
 
+import com.brainsmash.broken_world.items.electrical.BatteryItem;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.util.math.BlockPos;
@@ -103,5 +105,12 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
     @Override
     public PropertyDelegate getPropertyDelegate() {
         return propertyDelegate;
+    }
+
+    public void chargeUseItem(ItemStack itemStack) {
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof BatteryItem batteryItem) {
+            setEnergy(getEnergy() + batteryItem.discharge(itemStack,
+                    Math.min(getMaxCapacity() - getEnergy(), getMaxFlow())));
+        }
     }
 }

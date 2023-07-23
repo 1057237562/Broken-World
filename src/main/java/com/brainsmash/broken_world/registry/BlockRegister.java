@@ -3,6 +3,7 @@ package com.brainsmash.broken_world.registry;
 import com.brainsmash.broken_world.blocks.*;
 import com.brainsmash.broken_world.blocks.client.render.entity.*;
 import com.brainsmash.broken_world.blocks.electric.*;
+import com.brainsmash.broken_world.blocks.electric.base.BatteryBlock;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.generator.*;
@@ -194,6 +195,8 @@ public class BlockRegister {
             new GasCollectorBlock(STANDARD_BLOCK),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.LAPIS_ORE)),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
+            new BatteryBlock(STANDARD_BLOCK),
+            new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -283,6 +286,8 @@ public class BlockRegister {
             new BlockItem(blocks[84], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[85], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[86], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[87], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[88], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -372,7 +377,9 @@ public class BlockRegister {
             "refinery",
             "gas_collector",
             "sulfur_ore",
-            "aluminum_ore"
+            "aluminum_ore",
+            "battery",
+            "lead_ore"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -398,6 +405,8 @@ public class BlockRegister {
                     blocks[BlockRegistry.SULFUR_ORE.ordinal()].getDefaultState(), 4)),
             new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
                     blocks[BlockRegistry.ALUMINUM_ORE.ordinal()].getDefaultState(), 6)),
+            new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
+                    blocks[BlockRegistry.LEAD_ORE.ordinal()].getDefaultState(), 6)),
     };
 
     private static final PlacedFeature[] placedFeatures = {
@@ -429,7 +438,10 @@ public class BlockRegister {
                     Arrays.asList(CountPlacementModifier.of(10), SquarePlacementModifier.of(),
                             HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.fixed(64)))),
             new PlacedFeature(RegistryEntry.of(configuredFeatures[9]),
-                    Arrays.asList(CountPlacementModifier.of(12), SquarePlacementModifier.of(),
+                    Arrays.asList(CountPlacementModifier.of(10), SquarePlacementModifier.of(),
+                            HeightRangePlacementModifier.uniform(YOffset.fixed(8), YOffset.fixed(64)))),
+            new PlacedFeature(RegistryEntry.of(configuredFeatures[10]),
+                    Arrays.asList(CountPlacementModifier.of(6), SquarePlacementModifier.of(),
                             HeightRangePlacementModifier.uniform(YOffset.fixed(8), YOffset.fixed(64)))),
     };
 
@@ -443,7 +455,8 @@ public class BlockRegister {
             "kyanite_ore",
             "tin_ore",
             "sulfur_ore",
-            "aluminum_ore"
+            "aluminum_ore",
+            "lead_ore"
     };
 
     public static BlockEntityType<TeleporterControllerBlockEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;
@@ -576,6 +589,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(GasCollectorBlockEntity::new, blocks[84]).build());
         REFINERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "refinery"),
                 FabricBlockEntityTypeBuilder.create(RefineryBlockEntity::new, blocks[83]).build());
+        BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "battery"),
+                FabricBlockEntityTypeBuilder.create(BatteryBlockEntity::new, blocks[87]).build());
     }
 
     public static void registBlocksClientSide() {

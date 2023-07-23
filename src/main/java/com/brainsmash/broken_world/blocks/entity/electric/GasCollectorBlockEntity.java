@@ -57,7 +57,8 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new GasCollectorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world, pos), selectedGas);
+        return new GasCollectorGuiDescription(syncId, playerInventory, ScreenHandlerContext.create(world, pos),
+                selectedGas);
     }
 
     public boolean insertItem(ItemStack stack) {
@@ -105,6 +106,7 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
             }
             state = state.with(Properties.LIT, isRunning());
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
+            chargeUseItem(inventory.get(1));
         }
         super.tick(world, pos, state, blockEntity);
     }

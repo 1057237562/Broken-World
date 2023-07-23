@@ -44,7 +44,7 @@ public class FabricatorBlockEntity extends ConsumerBlockEntity implements NamedS
     public FabricatorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.FABRICATOR_ENTITY_TYPE, pos, state);
         maxProgression = 100;
-        powerConsumption = 6;
+        powerConsumption = 10;
         setMaxCapacity(1000);
         powered = true;
     }

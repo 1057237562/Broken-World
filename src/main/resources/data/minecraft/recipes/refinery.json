@@ -7,7 +7,7 @@
   ],
   "key": {
     "A": {
-      "item": "broken_world:tungsten_ingot"
+      "tag": "c:tungsten_ingots"
     },
     "B": {
       "item": "minecraft:blast_furnace"

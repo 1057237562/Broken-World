@@ -1,7 +1,7 @@
 package com.brainsmash.broken_world.blocks.entity.electric.base;
 
-import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
+import com.brainsmash.broken_world.items.electrical.BatteryItem;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.BatteryGuiDescription;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
@@ -22,12 +22,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenHandlerFactory,ImplementedInventory, PropertyDelegateHolder {
+public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory, PropertyDelegateHolder {
 
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            switch (index){
+            switch (index) {
                 case 0:
                     return getEnergy();
                 case 1:
@@ -49,12 +49,13 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
     };
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+
     public BatteryBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.BATTERY_ENTITY_TYPE, pos, state);
-        setMaxCapacity(500000);
+        setMaxCapacity(10000);
     }
 
-    public BatteryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state){
+    public BatteryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
@@ -66,8 +67,9 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new BatteryGuiDescription(syncId, inv, ScreenHandlerContext.create(world,pos));
+        return new BatteryGuiDescription(syncId, inv, ScreenHandlerContext.create(world, pos));
     }
+
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
@@ -92,9 +94,12 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient && world.isChunkLoaded(pos)) {
+        if (!world.isClient && world.isChunkLoaded(pos)) {
             increaseEnergy(deltaFlow);
             EnergyManager.processTick(this);
+            if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof BatteryItem batteryItem) {
+                setEnergy(getEnergy() - batteryItem.charge(inventory.get(0), Math.min(getEnergy(), getMaxFlow())));
+            }
         }
     }
 }

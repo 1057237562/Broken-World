@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:iron_plate"
+    },
+    "B": {
+      "item": "broken_world:la_battery"
+    },
+    "C": {
+      "item": "broken_world:double_copper_cable"
+    }
+  },
+  "result": {
+    "item": "broken_world:battery"
+  }
+}

@@ -18,8 +18,9 @@ public class SolarPanelEntity extends PowerBlockEntity {
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if (!world.isClient && world.isDay()) {
-            setGenerate((world.getLightLevel(LightType.SKY, pos) + 1) / 4);
+        if (!world.isClient) {
+            if (world.isDay()) setGenerate((world.getLightLevel(LightType.SKY, pos) + 1) / 4);
+            else setGenerate(0);
         }
         super.tick(world, pos, state, blockEntity);
     }

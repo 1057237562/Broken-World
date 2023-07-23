@@ -4,6 +4,7 @@ import com.brainsmash.broken_world.Main;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.WBar;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
+import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -25,7 +26,10 @@ public class BatteryGuiDescription extends SyncedGuiDescription {
         WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/vertical_electric_bar.png"),
                 new Identifier(Main.MODID, "textures/gui/vertical_electric_bar_filled.png"), 0, 1);
         bar.setProperties(propertyDelegate).withTooltip("%s/%s IU");
-        root.add(bar, 4, 1, 1, 2);
+        root.add(bar, 3, 1, 1, 2);
+
+        WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
+        root.add(itemSlot, 5, 2);
 
         root.add(this.createPlayerInventoryPanel(), 0, 4);
 

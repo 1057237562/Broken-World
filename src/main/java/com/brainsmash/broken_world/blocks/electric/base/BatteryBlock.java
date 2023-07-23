@@ -2,7 +2,9 @@ package com.brainsmash.broken_world.blocks.electric.base;
 
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.EnergyManager;
-import net.minecraft.block.*;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -21,7 +23,7 @@ import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
 public class BatteryBlock extends BlockWithEntity {
-
+    
     public BatteryBlock(Settings settings) {
         super(settings);
     }
@@ -29,13 +31,14 @@ public class BatteryBlock extends BlockWithEntity {
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new BatteryBlockEntity(pos,state);
+        return new BatteryBlockEntity(pos, state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if(!world.isClient)
-            return (world1, pos, state1, blockEntity) -> ((BatteryBlockEntity) blockEntity).tick(world1, pos, state1, (BatteryBlockEntity) blockEntity);
+        if (!world.isClient)
+            return (world1, pos, state1, blockEntity) -> ((BatteryBlockEntity) blockEntity).tick(world1, pos, state1,
+                    (BatteryBlockEntity) blockEntity);
         return null;
     }
 
@@ -50,14 +53,13 @@ public class BatteryBlock extends BlockWithEntity {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof BatteryBlockEntity) {
-                if(world instanceof ServerWorld){
-                    if(blockEntity instanceof Inventory)
-                        ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+                if (world instanceof ServerWorld) {
+                    if (blockEntity instanceof Inventory) ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
                     world.removeBlockEntity(pos);
-                    EnergyManager.UpdateGraph(world,pos);
+                    EnergyManager.UpdateGraph(world, pos);
                 }
                 // update comparators
-                world.updateComparators(pos,this);
+                world.updateComparators(pos, this);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
@@ -65,22 +67,22 @@ public class BatteryBlock extends BlockWithEntity {
 
     @Override
     public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        if(!world.isClient())
-            EnergyManager.UpdateGraph(world,pos);
+        if (!world.isClient()) EnergyManager.UpdateGraph(world, pos);
         super.onBroken(world, pos, state);
     }
 
     @Override
     public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
-        if(!world.isClient)
-            EnergyManager.UpdateGraph(world,pos);
+        if (!world.isClient) EnergyManager.UpdateGraph(world, pos);
         super.onDestroyedByExplosion(world, pos, explosion);
     }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            System.out.println(((BatteryBlockEntity)world.getBlockEntity(pos)).deltaFlow + ":"+ ((BatteryBlockEntity)world.getBlockEntity(pos)).getEnergy()+":"+((BatteryBlockEntity)world.getBlockEntity(pos)).edges.toString());
+            System.out.println(((BatteryBlockEntity) world.getBlockEntity(
+                    pos)).deltaFlow + ":" + ((BatteryBlockEntity) world.getBlockEntity(
+                    pos)).getEnergy() + ":" + ((BatteryBlockEntity) world.getBlockEntity(pos)).edges.toString());
             NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
             if (screenHandlerFactory != null) {
                 player.openHandledScreen(screenHandlerFactory);

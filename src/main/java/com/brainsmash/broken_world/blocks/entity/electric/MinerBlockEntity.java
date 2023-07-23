@@ -31,44 +31,43 @@ import org.jetbrains.annotations.Nullable;
 public class MinerBlockEntity extends ConsumerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(25, ItemStack.EMPTY);
-    public BlockPos pointer = new BlockPos(16,-1,16);
+    public BlockPos pointer = new BlockPos(16, -1, 16);
     private final int speed = 3;
 
     public MinerBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.MINER_ENTITY_TYPE,pos, state);
+        super(BlockRegister.MINER_ENTITY_TYPE, pos, state);
         setMaxCapacity(4000);
         maxProgression = 0;
         powerConsumption = 50;
     }
 
-    public boolean insertItem(ItemStack stack){
-        for(int i = 0;i<inventory.size()-1;i++){
-            if(inventory.get(i).isEmpty()){
-                inventory.set(i,stack);
+    public boolean insertItem(ItemStack stack) {
+        for (int i = 0; i < inventory.size() - 1; i++) {
+            if (inventory.get(i).isEmpty()) {
+                inventory.set(i, stack);
                 return true;
             }
-            if(inventory.get(i).getItem().equals(stack.getItem())){
-                int insertCount = Math.min(inventory.get(i).getMaxCount() - inventory.get(i).getCount(),stack.getCount());
+            if (inventory.get(i).getItem().equals(stack.getItem())) {
+                int insertCount = Math.min(inventory.get(i).getMaxCount() - inventory.get(i).getCount(),
+                        stack.getCount());
                 inventory.get(i).increment(insertCount);
                 stack.decrement(insertCount);
             }
-            if(stack.getCount() == 0)
-                return true;
+            if (stack.getCount() == 0) return true;
         }
-        if(stack.getCount() == 0)
-            return true;
+        if (stack.getCount() == 0) return true;
         return false;
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient){
-            if(canRun()){
+        if (!world.isClient) {
+            if (canRun()) {
                 running = true;
-                for(int i = 0; i < speed;i++)
-                    if(!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
-                        BlockPos pointPos = pos.add(pointer.getX(),pointer.getY(),pointer.getZ());
-                        if(!world.isChunkLoaded(pointPos)){
+                for (int i = 0; i < speed; i++)
+                    if (!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
+                        BlockPos pointPos = pos.add(pointer.getX(), pointer.getY(), pointer.getZ());
+                        if (!world.isChunkLoaded(pointPos)) {
                             running = false;
                             state = state.with(Properties.LIT, isRunning());
                             world.setBlockState(pos, state, Block.NOTIFY_ALL);
@@ -76,48 +75,52 @@ public class MinerBlockEntity extends ConsumerBlockEntity implements NamedScreen
                             return;
                         }
                         boolean flag = false;
-                        for(RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(ConventionalBlockTags.ORES)){
-                            if(world.getBlockState(pointPos).getBlock().equals(blockRegistryEntry.value())){
+                        for (RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(
+                                ConventionalBlockTags.ORES)) {
+                            if (world.getBlockState(pointPos).getBlock().equals(blockRegistryEntry.value())) {
                                 flag = true;
-                                if(!insertItem(new ItemStack(world.getBlockState(pointPos).getBlock().asItem(),1))){
-                                    EntityHelper.spawnItem(world,new ItemStack(world.getBlockState(pointPos).getBlock().asItem(),1),1, Direction.UP,pos);
+                                if (!insertItem(new ItemStack(world.getBlockState(pointPos).getBlock().asItem(), 1))) {
+                                    EntityHelper.spawnItem(world,
+                                            new ItemStack(world.getBlockState(pointPos).getBlock().asItem(), 1), 1,
+                                            Direction.UP, pos);
                                 }
-                                world.setBlockState(pointPos,new BlockState(Blocks.AIR,null,null));
+                                world.setBlockState(pointPos, new BlockState(Blocks.AIR, null, null));
                                 markDirty();
                                 break;
                             }
                         }
-                        if (pointer.getX() > -16){
-                            pointer = pointer.add(-1,0,0);
-                        }else if(pointer.getZ() > -16){
-                            pointer = pointer.add(32,0,-1);
-                        }else{
-                            pointer = pointer.add(32,-1,32);
+                        if (pointer.getX() > -16) {
+                            pointer = pointer.add(-1, 0, 0);
+                        } else if (pointer.getZ() > -16) {
+                            pointer = pointer.add(32, 0, -1);
+                        } else {
+                            pointer = pointer.add(32, -1, 32);
                         }
-                        if(flag){
+                        if (flag) {
                             break;
                         }
                     }
-            }else{
+            } else {
                 running = false;
             }
             state = state.with(Properties.LIT, isRunning());
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
+            chargeUseItem(inventory.get(24));
         }
         super.tick(world, pos, state, blockEntity);
     }
 
     @Override
     public void writeNbt(NbtCompound nbt) {
-        nbt.putLong("pointer",pointer.asLong());
-        Inventories.writeNbt(nbt,inventory);
+        nbt.putLong("pointer", pointer.asLong());
+        Inventories.writeNbt(nbt, inventory);
         super.writeNbt(nbt);
     }
 
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        Inventories.readNbt(nbt,inventory);
+        Inventories.readNbt(nbt, inventory);
         pointer = BlockPos.fromLong(nbt.getLong("pointer"));
     }
 

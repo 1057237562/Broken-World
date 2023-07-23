@@ -98,6 +98,7 @@ public class AdvancedFurnaceBlockEntity extends ConsumerBlockEntity implements N
             }
             state = state.with(Properties.LIT, isRunning());
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
+            chargeUseItem(inventory.get(1));
         }
         super.tick(world, pos, state, blockEntity);
     }

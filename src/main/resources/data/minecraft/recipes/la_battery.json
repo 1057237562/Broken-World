@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "BAB",
+    "BCB"
+  ],
+  "key": {
+    "A": {
+      "tag": "c:lead_ingots"
+    },
+    "B": {
+      "tag": "c:tinplate_ingots"
+    },
+    "C": {
+      "item": "broken_world:gasoline_bucket"
+    }
+  },
+  "result": {
+    "item": "broken_world:la_battery"
+  }
+}

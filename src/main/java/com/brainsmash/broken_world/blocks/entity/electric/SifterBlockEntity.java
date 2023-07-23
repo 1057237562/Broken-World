@@ -117,6 +117,7 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
             }
             state = state.with(Properties.LIT, isRunning());
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
+            chargeUseItem(inventory.get(1));
         }
         super.tick(world, pos, state, blockEntity);
     }

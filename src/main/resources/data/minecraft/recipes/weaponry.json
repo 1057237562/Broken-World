@@ -13,7 +13,7 @@
       "item": "broken_world:iron_plate"
     },
     "C": {
-      "item": "broken_world:tungsten_ingot"
+      "tag": "c:tungsten_ingots"
     },
     "D": {
       "item": "broken_world:memory_chip"

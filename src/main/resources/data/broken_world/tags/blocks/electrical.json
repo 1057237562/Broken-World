@@ -34,6 +34,7 @@
     "broken_world:gas_collector",
     "broken_world:refinery",
     "broken_world:reaction_kettle",
-    "broken_world:electrolyzer"
+    "broken_world:electrolyzer",
+    "broken_world:battery"
   ]
 }

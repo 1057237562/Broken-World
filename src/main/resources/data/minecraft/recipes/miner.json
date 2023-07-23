@@ -13,7 +13,7 @@
       "item": "broken_world:scanner"
     },
     "C": {
-      "item": "broken_world:tungsten_ingot"
+      "tag": "c:tungsten_ingots"
     },
     "D": {
       "item": "broken_world:teleport_platform"

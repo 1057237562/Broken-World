@@ -36,6 +36,8 @@ public class OreTypeRegistry {
         mapping.put(BlockRegister.blocks[BlockRegistry.TUNGSTEN_ORE.ordinal()], 21);
         mapping.put(BlockRegister.blocks[BlockRegistry.KYANITE_ORE.ordinal()], 22);
         mapping.put(BlockRegister.blocks[BlockRegistry.TIN_ORE.ordinal()], 23);
+        mapping.put(BlockRegister.blocks[BlockRegistry.ALUMINUM_ORE.ordinal()], 24);
+        mapping.put(BlockRegister.blocks[BlockRegistry.LEAD_ORE.ordinal()], 25);
     }
 
 }

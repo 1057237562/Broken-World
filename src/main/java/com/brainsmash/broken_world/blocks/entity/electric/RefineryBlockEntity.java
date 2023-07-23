@@ -93,6 +93,7 @@ public class RefineryBlockEntity extends ConsumerBlockEntity implements NamedScr
             }
             state = state.with(Properties.LIT, isRunning());
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
+            chargeUseItem(inventory.get(2));
         }
         super.tick(world, pos, state, blockEntity);
     }

@@ -18,7 +18,6 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -43,7 +42,7 @@ public class WeaponryBlockEntity extends ConsumerBlockEntity implements NamedScr
     public WeaponryBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.WEAPONRY_ENTITY_TYPE, pos, state);
         maxProgression = 100;
-        powerConsumption = 6;
+        powerConsumption = 12;
         setMaxCapacity(1000);
         powered = true;
     }
@@ -58,7 +57,8 @@ public class WeaponryBlockEntity extends ConsumerBlockEntity implements NamedScr
             this.output = output;
             requiredMaterial.clear();
             for (int i = 0; i < 9; i++) {
-                requiredMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(), (integer, integer2) -> integer + integer2);
+                requiredMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(),
+                        (integer, integer2) -> integer + integer2);
             }
         }
     }
@@ -66,7 +66,8 @@ public class WeaponryBlockEntity extends ConsumerBlockEntity implements NamedScr
     public boolean checkMaterial() {
         Map<Item, Integer> currentMaterial = new ConcurrentHashMap<>();
         for (int i = 9; i < 18; i++) {
-            currentMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(), ((integer, integer2) -> integer + integer2));
+            currentMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(),
+                    ((integer, integer2) -> integer + integer2));
         }
         for (Map.Entry<Item, Integer> pair : requiredMaterial.entrySet()) {
             if (currentMaterial.getOrDefault(pair.getKey(), 0) < pair.getValue()) {
@@ -96,7 +97,8 @@ public class WeaponryBlockEntity extends ConsumerBlockEntity implements NamedScr
                 return true;
             }
             if (inventory.get(i).getItem().equals(stack.getItem())) {
-                int insertCount = Math.min(inventory.get(i).getMaxCount() - inventory.get(i).getCount(), stack.getCount());
+                int insertCount = Math.min(inventory.get(i).getMaxCount() - inventory.get(i).getCount(),
+                        stack.getCount());
                 inventory.get(i).increment(insertCount);
                 stack.decrement(insertCount);
             }
@@ -109,7 +111,9 @@ public class WeaponryBlockEntity extends ConsumerBlockEntity implements NamedScr
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (world instanceof ServerWorld) {
-            if (!output.isEmpty() && isPowered() && canRun() && !output.isEmpty() && ((inventory.get(18).isOf(output.getItem()) && inventory.get(18).getCount() + output.getCount() <= output.getMaxCount()) || inventory.get(18).isEmpty())) {
+            if (!output.isEmpty() && isPowered() && canRun() && !output.isEmpty() && ((inventory.get(18).isOf(
+                    output.getItem()) && inventory.get(
+                    18).getCount() + output.getCount() <= output.getMaxCount()) || inventory.get(18).isEmpty())) {
                 if (!isRunning()) {
                     if (checkMaterial()) running = true;
                     else running = false;
