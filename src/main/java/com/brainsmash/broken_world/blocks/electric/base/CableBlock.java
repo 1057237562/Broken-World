@@ -73,7 +73,7 @@ public class CableBlock extends BlockWithEntity {
         if (!world.isClient && !covered) {
             int flow = ((CableBlockEntity) world.getBlockEntity(pos)).currentFlow();
             if (flow > 0) {
-                if (entity instanceof CreeperEntity creeper) {
+                if (entity instanceof CreeperEntity creeper && world.random.nextFloat() < flow / 128f) {
                     NbtCompound nbt = new NbtCompound();
                     creeper.writeCustomDataToNbt(nbt);
                     nbt.putBoolean("powered", true);
