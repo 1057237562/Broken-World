@@ -404,7 +404,7 @@ public class BlockRegister {
             new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
                     blocks[BlockRegistry.SULFUR_ORE.ordinal()].getDefaultState(), 4)),
             new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
-                    blocks[BlockRegistry.ALUMINIUM_ORE.ordinal()].getDefaultState(), 6)),
+                    blocks[BlockRegistry.ALUMINUM_ORE.ordinal()].getDefaultState(), 6)),
             new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
                     blocks[BlockRegistry.LEAD_ORE.ordinal()].getDefaultState(), 6)),
     };

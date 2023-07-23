@@ -69,6 +69,6 @@ public enum ItemRegistry {
     TINPLATE,
     CHIP,
     SULFUR,
-    RAW_ALUMINIUM,
-    ALUMINIUM_INGOT,
+    RAW_ALUMINUM,
+    ALUMINUM_INGOT,
 }
