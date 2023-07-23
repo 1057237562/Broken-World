@@ -3,7 +3,6 @@ package com.brainsmash.broken_world.blocks.entity.electric;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
-import com.brainsmash.broken_world.recipe.GasCollectorRecipe;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.GasRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
@@ -35,11 +34,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class GasCollectorBlockEntity extends ConsumerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, SidedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-    private final Random random = new Random();
     private Item lastItem;
     private List<Pair<GasRegister.Gas, Integer>> gasList = null;
     int selectedGas = 0;
@@ -94,7 +91,7 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
                 if (progression < maxProgression) {
                     progression++;
                 } else {
-                    Item product = gasList.get(selectedGas).getLeft().product().value();
+                    Item product = gasList.get(selectedGas).getLeft().product();
                     if (!insertItem(new ItemStack(product, 1))) {
                         EntityHelper.spawnItem(world, new ItemStack(product, 1), 1, Direction.UP,
                                 pos);
@@ -118,6 +115,10 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
     }
 
     protected void loadGasList() {
+        if (world == null) {
+            gasList = new ArrayList<>();
+            return;
+        }
         gasList = GasRegister.getBiomeGases(world, pos);
         if (!gasList.isEmpty()) {
             // If data pack is modified before loading this entity from save, gas list might be smaller, causing probable index out of bound.
