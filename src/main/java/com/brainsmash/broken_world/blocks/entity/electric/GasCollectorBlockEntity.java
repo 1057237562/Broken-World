@@ -91,7 +91,7 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
                 if (progression < maxProgression) {
                     progression++;
                 } else {
-                    Item product = gasList.get(selectedGas).getLeft().product();
+                    Item product = gasList.get(selectedGas).getLeft().product().value();
                     if (!insertItem(new ItemStack(product, 1))) {
                         EntityHelper.spawnItem(world, new ItemStack(product, 1), 1, Direction.UP,
                                 pos);
