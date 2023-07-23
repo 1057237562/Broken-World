@@ -27,6 +27,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -74,11 +75,12 @@ public class ReactionKettleBlockEntity extends ConsumerBlockEntity implements Na
                         EntityHelper.spawnItem(world, output, 1, Direction.UP, pos);
                     }
                     List<Integer> count = ReactionRecipe.counts.get(key);
-                    List<ItemStack> stacks = List.of(inventory.get(0), inventory.get(1), inventory.get(2));
+                    List<ItemStack> stacks = new ArrayList<>(
+                            List.of(inventory.get(0), inventory.get(1), inventory.get(2)));
                     stacks.sort(Comparator.comparingInt(itemStack -> itemStack.getItem().hashCode()));
                     stacks.get(0).decrement(count.get(0));
-                    stacks.get(1).decrement(count.get(1));
-                    stacks.get(2).decrement(count.get(2));
+                    if (count.size() > 1) stacks.get(1).decrement(count.get(1));
+                    if (count.size() > 2) stacks.get(2).decrement(count.get(2));
                     progression = 0;
                 }
                 if (!inventory.get(0).getItem().equals(lastItem[0]) || !inventory.get(1).getItem().equals(

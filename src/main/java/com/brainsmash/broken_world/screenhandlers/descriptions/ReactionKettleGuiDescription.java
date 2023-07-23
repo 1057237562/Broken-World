@@ -29,7 +29,7 @@ public class ReactionKettleGuiDescription extends SyncedGuiDescription {
         bar.setProperties(propertyDelegate);
         root.add(bar, 8, 2, 1, 1);
         WBar bar1 = new WBar(new Identifier(Main.MODID, "textures/gui/progressbar_right.png"),
-                new Identifier(Main.MODID, "textures/gui/progressbar_right_filled.png"), 2, 3, Direction.LEFT);
+                new Identifier(Main.MODID, "textures/gui/progressbar_right_filled.png"), 2, 3, Direction.RIGHT);
         bar1.setProperties(propertyDelegate);
         root.add(bar1, 3, 2, 2, 1);
 
