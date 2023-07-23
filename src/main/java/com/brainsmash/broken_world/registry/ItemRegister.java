@@ -110,7 +110,7 @@ public class ItemRegister {
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.WIND),
             // 50
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.MOUNTAINOUS),
-            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.SINK),
+            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.MARSH),
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.THUNDER),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new DensityMeter(new FabricItemSettings().group(ITEM_GROUP)),
@@ -186,7 +186,7 @@ public class ItemRegister {
             "liquid_rune",
             "wind_rune",
             "mountainous_rune",
-            "sink_rune",
+            "marsh_rune",
             "thunder_rune",
             "tin_ingot",
             "density_meter",
@@ -203,8 +203,8 @@ public class ItemRegister {
             "tinplate",
             "chip",
             "sulfur",
-            "raw_aluminum",
-            "aluminum_ingot",
+            "raw_aluminium",
+            "aluminium_ingot",
             "lead_ingot",
             "la_battery"
     };

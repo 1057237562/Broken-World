@@ -24,7 +24,7 @@
                   }
                 }
               ],
-              "name": "broken_world:aluminum_ore"
+              "name": "broken_world:aluminium_ore"
             },
             {
               "type": "minecraft:item",
@@ -50,7 +50,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "broken_world:raw_aluminum"
+              "name": "broken_world:raw_aluminium"
             }
           ]
         }
