@@ -13,7 +13,7 @@
       "tag": "c:tinplate_ingots"
     },
     "C": {
-      "item": "broken_world:gasoline_bucket"
+      "item": "broken_world:acid_bucket"
     }
   },
   "result": {

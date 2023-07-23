@@ -12,6 +12,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 public class SniperRifle extends GunItem implements CustomUsePoseItem {
@@ -74,5 +75,17 @@ public class SniperRifle extends GunItem implements CustomUsePoseItem {
             itemStack = Util.getAmmo(entity, ItemRegister.items[ItemRegistry.SNIPER_AMMO.ordinal()]);
         }
         return result;
+    }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        if (user.getOffHandStack().isEmpty()) {
+            ItemStack itemStack = user.getStackInHand(hand);
+            user.setCurrentHand(hand);
+            return TypedActionResult.consume(itemStack);
+        } else {
+            ItemStack itemStack = user.getStackInHand(hand);
+            return TypedActionResult.fail(itemStack);
+        }
     }
 }

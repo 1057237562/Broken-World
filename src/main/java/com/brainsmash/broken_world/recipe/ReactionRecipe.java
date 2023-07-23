@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.recipe;
 
 import com.brainsmash.broken_world.registry.ItemRegister;
+import com.brainsmash.broken_world.registry.enums.FluidRegistry;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -21,6 +22,9 @@ public class ReactionRecipe {
         registReaction(new ItemStack(Items.FLINT, 4),
                 ItemRegister.items[ItemRegistry.SULFUR.ordinal()].getDefaultStack(), Items.CHARCOAL.getDefaultStack(),
                 new ItemStack(Items.GUNPOWDER, 2));
+        registReaction(Items.WATER_BUCKET.getDefaultStack(),
+                new ItemStack(ItemRegister.items[ItemRegistry.SULFUR.ordinal()], 3), ItemStack.EMPTY,
+                new ItemStack(ItemRegister.bucket_item[FluidRegistry.ACID.ordinal()]));
     }
 
     /**
