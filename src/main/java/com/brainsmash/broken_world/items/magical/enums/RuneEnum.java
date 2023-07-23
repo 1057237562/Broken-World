@@ -7,7 +7,7 @@ public enum RuneEnum {
     FIRE,
     LIQUID,
     MOUNTAINOUS,
-    SINK,
+    MARSH,
     THUNDER
 
 }

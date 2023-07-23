@@ -52,7 +52,7 @@ public enum ItemRegistry {
     LIQUID_RUNE,
     WIND_RUNE,
     MOUNTAINOUS_RUNE,
-    SINK_RUNE,
+    MARSH_RUNE,
     THUNDER_RUNE,
     TIN_INGOT,
     DENSITY_METER,

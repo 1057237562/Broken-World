@@ -141,7 +141,7 @@
   "item.broken_world.liquid_rune": "Liquid Rune",
   "item.broken_world.wind_rune": "Wind Rune",
   "item.broken_world.mountainous_rune": "Mountainous Rune",
-  "item.broken_world.sink_rune": "Sink Rune",
+  "item.broken_world.marsh_rune": "Marsh Rune",
   "item.broken_world.thunder_rune": "Thunder Rune",
   "item.broken_world.tin_ingot": "Tin Ingot",
   "item.broken_world.density_meter": "Density Meter",
@@ -161,7 +161,7 @@
   "item.broken_world.raw_aluminium": "Raw Aluminium",
   "item.broken_world.aluminium_ingot": "Aluminium Ingot",
   "item.broken_world.lead_ingot": "Lead Ingot",
-  "item.broken_world.la_battery": "LA Battery",
+  "item.broken_world.la_battery": "Lead-Acid Battery",
 
   "item.broken_world.oil_bucket": "Oil Bucket", 
   "item.broken_world.polluted_water_bucket": "Polluted Water Bucket", 
@@ -169,6 +169,17 @@
   "item.broken_world.gasoline_bucket": "Gasoline Bucket", 
   "item.broken_world.aether_bucket": "Aether Bucket", 
   "item.broken_world.latex_bucket": "Latex Bucket", 
+
+  "item.broken_world.copper_pickaxe": "Copper Pickaxe", 
+  "item.broken_world.copper_axe": "Copper Axe", 
+  "item.broken_world.copper_shovel": "Copper Shovel", 
+  "item.broken_world.copper_hoe": "Copper Hoe", 
+  "item.broken_world.copper_sword": "Copper Sword", 
+  "item.broken_world.tungsten_pickaxe": "Tungsten Pickaxe", 
+  "item.broken_world.tungsten_axe": "Tungsten Axe", 
+  "item.broken_world.tungsten_shovel": "Tungsten Shovel", 
+  "item.broken_world.tungsten_hoe": "Tungsten Hoe", 
+  "item.broken_world.tungsten_sword": "Tungsten Sword", 
 
   "itemGroup.broken_world.itemgroup": "Broken World",
 
