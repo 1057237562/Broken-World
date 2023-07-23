@@ -87,7 +87,7 @@ public enum BlockRegistry {
     REFINERY,
     GAS_COLLECTOR,
     SULFUR_ORE,
-    ALUMINUM_ORE,
+    ALUMINIUM_ORE,
     BATTERY,
     LEAD_ORE,
 }

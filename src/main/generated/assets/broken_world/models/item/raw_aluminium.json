@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "broken_world:item/aluminum_ingot"
+    "layer0": "broken_world:item/raw_aluminium"
   }
 }

@@ -377,7 +377,7 @@ public class BlockRegister {
             "refinery",
             "gas_collector",
             "sulfur_ore",
-            "aluminum_ore",
+            "aluminium_ore",
             "battery",
             "lead_ore"
     };
@@ -404,7 +404,7 @@ public class BlockRegister {
             new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
                     blocks[BlockRegistry.SULFUR_ORE.ordinal()].getDefaultState(), 4)),
             new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
-                    blocks[BlockRegistry.ALUMINUM_ORE.ordinal()].getDefaultState(), 6)),
+                    blocks[BlockRegistry.ALUMINIUM_ORE.ordinal()].getDefaultState(), 6)),
             new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
                     blocks[BlockRegistry.LEAD_ORE.ordinal()].getDefaultState(), 6)),
     };
@@ -455,7 +455,7 @@ public class BlockRegister {
             "kyanite_ore",
             "tin_ore",
             "sulfur_ore",
-            "aluminum_ore",
+            "aluminium_ore",
             "lead_ore"
     };
 
