@@ -377,7 +377,7 @@ public class BlockRegister {
             "refinery",
             "gas_collector",
             "sulfur_ore",
-            "aluminium_ore",
+            "aluminum_ore",
             "battery",
             "lead_ore"
     };
@@ -455,7 +455,7 @@ public class BlockRegister {
             "kyanite_ore",
             "tin_ore",
             "sulfur_ore",
-            "aluminium_ore",
+            "aluminum_ore",
             "lead_ore"
     };
 

@@ -203,8 +203,8 @@ public class ItemRegister {
             "tinplate",
             "chip",
             "sulfur",
-            "raw_aluminium",
-            "aluminium_ingot",
+            "raw_aluminum",
+            "aluminum_ingot",
             "lead_ingot",
             "la_battery"
     };

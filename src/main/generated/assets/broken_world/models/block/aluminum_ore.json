@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "broken_world:block/aluminium_ore"
+    "all": "broken_world:block/aluminum_ore"
   }
 }
