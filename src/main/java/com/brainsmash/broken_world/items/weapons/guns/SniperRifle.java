@@ -6,6 +6,7 @@ import com.brainsmash.broken_world.items.weapons.Util;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -79,13 +80,16 @@ public class SniperRifle extends GunItem implements CustomUsePoseItem {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (user.getOffHandStack().isEmpty()) {
-            ItemStack itemStack = user.getStackInHand(hand);
-            user.setCurrentHand(hand);
-            return TypedActionResult.consume(itemStack);
-        } else {
-            ItemStack itemStack = user.getStackInHand(hand);
-            return TypedActionResult.fail(itemStack);
-        }
+        if (!world.isClient)
+            world.playSound(user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_SPYGLASS_USE, SoundCategory.PLAYERS,
+                    1.0F, 1.0F, true);
+        return super.use(world, user, hand);
+    }
+
+    @Override
+    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        world.playSound(user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_SPYGLASS_STOP_USING,
+                SoundCategory.PLAYERS, 1.0F, 1.0F, true);
+        return super.finishUsing(stack, world, user);
     }
 }
