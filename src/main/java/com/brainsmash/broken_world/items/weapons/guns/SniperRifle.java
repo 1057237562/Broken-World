@@ -80,16 +80,15 @@ public class SniperRifle extends GunItem implements CustomUsePoseItem {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (!world.isClient)
-            world.playSound(user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_SPYGLASS_USE, SoundCategory.PLAYERS,
-                    1.0F, 1.0F, true);
+        world.playSound(user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_SPYGLASS_USE, SoundCategory.PLAYERS,
+                1.0F, 1.0F, false);
         return super.use(world, user, hand);
     }
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         world.playSound(user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_SPYGLASS_STOP_USING,
-                SoundCategory.PLAYERS, 1.0F, 1.0F, true);
+                SoundCategory.PLAYERS, 1.0F, 1.0F, false);
         return super.finishUsing(stack, world, user);
     }
 }

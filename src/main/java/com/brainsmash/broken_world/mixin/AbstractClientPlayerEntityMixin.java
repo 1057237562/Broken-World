@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.mixin;
 
+import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.items.weapons.guns.SniperRifle;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +15,11 @@ public abstract class AbstractClientPlayerEntityMixin extends LivingEntityMixin 
     public void fovMultiplier(CallbackInfoReturnable<Float> cir) {
         if (isUsingItem()) {
             if (getActiveItem().getItem() instanceof SniperRifle) {
-                cir.setReturnValue(0.5f);
+                cir.setReturnValue(0.2f);
+                cir.cancel();
+            }
+            if (getActiveItem().getItem() instanceof GunItem) {
+                cir.setReturnValue(0.9f);
                 cir.cancel();
             }
         }
