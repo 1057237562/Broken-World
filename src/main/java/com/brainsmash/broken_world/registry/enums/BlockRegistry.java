@@ -90,4 +90,6 @@ public enum BlockRegistry {
     ALUMINUM_ORE,
     BATTERY,
     LEAD_ORE,
+    COLLIDER_CONTROLLER,
+    COLLIDER_COIL
 }

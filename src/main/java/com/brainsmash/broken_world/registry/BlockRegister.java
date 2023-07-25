@@ -197,6 +197,9 @@ public class BlockRegister {
             new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new BatteryBlock(STANDARD_BLOCK),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
+            new ColliderControllerBlock(STANDARD_BLOCK),
+            // 90
+            new ColliderCoilBlock(STANDARD_BLOCK),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -288,6 +291,8 @@ public class BlockRegister {
             new BlockItem(blocks[86], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[87], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[88], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[89], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[90], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -379,7 +384,9 @@ public class BlockRegister {
             "sulfur_ore",
             "aluminum_ore",
             "battery",
-            "lead_ore"
+            "lead_ore",
+            "collider_controller",
+            "collider_coil"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -496,6 +503,8 @@ public class BlockRegister {
     public static BlockEntityType<UVBlockEntity> UV_ENTITY_TYPE;
     public static BlockEntityType<GasCollectorBlockEntity> GAS_COLLECTOR_ENTITY_TYPE;
     public static BlockEntityType<RefineryBlockEntity> REFINERY_ENTITY_TYPE;
+    public static BlockEntityType<ColliderControllerBlockEntity> COLLIDER_CONTROLLER_ENTITY_TYPE;
+    public static BlockEntityType<ColliderCoilBlockEntity> COLLIDER_COIL_ENTITY_TYPE;
 
     public static void registBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -650,5 +659,9 @@ public class BlockRegister {
                         pos) : FoliageColors.getDefaultColor(), blocks[BlockRegistry.RUBBER_LEAVES.ordinal()]);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(),
                 blockitems[BlockRegistry.RUBBER_LEAVES.ordinal()]);
+    }
+
+    public static Block get(BlockRegistry block) {
+        return blocks[block.ordinal()];
     }
 }

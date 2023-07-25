@@ -34,8 +34,8 @@ public class Main implements ModInitializer {
     // It is considered best practice to use your mod id as the logger's name.
     // That way, it's clear which mod wrote info, warnings, and errors.
     public static final String MODID = "broken_world";
-
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+
 
     public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_controller"),
