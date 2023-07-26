@@ -5,6 +5,7 @@ import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.*;
+import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
 import com.brainsmash.broken_world.screenhandlers.descriptions.*;
 import com.brainsmash.broken_world.util.BonusHelper;
@@ -134,6 +135,7 @@ public class Main implements ModInitializer {
     @Override
     public void onInitialize() {
         BlockRegister.registBlocks();
+        BlockRegister.registMultiBlock();
         ItemRegister.registItem();
         FluidRegister.registFluid();
         DimensionRegister.registDimension();
@@ -153,6 +155,9 @@ public class Main implements ModInitializer {
         RefineryRecipe.registRefineryRecipes();
         ReactionRecipe.registReactionRecipes();
         ElectrolyzerRecipe.registElectrolyzerRecipes();
+        FabricatorRecipe.register();
+        WeaponryRecipe.register();
+        ColliderRecipe.register();
 
         GasRegister.register();
 
@@ -173,9 +178,6 @@ public class Main implements ModInitializer {
         BiomeModifications.addFeature(BiomeSelectors.tag(BiomeTags.IS_JUNGLE),
                 GenerationStep.Feature.VEGETAL_DECORATION,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "rubber_tree")));
-
-        FabricatorRecipe.register();
-        WeaponryRecipe.register();
 
         BWDensityFunctionTypes.register();
         VolcanoFeature.register();
