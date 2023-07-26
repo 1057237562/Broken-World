@@ -15,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ColliderMultiBlock extends Multiblock {
-    public static Identifier ID = new Identifier(Main.MODID, "collider.json");
+    public static Identifier ID = new Identifier(Main.MODID, "collider");
     public static int DIAMETER = 15;
 
     public ColliderMultiBlock(World world, MatchResult match) {
@@ -38,6 +38,7 @@ public class ColliderMultiBlock extends Multiblock {
                 MultiblockPatternKeyBuilder.start()
                         .where('A', CachedBlockPosition.matchesBlockState(state -> state.getBlock() == BlockRegister.get(BlockRegistry.COLLIDER_COIL)))
                         .where('B', CachedBlockPosition.matchesBlockState(state -> state.getBlock() == BlockRegister.get(BlockRegistry.COLLIDER_CONTROLLER)))
+                        .where(' ', CachedBlockPosition.matchesBlockState(state -> state.isAir()))
                         .build()
         );
     }

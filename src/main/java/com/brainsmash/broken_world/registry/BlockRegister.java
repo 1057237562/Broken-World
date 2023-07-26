@@ -22,7 +22,7 @@ import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
-import com.brainsmash.broken_world.blocks.multipblock.ColliderMultiBlock;
+import com.brainsmash.broken_world.blocks.multiblock.ColliderMultiBlock;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -601,6 +601,10 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(RefineryBlockEntity::new, blocks[83]).build());
         BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "battery"),
                 FabricBlockEntityTypeBuilder.create(BatteryBlockEntity::new, blocks[87]).build());
+        COLLIDER_CONTROLLER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "collider_controller"),
+                FabricBlockEntityTypeBuilder.create(ColliderControllerBlockEntity::new, get(BlockRegistry.COLLIDER_CONTROLLER)).build());
+        COLLIDER_COIL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "collider_coil"),
+                FabricBlockEntityTypeBuilder.create(ColliderCoilBlockEntity::new, get(BlockRegistry.COLLIDER_COIL)).build());
     }
 
     public static void registBlocksClientSide() {

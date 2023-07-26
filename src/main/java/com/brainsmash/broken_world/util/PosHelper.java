@@ -26,8 +26,7 @@ public class PosHelper {
                 p.move(d);
                 result.add(new BlockPos(p));
             }
-            d.rotateClockwise(Direction.Axis.Y);
-            p.move(d);
+            d = d.rotateClockwise(Direction.Axis.Y);
         }
         return result.stream();
     }

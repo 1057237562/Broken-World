@@ -4,6 +4,7 @@ import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.ColliderCoilBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.ColliderControllerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.CrusherBlockEntity;
+import com.brainsmash.broken_world.blocks.multiblock.ColliderMultiBlock;
 import io.github.jamalam360.multiblocklib.api.Multiblock;
 import io.github.jamalam360.multiblocklib.api.MultiblockLib;
 import net.minecraft.block.BlockState;
@@ -17,6 +18,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -30,11 +32,17 @@ public class ColliderControllerBlock extends ConsumerBlock {
         Optional<Multiblock> multiblock = MultiblockLib.INSTANCE.getMultiblock(world, pos);
         if (multiblock.isEmpty()) {
             if (world.getBlockEntity(pos) instanceof ColliderControllerBlockEntity entity) {
-                if (MultiblockLib.INSTANCE.tryAssembleMultiblock(world, Direction.NORTH, pos))
+                int d = ColliderMultiBlock.DIAMETER;
+                if (MultiblockLib.INSTANCE.tryAssembleMultiblock(world, Direction.NORTH, pos.add(-d/2, 0, d/2)))
                     entity.onMultiBlockAssembled();
             }
         }
         return super.onUse(state, world, pos, player, hand, hit);
+    }
+
+    @Override
+    public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new ColliderControllerBlockEntity(pos, state);
     }
 
     @Override

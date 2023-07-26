@@ -35,6 +35,8 @@
     "broken_world:refinery",
     "broken_world:reaction_kettle",
     "broken_world:electrolyzer",
-    "broken_world:battery"
+    "broken_world:battery",
+    "broken_world:collider_controller",
+    "broken_world:collider_coil"
   ]
 }

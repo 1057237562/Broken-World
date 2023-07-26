@@ -1,0 +1,13 @@
+{
+  "type": "broken_world:colliding",
+  "a": {
+    "item": "minecraft:coal"
+  },
+  "b": {
+    "item": "minecraft:coal"
+  },
+  "amount_a": 1,
+  "amount_b": 1,
+  "output": "minecraft:diamond",
+  "amount_output": 1
+}

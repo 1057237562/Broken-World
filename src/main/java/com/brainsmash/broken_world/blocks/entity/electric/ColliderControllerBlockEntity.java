@@ -4,18 +4,27 @@ import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
-import com.brainsmash.broken_world.blocks.multipblock.ColliderMultiBlock;
+import com.brainsmash.broken_world.blocks.multiblock.ColliderMultiBlock;
 import com.brainsmash.broken_world.recipe.ColliderRecipe;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.screenhandlers.descriptions.ColliderControllerGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
 import com.brainsmash.broken_world.util.PosHelper;
+import io.github.jamalam360.multiblocklib.api.Multiblock;
+import io.github.jamalam360.multiblocklib.api.MultiblockLib;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.RecipeManager;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -26,14 +35,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ColliderControllerBlockEntity extends ConsumerBlockEntity implements ImplementedInventory, SidedInventory {
+public class ColliderControllerBlockEntity extends ConsumerBlockEntity implements ImplementedInventory, SidedInventory, NamedScreenHandlerFactory {
 
     protected List<ColliderCoilBlockEntity> coilBlockEntityList = null;
     protected final RecipeManager.MatchGetter<ImplementedInventory, ? extends ColliderRecipe> matchGetter;
-    protected final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
+    protected final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(4, ItemStack.EMPTY);
     public static final int[] TOP_SLOTS = new int[]{0};
     public static final int[] SIDE_SLOTS = new int[]{1};
     public static final int[] BOTTOM_SLOTS = new int[]{2};
+    protected boolean firstTick = true;
 
     public ColliderControllerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.COLLIDER_CONTROLLER_ENTITY_TYPE, pos, state);
@@ -41,11 +51,6 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
         maxProgression = 40;
         powerConsumption = 4;
         matchGetter = RecipeManager.createCachedMatchGetter(ColliderRecipe.Type.INSTANCE);
-    }
-
-    @Override
-    public boolean canRun() {
-        return coilBlockEntityList != null && super.canRun();
     }
 
     @Override
@@ -60,10 +65,17 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
         super.writeNbt(nbt);
     }
 
+
+
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
+        if (firstTick) {
+            firstTick = false;
+            if (checkMultiblockAssembled())
+                onMultiBlockAssembled();
+        }
         Optional<? extends ColliderRecipe> recipeMatch = matchGetter.getFirstMatch(this, world);
-        running = canRun() && recipeMatch.isPresent();
+        running = checkEnergy() && recipeMatch.isPresent() && coilBlockEntityList != null;
         if (running) {
             startCoils();
             if (progression < maxProgression)
@@ -82,6 +94,8 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
         }
         super.tick(world, pos, state, blockEntity);
     }
+
+
 
     protected void shrinkInputStacks(ColliderRecipe recipe) {
         ItemStack stack1 = getStack(0);
@@ -130,15 +144,30 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     }
 
     protected void startCoils() {
+        if (coilBlockEntityList == null)
+            return;
         for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
             coil.start();
         }
     }
 
     protected void stopCoils() {
+        if (coilBlockEntityList == null)
+            return;
         for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
             coil.stop();
         }
+    }
+
+    protected boolean checkMultiblockAssembled() {
+        Optional<Multiblock> optional = MultiblockLib.INSTANCE.getMultiblock(world, pos);
+        if (optional.isEmpty())
+            return false;
+        Multiblock multiblock = optional.get();
+        if (!multiblock.getMatchResult().pattern().identifier().equals(ColliderMultiBlock.ID))
+            return false;
+        int d = ColliderMultiBlock.DIAMETER;
+        return multiblock.getMatchResult().bottomLeftPos() != pos.add(-d/2, 0, d/2);
     }
 
     public void onMultiBlockAssembled() {
@@ -190,5 +219,16 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction dir) {
         return slot == 2;
+    }
+
+    @Override
+    public Text getDisplayName() {
+        return Text.translatable(getCachedState().getBlock().getTranslationKey());
+    }
+
+    @Nullable
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+        return new ColliderControllerGuiDescription(syncId, inv, ScreenHandlerContext.create(world, pos));
     }
 }
