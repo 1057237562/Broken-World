@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.multipblock;
+package com.brainsmash.broken_world.blocks.multiblock;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.ColliderCoilBlockEntity;

@@ -86,7 +86,7 @@ public class SifterBlockEntity extends ConsumerBlockEntity implements NamedScree
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (world instanceof ServerWorld serverWorld) {
-            if (SifterRecipe.recipes.containsKey(inventory.get(0).getItem()) && canRun()) {
+            if (SifterRecipe.recipes.containsKey(inventory.get(0).getItem()) && checkEnergy()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;

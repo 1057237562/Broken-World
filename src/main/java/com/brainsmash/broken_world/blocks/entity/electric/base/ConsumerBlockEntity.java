@@ -95,7 +95,7 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
         }
     }
 
-    public boolean canRun() {
+    public boolean checkEnergy() {
         if (powerConsumption <= getEnergy()) {
             return true;
         }

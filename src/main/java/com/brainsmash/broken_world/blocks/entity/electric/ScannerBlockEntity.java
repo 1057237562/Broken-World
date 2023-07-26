@@ -22,12 +22,13 @@ import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ScannerBlockEntity extends ConsumerBlockEntity  {
+public class ScannerBlockEntity extends ConsumerBlockEntity {
 
-    public BlockPos pointer = new BlockPos(16,-1,16);
+    public BlockPos pointer = new BlockPos(16, -1, 16);
     private final int speed = 3;
     private final int maxScanned = 128;
-    public DefaultedList<Pair<BlockPos,Integer>> scanned = DefaultedList.of();
+    public DefaultedList<Pair<BlockPos, Integer>> scanned = DefaultedList.of();
+
     public ScannerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.SCANNER_ENTITY_TYPE, pos, state);
         setMaxCapacity(4000);
@@ -37,12 +38,13 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient){
-            for(int i = 0; i < scanned.size();i++) {
+        if (!world.isClient) {
+            for (int i = 0; i < scanned.size(); i++) {
                 BlockPos pos1 = scanned.get(i).getLeft();
                 boolean flag = false;
-                BlockPos pointPos = pos.add(pos1.getX(),pos1.getY(),pos1.getZ());
-                for (RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(ConventionalBlockTags.ORES)) {
+                BlockPos pointPos = pos.add(pos1.getX(), pos1.getY(), pos1.getZ());
+                for (RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(
+                        ConventionalBlockTags.ORES)) {
                     if (world.getBlockState(pointPos).getBlock().equals(blockRegistryEntry.value())) {
                         flag = true;
                     }
@@ -54,36 +56,38 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
                     i--;
                 }
             }
-            if(canRun()){
+            if (checkEnergy()) {
                 running = true;
 
-                for(int i = 0; i < speed;i++)
-                    if(!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
-                        BlockPos pointPos = pos.add(pointer.getX(),pointer.getY(),pointer.getZ());
-                        if(!world.isChunkLoaded(pointPos)){
+                for (int i = 0; i < speed; i++)
+                    if (!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {
+                        BlockPos pointPos = pos.add(pointer.getX(), pointer.getY(), pointer.getZ());
+                        if (!world.isChunkLoaded(pointPos)) {
                             return;
                         }
-                        for(RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(ConventionalBlockTags.ORES)){
-                            if(world.getBlockState(pointPos).getBlock().equals(blockRegistryEntry.value())){
-                                if(scanned.size() >= maxScanned) {
+                        for (RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(
+                                ConventionalBlockTags.ORES)) {
+                            if (world.getBlockState(pointPos).getBlock().equals(blockRegistryEntry.value())) {
+                                if (scanned.size() >= maxScanned) {
                                     running = false;
                                     super.tick(world, pos, state, blockEntity);
                                     return;
                                 }
-                                scanned.add(new Pair<>(pointer, OreTypeRegistry.mapping.getOrDefault(blockRegistryEntry.value(),0)));
+                                scanned.add(new Pair<>(pointer,
+                                        OreTypeRegistry.mapping.getOrDefault(blockRegistryEntry.value(), 0)));
                                 world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
                                 markDirty();
                             }
                         }
-                        if (pointer.getX() > -16){
-                            pointer = pointer.add(-1,0,0);
-                        }else if(pointer.getZ() > -16){
-                            pointer = pointer.add(32,0,-1);
-                        }else{
-                            pointer = pointer.add(32,-1,32);
+                        if (pointer.getX() > -16) {
+                            pointer = pointer.add(-1, 0, 0);
+                        } else if (pointer.getZ() > -16) {
+                            pointer = pointer.add(32, 0, -1);
+                        } else {
+                            pointer = pointer.add(32, -1, 32);
                         }
                     }
-            }else{
+            } else {
                 running = false;
             }
             state = state.with(Properties.LIT, isRunning());
@@ -94,16 +98,15 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
 
     @Override
     public void writeNbt(NbtCompound nbt) {
-        nbt.putLong("pointer",pointer.asLong());
+        nbt.putLong("pointer", pointer.asLong());
         NbtList nbtList = new NbtList();
-        for(Pair<BlockPos,Integer> p : scanned){
+        for (Pair<BlockPos, Integer> p : scanned) {
             NbtCompound compound = new NbtCompound();
-            compound.putLong("pos",p.getLeft().asLong());
-            compound.putInt("type",p.getRight());
+            compound.putLong("pos", p.getLeft().asLong());
+            compound.putInt("type", p.getRight());
             nbtList.add(compound);
         }
-        if(!nbtList.isEmpty())
-            nbt.put("scanned",nbtList);
+        if (!nbtList.isEmpty()) nbt.put("scanned", nbtList);
         super.writeNbt(nbt);
     }
 
@@ -112,9 +115,9 @@ public class ScannerBlockEntity extends ConsumerBlockEntity  {
         super.readNbt(nbt);
         scanned.clear();
         NbtList nbtList = nbt.getList("scanned", NbtElement.COMPOUND_TYPE);
-        for(int i = 0;i<nbtList.size();i++){
+        for (int i = 0; i < nbtList.size(); i++) {
             NbtCompound compound = nbtList.getCompound(i);
-            scanned.add(new Pair<>(BlockPos.fromLong(compound.getLong("pos")),compound.getInt("type")));
+            scanned.add(new Pair<>(BlockPos.fromLong(compound.getLong("pos")), compound.getInt("type")));
         }
         pointer = BlockPos.fromLong(nbt.getLong("pointer"));
     }

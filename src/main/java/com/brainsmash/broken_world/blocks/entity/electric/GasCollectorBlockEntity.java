@@ -49,8 +49,7 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
     }
 
     public void selectGasOutput(int i) {
-        if (i == selectedGas)
-            return;
+        if (i == selectedGas) return;
         selectedGas = i;
         progression = 0;
         if (!gasList.isEmpty()) maxProgression = gasList.get(selectedGas).getRight();
@@ -86,15 +85,14 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
             loadGasList();
         }
         if (!world.isClient) {
-            if (canRun()) {
+            if (checkEnergy()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;
                 } else {
                     Item product = gasList.get(selectedGas).getLeft().product().value();
                     if (!insertItem(new ItemStack(product, 1))) {
-                        EntityHelper.spawnItem(world, new ItemStack(product, 1), 1, Direction.UP,
-                                pos);
+                        EntityHelper.spawnItem(world, new ItemStack(product, 1), 1, Direction.UP, pos);
                     }
                     inventory.get(0).decrement(1);
                     progression = 0;
@@ -128,8 +126,9 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
     }
 
     @Override
-    public boolean canRun() {
-        return super.canRun() && !gasList.isEmpty() && inventory.get(0).isOf(ItemRegister.items[ItemRegistry.GAS_TANK.ordinal()]);
+    public boolean checkEnergy() {
+        return super.checkEnergy() && !gasList.isEmpty() && inventory.get(0).isOf(
+                ItemRegister.items[ItemRegistry.GAS_TANK.ordinal()]);
     }
 
     @Override
