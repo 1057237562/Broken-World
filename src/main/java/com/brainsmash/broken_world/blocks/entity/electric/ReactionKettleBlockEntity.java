@@ -60,7 +60,7 @@ public class ReactionKettleBlockEntity extends ConsumerBlockEntity implements Na
         if (!world.isClient) {
             String key = ItemHelper.makePair(inventory.get(0).getItem(), inventory.get(1).getItem(),
                     inventory.get(2).getItem());
-            if (ReactionRecipe.recipes.containsKey(key) && checkCount(key) && canRun()) {
+            if (ReactionRecipe.recipes.containsKey(key) && checkCount(key) && checkEnergy()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;

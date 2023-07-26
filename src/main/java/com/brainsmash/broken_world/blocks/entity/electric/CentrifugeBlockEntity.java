@@ -247,7 +247,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
                 }
             }
             sendLiquidChange();
-            if (canRun() && checkRecipe()) {
+            if (checkEnergy() && checkRecipe()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;

@@ -42,7 +42,7 @@ public class ElectrolyzerBlockEntity extends ConsumerBlockEntity implements Name
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (ElectrolyzerRecipe.recipes.containsKey(inventory.get(0).getItem()) && checkCount() && canRun()) {
+            if (ElectrolyzerRecipe.recipes.containsKey(inventory.get(0).getItem()) && checkCount() && checkEnergy()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;

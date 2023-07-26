@@ -72,7 +72,7 @@ public class AdvancedFurnaceBlockEntity extends ConsumerBlockEntity implements N
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (AdvancedFurnaceRecipe.recipes.containsKey(inventory.get(0).getItem()) && canRun()) {
+            if (AdvancedFurnaceRecipe.recipes.containsKey(inventory.get(0).getItem()) && checkEnergy()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;

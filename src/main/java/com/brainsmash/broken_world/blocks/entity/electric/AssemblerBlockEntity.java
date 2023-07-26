@@ -53,8 +53,8 @@ public class AssemblerBlockEntity extends ConsumerBlockEntity implements NamedSc
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (AssemblerRecipe.recipes.containsKey(
-                    AssemblerRecipe.makePair(inventory.get(0).getItem(), inventory.get(1).getItem())) && canRun()) {
+            if (AssemblerRecipe.recipes.containsKey(AssemblerRecipe.makePair(inventory.get(0).getItem(),
+                    inventory.get(1).getItem())) && checkEnergy()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;

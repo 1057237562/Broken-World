@@ -70,7 +70,7 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements NamedSc
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
             ItemStack rawMaterial = inventory.get(0);
-            if (ExtractorRecipe.recipes.containsKey(rawMaterial.getItem()) && canRun()) {
+            if (ExtractorRecipe.recipes.containsKey(rawMaterial.getItem()) && checkEnergy()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;

@@ -67,7 +67,7 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
                     markDirty();
                 }
             }
-            if (canRun()) {
+            if (checkEnergy()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;
@@ -88,10 +88,8 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
                                                     new ItemStack(drained.fluidKey.getRawFluid().getBucketItem(), 1));
                                         } else {
                                             EntityHelper.spawnItem(world,
-                                                    new ItemStack(drained.fluidKey.getRawFluid().getBucketItem(), 1),
-                                                    1,
-                                                    Direction.UP,
-                                                    pos);
+                                                    new ItemStack(drained.fluidKey.getRawFluid().getBucketItem(), 1), 1,
+                                                    Direction.UP, pos);
                                         }
                                         drained.split(FluidAmount.BUCKET);
                                     }
