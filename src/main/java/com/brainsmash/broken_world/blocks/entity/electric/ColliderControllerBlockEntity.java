@@ -4,7 +4,7 @@ import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
-import com.brainsmash.broken_world.blocks.multipblock.ColliderMultiBlock;
+import com.brainsmash.broken_world.blocks.multiblock.ColliderMultiBlock;
 import com.brainsmash.broken_world.recipe.ColliderRecipe;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.util.EntityHelper;
@@ -44,11 +44,6 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     }
 
     @Override
-    public boolean canRun() {
-        return coilBlockEntityList != null && super.canRun();
-    }
-
-    @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, inventory);
@@ -63,11 +58,10 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         Optional<? extends ColliderRecipe> recipeMatch = matchGetter.getFirstMatch(this, world);
-        running = canRun() && recipeMatch.isPresent();
+        running = coilBlockEntityList != null && checkEnergy() && recipeMatch.isPresent();
         if (running) {
             startCoils();
-            if (progression < maxProgression)
-                progression++;
+            if (progression < maxProgression) progression++;
             else {
                 if (areCoilsCharged()) {
                     dischargeCoils();
@@ -86,7 +80,8 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     protected void shrinkInputStacks(ColliderRecipe recipe) {
         ItemStack stack1 = getStack(0);
         ItemStack stack2 = getStack(1);
-        if (recipe.a().test(stack1) && stack1.getCount() >= recipe.amountA() && recipe.b().test(stack2) && stack2.getCount() >= recipe.amountB()) {
+        if (recipe.a().test(stack1) && stack1.getCount() >= recipe.amountA() && recipe.b().test(
+                stack2) && stack2.getCount() >= recipe.amountB()) {
             stack1.decrement(recipe.amountA());
             stack2.decrement(recipe.amountB());
         } else {
@@ -108,22 +103,20 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
         } else {
             insertAmount = 0;
         }
-        EntityHelper.spawnItem(world, new ItemStack(productStack.getItem(), productStack.getCount() - insertAmount), 1, Direction.UP, pos);
+        EntityHelper.spawnItem(world, new ItemStack(productStack.getItem(), productStack.getCount() - insertAmount), 1,
+                Direction.UP, pos);
     }
 
     public boolean areCoilsCharged() {
-        if (coilBlockEntityList == null)
-            return false;
+        if (coilBlockEntityList == null) return false;
         for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
-            if (!coil.isCharged())
-                return false;
+            if (!coil.isCharged()) return false;
         }
         return true;
     }
 
     protected void dischargeCoils() {
-        if (coilBlockEntityList == null)
-            return;
+        if (coilBlockEntityList == null) return;
         for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
             coil.discharge();
         }
@@ -142,8 +135,7 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     }
 
     public void onMultiBlockAssembled() {
-        if (coilBlockEntityList != null || world == null)
-            return;
+        if (coilBlockEntityList != null || world == null) return;
         coilBlockEntityList = new ArrayList<>();
         PosHelper.squareAround(pos, ColliderMultiBlock.DIAMETER / 2).forEach(p -> {
             BlockEntity entity = world.getBlockEntity(p);
@@ -171,10 +163,8 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
 
     @Override
     public int[] getAvailableSlots(Direction side) {
-        if (side == Direction.UP)
-            return TOP_SLOTS;
-        if (side.getAxis().isHorizontal())
-            return SIDE_SLOTS;
+        if (side == Direction.UP) return TOP_SLOTS;
+        if (side.getAxis().isHorizontal()) return SIDE_SLOTS;
         return BOTTOM_SLOTS;
     }
 
