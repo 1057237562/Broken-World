@@ -23,6 +23,7 @@ import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.blocks.multiblock.ColliderMultiBlock;
+import com.brainsmash.broken_world.blocks.multiblock.ManaGeneratorMultiBlock;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -664,6 +665,7 @@ public class BlockRegister {
 
     public static void registMultiBlock() {
         ColliderMultiBlock.register();
+        ManaGeneratorMultiBlock.register();
     }
 
     public static Block get(BlockRegistry block) {
