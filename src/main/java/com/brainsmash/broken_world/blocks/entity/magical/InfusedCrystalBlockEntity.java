@@ -10,4 +10,9 @@ public class InfusedCrystalBlockEntity extends ManaContainerEntity {
     public InfusedCrystalBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.INFUSED_CRYSTAL_ENTITY_TYPE, pos, state);
     }
+
+    public void increaseMana(int amount) {
+        mana += amount;
+        if (mana > maxMana) mana = maxMana;
+    }
 }
