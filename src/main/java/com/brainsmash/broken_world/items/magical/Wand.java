@@ -1,16 +1,20 @@
 package com.brainsmash.broken_world.items.magical;
 
+import com.brainsmash.broken_world.blocks.multiblock.Multiblock;
 import com.brainsmash.broken_world.screenhandlers.descriptions.WandGuiDescription;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
 public class Wand extends Item {
@@ -43,5 +47,11 @@ public class Wand extends Item {
                 }
         }
         return super.use(world, user, hand);
+    }
+
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        Multiblock.revertToBlock(context.getWorld(), context.getBlockPos(), new Vec3i(3, 3, 3));
+        return super.useOnBlock(context);
     }
 }

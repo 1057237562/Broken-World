@@ -22,6 +22,9 @@ import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
+import com.brainsmash.broken_world.blocks.multiblock.DummyBlock;
+import com.brainsmash.broken_world.blocks.multiblock.DummyBlockEntity;
+import com.brainsmash.broken_world.blocks.multiblock.DummyBlockEntityRenderer;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -650,5 +653,21 @@ public class BlockRegister {
                         pos) : FoliageColors.getDefaultColor(), blocks[BlockRegistry.RUBBER_LEAVES.ordinal()]);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(),
                 blockitems[BlockRegistry.RUBBER_LEAVES.ordinal()]);
+    }
+
+    public static BlockEntityType<DummyBlockEntity> DUMMY_ENTITY_TYPE;
+    public static Block dummy;
+
+    public static void registDummy() {
+        dummy = Registry.register(Registry.BLOCK, new Identifier(MODID, "dummy"),
+                new DummyBlock(FabricBlockSettings.of(Material.BARRIER).strength(1.5F, 6.0F).nonOpaque()));
+        DUMMY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dummy"),
+                FabricBlockEntityTypeBuilder.create(DummyBlockEntity::new, dummy).build());
+
+        BlockRenderLayerMap.INSTANCE.putBlock(dummy, RenderLayer.getTranslucent());
+    }
+
+    public static void registDummyClientSide() {
+        BlockEntityRendererRegistry.register(DUMMY_ENTITY_TYPE, DummyBlockEntityRenderer::new);
     }
 }
