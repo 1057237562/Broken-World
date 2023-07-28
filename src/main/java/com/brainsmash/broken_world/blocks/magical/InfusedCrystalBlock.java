@@ -33,7 +33,7 @@ public class InfusedCrystalBlock extends BlockWithEntity {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        Multiblock.convertToDummy(world, pos.add(-1, -1, -1), new Vec3i(3, 3, 3));
+        if (!world.isClient) Multiblock.convertToDummy(world, pos.add(-1, -1, -1), new Vec3i(3, 3, 3));
         return super.onUse(state, world, pos, player, hand, hit);
     }
 }

@@ -48,9 +48,11 @@ public class Multiblock {
                     if (originalBlock instanceof BlockWithEntity bwe) {
                         originalBlockEntity = world.getBlockEntity(p);
                         nbt = originalBlockEntity.createNbt();
+                        world.removeBlockEntity(p);
                     }
                     if (originalBlock == Blocks.AIR) continue;
-                    world.setBlockState(p, BlockRegister.dummy.getDefaultState(), 32);
+                    world.setBlockState(p, BlockRegister.dummy.getDefaultState(),
+                            Block.FORCE_STATE | Block.NOTIFY_ALL | Block.SKIP_DROPS);
                     ((DummyBlockEntity) world.getBlockEntity(p)).setImitateBlock(originalBlock, nbt);
                 }
             }
