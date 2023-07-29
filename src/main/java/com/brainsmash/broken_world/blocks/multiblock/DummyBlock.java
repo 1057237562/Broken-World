@@ -22,13 +22,13 @@ public class DummyBlock extends BlockWithEntity {
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState dummy, PlayerEntity player) {
-        BlockState state = ((DummyBlockEntity) world.getBlockEntity(pos)).getImitateBlock().getDefaultState();
+        BlockState state = ((DummyBlockEntity) world.getBlockEntity(pos)).getImitateBlockState();
         super.onBreak(world, pos, state, player);
     }
 
     @Override
     public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState dummy, @Nullable BlockEntity blockEntity, ItemStack stack) {
-        BlockState state = ((DummyBlockEntity) world.getBlockEntity(pos)).getImitateBlock().getDefaultState();
+        BlockState state = ((DummyBlockEntity) world.getBlockEntity(pos)).getImitateBlockState();
         BlockEntity originalEntity = ((DummyBlockEntity) world.getBlockEntity(pos)).getImitateBlockEntity();
         super.afterBreak(world, player, pos, state, originalEntity, stack);
     }

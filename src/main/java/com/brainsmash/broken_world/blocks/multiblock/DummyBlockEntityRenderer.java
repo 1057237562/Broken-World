@@ -20,8 +20,8 @@ public class DummyBlockEntityRenderer implements BlockEntityRenderer<DummyBlockE
 
     @Override
     public void render(DummyBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        blockRenderManager.renderBlock(entity.imitateBlock.getDefaultState(), entity.getPos(), entity.getWorld(),
-                matrices, vertexConsumers.getBuffer(RenderLayer.getCutout()), false, entity.getWorld().getRandom());
+        blockRenderManager.renderBlock(entity.imitateBlock, entity.getPos(), entity.getWorld(), matrices,
+                vertexConsumers.getBuffer(RenderLayer.getCutout()), false, entity.getWorld().getRandom());
         if (entity.imitateBlockEntity != null) {
             blockEntityRenderDispatcher.render(entity.imitateBlockEntity, tickDelta, matrices, vertexConsumers);
         }

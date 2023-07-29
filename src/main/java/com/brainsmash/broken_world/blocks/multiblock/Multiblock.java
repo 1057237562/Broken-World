@@ -1,7 +1,9 @@
 package com.brainsmash.broken_world.blocks.multiblock;
 
 import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.util.SerializationHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -25,11 +27,11 @@ public class Multiblock {
                 for (int z = 0; z < sz.getZ(); z++) {
                     BlockPos p = pos.add(x, y, z);
                     if (!(world.getBlockEntity(p) instanceof DummyBlockEntity)) continue;
-                    Block originalBlock = ((DummyBlockEntity) world.getBlockEntity(p)).getImitateBlock();
-                    if (originalBlock == Blocks.AIR) continue;
+                    BlockState originalBlock = ((DummyBlockEntity) world.getBlockEntity(p)).getImitateBlockState();
+                    if (originalBlock.getBlock() == Blocks.AIR) continue;
                     NbtCompound nbt = ((DummyBlockEntity) world.getBlockEntity(p)).getImitateNbt();
-                    world.setBlockState(p, originalBlock.getDefaultState());
-                    if (originalBlock instanceof BlockWithEntity bwe) {
+                    world.setBlockState(p, originalBlock);
+                    if (originalBlock.getBlock() instanceof BlockWithEntity bwe) {
                         world.getBlockEntity(p).readNbt(nbt);
                     }
                 }
@@ -42,18 +44,19 @@ public class Multiblock {
             for (int y = 0; y < sz.getY(); y++) {
                 for (int z = 0; z < sz.getZ(); z++) {
                     BlockPos p = pos.add(x, y, z);
-                    Block originalBlock = world.getBlockState(p).getBlock();
+                    NbtCompound originalBlock = SerializationHelper.saveBlockState(world.getBlockState(p));
                     NbtCompound nbt = new NbtCompound();
                     BlockEntity originalBlockEntity;
-                    if (originalBlock instanceof BlockWithEntity bwe) {
+                    if (world.getBlockState(p).getBlock() instanceof BlockWithEntity bwe) {
                         originalBlockEntity = world.getBlockEntity(p);
                         nbt = originalBlockEntity.createNbt();
                         world.removeBlockEntity(p);
                     }
-                    if (originalBlock == Blocks.AIR) continue;
+                    if (world.getBlockState(p).getBlock() == Blocks.AIR) continue;
                     world.setBlockState(p, BlockRegister.dummy.getDefaultState(),
                             Block.FORCE_STATE | Block.NOTIFY_ALL | Block.SKIP_DROPS);
-                    ((DummyBlockEntity) world.getBlockEntity(p)).setImitateBlock(originalBlock, nbt);
+                    ((DummyBlockEntity) world.getBlockEntity(p)).setImitateBlock(
+                            SerializationHelper.loadBlockState(originalBlock), nbt);
                 }
             }
         }
