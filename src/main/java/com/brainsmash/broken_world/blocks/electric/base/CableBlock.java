@@ -69,6 +69,7 @@ public class CableBlock extends BlockWithEntity {
         return new CableBlockEntity(pos, state, maxFlow);
     }
 
+    @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (!world.isClient && !covered) {
             int flow = ((CableBlockEntity) world.getBlockEntity(pos)).currentFlow();

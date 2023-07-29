@@ -2,7 +2,6 @@ package com.brainsmash.broken_world.blocks.multiblock;
 
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.util.SerializationHelper;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.Blocks;
@@ -53,8 +52,7 @@ public class Multiblock {
                         world.removeBlockEntity(p);
                     }
                     if (world.getBlockState(p).getBlock() == Blocks.AIR) continue;
-                    world.setBlockState(p, BlockRegister.dummy.getDefaultState(),
-                            Block.FORCE_STATE | Block.NOTIFY_ALL | Block.SKIP_DROPS);
+                    world.setBlockState(p, BlockRegister.dummy.getDefaultState());
                     ((DummyBlockEntity) world.getBlockEntity(p)).setImitateBlock(
                             SerializationHelper.loadBlockState(originalBlock), nbt);
                 }
