@@ -40,7 +40,7 @@ public class Multiblock {
 
     public static void convertToDummy(World world, BlockPos pos, Vec3i sz) {
         for (int x = 0; x < sz.getX(); x++) {
-            for (int y = 0; y < sz.getY(); y++) {
+            for (int y = sz.getY() - 1; y >= 0; y--) {
                 for (int z = 0; z < sz.getZ(); z++) {
                     BlockPos p = pos.add(x, y, z);
                     NbtCompound originalBlock = SerializationHelper.saveBlockState(world.getBlockState(p));

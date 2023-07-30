@@ -34,8 +34,8 @@ public class DummyBlock extends BlockWithEntity {
 
     @Override
     public VoxelShape getOutlineShape(BlockState dummy, BlockView world, BlockPos pos, ShapeContext context) {
-        if (world.getBlockEntity(pos) != null) {
-            BlockState state = ((DummyBlockEntity) world.getBlockEntity(pos)).getImitateBlockState();
+        if (world.getBlockEntity(pos) instanceof DummyBlockEntity dummyBlockEntity) {
+            BlockState state = dummyBlockEntity.getImitateBlockState();
             if (state.getBlock() != BlockRegister.dummy)
                 return state.getBlock().getOutlineShape(state, world, pos, context);
         }
@@ -45,8 +45,8 @@ public class DummyBlock extends BlockWithEntity {
 
     @Override
     public VoxelShape getCullingShape(BlockState dummy, BlockView world, BlockPos pos) {
-        if (world.getBlockEntity(pos) != null) {
-            BlockState state = ((DummyBlockEntity) world.getBlockEntity(pos)).getImitateBlockState();
+        if (world.getBlockEntity(pos) instanceof DummyBlockEntity dummyBlockEntity) {
+            BlockState state = dummyBlockEntity.getImitateBlockState();
             if (state.getBlock() != BlockRegister.dummy) return state.getBlock().getCullingShape(state, world, pos);
         }
         return super.getCullingShape(dummy, world, pos);
@@ -54,11 +54,15 @@ public class DummyBlock extends BlockWithEntity {
     }
 
     @Override
+    public boolean hasDynamicBounds() {
+        return true;
+    }
+
+    @Override
     public VoxelShape getCollisionShape(BlockState dummy, BlockView world, BlockPos pos, ShapeContext context) {
-        if (world.getBlockEntity(pos) != null) {
-            BlockState state = ((DummyBlockEntity) world.getBlockEntity(pos)).getImitateBlockState();
-            if (state.getBlock() != BlockRegister.dummy)
-                return state.getBlock().getCollisionShape(state, world, pos, context);
+        if (world.getBlockEntity(pos) instanceof DummyBlockEntity dummyBlockEntity) {
+            BlockState state = dummyBlockEntity.getImitateBlockState();
+            if (state.getBlock() != BlockRegister.dummy) return state.getCollisionShape(world, pos, context);
         }
         return super.getCollisionShape(dummy, world, pos, context);
     }

@@ -18,6 +18,7 @@ public class DummyBlockEntity extends BlockEntity {
     protected BlockState imitateBlock = Blocks.AIR.getDefaultState();
     protected BlockEntity imitateBlockEntity;
     protected NbtCompound imitateNbt;
+    protected BlockPos link;
 
 
     public DummyBlockEntity(BlockPos pos, BlockState state) {
@@ -28,6 +29,7 @@ public class DummyBlockEntity extends BlockEntity {
     protected void writeNbt(NbtCompound nbt) {
         nbt.put("blockState", SerializationHelper.saveBlockState(imitateBlock));
         nbt.put("blockNbt", imitateNbt);
+
         super.writeNbt(nbt);
     }
 
