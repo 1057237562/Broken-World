@@ -142,7 +142,7 @@ public class Main implements ModInitializer {
         TreeRegister.registTrees();
         PointOfInterestRegister.registerPlacesOfInterest();
 
-        BlockRegister.registDummy();
+        BlockRegister.registMultiBlock();
 
         AdvancedFurnaceRecipe.registAdvancedFurnaceRecipe();
         CrusherRecipe.registCrusherRecipes();

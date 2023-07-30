@@ -6,6 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -20,6 +21,9 @@ public class DummyBlockEntity extends BlockEntity {
     protected NbtCompound imitateNbt;
     protected BlockPos link;
 
+    public DummyBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
 
     public DummyBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.DUMMY_ENTITY_TYPE, pos, state);
@@ -29,7 +33,7 @@ public class DummyBlockEntity extends BlockEntity {
     protected void writeNbt(NbtCompound nbt) {
         nbt.put("blockState", SerializationHelper.saveBlockState(imitateBlock));
         nbt.put("blockNbt", imitateNbt);
-
+        nbt.putLong("link", link.asLong());
         super.writeNbt(nbt);
     }
 
@@ -38,6 +42,7 @@ public class DummyBlockEntity extends BlockEntity {
         super.readNbt(nbt);
         BlockState blockState = SerializationHelper.loadBlockState(nbt.getCompound("blockState"));
         setImitateBlock(blockState, nbt.getCompound("blockNbt"));
+        link = BlockPos.fromLong(nbt.getLong("link"));
     }
 
     public void setImitateBlock(BlockState blockState, NbtCompound nbtCompound) {
@@ -48,6 +53,14 @@ public class DummyBlockEntity extends BlockEntity {
             imitateBlockEntity.setWorld(world);
             imitateBlockEntity.readNbt(nbtCompound);
         }
+    }
+
+    public void setLink(BlockPos pos) {
+        link = pos;
+    }
+
+    public BlockPos getLink() {
+        return link;
     }
 
     public BlockState getImitateBlockState() {
@@ -73,5 +86,11 @@ public class DummyBlockEntity extends BlockEntity {
         NbtCompound compound = new NbtCompound();
         writeNbt(compound);
         return compound;
+    }
+
+    public void disassemble() {
+        if (world.getBlockEntity(link) instanceof MultiblockEntity mbe) {
+            MultiblockUtil.revertToBlock(world, link, mbe.getMultiblockSize());
+        }
     }
 }

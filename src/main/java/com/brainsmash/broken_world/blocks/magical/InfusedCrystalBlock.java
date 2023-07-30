@@ -1,7 +1,7 @@
 package com.brainsmash.broken_world.blocks.magical;
 
 import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
-import com.brainsmash.broken_world.blocks.multiblock.Multiblock;
+import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -33,7 +33,7 @@ public class InfusedCrystalBlock extends BlockWithEntity {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!world.isClient) Multiblock.convertToDummy(world, pos.add(-1, -1, -1), new Vec3i(3, 3, 3));
+        if (!world.isClient) MultiblockUtil.convertToDummy(world, pos.add(-1, -1, -1), new Vec3i(3, 3, 3));
         return super.onUse(state, world, pos, player, hand, hit);
     }
 }

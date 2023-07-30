@@ -1,6 +1,6 @@
 package com.brainsmash.broken_world.items.magical;
 
-import com.brainsmash.broken_world.blocks.multiblock.Multiblock;
+import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.screenhandlers.descriptions.WandGuiDescription;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -51,7 +51,7 @@ public class Wand extends Item {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        Multiblock.revertToBlock(context.getWorld(), context.getBlockPos(), new Vec3i(3, 3, 3));
+        MultiblockUtil.revertToBlock(context.getWorld(), context.getBlockPos(), new Vec3i(3, 3, 3));
         return super.useOnBlock(context);
     }
 }

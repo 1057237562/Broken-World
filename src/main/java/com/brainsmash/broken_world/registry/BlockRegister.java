@@ -22,9 +22,7 @@ import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
-import com.brainsmash.broken_world.blocks.multiblock.DummyBlock;
-import com.brainsmash.broken_world.blocks.multiblock.DummyBlockEntity;
-import com.brainsmash.broken_world.blocks.multiblock.DummyBlockEntityRenderer;
+import com.brainsmash.broken_world.blocks.multiblock.*;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -100,7 +98,7 @@ public class BlockRegister {
             new TeleporterFrameBlock(
                     FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
                             10f)),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
                     0.4375, false, 8),
             new CreativeBatteryBlock(
                     FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f,
@@ -180,15 +178,15 @@ public class BlockRegister {
             new ExtractorBlock(STANDARD_BLOCK),
             new WeaponryBlock(STANDARD_BLOCK),
             new WoodenPipeBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD).nonOpaque()),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
                     0.375, false, 16),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
                     0.25, false, 32),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
                     0.4375f, true, 8),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
                     0.375f, true, 16),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
                     0.25f, true, 32),
             // 80
             new UVBlock(STANDARD_BLOCK),
@@ -656,18 +654,27 @@ public class BlockRegister {
     }
 
     public static BlockEntityType<DummyBlockEntity> DUMMY_ENTITY_TYPE;
+    public static BlockEntityType<MultiblockEntity> MULTIBLOCK_ENTITY_TYPE;
     public static Block dummy;
+    public static Block multiblock;
 
-    public static void registDummy() {
+    public static void registMultiBlock() {
         dummy = Registry.register(Registry.BLOCK, new Identifier(MODID, "dummy"),
-                new DummyBlock(FabricBlockSettings.of(Material.BARRIER).strength(1.5F, 6.0F).nonOpaque()));
+                new DummyBlock(FabricBlockSettings.of(Material.BARRIER).strength(1.0F, 6.0F).nonOpaque()));
         DUMMY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dummy"),
                 FabricBlockEntityTypeBuilder.create(DummyBlockEntity::new, dummy).build());
 
+        multiblock = Registry.register(Registry.BLOCK, new Identifier(MODID, "multiblock"),
+                new Multiblock(FabricBlockSettings.of(Material.BARRIER).strength(1.0F, 6.0F).nonOpaque()));
+        MULTIBLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "multiblock"),
+                FabricBlockEntityTypeBuilder.create(MultiblockEntity::new, multiblock).build());
+
         BlockRenderLayerMap.INSTANCE.putBlock(dummy, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(multiblock, RenderLayer.getTranslucent());
     }
 
-    public static void registDummyClientSide() {
+    public static void registMultiBlockClientSide() {
         BlockEntityRendererRegistry.register(DUMMY_ENTITY_TYPE, DummyBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(MULTIBLOCK_ENTITY_TYPE, MultiblockEntityRenderer::new);
     }
 }

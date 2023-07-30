@@ -69,10 +69,16 @@ public class DummyBlock extends BlockWithEntity {
 
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.isOf(newState.getBlock())) {
-            BlockEntity blockEntity = ((DummyBlockEntity) world.getBlockEntity(pos)).getImitateBlockEntity();
-            if (blockEntity instanceof Inventory) {
-                ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
-                world.updateComparators(pos, this);
+            if (world.getBlockEntity(pos) instanceof DummyBlockEntity dummyBlockEntity) {
+                BlockEntity blockEntity = dummyBlockEntity.getImitateBlockEntity();
+                if (!dummyBlockEntity.getImitateBlockState().isOf(newState.getBlock())) {
+                    world.removeBlockEntity(pos);
+                    dummyBlockEntity.disassemble();
+                    if (blockEntity instanceof Inventory) {
+                        ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+                        world.updateComparators(pos, this);
+                    }
+                }
             }
 
             super.onStateReplaced(state, world, pos, newState, moved);
@@ -83,7 +89,7 @@ public class DummyBlock extends BlockWithEntity {
     public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState dummy, @Nullable BlockEntity blockEntity, ItemStack stack) {
         BlockState state = ((DummyBlockEntity) blockEntity).getImitateBlockState();
         BlockEntity originalEntity = ((DummyBlockEntity) blockEntity).getImitateBlockEntity();
-        super.afterBreak(world, player, pos, state, originalEntity, stack);
+        if (player.canHarvest(state)) super.afterBreak(world, player, pos, state, originalEntity, stack);
     }
 
 }

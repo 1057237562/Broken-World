@@ -76,7 +76,7 @@ public class Client implements ClientModInitializer {
         EntityRegister.registEntitiesClientSide();
         ItemRegister.registItemClientSide();
 
-        BlockRegister.registDummyClientSide();
+        BlockRegister.registMultiBlockClientSide();
 
         FluidRegister.RegistFluidClientSide();
 
