@@ -21,8 +21,8 @@ public class ColliderCoilBlockEntity extends ConsumerBlockEntity {
         maxProgression = MAX_PROGRESSION;
     }
 
-    public int getProgression() {
-        return progression;
+    public float getChargePercentage() {
+        return (float) progression / maxProgression;
     }
 
     @Override

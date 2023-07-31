@@ -246,7 +246,7 @@ public class EnergyManager {
                                 battery.edges.compute(direction, (direction1, integer) -> integer + alterflow);
                                 adjCable.edges.compute(direction.getOpposite(), (direction1, integer) -> integer - alterflow);
                                 adjCable.ComputeDeltaFlow();
-                                System.out.println("Consumer:"+adjCable.deltaFlow);
+//                                System.out.println("Consumer:"+adjCable.deltaFlow);
                                 flow += alterflow;
                                 battery.deltaFlow += alterflow;
                                 if (!(adjCable instanceof PowerBlockEntity || adjCable instanceof BatteryBlockEntity || adjCable instanceof ConsumerBlockEntity)) {
@@ -275,7 +275,7 @@ public class EnergyManager {
                                 consumer.edges.compute(direction, (direction1, integer) -> integer + alterflow);
                                 adjCable.edges.compute(direction.getOpposite(), (direction1, integer) -> integer - alterflow);
                                 adjCable.ComputeDeltaFlow();
-                                System.out.println("Consumer:"+adjCable.deltaFlow);
+//                                System.out.println("Consumer:"+adjCable.deltaFlow);
                                 flow += alterflow;
                                 consumer.deltaFlow += alterflow;
                                 if (!(adjCable instanceof PowerBlockEntity || adjCable instanceof BatteryBlockEntity || adjCable instanceof ConsumerBlockEntity)) {

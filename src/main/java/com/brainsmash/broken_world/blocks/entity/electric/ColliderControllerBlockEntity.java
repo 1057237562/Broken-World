@@ -21,18 +21,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 public class ColliderControllerBlockEntity extends ConsumerBlockEntity implements ImplementedInventory, SidedInventory, NamedScreenHandlerFactory {
 
@@ -40,16 +44,55 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     protected BlockPos colliderWSCornerPos = null;
     protected final RecipeManager.MatchGetter<ImplementedInventory, ? extends ColliderRecipe> matchGetter;
     protected final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(4, ItemStack.EMPTY);
-    public static final int[] TOP_SLOTS = new int[]{0};
-    public static final int[] SIDE_SLOTS = new int[]{1};
-    public static final int[] BOTTOM_SLOTS = new int[]{2};
+    protected static final int INPUT_A = 0;
+    protected static final int INPUT_B = 1;
+    protected static final int OUTPUT = 2;
+    protected static final int POWER = 3;
+    public static final int[] TOP_SLOTS = new int[]{INPUT_A};
+    public static final int[] SIDE_SLOTS = new int[]{INPUT_B};
+    public static final int[] BOTTOM_SLOTS = new int[]{OUTPUT};
     public static final int COLLIDER_SIDE_LENGTH = 15;
-    protected boolean shouldCollectCoilEntities = false;
+    public static final int PROPERTY_COUNT = 4 + 4 * COLLIDER_SIDE_LENGTH - 4;
+    protected boolean firstTick = true;
+    protected ColliderRecipe matchedRecipe = null;
+    protected PropertyDelegate propertyDelegate = new PropertyDelegate() {
+        @Override
+        public int get(int index) {
+            switch (index) {
+                case 0: return getEnergy();
+                case 1: return getMaxCapacity();
+                case 2: return progression;
+                case 3: return maxProgression;
+                default:
+                    if (index < 4 || index >= 4 + 4 * COLLIDER_SIDE_LENGTH - 4)
+                        return -1;
+                    if (coilBlockEntityList == null)
+                        return 0xFF_5A5A5A;
+                    return getCoilStatusColor(coilBlockEntityList.get(index - 4));
+            }
+        }
+
+        @Override
+        public void set(int index, int value) {
+            switch (index) {
+                case 0 -> setEnergy(value);
+                case 1 -> setMaxCapacity(value);
+                case 2 -> progression = value;
+                case 3 -> maxProgression = value;
+            }
+        }
+
+        @Override
+        public int size() {
+            return PROPERTY_COUNT;
+        }
+    };
 
     public ColliderControllerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.COLLIDER_CONTROLLER_ENTITY_TYPE, pos, state);
         setMaxCapacity(200);
-        maxProgression = ColliderCoilBlockEntity.MAX_PROGRESSION * (COLLIDER_SIDE_LENGTH * 4 - 4);
+        progression = 0;
+        maxProgression = 10;
         powerConsumption = 4;
         matchGetter = RecipeManager.createCachedMatchGetter(ColliderRecipe.Type.INSTANCE);
     }
@@ -64,7 +107,7 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
             colliderWSCornerPos = null;
         } else {
             colliderWSCornerPos = new BlockPos(posArray[0], posArray[1], posArray[2]);
-            shouldCollectCoilEntities = true;
+            firstTick = true;
         }
     }
 
@@ -78,47 +121,40 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
         super.writeNbt(nbt);
     }
 
-    protected void calculateProgression() {
-        progression = 0;
-        if (coilBlockEntityList == null) {
-            markDirty();
-            return;
-        }
-        for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
-            progression += coil.getProgression();
-        }
-        markDirty();
-    }
-
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient()) {
-            if (shouldCollectCoilEntities) {
-                shouldCollectCoilEntities = false;
-                collectCoilEntities();
+            if (firstTick) {
+                firstTick = false;
+                if (colliderWSCornerPos != null)
+                    collectCoilEntities();
+                matchedRecipe = matchGetter.getFirstMatch(this, world).orElse(null);
             }
-            Optional<? extends ColliderRecipe> recipeMatch = matchGetter.getFirstMatch(this, world);
-            running = checkEnergy() && recipeMatch.isPresent() && coilBlockEntityList != null;
-            if (running) {
+            if (coilBlockEntityList != null && matchedRecipe != null) {
                 startCoils();
-                calculateProgression();
+                running = checkEnergy() && areCoilsCharged();
+            } else {
+                running = false;
+                stopCoils();
+            }
+            if (running) {
                 if (progression == maxProgression) {
                     dischargeCoils();
                     progression = 0;
-                    ColliderRecipe recipe = recipeMatch.get();
-                    shrinkInputStacks(recipe);
-                    outputProduct(recipe);
+                    shrinkInputStacks(matchedRecipe);
+                    outputProduct(matchedRecipe);
+                    matchedRecipe = matchGetter.getFirstMatch(this, world).orElse(null);
+                } else {
+                    progression++;
                 }
-            } else {
-                stopCoils();
             }
         }
         super.tick(world, pos, state, blockEntity);
     }
 
     protected void shrinkInputStacks(ColliderRecipe recipe) {
-        ItemStack stack1 = getStack(0);
-        ItemStack stack2 = getStack(1);
+        ItemStack stack1 = getStack(INPUT_A);
+        ItemStack stack2 = getStack(INPUT_B);
         if (recipe.a().test(stack1) && stack1.getCount() >= recipe.amountA() && recipe.b().test(stack2) && stack2.getCount() >= recipe.amountB()) {
             stack1.decrement(recipe.amountA());
             stack2.decrement(recipe.amountB());
@@ -129,12 +165,12 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     }
 
     protected void outputProduct(ColliderRecipe recipe) {
-        ItemStack outputSlot = getStack(3);
+        ItemStack outputSlot = getStack(OUTPUT);
         ItemStack productStack = recipe.craft(this);
         int insertAmount;
         if (outputSlot.isEmpty()) {
             insertAmount = Math.min(productStack.getMaxCount(), productStack.getCount());
-            setStack(3, new ItemStack(productStack.getItem(), insertAmount));
+            setStack(OUTPUT, new ItemStack(productStack.getItem(), insertAmount));
         } else if (outputSlot.isOf(productStack.getItem())) {
             insertAmount = Math.min(outputSlot.getMaxCount() - outputSlot.getCount(), productStack.getCount());
             outputSlot.increment(insertAmount);
@@ -168,6 +204,16 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
         }
     }
 
+    protected boolean areCoilsCharged() {
+        if (coilBlockEntityList == null)
+            return false;
+        for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
+            if (!coil.isCharged())
+                return false;
+        }
+        return true;
+    }
+
     public void onMultiblockBreak() {
         stopCoils();
         for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
@@ -175,6 +221,7 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
         }
         coilBlockEntityList = null;
         colliderWSCornerPos = null;
+        progression = 0;
         markDirty();
     }
 
@@ -268,10 +315,10 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
             d1 = d1.rotateClockwise(Direction.Axis.Y);
         }
 
+        sortCoilEntityList();
         for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
             coil.bindController(this);
         }
-        calculateProgression();
         markDirty();
     }
 
@@ -294,11 +341,42 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
             coilBlockEntityList = null;
             colliderWSCornerPos = null;
         } else {
+            sortCoilEntityList();
             for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
                 coil.bindController(this);
             }
         }
-        calculateProgression();
+    }
+
+    // So that the list fits into the render order of WColliderStatus
+    protected void sortCoilEntityList() {
+        int d = COLLIDER_SIDE_LENGTH;
+        coilBlockEntityList.sort((a, b) -> {
+            BlockPos posA = a.getPos().subtract(colliderWSCornerPos.add(d / 2, 0, -d / 2));
+            BlockPos posB = b.getPos().subtract(colliderWSCornerPos.add(d / 2, 0, -d / 2));
+            float thetaA = PosHelper.cartesianToPolar(new Vec2f(posA.getX(), posA.getZ())).y;
+            float thetaB = PosHelper.cartesianToPolar(new Vec2f(posB.getX(), posB.getZ())).y;
+            thetaA = 2 * MathHelper.PI - thetaA;
+            thetaB = 2 * MathHelper.PI - thetaB;
+            thetaA = (1.25F * MathHelper.PI - thetaA + 2 * MathHelper.PI) % (2 * MathHelper.PI);
+            thetaB = (1.25F * MathHelper.PI - thetaB + 2 * MathHelper.PI) % (2 * MathHelper.PI);
+            return Float.compare(thetaA, thetaB);
+        });
+    }
+
+    @Override
+    public PropertyDelegate getPropertyDelegate() {
+        return propertyDelegate;
+    }
+
+    protected int getCoilStatusColor(ColliderCoilBlockEntity coil) {
+        if (progression > 0)
+            return 0xFF_779EFF; // Light blue if collision in progress
+        if (coil.isCharged())
+            return 0xFF_0051EE; // Blue if coil is fully charged
+        if (!coil.checkEnergy())
+            return 0xFF_EE4200; // Deep orange if coil has low energy
+        return 0xFF_FFFF00 - ((int) (0xFF * coil.getChargePercentage()) << 16); // Yellow to green as the coil gets charged
     }
 
     public void onUse() {
@@ -333,6 +411,21 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction dir) {
         return slot == 2;
+    }
+
+    @Override
+    public void setStack(int slot, ItemStack stack) {
+        Main.LOGGER.info("Setting stack {} to {}", slot, stack);
+        ImplementedInventory.super.setStack(slot, stack);
+        if (slot == INPUT_A || slot == INPUT_B) {
+            ColliderRecipe recipeMatch = matchGetter.getFirstMatch(this, world).orElse(null);
+            Identifier id = recipeMatch == null ? null : recipeMatch.getId();
+            if (!Objects.equals(id, matchedRecipe == null ? null : matchedRecipe.getId())) {
+                this.matchedRecipe = recipeMatch;
+                progression = 0;
+                markDirty();
+            }
+        }
     }
 
     @Override
