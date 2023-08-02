@@ -40,21 +40,21 @@ public class MultiblockUtil {
         }
     }
 
-    public static void tryAssemble(World world, Identifier identifier, BlockPos pos, BlockPos archor) {
+    public static void tryAssemble(World world, Identifier identifier, BlockPos pos, BlockPos anchor) {
         MultiblockPattern pattern = patternMap.get(identifier);
         if (pattern == null) {
             LOGGER.warn("MultiblockPattern {} does not exist", identifier);
             return;
         }
         for (BlockRotation rotation : BlockRotation.values()) {
-            if (pattern.test(world, pos, rotation, archor)) {
-                convertToDummy(world, pos.subtract(archor.rotate(rotation)), pattern.size);
+            if (pattern.test(world, pos, rotation, anchor)) {
+                convertToDummy(world, pos.subtract(anchor.rotate(rotation)), pattern.size, anchor);
                 return;
             }
         }
     }
 
-    public static void convertToDummy(World world, BlockPos pos, Vec3i sz) {
+    private static void convertToDummy(World world, BlockPos pos, Vec3i sz, BlockPos anchor) {
         for (int x = 0; x < sz.getX(); x++) {
             for (int y = sz.getY() - 1; y >= 0; y--) {
                 for (int z = 0; z < sz.getZ(); z++) {
@@ -64,17 +64,21 @@ public class MultiblockUtil {
                     BlockEntity originalBlockEntity;
                     if (world.getBlockState(p).getBlock() instanceof BlockWithEntity bwe) {
                         originalBlockEntity = world.getBlockEntity(p);
+                        if (originalBlockEntity instanceof DummyBlockEntity dummyBlockEntity) {
+                            dummyBlockEntity.setLink(pos);
+                            continue;
+                        }
                         nbt = originalBlockEntity.createNbt();
                         world.removeBlockEntity(p);
                     }
                     if (world.getBlockState(p).getBlock() == Blocks.AIR) continue;
-                    if (x == 0 && y == 0 && z == 0) {
+                    if (anchor.equals(new BlockPos(x, y, z))) {
                         world.setBlockState(p, BlockRegister.multiblock.getDefaultState());
-                        ((MultiblockEntity) world.getBlockEntity(p)).setMultiblockSize(sz);
+                        ((MultiblockEntity) world.getBlockEntity(p)).setMultiblockSize(sz); // Master
                     } else world.setBlockState(p, BlockRegister.dummy.getDefaultState());
                     ((DummyBlockEntity) world.getBlockEntity(p)).setImitateBlock(
                             SerializationHelper.loadBlockState(originalBlock), nbt);
-                    ((DummyBlockEntity) world.getBlockEntity(p)).setLink(pos);
+                    ((DummyBlockEntity) world.getBlockEntity(p)).setLink(pos.add(anchor)); // Slave
                 }
             }
         }
