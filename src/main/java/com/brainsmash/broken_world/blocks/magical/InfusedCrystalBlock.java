@@ -9,11 +9,13 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import static com.brainsmash.broken_world.Main.MODID;
 
 public class InfusedCrystalBlock extends BlockWithEntity {
     public InfusedCrystalBlock(Settings settings) {
@@ -33,7 +35,9 @@ public class InfusedCrystalBlock extends BlockWithEntity {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!world.isClient) MultiblockUtil.convertToDummy(world, pos.add(-1, -1, -1), new Vec3i(3, 3, 3));
+        if (!world.isClient) {
+            MultiblockUtil.tryAssemble(world, new Identifier(MODID, "mana_generator"), pos, new BlockPos(1, 1, 1));
+        }
         return super.onUse(state, world, pos, player, hand, hit);
     }
 }

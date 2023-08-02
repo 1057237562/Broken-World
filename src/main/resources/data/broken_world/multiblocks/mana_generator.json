@@ -1,0 +1,36 @@
+{
+  "layers": [
+    {
+      "rows": [
+        "A A",
+        "   ",
+        "A A"
+      ]
+    },
+    {
+      "rows": [
+        "B B",
+        " C ",
+        "B B"
+      ]
+    },
+    {
+      "rows": [
+        "A A",
+        "   ",
+        "A A"
+      ]
+    }
+  ],
+  "key": {
+    "A": {
+      "block": "minecraft:amethyst_block"
+    },
+    "B": {
+      "block": "minecraft:amethyst_cluster"
+    },
+    "C": {
+      "block": "broken_world:infused_crystal"
+    }
+  }
+}

@@ -7,14 +7,20 @@ import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MultiblockUtil {
-    public MultiblockUtil(World world) {
-
-    }
+    public static Map<Identifier, MultiblockPattern> patternMap = new HashMap<>();
+    public static Logger LOGGER = LoggerFactory.getLogger(MultiblockUtil.class);
 
     public static void revertToBlock(World world, BlockPos pos, Vec3i sz) {
         for (int x = 0; x < sz.getX(); x++) {
@@ -30,6 +36,20 @@ public class MultiblockUtil {
                         world.getBlockEntity(p).readNbt(nbt);
                     }
                 }
+            }
+        }
+    }
+
+    public static void tryAssemble(World world, Identifier identifier, BlockPos pos, BlockPos archor) {
+        MultiblockPattern pattern = patternMap.get(identifier);
+        if (pattern == null) {
+            LOGGER.warn("MultiblockPattern {} does not exist", identifier);
+            return;
+        }
+        for (BlockRotation rotation : BlockRotation.values()) {
+            if (pattern.test(world, pos, rotation, archor)) {
+                convertToDummy(world, pos.subtract(archor.rotate(rotation)), pattern.size);
+                return;
             }
         }
     }
@@ -59,4 +79,5 @@ public class MultiblockUtil {
             }
         }
     }
+
 }
