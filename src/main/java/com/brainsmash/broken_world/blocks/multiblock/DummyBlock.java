@@ -9,7 +9,10 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
@@ -93,4 +96,13 @@ public class DummyBlock extends BlockWithEntity {
         if (player.canHarvest(state)) super.afterBreak(world, player, pos, state, originalEntity, stack);
     }
 
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (world.getBlockEntity(pos) instanceof DummyBlockEntity dbe) {
+            if (world.getBlockEntity(dbe.link) instanceof MultiblockEntity mbe) {
+                return mbe.onUse(state, world, dbe.link, player, hand, hit);
+            }
+        }
+        return super.onUse(state, world, pos, player, hand, hit);
+    }
 }
