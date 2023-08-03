@@ -9,6 +9,7 @@ import net.minecraft.util.math.Vec3i;
 public class MultiblockEntity extends DummyBlockEntity {
 
     protected Vec3i multiblockSize;
+    protected BlockPos anchor;
 
     public MultiblockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.MULTIBLOCK_ENTITY_TYPE, pos, state);
@@ -20,6 +21,14 @@ public class MultiblockEntity extends DummyBlockEntity {
 
     public void setMultiblockSize(Vec3i multiblockSize) {
         this.multiblockSize = multiblockSize;
+    }
+
+    public BlockPos getAnchor() {
+        return anchor;
+    }
+
+    public void setAnchor(BlockPos anchor) {
+        this.anchor = anchor;
     }
 
     @Override

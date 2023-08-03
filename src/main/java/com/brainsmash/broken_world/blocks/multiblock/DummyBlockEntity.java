@@ -90,7 +90,7 @@ public class DummyBlockEntity extends BlockEntity {
 
     public void disassemble() {
         if (world.getBlockEntity(link) instanceof MultiblockEntity mbe) {
-            MultiblockUtil.revertToBlock(world, link, mbe.getMultiblockSize());
+            MultiblockUtil.revertToBlock(world, mbe.getAnchor(), mbe.getMultiblockSize());
         }
     }
 }

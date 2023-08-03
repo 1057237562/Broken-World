@@ -48,7 +48,8 @@ public class MultiblockUtil {
         }
         for (BlockRotation rotation : BlockRotation.values()) {
             if (pattern.test(world, pos, rotation, anchor)) {
-                convertToDummy(world, pos.subtract(anchor.rotate(rotation)), pattern.size, anchor);
+                Vec3i sz = new BlockPos(pattern.size).rotate(rotation);
+                convertToDummy(world, pos.subtract(anchor.rotate(rotation)), sz, anchor);
                 return;
             }
         }
@@ -74,7 +75,10 @@ public class MultiblockUtil {
                     if (world.getBlockState(p).getBlock() == Blocks.AIR) continue;
                     if (anchor.equals(new BlockPos(x, y, z))) {
                         world.setBlockState(p, BlockRegister.multiblock.getDefaultState());
-                        ((MultiblockEntity) world.getBlockEntity(p)).setMultiblockSize(sz); // Master
+                        if (world.getBlockEntity(p) instanceof MultiblockEntity mbe) {
+                            mbe.setMultiblockSize(sz); // Master
+                            mbe.setAnchor(pos);
+                        }
                     } else world.setBlockState(p, BlockRegister.dummy.getDefaultState());
                     ((DummyBlockEntity) world.getBlockEntity(p)).setImitateBlock(
                             SerializationHelper.loadBlockState(originalBlock), nbt);

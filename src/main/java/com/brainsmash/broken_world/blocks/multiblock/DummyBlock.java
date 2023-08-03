@@ -3,6 +3,7 @@ package com.brainsmash.broken_world.blocks.multiblock;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -72,7 +73,7 @@ public class DummyBlock extends BlockWithEntity {
             if (world.getBlockEntity(pos) instanceof DummyBlockEntity dummyBlockEntity) {
                 BlockEntity blockEntity = dummyBlockEntity.getImitateBlockEntity();
                 if (!dummyBlockEntity.getImitateBlockState().isOf(newState.getBlock())) {
-                    world.removeBlockEntity(pos);
+                    dummyBlockEntity.imitateBlock = Blocks.AIR.getDefaultState();
                     dummyBlockEntity.disassemble();
                     if (blockEntity instanceof Inventory) {
                         ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
