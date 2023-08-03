@@ -1,7 +1,9 @@
 package com.brainsmash.broken_world.blocks.multiblock;
 
+import com.brainsmash.broken_world.blocks.multiblock.util.MultiblockProvider;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.util.SerializationHelper;
+import com.google.common.collect.Maps;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.Blocks;
@@ -12,14 +14,15 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class MultiblockUtil {
-    public static Map<Identifier, MultiblockPattern> patternMap = new HashMap<>();
+    public static Map<Identifier, MultiblockPattern> patternMap = Maps.newHashMap();
+    public static Map<Identifier, MultiblockProvider> providerMap = Maps.newHashMap();
     public static Logger LOGGER = LoggerFactory.getLogger(MultiblockUtil.class);
 
     public static void revertToBlock(World world, BlockPos pos, Vec3i sz) {
@@ -49,13 +52,17 @@ public class MultiblockUtil {
         for (BlockRotation rotation : BlockRotation.values()) {
             if (pattern.test(world, pos, rotation, anchor)) {
                 Vec3i sz = new BlockPos(pattern.size).rotate(rotation);
-                convertToDummy(world, pos.subtract(anchor.rotate(rotation)), sz, anchor);
+                convertToDummy(world, pos.subtract(anchor.rotate(rotation)), sz, anchor, identifier);
                 return;
             }
         }
     }
 
-    private static void convertToDummy(World world, BlockPos pos, Vec3i sz, BlockPos anchor) {
+    public static void registerMultiblock(Identifier identifier, MultiblockProvider provider) {
+        providerMap.put(identifier, provider);
+    }
+
+    private static void convertToDummy(World world, BlockPos pos, Vec3i sz, BlockPos anchor, @Nullable Identifier identifier) {
         for (int x = 0; x < sz.getX(); x++) {
             for (int y = sz.getY() - 1; y >= 0; y--) {
                 for (int z = 0; z < sz.getZ(); z++) {
@@ -78,6 +85,7 @@ public class MultiblockUtil {
                         if (world.getBlockEntity(p) instanceof MultiblockEntity mbe) {
                             mbe.setMultiblockSize(sz); // Master
                             mbe.setAnchor(pos);
+                            mbe.setType(identifier);
                         }
                     } else world.setBlockState(p, BlockRegister.dummy.getDefaultState());
                     ((DummyBlockEntity) world.getBlockEntity(p)).setImitateBlock(

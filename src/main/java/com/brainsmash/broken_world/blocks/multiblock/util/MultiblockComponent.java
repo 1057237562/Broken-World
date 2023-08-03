@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.blocks.multiblock.util;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -13,8 +14,8 @@ public abstract class MultiblockComponent {
         this.pos = pos;
     }
 
-    public abstract void tick();
-    
+    public abstract void tick(World world, BlockPos pos, BlockState state);
+
     public abstract void writeNbt(NbtCompound nbt);
 
     public abstract void readNbt(NbtCompound nbt);

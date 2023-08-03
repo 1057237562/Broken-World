@@ -20,6 +20,7 @@ import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
 import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
 import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
+import com.brainsmash.broken_world.blocks.magical.multiblock.ManaGeneratorMultiblock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.blocks.multiblock.*;
@@ -592,6 +593,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(RefineryBlockEntity::new, blocks[83]).build());
         BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "battery"),
                 FabricBlockEntityTypeBuilder.create(BatteryBlockEntity::new, blocks[87]).build());
+
+        MultiblockUtil.registerMultiblock(new Identifier(MODID, "mana_generator"), ManaGeneratorMultiblock::new);
     }
 
     public static void registBlocksClientSide() {
@@ -658,7 +661,7 @@ public class BlockRegister {
     public static Block dummy;
     public static Block multiblock;
 
-    public static void registMultiBlock() {
+    public static void registMultiblock() {
         dummy = Registry.register(Registry.BLOCK, new Identifier(MODID, "dummy"),
                 new DummyBlock(FabricBlockSettings.of(Material.BARRIER).strength(1.0F, 6.0F).nonOpaque()));
         DUMMY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dummy"),
@@ -673,7 +676,7 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(multiblock, RenderLayer.getTranslucent());
     }
 
-    public static void registMultiBlockClientSide() {
+    public static void registMultiblockClientSide() {
         BlockEntityRendererRegistry.register(DUMMY_ENTITY_TYPE, DummyBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(MULTIBLOCK_ENTITY_TYPE, MultiblockEntityRenderer::new);
     }
