@@ -51,11 +51,10 @@ public class MultiblockPattern {
                 String row = layer.rows[z];
                 for (int x = 0; x < row.length(); x++) {
                     char c = row.charAt(x);
-                    if (c != ' ') {
-                        BlockPos pos = new BlockPos(x, y, z).subtract(anchor).rotate(rotation);
-                        if (!keypairs.get(c).test(worldAccess.getBlockState(startPos.add(pos)))) {
-                            return false;
-                        }
+                    if (c == ' ') continue;
+                    BlockPos pos = new BlockPos(x, y, z).subtract(anchor).rotate(rotation);
+                    if (!keypairs.get(c).test(worldAccess.getBlockState(startPos.add(pos)))) {
+                        return false;
                     }
                 }
             }
