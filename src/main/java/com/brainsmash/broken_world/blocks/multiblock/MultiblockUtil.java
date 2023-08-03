@@ -1,24 +1,30 @@
 package com.brainsmash.broken_world.blocks.multiblock;
 
 import com.brainsmash.broken_world.blocks.multiblock.util.MultiblockProvider;
-import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.util.SerializationHelper;
 import com.google.common.collect.Maps;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.Blocks;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+
+import static com.brainsmash.broken_world.Main.MODID;
 
 public class MultiblockUtil {
     public static Map<Identifier, MultiblockPattern> patternMap = Maps.newHashMap();
@@ -81,19 +87,44 @@ public class MultiblockUtil {
                     }
                     if (world.getBlockState(p).getBlock() == Blocks.AIR) continue;
                     if (anchor.equals(new BlockPos(x, y, z))) {
-                        world.setBlockState(p, BlockRegister.multiblock.getDefaultState());
+                        world.setBlockState(p, multiblock.getDefaultState());
                         if (world.getBlockEntity(p) instanceof MultiblockEntity mbe) {
                             mbe.setMultiblockSize(sz); // Master
                             mbe.setAnchor(pos);
                             mbe.setType(identifier);
                         }
-                    } else world.setBlockState(p, BlockRegister.dummy.getDefaultState());
+                    } else world.setBlockState(p, dummy.getDefaultState());
                     ((DummyBlockEntity) world.getBlockEntity(p)).setImitateBlock(
                             SerializationHelper.loadBlockState(originalBlock), nbt);
                     ((DummyBlockEntity) world.getBlockEntity(p)).setLink(pos.add(anchor)); // Slave
                 }
             }
         }
+    }
+
+    public static BlockEntityType<DummyBlockEntity> DUMMY_ENTITY_TYPE;
+    public static BlockEntityType<MultiblockEntity> MULTIBLOCK_ENTITY_TYPE;
+    public static Block dummy;
+    public static Block multiblock;
+
+    public static void registMultiblock() {
+        dummy = Registry.register(Registry.BLOCK, new Identifier(MODID, "dummy"),
+                new DummyBlock(FabricBlockSettings.of(Material.BARRIER).strength(1.0F, 6.0F).nonOpaque()));
+        DUMMY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dummy"),
+                FabricBlockEntityTypeBuilder.create(DummyBlockEntity::new, dummy).build());
+
+        multiblock = Registry.register(Registry.BLOCK, new Identifier(MODID, "multiblock"),
+                new Multiblock(FabricBlockSettings.of(Material.BARRIER).strength(1.0F, 6.0F).nonOpaque()));
+        MULTIBLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "multiblock"),
+                FabricBlockEntityTypeBuilder.create(MultiblockEntity::new, multiblock).build());
+
+        BlockRenderLayerMap.INSTANCE.putBlock(dummy, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(multiblock, RenderLayer.getTranslucent());
+    }
+
+    public static void registMultiblockClientSide() {
+        BlockEntityRendererRegistry.register(DUMMY_ENTITY_TYPE, DummyBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(MULTIBLOCK_ENTITY_TYPE, MultiblockEntityRenderer::new);
     }
 
 }

@@ -23,7 +23,7 @@ import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.magical.multiblock.ManaGeneratorMultiblock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
-import com.brainsmash.broken_world.blocks.multiblock.*;
+import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -654,30 +654,5 @@ public class BlockRegister {
                         pos) : FoliageColors.getDefaultColor(), blocks[BlockRegistry.RUBBER_LEAVES.ordinal()]);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(),
                 blockitems[BlockRegistry.RUBBER_LEAVES.ordinal()]);
-    }
-
-    public static BlockEntityType<DummyBlockEntity> DUMMY_ENTITY_TYPE;
-    public static BlockEntityType<MultiblockEntity> MULTIBLOCK_ENTITY_TYPE;
-    public static Block dummy;
-    public static Block multiblock;
-
-    public static void registMultiblock() {
-        dummy = Registry.register(Registry.BLOCK, new Identifier(MODID, "dummy"),
-                new DummyBlock(FabricBlockSettings.of(Material.BARRIER).strength(1.0F, 6.0F).nonOpaque()));
-        DUMMY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dummy"),
-                FabricBlockEntityTypeBuilder.create(DummyBlockEntity::new, dummy).build());
-
-        multiblock = Registry.register(Registry.BLOCK, new Identifier(MODID, "multiblock"),
-                new Multiblock(FabricBlockSettings.of(Material.BARRIER).strength(1.0F, 6.0F).nonOpaque()));
-        MULTIBLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "multiblock"),
-                FabricBlockEntityTypeBuilder.create(MultiblockEntity::new, multiblock).build());
-
-        BlockRenderLayerMap.INSTANCE.putBlock(dummy, RenderLayer.getTranslucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(multiblock, RenderLayer.getTranslucent());
-    }
-
-    public static void registMultiblockClientSide() {
-        BlockEntityRendererRegistry.register(DUMMY_ENTITY_TYPE, DummyBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(MULTIBLOCK_ENTITY_TYPE, MultiblockEntityRenderer::new);
     }
 }

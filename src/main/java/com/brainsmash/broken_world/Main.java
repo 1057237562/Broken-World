@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world;
 
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockResourceReloadListener;
+import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
@@ -145,7 +146,7 @@ public class Main implements ModInitializer {
         TreeRegister.registTrees();
         PointOfInterestRegister.registerPlacesOfInterest();
 
-        BlockRegister.registMultiblock();
+        MultiblockUtil.registMultiblock();
 
         AdvancedFurnaceRecipe.registAdvancedFurnaceRecipe();
         CrusherRecipe.registCrusherRecipes();
