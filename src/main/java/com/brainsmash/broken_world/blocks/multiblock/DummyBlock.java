@@ -1,6 +1,5 @@
 package com.brainsmash.broken_world.blocks.multiblock;
 
-import com.brainsmash.broken_world.registry.BlockRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.Blocks;
@@ -40,7 +39,7 @@ public class DummyBlock extends BlockWithEntity {
     public VoxelShape getOutlineShape(BlockState dummy, BlockView world, BlockPos pos, ShapeContext context) {
         if (world.getBlockEntity(pos) instanceof DummyBlockEntity dummyBlockEntity) {
             BlockState state = dummyBlockEntity.getImitateBlockState();
-            if (state.getBlock() != BlockRegister.dummy)
+            if (state.getBlock() != MultiblockUtil.dummy)
                 return state.getBlock().getOutlineShape(state, world, pos, context);
         }
         return super.getOutlineShape(dummy, world, pos, context);
@@ -51,7 +50,7 @@ public class DummyBlock extends BlockWithEntity {
     public VoxelShape getCullingShape(BlockState dummy, BlockView world, BlockPos pos) {
         if (world.getBlockEntity(pos) instanceof DummyBlockEntity dummyBlockEntity) {
             BlockState state = dummyBlockEntity.getImitateBlockState();
-            if (state.getBlock() != BlockRegister.dummy) return state.getBlock().getCullingShape(state, world, pos);
+            if (state.getBlock() != MultiblockUtil.dummy) return state.getBlock().getCullingShape(state, world, pos);
         }
         return super.getCullingShape(dummy, world, pos);
 
@@ -66,7 +65,7 @@ public class DummyBlock extends BlockWithEntity {
     public VoxelShape getCollisionShape(BlockState dummy, BlockView world, BlockPos pos, ShapeContext context) {
         if (world.getBlockEntity(pos) instanceof DummyBlockEntity dummyBlockEntity) {
             BlockState state = dummyBlockEntity.getImitateBlockState();
-            if (state.getBlock() != BlockRegister.dummy) return state.getCollisionShape(world, pos, context);
+            if (state.getBlock() != MultiblockUtil.dummy) return state.getCollisionShape(world, pos, context);
         }
         return super.getCollisionShape(dummy, world, pos, context);
     }
