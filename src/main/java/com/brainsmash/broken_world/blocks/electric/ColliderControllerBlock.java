@@ -7,6 +7,7 @@ import com.brainsmash.broken_world.blocks.entity.electric.CrusherBlockEntity;
 import com.brainsmash.broken_world.blocks.multiblock.ColliderMultiBlock;
 import io.github.jamalam360.multiblocklib.api.Multiblock;
 import io.github.jamalam360.multiblocklib.api.MultiblockLib;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -29,20 +30,27 @@ public class ColliderControllerBlock extends ConsumerBlock {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        Optional<Multiblock> multiblock = MultiblockLib.INSTANCE.getMultiblock(world, pos);
-        if (multiblock.isEmpty()) {
-            if (world.getBlockEntity(pos) instanceof ColliderControllerBlockEntity entity) {
-                int d = ColliderMultiBlock.DIAMETER;
-                if (MultiblockLib.INSTANCE.tryAssembleMultiblock(world, Direction.NORTH, pos.add(-d/2, 0, d/2)))
-                    entity.onMultiBlockAssembled();
-            }
-        }
+        if (world.getBlockEntity(pos) instanceof ColliderControllerBlockEntity entity)
+            entity.onUse();
         return super.onUse(state, world, pos, player, hand, hit);
     }
 
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new ColliderControllerBlockEntity(pos, state);
+    }
+
+    @Override
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+        if (world.getBlockEntity(pos) instanceof ColliderControllerBlockEntity controller && controller.hasBoundCoils()) {
+            BlockEntity sourceEntity = world.getBlockEntity(sourcePos);
+            if (
+                    sourceEntity instanceof ColliderControllerBlockEntity
+                    || sourceEntity instanceof ColliderCoilBlockEntity sourceCoil && !sourceCoil.hasBoundController()
+            )
+                controller.onMultiblockBreak();
+        }
+        super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
     }
 
     @Override

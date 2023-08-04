@@ -1,7 +1,6 @@
 package com.brainsmash.broken_world.blocks.multiblock;
 
 import com.brainsmash.broken_world.Main;
-import com.brainsmash.broken_world.blocks.entity.electric.ColliderCoilBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.ColliderControllerBlockEntity;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
@@ -27,7 +26,7 @@ public class ColliderMultiBlock extends Multiblock {
         int d = ColliderMultiBlock.DIAMETER;
         BlockPos pos = getMatchResult().bottomLeftPos().add(d / 2, 0, -d / 2);
         if (getWorld().getBlockEntity(pos) instanceof ColliderControllerBlockEntity entity)
-            entity.onCoilBreak();
+            entity.onMultiblockBreak();
         return super.onDisassemble(forced);
     }
 

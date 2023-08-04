@@ -1,9 +1,9 @@
 package com.brainsmash.broken_world.util;
 
-import com.brainsmash.broken_world.Main;
-import com.brainsmash.broken_world.blocks.entity.electric.ColliderCoilBlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec2f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,5 +29,15 @@ public class PosHelper {
             d = d.rotateClockwise(Direction.Axis.Y);
         }
         return result.stream();
+    }
+
+//    Converts from Cartesian Coordinate System to Polar Coordinate System.
+//    Returning a Vec2f might be strange, but I don't want to make a new class for polar coordinates.
+    public static Vec2f cartesianToPolar(Vec2f p) {
+        float r = p.length();
+        if (r == 0)
+            return new Vec2f(0, 0);
+        float theta = (float) Math.acos(p.x / r);
+        return p.y < 0 ? new Vec2f(r, 2 * MathHelper.PI - theta) : new Vec2f(r, theta);
     }
 }

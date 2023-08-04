@@ -2,7 +2,8 @@ package com.brainsmash.broken_world.blocks.electric;
 
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.ColliderCoilBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.CrusherBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.electric.ColliderControllerBlockEntity;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -26,5 +27,27 @@ public class ColliderCoilBlock extends ConsumerBlock {
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new ColliderCoilBlockEntity(pos, state);
+    }
+
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!state.isOf(newState.getBlock())) {
+            if (world.getBlockEntity(pos) instanceof ColliderCoilBlockEntity entity)
+                entity.onMultiblockBreak();
+        }
+        super.onStateReplaced(state, world, pos, newState, moved);
+    }
+
+    @Override
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+        if (world.getBlockEntity(pos) instanceof ColliderCoilBlockEntity coil && coil.hasBoundController()) {
+            BlockEntity sourceEntity = world.getBlockEntity(sourcePos);
+            if (
+                    sourceEntity instanceof ColliderCoilBlockEntity sourceCoil && !sourceCoil.hasBoundController() ||
+                    sourceEntity instanceof ColliderControllerBlockEntity sourceController && !sourceController.hasBoundCoils()
+            )
+                coil.onMultiblockBreak();
+        }
+        super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
     }
 }
