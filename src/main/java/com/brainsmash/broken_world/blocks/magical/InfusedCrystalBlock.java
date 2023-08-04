@@ -1,15 +1,21 @@
 package com.brainsmash.broken_world.blocks.magical;
 
 import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
+import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import static com.brainsmash.broken_world.Main.MODID;
 
 public class InfusedCrystalBlock extends BlockWithEntity {
     public InfusedCrystalBlock(Settings settings) {
@@ -28,8 +34,10 @@ public class InfusedCrystalBlock extends BlockWithEntity {
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return (world1, pos, state1, blockEntity) -> ((InfusedCrystalBlockEntity) blockEntity).tick(world1, pos, state1,
-                (InfusedCrystalBlockEntity) blockEntity);
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (!world.isClient) {
+            MultiblockUtil.tryAssemble(world, new Identifier(MODID, "mana_generator"), pos, new BlockPos(1, 1, 1));
+        }
+        return super.onUse(state, world, pos, player, hand, hit);
     }
 }

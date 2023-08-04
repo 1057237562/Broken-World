@@ -1,5 +1,7 @@
 package com.brainsmash.broken_world;
 
+import com.brainsmash.broken_world.blocks.multiblock.MultiblockResourceReloadListener;
+import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
@@ -16,10 +18,12 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.tag.BiomeTags;
@@ -149,6 +153,8 @@ public class Main implements ModInitializer {
         TreeRegister.registTrees();
         PointOfInterestRegister.registerPlacesOfInterest();
 
+        MultiblockUtil.registMultiblock();
+
         AdvancedFurnaceRecipe.registAdvancedFurnaceRecipe();
         CrusherRecipe.registCrusherRecipes();
         SifterRecipe.registSifterRecipes();
@@ -165,6 +171,9 @@ public class Main implements ModInitializer {
         ColliderRecipe.register();
 
         GasRegister.register();
+
+        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(
+                new MultiblockResourceReloadListener());
 
         OreTypeRegistry.RegistOreType();
 
