@@ -1,7 +1,6 @@
 package com.brainsmash.broken_world.blocks.multiblock;
 
 import com.brainsmash.broken_world.blocks.multiblock.util.MultiblockComponent;
-import com.brainsmash.broken_world.registry.BlockRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,7 +21,7 @@ public class MultiblockEntity extends DummyBlockEntity implements BlockEntityTic
     private MultiblockComponent component;
 
     public MultiblockEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.MULTIBLOCK_ENTITY_TYPE, pos, state);
+        super(MultiblockUtil.MULTIBLOCK_ENTITY_TYPE, pos, state);
     }
 
     public Vec3i getMultiblockSize() {

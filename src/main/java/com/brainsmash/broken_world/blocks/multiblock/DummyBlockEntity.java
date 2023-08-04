@@ -1,6 +1,5 @@
 package com.brainsmash.broken_world.blocks.multiblock;
 
-import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.util.SerializationHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -26,7 +25,7 @@ public class DummyBlockEntity extends BlockEntity {
     }
 
     public DummyBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.DUMMY_ENTITY_TYPE, pos, state);
+        super(MultiblockUtil.DUMMY_ENTITY_TYPE, pos, state);
     }
 
     @Override
