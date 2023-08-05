@@ -603,8 +603,6 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(ColliderControllerBlockEntity::new, get(BlockRegistry.COLLIDER_CONTROLLER)).build());
         COLLIDER_COIL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "collider_coil"),
                 FabricBlockEntityTypeBuilder.create(ColliderCoilBlockEntity::new, get(BlockRegistry.COLLIDER_COIL)).build());
-
-        MultiblockUtil.registerMultiblock(new Identifier(MODID, "mana_generator"), ManaGeneratorMultiblock::new);
     }
 
     public static void registBlocksClientSide() {
