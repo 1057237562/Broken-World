@@ -5,7 +5,6 @@ import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.*;
-import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
 import com.brainsmash.broken_world.screenhandlers.descriptions.*;
 import com.brainsmash.broken_world.util.BonusHelper;
@@ -140,7 +139,6 @@ public class Main implements ModInitializer {
     @Override
     public void onInitialize() {
         BlockRegister.registBlocks();
-        BlockRegister.registMultiBlock();
         ItemRegister.registItem();
         FluidRegister.registFluid();
         DimensionRegister.registDimension();

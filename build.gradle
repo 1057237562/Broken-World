@@ -22,9 +22,6 @@ repositories {
         url = "https://maven.kyrptonaught.dev"
     }
     maven {
-        url 'https://maven.jamalam.tech/releases'
-    }
-    maven {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
     }
@@ -53,7 +50,6 @@ dependencies {
     modImplementation "dev.emi:trinkets:3.4.1"
     modImplementation "alexiil.mc.lib:libnetworkstack-base:0.7.0"
     modImplementation "alexiil.mc.lib:libblockattributes-all:0.11.0"
-    modImplementation 'io.github.jamalam360:multiblocklib:0.2.0'
 
 //    modImplementation 'net.kyrptonaught:customportalapi:0.0.1-beta57-1.19'
 //    include 'net.kyrptonaught:customportalapi:0.0.1-beta57-1.19'

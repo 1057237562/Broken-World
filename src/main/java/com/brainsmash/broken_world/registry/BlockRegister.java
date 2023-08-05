@@ -22,7 +22,6 @@ import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
-import com.brainsmash.broken_world.blocks.multiblock.ColliderMultiBlock;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -664,10 +663,6 @@ public class BlockRegister {
                         pos) : FoliageColors.getDefaultColor(), blocks[BlockRegistry.RUBBER_LEAVES.ordinal()]);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(),
                 blockitems[BlockRegistry.RUBBER_LEAVES.ordinal()]);
-    }
-
-    public static void registMultiBlock() {
-        ColliderMultiBlock.register();
     }
 
     public static Block get(BlockRegistry block) {
