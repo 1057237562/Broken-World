@@ -111,7 +111,7 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
 
     public void chargeUseItem(ItemStack itemStack) {
         if (!itemStack.isEmpty() && itemStack.getItem() instanceof BatteryItem batteryItem) {
-            setEnergy(getEnergy() + batteryItem.discharge(itemStack,
+            setEnergy(getEnergy() + batteryItem.discharge(
                     Math.min(getMaxCapacity() - getEnergy(), getMaxFlow())));
         }
     }

@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.items.electrical;
 
+import com.brainsmash.broken_world.util.ItemHelper;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,25 +13,50 @@ import java.util.List;
 
 public class BatteryItem extends Item {
 
-    public int energy = 0;
+    protected int energy = 0;
+    protected final int maxEnergy;
     public boolean rechargeable;
 
-    public BatteryItem(Settings settings, boolean rechargeable) {
+    public BatteryItem(Settings settings, int maxEnergy, boolean rechargeable) {
         super(settings);
+        this.maxEnergy = maxEnergy;
         this.rechargeable = rechargeable;
     }
 
-    public int charge(ItemStack itemStack, int amount) {
+    public int getEnergy() {
+        return energy;
+    }
+
+    public int getMaxEnergy() {
+        return maxEnergy;
+    }
+
+    public int charge(int amount) {
         if (!rechargeable) return 0;
-        int value = Math.min(itemStack.getDamage(), amount);
-        itemStack.setDamage(itemStack.getDamage() - value);
+        int value = Math.min(maxEnergy - energy, amount);
+        energy += value;
         return value;
     }
 
-    public int discharge(ItemStack itemStack, int amount) {
-        int value = Math.min(itemStack.getMaxDamage() - itemStack.getDamage(), amount);
-        itemStack.setDamage(itemStack.getDamage() + value);
+    public int discharge(int amount) {
+        int value = Math.min(energy, amount);
+        energy -= value;
         return value;
+    }
+
+    @Override
+    public boolean isItemBarVisible(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public int getItemBarStep(ItemStack stack) {
+        return ItemHelper.calculateItemBarStep(energy, maxEnergy);
+    }
+
+    @Override
+    public int getItemBarColor(ItemStack stack) {
+        return ItemHelper.calculateItemBarColor(energy, maxEnergy);
     }
 
     @Override
