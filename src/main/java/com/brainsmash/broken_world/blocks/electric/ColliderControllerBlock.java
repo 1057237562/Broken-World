@@ -3,10 +3,6 @@ package com.brainsmash.broken_world.blocks.electric;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.ColliderCoilBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.ColliderControllerBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.CrusherBlockEntity;
-import com.brainsmash.broken_world.blocks.multiblock.ColliderMultiBlock;
-import io.github.jamalam360.multiblocklib.api.Multiblock;
-import io.github.jamalam360.multiblocklib.api.MultiblockLib;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -17,11 +13,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 public class ColliderControllerBlock extends ConsumerBlock {
     public ColliderControllerBlock(Settings settings) {
