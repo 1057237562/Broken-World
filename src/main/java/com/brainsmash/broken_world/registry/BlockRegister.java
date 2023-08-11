@@ -384,7 +384,9 @@ public class BlockRegister {
             "sulfur_ore",
             "aluminum_ore",
             "battery",
-            "lead_ore"
+            "lead_ore",
+            "collider_controller",
+            "collider_coil"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
