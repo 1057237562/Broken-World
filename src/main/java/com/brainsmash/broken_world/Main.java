@@ -1,11 +1,12 @@
 package com.brainsmash.broken_world;
 
+import com.brainsmash.broken_world.blocks.multiblock.MultiblockResourceReloadListener;
+import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.*;
-import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
 import com.brainsmash.broken_world.screenhandlers.descriptions.*;
 import com.brainsmash.broken_world.util.BonusHelper;
@@ -16,10 +17,12 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.tag.BiomeTags;
@@ -118,6 +121,11 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "electrolyzer"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ElectrolyzerGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
+    public static final ScreenHandlerType<ColliderControllerGuiDescription> COLLIDER_CONTROLLER_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "collider_controller"), new ScreenHandlerType<>(
+                    ((syncId, playerInventory) -> new ColliderControllerGuiDescription(syncId, playerInventory,
+                            ScreenHandlerContext.EMPTY))));
+
 
     public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
@@ -135,7 +143,6 @@ public class Main implements ModInitializer {
     @Override
     public void onInitialize() {
         BlockRegister.registBlocks();
-        BlockRegister.registMultiBlock();
         ItemRegister.registItem();
         FluidRegister.registFluid();
         DimensionRegister.registDimension();
@@ -143,6 +150,8 @@ public class Main implements ModInitializer {
         EntityRegister.registSpawnRegistration();
         TreeRegister.registTrees();
         PointOfInterestRegister.registerPlacesOfInterest();
+
+        MultiblockUtil.registMultiblock();
 
         AdvancedFurnaceRecipe.registAdvancedFurnaceRecipe();
         CrusherRecipe.registCrusherRecipes();
@@ -160,6 +169,9 @@ public class Main implements ModInitializer {
         ColliderRecipe.register();
 
         GasRegister.register();
+
+        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(
+                new MultiblockResourceReloadListener());
 
         OreTypeRegistry.RegistOreType();
 

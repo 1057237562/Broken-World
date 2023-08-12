@@ -17,7 +17,6 @@ public class ManaContainerEntity extends BlockEntity implements BlockEntityTicke
 
     public ManaContainerEntity(BlockEntityType<? extends ManaContainerEntity> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
-        link = pos;
     }
 
     @Override

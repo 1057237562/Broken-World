@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world;
 
+import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
@@ -65,6 +66,7 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.WEAPONRY_GUI_DESCRIPTION, WeaponryScreen::new);
         HandledScreens.register(Main.REACTION_KETTLE_GUI_DESCRIPTION, ReactionKettleScreen::new);
         HandledScreens.register(Main.ELECTROLYZER_GUI_DESCRIPTION, ElectrolyzerScreen::new);
+        HandledScreens.register(Main.COLLIDER_CONTROLLER_GUI_DESCRIPTION, ColliderControllerScreen::new);
 
         HandledScreens.register(Main.ROOKIE_WAND_SCREEN_HANDLER, WandScreen::new);
         HandledScreens.register(Main.EXPERT_WAND_SCREEN_HANDLER, WandScreen::new);
@@ -75,6 +77,8 @@ public class Client implements ClientModInitializer {
         BlockRegister.registBlocksClientSide();
         EntityRegister.registEntitiesClientSide();
         ItemRegister.registItemClientSide();
+
+        MultiblockUtil.registMultiblockClientSide();
 
         FluidRegister.RegistFluidClientSide();
 

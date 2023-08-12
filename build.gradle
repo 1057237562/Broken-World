@@ -22,9 +22,6 @@ repositories {
         url = "https://maven.kyrptonaught.dev"
     }
     maven {
-        url 'https://maven.jamalam.tech/releases'
-    }
-    maven {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
     }

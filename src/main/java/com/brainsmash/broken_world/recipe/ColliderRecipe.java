@@ -53,11 +53,11 @@ public record ColliderRecipe(Ingredient a, Ingredient b, int amountA, int amount
     public static class Serializer implements RecipeSerializer<ColliderRecipe> {
         private Serializer() {}
         public static final Serializer INSTANCE = new Serializer();
-        public static final Identifier ID = new Identifier(Main.MODID, "collider_recipe_serializer");
+        public static final Identifier ID = new Identifier(Main.MODID, "colliding");
 
         @Override
         public ColliderRecipe read(Identifier id, JsonObject json) {
-            int amount = json.get("amount").getAsInt();
+            int amount = json.get("amount_output").getAsInt();
             if (amount <= 0)
                 throw new JsonSyntaxException("Collider recipe output amount must be positive");
             return new ColliderRecipe(

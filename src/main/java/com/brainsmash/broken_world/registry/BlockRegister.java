@@ -22,8 +22,6 @@ import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
-import com.brainsmash.broken_world.blocks.multiblock.ColliderMultiBlock;
-import com.brainsmash.broken_world.blocks.multiblock.ManaGeneratorMultiBlock;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -99,7 +97,7 @@ public class BlockRegister {
             new TeleporterFrameBlock(
                     FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
                             10f)),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
                     0.4375, false, 8),
             new CreativeBatteryBlock(
                     FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f,
@@ -179,15 +177,15 @@ public class BlockRegister {
             new ExtractorBlock(STANDARD_BLOCK),
             new WeaponryBlock(STANDARD_BLOCK),
             new WoodenPipeBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD).nonOpaque()),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
                     0.375, false, 16),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
                     0.25, false, 32),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
                     0.4375f, true, 8),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
                     0.375f, true, 16),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f),
+            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
                     0.25f, true, 32),
             // 80
             new UVBlock(STANDARD_BLOCK),
@@ -447,8 +445,8 @@ public class BlockRegister {
                     Arrays.asList(CountPlacementModifier.of(10), SquarePlacementModifier.of(),
                             HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.fixed(64)))),
             new PlacedFeature(RegistryEntry.of(configuredFeatures[9]),
-                    Arrays.asList(CountPlacementModifier.of(10), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.fixed(8), YOffset.fixed(64)))),
+                    Arrays.asList(CountPlacementModifier.of(8), SquarePlacementModifier.of(),
+                            HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.fixed(64)))),
             new PlacedFeature(RegistryEntry.of(configuredFeatures[10]),
                     Arrays.asList(CountPlacementModifier.of(6), SquarePlacementModifier.of(),
                             HeightRangePlacementModifier.uniform(YOffset.fixed(8), YOffset.fixed(64)))),
@@ -602,6 +600,14 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(RefineryBlockEntity::new, blocks[83]).build());
         BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "battery"),
                 FabricBlockEntityTypeBuilder.create(BatteryBlockEntity::new, blocks[87]).build());
+        COLLIDER_CONTROLLER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "collider_controller"),
+                FabricBlockEntityTypeBuilder.create(ColliderControllerBlockEntity::new,
+                        get(BlockRegistry.COLLIDER_CONTROLLER)).build());
+        COLLIDER_COIL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "collider_coil"),
+                FabricBlockEntityTypeBuilder.create(ColliderCoilBlockEntity::new,
+                        get(BlockRegistry.COLLIDER_COIL)).build());
     }
 
     public static void registBlocksClientSide() {
@@ -661,11 +667,6 @@ public class BlockRegister {
                         pos) : FoliageColors.getDefaultColor(), blocks[BlockRegistry.RUBBER_LEAVES.ordinal()]);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(),
                 blockitems[BlockRegistry.RUBBER_LEAVES.ordinal()]);
-    }
-
-    public static void registMultiBlock() {
-        ColliderMultiBlock.register();
-        ManaGeneratorMultiBlock.register();
     }
 
     public static Block get(BlockRegistry block) {
