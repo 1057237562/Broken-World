@@ -2,8 +2,10 @@ package com.brainsmash.broken_world.items.electrical;
 
 import com.brainsmash.broken_world.util.ItemHelper;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -11,9 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BatteryItem extends Item {
-
-    protected int energy = 0;
+public class BatteryItem extends Item implements EnergyItem {
     protected final int maxEnergy;
     public boolean rechargeable;
 
@@ -23,26 +23,7 @@ public class BatteryItem extends Item {
         this.rechargeable = rechargeable;
     }
 
-    public int getEnergy() {
-        return energy;
-    }
 
-    public int getMaxEnergy() {
-        return maxEnergy;
-    }
-
-    public int charge(int amount) {
-        if (!rechargeable) return 0;
-        int value = Math.min(maxEnergy - energy, amount);
-        energy += value;
-        return value;
-    }
-
-    public int discharge(int amount) {
-        int value = Math.min(energy, amount);
-        energy -= value;
-        return value;
-    }
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
@@ -51,17 +32,25 @@ public class BatteryItem extends Item {
 
     @Override
     public int getItemBarStep(ItemStack stack) {
-        return ItemHelper.calculateItemBarStep(energy, maxEnergy);
+        return ItemHelper.calculateItemBarStep(getEnergy(stack), maxEnergy);
     }
 
     @Override
     public int getItemBarColor(ItemStack stack) {
-        return ItemHelper.calculateItemBarColor(energy, maxEnergy);
+        return ItemHelper.calculateItemBarColor(getEnergy(stack), maxEnergy);
     }
 
     @Override
     public boolean isDamageable() {
         return true;
+    }
+
+    @Override
+    public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+        super.onCraft(stack, world, player);
+        NbtCompound batteryNbt = new NbtCompound();
+        batteryNbt.putInt(ENERGY_KEY, 0);
+        batteryNbt.putInt(MAX_ENERGY_KEY, maxEnergy);
     }
 
     @Override

@@ -98,7 +98,7 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
             increaseEnergy(deltaFlow);
             EnergyManager.processTick(this);
             if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof BatteryItem batteryItem) {
-                setEnergy(getEnergy() - batteryItem.charge(Math.min(getEnergy(), getMaxFlow())));
+                setEnergy(getEnergy() - batteryItem.charge(inventory.get(0), Math.min(getEnergy(), getMaxFlow())));
             }
         }
     }
