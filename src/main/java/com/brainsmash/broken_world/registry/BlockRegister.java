@@ -20,7 +20,6 @@ import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
 import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
 import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
-import com.brainsmash.broken_world.blocks.magical.multiblock.ManaGeneratorMultiblock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
@@ -385,7 +384,9 @@ public class BlockRegister {
             "sulfur_ore",
             "aluminum_ore",
             "battery",
-            "lead_ore"
+            "lead_ore",
+            "collider_controller",
+            "collider_coil"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -444,8 +445,8 @@ public class BlockRegister {
                     Arrays.asList(CountPlacementModifier.of(10), SquarePlacementModifier.of(),
                             HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.fixed(64)))),
             new PlacedFeature(RegistryEntry.of(configuredFeatures[9]),
-                    Arrays.asList(CountPlacementModifier.of(10), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.fixed(8), YOffset.fixed(64)))),
+                    Arrays.asList(CountPlacementModifier.of(8), SquarePlacementModifier.of(),
+                            HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.fixed(64)))),
             new PlacedFeature(RegistryEntry.of(configuredFeatures[10]),
                     Arrays.asList(CountPlacementModifier.of(6), SquarePlacementModifier.of(),
                             HeightRangePlacementModifier.uniform(YOffset.fixed(8), YOffset.fixed(64)))),
@@ -599,10 +600,14 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(RefineryBlockEntity::new, blocks[83]).build());
         BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "battery"),
                 FabricBlockEntityTypeBuilder.create(BatteryBlockEntity::new, blocks[87]).build());
-        COLLIDER_CONTROLLER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "collider_controller"),
-                FabricBlockEntityTypeBuilder.create(ColliderControllerBlockEntity::new, get(BlockRegistry.COLLIDER_CONTROLLER)).build());
-        COLLIDER_COIL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "collider_coil"),
-                FabricBlockEntityTypeBuilder.create(ColliderCoilBlockEntity::new, get(BlockRegistry.COLLIDER_COIL)).build());
+        COLLIDER_CONTROLLER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "collider_controller"),
+                FabricBlockEntityTypeBuilder.create(ColliderControllerBlockEntity::new,
+                        get(BlockRegistry.COLLIDER_CONTROLLER)).build());
+        COLLIDER_COIL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "collider_coil"),
+                FabricBlockEntityTypeBuilder.create(ColliderCoilBlockEntity::new,
+                        get(BlockRegistry.COLLIDER_COIL)).build());
     }
 
     public static void registBlocksClientSide() {
