@@ -42,7 +42,8 @@ public class MultiblockEntity extends DummyBlockEntity implements BlockEntityTic
 
     public void setType(Identifier type) {
         this.type = type;
-        component = MultiblockUtil.providerMap.get(type).get(world, pos);
+        if (MultiblockUtil.providerMap.containsKey(type))
+            component = MultiblockUtil.providerMap.get(type).get(world, pos);
     }
 
     @Override
