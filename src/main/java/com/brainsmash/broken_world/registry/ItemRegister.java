@@ -132,6 +132,7 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), true),
+            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), 50),
     };
 
     public static final String[] itemnames = {
@@ -206,7 +207,8 @@ public class ItemRegister {
             "raw_aluminum",
             "aluminum_ingot",
             "lead_ingot",
-            "la_battery"
+            "la_battery",
+            "rpk_37"
     };
 
     public static final Item[] guns = {
@@ -214,7 +216,8 @@ public class ItemRegister {
             items[ItemRegistry.SMG.ordinal()],
             items[ItemRegistry.MK144.ordinal()],
             items[ItemRegistry.HASS_03.ordinal()],
-            items[ItemRegistry.QS_093.ordinal()]
+            items[ItemRegistry.QS_093.ordinal()],
+            items[ItemRegistry.RPK_37.ordinal()],
     };
 
     public static final String[] tools = {

@@ -25,6 +25,11 @@ public class Rifle extends GunItem implements CustomUsePoseItem {
         maxMagazine = 30;
     }
 
+    public Rifle(Settings settings, int maxMagazine) {
+        super(settings);
+        this.maxMagazine = maxMagazine;
+    }
+
     @Override
     public int getMaxUseTime(ItemStack stack) {
         return 72000;
