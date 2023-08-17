@@ -19,6 +19,7 @@ public class DummyBlockEntity extends BlockEntity {
     protected BlockEntity imitateBlockEntity;
     protected NbtCompound imitateNbt;
     protected BlockPos link;
+    public boolean visible = true;
 
     public DummyBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -33,6 +34,7 @@ public class DummyBlockEntity extends BlockEntity {
         nbt.put("blockState", SerializationHelper.saveBlockState(imitateBlock));
         nbt.put("blockNbt", imitateNbt);
         nbt.putLong("link", link.asLong());
+        nbt.putBoolean("visible", visible);
         super.writeNbt(nbt);
     }
 
@@ -42,6 +44,7 @@ public class DummyBlockEntity extends BlockEntity {
         BlockState blockState = SerializationHelper.loadBlockState(nbt.getCompound("blockState"));
         setImitateBlock(blockState, nbt.getCompound("blockNbt"));
         link = BlockPos.fromLong(nbt.getLong("link"));
+        visible = nbt.getBoolean("visible");
     }
 
     public void setImitateBlock(BlockState blockState, NbtCompound nbtCompound) {

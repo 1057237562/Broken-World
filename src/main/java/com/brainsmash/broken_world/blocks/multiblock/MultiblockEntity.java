@@ -40,6 +40,10 @@ public class MultiblockEntity extends DummyBlockEntity implements BlockEntityTic
         this.anchor = anchor;
     }
 
+    public MultiblockComponent getComponent() {
+        return component;
+    }
+
     public void setType(Identifier type) {
         this.type = type;
         if (MultiblockUtil.providerMap.containsKey(type))

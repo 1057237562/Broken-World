@@ -20,6 +20,10 @@ public class MultiblockEntityRenderer implements BlockEntityRenderer<MultiblockE
 
     @Override
     public void render(MultiblockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        if (entity.getComponent() != null && entity.getComponent().hasCustomModel()) {
+            entity.getComponent().render(entity, tickDelta, matrices, vertexConsumers, light, overlay);
+            return;
+        }
         blockRenderManager.renderBlock(entity.imitateBlock, entity.getPos(), entity.getWorld(), matrices,
                 vertexConsumers.getBuffer(RenderLayer.getCutout()), false, entity.getWorld().getRandom());
         if (entity.imitateBlockEntity != null) {

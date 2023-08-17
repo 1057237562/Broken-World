@@ -69,6 +69,7 @@ public class MultiblockUtil {
     }
 
     private static void convertToDummy(World world, BlockPos pos, Vec3i sz, BlockPos anchor, @Nullable Identifier identifier) {
+        MultiblockProvider provider = providerMap.get(identifier);
         for (int x = 0; x < sz.getX(); x++) {
             for (int y = sz.getY() - 1; y >= 0; y--) {
                 for (int z = 0; z < sz.getZ(); z++) {
@@ -94,9 +95,10 @@ public class MultiblockUtil {
                             mbe.setType(identifier);
                         }
                     } else world.setBlockState(p, dummy.getDefaultState());
-                    ((DummyBlockEntity) world.getBlockEntity(p)).setImitateBlock(
-                            SerializationHelper.loadBlockState(originalBlock), nbt);
-                    ((DummyBlockEntity) world.getBlockEntity(p)).setLink(pos.add(anchor)); // Slave
+                    DummyBlockEntity dummy = (DummyBlockEntity) world.getBlockEntity(p);
+                    dummy.setImitateBlock(SerializationHelper.loadBlockState(originalBlock), nbt);
+                    dummy.setLink(pos.add(anchor)); // Slave
+                    dummy.visible = !(provider != null && provider.get(world, pos.add(anchor)).hasCustomModel());
                 }
             }
         }
