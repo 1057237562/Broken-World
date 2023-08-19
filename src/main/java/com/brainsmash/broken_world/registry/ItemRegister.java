@@ -133,6 +133,7 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), true),
             new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), 50),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -208,7 +209,8 @@ public class ItemRegister {
             "aluminum_ingot",
             "lead_ingot",
             "la_battery",
-            "rpk_37"
+            "rpk_37",
+            "pestle"
     };
 
     public static final Item[] guns = {
@@ -261,5 +263,9 @@ public class ItemRegister {
                 return entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0f : 0.0f;
             });
         }
+    }
+
+    public static Item get(ItemRegistry item) {
+        return items[item.ordinal()];
     }
 }

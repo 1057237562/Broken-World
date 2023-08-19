@@ -8,6 +8,7 @@ import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
+import com.brainsmash.broken_world.blocks.magical.MortarBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.items.magical.Wand;
@@ -48,6 +49,9 @@ public class ModelGenerator extends FabricModelProvider {
                 continue;
             }
             if (BlockRegister.blocks[i] instanceof InfusedCrystalBlock) {
+                continue;
+            }
+            if (BlockRegister.blocks[i] instanceof MortarBlock) {
                 continue;
             }
             if (BlockRegister.blocks[i] instanceof DoorBlock) {

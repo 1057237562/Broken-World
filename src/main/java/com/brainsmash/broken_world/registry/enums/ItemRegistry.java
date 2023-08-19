@@ -73,5 +73,6 @@ public enum ItemRegistry {
     ALUMINUM_INGOT,
     LEAD_INGOT,
     LA_BATTERY,
-    RPK_37
+    RPK_37,
+    PESTLE
 }

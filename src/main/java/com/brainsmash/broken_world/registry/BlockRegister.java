@@ -18,8 +18,10 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEnti
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
 import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.MortarBlockEntity;
 import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
+import com.brainsmash.broken_world.blocks.magical.MortarBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
@@ -55,7 +57,6 @@ import static com.brainsmash.broken_world.Main.MODID;
 import static com.brainsmash.broken_world.registry.ItemRegister.ITEM_GROUP;
 
 public class BlockRegister {
-
     private static final AbstractBlock.Settings STANDARD_BLOCK = FabricBlockSettings.of(Material.METAL).sounds(
             BlockSoundGroup.METAL).strength(3.0f, 3.0f);
 
@@ -200,6 +201,7 @@ public class BlockRegister {
             new ColliderControllerBlock(STANDARD_BLOCK),
             // 90
             new ColliderCoilBlock(STANDARD_BLOCK),
+            new MortarBlock(STANDARD_BLOCK)
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -293,6 +295,7 @@ public class BlockRegister {
             new BlockItem(blocks[88], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[89], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[90], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[91], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -386,7 +389,8 @@ public class BlockRegister {
             "battery",
             "lead_ore",
             "collider_controller",
-            "collider_coil"
+            "collider_coil",
+            "mortar"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -505,6 +509,7 @@ public class BlockRegister {
     public static BlockEntityType<RefineryBlockEntity> REFINERY_ENTITY_TYPE;
     public static BlockEntityType<ColliderControllerBlockEntity> COLLIDER_CONTROLLER_ENTITY_TYPE;
     public static BlockEntityType<ColliderCoilBlockEntity> COLLIDER_COIL_ENTITY_TYPE;
+    public static BlockEntityType<MortarBlockEntity> MORTAR_ENTITY_TYPE;
 
     public static void registBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -608,6 +613,8 @@ public class BlockRegister {
                 new Identifier(MODID, "collider_coil"),
                 FabricBlockEntityTypeBuilder.create(ColliderCoilBlockEntity::new,
                         get(BlockRegistry.COLLIDER_COIL)).build());
+        MORTAR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "mortar"),
+                FabricBlockEntityTypeBuilder.create(MortarBlockEntity::new, blocks[91]).build());
     }
 
     public static void registBlocksClientSide() {
