@@ -1,6 +1,8 @@
 package com.brainsmash.broken_world.blocks.entity.magical;
 
+import com.brainsmash.broken_world.recipe.GrindRecipe;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,6 +14,7 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
 public class MortarBlockEntity extends BlockEntity {
@@ -29,7 +32,11 @@ public class MortarBlockEntity extends BlockEntity {
         if (world instanceof ServerWorld serverWorld) {
             grindTime++;
             if (grindTime >= MAX_GRIND_TIME) {
-                outputItem = new ItemStack(grindItem.getItem(), grindItem.getCount() + 1);
+                if (outputItem.isEmpty()) outputItem = GrindRecipe.GRINDING_RECIPES.get(grindItem.getItem()).copy();
+                else if (outputItem.isOf(GrindRecipe.GRINDING_RECIPES.get(grindItem.getItem()).getItem()))
+                    outputItem.increment(GrindRecipe.GRINDING_RECIPES.get(grindItem.getItem()).getCount());
+                else EntityHelper.spawnItem(world, GrindRecipe.GRINDING_RECIPES.get(grindItem.getItem()).copy(), 1,
+                            Direction.UP, pos);
                 grindItem.decrement(1);
                 grindTime = 0;
             }
@@ -48,6 +55,10 @@ public class MortarBlockEntity extends BlockEntity {
 
     public ItemStack getGrindItem() {
         return grindItem;
+    }
+
+    public ItemStack getOutputItem() {
+        return outputItem;
     }
 
     public ItemStack takeGrindItem() {

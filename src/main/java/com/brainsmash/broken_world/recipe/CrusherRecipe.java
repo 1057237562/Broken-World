@@ -18,7 +18,7 @@ public class CrusherRecipe {
 
     public static Map<Item, List<Pair<Float, Item>>> recipes = new ConcurrentHashMap<>();
 
-    public static void registCrusherRecipes() {
+    public static void registerCrusherRecipes() {
         recipes.put(Blocks.STONE.asItem(),
                 Arrays.asList(new Pair<>(0.08f, Items.RAW_IRON), new Pair<>(0.30f, Items.GRAVEL),
                         new Pair<>(0.02f, Items.RAW_GOLD), new Pair<>(0.15f, Items.RAW_COPPER),

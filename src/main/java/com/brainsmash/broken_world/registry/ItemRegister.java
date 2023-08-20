@@ -134,6 +134,7 @@ public class ItemRegister {
             new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), true),
             new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), 50),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP))
     };
 
     public static final String[] itemnames = {
@@ -210,7 +211,8 @@ public class ItemRegister {
             "lead_ingot",
             "la_battery",
             "rpk_37",
-            "pestle"
+            "pestle",
+            "amethyst_powder"
     };
 
     public static final Item[] guns = {
@@ -229,7 +231,7 @@ public class ItemRegister {
 
     public static final ArrayList<Item> toolsItem = new ArrayList<>();
 
-    public static void registItem() {
+    public static void registerItem() {
         for (int i = 0; i < tools.length; i++) {
             String materialName = tools[i];
             ToolMaterial material = ToolRegistry.values()[i];

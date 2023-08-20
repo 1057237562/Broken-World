@@ -35,7 +35,7 @@ public class RefineryRecipe {
         }
     }
 
-    public static void registRefineryRecipes() {
+    public static void registerRefineryRecipes() {
         registRefineryRecipe(new ItemStack(ItemRegister.items[ItemRegistry.OXYGEN_TANK.ordinal()]),
                 new ItemStack(Items.IRON_INGOT), new ItemStack(ItemRegister.items[ItemRegistry.STEEL_INGOT.ordinal()]));
         registRefineryRecipe(new ItemStack(ItemRegister.items[ItemRegistry.TIN_INGOT.ordinal()]),

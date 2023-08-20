@@ -13,7 +13,7 @@ public class CompressorRecipe {
     public static Map<Item, ItemStack> recipes = new ConcurrentHashMap<>();
     public static Map<Item, Integer> counts = new ConcurrentHashMap<>();
 
-    public static void registCompressorRecipes() {
+    public static void registerCompressorRecipes() {
         registCompressorRecipe(Items.IRON_INGOT.getDefaultStack(),
                 new ItemStack(ItemRegister.items[ItemRegistry.IRON_PLATE.ordinal()], 2));
         registCompressorRecipe(ItemRegister.items[ItemRegistry.STEEL_INGOT.ordinal()].getDefaultStack(),

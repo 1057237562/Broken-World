@@ -109,7 +109,7 @@ public class MultiblockUtil {
     public static Block dummy;
     public static Block multiblock;
 
-    public static void registMultiblock() {
+    public static void registerMultiblock() {
         dummy = Registry.register(Registry.BLOCK, new Identifier(MODID, "dummy"),
                 new DummyBlock(FabricBlockSettings.of(Material.BARRIER).strength(1.0F, 6.0F).nonOpaque()));
         DUMMY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dummy"),

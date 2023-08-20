@@ -14,7 +14,7 @@ public class GasCollectorRecipe {
 
     public static Map<Item, List<Pair<Float, Item>>> recipes = new ConcurrentHashMap<>();
 
-    public static void registGasCollectorRecipes() {
+    public static void registerGasCollectorRecipes() {
         recipes.put(ItemRegister.items[ItemRegistry.GAS_TANK.ordinal()],
                 Arrays.asList(new Pair<>(1F, ItemRegister.items[ItemRegistry.OXYGEN_TANK.ordinal()])));
     }

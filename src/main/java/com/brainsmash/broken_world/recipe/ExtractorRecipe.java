@@ -14,7 +14,7 @@ public class ExtractorRecipe {
 
     public static Map<Item, List<Pair<Float, Item>>> recipes = new ConcurrentHashMap<>();
 
-    public static void registExtractorRecipes() {
+    public static void registerExtractorRecipes() {
         recipes.put(ItemRegister.items[ItemRegistry.BOWL_OF_LATEX.ordinal()],
                 Arrays.asList(new Pair<>(0.8F, ItemRegister.items[ItemRegistry.RUBBER.ordinal()]),
                         new Pair<>(0.8F, ItemRegister.items[ItemRegistry.RUBBER.ordinal()]),

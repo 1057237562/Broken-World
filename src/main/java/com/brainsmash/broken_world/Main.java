@@ -142,28 +142,29 @@ public class Main implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        BlockRegister.registBlocks();
-        ItemRegister.registItem();
-        FluidRegister.registFluid();
-        DimensionRegister.registDimension();
-        EntityRegister.registEntities();
-        EntityRegister.registSpawnRegistration();
-        TreeRegister.registTrees();
+        BlockRegister.registerBlocks();
+        ItemRegister.registerItem();
+        FluidRegister.registerFluid();
+        DimensionRegister.registerDimension();
+        EntityRegister.registerEntities();
+        EntityRegister.registerSpawnRegistration();
+        TreeRegister.registerTrees();
         PointOfInterestRegister.registerPlacesOfInterest();
 
-        MultiblockUtil.registMultiblock();
+        MultiblockUtil.registerMultiblock();
 
-        AdvancedFurnaceRecipe.registAdvancedFurnaceRecipe();
-        CrusherRecipe.registCrusherRecipes();
-        SifterRecipe.registSifterRecipes();
-        CentrifugeRecipe.registCentrifugeRecipes();
-        AssemblerRecipe.registAssemblerRecipes();
-        CompressorRecipe.registCompressorRecipes();
-        ExtractorRecipe.registExtractorRecipes();
-        GasCollectorRecipe.registGasCollectorRecipes();
-        RefineryRecipe.registRefineryRecipes();
-        ReactionRecipe.registReactionRecipes();
-        ElectrolyzerRecipe.registElectrolyzerRecipes();
+        AdvancedFurnaceRecipe.registerAdvancedFurnaceRecipe();
+        CrusherRecipe.registerCrusherRecipes();
+        SifterRecipe.registerSifterRecipes();
+        CentrifugeRecipe.registerCentrifugeRecipes();
+        AssemblerRecipe.registerAssemblerRecipes();
+        CompressorRecipe.registerCompressorRecipes();
+        ExtractorRecipe.registerExtractorRecipes();
+        GasCollectorRecipe.registerGasCollectorRecipes();
+        RefineryRecipe.registerRefineryRecipes();
+        ReactionRecipe.registerReactionRecipes();
+        ElectrolyzerRecipe.registerElectrolyzerRecipes();
+        GrindRecipe.registerGrindingRecipe();
         FabricatorRecipe.register();
         WeaponryRecipe.register();
         ColliderRecipe.register();
@@ -173,7 +174,7 @@ public class Main implements ModInitializer {
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(
                 new MultiblockResourceReloadListener());
 
-        OreTypeRegistry.RegistOreType();
+        OreTypeRegistry.registerOreType();
 
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "tungsten_ore")));

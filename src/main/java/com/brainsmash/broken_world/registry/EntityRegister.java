@@ -88,7 +88,7 @@ public class EntityRegister {
         EntityModelLayerRegistry.registerModelLayer(MODEL_DRONE_LAYER, DroneEntityModel::getTexturedModelData);
     }
 
-    public static void registEntities() {
+    public static void registerEntities() {
         FabricDefaultAttributeRegistry.register(FISHBONE_ENTITY_ENTITY_TYPE, FishboneEntity.createFishAttributes());
         FabricDefaultAttributeRegistry.register(GLITCHED_ZOMBIE_ENTITY_TYPE,
                 GlitchedZombieEntity.createGlitchedZombieAttributes());
@@ -101,11 +101,16 @@ public class EntityRegister {
         FabricDefaultAttributeRegistry.register(DRONE_ENTITY_TYPE, DroneEntity.createLivingAttributes());
     }
 
-    public static void registSpawnRegistration() {
-        SpawnRestriction.register(APOCALYPTOR_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-        SpawnRestriction.register(WEREWOLF_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-        SpawnRestriction.register(GLITCHED_ZOMBIE_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-        SpawnRestriction.register(GLITCHED_SKELETON_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
-        SpawnRestriction.register(PHOENIX_ENTITY_TYPE, SpawnRestriction.Location.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, PhoenixEntity::canSpawn);
+    public static void registerSpawnRegistration() {
+        SpawnRestriction.register(APOCALYPTOR_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND,
+                Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+        SpawnRestriction.register(WEREWOLF_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND,
+                Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+        SpawnRestriction.register(GLITCHED_ZOMBIE_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND,
+                Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+        SpawnRestriction.register(GLITCHED_SKELETON_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND,
+                Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
+        SpawnRestriction.register(PHOENIX_ENTITY_TYPE, SpawnRestriction.Location.NO_RESTRICTIONS,
+                Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, PhoenixEntity::canSpawn);
     }
 }

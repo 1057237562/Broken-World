@@ -74,5 +74,6 @@ public enum ItemRegistry {
     LEAD_INGOT,
     LA_BATTERY,
     RPK_37,
-    PESTLE
+    PESTLE,
+    AMETHYST_POWDER
 }

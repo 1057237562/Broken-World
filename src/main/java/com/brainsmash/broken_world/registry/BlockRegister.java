@@ -511,7 +511,7 @@ public class BlockRegister {
     public static BlockEntityType<ColliderCoilBlockEntity> COLLIDER_COIL_ENTITY_TYPE;
     public static BlockEntityType<MortarBlockEntity> MORTAR_ENTITY_TYPE;
 
-    public static void registBlocks() {
+    public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
             Registry.register(Registry.BLOCK, new Identifier(MODID, blocknames[i]), blocks[i]);
             Registry.register(Registry.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
