@@ -5,13 +5,19 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
 public class MortarBlockEntity extends BlockEntity {
 
-    private final int MAX_GRIND_TIME = 100;
-    private int grindTime = 0;
+    public final int MAX_GRIND_TIME = 100;
+    public int grindTime = 0;
     private ItemStack grindItem = ItemStack.EMPTY;
     private ItemStack outputItem = ItemStack.EMPTY;
 
@@ -20,16 +26,24 @@ public class MortarBlockEntity extends BlockEntity {
     }
 
     public void grind(PlayerEntity player, Hand hand) {
-        grindTime++;
-        if (grindTime >= MAX_GRIND_TIME) {
-            outputItem = new ItemStack(grindItem.getItem(), grindItem.getCount() + 1);
-            grindItem.decrement(1);
-            grindTime = 0;
+        if (world instanceof ServerWorld serverWorld) {
+            grindTime++;
+            if (grindTime >= MAX_GRIND_TIME) {
+                outputItem = new ItemStack(grindItem.getItem(), grindItem.getCount() + 1);
+                grindItem.decrement(1);
+                grindTime = 0;
+            }
+            markDirty();
+            serverWorld.getChunkManager().markForUpdate(this.getPos());
         }
     }
 
     public void setGrindItem(ItemStack itemStack) {
-        this.grindItem = itemStack;
+        if (world instanceof ServerWorld serverWorld) {
+            this.grindItem = itemStack;
+            markDirty();
+            serverWorld.getChunkManager().markForUpdate(this.getPos());
+        }
     }
 
     public ItemStack getGrindItem() {
@@ -37,14 +51,46 @@ public class MortarBlockEntity extends BlockEntity {
     }
 
     public ItemStack takeGrindItem() {
-        ItemStack itemStack;
-        if (!outputItem.isEmpty()) {
-            itemStack = outputItem;
-            outputItem = ItemStack.EMPTY;
-        } else {
-            itemStack = grindItem;
-            grindItem = ItemStack.EMPTY;
+        if (world instanceof ServerWorld serverWorld) {
+            ItemStack itemStack;
+            if (!outputItem.isEmpty()) {
+                itemStack = outputItem;
+                outputItem = ItemStack.EMPTY;
+            } else {
+                itemStack = grindItem;
+                grindItem = ItemStack.EMPTY;
+            }
+            markDirty();
+            serverWorld.getChunkManager().markForUpdate(this.getPos());
+            return itemStack;
         }
-        return itemStack;
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    protected void writeNbt(NbtCompound nbt) {
+        nbt.put("grindItem", grindItem.writeNbt(new NbtCompound()));
+        nbt.putInt("grindTime", grindTime);
+        super.writeNbt(nbt);
+    }
+
+    @Override
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+        grindItem = ItemStack.fromNbt(nbt.getCompound("grindItem"));
+        grindTime = nbt.getInt("grindTime");
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.create(this);
+    }
+
+    @Override
+    public NbtCompound toInitialChunkDataNbt() {
+        NbtCompound compound = new NbtCompound();
+        writeNbt(compound);
+        return compound;
     }
 }

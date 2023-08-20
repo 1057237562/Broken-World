@@ -35,9 +35,14 @@ public class MortarBlock extends BlockWithEntity {
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         super.onEntityCollision(state, world, pos, entity);
-        if (entity instanceof ItemEntity itemEntity) {
-            if (world.getBlockEntity(pos) instanceof MortarBlockEntity mortarBlockEntity) {
-                mortarBlockEntity.setGrindItem(itemEntity.getStack());
+        if (!world.isClient) {
+            if (entity instanceof ItemEntity itemEntity) {
+                if (world.getBlockEntity(pos) instanceof MortarBlockEntity mortarBlockEntity) {
+                    if (mortarBlockEntity.getGrindItem().isEmpty()) {
+                        mortarBlockEntity.setGrindItem(itemEntity.getStack().copy());
+                        itemEntity.discard();
+                    }
+                }
             }
         }
     }
