@@ -42,6 +42,14 @@ public class MortarBlock extends BlockWithEntity {
                         mortarBlockEntity.setGrindItem(itemEntity.getStack().copy());
                         itemEntity.discard();
                     }
+                    if (mortarBlockEntity.getGrindItem().isOf(itemEntity.getStack().getItem())) {
+                        int increment = Math.min(
+                                mortarBlockEntity.getGrindItem().getMaxCount() - mortarBlockEntity.getGrindItem().getCount(),
+                                itemEntity.getStack().getCount());
+                        mortarBlockEntity.getGrindItem().increment(increment);
+                        itemEntity.getStack().decrement(increment);
+                        if (itemEntity.getStack().isEmpty()) itemEntity.discard();
+                    }
                 }
             }
         }

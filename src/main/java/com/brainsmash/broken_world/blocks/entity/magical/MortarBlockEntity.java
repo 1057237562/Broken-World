@@ -81,6 +81,7 @@ public class MortarBlockEntity extends BlockEntity {
     @Override
     protected void writeNbt(NbtCompound nbt) {
         nbt.put("grindItem", grindItem.writeNbt(new NbtCompound()));
+        nbt.put("outputItem", outputItem.writeNbt(new NbtCompound()));
         nbt.putInt("grindTime", grindTime);
         super.writeNbt(nbt);
     }
@@ -89,6 +90,7 @@ public class MortarBlockEntity extends BlockEntity {
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         grindItem = ItemStack.fromNbt(nbt.getCompound("grindItem"));
+        outputItem = ItemStack.fromNbt(nbt.getCompound("outputItem"));
         grindTime = nbt.getInt("grindTime");
     }
 
