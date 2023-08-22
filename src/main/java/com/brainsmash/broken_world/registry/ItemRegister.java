@@ -131,7 +131,7 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), 1500, true),
+            new BatteryItem(new FabricItemSettings().group(ITEM_GROUP), 1500, true),
     };
 
     public static final String[] itemnames = {
