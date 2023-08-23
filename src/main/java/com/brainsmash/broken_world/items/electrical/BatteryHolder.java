@@ -11,12 +11,17 @@ public interface BatteryHolder {
     String RECHARGEABLE_KEY = BatteryItem.RECHARGEABLE_KEY;
     String BATTERY_KEY = "battery";
     default int getEnergy(ItemStack stack) {
-        return stack.getOrCreateNbt().getCompound(BATTERY_KEY).getInt(ENERGY_KEY);
+        NbtCompound batteryNbt = stack.getOrCreateNbt().getCompound(BATTERY_KEY);
+        return batteryNbt.isEmpty() ? 0 : batteryNbt.getInt(ENERGY_KEY);
     }
 
     default Pair<Integer, Integer> getEnergyPair(ItemStack stack) {
-        NbtCompound batteryNBT = stack.getOrCreateNbt().getCompound(BATTERY_KEY);
-        return new Pair<>(batteryNBT.getInt(ENERGY_KEY), batteryNBT.getInt(MAX_ENERGY_KEY));
+        NbtCompound batteryNbt = stack.getOrCreateNbt().getCompound(BATTERY_KEY);
+        return batteryNbt.isEmpty() ? new Pair<>(0, 0) : new Pair<>(batteryNbt.getInt(ENERGY_KEY), batteryNbt.getInt(MAX_ENERGY_KEY));
+    }
+
+    default boolean hasBattery(ItemStack stack) {
+        return !stack.getOrCreateNbt().getCompound(BATTERY_KEY).isEmpty();
     }
 
     default int discharge(ItemStack stack, int amount) {
@@ -33,7 +38,7 @@ public interface BatteryHolder {
 
     default int addEnergy(ItemStack stack, int amount) {
         NbtCompound batteryNBT = stack.getOrCreateNbt().getCompound(BATTERY_KEY);
-        if (amount > 0 && !batteryNBT.getBoolean(RECHARGEABLE_KEY))
+        if (batteryNBT.isEmpty() || amount > 0 && !batteryNBT.getBoolean(RECHARGEABLE_KEY))
             return 0;
         int e1 = batteryNBT.getInt(ENERGY_KEY);
         int e2 = MathHelper.clamp(e1+amount, 0, batteryNBT.getInt(MAX_ENERGY_KEY));
