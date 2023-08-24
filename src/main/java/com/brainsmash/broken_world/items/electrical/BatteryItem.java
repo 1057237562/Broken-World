@@ -78,6 +78,11 @@ public class BatteryItem extends Item {
         return e2-e1;
     }
 
+    /**
+     * Gets battery NBT for storing the battery in {@link BatteryHolderItem}.
+     * @param stack The stack that has the battery
+     * @return {@link NbtCompound} for storing in BatteryHolderItem.
+     */
     public NbtCompound getBatteryNbt(ItemStack stack) {
         Identifier id = Registry.ITEM.getId(this);
         if (id == null) {
@@ -90,6 +95,18 @@ public class BatteryItem extends Item {
         nbt.putBoolean(RECHARGEABLE_KEY, rechargeable);
         nbt.putString(ID_KEY, id.toString());
         return nbt;
+    }
+
+    /**
+     * Gets a battery item stack from battery NBT, which is used for storing in {@link BatteryHolderItem}.
+     * @param nbt NBT that is used for storing in {@link BatteryHolderItem}
+     * @return {@link ItemStack} that holds a battery.
+     */
+    protected ItemStack getStackFromNbt(NbtCompound nbt) {
+        ItemStack stack = new ItemStack(this);
+        NbtCompound nbtCompound = stack.getOrCreateNbt();
+        nbtCompound.putInt(ENERGY_KEY, nbt.getInt(ENERGY_KEY));
+        return stack;
     }
 
     @Override

@@ -72,6 +72,8 @@ public class ItemHelper {
     }
 
     public static int calculateItemBarStep(int value, int maxValue) {
+        if (maxValue == 0)
+            return 0;
         return Math.round((float)value * 13.0f / (float)maxValue);
     }
 }
