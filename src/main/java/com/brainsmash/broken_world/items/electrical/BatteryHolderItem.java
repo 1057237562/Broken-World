@@ -1,17 +1,24 @@
 package com.brainsmash.broken_world.items.electrical;
 
 import com.brainsmash.broken_world.util.ItemHelper;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.text.Text;
 import net.minecraft.util.ClickType;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class BatteryHolderItem extends Item {
     public static final String ENERGY_KEY = BatteryItem.ENERGY_KEY;
@@ -70,9 +77,13 @@ public class BatteryHolderItem extends Item {
         if (!(stack.getItem() instanceof BatteryHolderItem batteryHolderIte) || !hasBattery(stack))
             return ItemStack.EMPTY;
 
-        NbtCompound batteryNbt = stack.getOrCreateNbt().getCompound(BATTERY_KEY);
+        NbtCompound nbt = stack.getOrCreateNbt();
+        NbtCompound batteryNbt = nbt.getCompound(BATTERY_KEY);
         if (Registry.ITEM.get(new Identifier(batteryNbt.getString(ID_KEY))) instanceof BatteryItem batteryItem) {
-            return batteryItem.getStackFromNbt(batteryNbt);
+            ItemStack result = batteryItem.getStackFromNbt(batteryNbt);
+            if (!result.isEmpty())
+                nbt.remove(BATTERY_KEY);
+            return result;
         }
         return ItemStack.EMPTY;
     }
@@ -91,12 +102,14 @@ public class BatteryHolderItem extends Item {
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
         if (super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference))
             return true;
+        if (clickType != ClickType.RIGHT)
+            return false;
 
         boolean hasBattery = hasBattery(stack);
         if (hasBattery && otherStack.isEmpty()) {
-
+            player.giveItemStack(extractBattery(stack));
         } else if (!hasBattery && otherStack.getItem() instanceof BatteryItem battery) {
-
+            return insertBattery(stack, otherStack);
         }
         return false;
     }
@@ -116,5 +129,18 @@ public class BatteryHolderItem extends Item {
     public int getItemBarColor(ItemStack stack) {
         Pair<Integer, Integer> energyPair = getEnergyPair(stack);
         return ItemHelper.calculateItemBarColor(energyPair.getLeft(), energyPair.getRight());
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+        if (hasBattery(stack)) {
+            Pair<Integer, Integer> pair = getEnergyPair(stack);
+            tooltip.add(
+                    Text.literal(pair.getLeft() + "/" + pair.getRight() + " IU").formatted(
+                            Formatting.GRAY));
+        } else {
+            tooltip.add(Text.translatable("no_battery").formatted(Formatting.GRAY));
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.items.*;
 import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
 import com.brainsmash.broken_world.items.electrical.BatteryItem;
+import com.brainsmash.broken_world.items.electrical.MiningDrillItem;
 import com.brainsmash.broken_world.items.magical.Rune;
 import com.brainsmash.broken_world.items.magical.Wand;
 import com.brainsmash.broken_world.items.magical.enums.RuneEnum;
@@ -132,6 +133,8 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new BatteryItem(new FabricItemSettings().group(ITEM_GROUP), 1500, true),
+            // For testing ONLY, REMOVE before merging into main!
+            new MiningDrillItem(2.0f, 1.0f, ToolMaterials.IRON, new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -206,7 +209,9 @@ public class ItemRegister {
             "raw_aluminum",
             "aluminum_ingot",
             "lead_ingot",
-            "la_battery"
+            "la_battery",
+            // For testing ONLY, REMOVE before merging into main!
+            "mining_drill",
     };
 
     public static final Item[] guns = {

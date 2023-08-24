@@ -67,7 +67,7 @@ public class ItemHelper {
     }
 
     public static int calculateItemBarColor(int value, int maxValue) {
-        float f = Math.max(0.0f, (float)value / (float)maxValue);
+        float f = maxValue == 0 ? 0 : Math.max(0.0f, (float)value / (float)maxValue);
         return MathHelper.hsvToRgb(f / 3.0f, 1.0f, 1.0f);
     }
 
