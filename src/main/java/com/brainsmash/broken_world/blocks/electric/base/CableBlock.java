@@ -69,11 +69,14 @@ public class CableBlock extends BlockWithEntity {
         return new CableBlockEntity(pos, state, maxFlow);
     }
 
+    public static final TagKey<Block> ELECTRICAL_BLOCK_KEY = TagKey.of(Registry.BLOCK_KEY,
+            new Identifier("broken_world:electrical"));
+
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (!world.isClient && !covered) {
             int flow = ((CableBlockEntity) world.getBlockEntity(pos)).currentFlow();
-            if (flow > 0) {
+            if (flow > 0 && entity.isOnGround() && !entity.getSteppingBlockState().isIn(ELECTRICAL_BLOCK_KEY)) {
                 if (entity instanceof CreeperEntity creeper && world.random.nextFloat() < flow / 128f) {
                     NbtCompound nbt = new NbtCompound();
                     creeper.writeCustomDataToNbt(nbt);
@@ -86,7 +89,7 @@ public class CableBlock extends BlockWithEntity {
     }
 
     public boolean canConnect(BlockState state) {
-        return state.isIn(TagKey.of(Registry.BLOCK_KEY, new Identifier("broken_world:electrical")));
+        return state.isIn(ELECTRICAL_BLOCK_KEY);
     }
 
     @Override
