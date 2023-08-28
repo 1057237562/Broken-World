@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world;
 
+import com.brainsmash.broken_world.blocks.magical.CrucibleBehavior;
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockResourceReloadListener;
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
@@ -168,6 +169,8 @@ public class Main implements ModInitializer {
         FabricatorRecipe.register();
         WeaponryRecipe.register();
         ColliderRecipe.register();
+
+        CrucibleBehavior.registerBehaviour();
 
         GasRegister.register();
 

@@ -17,11 +17,12 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
+import com.brainsmash.broken_world.blocks.entity.magical.CrucibleBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.magical.MortarBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.StoneBaseBlockEntity;
 import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
-import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
-import com.brainsmash.broken_world.blocks.magical.MortarBlock;
+import com.brainsmash.broken_world.blocks.magical.*;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
@@ -201,7 +202,10 @@ public class BlockRegister {
             new ColliderControllerBlock(STANDARD_BLOCK),
             // 90
             new ColliderCoilBlock(STANDARD_BLOCK),
-            new MortarBlock(STANDARD_BLOCK)
+            new MortarBlock(STANDARD_BLOCK),
+            new CrucibleBlock(FabricBlockSettings.copyOf(Blocks.CAULDRON).mapColor(MapColor.PURPLE),
+                    CrucibleBehavior.CRUCIBLE_BEHAVIOR),
+            new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE))
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -296,6 +300,8 @@ public class BlockRegister {
             new BlockItem(blocks[89], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[90], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[91], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[92], new FabricItemSettings()),
+            new BlockItem(blocks[93], new FabricItemSettings().group(ITEM_GROUP))
     };
 
     public static final String[] blocknames = {
@@ -390,7 +396,9 @@ public class BlockRegister {
             "lead_ore",
             "collider_controller",
             "collider_coil",
-            "mortar"
+            "mortar",
+            "crucible",
+            "stone_base"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -510,6 +518,8 @@ public class BlockRegister {
     public static BlockEntityType<ColliderControllerBlockEntity> COLLIDER_CONTROLLER_ENTITY_TYPE;
     public static BlockEntityType<ColliderCoilBlockEntity> COLLIDER_COIL_ENTITY_TYPE;
     public static BlockEntityType<MortarBlockEntity> MORTAR_ENTITY_TYPE;
+    public static BlockEntityType<CrucibleBlockEntity> CRUCIBLE_ENTITY_TYPE;
+    public static BlockEntityType<StoneBaseBlockEntity> STONE_BASE_ENTITY_TYPE;
 
     public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -615,6 +625,10 @@ public class BlockRegister {
                         get(BlockRegistry.COLLIDER_COIL)).build());
         MORTAR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "mortar"),
                 FabricBlockEntityTypeBuilder.create(MortarBlockEntity::new, blocks[91]).build());
+        CRUCIBLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "crucible"),
+                FabricBlockEntityTypeBuilder.create(CrucibleBlockEntity::new, blocks[92]).build());
+        STONE_BASE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "stone_base"),
+                FabricBlockEntityTypeBuilder.create(StoneBaseBlockEntity::new, blocks[93]).build());
     }
 
     public static void registBlocksClientSide() {
@@ -665,6 +679,14 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(WEAPONRY_ENTITY_TYPE, WeaponryBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(UV_ENTITY_TYPE, UVBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(MORTAR_ENTITY_TYPE, MortarBlockEnityRenderer::new);
+
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
+            if (world != null && pos != null && world.getBlockEntity(
+                    pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
+                return (int) crucibleBlockEntity.getFluidColor();
+            }
+            return 0x7442FF;
+        }, get(BlockRegistry.CRUCIBLE));
 
         registTreeColor();
     }

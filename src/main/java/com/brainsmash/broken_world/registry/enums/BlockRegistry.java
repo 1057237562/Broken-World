@@ -91,5 +91,8 @@ public enum BlockRegistry {
     BATTERY,
     LEAD_ORE,
     COLLIDER_CONTROLLER,
-    COLLIDER_COIL
+    COLLIDER_COIL,
+    MORTAR,
+    CRUCIBLE,
+    STONE_BASE
 }
