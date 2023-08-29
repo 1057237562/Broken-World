@@ -91,16 +91,35 @@ public class CrucibleBlock extends BlockWithEntity {
                     EntityHelper.spawnItem(world,
                             CrucibleBehavior.BREW.get(itemStack.getItem()).interact(state, world, pos, itemStack), 1,
                             Direction.UP, pos);
+                } else {
+                    if (world.getBlockEntity(pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
+                        itemEntity.setStack(crucibleBlockEntity.insertItem(itemStack));
+                    }
                 }
             }
         }
         super.onEntityCollision(state, world, pos, entity);
     }
 
+    @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack itemStack = player.getStackInHand(hand);
-        CauldronBehavior cauldronBehavior = this.behaviorMap.get(itemStack.getItem());
-        return cauldronBehavior.interact(state, world, pos, player, hand, itemStack);
+        if (!itemStack.isEmpty()) {
+            CauldronBehavior cauldronBehavior = this.behaviorMap.get(itemStack.getItem());
+            return cauldronBehavior.interact(state, world, pos, player, hand, itemStack);
+        } else {
+            if (world.getBlockEntity(pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
+                if (!crucibleBlockEntity.getFirstItem().isEmpty()) {
+                    player.setStackInHand(hand, crucibleBlockEntity.getFirstItem());
+                    crucibleBlockEntity.removeFirstItem();
+                    return ActionResult.SUCCESS;
+                } else {
+                    return ActionResult.PASS;
+                }
+            } else {
+                return ActionResult.PASS;
+            }
+        }
     }
 
     @Override
@@ -125,7 +144,6 @@ public class CrucibleBlock extends BlockWithEntity {
                         createCuboidShape(2.0, 0.0, 2.0, 14.0, 3.0, 14.0), RAYCAST_SHAPE),
                 BooleanBiFunction.ONLY_FIRST);
     }
-
 
 
     @Nullable
