@@ -16,6 +16,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
@@ -42,7 +43,7 @@ public interface CrucibleBehavior {
     static void registerBehaviour() {
         CauldronBehavior.WATER_CAULDRON_BEHAVIOR.put(ItemRegister.get(ItemRegistry.AMETHYST_POWDER),
                 (state, world, pos, player, hand, stack) -> {
-                    if (!world.isClient) {
+                    if (world instanceof ServerWorld serverWorld) {
                         Item item = stack.getItem();
                         stack.decrement(1);
                         player.incrementStat(Stats.FILL_CAULDRON);
@@ -50,6 +51,12 @@ public interface CrucibleBehavior {
                         world.setBlockState(pos,
                                 BlockRegister.get(BlockRegistry.CRUCIBLE).getDefaultState().with(CrucibleBlock.LEVEL,
                                         3));
+                        if (world.getBlockEntity(pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
+                            crucibleBlockEntity.fluidInv.setInvFluid(0,
+                                    FluidKeys.get(Fluids.WATER).withAmount(FluidAmount.BUCKET), Simulation.ACTION);
+                            crucibleBlockEntity.markDirty();
+                            serverWorld.getChunkManager().markForUpdate(pos);
+                        }
                         world.playSound((PlayerEntity) null, pos, SoundEvents.AMBIENT_UNDERWATER_EXIT,
                                 SoundCategory.BLOCKS, 1.0F, 1.0F);
                         world.emitGameEvent((Entity) null, GameEvent.FLUID_PLACE, pos);
@@ -60,21 +67,23 @@ public interface CrucibleBehavior {
         CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.put(Items.POTION, (state, world, pos, player, hand, stack) -> {
             if (PotionUtil.getPotion(stack) != Potions.WATER) {
                 Item item = stack.getItem();
-                player.incrementStat(Stats.USE_CAULDRON);
-                player.incrementStat(Stats.USED.getOrCreateStat(item));
-                world.setBlockState(pos, BlockRegister.get(BlockRegistry.CRUCIBLE).getDefaultState());
-                if (world.getBlockEntity(pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
-                    crucibleBlockEntity.fluidInv.setInvFluid(0,
-                            FluidKeys.get(PotionUtil.getPotion(stack)).withAmount(FluidAmount.BOTTLE),
-                            Simulation.ACTION);
-                    crucibleBlockEntity.markDirty();
-                    if (world instanceof ServerWorld serverWorld) {
+                if (world instanceof ServerWorld serverWorld) {
+                    player.incrementStat(Stats.USE_CAULDRON);
+                    player.incrementStat(Stats.USED.getOrCreateStat(item));
+                    world.setBlockState(pos, BlockRegister.get(BlockRegistry.CRUCIBLE).getDefaultState());
+                    if (world.getBlockEntity(pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
+                        crucibleBlockEntity.fluidInv.setInvFluid(0,
+                                FluidKeys.get(PotionUtil.getPotion(stack)).withAmount(FluidAmount.BOTTLE),
+                                Simulation.ACTION);
+                        crucibleBlockEntity.markDirty();
                         serverWorld.getChunkManager().markForUpdate(pos);
                     }
+                    world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
+                    player.setStackInHand(hand,
+                            ItemUsage.exchangeStack(stack, player, new ItemStack(Items.GLASS_BOTTLE)));
+
                 }
-                world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
-                player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, new ItemStack(Items.GLASS_BOTTLE)));
                 return ActionResult.success(world.isClient);
             } else {
                 if (!world.isClient) {

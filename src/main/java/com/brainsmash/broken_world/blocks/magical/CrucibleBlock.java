@@ -5,11 +5,14 @@ import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.*;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
@@ -110,8 +113,12 @@ public class CrucibleBlock extends BlockWithEntity {
         } else {
             if (world.getBlockEntity(pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
                 if (!crucibleBlockEntity.getFirstItem().isEmpty()) {
-                    player.setStackInHand(hand, crucibleBlockEntity.getFirstItem());
-                    crucibleBlockEntity.removeFirstItem();
+                    if (world instanceof ServerWorld serverWorld) {
+                        player.setStackInHand(hand, crucibleBlockEntity.getFirstItem());
+                        crucibleBlockEntity.removeFirstItem();
+                        crucibleBlockEntity.markDirty();
+                        serverWorld.getChunkManager().markForUpdate(pos);
+                    }
                     return ActionResult.SUCCESS;
                 } else {
                     return ActionResult.PASS;
@@ -150,5 +157,13 @@ public class CrucibleBlock extends BlockWithEntity {
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new CrucibleBlockEntity(pos, state);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        if (!world.isClient)
+            return (world1, pos, state1, blockEntity) -> ((CrucibleBlockEntity) blockEntity).tick(world1, pos, state1,
+                    (CrucibleBlockEntity) blockEntity);
+        return null;
     }
 }

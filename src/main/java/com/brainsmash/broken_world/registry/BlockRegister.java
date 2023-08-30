@@ -681,9 +681,10 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(MORTAR_ENTITY_TYPE, MortarBlockEnityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
+            System.out.println("redraw");
             if (world != null && pos != null && world.getBlockEntity(
                     pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
-                return (int) crucibleBlockEntity.getFluidColor();
+                return crucibleBlockEntity.getFluidColor();
             }
             return 0x7442FF;
         }, get(BlockRegistry.CRUCIBLE));
