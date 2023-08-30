@@ -5,11 +5,11 @@ import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
 import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
 import alexiil.mc.lib.attributes.fluid.volume.FluidKeys;
 import alexiil.mc.lib.attributes.fluid.volume.PotionFluidKey;
-import com.brainsmash.broken_world.blocks.magical.CrucibleBlock;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
@@ -25,6 +25,7 @@ import net.minecraft.recipe.BrewingRecipeRegistry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
@@ -81,10 +82,10 @@ public class CrucibleBlockEntity extends BlockEntity implements BlockEntityTicke
         super.readNbt(nbt);
         fluidInv.fromTag(nbt);
         Inventories.readNbt(nbt, inventory);
-        int state = world.getBlockState(pos).get(CrucibleBlock.LEVEL);
-        world.setBlockState(pos, world.getBlockState(pos).cycle(CrucibleBlock.LEVEL));
-        world.setBlockState(pos,
-                world.getBlockState(pos).with(CrucibleBlock.LEVEL, state)); // Brute Force update the color of the water
+        if (world instanceof ClientWorld clientWorld) {
+            clientWorld.scheduleBlockRenders(ChunkSectionPos.getSectionCoord(pos.getX()),
+                    ChunkSectionPos.getSectionCoord(pos.getY()), ChunkSectionPos.getSectionCoord(pos.getZ()));
+        }
     }
 
     @Override
