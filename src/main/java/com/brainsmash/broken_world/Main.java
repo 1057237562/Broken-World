@@ -9,6 +9,7 @@ import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.*;
 import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
+import com.brainsmash.broken_world.resourceloader.GasResourceLoader;
 import com.brainsmash.broken_world.screenhandlers.descriptions.*;
 import com.brainsmash.broken_world.util.BonusHelper;
 import com.brainsmash.broken_world.util.EntityHelper;
@@ -172,7 +173,7 @@ public class Main implements ModInitializer {
 
         CrucibleBehavior.registerBehaviour();
 
-        GasRegister.register();
+        GasResourceLoader.register();
 
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(
                 new MultiblockResourceReloadListener());

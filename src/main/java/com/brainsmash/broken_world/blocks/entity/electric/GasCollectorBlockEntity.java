@@ -4,9 +4,9 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import com.brainsmash.broken_world.registry.GasRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
+import com.brainsmash.broken_world.resourceloader.GasResourceLoader;
 import com.brainsmash.broken_world.screenhandlers.descriptions.GasCollectorGuiDescription;
 import com.brainsmash.broken_world.util.EntityHelper;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -38,7 +38,7 @@ import java.util.List;
 public class GasCollectorBlockEntity extends ConsumerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, SidedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     private Item lastItem;
-    private List<Pair<GasRegister.Gas, Integer>> gasList = null;
+    private List<Pair<GasResourceLoader.Gas, Integer>> gasList = null;
     int selectedGas = 0;
 
     public GasCollectorBlockEntity(BlockPos pos, BlockState state) {
@@ -117,7 +117,7 @@ public class GasCollectorBlockEntity extends ConsumerBlockEntity implements Exte
             gasList = new ArrayList<>();
             return;
         }
-        gasList = GasRegister.getBiomeGases(world, pos);
+        gasList = GasResourceLoader.getBiomeGases(world, pos);
         if (!gasList.isEmpty()) {
             // If data pack is modified before loading this entity from save, gas list might be smaller, causing probable index out of bound.
             selectGasOutput(selectedGas % gasList.size());

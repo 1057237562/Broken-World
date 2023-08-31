@@ -3,7 +3,7 @@ package com.brainsmash.broken_world.screenhandlers.descriptions;
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.GasCollectorBlockEntity;
 import com.brainsmash.broken_world.gui.widgets.WTintedBar;
-import com.brainsmash.broken_world.registry.GasRegister;
+import com.brainsmash.broken_world.resourceloader.GasResourceLoader;
 import com.brainsmash.broken_world.util.Reference;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.networking.NetworkSide;
@@ -33,15 +33,20 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
     private static final int TRACE_THRESHOLD = 80;
     private static final int NORMAL_THRESHOLD = 40;
     private static final Texture TRACE_BG = new Texture(new Identifier(Main.MODID, "textures/gui/trace_gas.png"));
-    private static final Texture TRACE_FG = new Texture(new Identifier(Main.MODID, "textures/gui/trace_gas_filled.png"));
+    private static final Texture TRACE_FG = new Texture(
+            new Identifier(Main.MODID, "textures/gui/trace_gas_filled.png"));
     private static final Texture NORMAL_BG = new Texture(new Identifier(Main.MODID, "textures/gui/normal_gas.png"));
-    private static final Texture NORMAL_FG = new Texture(new Identifier(Main.MODID, "textures/gui/normal_gas_filled.png"));
+    private static final Texture NORMAL_FG = new Texture(
+            new Identifier(Main.MODID, "textures/gui/normal_gas_filled.png"));
     private static final Texture ABUNDANT_BG = new Texture(new Identifier(Main.MODID, "textures/gui/abundant_gas.png"));
-    private static final Texture ABUNDANT_FG = new Texture(new Identifier(Main.MODID, "textures/gui/abundant_gas_filled.png"));
+    private static final Texture ABUNDANT_FG = new Texture(
+            new Identifier(Main.MODID, "textures/gui/abundant_gas_filled.png"));
 
     final Reference<Integer> selectedGas = new Reference<>(0);
+
     public GasCollectorGuiDescription(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
-        this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.world, buf.readBlockPos()), buf.readInt());
+        this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.world, buf.readBlockPos()),
+                buf.readInt());
     }
 
     public GasCollectorGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context, int selectedGas) {
@@ -72,8 +77,8 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
         root.add(product, 4, 5, 1, 1);
 
         context.get((world, pos) -> {
-            List<Pair<GasRegister.Gas, Integer>> gasList = GasRegister.getBiomeGases(world, pos);
-            final WButton [] gasSelectors = new WButton[gasList.size()];
+            List<Pair<GasResourceLoader.Gas, Integer>> gasList = GasResourceLoader.getBiomeGases(world, pos);
+            final WButton[] gasSelectors = new WButton[gasList.size()];
             final int l = gasSelectors.length;
             for (int i = 0; i < l; i++) {
                 gasSelectors[i] = new WButton(new ItemIcon(new ItemStack(gasList.get(i).getLeft().product())));
@@ -81,10 +86,11 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
                 final int j = i;
                 if (getNetworkSide() == NetworkSide.CLIENT) {
                     gasSelectors[i].setOnClick(() -> {
-                        this.selectedGas.value = (l + this.selectedGas.value - l/2 + j) % l;
+                        this.selectedGas.value = (l + this.selectedGas.value - l / 2 + j) % l;
                         updateButtons(gasSelectors, gasList);
                         updateBarColor(bar1, gasList);
-                        ScreenNetworking.of(this, NetworkSide.CLIENT).send(GAS_SELECTION, buf -> buf.writeInt(this.selectedGas.value));
+                        ScreenNetworking.of(this, NetworkSide.CLIENT).send(GAS_SELECTION,
+                                buf -> buf.writeInt(this.selectedGas.value));
                     });
                 }
                 root.add(gasSelectors[i], 4 - l / 2 + i, 3);
@@ -94,8 +100,7 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
             if (getNetworkSide() == NetworkSide.SERVER) {
                 ScreenNetworking.of(this, NetworkSide.SERVER).receive(GAS_SELECTION, buf -> {
                     int i = buf.readInt();
-                    if (world.getBlockEntity(pos) instanceof GasCollectorBlockEntity entity)
-                        entity.selectGasOutput(i);
+                    if (world.getBlockEntity(pos) instanceof GasCollectorBlockEntity entity) entity.selectGasOutput(i);
                 });
             }
             return true;
@@ -106,21 +111,22 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
         root.validate(this);
     }
 
-    void updateButtons(WButton [] buttons, List<Pair<GasRegister.Gas, Integer>> gasList) {
+    void updateButtons(WButton[] buttons, List<Pair<GasResourceLoader.Gas, Integer>> gasList) {
         int l = buttons.length;
         for (int i = 0; i < l; i++) {
-            buttons[(l/2 + i) % l].setIcon(new ItemIcon(gasList.get((selectedGas.value + i) % l).getLeft().product().value()));
+            buttons[(l / 2 + i) % l].setIcon(
+                    new ItemIcon(gasList.get((selectedGas.value + i) % l).getLeft().product().value()));
         }
     }
 
-    void updateBarColor(WTintedBar bar, List<Pair<GasRegister.Gas, Integer>> gasList) {
+    void updateBarColor(WTintedBar bar, List<Pair<GasResourceLoader.Gas, Integer>> gasList) {
         int color;
         int ticks;
         if (gasList.isEmpty()) {
             color = 0xFF_FFFFFF;
             ticks = 40;
         } else {
-            Pair<GasRegister.Gas, Integer> pair = gasList.get(selectedGas.value);
+            Pair<GasResourceLoader.Gas, Integer> pair = gasList.get(selectedGas.value);
             color = pair.getLeft().color();
             ticks = pair.getRight();
         }
