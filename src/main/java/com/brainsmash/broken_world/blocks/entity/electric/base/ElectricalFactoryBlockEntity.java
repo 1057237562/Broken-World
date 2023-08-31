@@ -3,10 +3,13 @@ package com.brainsmash.broken_world.blocks.entity.electric.base;
 import com.brainsmash.broken_world.blocks.entity.FactoryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.container.ItemInsertable;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
+import com.google.common.collect.Range;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -52,9 +55,9 @@ public class ElectricalFactoryBlockEntity extends ConsumerBlockEntity implements
     }
 
     private String getInputHashCode() {
-        return getInputSlots().stream().sorted(
-                Comparator.comparingInt(itemStack -> itemStack.getItem().hashCode())).collect(StringBuilder::new,
-                StringBuilder::append, StringBuilder::append).toString();
+        return getInputSlots().stream().map(ItemStack::getItem).sorted(
+                Comparator.comparingInt(Object::hashCode)).collect(StringBuilder::new, StringBuilder::append,
+                StringBuilder::append).toString();
     }
 
     protected List<ItemStack> getInputSlots() {
@@ -65,9 +68,14 @@ public class ElectricalFactoryBlockEntity extends ConsumerBlockEntity implements
         return inventory.get(1);
     }
 
+    protected Range<Integer> getOutputSlots() {
+        return Range.closedOpen(2, inventory.size());
+    }
+
     @Override
     public ItemStack insertItem(ItemStack stack) {
-        for (int i = 2; i < inventory.size(); i++) {
+        for (int i = 0; i < inventory.size(); i++) {
+            if (!getOutputSlots().contains(i)) continue;
             if (inventory.get(i).isEmpty()) {
                 inventory.set(i, stack);
                 return ItemStack.EMPTY;
@@ -85,6 +93,19 @@ public class ElectricalFactoryBlockEntity extends ConsumerBlockEntity implements
     }
 
     @Override
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+        Inventories.readNbt(nbt, this.inventory);
+        lastItem = getInputHashCode();
+    }
+
+    @Override
+    public void writeNbt(NbtCompound nbt) {
+        Inventories.writeNbt(nbt, this.inventory);
+        super.writeNbt(nbt);
+    }
+
+    @Override
     public boolean matches(ImplementedInventory itemList) {
         return false;
     }
@@ -96,6 +117,6 @@ public class ElectricalFactoryBlockEntity extends ConsumerBlockEntity implements
 
     @Override
     public DefaultedList<ItemStack> getItems() {
-        return null;
+        return inventory;
     }
 }

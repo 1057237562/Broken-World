@@ -28,14 +28,11 @@ public class TeleportPlatformBlockEntity extends ConsumerBlockEntity implements 
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            switch (index){
-                case 0:
-                    return getEnergy();
-                case 1:
-                    return getMaxCapacity();
-                default:
-                    return -1;
-            }
+            return switch (index) {
+                case 0 -> getEnergy();
+                case 1 -> getMaxCapacity();
+                default -> -1;
+            };
         }
 
         @Override
@@ -48,6 +45,7 @@ public class TeleportPlatformBlockEntity extends ConsumerBlockEntity implements 
             return 2;
         }
     };
+
     public TeleportPlatformBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.TELEPORT_PLATFORM_ENTITY_TYPE, pos, state);
         setMaxCapacity(10000);
@@ -79,7 +77,7 @@ public class TeleportPlatformBlockEntity extends ConsumerBlockEntity implements 
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new TeleportPlatformGuiDescription(syncId, inv, ScreenHandlerContext.create(world,pos));
+        return new TeleportPlatformGuiDescription(syncId, inv, ScreenHandlerContext.create(world, pos));
     }
 
     @Override
@@ -90,7 +88,7 @@ public class TeleportPlatformBlockEntity extends ConsumerBlockEntity implements 
     @Override
     public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
         buf.writeBlockPos(pos);
-        NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
+        NbtCompound element = (NbtCompound) ((EntityDataExtension) player).getData();
         buf.writeNbt(element);
     }
 }
