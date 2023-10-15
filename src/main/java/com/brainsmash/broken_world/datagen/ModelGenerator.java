@@ -110,6 +110,7 @@ public class ModelGenerator extends FabricModelProvider {
             itemModelGenerator.register(tool, Models.HANDHELD);
         }
         for (int i = 0; i < BlockRegister.blocks.length; i++) {
+            if (BlockRegister.blockitems[i] == null) continue;
             if (BlockRegister.blocks[i] instanceof TeleporterFrameBlock) continue;
             if (BlockRegister.blocks[i] instanceof DoorBlock) continue;
             if (BlockRegister.blocks[i] instanceof CloneVatBlock || BlockRegister.blocks[i] instanceof CableBlock || BlockRegister.blocks[i] instanceof WeaponryBlock) {

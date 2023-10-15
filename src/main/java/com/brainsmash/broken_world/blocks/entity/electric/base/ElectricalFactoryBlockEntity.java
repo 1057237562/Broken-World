@@ -1,9 +1,9 @@
 package com.brainsmash.broken_world.blocks.entity.electric.base;
 
 import com.brainsmash.broken_world.blocks.entity.FactoryBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.container.ItemInsertable;
+import com.brainsmash.broken_world.blocks.entity.container.ItemInterface;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
-import com.google.common.collect.Range;
+import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
@@ -13,12 +13,13 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.util.Comparator;
 import java.util.List;
 
-public class ElectricalFactoryBlockEntity extends ConsumerBlockEntity implements ItemInsertable, ImplementedInventory, FactoryBlockEntity<ImplementedInventory, ItemStack> {
+public class ElectricalFactoryBlockEntity extends ConsumerBlockEntity implements ItemInterface, ImplementedInventory, FactoryBlockEntity<ImplementedInventory, ItemStack> {
 
     protected final DefaultedList<ItemStack> inventory;
     private String lastItem;
@@ -36,7 +37,10 @@ public class ElectricalFactoryBlockEntity extends ConsumerBlockEntity implements
                 if (progression < maxProgression) {
                     progression++;
                 } else {
-                    craft(this).forEach(itemStack -> insertItem(itemStack));
+                    craft(this).forEach(itemStack -> {
+                        ItemStack reminder = insertItemToOutput(itemStack);
+                        EntityHelper.spawnItem(world, reminder, 1, Direction.UP, pos);
+                    });
                     progression = 0;
                 }
                 if (!getInputHashCode().equals(lastItem)) {
@@ -68,22 +72,40 @@ public class ElectricalFactoryBlockEntity extends ConsumerBlockEntity implements
         return inventory.get(1);
     }
 
-    protected Range<Integer> getOutputSlots() {
-        return Range.closedOpen(2, inventory.size());
+    protected List<ItemStack> getOutputSlots() {
+        return inventory.subList(2, inventory.size());
     }
 
     @Override
-    public ItemStack insertItem(ItemStack stack) {
-        for (int i = 0; i < inventory.size(); i++) {
-            if (!getOutputSlots().contains(i)) continue;
-            if (inventory.get(i).isEmpty()) {
-                inventory.set(i, stack);
+    public ItemStack insertItemToOutput(ItemStack stack) {
+        for (int i = 0; i < getOutputSlots().size(); i++) {
+            if (getOutputSlots().get(i).isEmpty()) {
+                getOutputSlots().set(i, stack);
                 return ItemStack.EMPTY;
             }
-            if (inventory.get(i).isOf(stack.getItem())) {
-                int count = Math.min(stack.getCount(), stack.getMaxCount() - inventory.get(i).getCount());
+            if (getOutputSlots().get(i).isOf(stack.getItem())) {
+                int count = Math.min(stack.getCount(), stack.getMaxCount() - getOutputSlots().get(i).getCount());
                 if (count > 0) {
-                    inventory.get(i).increment(count);
+                    getOutputSlots().get(i).increment(count);
+                    stack.decrement(count);
+                }
+                if (stack.getCount() == 0) return ItemStack.EMPTY;
+            }
+        }
+        return stack;
+    }
+
+    @Override
+    public ItemStack insertItemToInput(ItemStack stack) {
+        for (int i = 0; i < getInputSlots().size(); i++) {
+            if (getInputSlots().get(i).isEmpty()) {
+                getInputSlots().set(i, stack);
+                return ItemStack.EMPTY;
+            }
+            if (getInputSlots().get(i).isOf(stack.getItem())) {
+                int count = Math.min(stack.getCount(), stack.getMaxCount() - getInputSlots().get(i).getCount());
+                if (count > 0) {
+                    getInputSlots().get(i).increment(count);
                     stack.decrement(count);
                 }
                 if (stack.getCount() == 0) return ItemStack.EMPTY;

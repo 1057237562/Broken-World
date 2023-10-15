@@ -300,7 +300,7 @@ public class BlockRegister {
             new BlockItem(blocks[89], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[90], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[91], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[92], new FabricItemSettings()),
+            null,
             new BlockItem(blocks[93], new FabricItemSettings().group(ITEM_GROUP))
     };
 
@@ -524,7 +524,8 @@ public class BlockRegister {
     public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
             Registry.register(Registry.BLOCK, new Identifier(MODID, blocknames[i]), blocks[i]);
-            Registry.register(Registry.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
+            if (blockitems[i] != null)
+                Registry.register(Registry.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
         }
         for (int i = 0; i < configuredFeatures.length; i++) {
             Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MODID, configurenames[i]),
@@ -681,7 +682,6 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(MORTAR_ENTITY_TYPE, MortarBlockEnityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
-            System.out.println("redraw");
             if (world != null && pos != null && world.getBlockEntity(
                     pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
                 return crucibleBlockEntity.getFluidColor();
