@@ -23,7 +23,9 @@ import org.jetbrains.annotations.Nullable;
 public class FabricatorExtensionBlock extends ConsumerBlock {
     public FabricatorExtensionBlock(Settings settings) {
         super(settings);
-        setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT, false));
+        setDefaultState(
+                stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT,
+                        false));
     }
 
     @Override
@@ -36,7 +38,8 @@ public class FabricatorExtensionBlock extends ConsumerBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         if (!world.isClient)
-            return (world1, pos, state1, blockEntity) -> ((FabricatorExtensionBlockEntity) blockEntity).tick(world1, pos, state1, (FabricatorExtensionBlockEntity) blockEntity);
+            return (world1, pos, state1, blockEntity) -> ((FabricatorExtensionBlockEntity) blockEntity).tick(world1,
+                    pos, state1, (FabricatorExtensionBlockEntity) blockEntity);
         return null;
     }
 
@@ -52,7 +55,8 @@ public class FabricatorExtensionBlock extends ConsumerBlock {
             if (blockEntity instanceof ConsumerBlockEntity) {
                 if (world instanceof ServerWorld) {
                     if (blockEntity instanceof ImplementedInventory inventory) {
-                        inventory.getItems().subList(9, 18).forEach(stack -> ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), stack));
+                        inventory.getItems().subList(9, 18).forEach(
+                                stack -> ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), stack));
                     }
                     world.removeBlockEntity(pos);
                     EnergyManager.UpdateGraph(world, pos);
@@ -66,7 +70,7 @@ public class FabricatorExtensionBlock extends ConsumerBlock {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing());
+        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerLookDirection());
     }
 
 }

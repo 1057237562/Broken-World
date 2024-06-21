@@ -28,7 +28,6 @@ import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -39,13 +38,15 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.YOffset;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.placementmodifier.CountPlacementModifier;
@@ -58,71 +59,55 @@ import static com.brainsmash.broken_world.Main.MODID;
 import static com.brainsmash.broken_world.registry.ItemRegister.ITEM_GROUP;
 
 public class BlockRegister {
-    private static final AbstractBlock.Settings STANDARD_BLOCK = FabricBlockSettings.of(Material.METAL).sounds(
+    private static final AbstractBlock.Settings STANDARD_BLOCK = FabricBlockSettings.create().sounds(
             BlockSoundGroup.METAL).strength(3.0f, 3.0f);
 
     public static final Block[] blocks = {
             // 0
-            new FallingBlock(AbstractBlock.Settings.of(Material.AGGREGATE).sounds(BlockSoundGroup.SAND).strength(1.0f)),
+            new FallingBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.SAND).strength(1.0f)),
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
-            new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
-            new OreBlock(FabricBlockSettings.copyOf(Blocks.GOLD_ORE)),
-            new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
-                    10f)),
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
+            new Block(FabricBlockSettings.copyOf(Blocks.GOLD_ORE)),
+            new Block(FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f, 10f)),
             new RedstoneOreBlock(
-                    FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(5.0f,
-                            4.0f)),
+                    FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(5.0f, 4.0f)),
             new BottomTopBlock(
-                    AbstractBlock.Settings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(
-                            2.0f, 2.0f)),
-            new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).requiresTool().strength(3.0f,
-                    3.0f)),
+                    AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(2.0f, 2.0f)),
+            new Block(FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).requiresTool().strength(3.0f, 3.0f)),
             new TeleporterController(
-                    FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).requiresTool().strength(3.0f,
-                            3.0f)),
+                    FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).requiresTool().strength(3.0f, 3.0f)),
             new TeleporterFrameBlock(
-                    FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
-                            10f)),
+                    FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f, 10f)),
             // 10
             new TeleporterFrameBlock(
-                    FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
-                            10f)),
-            new OreBlock(
-                    FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(6.0f,
-                            6.0f)),
+                    FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f, 10f)),
+            new Block(FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(6.0f, 6.0f)),
             new TeleporterFrameBlock(
-                    FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
-                            10f)),
-            new Block(FabricBlockSettings.of(Material.STONE).sounds(BlockSoundGroup.STONE).requiresTool().strength(2.0f,
-                    2.0f)),
-            new Block(FabricBlockSettings.of(Material.SOIL).sounds(BlockSoundGroup.MUD).strength(2.0f, 2.0f)),
+                    FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f, 10f)),
+            new Block(FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(2.0f, 2.0f)),
+            new Block(FabricBlockSettings.create().sounds(BlockSoundGroup.MUD).strength(2.0f, 2.0f)),
             new TeleporterFrameBlock(
-                    FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
-                            10f)),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
-                    0.4375, false, 8),
+                    FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f, 10f)),
+            new CableBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f), 0.4375,
+                    false, 8),
             new CreativeBatteryBlock(
-                    FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f,
-                            3.0f)),
+                    FabricBlockSettings.create().nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f, 3.0f)),
             new CreativeGeneratorBlock(
-                    FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(100.0f,
+                    FabricBlockSettings.create().nonOpaque().sounds(BlockSoundGroup.METAL).strength(100.0f,
                             100.0f).luminance(6)),
             new ConsumerBlock(STANDARD_BLOCK),
             // 20
-            new GeneratorBlock(
-                    FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f)),
+            new GeneratorBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).strength(2.0f, 2.0f)),
             new CrusherBlock(STANDARD_BLOCK),
             new SolarPanelBlock(
-                    FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(1.0f,
-                            2.0f)),
+                    FabricBlockSettings.create().nonOpaque().sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new SifterBlock(STANDARD_BLOCK.nonOpaque()),
             new ScannerBlock(STANDARD_BLOCK),
             new MinerBlock(STANDARD_BLOCK.nonOpaque()),
             new ChunkloaderBlock(STANDARD_BLOCK.nonOpaque()),
             new TeleportPlatformBlock(
-                    FabricBlockSettings.of(Material.METAL).nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f,
-                            3.0f)),
+                    FabricBlockSettings.create().nonOpaque().sounds(BlockSoundGroup.METAL).strength(3.0f, 3.0f)),
             new ThermalGeneratorBlock(STANDARD_BLOCK),
             // 30
             new PumpBlock(STANDARD_BLOCK),
@@ -132,8 +117,9 @@ public class BlockRegister {
             new FabricatorBlock(STANDARD_BLOCK),
             new FabricatorExtensionBlock(STANDARD_BLOCK),
             new CentrifugeBlock(STANDARD_BLOCK.nonOpaque()),
-            new Block(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(3.0f,
-                    3.0f).velocityMultiplier(1.1f).slipperiness(0.45f)),
+            new Block(
+                    FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).strength(3.0f, 3.0f).velocityMultiplier(
+                            1.1f).slipperiness(0.45f)),
             new MagnetiteBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new Block(FabricBlockSettings.copyOf(Blocks.GLASS).strength(2.0f, 15.0f)),
             // 40
@@ -142,7 +128,8 @@ public class BlockRegister {
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)),
             new Block(FabricBlockSettings.copyOf(Blocks.BRICKS)),
             new RollingDoorBlock(FabricBlockSettings.copyOf(Blocks.IRON_DOOR)),
-            new DoorBlock(FabricBlockSettings.copyOf(Blocks.OAK_DOOR).sounds(BlockSoundGroup.GLASS).nonOpaque()),
+            new DoorBlock(FabricBlockSettings.copyOf(Blocks.OAK_DOOR).sounds(BlockSoundGroup.GLASS).nonOpaque(),
+                    BlockSetType.STONE),
             new CloneVatBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).sounds(BlockSoundGroup.GLASS).nonOpaque()),
             new GlitchBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
             new CodeBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
@@ -155,13 +142,11 @@ public class BlockRegister {
             new Block(FabricBlockSettings.copyOf(Blocks.SNOW_BLOCK).luminance(11)),
             new Block(FabricBlockSettings.copyOf(Blocks.MAGMA_BLOCK)),
             new TeleporterFrameBlock(
-                    FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
-                            10f)),
+                    FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f, 10f)),
             new TeleporterFrameBlock(
-                    FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f,
-                            10f)),
-            new OreBlock(FabricBlockSettings.copyOf(Blocks.DIAMOND_ORE)),
-            new OreBlock(FabricBlockSettings.copyOf(Blocks.COPPER_ORE)),
+                    FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).dropsNothing().strength(2.0f, 10f)),
+            new Block(FabricBlockSettings.copyOf(Blocks.DIAMOND_ORE)),
+            new Block(FabricBlockSettings.copyOf(Blocks.COPPER_ORE)),
             // 60
             new InfusedCrystalBlock(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
             new Block(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
@@ -179,26 +164,26 @@ public class BlockRegister {
             new ExtractorBlock(STANDARD_BLOCK),
             new WeaponryBlock(STANDARD_BLOCK),
             new WoodenPipeBlock(FabricBlockSettings.copyOf(Blocks.OAK_WOOD).nonOpaque()),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
-                    0.375, false, 16),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
-                    0.25, false, 32),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
-                    0.4375f, true, 8),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
-                    0.375f, true, 16),
-            new CableBlock(FabricBlockSettings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f),
-                    0.25f, true, 32),
+            new CableBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f), 0.375,
+                    false, 16),
+            new CableBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f), 0.25, false,
+                    32),
+            new CableBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f), 0.4375f,
+                    true, 8),
+            new CableBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f), 0.375f,
+                    true, 16),
+            new CableBlock(FabricBlockSettings.create().sounds(BlockSoundGroup.METAL).strength(1.0f, 2.0f), 0.25f, true,
+                    32),
             // 80
             new UVBlock(STANDARD_BLOCK),
             new Block(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS)),
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new RefineryBlock(STANDARD_BLOCK),
             new GasCollectorBlock(STANDARD_BLOCK),
-            new OreBlock(FabricBlockSettings.copyOf(Blocks.LAPIS_ORE)),
-            new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
+            new Block(FabricBlockSettings.copyOf(Blocks.LAPIS_ORE)),
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new BatteryBlock(STANDARD_BLOCK),
-            new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new ColliderControllerBlock(STANDARD_BLOCK),
             // 90
             new ColliderCoilBlock(STANDARD_BLOCK),
@@ -523,112 +508,114 @@ public class BlockRegister {
 
     public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
-            Registry.register(Registry.BLOCK, new Identifier(MODID, blocknames[i]), blocks[i]);
+            Registry.register(Registries.BLOCK, new Identifier(MODID, blocknames[i]), blocks[i]);
             if (blockitems[i] != null)
-                Registry.register(Registry.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
+                Registry.register(Registries.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
         }
         for (int i = 0; i < configuredFeatures.length; i++) {
-            Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MODID, configurenames[i]),
+            Registry.register(RegistryKeys.CONFIGURED_FEATURE, new Identifier(MODID, configurenames[i]),
                     configuredFeatures[i]);
-            Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(MODID, configurenames[i]),
-                    placedFeatures[i]);
+            Registry.register(RegistryKeys.PLACED_FEATURE, new Identifier(MODID, configurenames[i]), placedFeatures[i]);
         }
 
-        TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "teleporter_controller"),
                 FabricBlockEntityTypeBuilder.create(TeleporterControllerBlockEntity::new, blocks[8]).build());
-        CABLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "cable"),
+        CABLE_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "cable"),
                 FabricBlockEntityTypeBuilder.create(CableBlockEntity::new, blocks[16]).build());
-        CREATIVE_BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        CREATIVE_BATTERY_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "creative_battery"),
                 FabricBlockEntityTypeBuilder.create(CreativeBatteryBlockEntity::new, blocks[17]).build());
-        CREATIVE_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        CREATIVE_GENERATOR_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "creative_generator"),
                 FabricBlockEntityTypeBuilder.create(CreativeGeneratorBlockEntity::new, blocks[18]).build());
-        CONSUMER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "basic_machine"),
+        CONSUMER_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "basic_machine"),
                 FabricBlockEntityTypeBuilder.create(ConsumerBlockEntity::new, blocks[19]).build());
-        GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "generator"),
+        GENERATOR_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "generator"),
                 FabricBlockEntityTypeBuilder.create(GeneratorEntity::new, blocks[20]).build());
-        CRUSHER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "crusher"),
+        CRUSHER_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "crusher"),
                 FabricBlockEntityTypeBuilder.create(CrusherBlockEntity::new, blocks[21]).build());
-        SOLAR_PANEL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "solar_panel"),
+        SOLAR_PANEL_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "solar_panel"),
                 FabricBlockEntityTypeBuilder.create(SolarPanelEntity::new, blocks[22]).build());
-        SIFTER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "sifter"),
+        SIFTER_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "sifter"),
                 FabricBlockEntityTypeBuilder.create(SifterBlockEntity::new, blocks[24]).build());
-        SCANNER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "scanner"),
+        SCANNER_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "scanner"),
                 FabricBlockEntityTypeBuilder.create(ScannerBlockEntity::new, blocks[25]).build());
-        MINER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "miner"),
+        MINER_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "miner"),
                 FabricBlockEntityTypeBuilder.create(MinerBlockEntity::new, blocks[26]).build());
-        LOADER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "chunkloader"),
+        LOADER_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "chunkloader"),
                 FabricBlockEntityTypeBuilder.create(ChunkloaderBlockEntity::new, blocks[27]).build());
-        TELEPORT_PLATFORM_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        TELEPORT_PLATFORM_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "teleport_platform"),
                 FabricBlockEntityTypeBuilder.create(TeleportPlatformBlockEntity::new, blocks[28]).build());
-        THERMAL_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        THERMAL_GENERATOR_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "thermal_generator"),
                 FabricBlockEntityTypeBuilder.create(ThermalGeneratorEntity::new, blocks[29]).build());
-        PUMP_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "pump"),
+        PUMP_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "pump"),
                 FabricBlockEntityTypeBuilder.create(PumpBlockEntity::new, blocks[30]).build());
-        HYDRO_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        HYDRO_GENERATOR_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "hydro_generator"),
                 FabricBlockEntityTypeBuilder.create(HydroGeneratorEntity::new, blocks[31]).build());
-        WIND_TURBINE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "wind_turbine"),
+        WIND_TURBINE_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "wind_turbine"),
                 FabricBlockEntityTypeBuilder.create(WindTurbineEntity::new, blocks[32]).build());
-        ADVANCED_FURNACE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        ADVANCED_FURNACE_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "advanced_furnace"),
                 FabricBlockEntityTypeBuilder.create(AdvancedFurnaceBlockEntity::new, blocks[33]).build());
-        FABRICATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "fabricator"),
+        FABRICATOR_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "fabricator"),
                 FabricBlockEntityTypeBuilder.create(FabricatorBlockEntity::new, blocks[34]).build());
-        FABRICATOR_EXTENSION_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        FABRICATOR_EXTENSION_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "fabricator_extension"),
                 FabricBlockEntityTypeBuilder.create(FabricatorExtensionBlockEntity::new, blocks[35]).build());
-        CENTRIFUGE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "centrifuge"),
+        CENTRIFUGE_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "centrifuge"),
                 FabricBlockEntityTypeBuilder.create(CentrifugeBlockEntity::new, blocks[36]).build());
-        ROLLING_DOOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "rolling_door"),
+        ROLLING_DOOR_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "rolling_door"),
                 FabricBlockEntityTypeBuilder.create(RollingDoorBlockEntity::new, blocks[44]).build());
-        CLONE_VAT_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "clone_vat"),
+        CLONE_VAT_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "clone_vat"),
                 FabricBlockEntityTypeBuilder.create(CloneVatBlockEntity::new, blocks[46]).build());
 
-        INFUSED_CRYSTAL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        INFUSED_CRYSTAL_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "infused_crystal"),
                 FabricBlockEntityTypeBuilder.create(InfusedCrystalBlockEntity::new, blocks[60]).build());
-        COMPRESSOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "compressor"),
+        COMPRESSOR_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "compressor"),
                 FabricBlockEntityTypeBuilder.create(CompressorBlockEntity::new, blocks[63]).build());
-        ASSEMBLER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "assembler"),
+        ASSEMBLER_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "assembler"),
                 FabricBlockEntityTypeBuilder.create(AssemblerBlockEntity::new, blocks[64]).build());
-        ELECTROLYZER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "electrolyzer"),
+        ELECTROLYZER_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "electrolyzer"),
                 FabricBlockEntityTypeBuilder.create(ElectrolyzerBlockEntity::new, blocks[65]).build());
-        REACTION_KETTLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        REACTION_KETTLE_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "reaction_kettle"),
                 FabricBlockEntityTypeBuilder.create(ReactionKettleBlockEntity::new, blocks[66]).build());
-        EXTRACTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "extractor"),
+        EXTRACTOR_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "extractor"),
                 FabricBlockEntityTypeBuilder.create(ExtractorBlockEntity::new, blocks[72]).build());
-        WEAPONRY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "weaponry"),
+        WEAPONRY_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "weaponry"),
                 FabricBlockEntityTypeBuilder.create(WeaponryBlockEntity::new, blocks[73]).build());
-        WOODEN_PIPE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "wooden_pipe"),
+        WOODEN_PIPE_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "wooden_pipe"),
                 FabricBlockEntityTypeBuilder.create(WoodenPipeBlockEntity::new, blocks[74]).build());
-        UV_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "uv"),
+        UV_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "uv"),
                 FabricBlockEntityTypeBuilder.create(UVBlockEntity::new, blocks[80]).build());
-        GAS_COLLECTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        GAS_COLLECTOR_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "gas_collector"),
                 FabricBlockEntityTypeBuilder.create(GasCollectorBlockEntity::new, blocks[84]).build());
-        REFINERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "refinery"),
+        REFINERY_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "refinery"),
                 FabricBlockEntityTypeBuilder.create(RefineryBlockEntity::new, blocks[83]).build());
-        BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "battery"),
+        BATTERY_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "battery"),
                 FabricBlockEntityTypeBuilder.create(BatteryBlockEntity::new, blocks[87]).build());
-        COLLIDER_CONTROLLER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        COLLIDER_CONTROLLER_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "collider_controller"),
                 FabricBlockEntityTypeBuilder.create(ColliderControllerBlockEntity::new,
                         get(BlockRegistry.COLLIDER_CONTROLLER)).build());
-        COLLIDER_COIL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+        COLLIDER_COIL_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "collider_coil"),
                 FabricBlockEntityTypeBuilder.create(ColliderCoilBlockEntity::new,
                         get(BlockRegistry.COLLIDER_COIL)).build());
-        MORTAR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "mortar"),
+        MORTAR_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "mortar"),
                 FabricBlockEntityTypeBuilder.create(MortarBlockEntity::new, blocks[91]).build());
-        CRUCIBLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "crucible"),
+        CRUCIBLE_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "crucible"),
                 FabricBlockEntityTypeBuilder.create(CrucibleBlockEntity::new, blocks[92]).build());
-        STONE_BASE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "stone_base"),
+        STONE_BASE_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "stone_base"),
                 FabricBlockEntityTypeBuilder.create(StoneBaseBlockEntity::new, blocks[93]).build());
     }
 
@@ -668,18 +655,19 @@ public class BlockRegister {
                 WeaponryBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(UVBlockEntityRenderer.UV,
                 UVBlockEntityRenderer::getTexturedModelData);
-        BlockEntityRendererRegistry.register(CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(CREATIVE_GENERATOR_ENTITY_TYPE, CreativeGeneratorBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(SCANNER_ENTITY_TYPE, ScannerBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(WIND_TURBINE_ENTITY_TYPE, WindTurbineEntityRenderer::new);
-        BlockEntityRendererRegistry.register(SIFTER_ENTITY_TYPE, SifterBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(CLONE_VAT_ENTITY_TYPE, CloneVatBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(COMPRESSOR_ENTITY_TYPE, CompressorBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(CENTRIFUGE_ENTITY_TYPE, CentrifugeBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(INFUSED_CRYSTAL_ENTITY_TYPE, InfusedCrystalBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(WEAPONRY_ENTITY_TYPE, WeaponryBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(UV_ENTITY_TYPE, UVBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(MORTAR_ENTITY_TYPE, MortarBlockEnityRenderer::new);
+        BlockEntityRendererFactories.register(CREATIVE_BATTERY_ENTITY_TYPE, CreativeBatteryBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(CREATIVE_GENERATOR_ENTITY_TYPE,
+                CreativeGeneratorBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(SCANNER_ENTITY_TYPE, ScannerBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(WIND_TURBINE_ENTITY_TYPE, WindTurbineEntityRenderer::new);
+        BlockEntityRendererFactories.register(SIFTER_ENTITY_TYPE, SifterBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(CLONE_VAT_ENTITY_TYPE, CloneVatBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(COMPRESSOR_ENTITY_TYPE, CompressorBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(CENTRIFUGE_ENTITY_TYPE, CentrifugeBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(INFUSED_CRYSTAL_ENTITY_TYPE, InfusedCrystalBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(WEAPONRY_ENTITY_TYPE, WeaponryBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(UV_ENTITY_TYPE, UVBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(MORTAR_ENTITY_TYPE, MortarBlockEnityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             if (world != null && pos != null && world.getBlockEntity(

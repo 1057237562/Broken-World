@@ -52,6 +52,6 @@ public class PumpBlock extends ConsumerBlock implements AttributeProvider {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing());
+        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerLookDirection());
     }
 }

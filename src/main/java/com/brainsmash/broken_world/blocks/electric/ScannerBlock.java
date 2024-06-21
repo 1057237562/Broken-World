@@ -29,14 +29,16 @@ public class ScannerBlock extends ConsumerBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if(!world.isClient)
-            return (world1, pos, state1, blockEntity) -> ((ScannerBlockEntity) blockEntity).tick(world1, pos, state1, (ScannerBlockEntity) blockEntity);
+        if (!world.isClient)
+            return (world1, pos, state1, blockEntity) -> ((ScannerBlockEntity) blockEntity).tick(world1, pos, state1,
+                    (ScannerBlockEntity) blockEntity);
         return null;
     }
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
+        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING,
+                ctx.getPlayerLookDirection().getOpposite());
     }
 
     @Override

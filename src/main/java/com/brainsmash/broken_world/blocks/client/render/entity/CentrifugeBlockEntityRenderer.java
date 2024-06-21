@@ -12,7 +12,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Quaternion;
+import org.joml.Quaternionf;
 
 public class CentrifugeBlockEntityRenderer implements BlockEntityRenderer<CentrifugeBlockEntity> {
 
@@ -44,9 +44,9 @@ public class CentrifugeBlockEntityRenderer implements BlockEntityRenderer<Centri
     public void render(CentrifugeBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
         matrices.translate(0.5, 0, 0.5);
-        matrices.multiply(Quaternion.fromEulerXyz(0, 0, (float) Math.PI));
+        matrices.multiply(new Quaternionf().rotateXYZ(0, 0, (float) Math.PI));
         if (entity.isRunning()) entity.tick += tickDelta;
-        matrices.multiply(Quaternion.fromEulerXyz(0, (float) (entity.tick * 16 * Math.PI / 180.0), 0));
+        matrices.multiply(new Quaternionf().rotateXYZ(0, (float) (entity.tick * 16 * Math.PI / 180.0), 0));
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
         int lightAbove = WorldRenderer.getLightmapCoordinates(entity.getWorld(), entity.getPos().up());
         inner.render(matrices, vertexConsumer, lightAbove, overlay);

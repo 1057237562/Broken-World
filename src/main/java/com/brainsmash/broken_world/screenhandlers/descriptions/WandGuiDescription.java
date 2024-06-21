@@ -57,7 +57,7 @@ public class WandGuiDescription extends SyncedGuiDescription {
         root.setInsets(Insets.ROOT_PANEL);
         for (int k = 0; k < size; ++k) {
             WItemSlot slot = WItemSlot.of(inventory, k);
-            slot.setFilter(itemStack -> itemStack.getItem() instanceof WandCore);
+            slot.setInputFilter(itemStack -> itemStack.getItem() instanceof WandCore);
             root.add(slot, k, 1);
             slot.setLocation(slot.getX(), slot.getY() - 2);
         }
@@ -90,9 +90,10 @@ public class WandGuiDescription extends SyncedGuiDescription {
         return itemStack;
     }
 
+
     @Override
-    public void close(PlayerEntity player) {
-        super.close(player);
+    public void onClosed(PlayerEntity player) {
+        super.onClosed(player);
         NbtList list = new NbtList();
         for (int i = 0; i < inventory.size(); i++) {
             NbtCompound itemstack = new NbtCompound();

@@ -24,13 +24,17 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.tag.BiomeTags;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.gen.GenerationStep;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,103 +48,103 @@ public class Main implements ModInitializer {
 
 
     public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_controller"),
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "teleport_controller"),
             new ExtendedScreenHandlerType<>(TeleporterControllerGuiDescription::new));
     public static final ScreenHandlerType<BatteryGuiDescription> BATTERY_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "creative_battery"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "creative_battery"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new BatteryGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<GeneratorGuiDescription> GENERATOR_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "generator"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "generator"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new GeneratorGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<CrusherGuiDescription> CRUSHER_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "crusher"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "crusher"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new CrusherGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<SifterGuiDescription> SIFTER_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "sifter"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "sifter"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new SifterGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<MinerGuiDescription> MINER_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "miner"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "miner"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new MinerGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ExtendedScreenHandlerType<TeleportPlatformGuiDescription> TELEPORT_PLATFORM_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_platform"),
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "teleport_platform"),
             new ExtendedScreenHandlerType<>(TeleportPlatformGuiDescription::new));
     public static final ScreenHandlerType<ThermalGeneratorGuiDescription> THERMAL_GENERATOR_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "thermal_generator"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "thermal_generator"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ThermalGeneratorGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<PumpGuiDescription> PUMP_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "pump"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "pump"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new PumpGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<AdvancedFurnaceGuiDescription> ADVANCED_FURNACE_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "advanced_furnace"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "advanced_furnace"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new AdvancedFurnaceGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
 
     public static final ScreenHandlerType<AssemblerGuiDescription> ASSEMBLER_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "assembler"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "assembler"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new AssemblerGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
 
     public static final ScreenHandlerType<CompressorGuiDescription> COMPRESSOR_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "compressor"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "compressor"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new CompressorGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<FabricatorGuiDescription> FABRICATOR_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "fabricator"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "fabricator"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new FabricatorGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<CentrifugeGuiDescription> CENTRIFUGE_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "centrifuge"),
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "centrifuge"),
             new ExtendedScreenHandlerType<>(CentrifugeGuiDescription::new));
     public static final ScreenHandlerType<ExtractorGuiDescription> EXTRACTOR_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "extractor"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "extractor"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ExtractorGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<GasCollectorGuiDescription> GAS_COLLECTOR_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "gas_collector"),
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "gas_collector"),
             new ExtendedScreenHandlerType<>(GasCollectorGuiDescription::new));
 
     public static final ScreenHandlerType<RefineryGuiDescription> REFINERY_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "refinery"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "refinery"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new RefineryGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<WeaponryGuiDescription> WEAPONRY_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "weaponry"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "weaponry"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new WeaponryGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
 
     public static final ScreenHandlerType<ReactionKettleGuiDescription> REACTION_KETTLE_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "reaction_kettle"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "reaction_kettle"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ReactionKettleGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<ElectrolyzerGuiDescription> ELECTROLYZER_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "electrolyzer"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "electrolyzer"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ElectrolyzerGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<ColliderControllerGuiDescription> COLLIDER_CONTROLLER_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "collider_controller"), new ScreenHandlerType<>(
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "collider_controller"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ColliderControllerGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY)), FeatureSet.of(FeatureFlags.VANILLA)));
 
 
     public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
-            new ScreenHandlerType<>(WandGuiDescription::createRookieWand));
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createRookieWand, FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<WandGuiDescription> EXPERT_WAND_SCREEN_HANDLER = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "expert_wand"),
-            new ScreenHandlerType<>(WandGuiDescription::createExpertWand));
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "expert_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createExpertWand, FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<WandGuiDescription> MASTER_WAND_SCREEN_HANDLER = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "master_wand"),
-            new ScreenHandlerType<>(WandGuiDescription::createMasterWand));
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "master_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createMasterWand, FeatureSet.of(FeatureFlags.VANILLA)));
     public static final ScreenHandlerType<WandGuiDescription> GRANDMASTER_WAND_SCREEN_HANDLER = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "grandmaster_wand"),
-            new ScreenHandlerType<>(WandGuiDescription::createGrandMasterWand));
+            Registries.SCREEN_HANDLER, new Identifier(MODID, "grandmaster_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createGrandMasterWand, FeatureSet.of(FeatureFlags.VANILLA)));
 
     @Override
     public void onInitialize() {
@@ -181,20 +185,20 @@ public class Main implements ModInitializer {
         OreTypeRegistry.registerOreType();
 
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
-                RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "tungsten_ore")));
+                RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(MODID, "tungsten_ore")));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
-                RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "magnetite")));
+                RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(MODID, "magnetite")));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
-                RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "tin_ore")));
+                RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(MODID, "tin_ore")));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
-                RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "sulfur_ore")));
+                RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(MODID, "sulfur_ore")));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
-                RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "aluminum_ore")));
+                RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(MODID, "aluminum_ore")));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
-                RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "lead_ore")));
+                RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(MODID, "lead_ore")));
         BiomeModifications.addFeature(BiomeSelectors.tag(BiomeTags.IS_JUNGLE),
                 GenerationStep.Feature.VEGETAL_DECORATION,
-                RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "rubber_tree")));
+                RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(MODID, "rubber_tree")));
 
         BWDensityFunctionTypes.register();
         VolcanoFeature.register();
@@ -202,24 +206,24 @@ public class Main implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_pressed"),
                 (server, player, handler, buf, responseSender) -> server.execute(() -> {
                     if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
-                        gunItem.fire(player.world, player);
+                        gunItem.fire(player.getWorld(), player);
                         if (player.getOffHandStack().getItem() instanceof GunItem gunItem1) {
-                            gunItem1.fire(player.world, player);
+                            gunItem1.fire(player.getWorld(), player);
                         }
                     }
                 }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_hold"),
                 (server, player, handler, buf, responseSender) -> server.execute(() -> {
                     if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
-                        gunItem.fireTick(player.world, player);
+                        gunItem.fireTick(player.getWorld(), player);
                         if (player.getOffHandStack().getItem() instanceof GunItem gunItem1) {
-                            gunItem1.fireTick(player.world, player);
+                            gunItem1.fireTick(player.getWorld(), player);
                         }
                     }
                 }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "crawl_key_hold"),
                 (server, player, handler, buf, responseSender) -> server.execute(() -> {
-                    if (player.world.isSpaceEmpty(player,
+                    if (player.getWorld().isSpaceEmpty(player,
                             EntityHelper.calculateBoundsForPose(player, EntityPose.SWIMMING).contract(1.0E-7))) {
                         player.setPose(EntityPose.SWIMMING);
                         ((PlayerDataExtension) player).forceSetFlag(2, true);

@@ -54,7 +54,7 @@ public class CloneVatBlock extends BlockWithEntity {
         World world = ctx.getWorld();
         if (blockPos.getY() < world.getTopY() - 1 && world.getBlockState(blockPos.up()).canReplace(ctx)) {
             return super.getPlacementState(ctx).with(HALF, DoubleBlockHalf.LOWER).with(DIRECTION,
-                    ctx.getPlayerFacing().getOpposite());
+                    ctx.getPlayerLookDirection().getOpposite());
         }
         return null;
     }
@@ -93,7 +93,7 @@ public class CloneVatBlock extends BlockWithEntity {
 
 
     @Override
-    public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+    public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
         return true;
     }
 }

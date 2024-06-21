@@ -18,7 +18,9 @@ import org.jetbrains.annotations.Nullable;
 public class ExtractorBlock extends ConsumerBlock {
     public ExtractorBlock(Settings settings) {
         super(settings);
-        setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT, false));
+        setDefaultState(
+                stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT,
+                        false));
     }
 
     @Override
@@ -30,8 +32,9 @@ public class ExtractorBlock extends ConsumerBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if(!world.isClient)
-            return (world1, pos, state1, blockEntity) -> ((ExtractorBlockEntity) blockEntity).tick(world1, pos, state1, (ExtractorBlockEntity) blockEntity);
+        if (!world.isClient)
+            return (world1, pos, state1, blockEntity) -> ((ExtractorBlockEntity) blockEntity).tick(world1, pos, state1,
+                    (ExtractorBlockEntity) blockEntity);
         return null;
     }
 
@@ -39,8 +42,10 @@ public class ExtractorBlock extends ConsumerBlock {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(Properties.HORIZONTAL_FACING, Properties.LIT);
     }
+
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
+        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING,
+                ctx.getPlayerLookDirection().getOpposite());
     }
 }

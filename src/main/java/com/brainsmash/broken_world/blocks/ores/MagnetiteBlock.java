@@ -1,14 +1,14 @@
 package com.brainsmash.broken_world.blocks.ores;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.OreBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
-public class MagnetiteBlock extends OreBlock {
+public class MagnetiteBlock extends Block {
     public MagnetiteBlock(Settings settings) {
         super(settings);
     }

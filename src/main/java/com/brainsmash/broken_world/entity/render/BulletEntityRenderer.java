@@ -10,9 +10,9 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix3f;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 
 import static com.brainsmash.broken_world.Main.MODID;
 
@@ -24,11 +24,11 @@ public class BulletEntityRenderer<T extends BulletEntity> extends EntityRenderer
     @Override
     public void render(T entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         matrices.push();
-        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(
                 MathHelper.lerp(tickDelta, entity.prevYaw, entity.getYaw()) - 90.0f));
-        matrices.multiply(
-                Vec3f.POSITIVE_Z.getDegreesQuaternion(MathHelper.lerp(tickDelta, entity.prevPitch, entity.getPitch())));
-        matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(45.0f));
+        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(
+                MathHelper.lerp(tickDelta, entity.prevPitch, entity.getPitch())));
+        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(45.0f));
         matrices.scale(0.05625f, 0.05625f, 0.05625f);
         matrices.translate(-4.0, 0.0, 0.0);
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(getTexture(entity)));
@@ -44,7 +44,7 @@ public class BulletEntityRenderer<T extends BulletEntity> extends EntityRenderer
         this.vertex(matrix4f, matrix3f, vertexConsumer, -7, -2, 2, 0.15625f, 0.3125f, 1, 0, 0, light);
         this.vertex(matrix4f, matrix3f, vertexConsumer, -7, -2, -2, 0.0f, 0.3125f, 1, 0, 0, light);
         for (int u = 0; u < 4; ++u) {
-            matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90.0f));
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0f));
             this.vertex(matrix4f, matrix3f, vertexConsumer, -8, -2, 0, 0.0f, 0.0f, 0, 1, 0, light);
             this.vertex(matrix4f, matrix3f, vertexConsumer, 8, -2, 0, 0.5f, 0.0f, 0, 1, 0, light);
             this.vertex(matrix4f, matrix3f, vertexConsumer, 8, 2, 0, 0.5f, 0.15625f, 0, 1, 0, light);

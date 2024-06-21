@@ -15,6 +15,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -23,8 +24,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -75,8 +74,7 @@ public class MinerBlockEntity extends ConsumerBlockEntity implements NamedScreen
                             return;
                         }
                         boolean flag = false;
-                        for (RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(
-                                ConventionalBlockTags.ORES)) {
+                        for (var blockRegistryEntry : Registries.BLOCK.iterateEntries(ConventionalBlockTags.ORES)) {
                             if (world.getBlockState(pointPos).getBlock().equals(blockRegistryEntry.value())) {
                                 flag = true;
                                 if (!insertItem(new ItemStack(world.getBlockState(pointPos).getBlock().asItem(), 1))) {

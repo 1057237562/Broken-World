@@ -11,7 +11,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Quaternion;
+import org.joml.Quaternionf;
 
 public class InfusedCrystalBlockEntityRenderer implements BlockEntityRenderer<InfusedCrystalBlockEntity> {
 
@@ -43,10 +43,10 @@ public class InfusedCrystalBlockEntityRenderer implements BlockEntityRenderer<In
     public void render(InfusedCrystalBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
         matrices.translate(0.5, 0, 0.5);
-        matrices.multiply(Quaternion.fromEulerXyz(0, 0, (float) Math.PI));
+        matrices.multiply(new Quaternionf().rotateXYZ(0, 0, (float) Math.PI));
         entity.tick += tickDelta;
         matrices.scale(0.5f, 1f, 0.5f);
-        matrices.multiply(Quaternion.fromEulerXyz(0, (float) (entity.tick * 4 * Math.PI / 180.0), 0));
+        matrices.multiply(new Quaternionf().rotateXYZ(0, (float) (entity.tick * 4 * Math.PI / 180.0), 0));
 
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
         inner.render(matrices, vertexConsumer, 15728880, overlay);

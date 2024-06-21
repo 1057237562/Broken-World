@@ -9,7 +9,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
 
 public class CloneVatBlockEntityRenderer implements BlockEntityRenderer<CloneVatBlockEntity> {
     private final EntityRenderDispatcher DISPATCHER;
@@ -25,7 +25,7 @@ public class CloneVatBlockEntityRenderer implements BlockEntityRenderer<CloneVat
         matrices.translate(0.5d, 0d, 0.5d);
         Direction direction = entity.getCachedState().get(Properties.HORIZONTAL_FACING);
         matrices.multiply(direction.getRotationQuaternion());
-        matrices.multiply(Vec3f.NEGATIVE_X.getDegreesQuaternion(90));
+        matrices.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(90));
         DISPATCHER.render(playerEntity, 0, 0, 0, 0, 0, matrices, vertexConsumers, 15728640);
         matrices.pop();
     }

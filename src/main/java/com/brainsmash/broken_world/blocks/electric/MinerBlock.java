@@ -29,10 +29,9 @@ public class MinerBlock extends ConsumerBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if (!world.isClient) return (world1, pos, state1, blockEntity) -> ((MinerBlockEntity) blockEntity).tick(world1,
-                pos,
-                state1,
-                (MinerBlockEntity) blockEntity);
+        if (!world.isClient)
+            return (world1, pos, state1, blockEntity) -> ((MinerBlockEntity) blockEntity).tick(world1, pos, state1,
+                    (MinerBlockEntity) blockEntity);
         return null;
     }
 
@@ -43,6 +42,6 @@ public class MinerBlock extends ConsumerBlock {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing());
+        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerLookDirection());
     }
 }

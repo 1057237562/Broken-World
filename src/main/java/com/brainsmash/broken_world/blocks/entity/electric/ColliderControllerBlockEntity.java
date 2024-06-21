@@ -59,15 +59,17 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
         @Override
         public int get(int index) {
             switch (index) {
-                case 0: return getEnergy();
-                case 1: return getMaxCapacity();
-                case 2: return progression;
-                case 3: return maxProgression;
+                case 0:
+                    return getEnergy();
+                case 1:
+                    return getMaxCapacity();
+                case 2:
+                    return progression;
+                case 3:
+                    return maxProgression;
                 default:
-                    if (index < 4 || index >= 4 + 4 * COLLIDER_SIDE_LENGTH - 4)
-                        return -1;
-                    if (coilBlockEntityList == null)
-                        return 0xFF_5A5A5A;
+                    if (index < 4 || index >= 4 + 4 * COLLIDER_SIDE_LENGTH - 4) return -1;
+                    if (coilBlockEntityList == null) return 0xFF_5A5A5A;
                     return getCoilStatusColor(coilBlockEntityList.get(index - 4));
             }
         }
@@ -114,7 +116,11 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     @Override
     public void writeNbt(NbtCompound nbt) {
         if (colliderWSCornerPos != null) {
-            int[] posArray = new int[]{colliderWSCornerPos.getX(), colliderWSCornerPos.getY(), colliderWSCornerPos.getZ()};
+            int[] posArray = new int[]{
+                    colliderWSCornerPos.getX(),
+                    colliderWSCornerPos.getY(),
+                    colliderWSCornerPos.getZ()
+            };
             nbt.putIntArray("ws_corner", posArray);
         }
         Inventories.writeNbt(nbt, inventory);
@@ -126,8 +132,7 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
         if (!world.isClient()) {
             if (firstTick) {
                 firstTick = false;
-                if (colliderWSCornerPos != null)
-                    collectCoilEntities();
+                if (colliderWSCornerPos != null) collectCoilEntities();
                 matchedRecipe = matchGetter.getFirstMatch(this, world).orElse(null);
             }
             if (coilBlockEntityList != null && matchedRecipe != null) {
@@ -155,7 +160,8 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     protected void shrinkInputStacks(ColliderRecipe recipe) {
         ItemStack stack1 = getStack(INPUT_A);
         ItemStack stack2 = getStack(INPUT_B);
-        if (recipe.a().test(stack1) && stack1.getCount() >= recipe.amountA() && recipe.b().test(stack2) && stack2.getCount() >= recipe.amountB()) {
+        if (recipe.a().test(stack1) && stack1.getCount() >= recipe.amountA() && recipe.b().test(
+                stack2) && stack2.getCount() >= recipe.amountB()) {
             stack1.decrement(recipe.amountA());
             stack2.decrement(recipe.amountB());
         } else {
@@ -177,39 +183,35 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
         } else {
             insertAmount = 0;
         }
-        EntityHelper.spawnItem(world, new ItemStack(productStack.getItem(), productStack.getCount() - insertAmount), 1, Direction.UP, pos);
+        EntityHelper.spawnItem(world, new ItemStack(productStack.getItem(), productStack.getCount() - insertAmount), 1,
+                Direction.UP, pos);
     }
 
     protected void dischargeCoils() {
-        if (coilBlockEntityList == null)
-            return;
+        if (coilBlockEntityList == null) return;
         for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
             coil.discharge();
         }
     }
 
     protected void startCoils() {
-        if (coilBlockEntityList == null)
-            return;
+        if (coilBlockEntityList == null) return;
         for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
             coil.start();
         }
     }
 
     protected void stopCoils() {
-        if (coilBlockEntityList == null)
-            return;
+        if (coilBlockEntityList == null) return;
         for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
             coil.stop();
         }
     }
 
     protected boolean areCoilsCharged() {
-        if (coilBlockEntityList == null)
-            return false;
+        if (coilBlockEntityList == null) return false;
         for (ColliderCoilBlockEntity coil : coilBlockEntityList) {
-            if (!coil.isCharged())
-                return false;
+            if (!coil.isCharged()) return false;
         }
         return true;
     }
@@ -230,8 +232,7 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     }
 
     protected void tryAssembleMultiblock() {
-        if (world == null || world.isClient())
-            return;
+        if (world == null || world.isClient()) return;
 
         Direction d = null;
         boolean bl = false;
@@ -242,27 +243,27 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
                     d = d1;
                     desiredCoilType = block;
                 } else {
-                    if (d.getAxis().isVertical() || d.getAxis() == d1.getAxis() || bl || !block.getDefaultState().isOf(desiredCoilType))
-                        return;
+                    if (d.getAxis().isVertical() || d.getAxis() == d1.getAxis() || bl || !block.getDefaultState().isOf(
+                            desiredCoilType)) return;
                     bl = true;
                 }
             }
         }
-        if (d == null)
-            return;
+        if (d == null) return;
 
         BlockPos.Mutable p = pos.offset(d).mutableCopy();
-        Direction[] ws = {Direction.WEST, Direction.SOUTH};
+        Direction[] ws = {
+                Direction.WEST,
+                Direction.SOUTH
+        };
         int m = world.getBlockState(p.offset(ws[0])).isOf(desiredCoilType) ? 0 : 1;
         int cnt = 0;
         for (int i = 0; i < 2; i++) {
             for (; cnt < COLLIDER_SIDE_LENGTH * 2 - 2; cnt++) {
-                if (world.getBlockState(p.offset(ws[m])).isOf(desiredCoilType))
-                    p.move(ws[m]);
-                else
-                    break;
+                if (world.getBlockState(p.offset(ws[m])).isOf(desiredCoilType)) p.move(ws[m]);
+                else break;
             }
-            m = (m+1) % 2;
+            m = (m + 1) % 2;
         }
 
         coilBlockEntityList = new ArrayList<>();
@@ -274,15 +275,16 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
         Direction d1 = Direction.NORTH;
         for (int i = 0; i < 4; i++) {
             for (Direction d2 : Direction.values()) {
-                if (d2 == d1 || d2 == d1.rotateClockwise(Direction.Axis.Y))
-                    continue;
+                if (d2 == d1 || d2 == d1.rotateClockwise(Direction.Axis.Y)) continue;
                 Block block = world.getBlockState(p.offset(d2)).getBlock();
-                if (block instanceof ColliderCoilBlock || block instanceof ColliderControllerBlock && !p.offset(d2).equals(pos)) {
+                if (block instanceof ColliderCoilBlock || block instanceof ColliderControllerBlock && !p.offset(
+                        d2).equals(pos)) {
                     cleanup.run();
                     return;
                 }
             }
-            if (world.getBlockState(p).isOf(desiredCoilType) && world.getBlockEntity(p) instanceof ColliderCoilBlockEntity entity) {
+            if (world.getBlockState(p).isOf(desiredCoilType) && world.getBlockEntity(
+                    p) instanceof ColliderCoilBlockEntity entity) {
                 coilBlockEntityList.add(entity);
             } else {
                 cleanup.run();
@@ -296,10 +298,10 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
                 }
                 p.move(d1);
                 for (Direction d2 : Direction.values()) {
-                    if (d2.getAxis() == d1.getAxis())
-                        continue;
+                    if (d2.getAxis() == d1.getAxis()) continue;
                     Block block = world.getBlockState(p.offset(d2)).getBlock();
-                    if (block instanceof ColliderCoilBlock || block instanceof ColliderControllerBlock && !p.offset(d2).equals(pos)) {
+                    if (block instanceof ColliderCoilBlock || block instanceof ColliderControllerBlock && !p.offset(
+                            d2).equals(pos)) {
                         cleanup.run();
                         return;
                     }
@@ -333,7 +335,9 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
             if (world.getBlockEntity(p) instanceof ColliderCoilBlockEntity coil) {
                 coilBlockEntityList.add(coil);
             } else {
-                Main.LOGGER.error("Could not collect coil block entity at {}, because this entity is not instance of ColliderCoilBlockEntity!", p);
+                Main.LOGGER.error(
+                        "Could not collect coil block entity at {}, because this entity is not instance of ColliderCoilBlockEntity!",
+                        p);
             }
         });
         if (coilBlockEntityList.size() != COLLIDER_SIDE_LENGTH * 4 - 4) {
@@ -370,18 +374,14 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
     }
 
     protected int getCoilStatusColor(ColliderCoilBlockEntity coil) {
-        if (progression > 0)
-            return 0xFF_779EFF; // Light blue if collision in progress
-        if (coil.isCharged())
-            return 0xFF_0051EE; // Blue if coil is fully charged
-        if (!coil.checkEnergy())
-            return 0xFF_EE4200; // Deep orange if coil has low energy
+        if (progression > 0) return 0xFF_779EFF; // Light blue if collision in progress
+        if (coil.isCharged()) return 0xFF_0051EE; // Blue if coil is fully charged
+        if (!coil.checkEnergy()) return 0xFF_EE4200; // Deep orange if coil has low energy
         return 0xFF_FFFF00 - ((int) (0xFF * coil.getChargePercentage()) << 16); // Yellow to green as the coil gets charged
     }
 
     public void onUse() {
-        if (coilBlockEntityList != null)
-            return;
+        if (coilBlockEntityList != null) return;
         tryAssembleMultiblock();
     }
 
@@ -392,10 +392,8 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
 
     @Override
     public int[] getAvailableSlots(Direction side) {
-        if (side == Direction.UP)
-            return TOP_SLOTS;
-        if (side.getAxis().isHorizontal())
-            return SIDE_SLOTS;
+        if (side == Direction.UP) return TOP_SLOTS;
+        if (side.getAxis().isHorizontal()) return SIDE_SLOTS;
         return BOTTOM_SLOTS;
     }
 

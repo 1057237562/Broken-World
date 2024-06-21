@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.structure.StructurePlacementData;
@@ -70,13 +71,13 @@ public class HyperPocket extends Item {
             if (itemStack.hasNbt()) {
                 StructureTemplate template = new StructureTemplate();
                 NbtCompound compound = itemStack.getNbt();
-                template.readNbt((NbtCompound) compound.get("structure"));
+                template.readNbt(Registries.BLOCK.getReadOnlyWrapper(), (NbtCompound) compound.get("structure"));
 
-                int rotate = (4 + convert(context.getPlayerFacing()) - compound.getInt("direction")) % 4;
+                int rotate = (4 + convert(context.getHorizontalPlayerFacing()) - compound.getInt("direction")) % 4;
 
                 BlockPos anchor = context.getBlockPos().offset(Direction.Axis.Y, 1);
 
-                switch (context.getPlayerFacing()) {
+                switch (context.getHorizontalPlayerFacing()) {
                     case NORTH -> anchor = anchor.add(-8, 0, -16);
                     case SOUTH -> anchor = anchor.add(-8, 0, 0);
                     case EAST -> anchor = anchor.add(0, 0, -8);
@@ -95,7 +96,7 @@ public class HyperPocket extends Item {
                         StructureBlockBlockEntity.createRandom(((ServerWorld) context.getWorld()).getSeed()), 2);
                 itemStack.setNbt(null);
             } else {
-                Direction direction = context.getPlayerFacing();
+                Direction direction = context.getHorizontalPlayerFacing();
                 BlockPos startPos = context.getBlockPos().offset(direction.rotateYCounterclockwise(), 8).offset(
                         Direction.Axis.Y, 1);
                 BlockPos endPos = context.getBlockPos().offset(direction.rotateYClockwise(), 8).offset(direction,

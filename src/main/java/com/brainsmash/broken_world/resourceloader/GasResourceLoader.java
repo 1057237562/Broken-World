@@ -11,16 +11,17 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
@@ -76,11 +77,12 @@ public class GasResourceLoader implements SimpleSynchronousResourceReloadListene
                       List<BiomeTagProduction> biomeTags) {
         public static final Codec<Gas> CODEC = RecordCodecBuilder.create(
                 instance -> instance.group(Codec.INT.fieldOf("color").forGetter(Gas::color), Identifier.CODEC.flatXmap(
-                                id -> Registry.ITEM.getOrEmpty(id).map(
+                                id -> Registries.ITEM.getOrEmpty(id).map(
                                         item -> DataResult.success(item.getDefaultStack().getRegistryEntry())).orElse(
-                                        DataResult.error("Cannot find gas product " + id)), entry -> entry.getKey().map(
+                                        DataResult.error(() -> "Cannot find gas product " + id)), entry -> entry.getKey().map(
                                         itemRegistryKey -> DataResult.success(itemRegistryKey.getValue())).orElseGet(
-                                        () -> DataResult.error("Cannot get registry key for direct item entry. "))).fieldOf(
+                                        () -> DataResult.error(
+                                                () -> "Cannot get registry key for direct item entry. "))).fieldOf(
                                 "product").forGetter(Gas::product),
                         BiomeProduction.CODEC.listOf().fieldOf("biomes").forGetter(Gas::biomes),
                         BiomeTagProduction.CODEC.listOf().fieldOf("biome_tags").forGetter(Gas::biomeTags)).apply(
@@ -96,7 +98,7 @@ public class GasResourceLoader implements SimpleSynchronousResourceReloadListene
 
     public record BiomeTagProduction(TagKey<Biome> tag, int ticksPerProduction, int priority) {
         public static final Codec<BiomeTagProduction> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                TagKey.codec(Registry.BIOME_KEY).fieldOf("tag").forGetter(BiomeTagProduction::tag),
+                TagKey.codec(RegistryKeys.BIOME).fieldOf("tag").forGetter(BiomeTagProduction::tag),
                 Codecs.POSITIVE_INT.fieldOf("ticks_per_production").forGetter(BiomeTagProduction::ticksPerProduction),
                 Codec.INT.optionalFieldOf("priority", 50).forGetter(BiomeTagProduction::priority)).apply(instance,
                 BiomeTagProduction::new));
@@ -122,7 +124,7 @@ public class GasResourceLoader implements SimpleSynchronousResourceReloadListene
 
         Map<Gas, Pair<Integer, Integer>> resultMap = new HashMap<>();
         for (TagKey<Biome> tag : gasesByBiomeTags.keySet()) {
-            if (entry.isIn(TagKey.of(Registry.BIOME_KEY, tag.id()))) {
+            if (entry.isIn(TagKey.of(RegistryKeys.BIOME, tag.id()))) {
                 gasesByBiomeTags.get(tag).forEach((k, v) -> {
                     Pair<Integer, Integer> existedV = resultMap.get(k);
                     if (existedV != null && existedV.getRight() > v.getRight()) return;

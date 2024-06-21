@@ -42,14 +42,12 @@ public class ColliderCoilBlockEntity extends ConsumerBlockEntity {
     }
 
     public void start() {
-        if (!priming)
-            markDirty();
+        if (!priming) markDirty();
         priming = true;
     }
 
     public void stop() {
-        if (priming)
-            markDirty();
+        if (priming) markDirty();
         priming = false;
     }
 
@@ -58,8 +56,7 @@ public class ColliderCoilBlockEntity extends ConsumerBlockEntity {
     }
 
     public void bindController(ColliderControllerBlockEntity controller) {
-        if (controllerEntity == null)
-            controllerEntity = controller;
+        if (controllerEntity == null) controllerEntity = controller;
     }
 
     public boolean hasBoundController() {

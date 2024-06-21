@@ -6,12 +6,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.github.cottonmc.cotton.gui.widget.data.Vec2i;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.WorldAccess;
 
 import java.util.Map;
@@ -67,11 +66,11 @@ public class MultiblockPattern {
             JsonObject obj = json.getAsJsonObject();
             if (obj.has("tag")) {
                 Identifier id = Identifier.tryParse(obj.get("tag").getAsString());
-                return StructureMaterial.fromTag(TagKey.of(Registry.BLOCK_KEY, id));
+                return StructureMaterial.fromTag(TagKey.of(RegistryKeys.BLOCK, id));
             }
             if (obj.has("block")) {
                 Identifier id = Identifier.tryParse(obj.get("block").getAsString());
-                return StructureMaterial.ofBlocks(Registry.BLOCK.get(id));
+                return StructureMaterial.ofBlocks(RegistryKeys.BLOCK.get(id));
             }
         } else if (json.isJsonArray()) {
             JsonArray array = json.getAsJsonArray();

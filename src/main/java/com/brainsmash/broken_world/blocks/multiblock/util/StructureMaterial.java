@@ -5,11 +5,12 @@ import com.google.gson.*;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -140,7 +141,7 @@ public final class StructureMaterial implements Predicate<BlockState> {
             return new BlockEntry(block);
         } else if (json.has("tag")) {
             Identifier identifier = new Identifier(JsonHelper.getString(json, "tag"));
-            TagKey<Block> tagKey = TagKey.of(Registry.BLOCK_KEY, identifier);
+            TagKey<Block> tagKey = TagKey.of(RegistryKeys.BLOCK, identifier);
             return new TagEntry(tagKey);
         } else {
             throw new JsonParseException("An Structure-Material entry needs either a tag or an block");
@@ -150,7 +151,7 @@ public final class StructureMaterial implements Predicate<BlockState> {
     private static Block getBlock(JsonObject json) {
         String string = JsonHelper.getString(json, "block");
         Identifier identifier = new Identifier(string);
-        return Registry.BLOCK.getOrEmpty(identifier).orElseThrow(
+        return Registries.BLOCK.getOrEmpty(identifier).orElseThrow(
                 () -> new JsonSyntaxException("Unknown block '" + identifier + "'"));
     }
 
@@ -169,7 +170,7 @@ public final class StructureMaterial implements Predicate<BlockState> {
 
         public Collection<Block> getBlocks() {
             List<Block> list = Lists.newArrayList();
-            Iterator var2 = Registry.BLOCK.iterateEntries(this.tag).iterator();
+            Iterator var2 = Registries.BLOCK.iterateEntries(this.tag).iterator();
 
             while (var2.hasNext()) {
                 RegistryEntry<Block> registryEntry = (RegistryEntry) var2.next();
@@ -199,7 +200,7 @@ public final class StructureMaterial implements Predicate<BlockState> {
 
         public JsonObject toJson() {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("block", Registry.BLOCK.getId(this.block).toString());
+            jsonObject.addProperty("block", Registries.BLOCK.getId(this.block).toString());
             return jsonObject;
         }
     }

@@ -5,9 +5,9 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Quaternion;
+import org.joml.Quaternionf;
 
 public class MortarBlockEnityRenderer implements BlockEntityRenderer<MortarBlockEntity> {
 
@@ -27,10 +27,11 @@ public class MortarBlockEnityRenderer implements BlockEntityRenderer<MortarBlock
         }
         matrices.scale(0.5f, 0.5f, 0.5f);
         matrices.multiply(
-                Quaternion.fromEulerXyz(0, (float) entity.grindTime / entity.MAX_GRIND_TIME * 2 * (float) Math.PI, 0));
-        matrices.multiply(Quaternion.fromEulerXyz((float) (Math.PI / 2), 0, 0));
-        INSTANCE.renderItem(entity.getGrindItem(), ModelTransformation.Mode.FIXED, light, overlay, matrices,
-                vertexConsumers, 0);
+                new Quaternionf().rotateXYZ(0, (float) entity.grindTime / entity.MAX_GRIND_TIME * 2 * (float) Math.PI,
+                        0));
+        matrices.multiply(new Quaternionf().rotateXYZ((float) (Math.PI / 2), 0, 0));
+        INSTANCE.renderItem(entity.getGrindItem(), ModelTransformationMode.FIXED, light, overlay, matrices,
+                vertexConsumers, entity.getWorld(), 0);
         matrices.pop();
 
         matrices.push();
@@ -40,9 +41,9 @@ public class MortarBlockEnityRenderer implements BlockEntityRenderer<MortarBlock
             matrices.translate(0.5, 0.2, 0.5);
         }
         matrices.scale(0.5f, 0.5f, 0.5f);
-        matrices.multiply(Quaternion.fromEulerXyz((float) (Math.PI / 2), 0, 0));
-        INSTANCE.renderItem(entity.getOutputItem(), ModelTransformation.Mode.FIXED, light, overlay, matrices,
-                vertexConsumers, 0);
+        matrices.multiply(new Quaternionf().rotateXYZ((float) (Math.PI / 2), 0, 0));
+        INSTANCE.renderItem(entity.getOutputItem(), ModelTransformationMode.FIXED, light, overlay, matrices,
+                vertexConsumers, entity.getWorld(), 0);
         matrices.pop();
 
     }

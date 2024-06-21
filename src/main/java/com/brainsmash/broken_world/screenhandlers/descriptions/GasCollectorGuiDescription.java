@@ -45,8 +45,8 @@ public class GasCollectorGuiDescription extends SyncedGuiDescription {
     final Reference<Integer> selectedGas = new Reference<>(0);
 
     public GasCollectorGuiDescription(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
-        this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.world, buf.readBlockPos()),
-                buf.readInt());
+        this(syncId, playerInventory,
+                ScreenHandlerContext.create(playerInventory.player.getWorld(), buf.readBlockPos()), buf.readInt());
     }
 
     public GasCollectorGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context, int selectedGas) {

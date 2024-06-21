@@ -65,7 +65,7 @@ public class CrusherRecipe {
     public boolean matches(ImplementedInventory itemList) {
         return recipes.containsKey(itemList.getStack(0).getItem());
     }
-    
+
     public List<ItemStack> craft(ImplementedInventory itemList) {
         return null;
     }

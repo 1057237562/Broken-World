@@ -24,7 +24,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockLocating;
 import net.minecraft.world.World;
 
@@ -44,7 +43,7 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
     }
 
     public TeleporterControllerGuiDescription(int syncId, PlayerInventory playerInventory, BlockPos pos, PacketByteBuf buf) {
-        this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.world, pos));
+        this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.getWorld(), pos));
         if (getNetworkSide() == NetworkSide.CLIENT) {
             ((EntityDataExtension) playerInventory.player).setData(buf.readNbt());
             WGridPanel root = new WGridPanel();
@@ -101,7 +100,7 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
         if (getNetworkSide() == NetworkSide.SERVER) {
             ScreenNetworking.of(this, NetworkSide.SERVER).receive(SELECT_MESSAGE, buf -> {
                 selectDim = buf.readString();
-                
+
                 context.get((world, pos) -> {
                     TeleporterControllerBlockEntity entity = (TeleporterControllerBlockEntity) world.getBlockEntity(
                             pos);
@@ -113,7 +112,7 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
                         BlockPos portalbase = baseblock.add(0, 1, 0);
                         world.breakBlock(portalbase, false);
                         PortalLink link = DimensionRegister.dimensions.get(selectDim);
-                        Block linkblock = Registry.BLOCK.get(link.block);
+                        Block linkblock = RegistryKeys.BLOCK.get(link.block);
                         if (replacePortalBlock(oldlink, oldblock, world, portalbase, linkblock)) {
                             if (link != null && link.canLightInDim(world.getRegistryKey().getValue())) {
                                 createPortal(link, linkblock, world, portalbase);

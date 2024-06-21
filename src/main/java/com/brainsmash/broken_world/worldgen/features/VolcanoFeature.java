@@ -28,10 +28,11 @@ public class VolcanoFeature extends Feature<VolcanoFeatureConfig> {
 
     @Override
     public boolean generate(FeatureContext<VolcanoFeatureConfig> context) {
-        final Optional<Block> materialOptional = Registry.BLOCK.getOrEmpty(MATERIAL_ID);
+        final Optional<Block> materialOptional = RegistryKeys.BLOCK.getOrEmpty(MATERIAL_ID);
         if (materialOptional.isEmpty()) {
             if (!WARNED_BLOCK_NOT_FOUND) {
-                LogUtils.getLogger().error("Volcano feature generation not possible: " + MATERIAL_ID + " not registered. ");
+                LogUtils.getLogger().error(
+                        "Volcano feature generation not possible: " + MATERIAL_ID + " not registered. ");
                 WARNED_BLOCK_NOT_FOUND = true;
             }
             return false;
@@ -39,10 +40,8 @@ public class VolcanoFeature extends Feature<VolcanoFeatureConfig> {
         Block material = materialOptional.get();
 
         int R = radius(context);
-        if (R == -1)
-            return false;
-        if (!terrainPlainEnough(context, R))
-            return false;
+        if (R == -1) return false;
+        if (!terrainPlainEnough(context, R)) return false;
 
         BlockPos o = context.getOrigin();
         StructureWorldAccess world = context.getWorld();
@@ -63,23 +62,22 @@ public class VolcanoFeature extends Feature<VolcanoFeatureConfig> {
                 }
 
                 double r = Math.sqrt(Math.pow(p.getX() - o.getX(), 2) + Math.pow(p.getZ() - o.getZ(), 2));
-                int H = (int) Math.round(R * height(r/R));
-                H += Math.round(h * Math.min(r/R, 1));
+                int H = (int) Math.round(R * height(r / R));
+                H += Math.round(h * Math.min(r / R, 1));
                 while (h < H) {
                     p.move(0, 1, 0);
                     h++;
                     world.setBlockState(p, material.getDefaultState(), Block.NOTIFY_LISTENERS);
                 }
 
-                if (r/R > CRATER_RADIUS)
-                    continue;
+                if (r / R > CRATER_RADIUS) continue;
                 while (h > H) {
                     world.setBlockState(p, Blocks.AIR.getDefaultState(), Block.NOTIFY_LISTENERS);
                     p.move(0, -1, 0);
                     h--;
                 }
                 p.move(0, 1, 0);
-                while(o.getY() + LAVA_HEIGHT * R - p.getY() > 0) {
+                while (o.getY() + LAVA_HEIGHT * R - p.getY() > 0) {
                     world.setBlockState(p, Blocks.LAVA.getDefaultState(), Block.NOTIFY_LISTENERS);
                     p.move(0, 1, 0);
                 }
@@ -98,40 +96,72 @@ public class VolcanoFeature extends Feature<VolcanoFeatureConfig> {
         int blockX = pos.getX();
         int blockZ = pos.getZ();
 
-        int chunkX = blockX >= 0 ? blockX / 16 : (blockX-16) / 16;
-        int chunkZ = blockZ >= 0 ? blockZ / 16 : (blockZ-16) / 16;
+        int chunkX = blockX >= 0 ? blockX / 16 : (blockX - 16) / 16;
+        int chunkZ = blockZ >= 0 ? blockZ / 16 : (blockZ - 16) / 16;
 
-        int gridX = chunkX >= 0 ? chunkX / gridWidth : (chunkX-gridWidth) / gridWidth;
-        int gridZ = chunkZ >= 0 ? chunkZ / gridWidth : (chunkZ-gridWidth) / gridWidth;
+        int gridX = chunkX >= 0 ? chunkX / gridWidth : (chunkX - gridWidth) / gridWidth;
+        int gridZ = chunkZ >= 0 ? chunkZ / gridWidth : (chunkZ - gridWidth) / gridWidth;
 
         // Because Random uses 48-bit seed.
         long seed = Math.abs(gridX) * 16777216L; // 16,777,216 = 2^24
         seed += Math.abs(gridZ) % 16777216;
         Random random = new Random(seed);
-        if (blockX < 0)
-            random.nextInt();
+        if (blockX < 0) random.nextInt();
         if (blockZ < 0) {
             random.nextInt();
             random.nextInt();
         }
-        int allowedChunkX = gridX * gridWidth + gridPadding + Math.abs(random.nextInt()) % (gridWidth - 2*gridPadding + 1);
-        int allowedChunkZ = gridZ * gridWidth + gridPadding + Math.abs(random.nextInt()) % (gridWidth - 2*gridPadding + 1);
-        if (chunkX != allowedChunkX)
-            return -1;
-        if (chunkZ != allowedChunkZ)
-            return -1;
+        int allowedChunkX = gridX * gridWidth + gridPadding + Math.abs(
+                random.nextInt()) % (gridWidth - 2 * gridPadding + 1);
+        int allowedChunkZ = gridZ * gridWidth + gridPadding + Math.abs(
+                random.nextInt()) % (gridWidth - 2 * gridPadding + 1);
+        if (chunkX != allowedChunkX) return -1;
+        if (chunkZ != allowedChunkZ) return -1;
         return config.minRadius() + Math.abs(random.nextInt()) % (config.maxRadius() - config.minRadius() + 1);
     }
 
     double height(double r) {
-        return 0.65 * Math.exp(-7.4*Math.pow(r-0.3, 2)) - 0.5 * Math.exp(-Math.pow(6*r, 2));
+        return 0.65 * Math.exp(-7.4 * Math.pow(r - 0.3, 2)) - 0.5 * Math.exp(-Math.pow(6 * r, 2));
     }
 
     boolean terrainPlainEnough(FeatureContext<VolcanoFeatureConfig> context, int radius) {
         VolcanoFeatureConfig config = context.getConfig();
         StructureWorldAccess world = context.getWorld();
         BlockPos pos = context.getOrigin();
-        int[][] directions = { {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1} };
+        int[][] directions = {
+                {
+                        0,
+                        -1
+                },
+                {
+                        1,
+                        -1
+                },
+                {
+                        1,
+                        0
+                },
+                {
+                        1,
+                        1
+                },
+                {
+                        0,
+                        1
+                },
+                {
+                        -1,
+                        1
+                },
+                {
+                        -1,
+                        0
+                },
+                {
+                        -1,
+                        -1
+                }
+        };
         BlockPos.Mutable[] checkPoints = new BlockPos.Mutable[directions.length];
         for (int i = 0; i < directions.length; i++) {
             checkPoints[i] = pos.mutableCopy();
@@ -151,14 +181,14 @@ public class VolcanoFeature extends Feature<VolcanoFeatureConfig> {
                         cp.move(0, 1, 0);
                         cnt++;
                     }
-                    double distance = (double) radius / 2 * Math.sqrt(Math.pow(directions[j][0], 2) + Math.pow(directions[j][1], 2));
+                    double distance = (double) radius / 2 * Math.sqrt(
+                            Math.pow(directions[j][0], 2) + Math.pow(directions[j][1], 2));
                     if (Math.abs(cnt / distance) > config.kThreshold()) {
                         thresholdExceeded = true;
                         break;
                     }
                 }
-                if (thresholdExceeded)
-                    return false;
+                if (thresholdExceeded) return false;
             }
         }
         return true;

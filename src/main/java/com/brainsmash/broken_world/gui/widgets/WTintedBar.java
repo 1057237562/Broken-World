@@ -5,7 +5,7 @@ import io.github.cottonmc.cotton.gui.widget.WBar;
 import io.github.cottonmc.cotton.gui.widget.data.Texture;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
@@ -14,6 +14,7 @@ public class WTintedBar extends WBar {
     protected int tint = 0xFF_FFFFFF;
     protected Texture background;
     protected Texture foreground;
+
     public WTintedBar(@Nullable Texture bg, @Nullable Texture bar, int field, int maxField) {
         super(bg, bar, field, maxField);
         background = bg;
@@ -60,11 +61,12 @@ public class WTintedBar extends WBar {
 
     @Environment(EnvType.CLIENT)
     @Override
-    public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+    public void paint(DrawContext content, int x, int y, int mouseX, int mouseY) {
         if (background != null) {
-            ScreenDrawing.texturedRect(matrices, x, y, getWidth(), getHeight(), background, tint);
+            ScreenDrawing.texturedRect(content, x, y, getWidth(), getHeight(), background, tint);
         } else {
-            ScreenDrawing.coloredRect(matrices, x, y, getWidth(), getHeight(), ScreenDrawing.colorAtOpacity(0x000000, 0.25f));
+            ScreenDrawing.coloredRect(content, x, y, getWidth(), getHeight(),
+                    ScreenDrawing.colorAtOpacity(0x000000, 0.25f));
         }
 
         int maxVal = max >= 0 ? properties.get(max) : maxValue;
@@ -85,25 +87,34 @@ public class WTintedBar extends WBar {
                 int top = y + getHeight();
                 top -= barSize;
                 if (foreground != null) {
-                    ScreenDrawing.texturedRect(matrices, left, top, getWidth(), barSize, foreground.image(), foreground.u1(), MathHelper.lerp(percent, foreground.v2(), foreground.v1()), foreground.u2(), foreground.v2(), tint);
+                    ScreenDrawing.texturedRect(content, left, top, getWidth(), barSize, foreground.image(),
+                            foreground.u1(), MathHelper.lerp(percent, foreground.v2(), foreground.v1()),
+                            foreground.u2(), foreground.v2(), tint);
                 } else {
-                    ScreenDrawing.coloredRect(matrices, left, top, getWidth(), barSize, ScreenDrawing.colorAtOpacity(0xFFFFFF, 0.5f));
+                    ScreenDrawing.coloredRect(content, left, top, getWidth(), barSize,
+                            ScreenDrawing.colorAtOpacity(0xFFFFFF, 0.5f));
                 }
             }
 
             case RIGHT -> {
                 if (foreground != null) {
-                    ScreenDrawing.texturedRect(matrices, x, y, barSize, getHeight(), foreground.image(), foreground.u1(), foreground.v1(), MathHelper.lerp(percent, foreground.u1(), foreground.u2()), foreground.v2(), tint);
+                    ScreenDrawing.texturedRect(content, x, y, barSize, getHeight(), foreground.image(), foreground.u1(),
+                            foreground.v1(), MathHelper.lerp(percent, foreground.u1(), foreground.u2()),
+                            foreground.v2(), tint);
                 } else {
-                    ScreenDrawing.coloredRect(matrices, x, y, barSize, getHeight(), ScreenDrawing.colorAtOpacity(0xFFFFFF, 0.5f));
+                    ScreenDrawing.coloredRect(content, x, y, barSize, getHeight(),
+                            ScreenDrawing.colorAtOpacity(0xFFFFFF, 0.5f));
                 }
             }
 
             case DOWN -> {
                 if (foreground != null) {
-                    ScreenDrawing.texturedRect(matrices, x, y, getWidth(), barSize, foreground.image(), foreground.u1(), foreground.v1(), foreground.u2(), MathHelper.lerp(percent, foreground.v1(), foreground.v2()), tint);
+                    ScreenDrawing.texturedRect(content, x, y, getWidth(), barSize, foreground.image(), foreground.u1(),
+                            foreground.v1(), foreground.u2(),
+                            MathHelper.lerp(percent, foreground.v1(), foreground.v2()), tint);
                 } else {
-                    ScreenDrawing.coloredRect(matrices, x, y, getWidth(), barSize, ScreenDrawing.colorAtOpacity(0xFFFFFF, 0.5f));
+                    ScreenDrawing.coloredRect(content, x, y, getWidth(), barSize,
+                            ScreenDrawing.colorAtOpacity(0xFFFFFF, 0.5f));
                 }
             }
 
@@ -112,9 +123,12 @@ public class WTintedBar extends WBar {
                 int top = y;
                 left -= barSize;
                 if (foreground != null) {
-                    ScreenDrawing.texturedRect(matrices, left, top, barSize, getHeight(), foreground.image(), MathHelper.lerp(percent, foreground.u2(), foreground.u1()), foreground.v1(), foreground.u2(), foreground.v2(), tint);
+                    ScreenDrawing.texturedRect(content, left, top, barSize, getHeight(), foreground.image(),
+                            MathHelper.lerp(percent, foreground.u2(), foreground.u1()), foreground.v1(),
+                            foreground.u2(), foreground.v2(), tint);
                 } else {
-                    ScreenDrawing.coloredRect(matrices, left, top, barSize, getHeight(), ScreenDrawing.colorAtOpacity(0xFFFFFF, 0.5f));
+                    ScreenDrawing.coloredRect(content, left, top, barSize, getHeight(),
+                            ScreenDrawing.colorAtOpacity(0xFFFFFF, 0.5f));
                 }
             }
         }

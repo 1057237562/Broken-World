@@ -5,10 +5,10 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Quaternion;
+import org.joml.Quaternionf;
 
 public class SifterBlockEntityRenderer implements BlockEntityRenderer<SifterBlockEntity> {
 
@@ -22,11 +22,11 @@ public class SifterBlockEntityRenderer implements BlockEntityRenderer<SifterBloc
     public void render(SifterBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
         matrices.translate(0.5, 0.5, 0.5);
-        matrices.multiply(Quaternion.fromEulerXyz(0, entity.getWorld().getTime() + tickDelta, 0));
+        matrices.multiply(new Quaternionf().rotateXYZ(0, entity.getWorld().getTime() + tickDelta, 0));
         ItemStack itemStack = entity.getItems().get(0);
         if (entity.isRunning())
-            INSTANCE.renderItem(itemStack, ModelTransformation.Mode.GROUND, 15728880, overlay, matrices,
-                    vertexConsumers, 0);
+            INSTANCE.renderItem(itemStack, ModelTransformationMode.GROUND, 15728880, overlay, matrices, vertexConsumers,
+                    entity.getWorld(), 0);
         matrices.pop();
     }
 }

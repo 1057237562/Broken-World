@@ -9,7 +9,7 @@ import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Arm;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
 
 public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends SinglePartEntityModel<T> implements ModelWithArms {
 
@@ -122,7 +122,7 @@ public class ApocalyptorEntityModel<T extends ApocalyptorEntity> extends SingleP
             matrices.translate(1.0f, 8.0f / 16.0f, 0.0f);
         } else {
             matrices.translate(-0.8f, 8.0f / 16.0f, 0.0f);
-            matrices.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(3.1416f));
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotation(3.1416f));
         }
         matrices.scale(1.5f, 1.5f, 1.5f);
     }

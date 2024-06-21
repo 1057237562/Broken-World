@@ -73,7 +73,7 @@ public class FluidRegister {
             Registry.register(Registry.FLUID, new Identifier(MODID, fluidnames[i]), still_fluid[i]);
             Registry.register(Registry.FLUID, new Identifier(MODID, "flowing_" + fluidnames[i]), flowing_fluid[i]);
             Registry.register(Registry.ITEM, new Identifier(MODID, fluidnames[i] + "_bucket"), bucket_item[i]);
-            Registry.register(Registry.BLOCK, new Identifier(MODID, fluidnames[i]), fluid_blocks[i]);
+            Registry.register(RegistryKeys.BLOCK, new Identifier(MODID, fluidnames[i]), fluid_blocks[i]);
         }
     }
 

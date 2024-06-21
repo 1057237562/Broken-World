@@ -12,15 +12,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -69,7 +69,7 @@ public class CableBlock extends BlockWithEntity {
         return new CableBlockEntity(pos, state, maxFlow);
     }
 
-    public static final TagKey<Block> ELECTRICAL_BLOCK_KEY = TagKey.of(Registry.BLOCK_KEY,
+    public static final TagKey<Block> ELECTRICAL_BLOCK_KEY = TagKey.of(RegistryKeys.BLOCK,
             new Identifier("broken_world:electrical"));
 
     @Override

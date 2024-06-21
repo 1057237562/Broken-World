@@ -7,8 +7,8 @@ import net.minecraft.block.FluidBlock;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.state.StateManager;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
@@ -79,10 +79,6 @@ public abstract class AcidFluid extends FluidModel {
             return fluidState.get(LEVEL);
         }
 
-        @Override
-        public boolean isStill(FluidState fluidState) {
-            return false;
-        }
     }
 
     public static class Still extends AcidFluid {

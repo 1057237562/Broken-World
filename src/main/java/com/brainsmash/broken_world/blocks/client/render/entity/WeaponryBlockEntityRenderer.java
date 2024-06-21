@@ -18,8 +18,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.World;
+import org.joml.Vector3f;
 
 @Environment(EnvType.CLIENT)
 public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<WeaponryBlockEntity> {
@@ -113,14 +114,14 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
         BlockState blockState = bl ? entity.getCachedState() : BlockRegister.blocks[BlockRegistry.WEAPONRY.ordinal()].getDefaultState().with(
                 Properties.HORIZONTAL_FACING, Direction.SOUTH);
         matrices.multiply(
-                Vec3f.POSITIVE_Y.getDegreesQuaternion(-blockState.get(Properties.HORIZONTAL_FACING).asRotation()));
+                RotationAxis.POSITIVE_Y.rotationDegrees(-blockState.get(Properties.HORIZONTAL_FACING).asRotation()));
         matrices.translate(-0.5, -0.5, -0.5);
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
 
         body.render(matrices, vertexConsumer, light, overlay);
 
-        Vec3f travel = Direction.EAST.getUnitVector();
-        travel.scale(f(entity.getWorld().getTime() + tickDelta));
+        Vector3f travel = Direction.EAST.getUnitVector();
+        travel.mul(f(entity.getWorld().getTime() + tickDelta));
 
         armStand.translate(travel);
         armStand.render(matrices, vertexConsumer, light, overlay);

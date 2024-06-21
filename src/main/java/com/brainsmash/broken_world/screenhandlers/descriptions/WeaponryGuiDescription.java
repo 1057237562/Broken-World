@@ -15,6 +15,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -79,7 +80,7 @@ public class WeaponryGuiDescription extends SyncedGuiDescription {
             Optional<WeaponryRecipe> optional = world.getServer().getRecipeManager().getFirstMatch(
                     WeaponryRecipe.Type.INSTANCE, craftingInventory, world);
             if (optional.isPresent()) {
-                entity.setOutput(optional.get().craft(craftingInventory));
+                entity.setOutput(optional.get().craft(craftingInventory, DynamicRegistryManager.EMPTY));
             } else {
                 entity.setOutput(ItemStack.EMPTY);
             }

@@ -5,11 +5,10 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
-import net.minecraft.tag.ItemTags;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Util;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
@@ -37,7 +36,7 @@ public class BurnTimeRegister {
     }
 
     private static void addFuel(Map<Item, Integer> fuelTimes, TagKey<Item> tag, int fuelTime) {
-        for (RegistryEntry<Item> registryEntry : Registry.ITEM.iterateEntries(tag)) {
+        for (var registryEntry : Registries.ITEM.iterateEntries(tag)) {
             if (isNonFlammableWood(registryEntry.value())) continue;
             fuelTimes.put(registryEntry.value(), fuelTime);
         }

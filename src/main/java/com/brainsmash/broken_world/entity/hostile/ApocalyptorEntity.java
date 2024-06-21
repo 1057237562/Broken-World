@@ -43,9 +43,9 @@ public class ApocalyptorEntity extends HostileEntity {
 
     @Override
     public void tickMovement() {
-        if (this.world.isClient) {
+        if (this.getWorld().isClient) {
             for (int i = 0; i < 2; ++i) {
-                this.world.addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(0.15), this.getBodyY(1.1),
+                this.getWorld().addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(0.15), this.getBodyY(1.1),
                         this.getParticleZ(0.15), 0.0, 0.0, 0.0);
             }
         }

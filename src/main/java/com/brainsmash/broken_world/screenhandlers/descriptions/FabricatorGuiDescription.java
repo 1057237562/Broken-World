@@ -17,6 +17,7 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -81,12 +82,12 @@ public class FabricatorGuiDescription extends SyncedGuiDescription {
             Optional<FabricatorRecipe> fabricatorRecipe = world.getServer().getRecipeManager().getFirstMatch(
                     FabricatorRecipe.Type.INSTANCE, craftingInventory, world);
             if (fabricatorRecipe.isPresent()) {
-                entity.setOutput(fabricatorRecipe.get().craft(craftingInventory));
+                entity.setOutput(fabricatorRecipe.get().craft(craftingInventory, DynamicRegistryManager.EMPTY));
             } else {
                 Optional<CraftingRecipe> vanillaRecipe = world.getServer().getRecipeManager().getFirstMatch(
                         RecipeType.CRAFTING, craftingInventory, world);
                 if (vanillaRecipe.isPresent()) {
-                    entity.setOutput(vanillaRecipe.get().craft(craftingInventory));
+                    entity.setOutput(vanillaRecipe.get().craft(craftingInventory, DynamicRegistryManager.EMPTY));
                 } else {
                     entity.setOutput(ItemStack.EMPTY);
                 }

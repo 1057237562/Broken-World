@@ -7,12 +7,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.*;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class GlitchBlock extends Block {
@@ -35,7 +35,7 @@ public class GlitchBlock extends Block {
         int k = random.nextBetween(-range, range);
         BlockPos pos1 = pos.add(i, j, k);
         if (!world.getBlockState(pos1).isAir() && !world.getBlockState(pos1).isIn(
-                TagKey.of(Registry.BLOCK_KEY, new Identifier("broken_world:antiglitch")))) {
+                TagKey.of(RegistryKeys.BLOCK, new Identifier("broken_world:antiglitch")))) {
             world.setBlockState(pos1, getDefaultState());
         }
     }

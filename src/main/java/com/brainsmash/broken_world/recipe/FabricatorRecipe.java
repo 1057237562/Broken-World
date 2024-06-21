@@ -8,14 +8,17 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.ShapedRecipe;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.registry.Registry;
 
 public class FabricatorRecipe extends ShapedRecipe {
 
-    public FabricatorRecipe(Identifier id, String group, int width, int height, DefaultedList<Ingredient> input, ItemStack output) {
-        super(id, group, width, height, input, output);
+    public FabricatorRecipe(Identifier id, String group, CraftingRecipeCategory category, int width, int height, DefaultedList<Ingredient> input, ItemStack output) {
+        super(id, group, category, width, height, input, output);
     }
 
     public static class Type implements RecipeType<FabricatorRecipe> {
@@ -37,23 +40,15 @@ public class FabricatorRecipe extends ShapedRecipe {
         @Override
         public FabricatorRecipe read(Identifier identifier, PacketByteBuf packetByteBuf) {
             ShapedRecipe father = super.read(identifier, packetByteBuf);
-            return new FabricatorRecipe(father.getId(),
-                    father.getGroup(),
-                    father.getWidth(),
-                    father.getHeight(),
-                    father.getIngredients(),
-                    father.getOutput());
+            return new FabricatorRecipe(father.getId(), father.getGroup(), father.getCategory(), father.getWidth(),
+                    father.getHeight(), father.getIngredients(), father.getOutput(DynamicRegistryManager.EMPTY));
         }
 
         @Override
         public FabricatorRecipe read(Identifier identifier, JsonObject jsonObject) {
             ShapedRecipe father = super.read(identifier, jsonObject);
-            return new FabricatorRecipe(father.getId(),
-                    father.getGroup(),
-                    father.getWidth(),
-                    father.getHeight(),
-                    father.getIngredients(),
-                    father.getOutput());
+            return new FabricatorRecipe(father.getId(), father.getGroup(), father.getCategory(), father.getWidth(),
+                    father.getHeight(), father.getIngredients(), father.getOutput(DynamicRegistryManager.EMPTY));
         }
     }
 
@@ -68,7 +63,7 @@ public class FabricatorRecipe extends ShapedRecipe {
     }
 
     public static void register() {
-        Registry.register(Registry.RECIPE_TYPE, Type.ID, Type.INSTANCE);
-        Registry.register(Registry.RECIPE_SERIALIZER, Serializer.ID, Serializer.INSTANCE);
+        Registry.register(Registries.RECIPE_TYPE, Type.ID, Type.INSTANCE);
+        Registry.register(Registries.RECIPE_SERIALIZER, Serializer.ID, Serializer.INSTANCE);
     }
 }

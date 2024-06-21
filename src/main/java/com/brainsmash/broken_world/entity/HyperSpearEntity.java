@@ -86,7 +86,7 @@ public class HyperSpearEntity extends ProjectileEntity {
 
     @Nullable
     protected EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
-        return ProjectileUtil.getEntityCollision(this.world, this, currentPosition, nextPosition,
+        return ProjectileUtil.getEntityCollision(this.getWorld(), this, currentPosition, nextPosition,
                 this.getBoundingBox().stretch(this.getVelocity()).expand(1.0), this::canHit);
     }
 
@@ -109,8 +109,8 @@ public class HyperSpearEntity extends ProjectileEntity {
             this.prevYaw = this.getYaw();
             this.prevPitch = this.getPitch();
         }
-        if (!((blockState = this.world.getBlockState(
-                blockPos = this.getBlockPos())).isAir() || (voxelShape = blockState.getCollisionShape(this.world,
+        if (!((blockState = this.getWorld().getBlockState(
+                blockPos = this.getBlockPos())).isAir() || (voxelShape = blockState.getCollisionShape(this.getWorld(),
                 blockPos)).isEmpty())) {
             vec3d2 = this.getPos();
             for (Box box : voxelShape.getBoundingBoxes()) {
@@ -122,7 +122,7 @@ public class HyperSpearEntity extends ProjectileEntity {
             this.extinguish();
         }
         Vec3d vec3d3 = this.getPos();
-        HitResult hitResult = this.world.raycast(
+        HitResult hitResult = this.getWorld().raycast(
                 new RaycastContext(vec3d3, vec3d2 = vec3d3.add(vec3d), RaycastContext.ShapeType.COLLIDER,
                         RaycastContext.FluidHandling.NONE, this));
         if (hitResult.getType() != HitResult.Type.MISS) {
@@ -166,7 +166,7 @@ public class HyperSpearEntity extends ProjectileEntity {
         if (this.isTouchingWater()) {
             for (int o = 0; o < 4; ++o) {
                 float p = 0.25f;
-                this.world.addParticle(ParticleTypes.BUBBLE, h - e * 0.25, j - f * 0.25, k - g * 0.25, e, f, g);
+                this.getWorld().addParticle(ParticleTypes.BUBBLE, h - e * 0.25, j - f * 0.25, k - g * 0.25, e, f, g);
             }
             m = this.getDragInWater();
         }
@@ -182,9 +182,9 @@ public class HyperSpearEntity extends ProjectileEntity {
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
         ParticleEffect particleEffect = new BlockStateParticleEffect(ParticleTypes.BLOCK,
-                world.getBlockState(blockHitResult.getBlockPos()));
+                getWorld().getBlockState(blockHitResult.getBlockPos()));
         for (int i = 0; i < 8; ++i) {
-            this.world.addParticle(particleEffect, this.getX(), this.getY(), this.getZ(), 0.0, 0.0, 0.0);
+            this.getWorld().addParticle(particleEffect, this.getX(), this.getY(), this.getZ(), 0.0, 0.0, 0.0);
         }
         discard();
     }

@@ -17,7 +17,7 @@ import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.AbstractCauldronBlock;
 import net.minecraft.block.DoorBlock;
@@ -32,8 +32,8 @@ import net.minecraft.util.Identifier;
 import java.util.Optional;
 
 public class ModelGenerator extends FabricModelProvider {
-    public ModelGenerator(FabricDataGenerator dataGenerator) {
-        super(dataGenerator);
+    public ModelGenerator(FabricDataOutput dataOutput) {
+        super(dataOutput);
     }
 
     @Override

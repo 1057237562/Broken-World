@@ -5,7 +5,7 @@ import com.brainsmash.broken_world.blocks.LogBlock;
 import com.brainsmash.broken_world.blocks.LootLeavesBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
 import net.minecraft.block.OreBlock;
 import net.minecraft.data.server.BlockLootTableGenerator;
@@ -18,8 +18,8 @@ import java.util.function.BiConsumer;
 
 public class LootTableGenerator extends SimpleFabricLootTableProvider {
 
-    public LootTableGenerator(FabricDataGenerator dataGenerator) {
-        super(dataGenerator, LootContextTypes.BLOCK);
+    public LootTableGenerator(FabricDataOutput dataOutput) {
+        super(dataOutput, LootContextTypes.BLOCK);
     }
 
     @Override

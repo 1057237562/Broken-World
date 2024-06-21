@@ -13,7 +13,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Quaternion;
+import org.joml.Quaternionf;
 
 public class CompressorBlockEntityRenderer implements BlockEntityRenderer<CompressorBlockEntity> {
 
@@ -43,7 +43,7 @@ public class CompressorBlockEntityRenderer implements BlockEntityRenderer<Compre
     @Override
     public void render(CompressorBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
-        matrices.multiply(Quaternion.fromEulerXyz(0, 0, (float) Math.PI));
+        matrices.multiply(new Quaternionf().rotateXYZ(0, 0, (float) Math.PI));
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
         int lightAbove = WorldRenderer.getLightmapCoordinates(entity.getWorld(), entity.getPos().up());
         if (entity.isRunning()) entity.tick += tickDelta;

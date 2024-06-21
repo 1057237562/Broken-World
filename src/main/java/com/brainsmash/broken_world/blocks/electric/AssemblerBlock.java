@@ -44,6 +44,7 @@ public class AssemblerBlock extends ConsumerBlock {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
+        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING,
+                ctx.getPlayerLookDirection().getOpposite());
     }
 }

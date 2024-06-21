@@ -22,9 +22,9 @@ import org.jetbrains.annotations.Nullable;
 public class AdvancedFurnaceBlock extends ConsumerBlock {
     public AdvancedFurnaceBlock(Settings settings) {
         super(settings);
-        setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(
-                Properties.LIT,
-                false));
+        setDefaultState(
+                stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT,
+                        false));
     }
 
     @Override
@@ -37,10 +37,8 @@ public class AdvancedFurnaceBlock extends ConsumerBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         if (!world.isClient)
-            return (world1, pos, state1, blockEntity) -> ((AdvancedFurnaceBlockEntity) blockEntity).tick(world1,
-                    pos,
-                    state1,
-                    (AdvancedFurnaceBlockEntity) blockEntity);
+            return (world1, pos, state1, blockEntity) -> ((AdvancedFurnaceBlockEntity) blockEntity).tick(world1, pos,
+                    state1, (AdvancedFurnaceBlockEntity) blockEntity);
         return null;
     }
 
@@ -51,7 +49,8 @@ public class AdvancedFurnaceBlock extends ConsumerBlock {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
+        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING,
+                ctx.getPlayerLookDirection().getOpposite());
     }
 
     @Override

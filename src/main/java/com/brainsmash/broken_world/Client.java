@@ -85,7 +85,7 @@ public class Client implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             ClientPlayerEntity player = MinecraftClient.getInstance().player;
             if (crawlKey.isPressed()) {
-                if (player.world.isSpaceEmpty(player,
+                if (player.getWorld().isSpaceEmpty(player,
                         EntityHelper.calculateBoundsForPose(player, EntityPose.SWIMMING).contract(1.0E-7))) {
                     player.setPose(EntityPose.SWIMMING);
                     ((PlayerDataExtension) player).forceSetFlag(2, true);

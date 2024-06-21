@@ -13,7 +13,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Quaternion;
+import org.joml.Quaternionf;
 
 public class WindTurbineEntityRenderer implements BlockEntityRenderer<WindTurbineEntity> {
 
@@ -60,7 +60,7 @@ public class WindTurbineEntityRenderer implements BlockEntityRenderer<WindTurbin
         matrices.translate(0.5, 0.5, 0.5);
         Direction direction = entity.getCachedState().get(Properties.HORIZONTAL_FACING);
         matrices.translate(0.6 * direction.getOffsetX(), 0.6 * direction.getOffsetY(), 0.6 * direction.getOffsetZ());
-        matrices.multiply(Quaternion.fromEulerXyz(tick * direction.getOffsetX(), tick * direction.getOffsetY(),
+        matrices.multiply(new Quaternionf().rotateXYZ(tick * direction.getOffsetX(), tick * direction.getOffsetY(),
                 tick * direction.getOffsetZ()));
         matrices.multiply(direction.getRotationQuaternion());
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));

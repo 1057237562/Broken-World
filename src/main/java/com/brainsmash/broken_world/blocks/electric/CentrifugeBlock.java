@@ -20,9 +20,9 @@ import org.jetbrains.annotations.Nullable;
 public class CentrifugeBlock extends ConsumerBlock implements AttributeProvider {
     public CentrifugeBlock(Settings settings) {
         super(settings);
-        setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(
-                Properties.LIT,
-                false));
+        setDefaultState(
+                stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT,
+                        false));
     }
 
     @Override
@@ -34,11 +34,9 @@ public class CentrifugeBlock extends ConsumerBlock implements AttributeProvider 
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if (!world.isClient) return (world1, pos, state1, blockEntity) -> ((CentrifugeBlockEntity) blockEntity).tick(
-                world1,
-                pos,
-                state1,
-                (CentrifugeBlockEntity) blockEntity);
+        if (!world.isClient)
+            return (world1, pos, state1, blockEntity) -> ((CentrifugeBlockEntity) blockEntity).tick(world1, pos, state1,
+                    (CentrifugeBlockEntity) blockEntity);
         return null;
     }
 
@@ -49,7 +47,8 @@ public class CentrifugeBlock extends ConsumerBlock implements AttributeProvider 
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
+        return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING,
+                ctx.getPlayerLookDirection().getOpposite());
     }
 
     @Override

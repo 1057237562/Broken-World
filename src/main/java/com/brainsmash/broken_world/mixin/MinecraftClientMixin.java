@@ -38,9 +38,9 @@ public abstract class MinecraftClientMixin {
     @Inject(method = "doAttack", at = @At(value = "HEAD"), cancellable = true)
     private void fireGun(CallbackInfoReturnable<Boolean> cir) {
         if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
-            gunItem.fire(player.world, player);
+            gunItem.fire(player.getWorld(), player);
             if (player.getOffHandStack().getItem() instanceof GunItem gunItem1) {
-                gunItem1.fire(player.world, player);
+                gunItem1.fire(player.getWorld(), player);
             }
             ClientPlayNetworking.send(new Identifier(MODID, "fire_key_pressed"), PacketByteBufs.create());
             cir.setReturnValue(true);
@@ -51,9 +51,9 @@ public abstract class MinecraftClientMixin {
     private boolean fireGunTick(boolean flag) {
         if (options.attackKey.isPressed()) {
             if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
-                flag |= gunItem.fireTick(player.world, MinecraftClient.getInstance().player);
+                flag |= gunItem.fireTick(player.getWorld(), MinecraftClient.getInstance().player);
                 if (player.getOffHandStack().getItem() instanceof GunItem gunItem1) {
-                    flag |= gunItem1.fireTick(player.world, MinecraftClient.getInstance().player);
+                    flag |= gunItem1.fireTick(player.getWorld(), MinecraftClient.getInstance().player);
                 }
             }
             ClientPlayNetworking.send(new Identifier(MODID, "fire_key_hold"), PacketByteBufs.create());

@@ -10,15 +10,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,8 +42,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity {
                 BlockPos pos1 = scanned.get(i).getLeft();
                 boolean flag = false;
                 BlockPos pointPos = pos.add(pos1.getX(), pos1.getY(), pos1.getZ());
-                for (RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(
-                        ConventionalBlockTags.ORES)) {
+                for (var blockRegistryEntry : Registries.BLOCK.iterateEntries(ConventionalBlockTags.ORES)) {
                     if (world.getBlockState(pointPos).getBlock().equals(blockRegistryEntry.value())) {
                         flag = true;
                     }
@@ -65,8 +63,7 @@ public class ScannerBlockEntity extends ConsumerBlockEntity {
                         if (!world.isChunkLoaded(pointPos)) {
                             return;
                         }
-                        for (RegistryEntry<Block> blockRegistryEntry : Registry.BLOCK.iterateEntries(
-                                ConventionalBlockTags.ORES)) {
+                        for (var blockRegistryEntry : Registries.BLOCK.iterateEntries(ConventionalBlockTags.ORES)) {
                             if (world.getBlockState(pointPos).getBlock().equals(blockRegistryEntry.value())) {
                                 if (scanned.size() >= maxScanned) {
                                     running = false;

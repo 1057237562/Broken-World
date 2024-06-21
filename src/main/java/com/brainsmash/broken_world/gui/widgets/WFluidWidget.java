@@ -11,7 +11,7 @@ import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import io.github.cottonmc.cotton.gui.widget.data.Texture;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -60,8 +60,8 @@ public class WFluidWidget extends WWidget {
 
     @Environment(EnvType.CLIENT)
     @Override
-    public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-        ScreenDrawing.texturedRect(matrices, x - 1, y - 1, 18, 50, background, 0xFFFFFFFF);
+    public void paint(DrawContext content, int x, int y, int mouseX, int mouseY) {
+        ScreenDrawing.texturedRect(content, x - 1, y - 1, 18, 50, background, 0xFFFFFFFF);
 
         double x0 = x;
         double y0;
@@ -75,7 +75,7 @@ public class WFluidWidget extends WWidget {
         double y1 = y + 48;
         inv.getInvFluid(index).renderGuiRect(x0, y0, x1, y1);
 
-        ScreenDrawing.texturedRect(matrices, x, y, 16, 48, scale, 0xFFFFFFFF);
+        ScreenDrawing.texturedRect(content, x, y, 16, 48, scale, 0xFFFFFFFF);
     }
 
     @Override

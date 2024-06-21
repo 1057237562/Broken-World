@@ -67,25 +67,25 @@ public class PhoenixEntity extends HostileEntity {
     public void tickMovement() {
         this.prevFlapProgress = this.flapProgress;
         this.prevMaxWingDeviation = this.maxWingDeviation;
-        this.maxWingDeviation += (this.onGround ? -1.0f : 4.0f) * 0.3f;
+        this.maxWingDeviation += (this.isOnGround() ? -1.0f : 4.0f) * 0.3f;
         this.maxWingDeviation = MathHelper.clamp(this.maxWingDeviation, 0.0f, 1.0f);
-        if (!this.onGround && this.flapSpeed < 0.3f) {
+        if (!this.isOnGround() && this.flapSpeed < 0.3f) {
             this.flapSpeed = 0.3f;
         }
         this.flapSpeed *= 0.9f;
-        if (!this.onGround && this.getVelocity().y < 0.0) {
+        if (!this.isOnGround() && this.getVelocity().y < 0.0) {
             this.setVelocity(this.getVelocity().multiply(1.0, 0.6, 1.0));
         }
 
         this.flapProgress += this.flapSpeed * 2.0f;
-        if (this.world.isClient) {
+        if (this.getWorld().isClient) {
             if (this.random.nextInt(24) == 0 && !this.isSilent()) {
-                this.world.playSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5,
+                this.getWorld().playSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5,
                         SoundEvents.BLOCK_FIRE_AMBIENT, this.getSoundCategory(), 1.0f + this.random.nextFloat(),
                         this.random.nextFloat() * 0.7f + 0.3f, false);
             }
             for (int i = 0; i < 2; ++i) {
-                this.world.addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(0.5), this.getRandomBodyY(),
+                this.getWorld().addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(0.5), this.getRandomBodyY(),
                         this.getParticleZ(0.5), 0.0, 0.0, 0.0);
             }
         }
@@ -131,27 +131,27 @@ public class PhoenixEntity extends HostileEntity {
                 this.setVelocity(this.getVelocity().multiply(0.5));
             } else {
                 float f = 0.91f;
-                if (this.onGround) {
-                    f = this.world.getBlockState(new BlockPos(this.getX(), this.getY() - 1.0,
-                            this.getZ())).getBlock().getSlipperiness() * 0.91f;
+                if (this.isOnGround()) {
+                    f = this.getWorld().getBlockState(new BlockPos((int) this.getX(), (int) (this.getY() - 1.0),
+                            (int) this.getZ())).getBlock().getSlipperiness() * 0.91f;
                 }
                 float g = 0.16277137f / (f * f * f);
                 f = 0.91f;
-                if (this.onGround) {
-                    f = this.world.getBlockState(new BlockPos(this.getX(), this.getY() - 1.0,
-                            this.getZ())).getBlock().getSlipperiness() * 0.91f;
+                if (this.isOnGround()) {
+                    f = this.getWorld().getBlockState(new BlockPos((int) this.getX(), (int) (this.getY() - 1.0),
+                            (int) this.getZ())).getBlock().getSlipperiness() * 0.91f;
                 }
-                this.updateVelocity(this.onGround ? 0.1f * g : 0.02f, movementInput);
+                this.updateVelocity(this.isOnGround() ? 0.1f * g : 0.02f, movementInput);
                 this.move(MovementType.SELF, this.getVelocity());
                 this.setVelocity(this.getVelocity().multiply(f));
             }
         }
-        this.updateLimbs(this, false);
+        this.updateLimbs(false);
         //super.travel(movementInput);
     }
 
     public static boolean canSpawn(EntityType<? extends MobEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        LogUtils.getLogger().debug("Phoenix was asked to spawn at"+pos+"for reason: "+spawnReason);
+        LogUtils.getLogger().debug("Phoenix was asked to spawn at" + pos + "for reason: " + spawnReason);
         return true;
     }
 
@@ -185,7 +185,8 @@ public class PhoenixEntity extends HostileEntity {
         private boolean willCollide(Vec3d direction, int steps) {
             Box box = this.phoenixEntity.getBoundingBox();
             for (int i = 1; i < steps; ++i) {
-                if (this.phoenixEntity.world.isSpaceEmpty(this.phoenixEntity, box = box.offset(direction))) continue;
+                if (this.phoenixEntity.getWorld().isSpaceEmpty(this.phoenixEntity, box = box.offset(direction)))
+                    continue;
                 return false;
             }
             return true;
@@ -261,15 +262,15 @@ public class PhoenixEntity extends HostileEntity {
                     if (this.fireballsFired > 1) {
                         double h = Math.sqrt(Math.sqrt(d)) * 0.5;
                         if (!this.phoenixEntity.isSilent()) {
-                            this.phoenixEntity.world.syncWorldEvent(null, WorldEvents.BLAZE_SHOOTS,
+                            this.phoenixEntity.getWorld().syncWorldEvent(null, WorldEvents.BLAZE_SHOOTS,
                                     this.phoenixEntity.getBlockPos(), 0);
                         }
-                        SmallFireballEntity smallFireballEntity = new SmallFireballEntity(this.phoenixEntity.world,
+                        SmallFireballEntity smallFireballEntity = new SmallFireballEntity(this.phoenixEntity.getWorld(),
                                 this.phoenixEntity, this.phoenixEntity.getRandom().nextTriangular(e, 0.78f * h), f,
                                 this.phoenixEntity.getRandom().nextTriangular(g, 0.78f * h));
                         smallFireballEntity.setPosition(smallFireballEntity.getX(),
                                 this.phoenixEntity.getBodyY(0.5) + 0.5, smallFireballEntity.getZ());
-                        this.phoenixEntity.world.spawnEntity(smallFireballEntity);
+                        this.phoenixEntity.getWorld().spawnEntity(smallFireballEntity);
                     }
                 }
                 this.phoenixEntity.getLookControl().lookAt(livingEntity, 10.0f, 10.0f);

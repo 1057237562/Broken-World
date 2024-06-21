@@ -7,16 +7,20 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -110,14 +114,14 @@ public class MultiblockUtil {
     public static Block multiblock;
 
     public static void registerMultiblock() {
-        dummy = Registry.register(Registry.BLOCK, new Identifier(MODID, "dummy"),
+        dummy = Registry.register(RegistryKeys.BLOCK, new Identifier(MODID, "dummy"),
                 new DummyBlock(FabricBlockSettings.of(Material.BARRIER).strength(1.0F, 6.0F).nonOpaque()));
-        DUMMY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dummy"),
+        DUMMY_ENTITY_TYPE = Registry.register(RegistryKeys.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dummy"),
                 FabricBlockEntityTypeBuilder.create(DummyBlockEntity::new, dummy).build());
 
-        multiblock = Registry.register(Registry.BLOCK, new Identifier(MODID, "multiblock"),
+        multiblock = Registry.register(RegistryKeys.BLOCK, new Identifier(MODID, "multiblock"),
                 new Multiblock(FabricBlockSettings.of(Material.BARRIER).strength(1.0F, 6.0F).nonOpaque()));
-        MULTIBLOCK_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "multiblock"),
+        MULTIBLOCK_ENTITY_TYPE = Registry.register(RegistryKeys.BLOCK_ENTITY_TYPE, new Identifier(MODID, "multiblock"),
                 FabricBlockEntityTypeBuilder.create(MultiblockEntity::new, multiblock).build());
 
         BlockRenderLayerMap.INSTANCE.putBlock(dummy, RenderLayer.getTranslucent());

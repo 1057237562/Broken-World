@@ -8,14 +8,16 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.ShapedRecipe;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.registry.Registry;
 
 public class WeaponryRecipe extends ShapedRecipe {
 
-    public WeaponryRecipe(Identifier id, String group, int width, int height, DefaultedList<Ingredient> input, ItemStack output) {
-        super(id, group, width, height, input, output);
+    public WeaponryRecipe(Identifier id, String group, CraftingRecipeCategory category, int width, int height, DefaultedList<Ingredient> input, ItemStack output) {
+        super(id, group, category, width, height, input, output);
     }
 
     public static class Type implements RecipeType<WeaponryRecipe> {
@@ -37,23 +39,15 @@ public class WeaponryRecipe extends ShapedRecipe {
         @Override
         public WeaponryRecipe read(Identifier identifier, PacketByteBuf packetByteBuf) {
             ShapedRecipe father = super.read(identifier, packetByteBuf);
-            return new WeaponryRecipe(father.getId(),
-                    father.getGroup(),
-                    father.getWidth(),
-                    father.getHeight(),
-                    father.getIngredients(),
-                    father.getOutput());
+            return new WeaponryRecipe(father.getId(), father.getGroup(), father.getWidth(), father.getHeight(),
+                    father.getIngredients(), father.getOutput());
         }
 
         @Override
         public WeaponryRecipe read(Identifier identifier, JsonObject jsonObject) {
             ShapedRecipe father = super.read(identifier, jsonObject);
-            return new WeaponryRecipe(father.getId(),
-                    father.getGroup(),
-                    father.getWidth(),
-                    father.getHeight(),
-                    father.getIngredients(),
-                    father.getOutput());
+            return new WeaponryRecipe(father.getId(), father.getGroup(), father.getWidth(), father.getHeight(),
+                    father.getIngredients(), father.getOutput());
         }
     }
 
@@ -68,7 +62,7 @@ public class WeaponryRecipe extends ShapedRecipe {
     }
 
     public static void register() {
-        Registry.register(Registry.RECIPE_TYPE, Type.ID, Type.INSTANCE);
-        Registry.register(Registry.RECIPE_SERIALIZER, Serializer.ID, Serializer.INSTANCE);
+        Registry.register(Registries.RECIPE_TYPE, Type.ID, Type.INSTANCE);
+        Registry.register(Registries.RECIPE_SERIALIZER, Serializer.ID, Serializer.INSTANCE);
     }
 }

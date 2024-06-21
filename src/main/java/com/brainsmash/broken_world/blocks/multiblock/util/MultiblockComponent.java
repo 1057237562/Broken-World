@@ -17,7 +17,7 @@ public abstract class MultiblockComponent {
     protected BlockPos pos;
 
     public MultiblockComponent(World world, BlockPos pos) {
-        this.world = world;
+        this.getWorld() = world;
         this.pos = pos;
     }
 

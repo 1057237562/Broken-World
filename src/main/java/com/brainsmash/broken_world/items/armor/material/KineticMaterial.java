@@ -1,7 +1,7 @@
 package com.brainsmash.broken_world.items.armor.material;
 
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
@@ -24,13 +24,13 @@ public class KineticMaterial implements ArmorMaterialWithSetBonus {
     };
 
     @Override
-    public int getDurability(EquipmentSlot slot) {
-        return BASE_DURABILITY[slot.getEntitySlotId()] * 100;
+    public int getDurability(ArmorItem.Type slot) {
+        return BASE_DURABILITY[slot.getEquipmentSlot().getEntitySlotId()] * 100;
     }
 
     @Override
-    public int getProtectionAmount(EquipmentSlot slot) {
-        return PROTECTION_VALUES[slot.getEntitySlotId()];
+    public int getProtection(ArmorItem.Type slot) {
+        return PROTECTION_VALUES[slot.getEquipmentSlot().getEntitySlotId()];
     }
 
     @Override

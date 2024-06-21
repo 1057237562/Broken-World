@@ -3,9 +3,9 @@ package com.brainsmash.broken_world.util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class SerializationHelper {
 
     public static BlockState loadBlockState(NbtCompound nbtCompound) {
-        Block block = Registry.BLOCK.getOrEmpty(new Identifier(nbtCompound.getString("blockId"))).orElse(null);
+        Block block = Registries.BLOCK.getOrEmpty(new Identifier(nbtCompound.getString("blockId"))).orElse(null);
         if (block == null) return null;
 
         BlockState state = block.getDefaultState();
@@ -40,7 +40,7 @@ public class SerializationHelper {
         BlockState defaultState = state.getBlock().getDefaultState();
 
         NbtCompound result = new NbtCompound();
-        result.putString("blockId", Registry.BLOCK.getId(state.getBlock()).toString());
+        result.putString("blockId", Registries.BLOCK.getId(state.getBlock()).toString());
         NbtCompound stateObject = result;
         for (Property<?> property : state.getProperties()) {
             String key = property.getName();
