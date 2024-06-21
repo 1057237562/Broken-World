@@ -16,11 +16,14 @@ import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import com.brainsmash.broken_world.registry.enums.ToolRegistry;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 
@@ -34,107 +37,97 @@ public class ItemRegister {
     public static final ArmorMaterial[] armorMaterials = {new KineticMaterial()};
 
     public static final Item[] bucket_item = {
-            new BucketItem(still_fluid[0],
-                    new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP)),
-            new BucketItem(still_fluid[1],
-                    new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP)),
-            new BucketItem(still_fluid[2],
-                    new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP)),
-            new BucketItem(still_fluid[3],
-                    new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP)),
-            new BucketItem(still_fluid[4],
-                    new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP)),
-            new BucketItem(still_fluid[5],
-                    new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP)),
+            new BucketItem(still_fluid[0], new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1)),
+            new BucketItem(still_fluid[1], new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1)),
+            new BucketItem(still_fluid[2], new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1)),
+            new BucketItem(still_fluid[3], new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1)),
+            new BucketItem(still_fluid[4], new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1)),
+            new BucketItem(still_fluid[5], new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1)),
     };
 
     public static final Item[] items = {
             // 0
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new BreathingEPP(new FabricItemSettings().maxCount(1).group(ITEM_GROUP)),
-            new EmergencyTeleporter(new FabricItemSettings().group(ITEM_GROUP)),
-            new AdvancedEnderPearl(new FabricItemSettings().maxCount(16).group(ITEM_GROUP)),
-            new Boulder(new FabricItemSettings().maxCount(32).group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(500), false),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new BreathingEPP(new FabricItemSettings().maxCount(1)),
+            new EmergencyTeleporter(new FabricItemSettings()),
+            new AdvancedEnderPearl(new FabricItemSettings().maxCount(16)),
+            new Boulder(new FabricItemSettings().maxCount(32)),
+            new Item(new FabricItemSettings()),
+            new BatteryItem(new FabricItemSettings().maxCount(1).maxDamage(500), false),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
             // 10
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
             // 20
-            new HyperPocket(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new LightAmmo(new FabricItemSettings().group(ITEM_GROUP)),
-            new SMG(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new HeavyAmmo(new FabricItemSettings().group(ITEM_GROUP)),
-            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new SniperAmmo(new FabricItemSettings().group(ITEM_GROUP)),
-            new SniperRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new HyperSpear(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new ArmorItem(armorMaterials[0], EquipmentSlot.HEAD,
-                    new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new HyperPocket(new FabricItemSettings().maxCount(1)),
+            new Pistol(new FabricItemSettings().maxCount(1)),
+            new LightAmmo(new FabricItemSettings()),
+            new SMG(new FabricItemSettings().maxCount(1)),
+            new HeavyAmmo(new FabricItemSettings()),
+            new Rifle(new FabricItemSettings().maxCount(1)),
+            new SniperAmmo(new FabricItemSettings()),
+            new SniperRifle(new FabricItemSettings().maxCount(1)),
+            new HyperSpear(new FabricItemSettings().maxCount(1)),
+            new ArmorItem(armorMaterials[0], ArmorItem.Type.HELMET, new FabricItemSettings().maxCount(1)),
             // 30
-            new ArmorItem(armorMaterials[0], EquipmentSlot.CHEST,
-                    new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new ArmorItem(armorMaterials[0], EquipmentSlot.LEGS,
-                    new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new ArmorItem(armorMaterials[0], EquipmentSlot.FEET,
-                    new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:metallic"),
-            new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:sulfuric"),
-            new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:lush"),
-            new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:floating"),
-            new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:aurora"),
-            new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.ROOKIE_WAND_SCREEN_HANDLER, 1),
+            new ArmorItem(armorMaterials[0], ArmorItem.Type.CHESTPLATE, new FabricItemSettings().maxCount(1)),
+            new ArmorItem(armorMaterials[0], ArmorItem.Type.LEGGINGS, new FabricItemSettings().maxCount(1)),
+            new ArmorItem(armorMaterials[0], ArmorItem.Type.BOOTS, new FabricItemSettings().maxCount(1)),
+            new Pistol(new FabricItemSettings().maxCount(1)),
+            new CoordinateCard(new FabricItemSettings().maxCount(1), "broken_world:metallic"),
+            new CoordinateCard(new FabricItemSettings().maxCount(1), "broken_world:sulfuric"),
+            new CoordinateCard(new FabricItemSettings().maxCount(1), "broken_world:lush"),
+            new CoordinateCard(new FabricItemSettings().maxCount(1), "broken_world:floating"),
+            new CoordinateCard(new FabricItemSettings().maxCount(1), "broken_world:aurora"),
+            new Wand(new FabricItemSettings(), Main.ROOKIE_WAND_SCREEN_HANDLER, 1),
             // 40
-            new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.EXPERT_WAND_SCREEN_HANDLER, 3),
-            new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.MASTER_WAND_SCREEN_HANDLER, 6),
-            new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.GRANDMASTER_WAND_SCREEN_HANDLER, 9),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.GALACTIC),
-            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.EARTH),
-            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.FIRE),
-            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.LIQUID),
-            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.WIND),
+            new Wand(new FabricItemSettings(), Main.EXPERT_WAND_SCREEN_HANDLER, 3),
+            new Wand(new FabricItemSettings(), Main.MASTER_WAND_SCREEN_HANDLER, 6),
+            new Wand(new FabricItemSettings(), Main.GRANDMASTER_WAND_SCREEN_HANDLER, 9),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Rune(new FabricItemSettings(), RuneEnum.GALACTIC),
+            new Rune(new FabricItemSettings(), RuneEnum.EARTH),
+            new Rune(new FabricItemSettings(), RuneEnum.FIRE),
+            new Rune(new FabricItemSettings(), RuneEnum.LIQUID),
+            new Rune(new FabricItemSettings(), RuneEnum.WIND),
             // 50
-            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.MOUNTAINOUS),
-            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.MARSH),
-            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.THUNDER),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new DensityMeter(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).recipeRemainder(Items.BOWL)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Rune(new FabricItemSettings(), RuneEnum.MOUNTAINOUS),
+            new Rune(new FabricItemSettings(), RuneEnum.MARSH),
+            new Rune(new FabricItemSettings(), RuneEnum.THUNDER),
+            new Item(new FabricItemSettings()),
+            new DensityMeter(new FabricItemSettings()),
+            new Item(new FabricItemSettings().maxCount(1).recipeRemainder(Items.BOWL)),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
             // 60
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), true),
-            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), 50),
-            new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP))
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings()),
+            new BatteryItem(new FabricItemSettings().maxCount(1).maxDamage(1500), true),
+            new Rifle(new FabricItemSettings().maxCount(1), 50),
+            new Item(new FabricItemSettings()),
+            new Item(new FabricItemSettings())
     };
 
     public static final String[] itemnames = {
@@ -230,29 +223,45 @@ public class ItemRegister {
     };
 
     public static final ArrayList<Item> toolsItem = new ArrayList<>();
+    public static final ArrayList<Item> weaponsItem = new ArrayList<>();
 
     public static void registerItem() {
         for (int i = 0; i < tools.length; i++) {
             String materialName = tools[i];
             ToolMaterial material = ToolRegistry.values()[i];
-            toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_pickaxe"),
-                    new PickaxeItem(material, 1, -2.8F, new FabricItemSettings().group(ItemGroup.TOOLS))));
-            toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_axe"),
-                    new AxeItem(material, 6.0F, -3.1F, new FabricItemSettings().group(ItemGroup.TOOLS))));
-            toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_sword"),
-                    new SwordItem(material, 3, -2.4F, new FabricItemSettings().group(ItemGroup.COMBAT))));
-            toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_shovel"),
-                    new ShovelItem(material, 1.5F, -3.0F, new FabricItemSettings().group(ItemGroup.TOOLS))));
-            toolsItem.add(Registry.register(Registry.ITEM, new Identifier(MODID, materialName + "_hoe"),
-                    new HoeItem(material, -2, -1.0F, new FabricItemSettings().group(ItemGroup.TOOLS))));
+            toolsItem.add(Registry.register(Registries.ITEM, new Identifier(MODID, materialName + "_pickaxe"),
+                    new PickaxeItem(material, 1, -2.8F, new FabricItemSettings())));
+            toolsItem.add(Registry.register(Registries.ITEM, new Identifier(MODID, materialName + "_axe"),
+                    new AxeItem(material, 6.0F, -3.1F, new FabricItemSettings())));
+            toolsItem.add(Registry.register(Registries.ITEM, new Identifier(MODID, materialName + "_sword"),
+                    new SwordItem(material, 3, -2.4F, new FabricItemSettings())));
+            toolsItem.add(Registry.register(Registries.ITEM, new Identifier(MODID, materialName + "_shovel"),
+                    new ShovelItem(material, 1.5F, -3.0F, new FabricItemSettings())));
+            toolsItem.add(Registry.register(Registries.ITEM, new Identifier(MODID, materialName + "_hoe"),
+                    new HoeItem(material, -2, -1.0F, new FabricItemSettings())));
         }
 
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
+            toolsItem.forEach(content::add);
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> {
+            weaponsItem.forEach(content::add);
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(
+                RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(MODID, "itemgroup"))).register(content -> {
+            for (Item item : items) {
+                content.add(item);
+            }
+        });
+
         for (int i = 0; i < items.length; i++) {
-            Registry.register(Registry.ITEM, new Identifier(MODID, itemnames[i]), items[i]);
+            Registry.register(Registries.ITEM, new Identifier(MODID, itemnames[i]), items[i]);
         }
 
         /*Registry.register(Registry.ITEM, new Identifier("minecraft", "bowl"),
-                new BowlItem(new FabricItemSettings().group(ITEM_GROUP)));*/
+                new BowlItem(new FabricItemSettings()));*/
 
     }
 

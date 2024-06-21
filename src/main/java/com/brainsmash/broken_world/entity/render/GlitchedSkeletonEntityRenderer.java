@@ -22,7 +22,7 @@ public class GlitchedSkeletonEntityRenderer extends BipedEntityRenderer<Glitched
     public GlitchedSkeletonEntityRenderer(EntityRendererFactory.Context ctx, EntityModelLayer layer, EntityModelLayer legArmorLayer, EntityModelLayer bodyArmorLayer) {
         super(ctx, new SkeletonEntityModel<>(ctx.getPart(layer)), 0.5f);
         this.addFeature(new ArmorFeatureRenderer(this, new SkeletonEntityModel(ctx.getPart(legArmorLayer)),
-                new SkeletonEntityModel(ctx.getPart(bodyArmorLayer))));
+                new SkeletonEntityModel(ctx.getPart(bodyArmorLayer)), ctx.getModelManager()));
     }
 
     @Override

@@ -31,6 +31,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.*;
@@ -43,6 +44,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.BlockSoundGroup;
@@ -56,7 +58,6 @@ import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
 import java.util.Arrays;
 
 import static com.brainsmash.broken_world.Main.MODID;
-import static com.brainsmash.broken_world.registry.ItemRegister.ITEM_GROUP;
 
 public class BlockRegister {
     private static final AbstractBlock.Settings STANDARD_BLOCK = FabricBlockSettings.create().sounds(
@@ -193,100 +194,100 @@ public class BlockRegister {
             new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE))
     };
     public static final Item[] blockitems = {
-            new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[1], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[2], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[3], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[4], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[5], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[6], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[7], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[8], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[0], new FabricItemSettings()),
+            new BlockItem(blocks[1], new FabricItemSettings()),
+            new BlockItem(blocks[2], new FabricItemSettings()),
+            new BlockItem(blocks[3], new FabricItemSettings()),
+            new BlockItem(blocks[4], new FabricItemSettings()),
+            new BlockItem(blocks[5], new FabricItemSettings()),
+            new BlockItem(blocks[6], new FabricItemSettings()),
+            new BlockItem(blocks[7], new FabricItemSettings()),
+            new BlockItem(blocks[8], new FabricItemSettings()),
             new BlockItem(blocks[9], new FabricItemSettings()),
             new BlockItem(blocks[10], new FabricItemSettings()),
-            new BlockItem(blocks[11], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[11], new FabricItemSettings()),
             new BlockItem(blocks[12], new FabricItemSettings()),
-            new BlockItem(blocks[13], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[14], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[13], new FabricItemSettings()),
+            new BlockItem(blocks[14], new FabricItemSettings()),
             new BlockItem(blocks[15], new FabricItemSettings()),
-            new BlockItem(blocks[16], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[17], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[18], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[16], new FabricItemSettings()),
+            new BlockItem(blocks[17], new FabricItemSettings()),
+            new BlockItem(blocks[18], new FabricItemSettings()),
             new BlockItem(blocks[19], new FabricItemSettings()),
-            new BlockItem(blocks[20], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[21], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[22], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[23], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[24], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[25], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[26], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[27], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[28], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[29], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[30], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[31], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[32], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[33], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[34], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[35], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[36], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[37], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[38], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[39], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[40], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[41], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[42], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[43], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[44], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[45], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[46], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[47], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[48], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[49], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[50], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[51], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[52], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[53], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[54], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[55], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[20], new FabricItemSettings()),
+            new BlockItem(blocks[21], new FabricItemSettings()),
+            new BlockItem(blocks[22], new FabricItemSettings()),
+            new BlockItem(blocks[23], new FabricItemSettings()),
+            new BlockItem(blocks[24], new FabricItemSettings()),
+            new BlockItem(blocks[25], new FabricItemSettings()),
+            new BlockItem(blocks[26], new FabricItemSettings()),
+            new BlockItem(blocks[27], new FabricItemSettings()),
+            new BlockItem(blocks[28], new FabricItemSettings()),
+            new BlockItem(blocks[29], new FabricItemSettings()),
+            new BlockItem(blocks[30], new FabricItemSettings()),
+            new BlockItem(blocks[31], new FabricItemSettings()),
+            new BlockItem(blocks[32], new FabricItemSettings()),
+            new BlockItem(blocks[33], new FabricItemSettings()),
+            new BlockItem(blocks[34], new FabricItemSettings()),
+            new BlockItem(blocks[35], new FabricItemSettings()),
+            new BlockItem(blocks[36], new FabricItemSettings()),
+            new BlockItem(blocks[37], new FabricItemSettings()),
+            new BlockItem(blocks[38], new FabricItemSettings()),
+            new BlockItem(blocks[39], new FabricItemSettings()),
+            new BlockItem(blocks[40], new FabricItemSettings()),
+            new BlockItem(blocks[41], new FabricItemSettings()),
+            new BlockItem(blocks[42], new FabricItemSettings()),
+            new BlockItem(blocks[43], new FabricItemSettings()),
+            new BlockItem(blocks[44], new FabricItemSettings()),
+            new BlockItem(blocks[45], new FabricItemSettings()),
+            new BlockItem(blocks[46], new FabricItemSettings()),
+            new BlockItem(blocks[47], new FabricItemSettings()),
+            new BlockItem(blocks[48], new FabricItemSettings()),
+            new BlockItem(blocks[49], new FabricItemSettings()),
+            new BlockItem(blocks[50], new FabricItemSettings()),
+            new BlockItem(blocks[51], new FabricItemSettings()),
+            new BlockItem(blocks[52], new FabricItemSettings()),
+            new BlockItem(blocks[53], new FabricItemSettings()),
+            new BlockItem(blocks[54], new FabricItemSettings()),
+            new BlockItem(blocks[55], new FabricItemSettings()),
             new BlockItem(blocks[56], new FabricItemSettings()),
             new BlockItem(blocks[57], new FabricItemSettings()),
-            new BlockItem(blocks[58], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[59], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[60], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[61], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[62], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[63], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[64], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[65], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[66], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[67], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[58], new FabricItemSettings()),
+            new BlockItem(blocks[59], new FabricItemSettings()),
+            new BlockItem(blocks[60], new FabricItemSettings()),
+            new BlockItem(blocks[61], new FabricItemSettings()),
+            new BlockItem(blocks[62], new FabricItemSettings()),
+            new BlockItem(blocks[63], new FabricItemSettings()),
+            new BlockItem(blocks[64], new FabricItemSettings()),
+            new BlockItem(blocks[65], new FabricItemSettings()),
+            new BlockItem(blocks[66], new FabricItemSettings()),
+            new BlockItem(blocks[67], new FabricItemSettings()),
             new BlockItem(blocks[68], new FabricItemSettings()),
             new BlockItem(blocks[69], new FabricItemSettings()),
-            new BlockItem(blocks[70], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[71], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[72], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[73], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[74], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[75], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[76], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[77], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[78], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[79], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[70], new FabricItemSettings()),
+            new BlockItem(blocks[71], new FabricItemSettings()),
+            new BlockItem(blocks[72], new FabricItemSettings()),
+            new BlockItem(blocks[73], new FabricItemSettings()),
+            new BlockItem(blocks[74], new FabricItemSettings()),
+            new BlockItem(blocks[75], new FabricItemSettings()),
+            new BlockItem(blocks[76], new FabricItemSettings()),
+            new BlockItem(blocks[77], new FabricItemSettings()),
+            new BlockItem(blocks[78], new FabricItemSettings()),
+            new BlockItem(blocks[79], new FabricItemSettings()),
             new BlockItem(blocks[80], new FabricItemSettings()),
-            new BlockItem(blocks[81], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[82], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[83], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[84], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[85], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[86], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[87], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[88], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[89], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[90], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[91], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[81], new FabricItemSettings()),
+            new BlockItem(blocks[82], new FabricItemSettings()),
+            new BlockItem(blocks[83], new FabricItemSettings()),
+            new BlockItem(blocks[84], new FabricItemSettings()),
+            new BlockItem(blocks[85], new FabricItemSettings()),
+            new BlockItem(blocks[86], new FabricItemSettings()),
+            new BlockItem(blocks[87], new FabricItemSettings()),
+            new BlockItem(blocks[88], new FabricItemSettings()),
+            new BlockItem(blocks[89], new FabricItemSettings()),
+            new BlockItem(blocks[90], new FabricItemSettings()),
+            new BlockItem(blocks[91], new FabricItemSettings()),
             null,
-            new BlockItem(blocks[93], new FabricItemSettings().group(ITEM_GROUP))
+            new BlockItem(blocks[93], new FabricItemSettings())
     };
 
     public static final String[] blocknames = {
@@ -517,6 +518,13 @@ public class BlockRegister {
                     configuredFeatures[i]);
             Registry.register(RegistryKeys.PLACED_FEATURE, new Identifier(MODID, configurenames[i]), placedFeatures[i]);
         }
+
+        ItemGroupEvents.modifyEntriesEvent(
+                RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(MODID, "itemgroup"))).register(content -> {
+            for (var item : blockitems) {
+                content.add(item);
+            }
+        });
 
         TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "teleporter_controller"),

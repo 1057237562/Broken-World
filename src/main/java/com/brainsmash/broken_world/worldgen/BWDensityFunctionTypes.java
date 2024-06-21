@@ -5,10 +5,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.dynamic.CodecHolder;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.densityfunction.DensityFunction;
 
 import java.util.HashMap;
@@ -127,7 +128,7 @@ public class BWDensityFunctionTypes {
         }
 
         public static void register() {
-            Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
+            Registry.register(Registries.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
         }
     }
 
@@ -185,7 +186,7 @@ public class BWDensityFunctionTypes {
         }
 
         public static void register() {
-            Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
+            Registry.register(Registries.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
         }
     }
 
@@ -258,7 +259,7 @@ public class BWDensityFunctionTypes {
         }
 
         public static void register() {
-            Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
+            Registry.register(Registries.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
         }
     }
 
@@ -317,7 +318,7 @@ public class BWDensityFunctionTypes {
         }
 
         public static void register() {
-            Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
+            Registry.register(Registries.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
         }
     }
 
@@ -357,7 +358,7 @@ public class BWDensityFunctionTypes {
         }
 
         public static void register() {
-            Registry.register(Registry.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
+            Registry.register(Registries.DENSITY_FUNCTION_TYPE, ID, CODEC_HOLDER.codec());
         }
     }
 }

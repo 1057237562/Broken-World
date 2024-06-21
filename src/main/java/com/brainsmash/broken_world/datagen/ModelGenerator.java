@@ -109,6 +109,9 @@ public class ModelGenerator extends FabricModelProvider {
         for (Item tool : ItemRegister.toolsItem) {
             itemModelGenerator.register(tool, Models.HANDHELD);
         }
+        for (Item weapon : ItemRegister.weaponsItem) {
+            itemModelGenerator.register(weapon, Models.GENERATED);
+        }
         for (int i = 0; i < BlockRegister.blocks.length; i++) {
             if (BlockRegister.blockitems[i] == null) continue;
             if (BlockRegister.blocks[i] instanceof TeleporterFrameBlock) continue;

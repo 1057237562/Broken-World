@@ -2,9 +2,9 @@ package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.world.gen.feature.*;
@@ -28,13 +28,12 @@ public class TreeRegister {
 
     public static void registerTrees() {
         RUBBER_TREE = ConfiguredFeatures.register("broken_world:rubber_tree", Feature.TREE, rubber().build());
-        RUBBER_TREE_PLACED_FEATURE = new PlacedFeature(RegistryKey.of(RUBBER_TREE.value()),
+        RUBBER_TREE_PLACED_FEATURE = new PlacedFeature(RUBBER_TREE,
                 List.of(PlacedFeatures.createCountExtraModifier(4, 0.1f, 1), SquarePlacementModifier.of(),
                         BiomePlacementModifier.of(), SurfaceWaterDepthFilterPlacementModifier.of(0),
                         PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP,
                         PlacedFeatures.wouldSurvive(BlockRegister.blocks[BlockRegistry.RUBBER_SAPLING.ordinal()])));
-        Registry.register(RegistryKeys.PLACED_FEATURE, new Identifier(MODID, "rubber_tree"),
-                RUBBER_TREE_PLACED_FEATURE);
+        Registry.register(Registries.PLACED_FEATURE, new Identifier(MODID, "rubber_tree"), RUBBER_TREE_PLACED_FEATURE);
     }
 
     private static TreeFeatureConfig.Builder builder(Block log, Block leaves, int baseHeight, int firstRandomHeight, int secondRandomHeight, int radius) {

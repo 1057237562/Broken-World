@@ -12,8 +12,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.fluid.FlowableFluid;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.awt.*;
 
@@ -70,10 +71,10 @@ public class FluidRegister {
 
     public static void registerFluid() {
         for (int i = 0; i < still_fluid.length; i++) {
-            Registry.register(Registry.FLUID, new Identifier(MODID, fluidnames[i]), still_fluid[i]);
-            Registry.register(Registry.FLUID, new Identifier(MODID, "flowing_" + fluidnames[i]), flowing_fluid[i]);
-            Registry.register(Registry.ITEM, new Identifier(MODID, fluidnames[i] + "_bucket"), bucket_item[i]);
-            Registry.register(RegistryKeys.BLOCK, new Identifier(MODID, fluidnames[i]), fluid_blocks[i]);
+            Registry.register(Registries.FLUID, new Identifier(MODID, fluidnames[i]), still_fluid[i]);
+            Registry.register(Registries.FLUID, new Identifier(MODID, "flowing_" + fluidnames[i]), flowing_fluid[i]);
+            Registry.register(Registries.ITEM, new Identifier(MODID, fluidnames[i] + "_bucket"), bucket_item[i]);
+            Registry.register(Registries.BLOCK, new Identifier(MODID, fluidnames[i]), fluid_blocks[i]);
         }
     }
 

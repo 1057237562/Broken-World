@@ -21,7 +21,7 @@ public class GlitchedZombieEntityRenderer extends BipedEntityRenderer<GlitchedZo
 
     public GlitchedZombieEntityRenderer(EntityRendererFactory.Context ctx, ZombieEntityModel<GlitchedZombieEntity> bodyModel, ZombieEntityModel<GlitchedZombieEntity> legsArmorModel, ZombieEntityModel<GlitchedZombieEntity> bodyArmorModel) {
         super(ctx, bodyModel, 0.5f);
-        this.addFeature(new ArmorFeatureRenderer(this, legsArmorModel, bodyArmorModel));
+        this.addFeature(new ArmorFeatureRenderer(this, legsArmorModel, bodyArmorModel, ctx.getModelManager()));
     }
 
     @Override

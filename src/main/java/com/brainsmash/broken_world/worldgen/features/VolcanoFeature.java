@@ -5,9 +5,10 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
@@ -28,7 +29,7 @@ public class VolcanoFeature extends Feature<VolcanoFeatureConfig> {
 
     @Override
     public boolean generate(FeatureContext<VolcanoFeatureConfig> context) {
-        final Optional<Block> materialOptional = RegistryKeys.BLOCK.getOrEmpty(MATERIAL_ID);
+        final Optional<Block> materialOptional = Registries.BLOCK.getOrEmpty(MATERIAL_ID);
         if (materialOptional.isEmpty()) {
             if (!WARNED_BLOCK_NOT_FOUND) {
                 LogUtils.getLogger().error(
@@ -195,6 +196,6 @@ public class VolcanoFeature extends Feature<VolcanoFeatureConfig> {
     }
 
     public static void register() {
-        Registry.register(Registry.FEATURE, ID, new VolcanoFeature(VolcanoFeatureConfig.CODEC_HOLDER.codec()));
+        Registry.register(Registries.FEATURE, ID, new VolcanoFeature(VolcanoFeatureConfig.CODEC_HOLDER.codec()));
     }
 }
