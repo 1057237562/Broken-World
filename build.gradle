@@ -47,19 +47,19 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation "dev.emi:trinkets:3.4.1"
-    modImplementation "alexiil.mc.lib:libnetworkstack-base:0.7.0"
+    modImplementation "dev.emi:trinkets:3.7.2"
+    modImplementation "alexiil.mc.lib:libnetworkstack-base:0.7.1"
     modImplementation "alexiil.mc.lib:libblockattributes-all:0.11.0"
 
 //    modImplementation 'net.kyrptonaught:customportalapi:0.0.1-beta57-1.19'
 //    include 'net.kyrptonaught:customportalapi:0.0.1-beta57-1.19'
 
-    modCompileOnly('maven.modrinth:sodium:mc1.19.2-0.4.4') { exclude group: "net.fabricmc.fabric-api" }
-    modImplementation include('net.kyrptonaught:customportalapi:0.0.1-beta63-1.19.X') {
+    modCompileOnly('maven.modrinth:sodium:mc1.20.1-0.5.10') { exclude group: "net.fabricmc.fabric-api" }
+    modImplementation include('net.kyrptonaught:customportalapi:0.0.1-beta63-1.20') {
         exclude group: "net.fabricmc.fabric-api"
         exclude module: "sodium"
     }
-    modImplementation include("io.github.cottonmc:LibGui:6.4.0+1.19")
+    modImplementation include("io.github.cottonmc:LibGui:8.1.1+1.20.1")
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:9.1.632")
     // Uncomment the following line to enable the deprecated Fabric API modules.
     // These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.

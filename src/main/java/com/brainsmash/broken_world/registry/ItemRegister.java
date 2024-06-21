@@ -103,7 +103,7 @@ public class ItemRegister {
             new Wand(new FabricItemSettings().group(ITEM_GROUP), Main.GRANDMASTER_WAND_SCREEN_HANDLER, 9),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.GALACTICA),
+            new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.GALACTIC),
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.EARTH),
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.FIRE),
             new Rune(new FabricItemSettings().group(ITEM_GROUP), RuneEnum.LIQUID),

@@ -2,7 +2,10 @@ package com.brainsmash.broken_world.blocks.electric;
 
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.TeleporterControllerBlockEntity;
-import net.minecraft.block.*;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -57,11 +60,11 @@ public class TeleporterController extends ConsumerBlock {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof TeleporterControllerBlockEntity) {
-                if(world instanceof ServerWorld){
+                if (world instanceof ServerWorld) {
                     ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
                 }
                 // update comparators
-                world.updateComparators(pos,this);
+                world.updateComparators(pos, this);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
@@ -71,14 +74,17 @@ public class TeleporterController extends ConsumerBlock {
     public boolean hasComparatorOutput(BlockState state) {
         return true;
     }
+
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(Properties.HORIZONTAL_FACING);
     }
+
     @Override
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
     }
+
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());

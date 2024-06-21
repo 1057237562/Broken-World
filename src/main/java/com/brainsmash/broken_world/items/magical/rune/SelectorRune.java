@@ -8,11 +8,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class PlacerRune extends Rune implements ImplementedRune {
+public class SelectorRune extends Rune implements ImplementedRune {
 
     private Block block;
 
-    public PlacerRune(Settings settings, RuneEnum type, Block placement) {
+    public SelectorRune(Settings settings, RuneEnum type, Block placement) {
         super(settings, type);
         block = placement;
     }

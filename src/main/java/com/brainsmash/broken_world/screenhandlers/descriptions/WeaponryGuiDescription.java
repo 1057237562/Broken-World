@@ -4,7 +4,6 @@ import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.WeaponryBlockEntity;
 import com.brainsmash.broken_world.gui.util.IndicatorSlot;
 import com.brainsmash.broken_world.gui.widgets.WIndicatorItemSlot;
-import com.brainsmash.broken_world.recipe.FabricatorRecipe;
 import com.brainsmash.broken_world.recipe.WeaponryRecipe;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.networking.NetworkSide;
@@ -16,8 +15,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.CraftingRecipe;
-import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -35,7 +32,8 @@ public class WeaponryGuiDescription extends SyncedGuiDescription {
     private WeaponryBlockEntity entity;
 
     public WeaponryGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(Main.WEAPONRY_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context, PROPERTY_COUNT));
+        super(Main.WEAPONRY_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE),
+                getBlockPropertyDelegate(context, PROPERTY_COUNT));
         context.get((world, pos) -> {
             if (world.getBlockEntity(pos) instanceof WeaponryBlockEntity weaponryBlockEntity) {
                 entity = weaponryBlockEntity;
@@ -47,7 +45,9 @@ public class WeaponryGuiDescription extends SyncedGuiDescription {
         setRootPanel(root);
         root.setSize(150, 207);
         root.setInsets(Insets.ROOT_PANEL);
-        WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/horizontal_electric_bar.png"), new Identifier(Main.MODID, "textures/gui/horizontal_electric_bar_filled.png"), 0, 1, WBar.Direction.RIGHT);
+        WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/horizontal_electric_bar.png"),
+                new Identifier(Main.MODID, "textures/gui/horizontal_electric_bar_filled.png"), 0, 1,
+                WBar.Direction.RIGHT);
         bar.setProperties(propertyDelegate);
         root.add(bar, 5, 1, 2, 1);
         WIndicatorItemSlot craftingSlot = new WIndicatorItemSlot(blockInventory, 0, 3, 3, false);
@@ -57,7 +57,8 @@ public class WeaponryGuiDescription extends SyncedGuiDescription {
             }
         });
         root.add(craftingSlot, 1, 1);
-        WBar bar1 = new WBar(new Identifier(Main.MODID, "textures/gui/progressbar_right.png"), new Identifier(Main.MODID, "textures/gui/progressbar_right_filled.png"), 2, 3, WBar.Direction.RIGHT);
+        WBar bar1 = new WBar(new Identifier(Main.MODID, "textures/gui/progressbar_right.png"),
+                new Identifier(Main.MODID, "textures/gui/progressbar_right_filled.png"), 2, 3, WBar.Direction.RIGHT);
         root.add(bar1, 4, 3, 2, 1);
         WItemSlot output = new WItemSlot(blockInventory, 18, 1, 1, true).setInsertingAllowed(false);
         root.add(output, 6, 3);
@@ -75,7 +76,8 @@ public class WeaponryGuiDescription extends SyncedGuiDescription {
             for (int i = 0; i < 9; i++) {
                 craftingInventory.setStack(i, blockInventory.getStack(i));
             }
-            Optional<WeaponryRecipe> optional = world.getServer().getRecipeManager().getFirstMatch(WeaponryRecipe.Type.INSTANCE, craftingInventory, world);
+            Optional<WeaponryRecipe> optional = world.getServer().getRecipeManager().getFirstMatch(
+                    WeaponryRecipe.Type.INSTANCE, craftingInventory, world);
             if (optional.isPresent()) {
                 entity.setOutput(optional.get().craft(craftingInventory));
             } else {

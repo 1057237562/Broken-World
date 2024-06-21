@@ -1,19 +1,13 @@
 package com.brainsmash.broken_world.blocks.fluid;
 
-import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.registry.FluidRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateManager;
-import net.minecraft.tag.FluidTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
 public abstract class PollutedWaterFluid extends FluidModel {
@@ -79,6 +73,7 @@ public abstract class PollutedWaterFluid extends FluidModel {
             super.appendProperties(builder);
             builder.add(LEVEL);
         }
+
         @Override
         public int getLevel(FluidState fluidState) {
             return 8;

@@ -2,7 +2,6 @@ package com.brainsmash.broken_world.registry;
 
 import net.minecraft.SharedConstants;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 public class BurnTimeRegister {
     @Nullable
-    public static Map<Item,Integer> generator_fuel = null;
+    public static Map<Item, Integer> generator_fuel = null;
 
     private static boolean isNonFlammableWood(Item item) {
         return item.getRegistryEntry().isIn(ItemTags.NON_FLAMMABLE_WOOD);
@@ -28,13 +27,15 @@ public class BurnTimeRegister {
         Item item2 = item.asItem();
         if (isNonFlammableWood(item2)) {
             if (SharedConstants.isDevelopment) {
-                throw Util.throwOrPause(new IllegalStateException("A developer tried to explicitly make fire resistant item " + item2.getName(null).getString() + " a furnace fuel. That will not work!"));
+                throw Util.throwOrPause(new IllegalStateException(
+                        "A developer tried to explicitly make fire resistant item " + item2.getName(
+                                null).getString() + " a furnace fuel. That will not work!"));
             }
             return;
         }
         fuelTimes.put(item2, fuelTime);
     }
-    
+
     private static void addFuel(Map<Item, Integer> fuelTimes, TagKey<Item> tag, int fuelTime) {
         for (RegistryEntry<Item> registryEntry : Registry.ITEM.iterateEntries(tag)) {
             if (isNonFlammableWood(registryEntry.value())) continue;
@@ -42,14 +43,14 @@ public class BurnTimeRegister {
         }
     }
 
-    public static void getGeneratorMap(){
-        if(generator_fuel == null) {
+    public static void getGeneratorMap() {
+        if (generator_fuel == null) {
             generator_fuel = new LinkedHashMap<>();
             RegistGeneratorFuel();
         }
     }
 
-    public static void RegistGeneratorFuel(){
+    public static void RegistGeneratorFuel() {
         addFuel(generator_fuel, Blocks.COAL_BLOCK, 16000);
         addFuel(generator_fuel, Items.COAL, 1600);
         addFuel(generator_fuel, Items.CHARCOAL, 1600);

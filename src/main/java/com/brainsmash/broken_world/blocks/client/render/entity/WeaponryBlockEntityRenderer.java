@@ -7,9 +7,6 @@ import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -39,7 +36,8 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
     private static final String HANDLE_RIGHT = "handle_right";
 
     private static final Identifier TEXTURE = new Identifier(Main.MODID, "textures/entity/weaponry.png");
-    public static final EntityModelLayer WEAPONRY = new EntityModelLayer(new Identifier(Main.MODID, "weaponry"), "main");
+    public static final EntityModelLayer WEAPONRY = new EntityModelLayer(new Identifier(Main.MODID, "weaponry"),
+            "main");
     private final ModelPart body;
     private final ModelPart armStand;
     private final ModelPart arm;
@@ -52,7 +50,7 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
     private final ModelPart handleBaseRight;
     private final ModelPart handleRight;
 
-    public WeaponryBlockEntityRenderer(BlockEntityRendererFactory.Context ctx){
+    public WeaponryBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
         ModelPart modelPart = ctx.getLayerModelPart(WEAPONRY);
         body = modelPart.getChild(BODY);
         armStand = modelPart.getChild(ARM_STAND);
@@ -66,97 +64,32 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
         handleBaseRight = modelPart.getChild(HANDLE_BASE_RIGHT);
         handleRight = modelPart.getChild(HANDLE_RIGHT);
     }
-    public static TexturedModelData getTexturedModelData(){
+
+    public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
-        modelPartData.addChild(
-                BODY,
-                ModelPartBuilder
-                        .create()
-                        .uv(0, 10)
-                        .cuboid(0F, 0F, 0F, 16F, 6F, 16F),
-                ModelTransform.NONE
-        );
-        modelPartData.addChild(
-                ARM_STAND,
-                ModelPartBuilder
-                        .create()
-                        .uv(0, 0)
-                        .cuboid(1F, 6F, 1F, 2F, 7F, 2F),
-                ModelTransform.NONE
-        );
-        modelPartData.addChild(
-                ARM,
-                ModelPartBuilder
-                        .create()
-                        .uv(0, 32)
-                        .cuboid(1F, 13F, 1F, 2F, 2F, 10F),
-                ModelTransform.NONE
-        );
-        modelPartData.addChild(
-                TOOL_RIGHT,
-                ModelPartBuilder
-                        .create()
-                        .uv(8, 0)
-                        .cuboid(3F, 11F, 8F, 1F, 4F, 2F),
-                ModelTransform.NONE
-        );
-        modelPartData.addChild(
-                TOOL_LEFT,
-                ModelPartBuilder
-                        .create()
-                        .uv(8, 0)
-                        .cuboid(0F, 11F, 8F, 1F, 4F, 2F),
-                ModelTransform.NONE
-        );
-        modelPartData.addChild(
-                PISTOL_GRIP,
-                ModelPartBuilder
-                        .create()
-                        .uv(44, 0)
-                        .cuboid(10F, 6F, 8F, 2F, 1F, 3F),
-                ModelTransform.NONE
-        );
-        modelPartData.addChild(
-                PISTOL_CHAMBER,
-                ModelPartBuilder
-                        .create()
-                        .uv(14, 0)
-                        .cuboid(5F, 6F, 6F, 7F, 1F, 2F),
-                ModelTransform.NONE
-        );
-        modelPartData.addChild(
-                HANDLE_BASE_RIGHT,
-                ModelPartBuilder
-                        .create()
-                        .uv(32, 0)
-                        .cuboid(13F, 6F, 13F, 2F, 1F, 2F),
-                ModelTransform.NONE
-        );
-        modelPartData.addChild(
-                HANDLE_BASE_LEFT,
-                ModelPartBuilder
-                        .create()
-                        .uv(32, 0)
-                        .cuboid(1F, 6F, 13F, 2F, 1F, 2F),
-                ModelTransform.NONE
-        );
-        modelPartData.addChild(
-                HANDLE_RIGHT,
-                ModelPartBuilder
-                        .create()
-                        .uv(40, 0)
-                        .cuboid(-0.5F, -1F, -0.5F, 1F, 3F, 1F),
-                ModelTransform.of(14F, 7F, 14F, (float) Math.PI / 8, 0, 0)
-        );
-        modelPartData.addChild(
-                HANDLE_LEFT,
-                ModelPartBuilder
-                        .create()
-                        .uv(40, 0)
-                        .cuboid(-0.5F, -1F, -0.5F, 1F, 3F, 1F),
-                ModelTransform.of(2F, 7F, 14F, (float) -Math.PI / 8, 0, 0)
-        );
+        modelPartData.addChild(BODY, ModelPartBuilder.create().uv(0, 10).cuboid(0F, 0F, 0F, 16F, 6F, 16F),
+                ModelTransform.NONE);
+        modelPartData.addChild(ARM_STAND, ModelPartBuilder.create().uv(0, 0).cuboid(1F, 6F, 1F, 2F, 7F, 2F),
+                ModelTransform.NONE);
+        modelPartData.addChild(ARM, ModelPartBuilder.create().uv(0, 32).cuboid(1F, 13F, 1F, 2F, 2F, 10F),
+                ModelTransform.NONE);
+        modelPartData.addChild(TOOL_RIGHT, ModelPartBuilder.create().uv(8, 0).cuboid(3F, 11F, 8F, 1F, 4F, 2F),
+                ModelTransform.NONE);
+        modelPartData.addChild(TOOL_LEFT, ModelPartBuilder.create().uv(8, 0).cuboid(0F, 11F, 8F, 1F, 4F, 2F),
+                ModelTransform.NONE);
+        modelPartData.addChild(PISTOL_GRIP, ModelPartBuilder.create().uv(44, 0).cuboid(10F, 6F, 8F, 2F, 1F, 3F),
+                ModelTransform.NONE);
+        modelPartData.addChild(PISTOL_CHAMBER, ModelPartBuilder.create().uv(14, 0).cuboid(5F, 6F, 6F, 7F, 1F, 2F),
+                ModelTransform.NONE);
+        modelPartData.addChild(HANDLE_BASE_RIGHT, ModelPartBuilder.create().uv(32, 0).cuboid(13F, 6F, 13F, 2F, 1F, 2F),
+                ModelTransform.NONE);
+        modelPartData.addChild(HANDLE_BASE_LEFT, ModelPartBuilder.create().uv(32, 0).cuboid(1F, 6F, 13F, 2F, 1F, 2F),
+                ModelTransform.NONE);
+        modelPartData.addChild(HANDLE_RIGHT, ModelPartBuilder.create().uv(40, 0).cuboid(-0.5F, -1F, -0.5F, 1F, 3F, 1F),
+                ModelTransform.of(14F, 7F, 14F, (float) Math.PI / 8, 0, 0));
+        modelPartData.addChild(HANDLE_LEFT, ModelPartBuilder.create().uv(40, 0).cuboid(-0.5F, -1F, -0.5F, 1F, 3F, 1F),
+                ModelTransform.of(2F, 7F, 14F, (float) -Math.PI / 8, 0, 0));
         return TexturedModelData.of(modelData, 64, 64);
     }
 
@@ -166,10 +99,8 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
         final float pause = 50F;
 
         tick %= travelRight + travelLeft + pause;
-        if (tick <= travelRight)
-            return 12F * tick / travelRight;
-        if (tick <= travelRight + travelLeft)
-            return 12F - 12F * (tick-travelRight) / travelLeft ;
+        if (tick <= travelRight) return 12F * tick / travelRight;
+        if (tick <= travelRight + travelLeft) return 12F - 12F * (tick - travelRight) / travelLeft;
         else return 0;
     }
 
@@ -179,10 +110,10 @@ public class WeaponryBlockEntityRenderer implements BlockEntityRenderer<Weaponry
         matrices.translate(0.5, 0.5, 0.5);
         World world = entity.getWorld();
         boolean bl = world != null;
-        BlockState blockState = bl ?
-                entity.getCachedState() :
-                BlockRegister.blocks[BlockRegistry.WEAPONRY.ordinal()].getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.SOUTH);
-        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-blockState.get(Properties.HORIZONTAL_FACING).asRotation()));
+        BlockState blockState = bl ? entity.getCachedState() : BlockRegister.blocks[BlockRegistry.WEAPONRY.ordinal()].getDefaultState().with(
+                Properties.HORIZONTAL_FACING, Direction.SOUTH);
+        matrices.multiply(
+                Vec3f.POSITIVE_Y.getDegreesQuaternion(-blockState.get(Properties.HORIZONTAL_FACING).asRotation()));
         matrices.translate(-0.5, -0.5, -0.5);
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TEXTURE));
 

@@ -1,7 +1,7 @@
 package com.brainsmash.broken_world.items.magical.enums;
 
 public enum RuneEnum {
-    GALACTICA,
+    GALACTIC,
     EARTH,
     WIND,
     FIRE,

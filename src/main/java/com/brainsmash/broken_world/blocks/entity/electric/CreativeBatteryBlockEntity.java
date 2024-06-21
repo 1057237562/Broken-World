@@ -1,6 +1,5 @@
 package com.brainsmash.broken_world.blocks.entity.electric;
 
-import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.base.BatteryBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.registry.BlockRegister;
@@ -21,13 +20,14 @@ import java.util.function.Function;
 public class CreativeBatteryBlockEntity extends BatteryBlockEntity {
     private Entity chargedCreeper;
     public float tick = 0;
+
     public CreativeBatteryBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.CREATIVE_BATTERY_ENTITY_TYPE, pos, state);
         setMaxCapacity(500000);
     }
 
-    public Entity getCreeper(){
-        if(chargedCreeper == null) {
+    public Entity getCreeper() {
+        if (chargedCreeper == null) {
             NbtCompound nbt = new NbtCompound();
             nbt.putString("id", "creeper");
             nbt.putBoolean("powered", true);

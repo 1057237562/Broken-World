@@ -1,5 +1,9 @@
 package com.brainsmash.broken_world.items.magical;
 
+import com.brainsmash.broken_world.items.magical.rune.ConditionalRune;
+import com.brainsmash.broken_world.items.magical.rune.ModifierRune;
+import com.brainsmash.broken_world.items.magical.rune.SelectorRune;
+import com.brainsmash.broken_world.items.magical.rune.SummonRune;
 import com.brainsmash.broken_world.screenhandlers.descriptions.WandGuiDescription;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -38,8 +42,21 @@ public class Wand extends Item {
             if (nbtCompound != null && !nbtCompound.isEmpty())
                 for (NbtElement element : nbtCompound.getList("inventory", NbtElement.COMPOUND_TYPE)) {
                     ItemStack rune = ItemStack.fromNbt((NbtCompound) element);
-
+                    var runeType = rune.getItem();
                     // TODO : Apply Magic Rune Interpreter
+
+                    if (runeType instanceof ConditionalRune) {
+
+                    }
+                    if (runeType instanceof ModifierRune) {
+
+                    }
+                    if (runeType instanceof SelectorRune) {
+
+                    }
+                    if (runeType instanceof SummonRune) {
+
+                    }
                 }
         }
         return super.use(world, user, hand);

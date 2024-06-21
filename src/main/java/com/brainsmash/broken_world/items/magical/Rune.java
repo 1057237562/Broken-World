@@ -3,7 +3,7 @@ package com.brainsmash.broken_world.items.magical;
 import com.brainsmash.broken_world.items.magical.enums.RuneEnum;
 import net.minecraft.item.Item;
 
-public abstract class Rune extends Item {
+public class Rune extends Item {
 
     final RuneEnum type;
 

@@ -2,26 +2,19 @@ package com.brainsmash.broken_world.gui.widgets;
 
 import com.brainsmash.broken_world.gui.util.IndicatorSlot;
 import io.github.cottonmc.cotton.gui.GuiDescription;
-import io.github.cottonmc.cotton.gui.ValidatedSlot;
 import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
 import io.github.cottonmc.cotton.gui.impl.LibGuiCommon;
 import io.github.cottonmc.cotton.gui.impl.VisualLogger;
-import io.github.cottonmc.cotton.gui.impl.client.NarrationMessages;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
-import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import io.github.cottonmc.cotton.gui.widget.icon.Icon;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
-import net.minecraft.client.gui.screen.narration.NarrationPart;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -91,7 +84,8 @@ public class WIndicatorItemSlot extends WItemSlot {
         this.icon = icon;
 
         if (icon != null && (slotsWide * slotsHigh) > 1) {
-            LOGGER.warn("Setting icon {} for item slot {} with more than 1 slot ({})", icon, this, slotsWide * slotsHigh);
+            LOGGER.warn("Setting icon {} for item slot {} with more than 1 slot ({})", icon, this,
+                    slotsWide * slotsHigh);
         }
 
         return this;
@@ -115,7 +109,8 @@ public class WIndicatorItemSlot extends WItemSlot {
         for (int y = 0; y < slotsHigh; y++) {
             for (int x = 0; x < slotsWide; x++) {
                 // The Slot object is offset +1 because it's the inner area of the slot.
-                IndicatorSlot slot = createSlotPeer(inventory, index, this.getAbsoluteX() + (x * 18) + 1, this.getAbsoluteY() + (y * 18) + 1);
+                IndicatorSlot slot = createSlotPeer(inventory, index, this.getAbsoluteX() + (x * 18) + 1,
+                        this.getAbsoluteY() + (y * 18) + 1);
                 slot.setFilter(filter);
                 for (ChangeListener listener : listeners) {
                     slot.addChangeListener(this, listener);

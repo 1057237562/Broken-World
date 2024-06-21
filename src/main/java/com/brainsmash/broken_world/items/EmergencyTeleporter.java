@@ -4,7 +4,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.network.SpawnLocating;import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.network.SpawnLocating;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
@@ -25,13 +26,16 @@ public class EmergencyTeleporter extends Item {
         ItemStack itemStack = user.getStackInHand(hand);
         if (world.getDimensionKey() == DimensionTypes.OVERWORLD) {
             return TypedActionResult.fail(itemStack);
-        }else {
+        } else {
             if (!world.isClient) {
-                ServerWorld destination = ((ServerWorld) world).getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY, new Identifier("overworld")));
+                ServerWorld destination = ((ServerWorld) world).getServer().getWorld(
+                        RegistryKey.of(Registry.WORLD_KEY, new Identifier("overworld")));
                 if (destination != null) {
                     ServerPlayerEntity player = (ServerPlayerEntity) user;
-                    BlockPos blockPos = SpawnLocating.findServerSpawnPoint(destination, new ChunkPos(destination.getSpawnPos()));
-                    player.teleport(destination, blockPos.getX(), blockPos.getY(), blockPos.getZ(), player.getYaw(), player.getPitch());
+                    BlockPos blockPos = SpawnLocating.findServerSpawnPoint(destination,
+                            new ChunkPos(destination.getSpawnPos()));
+                    player.teleport(destination, blockPos.getX(), blockPos.getY(), blockPos.getZ(), player.getYaw(),
+                            player.getPitch());
                 }
             }
             user.setCurrentHand(hand);

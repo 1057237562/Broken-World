@@ -26,4 +26,6 @@ public abstract class InGameHudMixin {
         }
         renderCrosshair(matrices);
     }
+
+
 }
