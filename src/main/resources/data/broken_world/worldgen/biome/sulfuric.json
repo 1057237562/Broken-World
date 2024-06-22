@@ -38,7 +38,7 @@
     [],
     []
   ],
-  "precipitation": "rain",
+  "has_precipitation": "rain",
   "spawn_costs": {},
   "spawners": {
     "ambient": [],

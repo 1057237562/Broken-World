@@ -14,8 +14,8 @@ import com.brainsmash.broken_world.items.weapons.ammo.SniperAmmo;
 import com.brainsmash.broken_world.items.weapons.guns.*;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import com.brainsmash.broken_world.registry.enums.ToolRegistry;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.item.*;
@@ -23,16 +23,19 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 
 import static com.brainsmash.broken_world.Main.MODID;
+import static com.brainsmash.broken_world.registry.BlockRegister.blockitems;
 import static com.brainsmash.broken_world.registry.FluidRegister.still_fluid;
 
 public class ItemRegister {
-    public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(MODID, "itemgroup"),
-            () -> new ItemStack(BlockRegister.blockitems[0]));
+    public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder().icon(
+            () -> new ItemStack(blockitems[0])).displayName(
+            Text.translatable("itemGroup.broken_world.itemgroup")).build();
 
     public static final ArmorMaterial[] armorMaterials = {new KineticMaterial()};
 
@@ -241,12 +244,20 @@ public class ItemRegister {
                     new HoeItem(material, -2, -1.0F, new FabricItemSettings())));
         }
 
+        Registry.register(Registries.ITEM_GROUP, new Identifier(MODID, "itemgroup"), ITEM_GROUP);
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
             toolsItem.forEach(content::add);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> {
             weaponsItem.forEach(content::add);
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(
+                RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(MODID, "itemgroup"))).register(content -> {
+            for (var item : blockitems) {
+                content.add(item);
+            }
         });
 
         ItemGroupEvents.modifyEntriesEvent(

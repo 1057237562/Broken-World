@@ -31,7 +31,6 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.*;
@@ -44,8 +43,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
@@ -428,13 +425,6 @@ public class BlockRegister {
             if (blockitems[i] != null)
                 Registry.register(Registries.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
         }
-
-        ItemGroupEvents.modifyEntriesEvent(
-                RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(MODID, "itemgroup"))).register(content -> {
-            for (var item : blockitems) {
-                content.add(item);
-            }
-        });
 
         TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "teleporter_controller"),
