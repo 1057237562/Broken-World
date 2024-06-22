@@ -3,6 +3,7 @@ package com.brainsmash.broken_world.mixin;
 import com.brainsmash.broken_world.blocks.entity.electric.ScannerBlockEntity;
 import com.brainsmash.broken_world.registry.DimensionRegister;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.option.CloudRenderMode;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.render.*;
@@ -32,7 +33,7 @@ public abstract class WorldRendererMixin {
     private BufferBuilderStorage bufferBuilders;
 
     @Shadow
-    private @Nullable ShaderEffect entityOutlineShader;
+    private @Nullable PostEffectProcessor entityOutlinePostProcessor;
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/GameOptions;getCloudRenderModeValue()Lnet/minecraft/client/option/CloudRenderMode;"))
     public CloudRenderMode hasCloud(GameOptions instance) {
@@ -44,7 +45,7 @@ public abstract class WorldRendererMixin {
         }
     }
 
-    @Redirect(method = "renderSky(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/util/math/Matrix4f;FLnet/minecraft/client/render/Camera;ZLjava/lang/Runnable;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;method_23787(F)F"))
+    @Redirect(method = "renderSky(Lnet/minecraft/client/util/math/MatrixStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/render/Camera;ZLjava/lang/Runnable;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;method_23787(F)F"))
     public float drawStars(ClientWorld instance, float f) {
         if (DimensionRegister.noCloudDimension.contains(
                 this.client.world.getDimensionKey().getValue().toTranslationKey())) {
@@ -54,7 +55,7 @@ public abstract class WorldRendererMixin {
         }
     }
 
-    @ModifyArg(method = "renderSky(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/util/math/Matrix4f;FLnet/minecraft/client/render/Camera;ZLjava/lang/Runnable;)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderTexture(ILnet/minecraft/util/Identifier;)V", ordinal = 1), index = 1)
+    @ModifyArg(method = "renderSky(Lnet/minecraft/client/util/math/MatrixStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/render/Camera;ZLjava/lang/Runnable;)V", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderTexture(ILnet/minecraft/util/Identifier;)V", ordinal = 1), index = 1)
     public Identifier hasMoon(Identifier id) {
         if (DimensionRegister.noMoonDimension.contains(
                 this.client.world.getDimensionKey().getValue().toTranslationKey())) {
@@ -78,7 +79,7 @@ public abstract class WorldRendererMixin {
         shading = true;
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/ShaderEffect;render(F)V", ordinal = 0))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/PostEffectProcessor;render(F)V", ordinal = 0))
     public void enabledShader(CallbackInfo cbi) {
         shading = true;
     }
@@ -86,7 +87,7 @@ public abstract class WorldRendererMixin {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/OutlineVertexConsumerProvider;draw()V", shift = At.Shift.AFTER))
     public void shouldEnableShader(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f positionMatrix, CallbackInfo ci) {
         if (!shading) {
-            entityOutlineShader.render(tickDelta);
+            entityOutlinePostProcessor.render(tickDelta);
             client.getFramebuffer().beginWrite(false);
         }
     }

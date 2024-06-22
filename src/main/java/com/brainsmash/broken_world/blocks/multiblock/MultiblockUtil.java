@@ -15,8 +15,8 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -114,14 +114,14 @@ public class MultiblockUtil {
     public static Block multiblock;
 
     public static void registerMultiblock() {
-        dummy = Registry.register(RegistryKeys.BLOCK, new Identifier(MODID, "dummy"),
-                new DummyBlock(FabricBlockSettings.of(Material.BARRIER).strength(1.0F, 6.0F).nonOpaque()));
-        DUMMY_ENTITY_TYPE = Registry.register(RegistryKeys.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dummy"),
+        dummy = Registry.register(Registries.BLOCK, new Identifier(MODID, "dummy"),
+                new DummyBlock(FabricBlockSettings.create().strength(1.0F, 6.0F).nonOpaque()));
+        DUMMY_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dummy"),
                 FabricBlockEntityTypeBuilder.create(DummyBlockEntity::new, dummy).build());
 
-        multiblock = Registry.register(RegistryKeys.BLOCK, new Identifier(MODID, "multiblock"),
-                new Multiblock(FabricBlockSettings.of(Material.BARRIER).strength(1.0F, 6.0F).nonOpaque()));
-        MULTIBLOCK_ENTITY_TYPE = Registry.register(RegistryKeys.BLOCK_ENTITY_TYPE, new Identifier(MODID, "multiblock"),
+        multiblock = Registry.register(Registries.BLOCK, new Identifier(MODID, "multiblock"),
+                new Multiblock(FabricBlockSettings.create().strength(1.0F, 6.0F).nonOpaque()));
+        MULTIBLOCK_ENTITY_TYPE = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, "multiblock"),
                 FabricBlockEntityTypeBuilder.create(MultiblockEntity::new, multiblock).build());
 
         BlockRenderLayerMap.INSTANCE.putBlock(dummy, RenderLayer.getTranslucent());

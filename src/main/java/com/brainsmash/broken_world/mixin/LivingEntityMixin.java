@@ -27,22 +27,19 @@ public abstract class LivingEntityMixin extends EntityMixin {
     public abstract Iterable<ItemStack> getArmorItems();
 
     @Shadow
-    public float airStrafingSpeed;
-
-    @Shadow
     public abstract boolean isUsingItem();
 
     @Shadow
     public abstract ItemStack getActiveItem();
 
-    @Redirect(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isSubmergedIn(Lnet/minecraft/tag/TagKey;)Z"))
+    @Redirect(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isSubmergedIn(Lnet/minecraft/registry/tag/TagKey;)Z"))
     private boolean hasNoAir(LivingEntity instance, TagKey<Fluid> tagKey) {
         if (TrinketsApi.getTrinketComponent(instance).get().isEquipped(ItemRegister.items[2])) {
             return false;
         }
         if (instance instanceof PlayerEntity) {
             if (DimensionRegister.noAirDimension.contains(
-                    instance.world.getDimensionKey().getValue().toTranslationKey())) {
+                    instance.getWorld().getDimensionKey().getValue().toTranslationKey())) {
                 return true;
             }
         }

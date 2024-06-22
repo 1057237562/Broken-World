@@ -70,8 +70,9 @@ public class WandGuiDescription extends SyncedGuiDescription {
         return true;
     }
 
+
     @Override
-    public ItemStack transferSlot(PlayerEntity player, int index) {
+    public ItemStack quickMove(PlayerEntity player, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
         if (slot != null && slot.hasStack()) {

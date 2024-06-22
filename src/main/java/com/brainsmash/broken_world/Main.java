@@ -154,7 +154,6 @@ public class Main implements ModInitializer {
         DimensionRegister.registerDimension();
         EntityRegister.registerEntities();
         EntityRegister.registerSpawnRegistration();
-        TreeRegister.registerTrees();
         PointOfInterestRegister.registerPlacesOfInterest();
 
         MultiblockUtil.registerMultiblock();

@@ -9,6 +9,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -39,15 +40,15 @@ public class WeaponryRecipe extends ShapedRecipe {
         @Override
         public WeaponryRecipe read(Identifier identifier, PacketByteBuf packetByteBuf) {
             ShapedRecipe father = super.read(identifier, packetByteBuf);
-            return new WeaponryRecipe(father.getId(), father.getGroup(), father.getWidth(), father.getHeight(),
-                    father.getIngredients(), father.getOutput());
+            return new WeaponryRecipe(father.getId(), father.getGroup(), father.getCategory(), father.getWidth(),
+                    father.getHeight(), father.getIngredients(), father.getOutput(DynamicRegistryManager.EMPTY));
         }
 
         @Override
         public WeaponryRecipe read(Identifier identifier, JsonObject jsonObject) {
             ShapedRecipe father = super.read(identifier, jsonObject);
-            return new WeaponryRecipe(father.getId(), father.getGroup(), father.getWidth(), father.getHeight(),
-                    father.getIngredients(), father.getOutput());
+            return new WeaponryRecipe(father.getId(), father.getGroup(), father.getCategory(), father.getWidth(),
+                    father.getHeight(), father.getIngredients(), father.getOutput(DynamicRegistryManager.EMPTY));
         }
     }
 

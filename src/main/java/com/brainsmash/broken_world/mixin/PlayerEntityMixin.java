@@ -35,7 +35,7 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin implements Pla
     public void setAirStrafingSpeed(CallbackInfo ci) {
         if (this.getData() instanceof NbtCompound nbtCompound) {
             if (BonusHelper.getBoolean(nbtCompound, "jet")) {
-                airStrafingSpeed *= 1.5f;
+                //airStrafingSpeed *= 1.5f;
             }
         }
     }

@@ -6,6 +6,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.github.cottonmc.cotton.gui.widget.data.Vec2i;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
@@ -70,7 +72,7 @@ public class MultiblockPattern {
             }
             if (obj.has("block")) {
                 Identifier id = Identifier.tryParse(obj.get("block").getAsString());
-                return StructureMaterial.ofBlocks(RegistryKeys.BLOCK.get(id));
+                return StructureMaterial.ofBlocks(Registries.BLOCK.get(id));
             }
         } else if (json.isJsonArray()) {
             JsonArray array = json.getAsJsonArray();

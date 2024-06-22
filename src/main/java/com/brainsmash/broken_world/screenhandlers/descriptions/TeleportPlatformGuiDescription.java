@@ -16,6 +16,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkTicketType;
@@ -24,8 +26,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,7 +122,7 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
                 NbtCompound compound = (NbtCompound) ele;
                 if (compound.getString("name").equals(selectDest)) {
                     ServerWorld destination = ((ServerWorld) world).getServer().getWorld(
-                            RegistryKey.of(Registry.WORLD_KEY, new Identifier(compound.getString("dimension"))));
+                            RegistryKey.of(RegistryKeys.WORLD, new Identifier(compound.getString("dimension"))));
                     if (destination != null) {
                         BlockPos blockPos = BlockPos.fromLong(compound.getLong("pos"));
                         destination.getChunkManager().addTicket(ChunkTicketType.PORTAL, new ChunkPos(blockPos), 1,

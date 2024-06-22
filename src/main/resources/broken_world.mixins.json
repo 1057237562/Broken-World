@@ -16,7 +16,6 @@
     "MainMixin",
     "MinecraftClientMixin",
     "PlayerEntityRendererMixin",
-    "SodiumBlendMixin",
     "SodiumRendererMixin",
     "WorldRendererMixin"
   ],

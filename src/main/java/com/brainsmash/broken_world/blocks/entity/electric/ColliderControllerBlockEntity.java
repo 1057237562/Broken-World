@@ -20,6 +20,7 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.RecipeManager;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -172,7 +173,7 @@ public class ColliderControllerBlockEntity extends ConsumerBlockEntity implement
 
     protected void outputProduct(ColliderRecipe recipe) {
         ItemStack outputSlot = getStack(OUTPUT);
-        ItemStack productStack = recipe.craft(this);
+        ItemStack productStack = recipe.craft(this, DynamicRegistryManager.EMPTY);
         int insertAmount;
         if (outputSlot.isEmpty()) {
             insertAmount = Math.min(productStack.getMaxCount(), productStack.getCount());

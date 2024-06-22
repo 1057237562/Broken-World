@@ -46,16 +46,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.gen.YOffset;
-import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.placementmodifier.CountPlacementModifier;
-import net.minecraft.world.gen.placementmodifier.HeightRangePlacementModifier;
-import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
-
-import java.util.Arrays;
 
 import static com.brainsmash.broken_world.Main.MODID;
 
@@ -387,83 +379,6 @@ public class BlockRegister {
             "stone_base"
     };
 
-    private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
-            new ConfiguredFeature<>(Feature.ORE,
-                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[0].getDefaultState(),
-                            21)),
-            new ConfiguredFeature<>(Feature.ORE,
-                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[2].getDefaultState(), 9)),
-            new ConfiguredFeature<>(Feature.ORE,
-                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[3].getDefaultState(), 9)),
-            new ConfiguredFeature<>(Feature.ORE,
-                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[5].getDefaultState(), 6)),
-            new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
-                    blocks[BlockRegistry.TUNGSTEN_ORE.ordinal()].getDefaultState(), 8)),
-            new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
-                    blocks[BlockRegistry.MAGNETITE.ordinal()].getDefaultState(), 4)),
-            new ConfiguredFeature<>(Feature.ORE,
-                    new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, blocks[58].getDefaultState(),
-                            6)),
-            new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
-                    blocks[BlockRegistry.TIN_ORE.ordinal()].getDefaultState(), 9)),
-            new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
-                    blocks[BlockRegistry.SULFUR_ORE.ordinal()].getDefaultState(), 4)),
-            new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
-                    blocks[BlockRegistry.ALUMINUM_ORE.ordinal()].getDefaultState(), 6)),
-            new ConfiguredFeature<>(Feature.ORE, new OreFeatureConfig(OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
-                    blocks[BlockRegistry.LEAD_ORE.ordinal()].getDefaultState(), 6)),
-    };
-
-    private static final PlacedFeature[] placedFeatures = {
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[0]),
-                    Arrays.asList(CountPlacementModifier.of(12), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64)))),
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[1]),
-                    Arrays.asList(CountPlacementModifier.of(24), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64)))),
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[2]),
-                    Arrays.asList(CountPlacementModifier.of(24), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64)))),
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[3]),
-                    Arrays.asList(CountPlacementModifier.of(8), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(32)))),
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[4]),
-                    Arrays.asList(CountPlacementModifier.of(6), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(32)))),
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[5]),
-                    Arrays.asList(CountPlacementModifier.of(8), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(16)))),
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[6]),
-                    Arrays.asList(CountPlacementModifier.of(32), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.fixed(64), YOffset.TOP))),
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[7]),
-                    Arrays.asList(CountPlacementModifier.of(20), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.fixed(64)))),
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[8]),
-                    Arrays.asList(CountPlacementModifier.of(10), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.fixed(64)))),
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[9]),
-                    Arrays.asList(CountPlacementModifier.of(8), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.fixed(64)))),
-            new PlacedFeature(RegistryEntry.of(configuredFeatures[10]),
-                    Arrays.asList(CountPlacementModifier.of(6), SquarePlacementModifier.of(),
-                            HeightRangePlacementModifier.uniform(YOffset.fixed(8), YOffset.fixed(64)))),
-    };
-
-    private static final String[] configurenames = {
-            "moon_sand",
-            "moon_iron_ore",
-            "moon_gold_ore",
-            "moon_redstone_ore",
-            "tungsten_ore",
-            "magnetite",
-            "kyanite_ore",
-            "tin_ore",
-            "sulfur_ore",
-            "aluminum_ore",
-            "lead_ore"
-    };
-
     public static BlockEntityType<TeleporterControllerBlockEntity> TELEPORTER_CONTROLLER_ENTITY_BLOCK_ENTITY_TYPE;
     public static BlockEntityType<CableBlockEntity> CABLE_ENTITY_TYPE;
     public static BlockEntityType<BatteryBlockEntity> BATTERY_ENTITY_TYPE;
@@ -512,11 +427,6 @@ public class BlockRegister {
             Registry.register(Registries.BLOCK, new Identifier(MODID, blocknames[i]), blocks[i]);
             if (blockitems[i] != null)
                 Registry.register(Registries.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
-        }
-        for (int i = 0; i < configuredFeatures.length; i++) {
-            Registry.register(RegistryKeys.CONFIGURED_FEATURE, new Identifier(MODID, configurenames[i]),
-                    configuredFeatures[i]);
-            Registry.register(RegistryKeys.PLACED_FEATURE, new Identifier(MODID, configurenames[i]), placedFeatures[i]);
         }
 
         ItemGroupEvents.modifyEntriesEvent(

@@ -19,6 +19,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -112,7 +113,7 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
                         BlockPos portalbase = baseblock.add(0, 1, 0);
                         world.breakBlock(portalbase, false);
                         PortalLink link = DimensionRegister.dimensions.get(selectDim);
-                        Block linkblock = RegistryKeys.BLOCK.get(link.block);
+                        Block linkblock = Registries.BLOCK.get(link.block);
                         if (replacePortalBlock(oldlink, oldblock, world, portalbase, linkblock)) {
                             if (link != null && link.canLightInDim(world.getRegistryKey().getValue())) {
                                 createPortal(link, linkblock, world, portalbase);

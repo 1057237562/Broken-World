@@ -6,7 +6,7 @@ import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
 import io.github.cottonmc.cotton.gui.impl.LibGuiCommon;
 import io.github.cottonmc.cotton.gui.impl.VisualLogger;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
-import io.github.cottonmc.cotton.gui.widget.WWidget;
+import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import io.github.cottonmc.cotton.gui.widget.icon.Icon;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -111,7 +111,7 @@ public class WIndicatorItemSlot extends WItemSlot {
                 // The Slot object is offset +1 because it's the inner area of the slot.
                 IndicatorSlot slot = createSlotPeer(inventory, index, this.getAbsoluteX() + (x * 18) + 1,
                         this.getAbsoluteY() + (y * 18) + 1);
-                slot.setFilter(filter);
+                slot.setInputFilter(filter);
                 for (ChangeListener listener : listeners) {
                     slot.addChangeListener(this, listener);
                 }
@@ -124,7 +124,7 @@ public class WIndicatorItemSlot extends WItemSlot {
 
     @Environment(EnvType.CLIENT)
     @Override
-    public void onKeyPressed(int ch, int key, int modifiers) {
+    public InputResult onKeyPressed(int ch, int key, int modifiers) {
         if (isActivationKey(ch) && host instanceof ScreenHandler && focusedSlot >= 0) {
             ScreenHandler handler = (ScreenHandler) host;
             MinecraftClient client = MinecraftClient.getInstance();
@@ -132,6 +132,7 @@ public class WIndicatorItemSlot extends WItemSlot {
             IndicatorSlot peer = peers.get(focusedSlot);
             client.interactionManager.clickSlot(handler.syncId, peer.id, 0, SlotActionType.PICKUP, client.player);
         }
+        return super.onKeyPressed(ch, key, modifiers);
     }
 
     public void addChangeListener(ChangeListener listener) {
@@ -147,7 +148,7 @@ public class WIndicatorItemSlot extends WItemSlot {
         return new IndicatorSlot(inventory, index, x, y);
     }
 
-    public Predicate<ItemStack> getFilter() {
+    public Predicate<ItemStack> getInputFilter() {
         return filter;
     }
 
@@ -158,35 +159,35 @@ public class WIndicatorItemSlot extends WItemSlot {
      * @return this item slot
      * @since 2.0.0
      */
-    public WIndicatorItemSlot setFilter(Predicate<ItemStack> filter) {
+    public WIndicatorItemSlot setInputFilter(Predicate<ItemStack> filter) {
         this.filter = filter;
         for (IndicatorSlot peer : peers) {
-            peer.setFilter(filter);
+            peer.setInputFilter(filter);
         }
         return this;
     }
 
-    @Nullable
-    @Override
-    public WWidget cycleFocus(boolean lookForwards) {
-        if (focusedSlot < 0) {
-            focusedSlot = lookForwards ? 0 : (slotsWide * slotsHigh - 1);
-            return this;
-        }
-
-        if (lookForwards) {
-            focusedSlot++;
-            if (focusedSlot >= slotsWide * slotsHigh) {
-                focusedSlot = -1;
-                return null;
-            } else {
-                return this;
-            }
-        } else {
-            focusedSlot--;
-            return focusedSlot >= 0 ? this : null;
-        }
-    }
+//    @Nullable
+//    @Override
+//    public WWidget cycleFocus(boolean lookForwards) {
+//        if (focusedSlot < 0) {
+//            focusedSlot = lookForwards ? 0 : (slotsWide * slotsHigh - 1);
+//            return this;
+//        }
+//
+//        if (lookForwards) {
+//            focusedSlot++;
+//            if (focusedSlot >= slotsWide * slotsHigh) {
+//                focusedSlot = -1;
+//                return null;
+//            } else {
+//                return this;
+//            }
+//        } else {
+//            focusedSlot--;
+//            return focusedSlot >= 0 ? this : null;
+//        }
+//    }
 
     @Override
     public void onFocusLost() {
