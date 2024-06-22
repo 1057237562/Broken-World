@@ -46,7 +46,7 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
     public TeleporterControllerGuiDescription(int syncId, PlayerInventory playerInventory, BlockPos pos, PacketByteBuf buf) {
         this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.getWorld(), pos));
         if (getNetworkSide() == NetworkSide.CLIENT) {
-            ((EntityDataExtension) playerInventory.player).setData(buf.readNbt());
+            ((EntityDataExtension) playerInventory.player).brokenWorld$setData(buf.readNbt());
             WGridPanel root = new WGridPanel();
             setRootPanel(root);
             root.setSize(150, 175);
@@ -64,7 +64,7 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
             root.add(bar, 8, 1, 1, 1);
             ArrayList<String> dimensionList = new ArrayList<>(List.of("broken_world:moon"));
 
-            NbtCompound nbtCompound = (NbtCompound) ((EntityDataExtension) playerInventory.player).getData();
+            NbtCompound nbtCompound = (NbtCompound) ((EntityDataExtension) playerInventory.player).brokenWorld$getData();
             NbtList list = nbtCompound.getList("dimension", NbtElement.COMPOUND_TYPE);
             if (list != null) {
                 for (NbtElement element : list) {
@@ -141,7 +141,7 @@ public class TeleporterControllerGuiDescription extends SyncedGuiDescription {
             root.add(bar, 8, 1, 1, 1);
             ArrayList<String> dimensionList = new ArrayList<>(List.of("broken_world:moon"));
 
-            NbtCompound nbtCompound = (NbtCompound) ((EntityDataExtension) playerInventory.player).getData();
+            NbtCompound nbtCompound = (NbtCompound) ((EntityDataExtension) playerInventory.player).brokenWorld$getData();
             NbtList list = nbtCompound.getList("dimension", NbtElement.COMPOUND_TYPE);
             if (list != null) {
                 for (NbtElement element : list) {

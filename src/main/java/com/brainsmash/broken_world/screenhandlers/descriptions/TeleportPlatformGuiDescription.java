@@ -92,7 +92,7 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
         PlayerEntity player = playerInventory.player;
         ScreenNetworking.of(this, NetworkSide.SERVER).receive(UNREGIST, buf -> {
             context.get((world, pos) -> {
-                NbtCompound element = (NbtCompound) ((EntityDataExtension) player).getData();
+                NbtCompound element = (NbtCompound) ((EntityDataExtension) player).brokenWorld$getData();
                 NbtList list = (NbtList) element.get("teleporterList");
                 if (list == null) {
                     list = new NbtList();
@@ -106,14 +106,14 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
                     }
                 }
                 element.put("teleporterList", list);
-                ((EntityDataExtension) player).setData(element);
+                ((EntityDataExtension) player).brokenWorld$setData(element);
                 ((ServerPlayerEntity) player).closeHandledScreen();
                 return true;
             });
         });
         ScreenNetworking.of(this, NetworkSide.SERVER).receive(SELECT_MESSAGE, buf -> {
             selectDest = buf.readString();
-            NbtCompound element = (NbtCompound) ((EntityDataExtension) player).getData();
+            NbtCompound element = (NbtCompound) ((EntityDataExtension) player).brokenWorld$getData();
             NbtList list = (NbtList) element.get("teleporterList");
             if (list == null) {
                 list = new NbtList();
@@ -145,13 +145,13 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
                         } else {
                             list.remove(ele);
                             element.put("teleporterList", list);
-                            ((EntityDataExtension) player).setData(element);
+                            ((EntityDataExtension) player).brokenWorld$setData(element);
                             ((ServerPlayerEntity) player).closeHandledScreen();
                         }
                     } else {
                         list.remove(ele);
                         element.put("teleporterList", list);
-                        ((EntityDataExtension) player).setData(element);
+                        ((EntityDataExtension) player).brokenWorld$setData(element);
                         ((ServerPlayerEntity) player).closeHandledScreen();
                     }
                     return;
@@ -161,7 +161,7 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
         ScreenNetworking.of(this, NetworkSide.SERVER).receive(NEW_ENTRY, buf -> {
             String name = buf.readString();
             context.get((world, pos) -> {
-                NbtCompound element = (NbtCompound) ((EntityDataExtension) player).getData();
+                NbtCompound element = (NbtCompound) ((EntityDataExtension) player).brokenWorld$getData();
                 NbtList list = (NbtList) element.get("teleporterList");
                 if (list == null) {
                     list = new NbtList();
@@ -172,7 +172,7 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
                 nbt.putString("name", name);
                 list.add(nbt);
                 element.put("teleporterList", list);
-                ((EntityDataExtension) player).setData(element);
+                ((EntityDataExtension) player).brokenWorld$setData(element);
                 return true;
             });
         });

@@ -49,8 +49,10 @@ public abstract class LivingEntityMixin extends EntityMixin {
     @ModifyConstant(method = "travel", constant = @Constant(doubleValue = 0.08))
     private double getGravity(double earthGravity) {
         double multiplier = 1.0;
-        if (DimensionRegister.dimensionGravity.containsKey(world.getDimensionKey().getValue().toTranslationKey())) {
-            multiplier = DimensionRegister.dimensionGravity.get(world.getDimensionKey().getValue().toTranslationKey());
+        if (DimensionRegister.dimensionGravity.containsKey(
+                getWorld().getDimensionKey().getValue().toTranslationKey())) {
+            multiplier = DimensionRegister.dimensionGravity.get(
+                    getWorld().getDimensionKey().getValue().toTranslationKey());
         }
         return earthGravity * multiplier;
     }
@@ -59,7 +61,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
     public int computeFallDamage(LivingEntity instance, float fallDistance, float damageMultiplier) {
         StatusEffectInstance statusEffectInstance = instance.getStatusEffect(StatusEffects.JUMP_BOOST);
         double multiplier = DimensionRegister.dimensionGravity.getOrDefault(
-                world.getDimensionKey().getValue().toTranslationKey(), 1.0);
+                getWorld().getDimensionKey().getValue().toTranslationKey(), 1.0);
 
         float f = statusEffectInstance == null ? 0.0f : (float) (statusEffectInstance.getAmplifier() + 1);
         return MathHelper.ceil((fallDistance * Math.sqrt(multiplier) - 3.0f - f) * damageMultiplier);
@@ -67,9 +69,9 @@ public abstract class LivingEntityMixin extends EntityMixin {
 
     @Inject(method = "onEquipStack", at = @At("HEAD"))
     public void resetSetBonus(EquipmentSlot slot, ItemStack oldStack, ItemStack newStack, CallbackInfo ci) {
-        if (getData() instanceof NbtCompound nbtCompound) {
+        if (brokenWorld$getData() instanceof NbtCompound nbtCompound) {
             nbtCompound.remove("bonus");
-            setData(nbtCompound);
+            brokenWorld$setData(nbtCompound);
         }
         if (slot.getType() == EquipmentSlot.Type.ARMOR) {
             if (newStack.getItem() instanceof ArmorItem armorItem) {

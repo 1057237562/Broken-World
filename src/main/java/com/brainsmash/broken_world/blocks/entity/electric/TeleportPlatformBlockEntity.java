@@ -88,7 +88,7 @@ public class TeleportPlatformBlockEntity extends ConsumerBlockEntity implements 
     @Override
     public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
         buf.writeBlockPos(pos);
-        NbtCompound element = (NbtCompound) ((EntityDataExtension) player).getData();
+        NbtCompound element = (NbtCompound) ((EntityDataExtension) player).brokenWorld$getData();
         buf.writeNbt(element);
     }
 }

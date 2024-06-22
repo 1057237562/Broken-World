@@ -25,7 +25,7 @@ public class CoordinateCard extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
 
-        NbtCompound nbtCompound = (NbtCompound) ((EntityDataExtension) user).getData();
+        NbtCompound nbtCompound = (NbtCompound) ((EntityDataExtension) user).brokenWorld$getData();
 
         boolean flag = false;
 
@@ -42,8 +42,8 @@ public class CoordinateCard extends Item {
             keyValue.putString("key", dimensionName);
             nbtList.add(keyValue);
             nbtCompound.put("dimension", nbtList);
-            
-            ((EntityDataExtension) user).setData(nbtCompound);
+
+            ((EntityDataExtension) user).brokenWorld$setData(nbtCompound);
         }
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));

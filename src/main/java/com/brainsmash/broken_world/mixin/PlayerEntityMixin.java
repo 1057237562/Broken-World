@@ -27,13 +27,13 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin implements Pla
     }
 
     @Override
-    public void forceSetFlag(int index, boolean value) {
+    public void brokenWorld$forceSetFlag(int index, boolean value) {
         setFlag(index, value);
     }
 
     @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;setMovementSpeed(F)V"))
     public void setAirStrafingSpeed(CallbackInfo ci) {
-        if (this.getData() instanceof NbtCompound nbtCompound) {
+        if (this.brokenWorld$getData() instanceof NbtCompound nbtCompound) {
             if (BonusHelper.getBoolean(nbtCompound, "jet")) {
                 //airStrafingSpeed *= 1.5f;
             }

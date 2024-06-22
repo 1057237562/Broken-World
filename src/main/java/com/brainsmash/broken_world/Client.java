@@ -88,14 +88,14 @@ public class Client implements ClientModInitializer {
                 if (player.getWorld().isSpaceEmpty(player,
                         EntityHelper.calculateBoundsForPose(player, EntityPose.SWIMMING).contract(1.0E-7))) {
                     player.setPose(EntityPose.SWIMMING);
-                    ((PlayerDataExtension) player).forceSetFlag(2, true);
+                    ((PlayerDataExtension) player).brokenWorld$forceSetFlag(2, true);
                 }
                 ClientPlayNetworking.send(new Identifier(MODID, "crawl_key_hold"), PacketByteBufs.create());
             }
             if (client.options.jumpKey.isPressed()) {
                 if (!player.getAbilities().flying) {
                     if (player instanceof EntityDataExtension dataExtension) {
-                        if (dataExtension.getData() instanceof NbtCompound nbtCompound) {
+                        if (dataExtension.brokenWorld$getData() instanceof NbtCompound nbtCompound) {
                             if (BonusHelper.getBoolean(nbtCompound, "jet")) {
                                 if (player.getVelocity().y < 0.7f)
                                     player.addVelocity(0, Math.min(0.7f - player.getVelocity().y, 0.3), 0);

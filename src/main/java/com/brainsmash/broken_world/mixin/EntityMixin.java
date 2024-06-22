@@ -15,8 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityDataExtension {
-    @Shadow
-    public World world;
 
     @Shadow
     protected abstract void setFlag(int index, boolean value);
@@ -26,6 +24,9 @@ public abstract class EntityMixin implements EntityDataExtension {
 
     @Shadow
     public abstract Iterable<ItemStack> getArmorItems();
+
+    @Shadow
+    public abstract World getWorld();
 
     private NbtElement element = new NbtCompound();
 
@@ -43,12 +44,12 @@ public abstract class EntityMixin implements EntityDataExtension {
     }
 
     @Override
-    public NbtElement getData() {
+    public NbtElement brokenWorld$getData() {
         return element;
     }
 
     @Override
-    public void setData(NbtElement ele) {
+    public void brokenWorld$setData(NbtElement ele) {
         element = ele;
     }
 
