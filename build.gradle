@@ -48,14 +48,14 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation "dev.emi:trinkets:3.4.1"
-    modImplementation "alexiil.mc.lib:libnetworkstack-base:0.7.0"
-    modImplementation "alexiil.mc.lib:libblockattributes-all:0.11.0"
+    modApi "alexiil.mc.lib:libnetworkstack-base:0.7.0"
+    include "alexiil.mc.lib:libnetworkstack-base:0.7.0"
 
 //    modImplementation 'net.kyrptonaught:customportalapi:0.0.1-beta57-1.19'
 //    include 'net.kyrptonaught:customportalapi:0.0.1-beta57-1.19'
 
     modCompileOnly('maven.modrinth:sodium:mc1.19.2-0.4.4') { exclude group: "net.fabricmc.fabric-api" }
-    modImplementation include('net.kyrptonaught:customportalapi:0.0.1-beta63-1.19.X') {
+    modImplementation include('net.kyrptonaught:customportalapi:0.0.1-beta63.5-1.19.X') {
         exclude group: "net.fabricmc.fabric-api"
         exclude module: "sodium"
     }

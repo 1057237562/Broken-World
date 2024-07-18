@@ -1,24 +1,22 @@
 package com.brainsmash.broken_world.entity.hostile;
 
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityData;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ApocalyptorEntity extends HostileEntity {
-    public ApocalyptorEntity(EntityType<? extends HostileEntity> entityType, World world) {
+public class ForestGuardianEntity extends HostileEntity {
+    public ForestGuardianEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
     }
 
@@ -31,25 +29,13 @@ public class ApocalyptorEntity extends HostileEntity {
         this.targetSelector.add(3, new RevengeGoal(this).setGroupRevenge(new Class[0]));
         this.targetSelector.add(3, new TargetGoal(this));
         this.goalSelector.add(4, new WanderAroundGoal(this, 0.6));
-        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 6.0f, 1.0f));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, MobEntity.class, 8.0f));
+        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f, 1.0f));
     }
 
-    public static DefaultAttributeContainer createApocalyptorAttributes() {
+    public static DefaultAttributeContainer createForestGuardianAttribute() {
         return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 300).add(
                 EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED,
-                0.35f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0).build();
-    }
-
-    @Override
-    public void tickMovement() {
-        if (this.world.isClient) {
-            for (int i = 0; i < 2; ++i) {
-                this.world.addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(0.15), this.getBodyY(1.1),
-                        this.getParticleZ(0.15), 0.0, 0.0, 0.0);
-            }
-        }
-        super.tickMovement();
+                0.25f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0).build();
     }
 
     @Nullable
@@ -60,16 +46,13 @@ public class ApocalyptorEntity extends HostileEntity {
         return data;
     }
 
-    @Override
-    protected void initEquipment(Random random, LocalDifficulty localDifficulty) {
-        this.equipStack(EquipmentSlot.MAINHAND,
-                new ItemStack(random.nextDouble() < 0.75f ? Items.STONE_AXE : Items.GOLDEN_AXE));
-        this.equipStack(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
+    public int getAttackTicksLeft() {
+        return 0;
     }
 
     class AttackGoal extends MeleeAttackGoal {
-        public AttackGoal(ApocalyptorEntity apocalyptor) {
-            super(apocalyptor, 1.0, false);
+        public AttackGoal(ForestGuardianEntity guardianEntity) {
+            super(guardianEntity, 1.0, false);
         }
 
         @Override
@@ -79,8 +62,8 @@ public class ApocalyptorEntity extends HostileEntity {
     }
 
     static class TargetGoal extends ActiveTargetGoal<LivingEntity> {
-        public TargetGoal(ApocalyptorEntity apocalyptor) {
-            super(apocalyptor, LivingEntity.class, 0, true, true, LivingEntity::isMobOrPlayer);
+        public TargetGoal(ForestGuardianEntity guardianEntity) {
+            super(guardianEntity, LivingEntity.class, 0, true, true, LivingEntity::isMobOrPlayer);
         }
 
         @Override

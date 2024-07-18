@@ -1,7 +1,5 @@
 package com.brainsmash.broken_world.blocks.electric;
 
-import alexiil.mc.lib.attributes.AttributeList;
-import alexiil.mc.lib.attributes.AttributeProvider;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.entity.electric.CentrifugeBlockEntity;
 import net.minecraft.block.Block;
@@ -17,12 +15,12 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class CentrifugeBlock extends ConsumerBlock implements AttributeProvider {
+public class CentrifugeBlock extends ConsumerBlock {
     public CentrifugeBlock(Settings settings) {
         super(settings);
-        setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(
-                Properties.LIT,
-                false));
+        setDefaultState(
+                stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(Properties.LIT,
+                        false));
     }
 
     @Override
@@ -34,11 +32,9 @@ public class CentrifugeBlock extends ConsumerBlock implements AttributeProvider 
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if (!world.isClient) return (world1, pos, state1, blockEntity) -> ((CentrifugeBlockEntity) blockEntity).tick(
-                world1,
-                pos,
-                state1,
-                (CentrifugeBlockEntity) blockEntity);
+        if (!world.isClient)
+            return (world1, pos, state1, blockEntity) -> ((CentrifugeBlockEntity) blockEntity).tick(world1, pos, state1,
+                    (CentrifugeBlockEntity) blockEntity);
         return null;
     }
 
@@ -50,13 +46,6 @@ public class CentrifugeBlock extends ConsumerBlock implements AttributeProvider 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
-    }
-
-    @Override
-    public void addAllAttributes(World world, BlockPos pos, BlockState state, AttributeList<?> to) {
-        CentrifugeBlockEntity blockEntity = (CentrifugeBlockEntity) world.getBlockEntity(pos);
-        to.offer(blockEntity.fluidInv.getTank(0).getPureInsertable());
-        to.offer(blockEntity.fluidInv.getTank(1).getPureExtractable());
     }
 
 }

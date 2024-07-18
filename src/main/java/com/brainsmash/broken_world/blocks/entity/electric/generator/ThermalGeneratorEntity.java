@@ -1,20 +1,19 @@
 package com.brainsmash.broken_world.blocks.entity.electric.generator;
 
-import alexiil.mc.lib.attributes.Simulation;
-import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
-import alexiil.mc.lib.attributes.fluid.volume.FluidKeys;
-import alexiil.mc.lib.attributes.fluid.volume.FluidVolume;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
+import com.brainsmash.broken_world.blocks.fluid.storage.SingleFluidStorage;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.ThermalGeneratorGuiDescription;
-import com.brainsmash.broken_world.util.ThermalFluidInv;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -31,10 +30,17 @@ import net.minecraft.world.World;
 
 public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScreenHandlerFactory, ImplementedInventory, PropertyDelegateHolder {
 
+    public final SingleFluidStorage<FluidVariant> fluidStorage = new SingleFluidStorage<FluidVariant>() {
+        @Override
+        protected FluidVariant getBlankVariant() {
+            return FluidVariant.blank();
+        }
 
-    private static final FluidAmount SINGLE_TANK_CAPACITY = FluidAmount.BUCKET.mul(8);
-
-    public final ThermalFluidInv fluidInv = new ThermalFluidInv(1, SINGLE_TANK_CAPACITY);
+        @Override
+        protected long getCapacity(FluidVariant variant) {
+            return 8 * FluidConstants.BUCKET;
+        }
+    };
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
 
@@ -49,7 +55,7 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
                 case 2:
                     return getAmount();
                 case 3:
-                    return SINGLE_TANK_CAPACITY.as1620();
+                    return (int) fluidStorage.getCapacity();
                 default:
                     return -1;
             }
@@ -65,7 +71,7 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
                     setMaxCapacity(value);
                     break;
                 case 2:
-                    fluidAmount = value;
+                    fluidStorage.amount = value;
                     break;
             }
         }
@@ -76,42 +82,34 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
         }
     };
 
-    private int fluidAmount = 0;
-
     public int getAmount() {
-        if (world.isClient) {
-            return fluidAmount;
-        } else {
-            return fluidInv.getInvFluid(0).amount().as1620();
-        }
+        return (int) fluidStorage.amount;
     }
 
     public ThermalGeneratorEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.THERMAL_GENERATOR_ENTITY_TYPE, pos, state);
         setMaxCapacity(4000);
         setGenerate(16);
-        fluidInv.setInvFluid(0, FluidKeys.LAVA.withAmount(FluidAmount.ZERO), Simulation.ACTION);
+        fluidStorage.variant = FluidVariant.of(Fluids.LAVA);
+        fluidStorage.amount = 0;
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (!fluidInv.getInvFluid(0).isEmpty() && fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(
-                    FluidAmount.of1620(6)) && getEnergy() < getMaxCapacity()) {
+            if (!fluidStorage.isEmpty() && fluidStorage.amount >= 300 && getEnergy() < getMaxCapacity()) {
                 running = true;
-                fluidInv.getInvFluid(0).split(FluidAmount.of1620(6));
+                fluidStorage.amount -= 300;
             } else {
                 running = false;
             }
             if (inventory.get(1).isOf(Items.LAVA_BUCKET)) {
-                if (fluidInv.getInvFluid(0).isEmpty()) {
-                    if (fluidInv.setInvFluid(0, FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), Simulation.ACTION)) {
-                        inventory.set(1, new ItemStack(Items.BUCKET, 1));
-                    }
+                if (fluidStorage.isEmpty()) {
+                    fluidStorage.amount += FluidConstants.BUCKET;
+                    inventory.set(1, new ItemStack(Items.BUCKET, 1));
                 } else {
-                    if (fluidInv.getInvFluid(0).amount().isLessThanOrEqual(
-                            SINGLE_TANK_CAPACITY.sub(FluidAmount.BUCKET)) && fluidInv.getInvFluid(0).merge(
-                            FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), Simulation.ACTION)) {
+                    if (fluidStorage.amount <= fluidStorage.getCapacity() - FluidConstants.BUCKET) {
+                        fluidStorage.amount += FluidConstants.BUCKET;
                         inventory.set(1, new ItemStack(Items.BUCKET, 1));
                     }
                 }
@@ -126,19 +124,13 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
-        if (nbt.contains("fluid")) {
-            FluidVolume fluid = FluidVolume.fromTag(nbt.getCompound("fluid"));
-            fluidInv.setInvFluid(0, fluid, Simulation.ACTION);
-        }
+        fluidStorage.amount = nbt.getLong("fluidAmount");
     }
 
     @Override
     public void writeNbt(NbtCompound nbt) {
         Inventories.writeNbt(nbt, this.inventory);
-        FluidVolume invFluid = fluidInv.getInvFluid(0);
-        if (!invFluid.isEmpty()) {
-            nbt.put("fluid", invFluid.toTag());
-        }
+        nbt.putLong("fluidAmount", fluidStorage.amount);
         super.writeNbt(nbt);
     }
 

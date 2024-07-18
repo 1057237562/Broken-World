@@ -52,17 +52,13 @@
     ],
     [
       "minecraft:glow_lichen",
-      "minecraft:patch_large_fern",
-      "minecraft:trees_old_growth_pine_taiga",
-      "minecraft:flower_default",
-      "minecraft:patch_grass_taiga",
       "minecraft:patch_dead_bush",
+      "minecraft:patch_grass_badlands",
+      "minecraft:patch_dead_bush_2",
       "minecraft:brown_mushroom_old_growth",
       "minecraft:red_mushroom_old_growth",
       "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal",
-      "minecraft:patch_sugar_cane",
-      "minecraft:patch_pumpkin"
+      "minecraft:red_mushroom_normal"
     ],
     []
   ],
@@ -84,5 +80,5 @@
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": 0.7
+  "temperature": 1.8
 }
