@@ -1,11 +1,10 @@
 package com.brainsmash.broken_world.blocks.entity.magical;
 
-import alexiil.mc.lib.attributes.Simulation;
-import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
-import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
-import alexiil.mc.lib.attributes.fluid.volume.FluidKeys;
-import alexiil.mc.lib.attributes.fluid.volume.PotionFluidKey;
+import com.brainsmash.broken_world.blocks.fluid.PotionFluid;
+import com.brainsmash.broken_world.blocks.fluid.storage.SingleFluidStorage;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -32,9 +31,17 @@ import org.jetbrains.annotations.Nullable;
 
 public class CrucibleBlockEntity extends BlockEntity implements BlockEntityTicker<CrucibleBlockEntity> {
 
-    private static final FluidAmount SINGLE_TANK_CAPACITY = FluidAmount.BUCKET;
+    public final SingleFluidStorage<FluidVariant> fluidStorage = new SingleFluidStorage<FluidVariant>() {
+        @Override
+        protected FluidVariant getBlankVariant() {
+            return FluidVariant.blank();
+        }
 
-    public final SimpleFixedFluidInv fluidInv = new SimpleFixedFluidInv(1, SINGLE_TANK_CAPACITY);
+        @Override
+        protected long getCapacity(FluidVariant variant) {
+            return FluidConstants.BUCKET;
+        }
+    };
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
 
@@ -72,7 +79,7 @@ public class CrucibleBlockEntity extends BlockEntity implements BlockEntityTicke
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
-        fluidInv.toTag(nbt);
+        fluidStorage.writeNbt(nbt);
         Inventories.writeNbt(nbt, inventory);
         super.writeNbt(nbt);
     }
@@ -80,7 +87,7 @@ public class CrucibleBlockEntity extends BlockEntity implements BlockEntityTicke
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        fluidInv.fromTag(nbt);
+        fluidStorage.readNbt(nbt);
         Inventories.readNbt(nbt, inventory);
         if (world instanceof ClientWorld clientWorld) {
             clientWorld.scheduleBlockRenders(ChunkSectionPos.getSectionCoord(pos.getX()),
@@ -102,10 +109,10 @@ public class CrucibleBlockEntity extends BlockEntity implements BlockEntityTicke
     }
 
     public int getFluidColor() {
-        if (fluidInv.getInvFluid(0).isEmpty()) return 0x000000;
-        if (fluidInv.getInvFluid(0).getRawFluid() != null && fluidInv.getInvFluid(0).getRawFluid().matchesType(
-                Fluids.WATER)) return 0x7442FF;
-        return fluidInv.getInvFluid(0).getRenderColor();
+        if (fluidStorage.isEmpty()) return 0x000000;
+        if (fluidStorage.variant.getFluid() != null && fluidStorage.variant.getFluid().matchesType(Fluids.WATER))
+            return 0x7442FF;
+        return ((PotionFluid) fluidStorage.variant.getFluid()).getRenderColor();
     }
 
 
@@ -133,8 +140,8 @@ public class CrucibleBlockEntity extends BlockEntity implements BlockEntityTicke
     public void tick(World world, BlockPos pos, BlockState state, CrucibleBlockEntity blockEntity) {
         if (world instanceof ServerWorld serverWorld) {
             Potion potion = Potions.WATER;
-            if (fluidInv.getInvFluid(0).getFluidKey() instanceof PotionFluidKey potionFluidKey) {
-                potion = potionFluidKey.potion;
+            if (fluidStorage.variant.getFluid() instanceof PotionFluid potionFluid) {
+                potion = potionFluid.potion;
             }
             ItemStack output = new ItemStack(Items.POTION);
             output = PotionUtil.setPotion(output, potion);
@@ -143,8 +150,7 @@ public class CrucibleBlockEntity extends BlockEntity implements BlockEntityTicke
                 output = BrewingRecipeRegistry.craft(firstItem, output);
                 decrementFirstItem(1);
                 Potion result = PotionUtil.getPotion(output);
-                fluidInv.setInvFluid(0, FluidKeys.get(result).withAmount(fluidInv.getInvFluid(0).amount()),
-                        Simulation.ACTION);
+                fluidStorage.variant = FluidVariant.of(PotionFluid.get(result));
                 markDirty();
                 serverWorld.getChunkManager().markForUpdate(pos);
                 world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(state));

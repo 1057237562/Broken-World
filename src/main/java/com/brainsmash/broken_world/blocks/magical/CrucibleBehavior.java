@@ -1,16 +1,16 @@
 package com.brainsmash.broken_world.blocks.magical;
 
-import alexiil.mc.lib.attributes.Simulation;
-import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
-import alexiil.mc.lib.attributes.fluid.volume.FluidKeys;
-import alexiil.mc.lib.attributes.fluid.volume.PotionFluidKey;
 import com.brainsmash.broken_world.blocks.entity.magical.CrucibleBlockEntity;
+import com.brainsmash.broken_world.blocks.fluid.PotionFluid;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import it.unimi.dsi.fastutil.objects.AbstractObject2ObjectFunction;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.cauldron.CauldronBehavior;
@@ -52,8 +52,8 @@ public interface CrucibleBehavior {
                                 BlockRegister.get(BlockRegistry.CRUCIBLE).getDefaultState().with(CrucibleBlock.LEVEL,
                                         3));
                         if (world.getBlockEntity(pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
-                            crucibleBlockEntity.fluidInv.setInvFluid(0,
-                                    FluidKeys.get(Fluids.WATER).withAmount(FluidAmount.BUCKET), Simulation.ACTION);
+                            crucibleBlockEntity.fluidStorage.variant = FluidVariant.of(Fluids.WATER);
+                            crucibleBlockEntity.fluidStorage.amount = FluidConstants.BUCKET;
                             crucibleBlockEntity.markDirty();
                             serverWorld.getChunkManager().markForUpdate(pos);
                         }
@@ -72,9 +72,9 @@ public interface CrucibleBehavior {
                     player.incrementStat(Stats.USED.getOrCreateStat(item));
                     world.setBlockState(pos, BlockRegister.get(BlockRegistry.CRUCIBLE).getDefaultState());
                     if (world.getBlockEntity(pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
-                        crucibleBlockEntity.fluidInv.setInvFluid(0,
-                                FluidKeys.get(PotionUtil.getPotion(stack)).withAmount(FluidAmount.BOTTLE),
-                                Simulation.ACTION);
+                        crucibleBlockEntity.fluidStorage.variant = FluidVariant.of(
+                                PotionFluid.get(PotionUtil.getPotion(stack)));
+                        crucibleBlockEntity.fluidStorage.amount = FluidConstants.BOTTLE;
                         crucibleBlockEntity.markDirty();
                         serverWorld.getChunkManager().markForUpdate(pos);
                     }
@@ -102,24 +102,27 @@ public interface CrucibleBehavior {
         });
         CRUCIBLE_BEHAVIOR.put(Items.POTION, (state, world, pos, player, hand, stack) -> {
             if (world.getBlockEntity(pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
-                if (crucibleBlockEntity.fluidInv.attemptInsertion(
-                        FluidKeys.get(PotionUtil.getPotion(stack)).withAmount(FluidAmount.BOTTLE),
-                        Simulation.SIMULATE).isEmpty()) {
-                    if (world instanceof ServerWorld serverWorld) {
-                        player.setStackInHand(hand,
-                                ItemUsage.exchangeStack(stack, player, new ItemStack(Items.GLASS_BOTTLE)));
-                        player.incrementStat(Stats.USE_CAULDRON);
-                        player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
-                        world.setBlockState(pos, state.cycle(CrucibleBlock.LEVEL));
-                        crucibleBlockEntity.fluidInv.insert(
-                                FluidKeys.get(PotionUtil.getPotion(stack)).withAmount(FluidAmount.BOTTLE));
-                        crucibleBlockEntity.markDirty();
-                        serverWorld.getChunkManager().markForUpdate(pos);
-                        world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
-                    }
+                try (Transaction transaction = Transaction.openOuter()) {
+                    if (crucibleBlockEntity.fluidStorage.simulateInsert(
+                            FluidVariant.of(PotionFluid.get(PotionUtil.getPotion(stack))), FluidConstants.BOTTLE,
+                            transaction) == 0) {
+                        if (world instanceof ServerWorld serverWorld) {
+                            player.setStackInHand(hand,
+                                    ItemUsage.exchangeStack(stack, player, new ItemStack(Items.GLASS_BOTTLE)));
+                            player.incrementStat(Stats.USE_CAULDRON);
+                            player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
+                            world.setBlockState(pos, state.cycle(CrucibleBlock.LEVEL));
+                            crucibleBlockEntity.fluidStorage.insert(
+                                    FluidVariant.of(PotionFluid.get(PotionUtil.getPotion(stack))),
+                                    FluidConstants.BOTTLE, transaction);
+                            crucibleBlockEntity.markDirty();
+                            serverWorld.getChunkManager().markForUpdate(pos);
+                            world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
+                        }
 
-                    return ActionResult.success(world.isClient);
+                        return ActionResult.success(world.isClient);
+                    }
                 }
             }
             return ActionResult.PASS;
@@ -127,15 +130,14 @@ public interface CrucibleBehavior {
         CRUCIBLE_BEHAVIOR.put(Items.GLASS_BOTTLE, (state, world, pos, player, hand, stack) -> {
             if (world instanceof ServerWorld serverWorld) {
                 if (world.getBlockEntity(
-                        pos) instanceof CrucibleBlockEntity crucibleBlockEntity && crucibleBlockEntity.fluidInv.getInvFluid(
-                        0).getFluidKey() instanceof PotionFluidKey potionFluidKey) {
+                        pos) instanceof CrucibleBlockEntity crucibleBlockEntity && crucibleBlockEntity.fluidStorage.variant.getFluid() instanceof PotionFluid potionFluid) {
                     Item item = stack.getItem();
                     player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player,
-                            PotionUtil.setPotion(new ItemStack(Items.POTION), potionFluidKey.potion)));
+                            PotionUtil.setPotion(new ItemStack(Items.POTION), potionFluid.potion)));
                     player.incrementStat(Stats.USE_CAULDRON);
                     player.incrementStat(Stats.USED.getOrCreateStat(item));
                     CrucibleBlock.decrementFluidLevel(state, world, pos);
-                    crucibleBlockEntity.fluidInv.extract(FluidAmount.BOTTLE);
+                    crucibleBlockEntity.fluidStorage.amount -= FluidConstants.BOTTLE;
                     crucibleBlockEntity.markDirty();
                     serverWorld.getChunkManager().markForUpdate(pos);
                     world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);

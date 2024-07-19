@@ -135,7 +135,7 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             // 70
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), true),
+            new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), 1500, true),
             new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), 50),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),

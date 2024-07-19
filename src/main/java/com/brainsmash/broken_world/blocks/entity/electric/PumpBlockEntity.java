@@ -78,7 +78,7 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
                     markDirty();
                 }
             }
-            if (canRun()) {
+            if (checkEnergy()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;

@@ -149,7 +149,7 @@ public class Main implements ModInitializer {
         FluidRegister.registerFluid();
         DimensionRegister.registerDimension();
         EntityRegister.registerEntities();
-        EntityRegister.registerSpawnRegistration();
+        EntityRegister.registSpawnRegistration();
         TreeRegister.registerTrees();
         PointOfInterestRegister.registerPlacesOfInterest();
 
