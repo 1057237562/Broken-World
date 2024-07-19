@@ -208,7 +208,9 @@ public class BlockRegister {
             new MortarBlock(STANDARD_BLOCK),
             new CrucibleBlock(FabricBlockSettings.copyOf(Blocks.CAULDRON).mapColor(MapColor.PURPLE),
                     CrucibleBehavior.CRUCIBLE_BEHAVIOR),
-            new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque())
+            new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque()),
+            new PillarBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(3.0f).sounds(BlockSoundGroup.BONE)),
+            new XpCorpBlock(),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -306,7 +308,9 @@ public class BlockRegister {
             new BlockItem(blocks[92], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[93], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[94], new FabricItemSettings()),
-            new BlockItem(blocks[95], new FabricItemSettings().group(ITEM_GROUP))
+            new BlockItem(blocks[95], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[96], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[97], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -405,7 +409,9 @@ public class BlockRegister {
             "collider_coil",
             "mortar",
             "crucible",
-            "stone_base"
+            "stone_base",
+            "compressed_bone_block",
+            "xp_corp"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
