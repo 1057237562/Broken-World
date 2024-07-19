@@ -19,9 +19,11 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
 import com.brainsmash.broken_world.blocks.entity.magical.ArcaneLecternEntity;
 import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.MagicalSpawnerEntity;
 import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.ArcaneLectern;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
+import com.brainsmash.broken_world.blocks.magical.MagicalSpawner;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
@@ -201,6 +203,7 @@ public class BlockRegister {
             new BatteryBlock(STANDARD_BLOCK),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new ArcaneLectern(FabricBlockSettings.copyOf(Blocks.LECTERN)),
+            new MagicalSpawner(FabricBlockSettings.copyOf(Blocks.SPAWNER)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -293,6 +296,7 @@ public class BlockRegister {
             new BlockItem(blocks[87], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[88], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[89], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[90], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -386,6 +390,7 @@ public class BlockRegister {
             "battery",
             "lead_ore",
             "arcane_lectern",
+            "magical_spawner",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -503,6 +508,7 @@ public class BlockRegister {
     public static BlockEntityType<GasCollectorBlockEntity> GAS_COLLECTOR_ENTITY_TYPE;
     public static BlockEntityType<RefineryBlockEntity> REFINERY_ENTITY_TYPE;
     public static BlockEntityType<ArcaneLecternEntity> ARCANE_LECTERN_ENTITY_TYPE;
+    public static BlockEntityType<MagicalSpawnerEntity> MAGICAL_SPAWNER_ENTITY_TYPE;
 
     public static void registBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -607,6 +613,9 @@ public class BlockRegister {
         ARCANE_LECTERN_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "arcane_lectern"),
                 FabricBlockEntityTypeBuilder.create(ArcaneLecternEntity::new, blocks[89]).build());
+        MAGICAL_SPAWNER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "magical_spawner"),
+                FabricBlockEntityTypeBuilder.create(MagicalSpawnerEntity::new, blocks[90]).build());
     }
 
     public static void registBlocksClientSide() {
