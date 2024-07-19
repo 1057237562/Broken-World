@@ -305,8 +305,8 @@ public class BlockRegister {
             new BlockItem(blocks[91], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[92], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[93], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[94], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[95], new FabricItemSettings())
+            new BlockItem(blocks[94], new FabricItemSettings()),
+            new BlockItem(blocks[95], new FabricItemSettings().group(ITEM_GROUP))
     };
 
     public static final String[] blocknames = {
