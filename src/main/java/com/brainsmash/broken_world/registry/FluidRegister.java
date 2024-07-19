@@ -14,15 +14,19 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.fluid.FlowableFluid;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.awt.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.brainsmash.broken_world.Main.MODID;
 import static com.brainsmash.broken_world.registry.ItemRegister.bucket_item;
 
 public class FluidRegister {
+
+    public static ConcurrentHashMap<Potion, PotionFluid> potionFluids = new ConcurrentHashMap<>();
 
     public static final FlowableFluid[] still_fluid = {
             new OilFluid.Still(),
@@ -82,6 +86,13 @@ public class FluidRegister {
             Registry.register(Registry.ITEM, new Identifier(MODID, fluidnames[i] + "_bucket"), bucket_item[i]);
             Registry.register(Registry.BLOCK, new Identifier(MODID, fluidnames[i]), fluid_blocks[i]);
         }
+
+        Registry.POTION.forEach(potion -> {
+            if (Registry.POTION.getId(potion).getPath().equals("empty")) return;
+            PotionFluid fluid = new PotionFluid(potion);
+            potionFluids.put(potion, fluid);
+            Registry.register(Registry.FLUID, new Identifier(MODID, Registry.POTION.getId(potion).getPath()), fluid);
+        });
     }
 
     @Environment(EnvType.CLIENT)

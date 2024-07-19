@@ -31,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class CrucibleBlockEntity extends BlockEntity implements BlockEntityTicker<CrucibleBlockEntity> {
 
-    public final SingleFluidStorage<FluidVariant> fluidStorage = new SingleFluidStorage<FluidVariant>() {
+    public final SingleFluidStorage<FluidVariant> fluidStorage = new SingleFluidStorage<>() {
         @Override
         protected FluidVariant getBlankVariant() {
             return FluidVariant.blank();

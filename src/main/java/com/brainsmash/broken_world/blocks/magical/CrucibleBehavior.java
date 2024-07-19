@@ -102,11 +102,12 @@ public interface CrucibleBehavior {
         });
         CRUCIBLE_BEHAVIOR.put(Items.POTION, (state, world, pos, player, hand, stack) -> {
             if (world.getBlockEntity(pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
-                try (Transaction transaction = Transaction.openOuter()) {
-                    if (crucibleBlockEntity.fluidStorage.simulateInsert(
-                            FluidVariant.of(PotionFluid.get(PotionUtil.getPotion(stack))), FluidConstants.BOTTLE,
-                            transaction) == 0) {
-                        if (world instanceof ServerWorld serverWorld) {
+                if (crucibleBlockEntity.fluidStorage.simulateInsert(
+                        FluidVariant.of(PotionFluid.get(PotionUtil.getPotion(stack))), FluidConstants.BOTTLE,
+                        null) == FluidConstants.BOTTLE) {
+                    if (world instanceof ServerWorld serverWorld) {
+
+                        try (Transaction transaction = Transaction.openOuter()) {
                             player.setStackInHand(hand,
                                     ItemUsage.exchangeStack(stack, player, new ItemStack(Items.GLASS_BOTTLE)));
                             player.incrementStat(Stats.USE_CAULDRON);
@@ -115,13 +116,14 @@ public interface CrucibleBehavior {
                             crucibleBlockEntity.fluidStorage.insert(
                                     FluidVariant.of(PotionFluid.get(PotionUtil.getPotion(stack))),
                                     FluidConstants.BOTTLE, transaction);
+                            transaction.commit();
                             crucibleBlockEntity.markDirty();
                             serverWorld.getChunkManager().markForUpdate(pos);
                             world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
                             world.emitGameEvent(null, GameEvent.FLUID_PLACE, pos);
-                        }
 
-                        return ActionResult.success(world.isClient);
+                            return ActionResult.success(world.isClient);
+                        }
                     }
                 }
             }

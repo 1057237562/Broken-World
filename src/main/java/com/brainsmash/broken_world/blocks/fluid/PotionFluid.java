@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.blocks.fluid;
 
+import com.brainsmash.broken_world.registry.FluidRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -22,7 +23,7 @@ public class PotionFluid extends Fluid {
     }
 
     public static PotionFluid get(Potion potion) {
-        return new PotionFluid(potion);
+        return FluidRegister.potionFluids.get(potion);
     }
 
     public int getRenderColor() {
