@@ -74,24 +74,24 @@ public class HyperPocket extends Item {
 
                 int rotate = (4 + convert(context.getPlayerFacing()) - compound.getInt("direction")) % 4;
 
-                BlockPos archor = context.getBlockPos().offset(Direction.Axis.Y, 1);
+                BlockPos anchor = context.getBlockPos().offset(Direction.Axis.Y, 1);
 
                 switch (context.getPlayerFacing()) {
-                    case NORTH -> archor = archor.add(-8, 0, -16);
-                    case SOUTH -> archor = archor.add(-8, 0, 0);
-                    case EAST -> archor = archor.add(0, 0, -8);
-                    case WEST -> archor = archor.add(-16, 0, -8);
+                    case NORTH -> anchor = anchor.add(-8, 0, -16);
+                    case SOUTH -> anchor = anchor.add(-8, 0, 0);
+                    case EAST -> anchor = anchor.add(0, 0, -8);
+                    case WEST -> anchor = anchor.add(-16, 0, -8);
                 }
 
                 switch (rotate) {
-                    case 1 -> archor = archor.add(16, 0, 0);
-                    case 2 -> archor = archor.add(16, 0, 16);
-                    case 3 -> archor = archor.add(0, 0, 16);
+                    case 1 -> anchor = anchor.add(16, 0, 0);
+                    case 2 -> anchor = anchor.add(16, 0, 16);
+                    case 3 -> anchor = anchor.add(0, 0, 16);
                 }
 
                 StructurePlacementData structurePlacementData = new StructurePlacementData().setMirror(
                         BlockMirror.NONE).setRotation(BlockRotation.values()[rotate]).setIgnoreEntities(true);
-                template.place((ServerWorld) context.getWorld(), archor, archor, structurePlacementData,
+                template.place((ServerWorld) context.getWorld(), anchor, anchor, structurePlacementData,
                         StructureBlockBlockEntity.createRandom(((ServerWorld) context.getWorld()).getSeed()), 2);
                 itemStack.setNbt(null);
             } else {
