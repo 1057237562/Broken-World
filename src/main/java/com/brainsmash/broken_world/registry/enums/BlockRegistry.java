@@ -92,4 +92,6 @@ public enum BlockRegistry {
     LEAD_ORE,
     ARCANE_LECTERN,
     MAGICAL_SPAWNER,
+    COLLIDER_CONTROLLER,
+    COLLIDER_COIL
 }

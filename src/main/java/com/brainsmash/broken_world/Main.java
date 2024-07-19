@@ -38,8 +38,8 @@ public class Main implements ModInitializer {
     // It is considered best practice to use your mod id as the logger's name.
     // That way, it's clear which mod wrote info, warnings, and errors.
     public static final String MODID = "broken_world";
-
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+
 
     public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_controller"),
@@ -121,6 +121,11 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "electrolyzer"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ElectrolyzerGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
+    public static final ScreenHandlerType<ColliderControllerGuiDescription> COLLIDER_CONTROLLER_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "collider_controller"), new ScreenHandlerType<>(
+                    ((syncId, playerInventory) -> new ColliderControllerGuiDescription(syncId, playerInventory,
+                            ScreenHandlerContext.EMPTY))));
+
 
     public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
@@ -159,6 +164,9 @@ public class Main implements ModInitializer {
         RefineryRecipe.registRefineryRecipes();
         ReactionRecipe.registReactionRecipes();
         ElectrolyzerRecipe.registElectrolyzerRecipes();
+        FabricatorRecipe.register();
+        WeaponryRecipe.register();
+        ColliderRecipe.register();
 
         GasRegister.register();
 
@@ -182,9 +190,6 @@ public class Main implements ModInitializer {
         BiomeModifications.addFeature(BiomeSelectors.tag(BiomeTags.IS_JUNGLE),
                 GenerationStep.Feature.VEGETAL_DECORATION,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "rubber_tree")));
-
-        FabricatorRecipe.register();
-        WeaponryRecipe.register();
 
         BWDensityFunctionTypes.register();
         VolcanoFeature.register();

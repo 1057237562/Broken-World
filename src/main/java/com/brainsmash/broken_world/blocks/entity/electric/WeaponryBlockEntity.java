@@ -111,7 +111,7 @@ public class WeaponryBlockEntity extends ConsumerBlockEntity implements NamedScr
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (world instanceof ServerWorld) {
-            if (!output.isEmpty() && isPowered() && canRun() && !output.isEmpty() && ((inventory.get(18).isOf(
+            if (!output.isEmpty() && isPowered() && checkEnergy() && !output.isEmpty() && ((inventory.get(18).isOf(
                     output.getItem()) && inventory.get(
                     18).getCount() + output.getCount() <= output.getMaxCount()) || inventory.get(18).isEmpty())) {
                 if (!isRunning()) {

@@ -62,7 +62,7 @@ public class MinerBlockEntity extends ConsumerBlockEntity implements NamedScreen
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (canRun()) {
+            if (checkEnergy()) {
                 running = true;
                 for (int i = 0; i < speed; i++)
                     if (!world.isOutOfHeightLimit(pos.getY() + pointer.getY())) {

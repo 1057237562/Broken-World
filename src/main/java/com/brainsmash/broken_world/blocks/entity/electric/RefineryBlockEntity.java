@@ -55,7 +55,7 @@ public class RefineryBlockEntity extends ConsumerBlockEntity implements NamedScr
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
             String key = RefineryRecipe.makePair(inventory.get(0).getItem(), inventory.get(1).getItem());
-            if (RefineryRecipe.recipes.containsKey(key) && checkCount(key) && canRun()) {
+            if (RefineryRecipe.recipes.containsKey(key) && checkCount(key) && checkEnergy()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;

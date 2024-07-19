@@ -74,7 +74,7 @@ public class CrusherBlockEntity extends ConsumerBlockEntity implements NamedScre
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (CrusherRecipe.recipes.containsKey(inventory.get(0).getItem()) && canRun()) {
+            if (CrusherRecipe.recipes.containsKey(inventory.get(0).getItem()) && checkEnergy()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;

@@ -16,36 +16,36 @@ import static com.brainsmash.broken_world.blocks.electric.ChunkloaderBlock.radiu
 public class ChunkloaderBlockEntity extends ConsumerBlockEntity {
 
     public ChunkloaderBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.LOADER_ENTITY_TYPE,pos, state);
+        super(BlockRegister.LOADER_ENTITY_TYPE, pos, state);
         setMaxCapacity(2000);
         powerConsumption = 2;
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
-        if(!world.isClient){
-            if(canRun()) {
+        if (!world.isClient) {
+            if (checkEnergy()) {
                 running = true;
                 ServerWorld serverWorld = (ServerWorld) world;
                 ChunkPos chunkPos = new ChunkPos(pos);
-                for(int i = -radius;i<=radius;i++){
-                    for(int j = -radius;j<=radius;j++){
-                        ChunkPos currentChunkPos = new ChunkPos(chunkPos.x + i,chunkPos.z + j);
-                        if(!serverWorld.getForcedChunks().contains(currentChunkPos.toLong())) {
-                            serverWorld.setChunkForced(currentChunkPos.x,currentChunkPos.z,true);
+                for (int i = -radius; i <= radius; i++) {
+                    for (int j = -radius; j <= radius; j++) {
+                        ChunkPos currentChunkPos = new ChunkPos(chunkPos.x + i, chunkPos.z + j);
+                        if (!serverWorld.getForcedChunks().contains(currentChunkPos.toLong())) {
+                            serverWorld.setChunkForced(currentChunkPos.x, currentChunkPos.z, true);
                         }
                     }
                 }
 
-            }else{
+            } else {
                 running = false;
                 ServerWorld serverWorld = (ServerWorld) world;
                 ChunkPos chunkPos = new ChunkPos(pos);
-                for(int i = -radius;i<=radius;i++){
-                    for(int j = -radius;j<=radius;j++){
-                        ChunkPos currentChunkPos = new ChunkPos(chunkPos.x + i,chunkPos.z + j);
-                        if(serverWorld.getForcedChunks().contains(currentChunkPos.toLong())) {
-                            serverWorld.setChunkForced(currentChunkPos.x,currentChunkPos.z,true);
+                for (int i = -radius; i <= radius; i++) {
+                    for (int j = -radius; j <= radius; j++) {
+                        ChunkPos currentChunkPos = new ChunkPos(chunkPos.x + i, chunkPos.z + j);
+                        if (serverWorld.getForcedChunks().contains(currentChunkPos.toLong())) {
+                            serverWorld.setChunkForced(currentChunkPos.x, currentChunkPos.z, true);
                         }
                     }
                 }

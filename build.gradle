@@ -22,10 +22,6 @@ repositories {
         url = "https://maven.kyrptonaught.dev"
     }
     maven {
-        name = "CottonMC"
-        url = "https://server.bbkr.space/artifactory/libs-release"
-    }
-    maven {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
     }
@@ -36,6 +32,10 @@ repositories {
     maven {
         name = "Ladysnake Libs"
         url = "https://maven.ladysnake.org/releases"
+    }
+    maven {
+        name = "CottonMC"
+        url = "https://server.bbkr.space/artifactory/libs-release"
     }
 }
 

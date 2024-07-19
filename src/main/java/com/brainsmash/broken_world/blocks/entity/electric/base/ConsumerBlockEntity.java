@@ -77,10 +77,12 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
+        progression = nbt.getInt("progression");
     }
 
     @Override
     public void writeNbt(NbtCompound nbt) {
+        nbt.putInt("progression", progression);
         super.writeNbt(nbt);
     }
 
@@ -95,7 +97,7 @@ public class ConsumerBlockEntity extends CableBlockEntity implements PropertyDel
         }
     }
 
-    public boolean canRun() {
+    public boolean checkEnergy() {
         if (powerConsumption <= getEnergy()) {
             return true;
         }

@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Pair;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -63,5 +64,16 @@ public class ItemHelper {
         ArrayList<ItemStack> itemList = new ArrayList<>(List.of(itemStacks));
         itemList.sort(Comparator.comparingInt(itemStack -> itemStack.getItem().hashCode()));
         return itemList.stream().map(ItemStack::getCount).collect(Collectors.toList());
+    }
+
+    public static int calculateItemBarColor(int value, int maxValue) {
+        float f = maxValue == 0 ? 0 : Math.max(0.0f, (float)value / (float)maxValue);
+        return MathHelper.hsvToRgb(f / 3.0f, 1.0f, 1.0f);
+    }
+
+    public static int calculateItemBarStep(int value, int maxValue) {
+        if (maxValue == 0)
+            return 0;
+        return Math.round((float)value * 13.0f / (float)maxValue);
     }
 }

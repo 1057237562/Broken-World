@@ -174,8 +174,8 @@ public class BlockRegister {
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new CompressorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
             new AssemblerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
-            new ElectrolyzerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
-            new ReactionKettleBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
+            new ElectrolyzerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
+            new ReactionKettleBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
             new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
             new RubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
             new CutRubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
@@ -206,7 +206,10 @@ public class BlockRegister {
             new BatteryBlock(STANDARD_BLOCK),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new ArcaneLectern(FabricBlockSettings.copyOf(Blocks.LECTERN)),
+            // 90
             new MagicalSpawner(FabricBlockSettings.copyOf(Blocks.SPAWNER).nonOpaque()),
+            new ColliderControllerBlock(STANDARD_BLOCK),
+            new ColliderCoilBlock(STANDARD_BLOCK),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -300,6 +303,8 @@ public class BlockRegister {
             new BlockItem(blocks[88], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[89], new FabricItemSettings().group(ITEM_GROUP)),
             new MagicalSpawnerItem(blocks[90], new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new BlockItem(blocks[91], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[92], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -394,6 +399,9 @@ public class BlockRegister {
             "lead_ore",
             "arcane_lectern",
             "magical_spawner",
+            "lead_ore",
+            "collider_controller",
+            "collider_coil"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -512,6 +520,8 @@ public class BlockRegister {
     public static BlockEntityType<RefineryBlockEntity> REFINERY_ENTITY_TYPE;
     public static BlockEntityType<ArcaneLecternEntity> ARCANE_LECTERN_ENTITY_TYPE;
     public static BlockEntityType<MagicalSpawnerEntity> MAGICAL_SPAWNER_ENTITY_TYPE;
+    public static BlockEntityType<ColliderControllerBlockEntity> COLLIDER_CONTROLLER_ENTITY_TYPE;
+    public static BlockEntityType<ColliderCoilBlockEntity> COLLIDER_COIL_ENTITY_TYPE;
 
     public static void registBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -622,6 +632,14 @@ public class BlockRegister {
         FluidStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.xpStorage, MAGICAL_SPAWNER_ENTITY_TYPE);
 
         MultiblockUtil.registerMultiblock(new Identifier(MODID, "mana_generator"), ManaGeneratorMultiblock::new);
+        COLLIDER_CONTROLLER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "collider_controller"),
+                FabricBlockEntityTypeBuilder.create(ColliderControllerBlockEntity::new,
+                        get(BlockRegistry.COLLIDER_CONTROLLER)).build());
+        COLLIDER_COIL_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "collider_coil"),
+                FabricBlockEntityTypeBuilder.create(ColliderCoilBlockEntity::new,
+                        get(BlockRegistry.COLLIDER_COIL)).build());
     }
 
     public static void registBlocksClientSide() {
@@ -683,5 +701,9 @@ public class BlockRegister {
                         pos) : FoliageColors.getDefaultColor(), blocks[BlockRegistry.RUBBER_LEAVES.ordinal()]);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(),
                 blockitems[BlockRegistry.RUBBER_LEAVES.ordinal()]);
+    }
+
+    public static Block get(BlockRegistry block) {
+        return blocks[block.ordinal()];
     }
 }
