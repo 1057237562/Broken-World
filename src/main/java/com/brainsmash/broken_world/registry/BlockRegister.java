@@ -208,7 +208,7 @@ public class BlockRegister {
             new MortarBlock(STANDARD_BLOCK),
             new CrucibleBlock(FabricBlockSettings.copyOf(Blocks.CAULDRON).mapColor(MapColor.PURPLE),
                     CrucibleBehavior.CRUCIBLE_BEHAVIOR),
-            new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE))
+            new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque())
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -648,11 +648,11 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(ColliderCoilBlockEntity::new,
                         get(BlockRegistry.COLLIDER_COIL)).build());
         MORTAR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "mortar"),
-                FabricBlockEntityTypeBuilder.create(MortarBlockEntity::new, blocks[91]).build());
+                FabricBlockEntityTypeBuilder.create(MortarBlockEntity::new, blocks[93]).build());
         CRUCIBLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "crucible"),
-                FabricBlockEntityTypeBuilder.create(CrucibleBlockEntity::new, blocks[92]).build());
+                FabricBlockEntityTypeBuilder.create(CrucibleBlockEntity::new, blocks[94]).build());
         STONE_BASE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "stone_base"),
-                FabricBlockEntityTypeBuilder.create(StoneBaseBlockEntity::new, blocks[93]).build());
+                FabricBlockEntityTypeBuilder.create(StoneBaseBlockEntity::new, blocks[95]).build());
     }
 
     public static void registBlocksClientSide() {
@@ -705,9 +705,9 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(WEAPONRY_ENTITY_TYPE, WeaponryBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(UV_ENTITY_TYPE, UVBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(MORTAR_ENTITY_TYPE, MortarBlockEnityRenderer::new);
+        BlockEntityRendererRegistry.register(STONE_BASE_ENTITY_TYPE, StoneBaseBlockEnityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
-            System.out.println("redraw");
             if (world != null && pos != null && world.getBlockEntity(
                     pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
                 return crucibleBlockEntity.getFluidColor();
