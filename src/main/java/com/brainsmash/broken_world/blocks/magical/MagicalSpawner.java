@@ -54,7 +54,7 @@ public class MagicalSpawner extends BlockWithEntity {
                     try (var transaction = Transaction.openOuter()) {
                         entity.xpStorage.insert(FluidVariant.of(FluidRegister.still_fluid[6]), FluidConstants.BUCKET,
                                 transaction);
-                        player.setStackInHand(hand, Items.BUCKET.getDefaultStack());
+                        if (!player.isCreative()) player.setStackInHand(hand, Items.BUCKET.getDefaultStack());
                         transaction.commit();
                     }
                 }
