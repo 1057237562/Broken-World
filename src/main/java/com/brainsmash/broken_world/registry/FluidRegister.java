@@ -53,7 +53,7 @@ public class FluidRegister {
             new IFluidBlock(still_fluid[4], FabricBlockSettings.copyOf(Blocks.WATER)),
             new IFluidBlock(still_fluid[5],
                     FabricBlockSettings.copyOf(Blocks.WATER).velocityMultiplier(0.6f).jumpVelocityMultiplier(0.6f)),
-            new IFluidBlock(still_fluid[6], FabricBlockSettings.copyOf(Blocks.WATER))
+            new IFluidBlock(still_fluid[6], FabricBlockSettings.copyOf(Blocks.WATER).luminance(5))
     };
 
     public static final String[] fluidnames = {
@@ -72,7 +72,7 @@ public class FluidRegister {
             new Color(255, 238, 153),
             new Color(187, 0, 255),
             new Color(240, 230, 230),
-            new Color(0, 255, 0)
+            new Color(120, 255, 0)
     };
 
     public static void registFluid() {
