@@ -198,7 +198,7 @@ public class BulletEntity extends ProjectileEntity {
     protected void onBlockHit(BlockHitResult blockHitResult) {
         BlockState hitBlock = world.getBlockState(blockHitResult.getBlockPos());
         ParticleEffect particleEffect = new BlockStateParticleEffect(ParticleTypes.BLOCK, hitBlock);
-        playSound(SoundRegister.BULLET_EVENT, 0.6f, (float) (0.6f / getVelocity().length()));
+        playSound(SoundRegister.BULLET_EVENT, 0.3f, (float) (0.6f / getVelocity().length()));
         for (int i = 0; i < 8; ++i) {
             this.world.addParticle(particleEffect, this.getX(), this.getY(), this.getZ(), 0.0, 0.0, 0.0);
         }

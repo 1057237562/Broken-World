@@ -648,11 +648,11 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(ColliderCoilBlockEntity::new,
                         get(BlockRegistry.COLLIDER_COIL)).build());
         MORTAR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "mortar"),
-                FabricBlockEntityTypeBuilder.create(MortarBlockEntity::new, blocks[93]).build());
+                FabricBlockEntityTypeBuilder.create(MortarBlockEntity::new, get(BlockRegistry.MORTAR)).build());
         CRUCIBLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "crucible"),
-                FabricBlockEntityTypeBuilder.create(CrucibleBlockEntity::new, blocks[94]).build());
+                FabricBlockEntityTypeBuilder.create(CrucibleBlockEntity::new, get(BlockRegistry.CRUCIBLE)).build());
         STONE_BASE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "stone_base"),
-                FabricBlockEntityTypeBuilder.create(StoneBaseBlockEntity::new, blocks[95]).build());
+                FabricBlockEntityTypeBuilder.create(StoneBaseBlockEntity::new, get(BlockRegistry.STONE_BASE)).build());
     }
 
     public static void registBlocksClientSide() {
