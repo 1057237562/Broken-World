@@ -7,6 +7,8 @@
     "broken_world:oil",
     "broken_world:flowing_oil",
     "broken_world:acid",
-    "broken_world:flowing_acid"
+    "broken_world:flowing_acid",
+    "broken_world:latex",
+    "broken_world:xp"
   ]
 }
