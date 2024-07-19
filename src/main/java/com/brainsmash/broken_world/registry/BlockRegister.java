@@ -17,19 +17,9 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
-import com.brainsmash.broken_world.blocks.entity.magical.CrucibleBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.magical.MortarBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.magical.StoneBaseBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.*;
 import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.*;
-import com.brainsmash.broken_world.blocks.entity.magical.ArcaneLecternEntity;
-import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.magical.MagicalSpawnerEntity;
-import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
-import com.brainsmash.broken_world.blocks.magical.ArcaneLectern;
-import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
-import com.brainsmash.broken_world.blocks.magical.MagicalSpawner;
 import com.brainsmash.broken_world.blocks.magical.multiblock.ManaGeneratorMultiblock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
@@ -316,8 +306,7 @@ public class BlockRegister {
             new BlockItem(blocks[92], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[93], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[94], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[95], new FabricItemSettings()),
-            new BlockItem(blocks[96], new FabricItemSettings().group(ITEM_GROUP))
+            new BlockItem(blocks[95], new FabricItemSettings())
     };
 
     public static final String[] blocknames = {

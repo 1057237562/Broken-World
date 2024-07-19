@@ -25,7 +25,7 @@ public class BatteryItem extends Item {
     public final boolean rechargeable;
 
     public BatteryItem(Settings settings, int maxEnergy, boolean rechargeable) {
-        super(settings.maxCount(1));
+        super(settings);
         this.maxEnergy = maxEnergy;
         this.rechargeable = rechargeable;
     }
@@ -69,17 +69,17 @@ public class BatteryItem extends Item {
     }
 
     public int addEnergy(ItemStack stack, int value) {
-        if (value > 0 && !rechargeable)
-            return 0;
+        if (value > 0 && !rechargeable) return 0;
         NbtCompound nbt = stack.getOrCreateNbt();
         int e1 = nbt.getInt(ENERGY_KEY);
-        int e2 = MathHelper.clamp(e1+value, 0, maxEnergy);
+        int e2 = MathHelper.clamp(e1 + value, 0, maxEnergy);
         nbt.putInt(ENERGY_KEY, e2);
-        return e2-e1;
+        return e2 - e1;
     }
 
     /**
      * Gets battery NBT for storing the battery in {@link BatteryHolderItem}.
+     *
      * @param stack The stack that has the battery
      * @return {@link NbtCompound} for storing in BatteryHolderItem.
      */
@@ -99,6 +99,7 @@ public class BatteryItem extends Item {
 
     /**
      * Gets a battery item stack from battery NBT, which is used for storing in {@link BatteryHolderItem}.
+     *
      * @param nbt NBT that is used for storing in {@link BatteryHolderItem}
      * @return {@link ItemStack} that holds a battery.
      */
@@ -113,8 +114,6 @@ public class BatteryItem extends Item {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
         int energy = getEnergy(stack);
-        tooltip.add(
-                Text.literal(energy + "/" + maxEnergy + " IU").formatted(
-                        Formatting.GRAY));
+        tooltip.add(Text.literal(energy + "/" + maxEnergy + " IU").formatted(Formatting.GRAY));
     }
 }
