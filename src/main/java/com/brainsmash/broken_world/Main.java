@@ -141,9 +141,7 @@ public class Main implements ModInitializer {
     public static final ScreenHandlerType<WandGuiDescription> GRANDMASTER_WAND_SCREEN_HANDLER = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "grandmaster_wand"),
             new ScreenHandlerType<>(WandGuiDescription::createGrandMasterWand));
-
-    public static final SoundRegister soundManager = new SoundRegister();
-
+    
     @Override
     public void onInitialize() {
         BlockRegister.registerBlocks();
@@ -154,6 +152,7 @@ public class Main implements ModInitializer {
         EntityRegister.registSpawnRegistration();
         TreeRegister.registerTrees();
         PointOfInterestRegister.registerPlacesOfInterest();
+        SoundRegister.registerSoundEvents();
 
         MultiblockUtil.registerMultiblock();
 
