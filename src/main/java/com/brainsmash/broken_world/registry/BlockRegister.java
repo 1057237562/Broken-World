@@ -619,6 +619,7 @@ public class BlockRegister {
         MAGICAL_SPAWNER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "magical_spawner"),
                 FabricBlockEntityTypeBuilder.create(MagicalSpawnerEntity::new, blocks[90]).build());
+        FluidStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.xpStorage, MAGICAL_SPAWNER_ENTITY_TYPE);
 
         MultiblockUtil.registerMultiblock(new Identifier(MODID, "mana_generator"), ManaGeneratorMultiblock::new);
     }

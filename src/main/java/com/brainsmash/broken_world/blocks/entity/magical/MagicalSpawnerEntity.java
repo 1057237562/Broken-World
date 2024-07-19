@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.blocks.entity.magical;
 
 import com.brainsmash.broken_world.blocks.fluid.storage.SingleFluidStorage;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.registry.FluidRegister;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.BlockState;
@@ -28,25 +29,36 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public class MagicalSpawnerEntity extends BlockEntity {
-    public MagicalSpawnerEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.MAGICAL_SPAWNER_ENTITY_TYPE, pos, state);
-    }
-
-    private SingleFluidStorage<FluidVariant> xpStorage = new SingleFluidStorage<>() {
+    public final SingleFluidStorage<FluidVariant> xpStorage = new SingleFluidStorage<>() {
         @Override
         protected FluidVariant getBlankVariant() {
-            return FluidVariant.blank();
+            return FluidVariant.of(FluidRegister.still_fluid[6]);
         }
 
         @Override
         protected long getCapacity(FluidVariant variant) {
-            return 8 * FluidConstants.BUCKET;
+            return 4 * FluidConstants.BUCKET;
+        }
+
+        @Override
+        protected boolean canInsert(FluidVariant variant) {
+            return variant.getFluid().matchesType(FluidRegister.still_fluid[6].getStill());
+        }
+
+        @Override
+        protected boolean canExtract(FluidVariant variant) {
+            return variant.getFluid().matchesType(FluidRegister.still_fluid[6].getStill());
         }
     };
+
+    public MagicalSpawnerEntity(BlockPos pos, BlockState state) {
+        super(BlockRegister.MAGICAL_SPAWNER_ENTITY_TYPE, pos, state);
+        xpStorage.variant = FluidVariant.of(FluidRegister.still_fluid[6]);
+    }
+
     private int spawnDelay = 20;
     private int minSpawnDelay = 20;
     private int maxSpawnDelay = 40;
-    private int spawnCount = 1;
     @Nullable
     private Entity renderedEntity;
     private int maxNearbyEntities = 10;
@@ -84,63 +96,64 @@ public class MagicalSpawnerEntity extends BlockEntity {
                 --this.spawnDelay;
             } else {
                 boolean bl = false;
+                if (xpStorage.amount <= FluidConstants.BOTTLE / 2) {
+                    return;
+                }
+                NbtCompound nbtCompound = spawnEntity;
+                if (nbtCompound == null) {
+                    return;
+                }
+                Optional<EntityType<?>> optional = EntityType.fromNbt(nbtCompound);
+                if (optional.isEmpty()) {
+                    this.updateSpawns(world, pos);
+                    return;
+                }
 
-                for (int i = 0; i < this.spawnCount; ++i) {
-                    NbtCompound nbtCompound = spawnEntity;
-                    if (nbtCompound == null) {
-                        return;
-                    }
-                    Optional<EntityType<?>> optional = EntityType.fromNbt(nbtCompound);
-                    if (optional.isEmpty()) {
+                NbtList nbtList = nbtCompound.getList("Pos", NbtElement.DOUBLE_TYPE);
+                int j = nbtList.size();
+                Random random = world.getRandom();
+                double d = j >= 1 ? nbtList.getDouble(
+                        0) : (double) pos.getX() + (random.nextDouble() - random.nextDouble()) * (double) this.spawnRange + 0.5;
+                double e = j >= 2 ? nbtList.getDouble(1) : (double) (pos.getY() + random.nextInt(3) - 1);
+                double f = j >= 3 ? nbtList.getDouble(
+                        2) : (double) pos.getZ() + (random.nextDouble() - random.nextDouble()) * (double) this.spawnRange + 0.5;
+                if (world.isSpaceEmpty(optional.get().createSimpleBoundingBox(d, e, f))) {
+                    BlockPos blockPos = new BlockPos(d, e, f);
+
+                    Entity entity = EntityType.loadEntityWithPassengers(nbtCompound, world, (entityx) -> {
+                        entityx.refreshPositionAndAngles(d, e, f, entityx.getYaw(), entityx.getPitch());
+                        return entityx;
+                    });
+                    if (entity == null) {
                         this.updateSpawns(world, pos);
                         return;
                     }
 
-                    NbtList nbtList = nbtCompound.getList("Pos", NbtElement.DOUBLE_TYPE);
-                    int j = nbtList.size();
-                    Random random = world.getRandom();
-                    double d = j >= 1 ? nbtList.getDouble(
-                            0) : (double) pos.getX() + (random.nextDouble() - random.nextDouble()) * (double) this.spawnRange + 0.5;
-                    double e = j >= 2 ? nbtList.getDouble(1) : (double) (pos.getY() + random.nextInt(3) - 1);
-                    double f = j >= 3 ? nbtList.getDouble(
-                            2) : (double) pos.getZ() + (random.nextDouble() - random.nextDouble()) * (double) this.spawnRange + 0.5;
-                    if (world.isSpaceEmpty(optional.get().createSimpleBoundingBox(d, e, f))) {
-                        BlockPos blockPos = new BlockPos(d, e, f);
-
-                        Entity entity = EntityType.loadEntityWithPassengers(nbtCompound, world, (entityx) -> {
-                            entityx.refreshPositionAndAngles(d, e, f, entityx.getYaw(), entityx.getPitch());
-                            return entityx;
-                        });
-                        if (entity == null) {
-                            this.updateSpawns(world, pos);
-                            return;
-                        }
-
-                        int k = world.getNonSpectatingEntities(entity.getClass(),
-                                (new Box((double) pos.getX(), (double) pos.getY(), (double) pos.getZ(),
-                                        (double) (pos.getX() + 1), (double) (pos.getY() + 1),
-                                        (double) (pos.getZ() + 1))).expand((double) this.spawnRange)).size();
-                        if (k >= this.maxNearbyEntities) {
-                            this.updateSpawns(world, pos);
-                            return;
-                        }
-
-                        entity.refreshPositionAndAngles(entity.getX(), entity.getY(), entity.getZ(),
-                                random.nextFloat() * 360.0F, 0.0F);
-
-                        if (!world.spawnNewEntityAndPassengers(entity)) {
-                            this.updateSpawns(world, pos);
-                            return;
-                        }
-
-                        world.syncWorldEvent(WorldEvents.SPAWNER_SPAWNS_MOB, pos, 0);
-                        world.emitGameEvent(entity, GameEvent.ENTITY_PLACE, blockPos);
-                        if (entity instanceof MobEntity) {
-                            ((MobEntity) entity).playSpawnEffects();
-                        }
-
-                        bl = true;
+                    int k = world.getNonSpectatingEntities(entity.getClass(),
+                            (new Box((double) pos.getX(), (double) pos.getY(), (double) pos.getZ(),
+                                    (double) (pos.getX() + 1), (double) (pos.getY() + 1),
+                                    (double) (pos.getZ() + 1))).expand((double) this.spawnRange)).size();
+                    if (k >= this.maxNearbyEntities) {
+                        this.updateSpawns(world, pos);
+                        return;
                     }
+
+                    entity.refreshPositionAndAngles(entity.getX(), entity.getY(), entity.getZ(),
+                            random.nextFloat() * 360.0F, 0.0F);
+
+                    if (!world.spawnNewEntityAndPassengers(entity)) {
+                        this.updateSpawns(world, pos);
+                        return;
+                    }
+
+                    world.syncWorldEvent(WorldEvents.SPAWNER_SPAWNS_MOB, pos, 0);
+                    world.emitGameEvent(entity, GameEvent.ENTITY_PLACE, blockPos);
+                    if (entity instanceof MobEntity) {
+                        ((MobEntity) entity).playSpawnEffects();
+                    }
+                    xpStorage.amount -= FluidConstants.BOTTLE / 2;
+
+                    bl = true;
                 }
 
                 if (bl) {
