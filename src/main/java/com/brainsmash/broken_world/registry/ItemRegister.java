@@ -138,8 +138,8 @@ public class ItemRegister {
             new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), true),
             new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), 50),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new Item(new FabricItemSettings().group(ITEM_GROUP))
-            new Item(new FabricItemSettings().group(ITEM_GROUP))
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
             // For testing ONLY, REMOVE before merging into main!
             new MiningDrillItem(2.0f, 1.0f, ToolMaterials.IRON, new FabricItemSettings().group(ITEM_GROUP)),
     };
