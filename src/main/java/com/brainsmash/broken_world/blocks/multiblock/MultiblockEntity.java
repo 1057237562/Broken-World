@@ -52,6 +52,7 @@ public class MultiblockEntity extends DummyBlockEntity implements BlockEntityTic
         NbtCompound compound = new NbtCompound();
         component.writeNbt(compound);
         nbt.put("component", compound);
+        nbt.putLong("anchor", anchor.asLong());
         super.writeNbt(nbt);
     }
 
@@ -61,6 +62,7 @@ public class MultiblockEntity extends DummyBlockEntity implements BlockEntityTic
         multiblockSize = BlockPos.fromLong(nbt.getLong("multiblockSize"));
         setType(Identifier.tryParse(nbt.getString("type")));
         component.readNbt(nbt.getCompound("component"));
+        anchor = BlockPos.fromLong(nbt.getLong("anchor"));
     }
 
     @Override
