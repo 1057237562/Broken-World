@@ -12,7 +12,6 @@
     "AbstractClientPlayerEntityMixin",
     "ClientPlayerEntityMixin",
     "InGameHudMixin",
-    "MainMixin",
     "MinecraftClientMixin",
     "PlayerEntityRendererMixin",
     "WorldRendererMixin"

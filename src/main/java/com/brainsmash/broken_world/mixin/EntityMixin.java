@@ -29,7 +29,6 @@ public abstract class EntityMixin implements EntityDataExtension {
 
     private NbtElement element = new NbtCompound();
 
-
     @Inject(method = "readNbt", at = @At("TAIL"))
     public void readData(NbtCompound nbt, CallbackInfo ci) {
         if (nbt.contains("bwdata")) {
@@ -41,7 +40,7 @@ public abstract class EntityMixin implements EntityDataExtension {
     public void writeData(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
         nbt.put("bwdata", element);
     }
-
+    
     @Override
     public NbtElement getData() {
         return element;
@@ -51,5 +50,4 @@ public abstract class EntityMixin implements EntityDataExtension {
     public void setData(NbtElement ele) {
         element = ele;
     }
-
 }
