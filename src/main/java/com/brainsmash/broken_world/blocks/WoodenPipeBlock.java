@@ -1,8 +1,5 @@
 package com.brainsmash.broken_world.blocks;
 
-import alexiil.mc.lib.attributes.AttributeList;
-import alexiil.mc.lib.attributes.AttributeProvider;
-import alexiil.mc.lib.attributes.fluid.impl.EmptyFluidExtractable;
 import com.brainsmash.broken_world.blocks.entity.WoodenPipeBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -19,7 +16,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class WoodenPipeBlock extends BlockWithEntity implements AttributeProvider {
+public class WoodenPipeBlock extends BlockWithEntity {
     public WoodenPipeBlock(Settings settings) {
         super(settings);
         setDefaultState(stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
@@ -54,11 +51,6 @@ public class WoodenPipeBlock extends BlockWithEntity implements AttributeProvide
         if (ctx.getSide() != Direction.UP && ctx.getSide() != Direction.DOWN)
             return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getSide().getOpposite());
         else return super.getPlacementState(ctx);
-    }
-
-    @Override
-    public void addAllAttributes(World world, BlockPos pos, BlockState state, AttributeList<?> to) {
-        if (to.getSearchDirection() == Direction.UP) to.offer(EmptyFluidExtractable.SUPPLIER);
     }
 
 

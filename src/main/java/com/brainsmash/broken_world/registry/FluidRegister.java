@@ -1,6 +1,8 @@
 package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.blocks.fluid.*;
+import com.brainsmash.broken_world.blocks.fluid.base.LavaTextured;
+import com.brainsmash.broken_world.blocks.fluid.base.WaterTextured;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -28,7 +30,8 @@ public class FluidRegister {
             new AcidFluid.Still(),
             new GasolineFluid.Still(),
             new AetherFluid.Still(),
-            new LatexFluid.Still()
+            new LatexFluid.Still(),
+            new XpFluid.Still()
     };
 
     public static final FlowableFluid[] flowing_fluid = {
@@ -37,7 +40,8 @@ public class FluidRegister {
             new AcidFluid.Flowing(),
             new GasolineFluid.Flowing(),
             new AetherFluid.Flowing(),
-            new LatexFluid.Flowing()
+            new LatexFluid.Flowing(),
+            new XpFluid.Flowing()
     };
 
     public static final Block[] fluid_blocks = {
@@ -48,7 +52,8 @@ public class FluidRegister {
             new IFluidBlock(still_fluid[3], FabricBlockSettings.copyOf(Blocks.WATER)),
             new IFluidBlock(still_fluid[4], FabricBlockSettings.copyOf(Blocks.WATER)),
             new IFluidBlock(still_fluid[5],
-                    FabricBlockSettings.copyOf(Blocks.WATER).velocityMultiplier(0.6f).jumpVelocityMultiplier(0.6f))
+                    FabricBlockSettings.copyOf(Blocks.WATER).velocityMultiplier(0.6f).jumpVelocityMultiplier(0.6f)),
+            new IFluidBlock(still_fluid[6], FabricBlockSettings.copyOf(Blocks.WATER).luminance(5))
     };
 
     public static final String[] fluidnames = {
@@ -57,7 +62,8 @@ public class FluidRegister {
             "acid",
             "gasoline",
             "aether",
-            "latex"
+            "latex",
+            "xp"
     };
     public static final Color[] fluidColor = {
             Color.BLACK,
@@ -65,7 +71,8 @@ public class FluidRegister {
             new Color(210, 180, 0),
             new Color(255, 238, 153),
             new Color(187, 0, 255),
-            new Color(240, 230, 230)
+            new Color(240, 230, 230),
+            new Color(110, 255, 100)
     };
 
     public static void registerFluid() {
@@ -80,9 +87,16 @@ public class FluidRegister {
     @Environment(EnvType.CLIENT)
     public static void RegistFluidClientSide() {
         for (int i = 0; i < still_fluid.length; i++) {
-            FluidRenderHandlerRegistry.INSTANCE.register(still_fluid[i], flowing_fluid[i],
-                    new SimpleFluidRenderHandler(new Identifier("minecraft:block/water_still"),
-                            new Identifier("minecraft:block/water_flow"), fluidColor[i].getRGB()));
+            if (still_fluid[i] instanceof WaterTextured) {
+                FluidRenderHandlerRegistry.INSTANCE.register(still_fluid[i], flowing_fluid[i],
+                        new SimpleFluidRenderHandler(new Identifier("minecraft:block/water_still"),
+                                new Identifier("minecraft:block/water_flow"), fluidColor[i].getRGB()));
+            }
+            if (still_fluid[i] instanceof LavaTextured) {
+                FluidRenderHandlerRegistry.INSTANCE.register(still_fluid[i], flowing_fluid[i],
+                        new SimpleFluidRenderHandler(new Identifier("minecraft:block/lava_still"),
+                                new Identifier("minecraft:block/lava_flow"), fluidColor[i].getRGB()));
+            }
 
             BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), still_fluid[i], flowing_fluid[i]);
         }

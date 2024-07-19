@@ -31,7 +31,7 @@ public class ApocalyptorEntity extends HostileEntity {
         this.targetSelector.add(3, new RevengeGoal(this).setGroupRevenge(new Class[0]));
         this.targetSelector.add(3, new TargetGoal(this));
         this.goalSelector.add(4, new WanderAroundGoal(this, 0.6));
-        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 3.0f, 1.0f));
+        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 6.0f, 1.0f));
         this.goalSelector.add(6, new LookAtEntityGoal(this, MobEntity.class, 8.0f));
     }
 

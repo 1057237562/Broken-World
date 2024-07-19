@@ -151,7 +151,7 @@ public class PhoenixEntity extends HostileEntity {
     }
 
     public static boolean canSpawn(EntityType<? extends MobEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        LogUtils.getLogger().debug("Phoenix was asked to spawn at"+pos+"for reason: "+spawnReason);
+        LogUtils.getLogger().debug("Phoenix was asked to spawn at" + pos + "for reason: " + spawnReason);
         return true;
     }
 
@@ -314,10 +314,12 @@ public class PhoenixEntity extends HostileEntity {
         @Override
         public void start() {
             Random random = this.phoenixEntity.getRandom();
-            double d = this.phoenixEntity.getX() + (double) ((random.nextFloat() * 2.0f - 1.0f) * 16.0f);
+            double rnum = (random.nextFloat() * 2.0f - 1.0f);
+            double d = this.phoenixEntity.getX() + rnum * 16.0f + Math.signum(rnum) * 16.0f;
             double e = MathHelper.clamp(
-                    this.phoenixEntity.getY() + (double) ((random.nextFloat() * 2.0f - 1.0f) * 16.0f), 70, 180);
-            double f = this.phoenixEntity.getZ() + (double) ((random.nextFloat() * 2.0f - 1.0f) * 16.0f);
+                    this.phoenixEntity.getY() + (double) ((random.nextFloat() * 2.0f - 1.0f) * 16.0f), 110, 180);
+            rnum = (random.nextFloat() * 2.0f - 1.0f);
+            double f = this.phoenixEntity.getZ() + rnum * 16.0f + Math.signum(rnum) * 16.0f;
             this.phoenixEntity.getMoveControl().moveTo(d, e, f, 1.0);
         }
     }

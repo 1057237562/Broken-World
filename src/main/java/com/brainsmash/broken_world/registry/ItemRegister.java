@@ -4,6 +4,7 @@ import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.items.*;
 import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
 import com.brainsmash.broken_world.items.electrical.BatteryItem;
+import com.brainsmash.broken_world.items.electrical.MiningDrillItem;
 import com.brainsmash.broken_world.items.magical.Rune;
 import com.brainsmash.broken_world.items.magical.Wand;
 import com.brainsmash.broken_world.items.magical.enums.RuneEnum;
@@ -46,6 +47,8 @@ public class ItemRegister {
                     new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP)),
             new BucketItem(still_fluid[5],
                     new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP)),
+            new BucketItem(still_fluid[6],
+                    new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1).group(ITEM_GROUP))
     };
 
     public static final Item[] items = {
@@ -57,7 +60,7 @@ public class ItemRegister {
             new AdvancedEnderPearl(new FabricItemSettings().maxCount(16).group(ITEM_GROUP)),
             new Boulder(new FabricItemSettings().maxCount(32).group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(500), false),
+            new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), 500, false),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             // 10
@@ -130,11 +133,15 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            // 70
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), true),
             new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), 50),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP))
+            new Item(new FabricItemSettings().group(ITEM_GROUP))
+            // For testing ONLY, REMOVE before merging into main!
+            new MiningDrillItem(2.0f, 1.0f, ToolMaterials.IRON, new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -213,6 +220,9 @@ public class ItemRegister {
             "rpk_37",
             "pestle",
             "amethyst_powder"
+            "phoenix_feather"
+            // TODO For testing ONLY, REMOVE before release!
+            "mining_drill",
     };
 
     public static final Item[] guns = {

@@ -68,6 +68,10 @@ public class EntityRegister {
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, DroneEntity::new).dimensions(
                     EntityDimensions.fixed(0.5f, 0.5f)).trackRangeBlocks(100).build());
 
+    public static final EntityType<ForestGuardianEntity> FOREST_GUARDIAN_ENTITY_TYPE = Registry.register(
+            Registry.ENTITY_TYPE, new Identifier(MODID, "forest_guardian"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ForestGuardianEntity::new).trackRangeBlocks(64).build());
+
 
     @Environment(EnvType.CLIENT)
     public static void registEntitiesClientSide() {
@@ -79,6 +83,7 @@ public class EntityRegister {
         EntityRendererRegistry.register(PHOENIX_ENTITY_TYPE, PhoenixEntityRenderer::new);
         EntityRendererRegistry.register(APOCALYPTOR_ENTITY_TYPE, ApocalyptorEntityRenderer::new);
         EntityRendererRegistry.register(WEREWOLF_ENTITY_TYPE, WerewolfEntityRenderer::new);
+        EntityRendererRegistry.register(FOREST_GUARDIAN_ENTITY_TYPE, ForestGuardianEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(MODEL_FISHBONE_LAYER, FishboneEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_PHOENIX_LAYER, PhoenixEntityModel::getTexturedModelData);
@@ -86,6 +91,8 @@ public class EntityRegister {
                 ApocalyptorEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_WEREWOLF_LAYER, WerewolfEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_DRONE_LAYER, DroneEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_FOREST_GUARDIAN,
+                ForestGuardianEntityModel::getTexturedModelData);
     }
 
     public static void registerEntities() {
@@ -101,7 +108,8 @@ public class EntityRegister {
         FabricDefaultAttributeRegistry.register(DRONE_ENTITY_TYPE, DroneEntity.createLivingAttributes());
     }
 
-    public static void registerSpawnRegistration() {
+
+    public static void registSpawnRegistration() {
         SpawnRestriction.register(APOCALYPTOR_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark);
         SpawnRestriction.register(WEREWOLF_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND,

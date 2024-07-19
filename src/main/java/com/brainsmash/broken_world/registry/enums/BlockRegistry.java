@@ -90,6 +90,8 @@ public enum BlockRegistry {
     ALUMINUM_ORE,
     BATTERY,
     LEAD_ORE,
+    ARCANE_LECTERN,
+    MAGICAL_SPAWNER,
     COLLIDER_CONTROLLER,
     COLLIDER_COIL,
     MORTAR,

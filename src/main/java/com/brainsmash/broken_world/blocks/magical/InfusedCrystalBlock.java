@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.magical;
 
 import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
+import com.brainsmash.broken_world.blocks.model.CustomModelBlock;
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -17,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static com.brainsmash.broken_world.Main.MODID;
 
-public class InfusedCrystalBlock extends BlockWithEntity {
+public class InfusedCrystalBlock extends BlockWithEntity implements CustomModelBlock {
     public InfusedCrystalBlock(Settings settings) {
         super(settings);
     }

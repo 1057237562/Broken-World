@@ -1,6 +1,6 @@
 package com.brainsmash.broken_world.blocks.fluid;
 
-import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.blocks.fluid.base.WaterTextured;
 import com.brainsmash.broken_world.registry.FluidRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import net.minecraft.block.BlockState;
@@ -15,7 +15,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
-public abstract class AcidFluid extends FluidModel {
+public abstract class AcidFluid extends FluidModel implements WaterTextured {
 
     @Override
     public Fluid getStill() {
@@ -57,9 +57,9 @@ public abstract class AcidFluid extends FluidModel {
     public void flow(WorldAccess world, BlockPos pos, BlockState state, Direction direction, FluidState fluidState) {
         if (direction == Direction.DOWN) {
             FluidState fluidState2 = world.getFluidState(pos);
-            if(fluidState2.isIn(FluidTags.WATER)){
-                if(state.getBlock() instanceof FluidBlock){
-                    world.setBlockState(pos,FluidRegister.fluid_blocks[2].getDefaultState(),3);
+            if (fluidState2.isIn(FluidTags.WATER)) {
+                if (state.getBlock() instanceof FluidBlock) {
+                    world.setBlockState(pos, FluidRegister.fluid_blocks[2].getDefaultState(), 3);
                 }
                 return;
             }
@@ -93,6 +93,7 @@ public abstract class AcidFluid extends FluidModel {
             super.appendProperties(builder);
             builder.add(LEVEL);
         }
+
         @Override
         public int getLevel(FluidState fluidState) {
             return 8;

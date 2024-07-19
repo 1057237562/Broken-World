@@ -1,7 +1,10 @@
 package com.brainsmash.broken_world.datagen;
 
 import com.brainsmash.broken_world.Main;
-import com.brainsmash.broken_world.blocks.*;
+import com.brainsmash.broken_world.blocks.CloneVatBlock;
+import com.brainsmash.broken_world.blocks.CutRubberLogBlock;
+import com.brainsmash.broken_world.blocks.LogBlock;
+import com.brainsmash.broken_world.blocks.WoodenPipeBlock;
 import com.brainsmash.broken_world.blocks.electric.WeaponryBlock;
 import com.brainsmash.broken_world.blocks.electric.base.BatteryBlock;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
@@ -11,6 +14,7 @@ import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.magical.MortarBlock;
 import com.brainsmash.broken_world.blocks.magical.StoneBaseBlock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
+import com.brainsmash.broken_world.blocks.model.CustomModelBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.items.magical.Wand;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
@@ -44,13 +48,7 @@ public class ModelGenerator extends FabricModelProvider {
                         BlockRegister.blocks[BlockRegistry.TELEPORTER_FRAME.ordinal()], BlockRegister.blocks[i]);
                 continue;
             }
-            if (BlockRegister.blocks[i] instanceof BottomTopBlock) {
-                continue;
-            }
-            if (BlockRegister.blocks[i] instanceof SpawnPointerBlock) {
-                continue;
-            }
-            if (BlockRegister.blocks[i] instanceof InfusedCrystalBlock) {
+            if (BlockRegister.blocks[i] instanceof CustomModelBlock) {
                 continue;
             }
             if (BlockRegister.blocks[i] instanceof MortarBlock) {

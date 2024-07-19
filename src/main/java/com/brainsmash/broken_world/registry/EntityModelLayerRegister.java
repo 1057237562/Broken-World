@@ -25,4 +25,7 @@ public class EntityModelLayerRegister {
 
     public static final EntityModelLayer MODEL_MAGIC_BROOM = new EntityModelLayer(new Identifier(MODID, "magic_broom"),
             "main");
+
+    public static final EntityModelLayer MODEL_FOREST_GUARDIAN = new EntityModelLayer(
+            new Identifier(MODID, "forest_guardian"), "main");
 }
