@@ -72,7 +72,7 @@ public class FluidRegister {
             new Color(255, 238, 153),
             new Color(187, 0, 255),
             new Color(240, 230, 230),
-            new Color(120, 255, 0)
+            new Color(60, 255, 0)
     };
 
     public static void registFluid() {
