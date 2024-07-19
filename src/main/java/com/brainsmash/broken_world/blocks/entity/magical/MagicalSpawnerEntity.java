@@ -9,6 +9,9 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -28,15 +31,15 @@ public class MagicalSpawnerEntity extends BlockEntity {
 
 
     private int spawnDelay = 20;
-    private int minSpawnDelay = 200;
-    private int maxSpawnDelay = 800;
-    private int spawnCount = 4;
+    private int minSpawnDelay = 100;
+    private int maxSpawnDelay = 200;
+    private int spawnCount = 1;
     @Nullable
     private Entity renderedEntity;
-    private int maxNearbyEntities = 6;
+    private int maxNearbyEntities = 10;
     private int requiredPlayerRange = 16;
     private int spawnRange = 4;
-    public NbtCompound spawnEntity;
+    public NbtCompound spawnEntity = new NbtCompound();
 
     private boolean isPlayerInRange(World world, BlockPos pos) {
         return world.isPlayerInRange((double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5,
@@ -71,6 +74,9 @@ public class MagicalSpawnerEntity extends BlockEntity {
 
                 for (int i = 0; i < this.spawnCount; ++i) {
                     NbtCompound nbtCompound = spawnEntity;
+                    if (nbtCompound == null) {
+                        return;
+                    }
                     Optional<EntityType<?>> optional = EntityType.fromNbt(nbtCompound);
                     if (optional.isEmpty()) {
                         this.updateSpawns(world, pos);
@@ -139,5 +145,30 @@ public class MagicalSpawnerEntity extends BlockEntity {
         } else {
             this.spawnDelay = this.minSpawnDelay + random.nextInt(this.maxSpawnDelay - this.minSpawnDelay);
         }
+    }
+
+    @Override
+    protected void writeNbt(NbtCompound nbt) {
+        super.writeNbt(nbt);
+        nbt.put("spawnEntity", spawnEntity);
+    }
+
+    @Override
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+        spawnEntity = (NbtCompound) nbt.get("spawnEntity");
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.create(this);
+    }
+
+    @Override
+    public NbtCompound toInitialChunkDataNbt() {
+        NbtCompound compound = new NbtCompound();
+        writeNbt(compound);
+        return compound;
     }
 }

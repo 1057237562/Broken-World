@@ -23,12 +23,13 @@ import com.brainsmash.broken_world.blocks.entity.magical.MagicalSpawnerEntity;
 import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.ArcaneLectern;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
-import com.brainsmash.broken_world.blocks.magical.multiblock.ManaGeneratorMultiblock;
 import com.brainsmash.broken_world.blocks.magical.MagicalSpawner;
+import com.brainsmash.broken_world.blocks.magical.multiblock.ManaGeneratorMultiblock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
+import com.brainsmash.broken_world.items.magical.MagicalSpawnerItem;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -298,7 +299,7 @@ public class BlockRegister {
             new BlockItem(blocks[87], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[88], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[89], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[90], new FabricItemSettings().group(ITEM_GROUP)),
+            new MagicalSpawnerItem(blocks[90], new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
     };
 
     public static final String[] blocknames = {
@@ -618,7 +619,7 @@ public class BlockRegister {
         MAGICAL_SPAWNER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "magical_spawner"),
                 FabricBlockEntityTypeBuilder.create(MagicalSpawnerEntity::new, blocks[90]).build());
-      
+
         MultiblockUtil.registerMultiblock(new Identifier(MODID, "mana_generator"), ManaGeneratorMultiblock::new);
     }
 
