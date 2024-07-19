@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.blocks;
 
+import com.brainsmash.broken_world.blocks.model.CustomModelBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,7 +11,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class SpawnPointerBlock extends Block {
+public class SpawnPointerBlock extends Block implements CustomModelBlock {
 
     public SpawnPointerBlock(Settings settings) {
         super(settings);
