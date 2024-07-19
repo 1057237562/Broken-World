@@ -1,0 +1,20 @@
+{
+  "shoot": {
+    "subtitle": "sound.broken_world.shoot",
+    "sounds": [
+      "broken_world:shoot1",
+      "broken_world:shoot2",
+      "broken_world:shoot3",
+      "broken_world:shoot4"
+    ]
+  },
+  "bullet": {
+    "subtitle": "sound.broken_world.bullethit",
+    "sounds": [
+      "broken_world:bullethit1",
+      "broken_world:bullethit2",
+      "broken_world:bullethit3",
+      "broken_world:bullethit4"
+    ]
+  }
+}

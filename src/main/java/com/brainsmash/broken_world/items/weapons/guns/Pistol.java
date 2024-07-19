@@ -4,12 +4,12 @@ import com.brainsmash.broken_world.entity.BulletEntity;
 import com.brainsmash.broken_world.items.CustomUsePoseItem;
 import com.brainsmash.broken_world.items.weapons.Util;
 import com.brainsmash.broken_world.registry.ItemRegister;
+import com.brainsmash.broken_world.registry.SoundRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -24,7 +24,7 @@ public class Pistol extends GunItem implements CustomUsePoseItem {
     public Pistol(Settings settings) {
         super(settings);
     }
-    
+
     @Override
     public int getMaxUseTime(ItemStack stack) {
         return 72000;
@@ -37,8 +37,8 @@ public class Pistol extends GunItem implements CustomUsePoseItem {
         user.getItemCooldownManager().set(this, 3);
 
         if (hasAmmo(itemStack) || user.getAbilities().creativeMode) {
-            world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ARROW_SHOOT,
-                    SoundCategory.NEUTRAL, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
+            world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundRegister.SHOOT_EVENT,
+                    SoundCategory.NEUTRAL, 0.3f, 0.7f / (world.getRandom().nextFloat() * 0.2f + 0.4f));
             if (!world.isClient) {
                 BulletEntity lightAmmoEntity = new BulletEntity(world, user, 0.75);
 
