@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.blocks.fluid;
 
+import com.brainsmash.broken_world.blocks.fluid.base.WaterTextured;
 import com.brainsmash.broken_world.registry.FluidRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import net.minecraft.block.BlockState;
@@ -14,7 +15,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
-public abstract class AetherFluid extends FluidModel {
+public abstract class AetherFluid extends FluidModel implements WaterTextured {
 
     @Override
     public Fluid getStill() {

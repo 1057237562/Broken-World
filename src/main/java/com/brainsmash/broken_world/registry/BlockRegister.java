@@ -174,8 +174,8 @@ public class BlockRegister {
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new CompressorBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
             new AssemblerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
-            new ElectrolyzerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
-            new ReactionKettleBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).nonOpaque()),
+            new ElectrolyzerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
+            new ReactionKettleBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK)),
             new PillarBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
             new RubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
             new CutRubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)),
@@ -206,7 +206,7 @@ public class BlockRegister {
             new BatteryBlock(STANDARD_BLOCK),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new ArcaneLectern(FabricBlockSettings.copyOf(Blocks.LECTERN)),
-            new MagicalSpawner(FabricBlockSettings.copyOf(Blocks.SPAWNER)),
+            new MagicalSpawner(FabricBlockSettings.copyOf(Blocks.SPAWNER).nonOpaque()),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -645,6 +645,8 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.CENTRIFUGE.ordinal()], RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.INFUSED_CRYSTAL.ordinal()], RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.WEAPONRY.ordinal()], RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.MAGICAL_SPAWNER.ordinal()],
+                RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,

@@ -1,6 +1,9 @@
 package com.brainsmash.broken_world.blocks.entity.magical;
 
+import com.brainsmash.broken_world.blocks.fluid.storage.SingleFluidStorage;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -29,10 +32,20 @@ public class MagicalSpawnerEntity extends BlockEntity {
         super(BlockRegister.MAGICAL_SPAWNER_ENTITY_TYPE, pos, state);
     }
 
+    private SingleFluidStorage<FluidVariant> xpStorage = new SingleFluidStorage<>() {
+        @Override
+        protected FluidVariant getBlankVariant() {
+            return FluidVariant.blank();
+        }
 
+        @Override
+        protected long getCapacity(FluidVariant variant) {
+            return 8 * FluidConstants.BUCKET;
+        }
+    };
     private int spawnDelay = 20;
-    private int minSpawnDelay = 100;
-    private int maxSpawnDelay = 200;
+    private int minSpawnDelay = 20;
+    private int maxSpawnDelay = 40;
     private int spawnCount = 1;
     @Nullable
     private Entity renderedEntity;
@@ -151,12 +164,14 @@ public class MagicalSpawnerEntity extends BlockEntity {
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         nbt.put("spawnEntity", spawnEntity);
+        nbt.putLong("xpStorage", xpStorage.amount);
     }
 
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         spawnEntity = (NbtCompound) nbt.get("spawnEntity");
+        xpStorage.amount = nbt.getLong("xpStorage");
     }
 
     @Nullable
