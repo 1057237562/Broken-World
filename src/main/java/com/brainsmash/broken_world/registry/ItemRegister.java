@@ -219,8 +219,8 @@ public class ItemRegister {
             "la_battery",
             "rpk_37",
             "pestle",
-            "amethyst_powder"
-            "phoenix_feather"
+            "amethyst_powder",
+            "phoenix_feather",
             // TODO For testing ONLY, REMOVE before release!
             "mining_drill",
     };
