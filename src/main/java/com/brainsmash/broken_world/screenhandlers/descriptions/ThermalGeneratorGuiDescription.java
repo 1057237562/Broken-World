@@ -1,15 +1,17 @@
 package com.brainsmash.broken_world.screenhandlers.descriptions;
 
-import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
-import alexiil.mc.lib.attributes.fluid.volume.FluidKeys;
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.blocks.fluid.storage.FluidSlot;
 import com.brainsmash.broken_world.gui.widgets.WFluidWidget;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.WBar;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.util.Identifier;
 
@@ -34,8 +36,8 @@ public class ThermalGeneratorGuiDescription extends SyncedGuiDescription {
         root.add(outputSlot, 4, 1);
         WItemSlot powerSource = WItemSlot.of(blockInventory, 1);
         root.add(powerSource, 4, 3);
-        WFluidWidget fluidWidget = new WFluidWidget(FluidKeys.LAVA.withAmount(FluidAmount.BUCKET), propertyDelegate,
-                new Identifier(Main.MODID, "textures/gui/background.png"),
+        WFluidWidget fluidWidget = new WFluidWidget(new FluidSlot(FluidVariant.of(Fluids.LAVA), FluidConstants.BUCKET),
+                propertyDelegate, new Identifier(Main.MODID, "textures/gui/background.png"),
                 new Identifier(Main.MODID, "textures/gui/scale.png"), 2, 3);
         root.add(fluidWidget, 2, 1, 1, 3);
         root.add(this.createPlayerInventoryPanel(), 0, 4);

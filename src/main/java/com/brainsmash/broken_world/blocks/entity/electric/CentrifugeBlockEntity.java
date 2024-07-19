@@ -1,18 +1,11 @@
 package com.brainsmash.broken_world.blocks.entity.electric;
 
-import alexiil.mc.lib.attributes.CombinableAttribute;
-import alexiil.mc.lib.attributes.SearchOptions;
-import alexiil.mc.lib.attributes.Simulation;
-import alexiil.mc.lib.attributes.fluid.FluidAttributes;
-import alexiil.mc.lib.attributes.fluid.FluidInsertable;
-import alexiil.mc.lib.attributes.fluid.amount.FluidAmount;
-import alexiil.mc.lib.attributes.fluid.impl.SimpleFixedFluidInv;
-import alexiil.mc.lib.attributes.fluid.volume.FluidKeys;
 import alexiil.mc.lib.net.*;
 import alexiil.mc.lib.net.impl.CoreMinecraftNetUtil;
 import alexiil.mc.lib.net.impl.McNetworkStack;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
+import com.brainsmash.broken_world.blocks.fluid.storage.SingleFluidStorage;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
 import com.brainsmash.broken_world.recipe.CentrifugeRecipe;
 import com.brainsmash.broken_world.registry.BlockRegister;
@@ -20,6 +13,12 @@ import com.brainsmash.broken_world.screenhandlers.descriptions.CentrifugeGuiDesc
 import com.brainsmash.broken_world.util.EntityHelper;
 import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.CombinedStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,7 +43,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -52,9 +50,40 @@ import java.util.Set;
 
 public class CentrifugeBlockEntity extends ConsumerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
 
-    private static final FluidAmount SINGLE_TANK_CAPACITY = FluidAmount.BUCKET.mul(8);
+    private SingleFluidStorage<FluidVariant> createTank(boolean input) {
+        return new SingleFluidStorage<>() {
+            @Override
+            protected FluidVariant getBlankVariant() {
+                return FluidVariant.blank();
+            }
 
-    public final SimpleFixedFluidInv fluidInv = new SimpleFixedFluidInv(2, SINGLE_TANK_CAPACITY);
+            @Override
+            protected long getCapacity(FluidVariant variant) {
+                return 8 * FluidConstants.BUCKET;
+            }
+
+            @Override
+            protected boolean canInsert(FluidVariant variant) {
+                // Only allow the specified variant.
+                return input;
+            }
+
+            @Override
+            protected boolean canExtract(FluidVariant variant) {
+                return !input;
+            }
+
+            @Override
+            protected void onFinalCommit() {
+                markDirty();
+            }
+        };
+    }
+
+    public final SingleFluidStorage<FluidVariant> inputInv = createTank(true);
+    public final SingleFluidStorage<FluidVariant> outputInv = createTank(false);
+
+    public Storage<FluidVariant> fluidStorage = new CombinedStorage<>(List.of(inputInv, outputInv));
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(14, ItemStack.EMPTY);
 
@@ -75,8 +104,12 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
         for (ActiveConnection connection : activeConnections) {
             CHANGED_LIQUID.send(connection, this, (be, buf, ctx) -> {
                 ctx.assertServerSide();
-
-                buf.writeNbt(fluidInv.toTag());
+                NbtCompound nbtCompound = new NbtCompound();
+                inputInv.writeNbt(nbtCompound);
+                buf.writeNbt(nbtCompound);
+                nbtCompound = new NbtCompound();
+                outputInv.writeNbt(nbtCompound);
+                buf.writeNbt(nbtCompound);
             });
         }
     }
@@ -84,7 +117,8 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
     private void receiveLiquidChange(NetByteBuf buf, IMsgReadCtx ctx) throws InvalidInputDataException {
         ctx.assertClientSide();
 
-        fluidInv.fromTag(buf.readNbt());
+        inputInv.readNbt(buf.readNbt());
+        outputInv.readNbt(buf.readNbt());
     }
 
     @Override
@@ -127,24 +161,21 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
 
     public boolean checkRecipe() {
         if (!inventory.get(1).isEmpty()) {
-            if (fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.BUCKET)) {
-                Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), inventory.get(1).getItem());
+            if (inputInv.amount >= FluidConstants.BUCKET) {
+                Pair<Fluid, Item> key = new Pair<>(inputInv.variant.getFluid(), inventory.get(1).getItem());
                 if (CentrifugeRecipe.recipes.containsKey(key)) {
-                    return fluidInv.getInvFluid(1).amount().isLessThanOrEqual(
-                            fluidInv.getMaxAmount_F(1).sub(FluidAmount.BOTTLE));
+                    return outputInv.amount <= outputInv.getCapacity() - FluidConstants.BOTTLE;
                 }
             }
             Pair<Fluid, Item> key = new Pair<>(null, inventory.get(1).getItem());
             if (CentrifugeRecipe.recipes.containsKey(key)) {
-                return fluidInv.getInvFluid(1).amount().isLessThanOrEqual(
-                        fluidInv.getMaxAmount_F(1).sub(FluidAmount.BOTTLE));
+                return outputInv.amount <= outputInv.getCapacity() - FluidConstants.BOTTLE;
             }
         }
-        if (fluidInv.getInvFluid(0).amount().isGreaterThanOrEqual(FluidAmount.BUCKET)) {
-            Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), null);
+        if (inputInv.amount >= FluidConstants.BUCKET) {
+            Pair<Fluid, Item> key = new Pair<>(inputInv.variant.getFluid(), null);
             if (CentrifugeRecipe.recipes.containsKey(key)) {
-                return fluidInv.getInvFluid(1).amount().isLessThanOrEqual(
-                        fluidInv.getMaxAmount_F(1).sub(FluidAmount.BOTTLE));
+                return outputInv.amount <= outputInv.getCapacity() - FluidConstants.BOTTLE;
             }
         }
 
@@ -153,7 +184,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
 
     public void process() {
         if (!inventory.get(1).isEmpty()) {
-            Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), inventory.get(1).getItem());
+            Pair<Fluid, Item> key = new Pair<>(inputInv.variant.getFluid(), inventory.get(1).getItem());
             if (CentrifugeRecipe.recipes.containsKey(key)) {
                 Pair<List<Pair<Float, Item>>, Fluid> recipe = CentrifugeRecipe.recipes.get(key);
 
@@ -165,16 +196,15 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
                     }
                 }
                 if (recipe.getSecond() != null) {
-                    if (fluidInv.getInvFluid(1).isEmpty()) {
-                        fluidInv.setInvFluid(1, FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
-                                Simulation.ACTION);
+                    if (outputInv.isResourceBlank()) {
+                        outputInv.variant = FluidVariant.of(recipe.getSecond());
+                        outputInv.amount = FluidConstants.BOTTLE;
                     } else {
-                        fluidInv.getInvFluid(1).merge(FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
-                                Simulation.ACTION);
+                        outputInv.amount += FluidConstants.BOTTLE;
                     }
                 }
                 inventory.get(1).decrement(1);
-                fluidInv.getInvFluid(0).split(FluidAmount.BUCKET);
+                inputInv.amount -= FluidConstants.BUCKET;
                 return;
             }
             key = new Pair<>(null, inventory.get(1).getItem());
@@ -189,20 +219,18 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
                     }
                 }
                 if (recipe.getSecond() != null) {
-                    if (fluidInv.getInvFluid(1).isEmpty()) {
-                        fluidInv.setInvFluid(1, FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
-                                Simulation.ACTION);
+                    if (outputInv.isResourceBlank()) {
+                        outputInv.variant = FluidVariant.of(recipe.getSecond());
+                        outputInv.amount = FluidConstants.BOTTLE;
                     } else {
-                        fluidInv.getInvFluid(1).merge(FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
-                                Simulation.ACTION);
+                        outputInv.amount += FluidConstants.BOTTLE;
                     }
                 }
                 inventory.get(1).decrement(1);
-                fluidInv.getInvFluid(0).split(FluidAmount.BUCKET);
                 return;
             }
         }
-        Pair<Fluid, Item> key = new Pair<>(fluidInv.getInvFluid(0).getRawFluid(), null);
+        Pair<Fluid, Item> key = new Pair<>(inputInv.variant.getFluid(), null);
         if (CentrifugeRecipe.recipes.containsKey(key)) {
             Pair<List<Pair<Float, Item>>, Fluid> recipe = CentrifugeRecipe.recipes.get(key);
 
@@ -215,32 +243,28 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
             }
 
             if (recipe.getSecond() != null) {
-                if (fluidInv.getInvFluid(1).isEmpty()) {
-                    fluidInv.setInvFluid(1, FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
-                            Simulation.ACTION);
+                if (outputInv.isResourceBlank()) {
+                    outputInv.variant = FluidVariant.of(recipe.getSecond());
+                    outputInv.amount = FluidConstants.BOTTLE;
                 } else {
-                    fluidInv.getInvFluid(1).merge(FluidKeys.get(recipe.getSecond()).withAmount(FluidAmount.BOTTLE),
-                            Simulation.ACTION);
+                    outputInv.amount += FluidConstants.BOTTLE;
                 }
             }
-            fluidInv.getInvFluid(0).split(FluidAmount.BUCKET);
+            inputInv.amount -= FluidConstants.BUCKET;
         }
-    }
-
-    @Nonnull
-    public <T> T getNeighbourAttribute(CombinableAttribute<T> attr, Direction dir) {
-        return attr.get(getWorld(), getPos().offset(dir), SearchOptions.inDirection(dir));
     }
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (!fluidInv.getInvFluid(1).isEmpty()) {
+            if (!outputInv.isResourceBlank()) {
                 for (Direction direction : Direction.values()) {
-                    FluidInsertable insertable = getNeighbourAttribute(FluidAttributes.INSERTABLE, direction);
-                    fluidInv.setInvFluid(1, insertable.attemptInsertion(fluidInv.getInvFluid(1), Simulation.ACTION),
-                            Simulation.ACTION);
-                    if (fluidInv.getInvFluid(1).isEmpty()) {
+                    try (Transaction transaction = Transaction.openOuter()) {
+                        Storage<FluidVariant> fluidInv = FluidStorage.SIDED.find(world, pos, direction);
+                        outputInv.amount -= fluidInv.insert(outputInv.variant, outputInv.amount, transaction);
+                        transaction.commit();
+                    }
+                    if (outputInv.isResourceBlank() || outputInv.amount == 0) {
                         break;
                     }
                     markDirty();
@@ -294,7 +318,12 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
     public void writeNbt(NbtCompound nbt) {
         Inventories.writeNbt(nbt, inventory);
         nbt.putBoolean("running", running);
-        fluidInv.toTag(nbt);
+        NbtCompound nbtCompound = new NbtCompound();
+        inputInv.writeNbt(nbtCompound);
+        nbt.put("inputInv", nbtCompound);
+        nbtCompound = new NbtCompound();
+        outputInv.writeNbt(nbtCompound);
+        nbt.put("outputInv", nbtCompound);
         super.writeNbt(nbt);
     }
 
@@ -303,7 +332,8 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
         super.readNbt(nbt);
         Inventories.readNbt(nbt, inventory);
         running = nbt.getBoolean("running");
-        fluidInv.fromTag(nbt);
+        inputInv.readNbt(nbt.getCompound("inputInv"));
+        outputInv.readNbt(nbt.getCompound("outputInv"));
     }
 
     @Nullable

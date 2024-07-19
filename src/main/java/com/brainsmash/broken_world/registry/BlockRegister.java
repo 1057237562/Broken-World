@@ -17,10 +17,14 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
+import com.brainsmash.broken_world.blocks.entity.magical.ArcaneLecternEntity;
 import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.MagicalSpawnerEntity;
 import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
+import com.brainsmash.broken_world.blocks.magical.ArcaneLectern;
 import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.magical.multiblock.ManaGeneratorMultiblock;
+import com.brainsmash.broken_world.blocks.magical.MagicalSpawner;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
@@ -33,6 +37,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.color.world.BiomeColors;
@@ -199,6 +204,8 @@ public class BlockRegister {
             new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
             new BatteryBlock(STANDARD_BLOCK),
             new OreBlock(FabricBlockSettings.copyOf(Blocks.IRON_ORE)),
+            new ArcaneLectern(FabricBlockSettings.copyOf(Blocks.LECTERN)),
+            new MagicalSpawner(FabricBlockSettings.copyOf(Blocks.SPAWNER)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -290,6 +297,8 @@ public class BlockRegister {
             new BlockItem(blocks[86], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[87], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[88], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[89], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[90], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -381,7 +390,9 @@ public class BlockRegister {
             "sulfur_ore",
             "aluminum_ore",
             "battery",
-            "lead_ore"
+            "lead_ore",
+            "arcane_lectern",
+            "magical_spawner",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -498,6 +509,8 @@ public class BlockRegister {
     public static BlockEntityType<UVBlockEntity> UV_ENTITY_TYPE;
     public static BlockEntityType<GasCollectorBlockEntity> GAS_COLLECTOR_ENTITY_TYPE;
     public static BlockEntityType<RefineryBlockEntity> REFINERY_ENTITY_TYPE;
+    public static BlockEntityType<ArcaneLecternEntity> ARCANE_LECTERN_ENTITY_TYPE;
+    public static BlockEntityType<MagicalSpawnerEntity> MAGICAL_SPAWNER_ENTITY_TYPE;
 
     public static void registBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -544,8 +557,11 @@ public class BlockRegister {
         THERMAL_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "thermal_generator"),
                 FabricBlockEntityTypeBuilder.create(ThermalGeneratorEntity::new, blocks[29]).build());
+        FluidStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.fluidStorage,
+                THERMAL_GENERATOR_ENTITY_TYPE);
         PUMP_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "pump"),
                 FabricBlockEntityTypeBuilder.create(PumpBlockEntity::new, blocks[30]).build());
+        FluidStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.fluidStorage, PUMP_ENTITY_TYPE);
         HYDRO_GENERATOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "hydro_generator"),
                 FabricBlockEntityTypeBuilder.create(HydroGeneratorEntity::new, blocks[31]).build());
@@ -561,6 +577,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(FabricatorExtensionBlockEntity::new, blocks[35]).build());
         CENTRIFUGE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "centrifuge"),
                 FabricBlockEntityTypeBuilder.create(CentrifugeBlockEntity::new, blocks[36]).build());
+        FluidStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.fluidStorage, CENTRIFUGE_ENTITY_TYPE);
+
         ROLLING_DOOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "rolling_door"),
                 FabricBlockEntityTypeBuilder.create(RollingDoorBlockEntity::new, blocks[44]).build());
         CLONE_VAT_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "clone_vat"),
@@ -584,6 +602,7 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(WeaponryBlockEntity::new, blocks[73]).build());
         WOODEN_PIPE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "wooden_pipe"),
                 FabricBlockEntityTypeBuilder.create(WoodenPipeBlockEntity::new, blocks[74]).build());
+        FluidStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.fluidStorage, WOODEN_PIPE_ENTITY_TYPE);
         UV_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "uv"),
                 FabricBlockEntityTypeBuilder.create(UVBlockEntity::new, blocks[80]).build());
         GAS_COLLECTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
@@ -593,7 +612,13 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(RefineryBlockEntity::new, blocks[83]).build());
         BATTERY_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "battery"),
                 FabricBlockEntityTypeBuilder.create(BatteryBlockEntity::new, blocks[87]).build());
-
+        ARCANE_LECTERN_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "arcane_lectern"),
+                FabricBlockEntityTypeBuilder.create(ArcaneLecternEntity::new, blocks[89]).build());
+        MAGICAL_SPAWNER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "magical_spawner"),
+                FabricBlockEntityTypeBuilder.create(MagicalSpawnerEntity::new, blocks[90]).build());
+      
         MultiblockUtil.registerMultiblock(new Identifier(MODID, "mana_generator"), ManaGeneratorMultiblock::new);
     }
 

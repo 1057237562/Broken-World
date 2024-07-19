@@ -130,8 +130,10 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            // 70
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), true),
+            new Item(new FabricItemSettings().group(ITEM_GROUP))
     };
 
     public static final String[] itemnames = {
@@ -206,7 +208,8 @@ public class ItemRegister {
             "raw_aluminum",
             "aluminum_ingot",
             "lead_ingot",
-            "la_battery"
+            "la_battery",
+            "phoenix_feather"
     };
 
     public static final Item[] guns = {

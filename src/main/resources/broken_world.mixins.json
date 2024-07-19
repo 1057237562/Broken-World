@@ -3,7 +3,6 @@
   "minVersion": "0.8",
   "package": "com.brainsmash.broken_world.mixin",
   "compatibilityLevel": "JAVA_17",
-  "plugin": "com.brainsmash.broken_world.mixin.plugin.SodiumMixinPlugin",
   "mixins": [
     "EntityMixin",
     "LivingEntityMixin",
@@ -16,7 +15,6 @@
     "MainMixin",
     "MinecraftClientMixin",
     "PlayerEntityRendererMixin",
-    "SodiumRendererMixin",
     "WorldRendererMixin"
   ],
   "server": [
