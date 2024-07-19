@@ -78,7 +78,7 @@ public class GeneratorEntity extends PowerBlockEntity implements NamedScreenHand
 
     public GeneratorEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.GENERATOR_ENTITY_TYPE, pos, state);
-        setMaxCapacity(2000);
+        setMaxCapacity(4000);
         setGenerate(4);
     }
 
