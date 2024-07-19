@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -124,7 +125,7 @@ public class MagicalSpawnerEntity extends BlockEntity {
                         entityx.refreshPositionAndAngles(d, e, f, entityx.getYaw(), entityx.getPitch());
                         return entityx;
                     });
-                    if (entity == null) {
+                    if (entity == null || !(entity instanceof LivingEntity)) {
                         this.updateSpawns(world, pos);
                         return;
                     }
@@ -151,7 +152,7 @@ public class MagicalSpawnerEntity extends BlockEntity {
                     if (entity instanceof MobEntity) {
                         ((MobEntity) entity).playSpawnEffects();
                     }
-                    xpStorage.amount -= FluidConstants.BOTTLE / 2;
+                    xpStorage.amount -= (long) (FluidConstants.BOTTLE * ((LivingEntity) entity).getMaxHealth() / 20);
 
                     bl = true;
                 }
