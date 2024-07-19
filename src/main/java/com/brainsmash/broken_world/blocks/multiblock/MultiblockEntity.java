@@ -40,9 +40,14 @@ public class MultiblockEntity extends DummyBlockEntity implements BlockEntityTic
         this.anchor = anchor;
     }
 
+    public MultiblockComponent getComponent() {
+        return component;
+    }
+
     public void setType(Identifier type) {
         this.type = type;
-        component = MultiblockUtil.providerMap.get(type).get(world, pos);
+        if (MultiblockUtil.providerMap.containsKey(type))
+            component = MultiblockUtil.providerMap.get(type).get(world, pos);
     }
 
     @Override
@@ -50,7 +55,7 @@ public class MultiblockEntity extends DummyBlockEntity implements BlockEntityTic
         nbt.putLong("multiblockSize", new BlockPos(multiblockSize).asLong());
         nbt.putString("type", type.toString());
         NbtCompound compound = new NbtCompound();
-        component.writeNbt(compound);
+        if (component != null) component.writeNbt(compound);
         nbt.put("component", compound);
         nbt.putLong("anchor", anchor.asLong());
         super.writeNbt(nbt);
@@ -61,7 +66,7 @@ public class MultiblockEntity extends DummyBlockEntity implements BlockEntityTic
         super.readNbt(nbt);
         multiblockSize = BlockPos.fromLong(nbt.getLong("multiblockSize"));
         setType(Identifier.tryParse(nbt.getString("type")));
-        component.readNbt(nbt.getCompound("component"));
+        if (component != null) component.readNbt(nbt.getCompound("component"));
         anchor = BlockPos.fromLong(nbt.getLong("anchor"));
     }
 

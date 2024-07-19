@@ -27,14 +27,11 @@ public class TeleporterControllerBlockEntity extends ConsumerBlockEntity impleme
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            switch (index) {
-                case 0:
-                    return getEnergy();
-                case 1:
-                    return getMaxCapacity();
-                default:
-                    return -1;
-            }
+            return switch (index) {
+                case 0 -> getEnergy();
+                case 1 -> getMaxCapacity();
+                default -> -1;
+            };
         }
 
         @Override

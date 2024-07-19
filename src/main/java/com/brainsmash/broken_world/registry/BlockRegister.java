@@ -17,6 +17,12 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
+import com.brainsmash.broken_world.blocks.entity.magical.CrucibleBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.MortarBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.StoneBaseBlockEntity;
+import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
+import com.brainsmash.broken_world.blocks.magical.*;
 import com.brainsmash.broken_world.blocks.entity.magical.ArcaneLecternEntity;
 import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.magical.MagicalSpawnerEntity;
@@ -63,7 +69,6 @@ import static com.brainsmash.broken_world.Main.MODID;
 import static com.brainsmash.broken_world.registry.ItemRegister.ITEM_GROUP;
 
 public class BlockRegister {
-
     private static final AbstractBlock.Settings STANDARD_BLOCK = FabricBlockSettings.of(Material.METAL).sounds(
             BlockSoundGroup.METAL).strength(3.0f, 3.0f);
 
@@ -210,6 +215,10 @@ public class BlockRegister {
             new MagicalSpawner(FabricBlockSettings.copyOf(Blocks.SPAWNER).nonOpaque()),
             new ColliderControllerBlock(STANDARD_BLOCK),
             new ColliderCoilBlock(STANDARD_BLOCK),
+            new MortarBlock(STANDARD_BLOCK),
+            new CrucibleBlock(FabricBlockSettings.copyOf(Blocks.CAULDRON).mapColor(MapColor.PURPLE),
+                    CrucibleBehavior.CRUCIBLE_BEHAVIOR),
+            new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE))
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -305,6 +314,10 @@ public class BlockRegister {
             new MagicalSpawnerItem(blocks[90], new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new BlockItem(blocks[91], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[92], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[93], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[94], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[95], new FabricItemSettings()),
+            new BlockItem(blocks[96], new FabricItemSettings().group(ITEM_GROUP))
     };
 
     public static final String[] blocknames = {
@@ -399,9 +412,11 @@ public class BlockRegister {
             "lead_ore",
             "arcane_lectern",
             "magical_spawner",
-            "lead_ore",
             "collider_controller",
-            "collider_coil"
+            "collider_coil",
+            "mortar",
+            "crucible",
+            "stone_base"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -522,8 +537,11 @@ public class BlockRegister {
     public static BlockEntityType<MagicalSpawnerEntity> MAGICAL_SPAWNER_ENTITY_TYPE;
     public static BlockEntityType<ColliderControllerBlockEntity> COLLIDER_CONTROLLER_ENTITY_TYPE;
     public static BlockEntityType<ColliderCoilBlockEntity> COLLIDER_COIL_ENTITY_TYPE;
+    public static BlockEntityType<MortarBlockEntity> MORTAR_ENTITY_TYPE;
+    public static BlockEntityType<CrucibleBlockEntity> CRUCIBLE_ENTITY_TYPE;
+    public static BlockEntityType<StoneBaseBlockEntity> STONE_BASE_ENTITY_TYPE;
 
-    public static void registBlocks() {
+    public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
             Registry.register(Registry.BLOCK, new Identifier(MODID, blocknames[i]), blocks[i]);
             Registry.register(Registry.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
@@ -640,6 +658,12 @@ public class BlockRegister {
                 new Identifier(MODID, "collider_coil"),
                 FabricBlockEntityTypeBuilder.create(ColliderCoilBlockEntity::new,
                         get(BlockRegistry.COLLIDER_COIL)).build());
+        MORTAR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "mortar"),
+                FabricBlockEntityTypeBuilder.create(MortarBlockEntity::new, blocks[91]).build());
+        CRUCIBLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "crucible"),
+                FabricBlockEntityTypeBuilder.create(CrucibleBlockEntity::new, blocks[92]).build());
+        STONE_BASE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "stone_base"),
+                FabricBlockEntityTypeBuilder.create(StoneBaseBlockEntity::new, blocks[93]).build());
     }
 
     public static void registBlocksClientSide() {
@@ -691,6 +715,16 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(INFUSED_CRYSTAL_ENTITY_TYPE, InfusedCrystalBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(WEAPONRY_ENTITY_TYPE, WeaponryBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(UV_ENTITY_TYPE, UVBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(MORTAR_ENTITY_TYPE, MortarBlockEnityRenderer::new);
+
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
+            System.out.println("redraw");
+            if (world != null && pos != null && world.getBlockEntity(
+                    pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
+                return crucibleBlockEntity.getFluidColor();
+            }
+            return 0x7442FF;
+        }, get(BlockRegistry.CRUCIBLE));
 
         registTreeColor();
     }

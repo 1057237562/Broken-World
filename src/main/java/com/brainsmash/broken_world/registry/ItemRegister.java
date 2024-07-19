@@ -136,8 +136,10 @@ public class ItemRegister {
             // 70
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), true),
-            new Item(new FabricItemSettings().group(ITEM_GROUP))
-            new BatteryItem(new FabricItemSettings().group(ITEM_GROUP), 1500, true),
+            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), 50),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
             // For testing ONLY, REMOVE before merging into main!
             new MiningDrillItem(2.0f, 1.0f, ToolMaterials.IRON, new FabricItemSettings().group(ITEM_GROUP)),
     };
@@ -215,8 +217,10 @@ public class ItemRegister {
             "aluminum_ingot",
             "lead_ingot",
             "la_battery",
-            "phoenix_feather"
-            "la_battery",
+            "rpk_37",
+            "pestle",
+            "amethyst_powder",
+            "phoenix_feather",
             // TODO For testing ONLY, REMOVE before release!
             "mining_drill",
     };
@@ -226,7 +230,8 @@ public class ItemRegister {
             items[ItemRegistry.SMG.ordinal()],
             items[ItemRegistry.MK144.ordinal()],
             items[ItemRegistry.HASS_03.ordinal()],
-            items[ItemRegistry.QS_093.ordinal()]
+            items[ItemRegistry.QS_093.ordinal()],
+            items[ItemRegistry.RPK_37.ordinal()],
     };
 
     public static final String[] tools = {
@@ -236,7 +241,7 @@ public class ItemRegister {
 
     public static final ArrayList<Item> toolsItem = new ArrayList<>();
 
-    public static void registItem() {
+    public static void registerItem() {
         for (int i = 0; i < tools.length; i++) {
             String materialName = tools[i];
             ToolMaterial material = ToolRegistry.values()[i];
@@ -270,5 +275,9 @@ public class ItemRegister {
                 return entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0f : 0.0f;
             });
         }
+    }
+
+    public static Item get(ItemRegistry item) {
+        return items[item.ordinal()];
     }
 }

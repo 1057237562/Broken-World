@@ -57,8 +57,7 @@ public class WeaponryBlockEntity extends ConsumerBlockEntity implements NamedScr
             this.output = output;
             requiredMaterial.clear();
             for (int i = 0; i < 9; i++) {
-                requiredMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(),
-                        (integer, integer2) -> integer + integer2);
+                requiredMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(), Integer::sum);
             }
         }
     }
@@ -66,8 +65,7 @@ public class WeaponryBlockEntity extends ConsumerBlockEntity implements NamedScr
     public boolean checkMaterial() {
         Map<Item, Integer> currentMaterial = new ConcurrentHashMap<>();
         for (int i = 9; i < 18; i++) {
-            currentMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(),
-                    ((integer, integer2) -> integer + integer2));
+            currentMaterial.merge(inventory.get(i).getItem(), inventory.get(i).getCount(), (Integer::sum));
         }
         for (Map.Entry<Item, Integer> pair : requiredMaterial.entrySet()) {
             if (currentMaterial.getOrDefault(pair.getKey(), 0) < pair.getValue()) {
@@ -78,8 +76,7 @@ public class WeaponryBlockEntity extends ConsumerBlockEntity implements NamedScr
     }
 
     public void consumeMaterial() {
-        Map<Item, Integer> rest = new ConcurrentHashMap<>();
-        rest.putAll(requiredMaterial);
+        Map<Item, Integer> rest = new ConcurrentHashMap<>(requiredMaterial);
         for (ItemStack stack : inventory.subList(9, 17)) {
             int request = rest.getOrDefault(stack.getItem(), 0);
             if (request > 0) {
@@ -104,7 +101,6 @@ public class WeaponryBlockEntity extends ConsumerBlockEntity implements NamedScr
             }
             if (stack.getCount() == 0) return true;
         }
-        if (stack.getCount() == 0) return true;
         return false;
     }
 
@@ -115,8 +111,7 @@ public class WeaponryBlockEntity extends ConsumerBlockEntity implements NamedScr
                     output.getItem()) && inventory.get(
                     18).getCount() + output.getCount() <= output.getMaxCount()) || inventory.get(18).isEmpty())) {
                 if (!isRunning()) {
-                    if (checkMaterial()) running = true;
-                    else running = false;
+                    running = checkMaterial();
                 } else {
                     if (progression < maxProgression) {
                         progression++;

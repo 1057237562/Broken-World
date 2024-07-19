@@ -22,7 +22,7 @@ public class AssemblerRecipe {
         }
     }
 
-    public static void registAssemblerRecipes() {
+    public static void registerAssemblerRecipes() {
         registAssemblerRecipe(ItemRegister.items[ItemRegistry.SILICON.ordinal()], Items.GOLD_INGOT,
                 new ItemStack(ItemRegister.items[ItemRegistry.MEMORY_CHIP.ordinal()]));
         registAssemblerRecipe(ItemRegister.items[ItemRegistry.PLASTIC_PLATE.ordinal()], Items.GOLD_INGOT,

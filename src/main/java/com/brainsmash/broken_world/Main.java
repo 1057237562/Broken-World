@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world;
 
+import com.brainsmash.broken_world.blocks.magical.CrucibleBehavior;
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockResourceReloadListener;
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
@@ -8,6 +9,7 @@ import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.*;
 import com.brainsmash.broken_world.registry.enums.OreTypeRegistry;
+import com.brainsmash.broken_world.resourceloader.GasResourceLoader;
 import com.brainsmash.broken_world.screenhandlers.descriptions.*;
 import com.brainsmash.broken_world.util.BonusHelper;
 import com.brainsmash.broken_world.util.EntityHelper;
@@ -142,38 +144,41 @@ public class Main implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        BlockRegister.registBlocks();
-        ItemRegister.registItem();
-        FluidRegister.registFluid();
-        DimensionRegister.registDimension();
-        EntityRegister.registEntities();
-        EntityRegister.registSpawnRegistration();
-        TreeRegister.registTrees();
+        BlockRegister.registerBlocks();
+        ItemRegister.registerItem();
+        FluidRegister.registerFluid();
+        DimensionRegister.registerDimension();
+        EntityRegister.registerEntities();
+        EntityRegister.registerSpawnRegistration();
+        TreeRegister.registerTrees();
         PointOfInterestRegister.registerPlacesOfInterest();
 
-        MultiblockUtil.registMultiblock();
+        MultiblockUtil.registerMultiblock();
 
-        AdvancedFurnaceRecipe.registAdvancedFurnaceRecipe();
-        CrusherRecipe.registCrusherRecipes();
-        SifterRecipe.registSifterRecipes();
-        CentrifugeRecipe.registCentrifugeRecipes();
-        AssemblerRecipe.registAssemblerRecipes();
-        CompressorRecipe.registCompressorRecipes();
-        ExtractorRecipe.registExtractorRecipes();
-        GasCollectorRecipe.registGasCollectorRecipes();
-        RefineryRecipe.registRefineryRecipes();
-        ReactionRecipe.registReactionRecipes();
-        ElectrolyzerRecipe.registElectrolyzerRecipes();
+        AdvancedFurnaceRecipe.registerAdvancedFurnaceRecipe();
+        CrusherRecipe.registerCrusherRecipes();
+        SifterRecipe.registerSifterRecipes();
+        CentrifugeRecipe.registerCentrifugeRecipes();
+        AssemblerRecipe.registerAssemblerRecipes();
+        CompressorRecipe.registerCompressorRecipes();
+        ExtractorRecipe.registerExtractorRecipes();
+        GasCollectorRecipe.registerGasCollectorRecipes();
+        RefineryRecipe.registerRefineryRecipes();
+        ReactionRecipe.registerReactionRecipes();
+        ElectrolyzerRecipe.registerElectrolyzerRecipes();
+        GrindRecipe.registerGrindingRecipe();
         FabricatorRecipe.register();
         WeaponryRecipe.register();
         ColliderRecipe.register();
 
-        GasRegister.register();
+        CrucibleBehavior.registerBehaviour();
+
+        GasResourceLoader.register();
 
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(
                 new MultiblockResourceReloadListener());
 
-        OreTypeRegistry.RegistOreType();
+        OreTypeRegistry.registerOreType();
 
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY, new Identifier(MODID, "tungsten_ore")));

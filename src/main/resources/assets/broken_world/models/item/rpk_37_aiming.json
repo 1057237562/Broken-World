@@ -1,0 +1,15 @@
+{
+  "parent": "broken_world:item/rpk_37",
+  "display": {
+    "firstperson_righthand": {
+      "rotation": [ 0, 90, 0 ],
+      "translation": [ -2.57, 6.07, -1.5],
+      "scale": [ 1, 1, 1 ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [ 0, -90, 0 ],
+      "translation": [ -15.5, 6.07, -3.25],
+      "scale": [ 1, 1, 1 ]
+    }
+  }
+}

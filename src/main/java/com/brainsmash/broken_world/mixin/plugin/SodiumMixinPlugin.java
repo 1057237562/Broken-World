@@ -26,6 +26,8 @@ public class SodiumMixinPlugin implements IMixinConfigPlugin {
             return FabricLoader.getInstance().isModLoaded("sodium");
         if (mixinClassName.equals("com.brainsmash.broken_world.mixin.SodiumRendererMixin"))
             return FabricLoader.getInstance().isModLoaded("sodium");
+        if (mixinClassName.equals("com.brainsmash.broken_world.mixin.SodiumBlendMixin"))
+            return FabricLoader.getInstance().isModLoaded("sodium");
         return true;
     }
 

@@ -12,7 +12,7 @@ public class ElectrolyzerRecipe {
     public static Map<Item, ItemStack> recipes = new ConcurrentHashMap<>();
     public static Map<Item, Integer> counts = new ConcurrentHashMap<>();
 
-    public static void registElectrolyzerRecipes() {
+    public static void registerElectrolyzerRecipes() {
         registElectrolyzerRecipe(new ItemStack(ItemRegister.items[ItemRegistry.RAW_ALUMINUM.ordinal()], 3),
                 ItemRegister.items[ItemRegistry.ALUMINUM_INGOT.ordinal()].getDefaultStack());
     }

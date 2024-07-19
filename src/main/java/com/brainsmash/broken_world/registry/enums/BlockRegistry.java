@@ -93,5 +93,8 @@ public enum BlockRegistry {
     ARCANE_LECTERN,
     MAGICAL_SPAWNER,
     COLLIDER_CONTROLLER,
-    COLLIDER_COIL
+    COLLIDER_COIL,
+    MORTAR,
+    CRUCIBLE,
+    STONE_BASE
 }

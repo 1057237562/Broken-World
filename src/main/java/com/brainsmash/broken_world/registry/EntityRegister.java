@@ -95,7 +95,7 @@ public class EntityRegister {
                 ForestGuardianEntityModel::getTexturedModelData);
     }
 
-    public static void registEntities() {
+    public static void registerEntities() {
         FabricDefaultAttributeRegistry.register(FISHBONE_ENTITY_ENTITY_TYPE, FishboneEntity.createFishAttributes());
         FabricDefaultAttributeRegistry.register(GLITCHED_ZOMBIE_ENTITY_TYPE,
                 GlitchedZombieEntity.createGlitchedZombieAttributes());
@@ -107,6 +107,7 @@ public class EntityRegister {
         FabricDefaultAttributeRegistry.register(WEREWOLF_ENTITY_TYPE, WerewolfEntity.createWereworlfAttributes());
         FabricDefaultAttributeRegistry.register(DRONE_ENTITY_TYPE, DroneEntity.createLivingAttributes());
     }
+
 
     public static void registSpawnRegistration() {
         SpawnRestriction.register(APOCALYPTOR_ENTITY_TYPE, SpawnRestriction.Location.ON_GROUND,

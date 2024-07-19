@@ -17,7 +17,7 @@ public class AdvancedFurnaceRecipe {
 
     public static Map<Item, List<Pair<Float, Item>>> recipes = new ConcurrentHashMap<>();
 
-    public static void registAdvancedFurnaceRecipe() {
+    public static void registerAdvancedFurnaceRecipe() {
         recipes.put(Items.IRON_INGOT,
                 Arrays.asList(new Pair<>(1f, ItemRegister.items[ItemRegistry.STEEL_INGOT.ordinal()]),
                         new Pair<>(0.15f, ItemRegister.items[ItemRegistry.STEEL_INGOT.ordinal()]),

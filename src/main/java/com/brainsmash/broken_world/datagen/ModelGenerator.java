@@ -10,6 +10,10 @@ import com.brainsmash.broken_world.blocks.electric.base.BatteryBlock;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
+import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
+import com.brainsmash.broken_world.blocks.magical.MortarBlock;
+import com.brainsmash.broken_world.blocks.magical.StoneBaseBlock;
+import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.CustomModelBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.items.magical.Wand;
@@ -19,6 +23,7 @@ import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.block.AbstractCauldronBlock;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.SaplingBlock;
@@ -46,6 +51,9 @@ public class ModelGenerator extends FabricModelProvider {
             if (BlockRegister.blocks[i] instanceof CustomModelBlock) {
                 continue;
             }
+            if (BlockRegister.blocks[i] instanceof MortarBlock) {
+                continue;
+            }
             if (BlockRegister.blocks[i] instanceof DoorBlock) {
                 blockStateModelGenerator.registerDoor(BlockRegister.blocks[i]);
                 continue;
@@ -68,6 +76,12 @@ public class ModelGenerator extends FabricModelProvider {
             if (BlockRegister.blocks[i] instanceof SaplingBlock) {
                 blockStateModelGenerator.registerTintableCross(BlockRegister.blocks[i],
                         BlockStateModelGenerator.TintType.NOT_TINTED);
+                continue;
+            }
+            if (BlockRegister.blocks[i] instanceof AbstractCauldronBlock) {
+                continue;
+            }
+            if (BlockRegister.blocks[i] instanceof StoneBaseBlock) {
                 continue;
             }
             if (BlockRegister.blocks[i].getStateManager().getProperties().isEmpty() && !(BlockRegister.blocks[i] instanceof BatteryBlock) && !(BlockRegister.blocks[i] instanceof PowerBlock) && !(BlockRegister.blocks[i] instanceof ConsumerBlock) && !(BlockRegister.blocks[i] instanceof CableBlock)) {

@@ -22,7 +22,7 @@ public class DimensionRegister {
     public static ConcurrentHashMap<String, Double> dimensionGravity = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, Integer> dimensionEnergyCost = new ConcurrentHashMap<>();
 
-    public static void registDimension() {
+    public static void registerDimension() {
         CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[4]).destDimID(
                 new Identifier("minecraft", "overworld")).tintColor(Color.BLUE.getRGB()).registerPortal();
         CustomPortalBuilder.beginPortal().onlyLightInOverworld().frameBlock(blocks[9]).destDimID(

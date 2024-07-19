@@ -71,4 +71,9 @@ public enum ItemRegistry {
     SULFUR,
     RAW_ALUMINUM,
     ALUMINUM_INGOT,
+    LEAD_INGOT,
+    LA_BATTERY,
+    RPK_37,
+    PESTLE,
+    AMETHYST_POWDER
 }

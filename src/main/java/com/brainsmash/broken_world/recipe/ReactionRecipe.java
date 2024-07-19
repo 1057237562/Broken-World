@@ -18,7 +18,7 @@ public class ReactionRecipe {
     public static Map<String, List<Integer>> counts = new ConcurrentHashMap<>();
     public static Map<List<ItemStack>, ItemStack> rei = new HashMap<>();
 
-    public static void registReactionRecipes() {
+    public static void registerReactionRecipes() {
         registReaction(new ItemStack(Items.FLINT, 4),
                 ItemRegister.items[ItemRegistry.SULFUR.ordinal()].getDefaultStack(), Items.CHARCOAL.getDefaultStack(),
                 new ItemStack(Items.GUNPOWDER, 2));

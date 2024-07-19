@@ -1,0 +1,10 @@
+# Made in Blockbench 4.7.2
+newmtl m_79778b33-aacf-f32d-736b-710aaa5a0033
+map_Kd hass_03 
+newmtl m_a5b2b64c-dbe3-30c9-1126-2ae1c2785af4
+map_Kd hass_03_buller.png 
+newmtl m_5e06c99d-472c-72d0-74e5-3433318632c3
+map_Kd hass_03_scope 
+newmtl m_3bf7bb12-ae2e-94f6-ccdd-2d9cad8d0bf6
+map_Kd hass_03_mag 
+newmtl none

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    " A ",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:calcite"
+    }
+  },
+  "result": {
+    "item": "broken_world:stone_base",
+    "count": 4
+  }
+}

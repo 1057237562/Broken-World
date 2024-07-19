@@ -18,7 +18,7 @@ public class SifterRecipe {
 
     public static Map<Item, List<Pair<Float, Item>>> recipes = new ConcurrentHashMap<>();
 
-    public static void registSifterRecipes() {
+    public static void registerSifterRecipes() {
         recipes.put(Blocks.DIRT.asItem(),
                 Arrays.asList(new Pair<>(0.06f, Items.RAW_IRON), new Pair<>(0.80f, Items.SAND),
                         new Pair<>(0.1f, Items.WHEAT_SEEDS), new Pair<>(0.03f, Items.MELON_SEEDS),

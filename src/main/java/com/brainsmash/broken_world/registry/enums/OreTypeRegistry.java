@@ -11,7 +11,7 @@ public class OreTypeRegistry {
 
     public static Map<Block, Integer> mapping = new ConcurrentHashMap<>();
 
-    public static void RegistOreType() {
+    public static void registerOreType() {
         mapping.put(Blocks.REDSTONE_ORE, 0);
         mapping.put(Blocks.DEEPSLATE_REDSTONE_ORE, 1);
         mapping.put(Blocks.COPPER_ORE, 2);
