@@ -142,8 +142,8 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new AliasedBlockItem(BlockRegister.get(BlockRegistry.XP_CROP), new FabricItemSettings().group(ITEM_GROUP)),
-            // For testing ONLY, REMOVE before merging into main!
             new MiningDrillItem(2.0f, 1.0f, ToolMaterials.IRON, new FabricItemSettings().group(ITEM_GROUP)),
+            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
     };
 
     public static final String[] itemnames = {
@@ -224,8 +224,8 @@ public class ItemRegister {
             "amethyst_powder",
             "phoenix_feather",
             "xp_crop_seeds",
-            // TODO For testing ONLY, REMOVE before release!
             "mining_drill",
+            "ov_2"
     };
 
     public static final Item[] guns = {
@@ -235,6 +235,7 @@ public class ItemRegister {
             items[ItemRegistry.HASS_03.ordinal()],
             items[ItemRegistry.QS_093.ordinal()],
             items[ItemRegistry.RPK_37.ordinal()],
+            items[ItemRegistry.OV_2.ordinal()],
     };
 
     public static final String[] tools = {

@@ -79,4 +79,5 @@ public enum ItemRegistry {
     PHOENIX_FEATHER,
     XP_CROP_SEEDS,
     MINING_DRILL,
+    OV_2,
 }
