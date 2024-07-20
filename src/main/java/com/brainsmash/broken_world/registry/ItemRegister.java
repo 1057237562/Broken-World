@@ -13,10 +13,12 @@ import com.brainsmash.broken_world.items.weapons.ammo.HeavyAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.LightAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.SniperAmmo;
 import com.brainsmash.broken_world.items.weapons.guns.*;
+import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import com.brainsmash.broken_world.registry.enums.ToolRegistry;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
@@ -140,6 +142,7 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new AliasedBlockItem(BlockRegister.get(BlockRegistry.XP_CORP), new FabricItemSettings().group(ITEM_GROUP)),
             // For testing ONLY, REMOVE before merging into main!
             new MiningDrillItem(2.0f, 1.0f, ToolMaterials.IRON, new FabricItemSettings().group(ITEM_GROUP)),
     };
@@ -221,6 +224,7 @@ public class ItemRegister {
             "pestle",
             "amethyst_powder",
             "phoenix_feather",
+            "xp_corp_seeds",
             // TODO For testing ONLY, REMOVE before release!
             "mining_drill",
     };

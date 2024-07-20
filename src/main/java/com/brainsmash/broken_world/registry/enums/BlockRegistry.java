@@ -96,5 +96,7 @@ public enum BlockRegistry {
     COLLIDER_COIL,
     MORTAR,
     CRUCIBLE,
-    STONE_BASE
+    STONE_BASE,
+    COMPRESSED_BONE_BLOCK,
+    XP_CORP,
 }
