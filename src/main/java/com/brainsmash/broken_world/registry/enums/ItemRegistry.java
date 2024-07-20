@@ -80,4 +80,5 @@ public enum ItemRegistry {
     XP_CROP_SEEDS,
     MINING_DRILL,
     OV_2,
+    ENERGY_AMMO,
 }

@@ -112,6 +112,7 @@ public class ModelGenerator extends FabricModelProvider {
                 continue;
             }
             if (BlockRegister.blocks[i] instanceof SaplingBlock) continue;
+            if (BlockRegister.blockitems[i] == null) continue;
             itemModelGenerator.register(BlockRegister.blockitems[i],
                     new Model(Optional.of(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i])),
                             Optional.empty()));

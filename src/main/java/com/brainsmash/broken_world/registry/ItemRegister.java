@@ -9,6 +9,7 @@ import com.brainsmash.broken_world.items.magical.Rune;
 import com.brainsmash.broken_world.items.magical.Wand;
 import com.brainsmash.broken_world.items.magical.enums.RuneEnum;
 import com.brainsmash.broken_world.items.weapons.HoeItem;
+import com.brainsmash.broken_world.items.weapons.ammo.EnergyAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.HeavyAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.LightAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.SniperAmmo;
@@ -143,7 +144,8 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new AliasedBlockItem(BlockRegister.get(BlockRegistry.XP_CROP), new FabricItemSettings().group(ITEM_GROUP)),
             new MiningDrillItem(2.0f, 1.0f, ToolMaterials.IRON, new FabricItemSettings().group(ITEM_GROUP)),
-            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1000)),
+            new EnergyRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1000)),
+            new EnergyAmmo(new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -225,7 +227,8 @@ public class ItemRegister {
             "phoenix_feather",
             "xp_crop_seeds",
             "mining_drill",
-            "ov_2"
+            "ov_2",
+            "energy_ammo"
     };
 
     public static final Item[] guns = {
