@@ -35,6 +35,9 @@
     "broken_world:weaponry",
     "broken_world:gas_collector",
     "broken_world:lead_ore",
-    "broken_world:compressed_bone_block"
+    "broken_world:compressed_bone_block",
+    "broken_world:iron_sheet_box",
+    "broken_world:stone_base",
+    "broken_world:mortar"
   ]
 }
