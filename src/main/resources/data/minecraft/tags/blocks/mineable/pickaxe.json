@@ -34,6 +34,7 @@
     "broken_world:refinery",
     "broken_world:weaponry",
     "broken_world:gas_collector",
-    "broken_world:lead_ore"
+    "broken_world:lead_ore",
+    "broken_world:compressed_bone_block"
   ]
 }
