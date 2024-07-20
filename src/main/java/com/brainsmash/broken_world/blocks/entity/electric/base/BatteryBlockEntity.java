@@ -52,7 +52,7 @@ public class BatteryBlockEntity extends CableBlockEntity implements NamedScreenH
 
     public BatteryBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.BATTERY_ENTITY_TYPE, pos, state);
-        setMaxCapacity(10000);
+        setMaxCapacity(40000);
     }
 
     public BatteryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
