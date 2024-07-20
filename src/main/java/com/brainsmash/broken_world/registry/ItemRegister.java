@@ -141,7 +141,7 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new AliasedBlockItem(BlockRegister.get(BlockRegistry.XP_CORP), new FabricItemSettings().group(ITEM_GROUP)),
+            new AliasedBlockItem(BlockRegister.get(BlockRegistry.XP_CROP), new FabricItemSettings().group(ITEM_GROUP)),
             // For testing ONLY, REMOVE before merging into main!
             new MiningDrillItem(2.0f, 1.0f, ToolMaterials.IRON, new FabricItemSettings().group(ITEM_GROUP)),
     };
@@ -223,7 +223,7 @@ public class ItemRegister {
             "pestle",
             "amethyst_powder",
             "phoenix_feather",
-            "xp_corp_seeds",
+            "xp_crop_seeds",
             // TODO For testing ONLY, REMOVE before release!
             "mining_drill",
     };

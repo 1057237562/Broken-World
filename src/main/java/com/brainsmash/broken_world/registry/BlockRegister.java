@@ -212,7 +212,7 @@ public class BlockRegister {
             new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque()),
             new PillarBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(
                     3.0f).sounds(BlockSoundGroup.BONE)),
-            new XpCorpBlock(),
+            new XpCropBlock(),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -413,7 +413,7 @@ public class BlockRegister {
             "crucible",
             "stone_base",
             "compressed_bone_block",
-            "xp_corp"
+            "xp_crop"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
