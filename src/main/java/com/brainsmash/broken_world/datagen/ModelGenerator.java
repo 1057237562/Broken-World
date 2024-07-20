@@ -22,10 +22,12 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.SaplingBlock;
+import net.minecraft.block.*;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.Models;
 import net.minecraft.item.Item;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 
 import java.util.Optional;
@@ -70,6 +72,10 @@ public class ModelGenerator extends FabricModelProvider {
                         BlockStateModelGenerator.TintType.NOT_TINTED);
                 continue;
             }
+            if (BlockRegister.blocks[i] instanceof CropBlock) {
+                blockStateModelGenerator.registerCrop(BlockRegister.blocks[i], Properties.AGE_7, 0, 1, 2, 3, 4, 5, 6, 7);
+                continue;
+            }
             if (BlockRegister.blocks[i].getStateManager().getProperties().isEmpty() && !(BlockRegister.blocks[i] instanceof BatteryBlock) && !(BlockRegister.blocks[i] instanceof PowerBlock) && !(BlockRegister.blocks[i] instanceof ConsumerBlock) && !(BlockRegister.blocks[i] instanceof CableBlock)) {
                 blockStateModelGenerator.registerSimpleCubeAll(BlockRegister.blocks[i]);
             }
@@ -100,6 +106,7 @@ public class ModelGenerator extends FabricModelProvider {
                 itemModelGenerator.register(BlockRegister.blockitems[i], Models.GENERATED);
                 continue;
             }
+            if (BlockRegister.blocks[i] instanceof CropBlock) continue;
             if (BlockRegister.blocks[i] instanceof SaplingBlock) continue;
             itemModelGenerator.register(BlockRegister.blockitems[i],
                     new Model(Optional.of(new Identifier(Main.MODID, "block/" + BlockRegister.blocknames[i])),
