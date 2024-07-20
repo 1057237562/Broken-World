@@ -77,13 +77,13 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             // 20
             new HyperPocket(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(7000)),
+            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(700)),
             new LightAmmo(new FabricItemSettings().group(ITEM_GROUP)),
-            new SMG(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(15000)),
+            new SMG(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500)),
             new HeavyAmmo(new FabricItemSettings().group(ITEM_GROUP)),
-            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(15000)),
+            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500)),
             new SniperAmmo(new FabricItemSettings().group(ITEM_GROUP)),
-            new SniperRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(4000)),
+            new SniperRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(400)),
             new HyperSpear(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new ArmorItem(armorMaterials[0], EquipmentSlot.HEAD,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
@@ -94,7 +94,7 @@ public class ItemRegister {
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new ArmorItem(armorMaterials[0], EquipmentSlot.FEET,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(8000)),
+            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(800)),
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:metallic"),
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:sulfuric"),
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:lush"),
@@ -137,13 +137,13 @@ public class ItemRegister {
             // 70
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), 1500, true),
-            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(20000), 50),
+            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(2000), 50),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new AliasedBlockItem(BlockRegister.get(BlockRegistry.XP_CROP), new FabricItemSettings().group(ITEM_GROUP)),
             new MiningDrillItem(2.0f, 1.0f, ToolMaterials.IRON, new FabricItemSettings().group(ITEM_GROUP)),
-            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(10000)),
+            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1000)),
     };
 
     public static final String[] itemnames = {
