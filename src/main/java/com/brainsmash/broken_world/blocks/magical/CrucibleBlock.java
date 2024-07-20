@@ -13,6 +13,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
@@ -166,5 +167,10 @@ public class CrucibleBlock extends BlockWithEntity implements CustomModelBlock {
             return (world1, pos, state1, blockEntity) -> ((CrucibleBlockEntity) blockEntity).tick(world1, pos, state1,
                     (CrucibleBlockEntity) blockEntity);
         return null;
+    }
+
+    @Override
+    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+        return Items.CAULDRON.getDefaultStack();
     }
 }

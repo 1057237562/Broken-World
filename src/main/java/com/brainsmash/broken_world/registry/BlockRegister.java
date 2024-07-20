@@ -309,7 +309,7 @@ public class BlockRegister {
             new BlockItem(blocks[91], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[92], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[93], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[94], new FabricItemSettings()),
+            null,
             new BlockItem(blocks[95], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[96], new FabricItemSettings().group(ITEM_GROUP)),
             null,
@@ -541,7 +541,8 @@ public class BlockRegister {
     public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
             Registry.register(Registry.BLOCK, new Identifier(MODID, blocknames[i]), blocks[i]);
-            if (blockitems[i] != null) Registry.register(Registry.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
+            if (blockitems[i] != null)
+                Registry.register(Registry.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
         }
         for (int i = 0; i < configuredFeatures.length; i++) {
             Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MODID, configurenames[i]),
