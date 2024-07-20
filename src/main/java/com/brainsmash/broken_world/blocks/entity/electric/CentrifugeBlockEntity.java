@@ -99,43 +99,11 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
     private Item lastItem;
     public float tick = 0;
 
-    protected final void sendLiquidChange() {
+    public final void sendLiquidChange() {
         if (world instanceof ServerWorld serverWorld) {
             serverWorld.getChunkManager().markForUpdate(pos);
         }
     }
-//    protected final void sendLiquidChange() {
-//        for (ActiveConnection connection : activeConnections) {
-//            CHANGED_LIQUID.send(connection, this, (be, buf, ctx) -> {
-//                ctx.assertServerSide();
-//                NbtCompound nbtCompound = new NbtCompound();
-//                inputInv.writeNbt(nbtCompound);
-//                buf.writeNbt(nbtCompound);
-//                nbtCompound = new NbtCompound();
-//                outputInv.writeNbt(nbtCompound);
-//                buf.writeNbt(nbtCompound);
-//            });
-//        }
-//    }
-//
-//    private void receiveLiquidChange(NetByteBuf buf, IMsgReadCtx ctx) throws InvalidInputDataException {
-//        ctx.assertClientSide();
-//
-//        inputInv.readNbt(buf.readNbt());
-//        outputInv.readNbt(buf.readNbt());
-//    }
-//
-//    @Override
-//    public void onOpen(PlayerEntity player) {
-//        ImplementedInventory.super.onOpen(player);
-//        activeConnections.add(CoreMinecraftNetUtil.getConnection(player));
-//    }
-//
-//    @Override
-//    public void onClose(PlayerEntity player) {
-//        ImplementedInventory.super.onClose(player);
-//        activeConnections.remove(CoreMinecraftNetUtil.getConnection(player));
-//    }
 
     public CentrifugeBlockEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.CENTRIFUGE_ENTITY_TYPE, pos, state);
