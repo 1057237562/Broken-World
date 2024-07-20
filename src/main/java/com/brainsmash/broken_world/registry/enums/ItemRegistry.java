@@ -77,6 +77,6 @@ public enum ItemRegistry {
     PESTLE,
     AMETHYST_POWDER,
     PHOENIX_FEATHER,
-    XP_CORP_SEEDS,
+    XP_CROP_SEEDS,
     MINING_DRILL,
 }

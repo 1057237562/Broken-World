@@ -98,5 +98,5 @@ public enum BlockRegistry {
     CRUCIBLE,
     STONE_BASE,
     COMPRESSED_BONE_BLOCK,
-    XP_CORP,
+    XP_CROP,
 }

@@ -9,8 +9,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 
-public class XpCorpBlock extends CropBlock {
-    public XpCorpBlock() {
+public class XpCropBlock extends CropBlock {
+    public XpCropBlock() {
         super(AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(
                 BlockSoundGroup.CROP));
     }
