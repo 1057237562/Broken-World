@@ -55,9 +55,10 @@ public class SMG extends GunItem implements CustomUsePoseItem {
                 world.spawnEntity(heavyAmmoEntity);
             }
             user.setPitch(user.getPitch() + recoil);
-        }
-        if (!user.getAbilities().creativeMode) {
-            reduceAmmo(itemStack);
+            if (!user.getAbilities().creativeMode) {
+                reduceAmmo(itemStack);
+                itemStack.damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
+            }
         }
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));

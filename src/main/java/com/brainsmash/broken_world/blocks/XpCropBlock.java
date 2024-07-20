@@ -15,7 +15,7 @@ import net.minecraft.world.BlockView;
 public class XpCropBlock extends CropBlock {
     public XpCropBlock() {
         super(AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(
-                BlockSoundGroup.CROP));
+                BlockSoundGroup.CROP).nonOpaque());
     }
 
     @Override

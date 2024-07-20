@@ -48,10 +48,11 @@ public class Pistol extends GunItem implements CustomUsePoseItem {
                 world.spawnEntity(lightAmmoEntity);
             }
             user.setPitch(user.getPitch() + recoil);
-        }
-        if (!user.getAbilities().creativeMode) {
-            reduceAmmo(itemStack);
-            //Util.getAmmo(user, ItemRegister.items[ItemRegistry.LIGHT_AMMO.ordinal()]).decrement(1);
+            if (!user.getAbilities().creativeMode) {
+                reduceAmmo(itemStack);
+                itemStack.damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
+                //Util.getAmmo(user, ItemRegister.items[ItemRegistry.LIGHT_AMMO.ordinal()]).decrement(1);
+            }
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
     }

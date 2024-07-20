@@ -4,8 +4,8 @@ import com.brainsmash.broken_world.registry.EntityRegister;
 import com.brainsmash.broken_world.registry.SoundRegister;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.GlassBlock;
 import net.minecraft.block.PaneBlock;
+import net.minecraft.block.TransparentBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -202,7 +202,7 @@ public class BulletEntity extends ProjectileEntity {
         for (int i = 0; i < 8; ++i) {
             this.world.addParticle(particleEffect, this.getX(), this.getY(), this.getZ(), 0.0, 0.0, 0.0);
         }
-        if (hitBlock.getBlock() instanceof GlassBlock || hitBlock.getBlock() instanceof PaneBlock)
+        if (hitBlock.getBlock() instanceof TransparentBlock || hitBlock.getBlock() instanceof PaneBlock)
             world.breakBlock(blockHitResult.getBlockPos(), false);
         discard();
     }
