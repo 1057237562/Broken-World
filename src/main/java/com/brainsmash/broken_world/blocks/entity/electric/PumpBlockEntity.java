@@ -74,6 +74,7 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
                                 transaction);
                         transaction.commit();
                     }
+
                     if (fluidStorage.isEmpty()) {
                         break;
                     }

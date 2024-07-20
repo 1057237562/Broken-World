@@ -72,6 +72,9 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
             @Override
             protected void onFinalCommit() {
                 markDirty();
+                if (world instanceof ServerWorld serverWorld) {
+                    serverWorld.getChunkManager().markForUpdate(pos);
+                }
             }
         };
     }
@@ -197,7 +200,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
                     }
                 }
                 if (recipe.getSecond() != null) {
-                    if (outputInv.isResourceBlank()) {
+                    if (outputInv.isEmpty()) {
                         outputInv.variant = FluidVariant.of(recipe.getSecond());
                         outputInv.amount = FluidConstants.BOTTLE;
                     } else {
