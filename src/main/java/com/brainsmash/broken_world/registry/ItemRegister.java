@@ -18,7 +18,6 @@ import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import com.brainsmash.broken_world.registry.enums.ToolRegistry;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;

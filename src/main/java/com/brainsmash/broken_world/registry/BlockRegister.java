@@ -59,6 +59,7 @@ import static com.brainsmash.broken_world.Main.MODID;
 import static com.brainsmash.broken_world.registry.ItemRegister.ITEM_GROUP;
 
 public class BlockRegister {
+
     private static final AbstractBlock.Settings STANDARD_BLOCK = FabricBlockSettings.of(Material.METAL).sounds(
             BlockSoundGroup.METAL).strength(3.0f, 3.0f);
 
@@ -209,7 +210,8 @@ public class BlockRegister {
             new CrucibleBlock(FabricBlockSettings.copyOf(Blocks.CAULDRON).mapColor(MapColor.PURPLE),
                     CrucibleBehavior.CRUCIBLE_BEHAVIOR),
             new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque()),
-            new PillarBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(3.0f).sounds(BlockSoundGroup.BONE)),
+            new PillarBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(
+                    3.0f).sounds(BlockSoundGroup.BONE)),
             new XpCorpBlock(),
     };
     public static final Item[] blockitems = {

@@ -75,5 +75,8 @@ public enum ItemRegistry {
     LA_BATTERY,
     RPK_37,
     PESTLE,
-    AMETHYST_POWDER
+    AMETHYST_POWDER,
+    PHOENIX_FEATHER,
+    XP_CORP_SEEDS,
+    MINING_DRILL,
 }
