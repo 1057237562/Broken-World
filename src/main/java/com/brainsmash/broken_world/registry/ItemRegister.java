@@ -5,6 +5,7 @@ import com.brainsmash.broken_world.items.*;
 import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
 import com.brainsmash.broken_world.items.electrical.BatteryItem;
 import com.brainsmash.broken_world.items.electrical.MiningDrillItem;
+import com.brainsmash.broken_world.items.food.XpFruit;
 import com.brainsmash.broken_world.items.magical.Rune;
 import com.brainsmash.broken_world.items.magical.Wand;
 import com.brainsmash.broken_world.items.magical.enums.RuneEnum;
@@ -142,7 +143,8 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new AliasedBlockItem(BlockRegister.get(BlockRegistry.XP_CROP), new FabricItemSettings().group(ITEM_GROUP)),
+            new XpFruit(BlockRegister.get(BlockRegistry.XP_CROP), new FabricItemSettings().group(ITEM_GROUP).food(
+                    new FoodComponent.Builder().alwaysEdible().snack().build())),
             new MiningDrillItem(2.0f, 1.0f, ToolMaterials.IRON, new FabricItemSettings().group(ITEM_GROUP)),
             new EnergyRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1000)),
             new EnergyAmmo(new FabricItemSettings().group(ITEM_GROUP)),
