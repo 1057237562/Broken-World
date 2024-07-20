@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.magical;
 
 import com.brainsmash.broken_world.blocks.entity.magical.StoneBaseBlockEntity;
+import com.brainsmash.broken_world.blocks.model.CustomModelBlock;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -18,7 +19,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class StoneBaseBlock extends BlockWithEntity {
+public class StoneBaseBlock extends BlockWithEntity implements CustomModelBlock {
     public StoneBaseBlock(Settings settings) {
         super(settings);
     }

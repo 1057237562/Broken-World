@@ -10,10 +10,7 @@ import com.brainsmash.broken_world.blocks.electric.base.BatteryBlock;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
 import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
-import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
 import com.brainsmash.broken_world.blocks.magical.MortarBlock;
-import com.brainsmash.broken_world.blocks.magical.StoneBaseBlock;
-import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.CustomModelBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.items.magical.Wand;
@@ -79,9 +76,6 @@ public class ModelGenerator extends FabricModelProvider {
                 continue;
             }
             if (BlockRegister.blocks[i] instanceof AbstractCauldronBlock) {
-                continue;
-            }
-            if (BlockRegister.blocks[i] instanceof StoneBaseBlock) {
                 continue;
             }
             if (BlockRegister.blocks[i].getStateManager().getProperties().isEmpty() && !(BlockRegister.blocks[i] instanceof BatteryBlock) && !(BlockRegister.blocks[i] instanceof PowerBlock) && !(BlockRegister.blocks[i] instanceof ConsumerBlock) && !(BlockRegister.blocks[i] instanceof CableBlock)) {
