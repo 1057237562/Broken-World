@@ -223,7 +223,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
                     }
                 }
                 if (recipe.getSecond() != null) {
-                    if (outputInv.isResourceBlank()) {
+                    if (outputInv.isEmpty()) {
                         outputInv.variant = FluidVariant.of(recipe.getSecond());
                         outputInv.amount = FluidConstants.BOTTLE;
                     } else {
@@ -247,7 +247,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
             }
 
             if (recipe.getSecond() != null) {
-                if (outputInv.isResourceBlank()) {
+                if (outputInv.isEmpty()) {
                     outputInv.variant = FluidVariant.of(recipe.getSecond());
                     outputInv.amount = FluidConstants.BOTTLE;
                 } else {
@@ -271,7 +271,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
                         transaction.commit();
                     }
                     sendLiquidChange();
-                    if (outputInv.isResourceBlank() || outputInv.amount == 0) {
+                    if (outputInv.isEmpty() || outputInv.amount == 0) {
                         break;
                     }
                 }
