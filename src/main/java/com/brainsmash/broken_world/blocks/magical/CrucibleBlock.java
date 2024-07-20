@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.magical;
 
 import com.brainsmash.broken_world.blocks.entity.magical.CrucibleBlockEntity;
+import com.brainsmash.broken_world.blocks.model.CustomModelBlock;
 import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.*;
 import net.minecraft.block.cauldron.CauldronBehavior;
@@ -31,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public class CrucibleBlock extends BlockWithEntity {
+public class CrucibleBlock extends BlockWithEntity implements CustomModelBlock {
     public static final int MIN_LEVEL = 1;
     public static final int MAX_LEVEL = 3;
     public static final IntProperty LEVEL = Properties.LEVEL_3;
