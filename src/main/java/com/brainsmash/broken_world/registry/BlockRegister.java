@@ -312,7 +312,7 @@ public class BlockRegister {
             new BlockItem(blocks[94], new FabricItemSettings()),
             new BlockItem(blocks[95], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[96], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[97], new FabricItemSettings().group(ITEM_GROUP)),
+            null,
     };
 
     public static final String[] blocknames = {
@@ -541,7 +541,7 @@ public class BlockRegister {
     public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
             Registry.register(Registry.BLOCK, new Identifier(MODID, blocknames[i]), blocks[i]);
-            Registry.register(Registry.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
+            if (blockitems[i] != null) Registry.register(Registry.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
         }
         for (int i = 0; i < configuredFeatures.length; i++) {
             Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MODID, configurenames[i]),
@@ -687,6 +687,7 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.WEAPONRY.ordinal()], RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.MAGICAL_SPAWNER.ordinal()],
                 RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.XP_CROP.ordinal()], RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,

@@ -1,8 +1,11 @@
 package com.brainsmash.broken_world.blocks;
 
 import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
+import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.block.*;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.BlockPos;
@@ -30,6 +33,11 @@ public class XpCropBlock extends CropBlock {
         if (hasEnoughLight && notMature && random.nextInt(100) < chance) {
             world.setBlockState(pos, this.withAge(age + 1), Block.NOTIFY_LISTENERS);
         }
+    }
+
+    @Override
+    protected ItemConvertible getSeedsItem() {
+        return ItemRegister.get(ItemRegistry.XP_CROP_SEEDS);
     }
 
     @Override
