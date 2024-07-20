@@ -66,7 +66,9 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements NamedScreenH
         if (!world.isClient) {
             for (Direction direction : Direction.values()) {
                 if (!fluidStorage.isEmpty() && direction != Direction.DOWN) {
-                    Storage<FluidVariant> insertable = FluidStorage.SIDED.find(world, pos, direction);
+                    Storage<FluidVariant> insertable = FluidStorage.SIDED.find(world, pos.offset(direction),
+                            direction.getOpposite());
+                    if (insertable == null) continue;
                     try (var transaction = Transaction.openOuter()) {
                         fluidStorage.amount -= insertable.insert(fluidStorage.variant, fluidStorage.amount,
                                 transaction);

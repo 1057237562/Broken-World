@@ -93,6 +93,7 @@ public class CentrifugeGuiDescription extends SyncedGuiDescription {
                         } else {
                             entity.outputInv.amount = 0;
                         }
+                        entity.markDirty();
                     }
                     return true;
                 });
