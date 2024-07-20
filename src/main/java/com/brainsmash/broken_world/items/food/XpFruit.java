@@ -16,7 +16,7 @@ public class XpFruit extends AliasedBlockItem {
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         if (world instanceof ServerWorld) {
-            int i = 1 + world.random.nextInt(2) + world.random.nextInt(2);
+            int i = 2 + world.random.nextInt(2) + world.random.nextInt(2);
             ExperienceOrbEntity.spawn((ServerWorld) world, user.getPos(), i);
         }
         return super.finishUsing(stack, world, user);
