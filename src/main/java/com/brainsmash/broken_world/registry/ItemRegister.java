@@ -26,6 +26,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.loot.LootPool;
+import net.minecraft.loot.condition.KilledByPlayerLootCondition;
 import net.minecraft.loot.condition.RandomChanceWithLootingLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.util.Identifier;
@@ -281,6 +282,7 @@ public class ItemRegister {
             if (source.isBuiltin()) {
                 if (id.equals(EntityType.ZOMBIE.getLootTableId())) {
                     LootPool.Builder poolBuilder = LootPool.builder().conditionally(
+                            KilledByPlayerLootCondition.builder()).conditionally(
                             RandomChanceWithLootingLootCondition.builder(0.045f, 0.03f)).with(
                             ItemEntry.builder(ItemRegister.get(ItemRegistry.GREEDY_HEART)));
 

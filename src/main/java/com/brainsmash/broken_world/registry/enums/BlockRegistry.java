@@ -99,4 +99,5 @@ public enum BlockRegistry {
     STONE_BASE,
     COMPRESSED_BONE_BLOCK,
     XP_CROP,
+    XP_HOPPER,
 }

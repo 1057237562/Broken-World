@@ -1,15 +1,10 @@
 package com.brainsmash.broken_world.blocks.entity.magical;
 
-import com.brainsmash.broken_world.blocks.fluid.storage.SingleFluidStorage;
 import com.brainsmash.broken_world.registry.BlockRegister;
-import com.brainsmash.broken_world.registry.FluidRegister;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -29,32 +24,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class MagicalSpawnerEntity extends BlockEntity {
-    public final SingleFluidStorage<FluidVariant> xpStorage = new SingleFluidStorage<>() {
-        @Override
-        protected FluidVariant getBlankVariant() {
-            return FluidVariant.of(FluidRegister.still_fluid[6]);
-        }
-
-        @Override
-        protected long getCapacity(FluidVariant variant) {
-            return 4 * FluidConstants.BUCKET;
-        }
-
-        @Override
-        protected boolean canInsert(FluidVariant variant) {
-            return variant.getFluid().matchesType(FluidRegister.still_fluid[6].getStill());
-        }
-
-        @Override
-        protected boolean canExtract(FluidVariant variant) {
-            return variant.getFluid().matchesType(FluidRegister.still_fluid[6].getStill());
-        }
-    };
+public class MagicalSpawnerEntity extends XpContainerEntity {
 
     public MagicalSpawnerEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.MAGICAL_SPAWNER_ENTITY_TYPE, pos, state);
-        xpStorage.variant = FluidVariant.of(FluidRegister.still_fluid[6]);
     }
 
     private int spawnDelay = 20;
@@ -69,7 +42,7 @@ public class MagicalSpawnerEntity extends BlockEntity {
 
     private boolean isPlayerInRange(World world, BlockPos pos) {
         return world.isPlayerInRange((double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5,
-                (double) this.requiredPlayerRange);
+                this.requiredPlayerRange);
     }
 
     public void clientTick(World world, BlockPos pos) {
@@ -125,7 +98,7 @@ public class MagicalSpawnerEntity extends BlockEntity {
                         entityx.refreshPositionAndAngles(d, e, f, entityx.getYaw(), entityx.getPitch());
                         return entityx;
                     });
-                    if (entity == null || !(entity instanceof LivingEntity)) {
+                    if (entity == null || !(entity instanceof MobEntity)) {
                         this.updateSpawns(world, pos);
                         return;
                     }
@@ -149,10 +122,10 @@ public class MagicalSpawnerEntity extends BlockEntity {
 
                     world.syncWorldEvent(WorldEvents.SPAWNER_SPAWNS_MOB, pos, 0);
                     world.emitGameEvent(entity, GameEvent.ENTITY_PLACE, blockPos);
-                    if (entity instanceof MobEntity) {
-                        ((MobEntity) entity).playSpawnEffects();
+                    if (entity instanceof MobEntity mob) {
+                        mob.playSpawnEffects();
+                        xpStorage.amount -= (long) (FluidConstants.BOTTLE * mob.getMaxHealth() / 16);
                     }
-                    xpStorage.amount -= (long) (FluidConstants.BOTTLE * ((LivingEntity) entity).getMaxHealth() / 20);
 
                     bl = true;
                 }
@@ -178,14 +151,12 @@ public class MagicalSpawnerEntity extends BlockEntity {
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         nbt.put("spawnEntity", spawnEntity);
-        nbt.putLong("xpStorage", xpStorage.amount);
     }
 
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         spawnEntity = (NbtCompound) nbt.get("spawnEntity");
-        xpStorage.amount = nbt.getLong("xpStorage");
     }
 
     @Nullable

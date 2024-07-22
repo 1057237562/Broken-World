@@ -213,6 +213,7 @@ public class BlockRegister {
             new PillarBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(
                     3.0f).sounds(BlockSoundGroup.BONE)),
             new XpCropBlock(),
+            new XpHopper(FabricBlockSettings.copyOf(Blocks.HOPPER)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -313,6 +314,7 @@ public class BlockRegister {
             new BlockItem(blocks[95], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[96], new FabricItemSettings().group(ITEM_GROUP)),
             null,
+            new BlockItem(blocks[98], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -413,7 +415,8 @@ public class BlockRegister {
             "crucible",
             "stone_base",
             "compressed_bone_block",
-            "xp_crop"
+            "xp_crop",
+            "xp_hopper"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -537,6 +540,7 @@ public class BlockRegister {
     public static BlockEntityType<MortarBlockEntity> MORTAR_ENTITY_TYPE;
     public static BlockEntityType<CrucibleBlockEntity> CRUCIBLE_ENTITY_TYPE;
     public static BlockEntityType<StoneBaseBlockEntity> STONE_BASE_ENTITY_TYPE;
+    public static BlockEntityType<XpHopperEntity> XP_HOPPER_ENTITY_TYPE;
 
     public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -662,6 +666,8 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(CrucibleBlockEntity::new, get(BlockRegistry.CRUCIBLE)).build());
         STONE_BASE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "stone_base"),
                 FabricBlockEntityTypeBuilder.create(StoneBaseBlockEntity::new, get(BlockRegistry.STONE_BASE)).build());
+        XP_HOPPER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "xp_hopper"),
+                FabricBlockEntityTypeBuilder.create(XpHopperEntity::new, get(BlockRegistry.XP_HOPPER)).build());
     }
 
     public static void registBlocksClientSide() {
