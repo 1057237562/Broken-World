@@ -5,23 +5,30 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 
 public class ExperiencedEnchantment extends Enchantment {
-    private static final EquipmentSlot[] ALL_ARMOR = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
 
     public ExperiencedEnchantment() {
-        super(Enchantment.Rarity.UNCOMMON, EnchantmentTarget.ARMOR, ALL_ARMOR);
+        super(Enchantment.Rarity.UNCOMMON, EnchantmentTarget.WEAPON, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
     }
 
+    @Override
+    public int getMinPower(int level) {
+        if (level != 4) {
+            return super.getMinPower(level);
+        }
+        return 60;
+    }
 
     @Override
     public int getMaxLevel() {
         return 4;
     }
 
-    public static float getExperienceBonus(EquipmentSlot slot, int level) {
-        return switch (slot) {
-            case HEAD, FEET -> level * 0.125f * 0.15f;
-            case CHEST -> level * 0.125f * 0.20f;
-            case LEGS -> level * 0.125f * 0.30f;
+    public static float getExperienceBonus(int level) {
+        return switch (level) {
+            case 1 -> 0.08f;
+            case 2 -> 0.16f;
+            case 3 -> 0.28f;
+            case 4 -> 0.40f;
             default -> 0.0f;
         };
     }
