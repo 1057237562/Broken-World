@@ -44,7 +44,7 @@ public class SoulLeechingEnchantment extends Enchantment {
         if (!target.isAlive()) {
             if (target instanceof MobEntity mob && target.world instanceof ServerWorld serverWorld) {
                 ExperienceOrbEntity.spawn(serverWorld, mob.getPos(),
-                        (int) Math.round(mob.getXpToDrop() * Math.pow(1.5f, level)));
+                        (int) Math.round(mob.getXpToDrop() * (1 + getExperienceBonus(level))));
             }
         }
     }
