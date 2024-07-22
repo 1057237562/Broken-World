@@ -1,18 +1,11 @@
 package com.brainsmash.broken_world.mixin;
 
-import com.brainsmash.broken_world.enchantment.ExperiencedEnchantment;
 import com.brainsmash.broken_world.items.armor.material.ArmorMaterialWithSetBonus;
 import com.brainsmash.broken_world.registry.DimensionRegister;
-import com.brainsmash.broken_world.registry.EnchantmentRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import dev.emi.trinkets.api.TrinketsApi;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,10 +13,8 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
@@ -98,42 +89,6 @@ public abstract class LivingEntityMixin extends EntityMixin {
                         material.processSetBonus(this);
                     }
                 }
-            }
-        }
-    }
-
-    @Shadow
-    public abstract boolean shouldAlwaysDropXp();
-
-    @Shadow
-    public int playerHitTimer;
-
-    @Inject(method = "drop", at = @At("TAIL"))
-    public void applySoulLeechingExpBonus(DamageSource source, CallbackInfo info) {
-        Entity attacker = source.getAttacker();
-        if (!(source instanceof EntityDamageSource) || attacker == null) {
-            return;
-        }
-        System.out.println(source + ", toStr " + source.toString() + ", getAtckr " + source.getAttacker() + ", attacker " + attacker);
-        ItemStack weaponMainHand = null;
-        for (ItemStack itemStack : attacker.getHandItems()) {
-            weaponMainHand = itemStack;
-            break;
-        }
-        if (weaponMainHand == null) {
-            return;
-        }
-        System.out.println(weaponMainHand+"");
-        int level = EnchantmentHelper.getLevel(EnchantmentRegister.EXPERIENCED, weaponMainHand);
-        float bonusRatio = ExperiencedEnchantment.getExperienceBonus(level);
-        LivingEntity zis = (LivingEntity) (Object) this;
-        float bonus = zis.getXpToDrop() * bonusRatio;
-        System.out.println("bonus = " + bonus);
-        int bonusRounded = Math.round(bonus);
-        if (zis.world instanceof ServerWorld && !zis.isExperienceDroppingDisabled() && (this.shouldAlwaysDropXp() || this.playerHitTimer > 0 && zis.shouldDropXp() && zis.world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT))) {
-            ExperienceOrbEntity.spawn((ServerWorld) zis.world, zis.getPos(), bonusRounded);
-            if (Math.random() < (bonus - bonusRounded)) {
-                ExperienceOrbEntity.spawn((ServerWorld) zis.world, zis.getPos(), 1);
             }
         }
     }
