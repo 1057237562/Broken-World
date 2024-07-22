@@ -20,9 +20,7 @@
     "SodiumRendererMixin",
     "WorldRendererMixin"
   ],
-  "server": [
-    "ExperienceOrbEntityMixin"
-  ],
+  "server": [],
   "injectors": {
     "defaultRequire": 1
   }
