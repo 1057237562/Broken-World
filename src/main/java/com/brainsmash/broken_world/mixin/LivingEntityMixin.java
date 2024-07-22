@@ -1,6 +1,6 @@
 package com.brainsmash.broken_world.mixin;
 
-import com.brainsmash.broken_world.enchantment.ExperiencedEnchantment;
+import com.brainsmash.broken_world.enchantment.SoulLeechingEnchantment;
 import com.brainsmash.broken_world.items.armor.material.ArmorMaterialWithSetBonus;
 import com.brainsmash.broken_world.registry.DimensionRegister;
 import com.brainsmash.broken_world.registry.EnchantmentRegister;
@@ -122,8 +122,8 @@ public abstract class LivingEntityMixin extends EntityMixin {
         if (weaponMainHand == null) {
             return;
         }
-        int level = EnchantmentHelper.getLevel(EnchantmentRegister.EXPERIENCED, weaponMainHand);
-        float bonusRatio = ExperiencedEnchantment.getExperienceBonus(level);
+        int level = EnchantmentHelper.getLevel(EnchantmentRegister.SOUL_LEECHING, weaponMainHand);
+        float bonusRatio = SoulLeechingEnchantment.getExperienceBonus(level);
         if (bonusRatio == 0.0f)
             return;
         LivingEntity zis = (LivingEntity) (Object) this;
