@@ -109,26 +109,25 @@ public abstract class LivingEntityMixin extends EntityMixin {
     public int playerHitTimer;
 
     @Inject(method = "drop", at = @At("TAIL"))
-    public void applySoulLeechingExpBonus(DamageSource source, CallbackInfo info) {
-        Entity attacker = source.getAttacker();
-        if (!(source instanceof EntityDamageSource) || attacker == null) {
+    public void applySoulLeechingExpBonus(DamageSource damageSource, CallbackInfo info) {
+        Entity source = damageSource.getSource();
+        if (!(damageSource instanceof EntityDamageSource) || source == null) {
             return;
         }
-        System.out.println(source + ", toStr " + source.toString() + ", getAtckr " + source.getAttacker() + ", attacker " + attacker);
         ItemStack weaponMainHand = null;
-        for (ItemStack itemStack : attacker.getHandItems()) {
+        for (ItemStack itemStack : source.getHandItems()) {
             weaponMainHand = itemStack;
             break;
         }
         if (weaponMainHand == null) {
             return;
         }
-        System.out.println(weaponMainHand+"");
         int level = EnchantmentHelper.getLevel(EnchantmentRegister.EXPERIENCED, weaponMainHand);
         float bonusRatio = ExperiencedEnchantment.getExperienceBonus(level);
+        if (bonusRatio == 0.0f)
+            return;
         LivingEntity zis = (LivingEntity) (Object) this;
         float bonus = zis.getXpToDrop() * bonusRatio;
-        System.out.println("bonus = " + bonus);
         int bonusRounded = Math.round(bonus);
         if (zis.world instanceof ServerWorld && !zis.isExperienceDroppingDisabled() && (this.shouldAlwaysDropXp() || this.playerHitTimer > 0 && zis.shouldDropXp() && zis.world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT))) {
             ExperienceOrbEntity.spawn((ServerWorld) zis.world, zis.getPos(), bonusRounded);
