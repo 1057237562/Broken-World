@@ -81,4 +81,5 @@ public enum ItemRegistry {
     MINING_DRILL,
     OV_2,
     ENERGY_AMMO,
+    GREEDY_HEART,
 }

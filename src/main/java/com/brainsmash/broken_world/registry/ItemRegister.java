@@ -20,9 +20,14 @@ import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import com.brainsmash.broken_world.registry.enums.ToolRegistry;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.provider.number.BinomialLootNumberProvider;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -148,6 +153,7 @@ public class ItemRegister {
             new MiningDrillItem(2.0f, 1.0f, ToolMaterials.IRON, new FabricItemSettings().group(ITEM_GROUP)),
             new EnergyRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1000)),
             new EnergyAmmo(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -230,7 +236,8 @@ public class ItemRegister {
             "xp_crop_seeds",
             "mining_drill",
             "ov_2",
-            "energy_ammo"
+            "energy_ammo",
+            "greedy_heart"
     };
 
     public static final Item[] guns = {
@@ -269,6 +276,18 @@ public class ItemRegister {
         for (int i = 0; i < items.length; i++) {
             Registry.register(Registry.ITEM, new Identifier(MODID, itemnames[i]), items[i]);
         }
+
+        LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
+            if (source.isBuiltin()) {
+                if (id.equals(EntityType.ZOMBIE.getLootTableId())) {
+                    LootPool.Builder poolBuilder = LootPool.builder().rolls(
+                            BinomialLootNumberProvider.create(1, 0.035f)).with(
+                            ItemEntry.builder(ItemRegister.get(ItemRegistry.GREEDY_HEART)));
+
+                    tableBuilder.pool(poolBuilder);
+                }
+            }
+        });
 
         /*Registry.register(Registry.ITEM, new Identifier("minecraft", "bowl"),
                 new BowlItem(new FabricItemSettings().group(ITEM_GROUP)));*/
