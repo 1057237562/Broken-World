@@ -26,8 +26,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.loot.LootPool;
+import net.minecraft.loot.condition.RandomChanceWithLootingLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.provider.number.BinomialLootNumberProvider;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -280,8 +280,8 @@ public class ItemRegister {
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
             if (source.isBuiltin()) {
                 if (id.equals(EntityType.ZOMBIE.getLootTableId())) {
-                    LootPool.Builder poolBuilder = LootPool.builder().rolls(
-                            BinomialLootNumberProvider.create(1, 0.035f)).with(
+                    LootPool.Builder poolBuilder = LootPool.builder().conditionally(
+                            RandomChanceWithLootingLootCondition.builder(0.045f, 0.03f)).with(
                             ItemEntry.builder(ItemRegister.get(ItemRegistry.GREEDY_HEART)));
 
                     tableBuilder.pool(poolBuilder);
