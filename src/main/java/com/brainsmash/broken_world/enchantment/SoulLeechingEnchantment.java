@@ -9,9 +9,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.server.world.ServerWorld;
 
-public class ExperiencedEnchantment extends Enchantment {
+public class SoulLeechingEnchantment extends Enchantment {
 
-    public ExperiencedEnchantment() {
+    public SoulLeechingEnchantment() {
         super(Enchantment.Rarity.UNCOMMON, EnchantmentTarget.WEAPON, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
     }
 
