@@ -21,6 +21,7 @@
     "WorldRendererMixin"
   ],
   "server": [
+    "ExperienceOrbEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
