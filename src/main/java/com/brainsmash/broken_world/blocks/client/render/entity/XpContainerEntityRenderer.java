@@ -29,12 +29,12 @@ public class XpContainerEntityRenderer<T extends XpContainerEntity> implements B
         matrices.push();
         List<FluidRenderFace> faces = new ArrayList<>();
 
-        double x0 = 0.126;
+        double x0 = 0.001;
         double y0 = 0.001;
-        double z0 = 0.126;
-        double x1 = 0.874;
+        double z0 = 0.001;
+        double x1 = 0.999;
         double y1 = 0.001 + (12 / 16.0 - 0.002) * entity.xpStorage.amount / (float) entity.xpStorage.getCapacity();
-        double z1 = 0.874;
+        double z1 = 0.999;
 
         EnumSet<Direction> sides = EnumSet.allOf(Direction.class);
         FluidRenderFace.appendCuboid(x0, y0, z0, x1, y1, z1, 1, sides, faces);

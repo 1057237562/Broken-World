@@ -46,6 +46,7 @@ public class XpHopperEntity extends XpContainerEntity implements BlockEntityTick
                         this.xpStorage.insert(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
                                 experienceOrbEntity.getExperienceAmount() * FluidConstants.BOTTLE / 16, transaction);
                         experienceOrbEntity.discard();
+                        transaction.commit();
                     }
                 }
             }
