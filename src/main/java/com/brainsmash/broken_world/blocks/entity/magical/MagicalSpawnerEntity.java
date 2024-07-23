@@ -1,7 +1,11 @@
 package com.brainsmash.broken_world.blocks.entity.magical;
 
 import com.brainsmash.broken_world.registry.BlockRegister;
+import com.brainsmash.broken_world.registry.FluidRegister;
+import com.brainsmash.broken_world.registry.enums.FluidRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -95,33 +99,42 @@ public class MagicalSpawnerEntity extends XpContainerEntity {
                         entityx.refreshPositionAndAngles(d, e, f, entityx.getYaw(), entityx.getPitch());
                         return entityx;
                     });
-                    if (entity == null || !(entity instanceof MobEntity)) {
+                    if (entity == null) {
                         this.updateSpawns(world, pos);
                         return;
                     }
 
-                    int k = world.getNonSpectatingEntities(entity.getClass(),
-                            (new Box((double) pos.getX(), (double) pos.getY(), (double) pos.getZ(),
-                                    (double) (pos.getX() + 1), (double) (pos.getY() + 1),
-                                    (double) (pos.getZ() + 1))).expand((double) this.spawnRange)).size();
-                    if (k >= this.maxNearbyEntities) {
-                        this.updateSpawns(world, pos);
-                        return;
-                    }
-
-                    entity.refreshPositionAndAngles(entity.getX(), entity.getY(), entity.getZ(),
-                            random.nextFloat() * 360.0F, 0.0F);
-
-                    if (!world.spawnNewEntityAndPassengers(entity)) {
-                        this.updateSpawns(world, pos);
-                        return;
-                    }
-
-                    world.syncWorldEvent(WorldEvents.SPAWNER_SPAWNS_MOB, pos, 0);
-                    world.emitGameEvent(entity, GameEvent.ENTITY_PLACE, blockPos);
                     if (entity instanceof MobEntity mob) {
+                        if (xpStorage.simulateExtract(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
+                                (long) (FluidConstants.BOTTLE * mob.getMaxHealth() / 16),
+                                null) < (long) (FluidConstants.BOTTLE * mob.getMaxHealth() / 16)) {
+                            return;
+                        }
+                        int k = world.getNonSpectatingEntities(entity.getClass(),
+                                (new Box((double) pos.getX(), (double) pos.getY(), (double) pos.getZ(),
+                                        (double) (pos.getX() + 1), (double) (pos.getY() + 1),
+                                        (double) (pos.getZ() + 1))).expand((double) this.spawnRange)).size();
+                        if (k >= this.maxNearbyEntities) {
+                            this.updateSpawns(world, pos);
+                            return;
+                        }
+
+                        entity.refreshPositionAndAngles(entity.getX(), entity.getY(), entity.getZ(),
+                                random.nextFloat() * 360.0F, 0.0F);
+
+                        if (!world.spawnNewEntityAndPassengers(entity)) {
+                            this.updateSpawns(world, pos);
+                            return;
+                        }
+
+                        world.syncWorldEvent(WorldEvents.SPAWNER_SPAWNS_MOB, pos, 0);
+                        world.emitGameEvent(entity, GameEvent.ENTITY_PLACE, blockPos);
                         mob.playSpawnEffects();
-                        xpStorage.amount -= (long) (FluidConstants.BOTTLE * mob.getMaxHealth() / 16);
+                        try (Transaction transaction = Transaction.openOuter()) {
+                            xpStorage.extract(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
+                                    (long) (FluidConstants.BOTTLE * mob.getMaxHealth() / 16), transaction);
+                            transaction.commit();
+                        }
                     }
 
                     bl = true;
