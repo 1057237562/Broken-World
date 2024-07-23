@@ -111,9 +111,8 @@ public class MagicalSpawnerEntity extends XpContainerEntity {
                             return;
                         }
                         int k = world.getNonSpectatingEntities(entity.getClass(),
-                                (new Box((double) pos.getX(), (double) pos.getY(), (double) pos.getZ(),
-                                        (double) (pos.getX() + 1), (double) (pos.getY() + 1),
-                                        (double) (pos.getZ() + 1))).expand((double) this.spawnRange)).size();
+                                (new Box(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1,
+                                        pos.getZ() + 1)).expand(this.spawnRange)).size();
                         if (k >= this.maxNearbyEntities) {
                             this.updateSpawns(world, pos);
                             return;
