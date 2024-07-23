@@ -724,6 +724,7 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(MORTAR_ENTITY_TYPE, MortarBlockEnityRenderer::new);
         BlockEntityRendererRegistry.register(STONE_BASE_ENTITY_TYPE, StoneBaseBlockEnityRenderer::new);
         BlockEntityRendererRegistry.register(XP_HOPPER_ENTITY_TYPE, XpContainerEntityRenderer::new);
+        BlockEntityRendererRegistry.register(MAGICAL_SPAWNER_ENTITY_TYPE, XpContainerEntityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             if (world != null && pos != null && world.getBlockEntity(

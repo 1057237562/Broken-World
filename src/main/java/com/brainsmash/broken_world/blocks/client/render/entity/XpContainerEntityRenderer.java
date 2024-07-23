@@ -26,7 +26,7 @@ public class XpContainerEntityRenderer<T extends XpContainerEntity> implements B
 
     @Override
     public void render(XpContainerEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        if (entity.xpStorage.amount == 0) return;
+        if (entity.xpStorage.isEmpty()) return;
         matrices.push();
         List<FluidRenderFace> faces = new ArrayList<>();
 
