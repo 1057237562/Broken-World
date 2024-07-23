@@ -8,7 +8,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
 public class XpContainerEntity extends BlockEntity {
 
@@ -32,6 +37,14 @@ public class XpContainerEntity extends BlockEntity {
         protected boolean canExtract(FluidVariant variant) {
             return variant.getFluid().matchesType(FluidRegister.still_fluid[6].getStill());
         }
+
+        @Override
+        protected void onFinalCommit() {
+            super.onFinalCommit();
+            if (world instanceof ServerWorld serverWorld) {
+                serverWorld.getChunkManager().markForUpdate(pos);
+            }
+        }
     };
 
     public XpContainerEntity(BlockEntityType<? extends XpContainerEntity> type, BlockPos pos, BlockState state) {
@@ -49,5 +62,18 @@ public class XpContainerEntity extends BlockEntity {
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         xpStorage.amount = nbt.getLong("xpStorage");
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.create(this);
+    }
+
+    @Override
+    public NbtCompound toInitialChunkDataNbt() {
+        NbtCompound compound = new NbtCompound();
+        writeNbt(compound);
+        return compound;
     }
 }

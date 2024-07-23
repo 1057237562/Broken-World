@@ -3,6 +3,7 @@ package com.brainsmash.broken_world.registry;
 import com.brainsmash.broken_world.blocks.fluid.*;
 import com.brainsmash.broken_world.blocks.fluid.base.LavaTextured;
 import com.brainsmash.broken_world.blocks.fluid.base.WaterTextured;
+import com.brainsmash.broken_world.registry.enums.FluidRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -14,6 +15,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.fluid.FlowableFluid;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -111,5 +113,9 @@ public class FluidRegister {
 
             BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), still_fluid[i], flowing_fluid[i]);
         }
+    }
+
+    public static Fluid get(FluidRegistry registry) {
+        return still_fluid[registry.ordinal()];
     }
 }

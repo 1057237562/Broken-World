@@ -695,6 +695,7 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.MAGICAL_SPAWNER.ordinal()],
                 RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.XP_CROP.ordinal()], RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.XP_HOPPER), RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,
@@ -722,6 +723,7 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(UV_ENTITY_TYPE, UVBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(MORTAR_ENTITY_TYPE, MortarBlockEnityRenderer::new);
         BlockEntityRendererRegistry.register(STONE_BASE_ENTITY_TYPE, StoneBaseBlockEnityRenderer::new);
+        BlockEntityRendererRegistry.register(XP_HOPPER_ENTITY_TYPE, XpContainerEntityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             if (world != null && pos != null && world.getBlockEntity(

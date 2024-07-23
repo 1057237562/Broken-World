@@ -16,6 +16,9 @@ classes/
 *.ipr
 *.iws
 
+# run
+.run/
+
 # vscode
 
 .settings/
