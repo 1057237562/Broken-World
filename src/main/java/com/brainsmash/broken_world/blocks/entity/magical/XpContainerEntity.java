@@ -40,7 +40,7 @@ public class XpContainerEntity extends BlockEntity {
 
         @Override
         protected void onFinalCommit() {
-            super.onFinalCommit();
+            markDirty();
             if (world instanceof ServerWorld serverWorld) {
                 serverWorld.getChunkManager().markForUpdate(pos);
             }
@@ -54,8 +54,8 @@ public class XpContainerEntity extends BlockEntity {
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
         nbt.putLong("xpStorage", xpStorage.amount);
+        super.writeNbt(nbt);
     }
 
     @Override

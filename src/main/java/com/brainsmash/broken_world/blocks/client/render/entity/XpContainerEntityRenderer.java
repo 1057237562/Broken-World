@@ -26,6 +26,7 @@ public class XpContainerEntityRenderer<T extends XpContainerEntity> implements B
 
     @Override
     public void render(XpContainerEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        if (entity.xpStorage.amount == 0) return;
         matrices.push();
         List<FluidRenderFace> faces = new ArrayList<>();
 
@@ -33,7 +34,7 @@ public class XpContainerEntityRenderer<T extends XpContainerEntity> implements B
         double y0 = 0.001;
         double z0 = 0.001;
         double x1 = 0.999;
-        double y1 = 0.001 + (12 / 16.0 - 0.002) * entity.xpStorage.amount / (float) entity.xpStorage.getCapacity();
+        double y1 = 0.001 + (16 / 16.0 - 0.002) * entity.xpStorage.amount / (float) entity.xpStorage.getCapacity();
         double z1 = 0.999;
 
         EnumSet<Direction> sides = EnumSet.allOf(Direction.class);
