@@ -26,12 +26,13 @@ public class FluidVariantRenderer {
      * Renders a list of faces of the given fluid at the specified co-ordinates.
      */
     public void render(FluidVariant fluid, List<FluidRenderFace> faces, VertexConsumerProvider vcp, MatrixStack matrices) {
-        Sprite[] sprites = getSprites(fluid);
-        RenderLayer layer = getRenderLayer(fluid);
-
-        FluidRenderHandler handler = FluidRenderHandlerRegistry.INSTANCE.get(fluid.getFluid());
-        int color = handler.getFluidColor(null, null, fluid.getFluid().getDefaultState());
-        renderSimpleFluid(faces, vcp.getBuffer(layer), matrices, sprites[0], sprites[1], color);
+        if (!fluid.isBlank()) {
+            Sprite[] sprites = getSprites(fluid);
+            RenderLayer layer = getRenderLayer(fluid);
+            FluidRenderHandler handler = FluidRenderHandlerRegistry.INSTANCE.get(fluid.getFluid());
+            int color = handler.getFluidColor(null, null, fluid.getFluid().getDefaultState());
+            renderSimpleFluid(faces, vcp.getBuffer(layer), matrices, sprites[0], sprites[1], color);
+        }
     }
 
     public void renderGuiRectangle(FluidVariant fluid, double x0, double y0, double x1, double y1) {
