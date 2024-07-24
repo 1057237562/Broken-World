@@ -86,14 +86,6 @@ public class WFluidWidget extends WWidget {
         int x1 = x + 16;
         int y1 = y + 48;
         FluidVariantRenderer.INSTANCE.renderGuiRectangle(inv.variant, x0, y0, x1, y1);
-//        FluidRenderHandler handler = FluidRenderHandlerRegistry.INSTANCE.get(inv.variant.getFluid());
-//        if (handler != null) {
-//            Sprite[] sprite = handler.getFluidSprites(null, null, inv.variant.getFluid().getDefaultState());
-//            Sprite still = sprite[0];
-//            int color = handler.getFluidColor(null, null, inv.variant.getFluid().getDefaultState());
-//            // Render the sprite
-//            //renderFluidSprite(matrices, x0, y0, x1 - x0, y1 - y0, still, color);
-//        }
         ScreenDrawing.texturedRect(matrices, x, y, 16, 48, scale, 0xFFFFFFFF);
     }
 
