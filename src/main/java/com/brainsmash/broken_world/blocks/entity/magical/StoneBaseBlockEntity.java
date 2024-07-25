@@ -32,6 +32,12 @@ public class StoneBaseBlockEntity extends BlockEntity {
         super(BlockRegister.STONE_BASE_ENTITY_TYPE, pos, state);
     }
 
+    public void startCrafting() {
+        if (!world.isClient) {
+
+        }
+    }
+
     @Nullable
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket() {

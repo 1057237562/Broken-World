@@ -214,6 +214,7 @@ public class BlockRegister {
                     3.0f).sounds(BlockSoundGroup.BONE)),
             new XpCropBlock(),
             new XpHopper(FabricBlockSettings.copyOf(Blocks.HOPPER)),
+            new LuminInjector(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -315,6 +316,7 @@ public class BlockRegister {
             new BlockItem(blocks[96], new FabricItemSettings().group(ITEM_GROUP)),
             null,
             new BlockItem(blocks[98], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[99], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -416,7 +418,8 @@ public class BlockRegister {
             "stone_base",
             "compressed_bone_block",
             "xp_crop",
-            "xp_hopper"
+            "xp_hopper",
+            "lumin_injector"
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {

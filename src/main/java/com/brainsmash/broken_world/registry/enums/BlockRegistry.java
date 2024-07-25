@@ -100,4 +100,5 @@ public enum BlockRegistry {
     COMPRESSED_BONE_BLOCK,
     XP_CROP,
     XP_HOPPER,
+    LUMIN_INJECTOR,
 }
