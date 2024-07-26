@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.magical;
 
 import com.brainsmash.broken_world.blocks.entity.magical.StoneBaseBlockEntity;
+import com.brainsmash.broken_world.blocks.model.CustomModelBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,7 +11,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class LuminInjector extends Block {
+public class LuminInjector extends Block implements CustomModelBlock {
     public LuminInjector(Settings settings) {
         super(settings);
     }

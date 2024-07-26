@@ -29,6 +29,7 @@ public class XpHopperEntity extends XpContainerEntity implements BlockEntityTick
 
     @Override
     public void tick(World world, BlockPos pos, BlockState state, XpHopperEntity blockEntity) {
+
         if (world instanceof ServerWorld) {
             List<ExperienceOrbEntity> list = this.world.getEntitiesByType(
                     TypeFilter.instanceOf(ExperienceOrbEntity.class), new Box(pos).expand(radius),
@@ -38,15 +39,21 @@ public class XpHopperEntity extends XpContainerEntity implements BlockEntityTick
 
             while (var2.hasNext()) {
                 ExperienceOrbEntity experienceOrbEntity = (ExperienceOrbEntity) var2.next();
-                experienceOrbEntity.addVelocity((pos.getX() - experienceOrbEntity.getX()) * 0.01f,
-                        (pos.getY() - experienceOrbEntity.getY()) * 0.01f,
-                        (pos.getZ() - experienceOrbEntity.getZ()) * 0.01f);
-                if (new Box(pos).expand(0.5).contains(experienceOrbEntity.getPos())) {
-                    try (Transaction transaction = Transaction.openOuter()) {
-                        this.xpStorage.insert(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
-                                experienceOrbEntity.getExperienceAmount() * FluidConstants.BOTTLE / 16, transaction);
-                        experienceOrbEntity.discard();
-                        transaction.commit();
+                if (xpStorage.simulateInsert(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
+                        experienceOrbEntity.getExperienceAmount() * FluidConstants.BOTTLE / 16,
+                        null) == experienceOrbEntity.getExperienceAmount() * FluidConstants.BOTTLE / 16) {
+                    experienceOrbEntity.addVelocity((pos.getX() - experienceOrbEntity.getX()) * 0.01f,
+                            (pos.getY() - experienceOrbEntity.getY()) * 0.01f,
+                            (pos.getZ() - experienceOrbEntity.getZ()) * 0.01f);
+                    if (new Box(pos).expand(0.5).contains(experienceOrbEntity.getPos())) {
+
+                        try (Transaction transaction = Transaction.openOuter()) {
+                            this.xpStorage.insert(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
+                                    experienceOrbEntity.getExperienceAmount() * FluidConstants.BOTTLE / 16,
+                                    transaction);
+                            experienceOrbEntity.discard();
+                            transaction.commit();
+                        }
                     }
                 }
             }

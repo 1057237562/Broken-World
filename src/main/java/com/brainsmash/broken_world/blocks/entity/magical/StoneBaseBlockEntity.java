@@ -9,11 +9,14 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -25,11 +28,13 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
     public float tick = 0;
     public boolean crafting = false;
     public int progress = 0;
-    public final int maxProgress = 100;
+    public final int maxProgress = 200;
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
         nbt.put("item", itemStack.writeNbt(new NbtCompound()));
+        nbt.putInt("progress", progress);
+        nbt.putBoolean("crafting", crafting);
         super.writeNbt(nbt);
     }
 
@@ -37,6 +42,8 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         itemStack = ItemStack.fromNbt(nbt.getCompound("item"));
+        progress = nbt.getInt("progress");
+        crafting = nbt.getBoolean("crafting");
     }
 
     public StoneBaseBlockEntity(BlockPos pos, BlockState state) {
@@ -45,8 +52,9 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
 
 
     public void startCrafting() {
-        if (!world.isClient) {
+        if (world instanceof ServerWorld serverWorld) {
             crafting = true;
+            serverWorld.getChunkManager().markForUpdate(pos);
         }
     }
 
@@ -66,21 +74,32 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
     @Override
     public void tick(World world, BlockPos pos, BlockState state, StoneBaseBlockEntity blockEntity) {
         if (crafting) {
-            if (world.getBlockEntity(pos.offset(Direction.DOWN)) instanceof XpContainerEntity containerEntity) {
-                try (Transaction transaction = Transaction.openOuter()) {
+            if (world instanceof ClientWorld clientWorld) {
+                for (int i = 0; i < 360; i += 90) {
+                    double dx = 0.3 * Math.sin((clientWorld.getTime() * 4 + i) * Math.PI / 180), dz = 0.3 * Math.cos(
+                            (clientWorld.getTime() * 4 + i) * Math.PI / 180);
+                    world.addParticle(ParticleTypes.ENCHANT, pos.getX() + 0.5 + dx, pos.getY() + 0.75,
+                            pos.getZ() + 0.5 + dz, 0, 0.5 + (double) progress / maxProgress, 0);
+                }
+            }
+            if (world instanceof ServerWorld serverWorld) {
+                if (world.getBlockEntity(pos.offset(Direction.DOWN)) instanceof XpContainerEntity containerEntity) {
                     if (containerEntity.xpStorage.simulateExtract(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
                             FluidConstants.BOTTLE / 100, null) == FluidConstants.BOTTLE / 100) {
-                        containerEntity.xpStorage.extract(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
-                                FluidConstants.BOTTLE / 100, transaction);
-                        progress++;
+                        try (Transaction transaction = Transaction.openOuter()) {
+                            containerEntity.xpStorage.extract(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
+                                    FluidConstants.BOTTLE / 100, transaction);
+                            progress++;
+                            serverWorld.getChunkManager().markForUpdate(pos);
+                            transaction.commit();
+                        }
                     }
-                    transaction.commit();
-                }
-                if (progress == maxProgress) {
-                    progress = 0;
-                    crafting = false;
-
-                    // TODO : Implement the crafting logic
+                    if (progress == maxProgress) {
+                        progress = 0;
+                        crafting = false;
+                        serverWorld.getChunkManager().markForUpdate(pos);
+                        // TODO : Implement the crafting logic
+                    }
                 }
             }
         }

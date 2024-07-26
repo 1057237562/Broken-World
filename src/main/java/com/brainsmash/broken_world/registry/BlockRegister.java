@@ -214,7 +214,7 @@ public class BlockRegister {
                     3.0f).sounds(BlockSoundGroup.BONE)),
             new XpCropBlock(),
             new XpHopper(FabricBlockSettings.copyOf(Blocks.HOPPER)),
-            new LuminInjector(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK)),
+            new LuminInjector(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -699,6 +699,8 @@ public class BlockRegister {
                 RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.XP_CROP.ordinal()], RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.XP_HOPPER), RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.LUMIN_INJECTOR),
+                RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WindTurbineEntityRenderer.WIND_TURBINE,

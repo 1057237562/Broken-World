@@ -22,6 +22,9 @@ public class StoneBaseBlockEnityRenderer implements BlockEntityRenderer<StoneBas
         matrices.push();
         entity.tick += tickDelta;
         double offset = Math.sin(entity.tick / 32.0) / 8.0;
+        if (entity.progress != 0) {
+            offset = (double) entity.progress / entity.maxProgress;
+        }
         matrices.translate(0.5, 1.25 + offset, 0.5);
         matrices.multiply(Quaternion.fromEulerXyz(0, entity.tick / 64.0f, 0));
         INSTANCE.renderItem(entity.itemStack, ModelTransformation.Mode.GROUND, 15728880, overlay, matrices,
