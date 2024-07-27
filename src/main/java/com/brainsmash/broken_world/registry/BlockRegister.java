@@ -544,6 +544,7 @@ public class BlockRegister {
     public static BlockEntityType<CrucibleBlockEntity> CRUCIBLE_ENTITY_TYPE;
     public static BlockEntityType<StoneBaseBlockEntity> STONE_BASE_ENTITY_TYPE;
     public static BlockEntityType<XpHopperEntity> XP_HOPPER_ENTITY_TYPE;
+    public static BlockEntityType<LuminInjectorEntity> LUMIN_INJECTOR_ENTITY_TYPE;
 
     public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -671,6 +672,9 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(StoneBaseBlockEntity::new, get(BlockRegistry.STONE_BASE)).build());
         XP_HOPPER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "xp_hopper"),
                 FabricBlockEntityTypeBuilder.create(XpHopperEntity::new, get(BlockRegistry.XP_HOPPER)).build());
+        LUMIN_INJECTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "lumin_injector"), FabricBlockEntityTypeBuilder.create(LuminInjectorEntity::new,
+                        get(BlockRegistry.LUMIN_INJECTOR)).build());
     }
 
     public static void registBlocksClientSide() {
@@ -730,6 +734,7 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(STONE_BASE_ENTITY_TYPE, StoneBaseBlockEnityRenderer::new);
         BlockEntityRendererRegistry.register(XP_HOPPER_ENTITY_TYPE, XpContainerEntityRenderer::new);
         BlockEntityRendererRegistry.register(MAGICAL_SPAWNER_ENTITY_TYPE, XpContainerEntityRenderer::new);
+        BlockEntityRendererRegistry.register(LUMIN_INJECTOR_ENTITY_TYPE, LuminInjectorBlockEnityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             if (world != null && pos != null && world.getBlockEntity(

@@ -141,7 +141,7 @@ public class Main implements ModInitializer {
     public static final ScreenHandlerType<WandGuiDescription> GRANDMASTER_WAND_SCREEN_HANDLER = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "grandmaster_wand"),
             new ScreenHandlerType<>(WandGuiDescription::createGrandMasterWand));
-    
+
     @Override
     public void onInitialize() {
         BlockRegister.registerBlocks();
@@ -172,6 +172,7 @@ public class Main implements ModInitializer {
         FabricatorRecipe.register();
         WeaponryRecipe.register();
         ColliderRecipe.register();
+        LuminInjectorRecipe.register();
 
         CrucibleBehavior.registerBehaviour();
 
