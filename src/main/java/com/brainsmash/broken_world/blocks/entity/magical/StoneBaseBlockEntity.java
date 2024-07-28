@@ -85,8 +85,8 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
                     double dx = 0.3 * Math.sin((clientWorld.getTime() * 4 + i) * Math.PI / 180), dz = 0.3 * Math.cos(
                             (clientWorld.getTime() * 4 + i) * Math.PI / 180);
                     world.addParticle(ParticleTypes.ENCHANT, pos.getX() + 0.5 + dx,
-                            pos.getY() + (isBlack ? -(double) progress / maxProgress : 0.75), pos.getZ() + 0.5 + dz, 0,
-                            0.5 + (double) progress / maxProgress, 0);
+                            pos.getY() + (isBlack ? 0.5 - (double) progress / maxProgress : 0.75),
+                            pos.getZ() + 0.5 + dz, 0, 0.5 + (double) progress / maxProgress, 0);
                 }
             }
             if (world instanceof ServerWorld serverWorld) {
