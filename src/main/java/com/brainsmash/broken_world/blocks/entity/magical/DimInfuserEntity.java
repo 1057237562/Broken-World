@@ -27,7 +27,7 @@ public class DimInfuserEntity extends BlockEntity implements BlockEntityTicker<D
     public List<ItemStack> itemStacks = new ArrayList<>();
     public List<Vec2f> shift = new ArrayList<>();
     public boolean crafting = false;
-    public int tick = 0;
+    public float tick = 0;
     public int progress = 0;
     public int maxProgress = 400;
 
