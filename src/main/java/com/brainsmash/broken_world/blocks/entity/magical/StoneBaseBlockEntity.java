@@ -19,6 +19,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -88,6 +89,16 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
                             pos.getY() + (isBlack ? 0.5 - (double) progress / maxProgress : 0.75),
                             pos.getZ() + 0.5 + dz, 0, 0.5 + (double) progress / maxProgress, 0);
                 }
+                if (progress == maxProgress) {
+                    progress = 0;
+                    crafting = false;
+                    if (clientWorld.getBlockEntity(linkPos) instanceof DimInfuserEntity entity) {
+                        entity.shift.add(new Vec2f(pos.getX() - linkPos.getX(), pos.getZ() - linkPos.getZ()));
+                    }
+                    if (clientWorld.getBlockEntity(linkPos) instanceof LuminInjectorEntity entity) {
+                        entity.shift.add(new Vec2f(pos.getX() - linkPos.getX(), pos.getZ() - linkPos.getZ()));
+                    }
+                }
             }
             if (world instanceof ServerWorld serverWorld) {
                 if (world.getBlockEntity(pos.offset(
@@ -114,7 +125,6 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
                         }
 
                         itemStack = ItemStack.EMPTY;
-                        serverWorld.getChunkManager().markForUpdate(pos);
                     }
                 }
             }
