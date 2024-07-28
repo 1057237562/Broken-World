@@ -41,7 +41,7 @@ public class StoneBaseBlock extends BlockWithEntity implements CustomModelBlock 
                 return ActionResult.SUCCESS;
             } else {
                 if (entity.itemStack.isEmpty()) {
-                    ItemStack stack = player.getStackInHand(hand);
+                    ItemStack stack = player.getStackInHand(hand).copy();
                     stack.setCount(1);
                     entity.itemStack = stack;
                     player.getStackInHand(hand).decrement(1);

@@ -1,6 +1,9 @@
 package com.brainsmash.broken_world.blocks.entity.magical;
 
+import com.brainsmash.broken_world.recipe.DimInfuserRecipe;
+import com.brainsmash.broken_world.recipe.util.ItemInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -17,13 +20,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class DimInfuserEntity extends BlockEntity implements BlockEntityTicker<DimInfuserEntity> {
 
     public List<ItemStack> itemStacks = new ArrayList<>();
     public List<Vec2f> shift = new ArrayList<>();
     public boolean crafting = false;
-
+    public int tick = 0;
     public int progress = 0;
     public int maxProgress = 400;
 
@@ -79,6 +83,13 @@ public class DimInfuserEntity extends BlockEntity implements BlockEntityTicker<D
                 if (progress >= maxProgress) {
                     progress = 0;
                     crafting = false;
+                    Optional<DimInfuserRecipe> optional = world.getServer().getRecipeManager().getFirstMatch(
+                            DimInfuserRecipe.Type.INSTANCE, new ItemInventory(itemStacks), world);
+                    optional.ifPresent(
+                            recipe -> Block.dropStack(world, pos, recipe.craft(new ItemInventory(itemStacks))));
+                    for (ItemStack stack : itemStacks) {
+                        Block.dropStack(world, pos, stack);
+                    }
                     itemStacks.clear();
                     shift.clear();
                 }
