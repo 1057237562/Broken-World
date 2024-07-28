@@ -218,6 +218,8 @@ public class BlockRegister {
             // 100
             new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque(), true),
             new DimInfuser(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
+            new InfusionTable(FabricBlockSettings.copyOf(Blocks.STONE)),
+
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -322,6 +324,7 @@ public class BlockRegister {
             new BlockItem(blocks[99], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[100], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[101], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[102], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -427,6 +430,7 @@ public class BlockRegister {
             "lumin_injector",
             "black_stone_base",
             "dim_infuser",
+            "infusion_table",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
