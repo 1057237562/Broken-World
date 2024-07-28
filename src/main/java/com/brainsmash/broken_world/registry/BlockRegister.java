@@ -754,6 +754,7 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(MAGICAL_SPAWNER_ENTITY_TYPE, XpContainerEntityRenderer::new);
         BlockEntityRendererRegistry.register(LUMIN_INJECTOR_ENTITY_TYPE, LuminInjectorBlockEnityRenderer::new);
         BlockEntityRendererRegistry.register(BLACK_STONE_BASE_ENTITY_TYPE, StoneBaseBlockEnityRenderer::new);
+        BlockEntityRendererRegistry.register(DIM_INFUSER_ENTITY_TYPE, DimInfuserBlockEnityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             if (world != null && pos != null && world.getBlockEntity(
