@@ -127,6 +127,11 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "collider_controller"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ColliderControllerGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
+    public static final ScreenHandlerType<InfusionTableGuiDescription> INFUSION_TABLE_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "infusion_table"), new ScreenHandlerType<>(
+                    ((syncId, playerInventory) -> new InfusionTableGuiDescription(syncId, playerInventory,
+                            ScreenHandlerContext.EMPTY))));
+
 
 
     public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
