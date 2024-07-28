@@ -102,4 +102,5 @@ public enum BlockRegistry {
     XP_HOPPER,
     LUMIN_INJECTOR,
     BLACK_STONE_BASE,
+    DIM_INFUSER,
 }

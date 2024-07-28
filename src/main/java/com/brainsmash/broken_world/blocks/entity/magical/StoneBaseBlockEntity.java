@@ -28,7 +28,7 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
     public float tick = 0;
     public boolean crafting = false;
     public int progress = 0;
-    public BlockPos injectorPos = BlockPos.ORIGIN;
+    public BlockPos linkPos = BlockPos.ORIGIN;
     public final int maxProgress = 200;
     public boolean isBlack;
 
@@ -37,7 +37,7 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
         nbt.put("item", itemStack.writeNbt(new NbtCompound()));
         nbt.putInt("progress", progress);
         nbt.putBoolean("crafting", crafting);
-        nbt.putLong("injectorPos", injectorPos.asLong());
+        nbt.putLong("linkPos", linkPos.asLong());
         super.writeNbt(nbt);
     }
 
@@ -47,7 +47,7 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
         itemStack = ItemStack.fromNbt(nbt.getCompound("item"));
         progress = nbt.getInt("progress");
         crafting = nbt.getBoolean("crafting");
-        injectorPos = BlockPos.fromLong(nbt.getLong("injectorPos"));
+        linkPos = BlockPos.fromLong(nbt.getLong("linkPos"));
     }
 
     public StoneBaseBlockEntity(BlockPos pos, BlockState state, boolean isBlack) {
@@ -59,7 +59,7 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
     public void startCrafting(BlockPos blockPos) {
         if (world instanceof ServerWorld serverWorld) {
             crafting = true;
-            injectorPos = blockPos;
+            linkPos = blockPos;
             serverWorld.getChunkManager().markForUpdate(pos);
         }
     }
@@ -84,12 +84,14 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
                 for (int i = 0; i < 360; i += 90) {
                     double dx = 0.3 * Math.sin((clientWorld.getTime() * 4 + i) * Math.PI / 180), dz = 0.3 * Math.cos(
                             (clientWorld.getTime() * 4 + i) * Math.PI / 180);
-                    world.addParticle(ParticleTypes.ENCHANT, pos.getX() + 0.5 + dx, pos.getY() + 0.75,
-                            pos.getZ() + 0.5 + dz, 0, 0.5 + (double) progress / maxProgress, 0);
+                    world.addParticle(ParticleTypes.ENCHANT, pos.getX() + 0.5 + dx,
+                            pos.getY() + (isBlack ? -(double) progress / maxProgress : 0.75), pos.getZ() + 0.5 + dz, 0,
+                            0.5 + (double) progress / maxProgress, 0);
                 }
             }
             if (world instanceof ServerWorld serverWorld) {
-                if (world.getBlockEntity(pos.offset(Direction.DOWN)) instanceof XpContainerEntity containerEntity) {
+                if (world.getBlockEntity(pos.offset(
+                        isBlack ? Direction.UP : Direction.DOWN)) instanceof XpContainerEntity containerEntity) {
                     if (containerEntity.xpStorage.simulateExtract(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
                             FluidConstants.BOTTLE / 100, null) == FluidConstants.BOTTLE / 100) {
                         try (Transaction transaction = Transaction.openOuter()) {
@@ -104,7 +106,7 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
                         progress = 0;
                         crafting = false;
 
-                        if (world.getBlockEntity(injectorPos) instanceof LuminInjectorEntity injectorEntity) {
+                        if (world.getBlockEntity(linkPos) instanceof LuminInjectorEntity injectorEntity) {
                             injectorEntity.itemStacks.add(itemStack);
                         }
 

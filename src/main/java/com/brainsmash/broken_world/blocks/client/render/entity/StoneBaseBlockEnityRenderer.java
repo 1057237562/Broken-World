@@ -25,7 +25,7 @@ public class StoneBaseBlockEnityRenderer implements BlockEntityRenderer<StoneBas
         if (entity.progress != 0) {
             offset = (double) entity.progress / entity.maxProgress;
         }
-        matrices.translate(0.5, (entity.isBlack ? -0.5 : 1.25) + offset, 0.5);
+        matrices.translate(0.5, (entity.isBlack ? -0.5 : 1.25) + (entity.isBlack ? -offset : offset), 0.5);
         matrices.multiply(Quaternion.fromEulerXyz(0, entity.tick / 64.0f, 0));
         INSTANCE.renderItem(entity.itemStack, ModelTransformation.Mode.GROUND, 15728880, overlay, matrices,
                 vertexConsumers, 0);

@@ -217,6 +217,7 @@ public class BlockRegister {
             new LuminInjector(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
             // 100
             new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque(), true),
+            new DimInfuser(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -320,6 +321,7 @@ public class BlockRegister {
             new BlockItem(blocks[98], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[99], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[100], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[101], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -424,6 +426,7 @@ public class BlockRegister {
             "xp_hopper",
             "lumin_injector",
             "black_stone_base",
+            "dim_infuser",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -550,6 +553,7 @@ public class BlockRegister {
     public static BlockEntityType<StoneBaseBlockEntity> BLACK_STONE_BASE_ENTITY_TYPE;
     public static BlockEntityType<XpHopperEntity> XP_HOPPER_ENTITY_TYPE;
     public static BlockEntityType<LuminInjectorEntity> LUMIN_INJECTOR_ENTITY_TYPE;
+    public static BlockEntityType<DimInfuserEntity> DIM_INFUSER_ENTITY_TYPE;
 
     public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -685,6 +689,8 @@ public class BlockRegister {
         LUMIN_INJECTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 new Identifier(MODID, "lumin_injector"), FabricBlockEntityTypeBuilder.create(LuminInjectorEntity::new,
                         get(BlockRegistry.LUMIN_INJECTOR)).build());
+        DIM_INFUSER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dim_infuser"),
+                FabricBlockEntityTypeBuilder.create(DimInfuserEntity::new, get(BlockRegistry.DIM_INFUSER)).build());
     }
 
     public static void registBlocksClientSide() {
@@ -714,6 +720,8 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.XP_CROP.ordinal()], RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.XP_HOPPER), RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.LUMIN_INJECTOR),
+                RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.DIM_INFUSER),
                 RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);

@@ -1,6 +1,6 @@
 package com.brainsmash.broken_world.blocks.magical;
 
-import com.brainsmash.broken_world.blocks.entity.magical.LuminInjectorEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.DimInfuserEntity;
 import com.brainsmash.broken_world.blocks.entity.magical.StoneBaseBlockEntity;
 import com.brainsmash.broken_world.blocks.model.CustomModelBlock;
 import net.minecraft.block.BlockRenderType;
@@ -15,35 +15,32 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec2f;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class LuminInjector extends BlockWithEntity implements CustomModelBlock {
-    public LuminInjector(Settings settings) {
+public class DimInfuser extends BlockWithEntity implements CustomModelBlock {
+    public DimInfuser(Settings settings) {
         super(settings);
     }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.getChunkManager().getLightingProvider().get(LightType.SKY).getLightLevel(
-                pos.offset(Direction.UP)) < 15) return ActionResult.FAIL;
+        if (world.getChunkManager().getLightingProvider().getLight(pos, 0) > 4) return ActionResult.FAIL;
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (world.getBlockEntity(pos.add(i * 2, -2,
-                        j * 2)) instanceof StoneBaseBlockEntity entity && !entity.itemStack.isEmpty() && !entity.isBlack) {
+                if (world.getBlockEntity(pos.add(i * 2, 2,
+                        j * 2)) instanceof StoneBaseBlockEntity entity && !entity.itemStack.isEmpty() && entity.isBlack) {
                     entity.startCrafting(pos);
                     if (world instanceof ClientWorld clientWorld) {
-                        if (clientWorld.getBlockEntity(pos) instanceof LuminInjectorEntity injectorEntity) {
-                            injectorEntity.shift.add(new Vec2f(i * 2, j * 2));
+                        if (clientWorld.getBlockEntity(pos) instanceof DimInfuserEntity infuserEntity) {
+                            infuserEntity.shift.add(new Vec2f(i * 2, j * 2));
                         }
                     }
                 }
             }
         }
-        if (world.getBlockEntity(pos) instanceof LuminInjectorEntity entity) {
+        if (world.getBlockEntity(pos) instanceof DimInfuserEntity entity) {
             entity.crafting = true;
         }
         return ActionResult.SUCCESS;
@@ -58,7 +55,7 @@ public class LuminInjector extends BlockWithEntity implements CustomModelBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return (world1, pos, state1, blockEntity) -> {
-            if (blockEntity instanceof LuminInjectorEntity entity) {
+            if (blockEntity instanceof DimInfuserEntity entity) {
                 entity.tick(world1, pos, state1, entity);
             }
         };
@@ -67,6 +64,6 @@ public class LuminInjector extends BlockWithEntity implements CustomModelBlock {
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new LuminInjectorEntity(pos, state);
+        return new DimInfuserEntity(pos, state);
     }
 }

@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LuminInjectorEntity extends BlockEntity implements BlockEntityTicker<LuminInjectorEntity> {
+public class DimInfuserEntity extends BlockEntity implements BlockEntityTicker<DimInfuserEntity> {
 
     public List<ItemStack> itemStacks = new ArrayList<>();
     public List<Vec2f> shift = new ArrayList<>();
@@ -27,8 +27,8 @@ public class LuminInjectorEntity extends BlockEntity implements BlockEntityTicke
     public int progress = 0;
     public int maxProgress = 400;
 
-    public LuminInjectorEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.LUMIN_INJECTOR_ENTITY_TYPE, pos, state);
+    public DimInfuserEntity(BlockPos pos, BlockState state) {
+        super(BlockRegister.DIM_INFUSER_ENTITY_TYPE, pos, state);
     }
 
 
@@ -72,7 +72,7 @@ public class LuminInjectorEntity extends BlockEntity implements BlockEntityTicke
     }
 
     @Override
-    public void tick(World world, BlockPos pos, BlockState state, LuminInjectorEntity blockEntity) {
+    public void tick(World world, BlockPos pos, BlockState state, DimInfuserEntity blockEntity) {
         if (world instanceof ServerWorld serverWorld) {
             if (crafting) {
                 progress++;
