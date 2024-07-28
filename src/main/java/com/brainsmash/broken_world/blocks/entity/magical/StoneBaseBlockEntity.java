@@ -92,12 +92,15 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
                 if (progress == maxProgress) {
                     progress = 0;
                     crafting = false;
-                    if (clientWorld.getBlockEntity(linkPos) instanceof DimInfuserEntity entity) {
+                    if (!isBlack && clientWorld.getBlockEntity(linkPos) instanceof DimInfuserEntity entity) {
                         entity.shift.add(new Vec2f(pos.getX() - linkPos.getX(), pos.getZ() - linkPos.getZ()));
+                        entity.vitemStacks.add(itemStack);
                     }
-                    if (clientWorld.getBlockEntity(linkPos) instanceof LuminInjectorEntity entity) {
+                    if (isBlack && clientWorld.getBlockEntity(linkPos) instanceof LuminInjectorEntity entity) {
                         entity.shift.add(new Vec2f(pos.getX() - linkPos.getX(), pos.getZ() - linkPos.getZ()));
+                        entity.vitemStacks.add(itemStack);
                     }
+                    itemStack = ItemStack.EMPTY;
                 }
             }
             if (world instanceof ServerWorld serverWorld) {

@@ -3,6 +3,8 @@ package com.brainsmash.broken_world.blocks.entity.magical;
 import com.brainsmash.broken_world.recipe.DimInfuserRecipe;
 import com.brainsmash.broken_world.recipe.util.ItemInventory;
 import com.brainsmash.broken_world.registry.BlockRegister;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -25,6 +27,8 @@ import java.util.Optional;
 public class DimInfuserEntity extends BlockEntity implements BlockEntityTicker<DimInfuserEntity> {
 
     public List<ItemStack> itemStacks = new ArrayList<>();
+    @Environment(EnvType.CLIENT)
+    public List<ItemStack> vitemStacks = new ArrayList<>();
     public List<Vec2f> shift = new ArrayList<>();
     public boolean crafting = false;
     public float tick = 0;
