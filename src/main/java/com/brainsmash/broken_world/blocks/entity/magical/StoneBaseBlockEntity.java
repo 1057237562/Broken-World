@@ -30,6 +30,7 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
     public int progress = 0;
     public BlockPos injectorPos = BlockPos.ORIGIN;
     public final int maxProgress = 200;
+    public boolean isBlack;
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
@@ -49,8 +50,9 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
         injectorPos = BlockPos.fromLong(nbt.getLong("injectorPos"));
     }
 
-    public StoneBaseBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.STONE_BASE_ENTITY_TYPE, pos, state);
+    public StoneBaseBlockEntity(BlockPos pos, BlockState state, boolean isBlack) {
+        super(isBlack ? BlockRegister.BLACK_STONE_BASE_ENTITY_TYPE : BlockRegister.STONE_BASE_ENTITY_TYPE, pos, state);
+        this.isBlack = isBlack;
     }
 
 

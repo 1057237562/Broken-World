@@ -25,7 +25,7 @@ public class LuminInjectorEntity extends BlockEntity implements BlockEntityTicke
     public boolean crafting = false;
 
     public int progress = 0;
-    public int maxProgress = 400;
+    public int maxProgress = 300;
 
     public LuminInjectorEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.LUMIN_INJECTOR_ENTITY_TYPE, pos, state);

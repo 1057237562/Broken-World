@@ -101,4 +101,5 @@ public enum BlockRegistry {
     XP_CROP,
     XP_HOPPER,
     LUMIN_INJECTOR,
+    BLACK_STONE_BASE,
 }

@@ -209,12 +209,14 @@ public class BlockRegister {
             new MortarBlock(STANDARD_BLOCK),
             new CrucibleBlock(FabricBlockSettings.copyOf(Blocks.CAULDRON).mapColor(MapColor.PURPLE),
                     CrucibleBehavior.CRUCIBLE_BEHAVIOR),
-            new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque()),
+            new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque(), false),
             new PillarBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(
                     3.0f).sounds(BlockSoundGroup.BONE)),
             new XpCropBlock(),
             new XpHopper(FabricBlockSettings.copyOf(Blocks.HOPPER)),
             new LuminInjector(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
+            // 100
+            new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque(), true),
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -317,6 +319,7 @@ public class BlockRegister {
             null,
             new BlockItem(blocks[98], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[99], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[100], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -419,7 +422,8 @@ public class BlockRegister {
             "compressed_bone_block",
             "xp_crop",
             "xp_hopper",
-            "lumin_injector"
+            "lumin_injector",
+            "black_stone_base",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -543,6 +547,7 @@ public class BlockRegister {
     public static BlockEntityType<MortarBlockEntity> MORTAR_ENTITY_TYPE;
     public static BlockEntityType<CrucibleBlockEntity> CRUCIBLE_ENTITY_TYPE;
     public static BlockEntityType<StoneBaseBlockEntity> STONE_BASE_ENTITY_TYPE;
+    public static BlockEntityType<StoneBaseBlockEntity> BLACK_STONE_BASE_ENTITY_TYPE;
     public static BlockEntityType<XpHopperEntity> XP_HOPPER_ENTITY_TYPE;
     public static BlockEntityType<LuminInjectorEntity> LUMIN_INJECTOR_ENTITY_TYPE;
 
@@ -669,7 +674,12 @@ public class BlockRegister {
         CRUCIBLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "crucible"),
                 FabricBlockEntityTypeBuilder.create(CrucibleBlockEntity::new, get(BlockRegistry.CRUCIBLE)).build());
         STONE_BASE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "stone_base"),
-                FabricBlockEntityTypeBuilder.create(StoneBaseBlockEntity::new, get(BlockRegistry.STONE_BASE)).build());
+                FabricBlockEntityTypeBuilder.create((pos, block) -> new StoneBaseBlockEntity(pos, block, false),
+                        get(BlockRegistry.STONE_BASE)).build());
+        BLACK_STONE_BASE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "black_stone_base"),
+                FabricBlockEntityTypeBuilder.create((pos, block) -> new StoneBaseBlockEntity(pos, block, true),
+                        get(BlockRegistry.BLACK_STONE_BASE)).build());
         XP_HOPPER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "xp_hopper"),
                 FabricBlockEntityTypeBuilder.create(XpHopperEntity::new, get(BlockRegistry.XP_HOPPER)).build());
         LUMIN_INJECTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
@@ -735,6 +745,7 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(XP_HOPPER_ENTITY_TYPE, XpContainerEntityRenderer::new);
         BlockEntityRendererRegistry.register(MAGICAL_SPAWNER_ENTITY_TYPE, XpContainerEntityRenderer::new);
         BlockEntityRendererRegistry.register(LUMIN_INJECTOR_ENTITY_TYPE, LuminInjectorBlockEnityRenderer::new);
+        BlockEntityRendererRegistry.register(BLACK_STONE_BASE_ENTITY_TYPE, StoneBaseBlockEnityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             if (world != null && pos != null && world.getBlockEntity(

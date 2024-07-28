@@ -22,8 +22,11 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class StoneBaseBlock extends BlockWithEntity implements CustomModelBlock {
-    public StoneBaseBlock(Settings settings) {
+    private final boolean isBlack;
+
+    public StoneBaseBlock(Settings settings, boolean isBlack) {
         super(settings);
+        this.isBlack = isBlack;
     }
 
     @Override
@@ -65,7 +68,7 @@ public class StoneBaseBlock extends BlockWithEntity implements CustomModelBlock 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new StoneBaseBlockEntity(pos, state);
+        return new StoneBaseBlockEntity(pos, state, isBlack);
     }
 
     @Override
