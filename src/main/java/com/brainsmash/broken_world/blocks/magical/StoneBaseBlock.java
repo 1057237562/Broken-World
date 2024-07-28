@@ -33,11 +33,23 @@ public class StoneBaseBlock extends BlockWithEntity implements CustomModelBlock 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         StoneBaseBlockEntity entity = (StoneBaseBlockEntity) world.getBlockEntity(pos);
         if (entity != null) {
-            ItemStack stack = entity.itemStack;
-            entity.itemStack = player.getStackInHand(hand);
-            player.setStackInHand(hand, stack);
-            entity.markDirty();
-            return ActionResult.SUCCESS;
+            if (player.getStackInHand(hand).getCount() == 1) {
+                ItemStack stack = entity.itemStack;
+                entity.itemStack = player.getStackInHand(hand);
+                player.setStackInHand(hand, stack);
+                entity.markDirty();
+                return ActionResult.SUCCESS;
+            } else {
+                if (entity.itemStack.isEmpty()) {
+                    ItemStack stack = player.getStackInHand(hand);
+                    stack.setCount(1);
+                    entity.itemStack = stack;
+                    player.getStackInHand(hand).decrement(1);
+                    entity.markDirty();
+                    return ActionResult.SUCCESS;
+                }
+                return ActionResult.FAIL;
+            }
         }
         return super.onUse(state, world, pos, player, hand, hit);
     }
