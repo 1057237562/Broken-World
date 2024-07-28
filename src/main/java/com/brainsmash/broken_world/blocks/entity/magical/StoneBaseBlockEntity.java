@@ -106,8 +106,11 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
                         progress = 0;
                         crafting = false;
 
-                        if (world.getBlockEntity(linkPos) instanceof LuminInjectorEntity injectorEntity) {
+                        if (!isBlack && world.getBlockEntity(linkPos) instanceof LuminInjectorEntity injectorEntity) {
                             injectorEntity.itemStacks.add(itemStack);
+                        }
+                        if (isBlack && world.getBlockEntity(linkPos) instanceof DimInfuserEntity infuserEntity) {
+                            infuserEntity.itemStacks.add(itemStack);
                         }
 
                         itemStack = ItemStack.EMPTY;

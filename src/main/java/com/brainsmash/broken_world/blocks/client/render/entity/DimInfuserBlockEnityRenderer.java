@@ -20,7 +20,7 @@ public class DimInfuserBlockEnityRenderer implements BlockEntityRenderer<DimInfu
     public void render(DimInfuserEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
         if (entity.crafting && entity.itemStacks.size() == entity.shift.size()) {
-            double offset = 1 - Math.sqrt((double) (entity.progress - 200) / 400);
+            double offset = 1 - Math.sqrt((double) (entity.progress - 200) / 200);
 
             for (int i = 0; i < entity.itemStacks.size(); i++) {
                 matrices.push();
