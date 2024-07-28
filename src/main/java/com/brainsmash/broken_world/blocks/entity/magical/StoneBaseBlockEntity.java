@@ -82,6 +82,7 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
     public void tick(World world, BlockPos pos, BlockState state, StoneBaseBlockEntity blockEntity) {
         if (crafting) {
             if (world instanceof ClientWorld clientWorld) {
+                ++progress;
                 for (int i = 0; i < 360; i += 90) {
                     double dx = 0.3 * Math.sin((clientWorld.getTime() * 4 + i) * Math.PI / 180), dz = 0.3 * Math.cos(
                             (clientWorld.getTime() * 4 + i) * Math.PI / 180);
@@ -92,11 +93,11 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
                 if (progress == maxProgress) {
                     progress = 0;
                     crafting = false;
-                    if (!isBlack && clientWorld.getBlockEntity(linkPos) instanceof DimInfuserEntity entity) {
+                    if (isBlack && clientWorld.getBlockEntity(linkPos) instanceof DimInfuserEntity entity) {
                         entity.shift.add(new Vec2f(pos.getX() - linkPos.getX(), pos.getZ() - linkPos.getZ()));
                         entity.vitemStacks.add(itemStack);
                     }
-                    if (isBlack && clientWorld.getBlockEntity(linkPos) instanceof LuminInjectorEntity entity) {
+                    if (!isBlack && clientWorld.getBlockEntity(linkPos) instanceof LuminInjectorEntity entity) {
                         entity.shift.add(new Vec2f(pos.getX() - linkPos.getX(), pos.getZ() - linkPos.getZ()));
                         entity.vitemStacks.add(itemStack);
                     }

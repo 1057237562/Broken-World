@@ -10,6 +10,8 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -61,5 +63,18 @@ public class LuminInjector extends BlockWithEntity implements CustomModelBlock {
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new LuminInjectorEntity(pos, state);
+    }
+
+    @Override
+    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        super.onBreak(world, pos, state, player);
+        if (world instanceof ServerWorld serverWorld) {
+            if (serverWorld.getBlockEntity(pos) instanceof LuminInjectorEntity entity) {
+                for (ItemStack itemStack : entity.itemStacks) {
+                    dropStack(world, pos, itemStack);
+                }
+                entity.itemStacks.clear();
+            }
+        }
     }
 }
