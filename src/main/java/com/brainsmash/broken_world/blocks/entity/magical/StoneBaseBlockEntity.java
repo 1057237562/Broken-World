@@ -82,7 +82,13 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
     public void tick(World world, BlockPos pos, BlockState state, StoneBaseBlockEntity blockEntity) {
         if (crafting) {
             if (world instanceof ClientWorld clientWorld) {
-                ++progress;
+                if (world.getBlockEntity(pos.offset(
+                        isBlack ? Direction.UP : Direction.DOWN)) instanceof XpContainerEntity containerEntity) {
+                    if (containerEntity.xpStorage.simulateExtract(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
+                            FluidConstants.BOTTLE / 100, null) == FluidConstants.BOTTLE / 100) {
+                        ++progress;
+                    }
+                }
                 for (int i = 0; i < 360; i += 90) {
                     double dx = 0.3 * Math.sin((clientWorld.getTime() * 4 + i) * Math.PI / 180), dz = 0.3 * Math.cos(
                             (clientWorld.getTime() * 4 + i) * Math.PI / 180);
