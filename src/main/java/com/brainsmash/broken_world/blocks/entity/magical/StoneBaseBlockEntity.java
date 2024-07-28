@@ -59,9 +59,15 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
 
     public void startCrafting(BlockPos blockPos) {
         if (world instanceof ServerWorld serverWorld) {
-            crafting = true;
-            linkPos = blockPos;
-            serverWorld.getChunkManager().markForUpdate(pos);
+            if (world.getBlockEntity(
+                    pos.offset(isBlack ? Direction.UP : Direction.DOWN)) instanceof XpContainerEntity containerEntity) {
+                if (containerEntity.xpStorage.simulateExtract(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
+                        FluidConstants.BOTTLE * 2, null) == FluidConstants.BOTTLE * 2) {
+                    crafting = true;
+                    linkPos = blockPos;
+                    serverWorld.getChunkManager().markForUpdate(pos);
+                }
+            }
         }
     }
 
@@ -87,6 +93,7 @@ public class StoneBaseBlockEntity extends BlockEntity implements BlockEntityTick
                     if (containerEntity.xpStorage.simulateExtract(FluidVariant.of(FluidRegister.get(FluidRegistry.XP)),
                             FluidConstants.BOTTLE / 100, null) == FluidConstants.BOTTLE / 100) {
                         ++progress;
+                        containerEntity.xpStorage.amount -= FluidConstants.BOTTLE / 100;
                     }
                 }
                 for (int i = 0; i < 360; i += 90) {
