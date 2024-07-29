@@ -5,6 +5,7 @@ import com.brainsmash.broken_world.blocks.multiblock.MultiblockResourceReloadLis
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
+import com.brainsmash.broken_world.entity.vehicle.VehicleEntity;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.*;
@@ -133,7 +134,6 @@ public class Main implements ModInitializer {
                             ScreenHandlerContext.EMPTY))));
 
 
-
     public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
             new ScreenHandlerType<>(WandGuiDescription::createRookieWand));
@@ -235,6 +235,9 @@ public class Main implements ModInitializer {
                 }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "jump_key_hold"),
                 (server, player, handler, buf, responseSender) -> server.execute(() -> {
+                    if (player.getRootVehicle() instanceof VehicleEntity vehicle) {
+                        vehicle.upStrafingSpeed = 0.1f;
+                    }
                     if (!player.getAbilities().flying) {
                         if (player instanceof EntityDataExtension dataExtension) {
                             if (dataExtension.getData() instanceof NbtCompound nbtCompound) {
@@ -245,6 +248,18 @@ public class Main implements ModInitializer {
                                 }
                             }
                         }
+                    }
+                }));
+        ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "sneak_key_hold"),
+                (server, player, handler, buf, responseSender) -> server.execute(() -> {
+                    if (player.getRootVehicle() instanceof VehicleEntity vehicle) {
+                        vehicle.upStrafingSpeed = -0.1f;
+                    }
+                }));
+        ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "dismount_key_press"),
+                (server, player, handler, buf, responseSender) -> server.execute(() -> {
+                    if (player.getRootVehicle() instanceof VehicleEntity) {
+                        player.dismountVehicle();
                     }
                 }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "reload_key_press"),

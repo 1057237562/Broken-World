@@ -3,7 +3,7 @@
     <option name="ALTERNATIVE_JRE_PATH" value="jbr-17" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="net.fabricmc.devlaunchinjector.Main" />
-    <module name="Fabric.BrokenWorld.main" />
+    <module name="Workspace.Fabric.BrokenWorld.main" />
     <shortenClasspath name="ARGS_FILE" />
     <option name="VM_PARAMETERS" value="-Dfabric.dli.config=$PROJECT_DIR$/.gradle/loom-cache/launch.cfg -Dfabric.dli.env=client -Dfabric.dli.main=net.fabricmc.loader.impl.launch.knot.KnotClient -XX:+AllowEnhancedClassRedefinition -XX:+AllowRedefinitionToAddDeleteMethods -javaagent:../sponge-mixin-0.12.4+mixin.0.8.5.jar" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run/" />

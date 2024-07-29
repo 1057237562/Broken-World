@@ -27,6 +27,9 @@ public abstract class EntityMixin implements EntityDataExtension {
     @Shadow
     public abstract Iterable<ItemStack> getArmorItems();
 
+    @Shadow
+    public abstract Entity getRootVehicle();
+
     private NbtElement element = new NbtCompound();
 
     @Inject(method = "readNbt", at = @At("TAIL"))
@@ -40,7 +43,7 @@ public abstract class EntityMixin implements EntityDataExtension {
     public void writeData(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
         nbt.put("bwdata", element);
     }
-    
+
     @Override
     public NbtElement getData() {
         return element;
