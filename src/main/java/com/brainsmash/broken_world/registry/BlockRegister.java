@@ -558,6 +558,7 @@ public class BlockRegister {
     public static BlockEntityType<XpHopperEntity> XP_HOPPER_ENTITY_TYPE;
     public static BlockEntityType<LuminInjectorEntity> LUMIN_INJECTOR_ENTITY_TYPE;
     public static BlockEntityType<DimInfuserEntity> DIM_INFUSER_ENTITY_TYPE;
+    public static BlockEntityType<InfusionTableEntity> INFUSION_TABLE_ENTITY_TYPE;
 
     public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -695,6 +696,8 @@ public class BlockRegister {
                         get(BlockRegistry.LUMIN_INJECTOR)).build());
         DIM_INFUSER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dim_infuser"),
                 FabricBlockEntityTypeBuilder.create(DimInfuserEntity::new, get(BlockRegistry.DIM_INFUSER)).build());
+        INFUSION_TABLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "infusion_table"),
+                FabricBlockEntityTypeBuilder.create(InfusionTableEntity::new, get(BlockRegistry.INFUSION_TABLE)).build());
     }
 
     public static void registBlocksClientSide() {

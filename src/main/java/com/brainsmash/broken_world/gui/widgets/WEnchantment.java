@@ -2,8 +2,10 @@ package com.brainsmash.broken_world.gui.widgets;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.util.MathHelper;
+import com.brainsmash.broken_world.util.MiscHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
+import io.github.cottonmc.cotton.gui.widget.TooltipBuilder;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
 import io.github.cottonmc.cotton.gui.widget.data.Texture;
 import net.minecraft.client.MinecraftClient;
@@ -12,9 +14,13 @@ import net.minecraft.client.gui.screen.ingame.EnchantingPhrases;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.screen.EnchantmentScreenHandler;
 import net.minecraft.text.StringVisitable;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 public class WEnchantment extends WWidget {
     public static final Identifier TEXTURE = new Identifier("textures/gui/container/enchanting_table.png");
@@ -32,7 +38,7 @@ public class WEnchantment extends WWidget {
     public static final Texture ORB_DIM_LARGE = new Texture(ORB_AND_NUMBERS, 0, 0, 16, 16);
 
 
-    public int enchantmentID = -1;
+    public Enchantment enchantment = null;
     public int enchantmentPower = 0;
     public int seed;
     protected TextRenderer textRenderer;
@@ -58,7 +64,7 @@ public class WEnchantment extends WWidget {
         if (level <= 10) {
             orb = available ? ORB_BRIGHT_SMALL : ORB_DIM_SMALL;
         } else if (level <= 20) {
-            orb = available ? ORB_BRIGHT_LARGE : ORB_DIM_LARGE;
+            orb = available ? ORB_BRIGHT_MEDIUM : ORB_DIM_MEDIUM;
         } else {
             orb = available ? ORB_BRIGHT_LARGE : ORB_DIM_LARGE;
         }
@@ -72,6 +78,7 @@ public class WEnchantment extends WWidget {
 
     @Override
     public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+//        /*
 //        RenderSystem.viewport(0, 0, this.client.getWindow().getFramebufferWidth(), this.client.getWindow().getFramebufferHeight());
 //        RenderSystem.restoreProjectionMatrix();
 //        DiffuseLighting.enableGuiDepthLighting();
@@ -80,15 +87,15 @@ public class WEnchantment extends WWidget {
 //        int n = ((EnchantmentScreenHandler)this.handler).getLapisCount();
 
 //        int widgetX = i + 60;
-        int widgetX = 0;
-        int widgetY = 0;
+        int widgetX = x;
+        int widgetY = y;
         int enchantmentPhrasesX = widgetX + 20;
 //        this.setZOffset(0);
 //        RenderSystem.setShader(GameRenderer::getPositionTexShader);
 //        RenderSystem.setShaderTexture(0, TEXTURE);
 //        int power = ((EnchantmentScreenHandler)this.handler).enchantmentPower[o];
 //        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        if (enchantmentID == -1) {
+        if (enchantment == null) {
             ScreenDrawing.texturedRect(matrices, widgetX, widgetY, WIDTH, HEIGHT, BACKGROUND_UNAVAILABLE, 0xFFFFFFFF);
             return;
         }
@@ -105,7 +112,7 @@ public class WEnchantment extends WWidget {
             ScreenDrawing.drawString(matrices, stringVisitable.getString(), enchantmentPhrasesX, 2, (t & 0xFEFEFE) >> 1);
             t = 4226832;
         } else {
-            if (mouseX >= 0 && mouseY >= 0 && mouseX < 108 && mouseY < 19) {
+            if (mouseX >= 0 && mouseY >= 0 && mouseX < WIDTH && mouseY < HEIGHT) {
                 ScreenDrawing.texturedRect(matrices, widgetX, widgetY, WIDTH, HEIGHT, BACKGROUND_MOUSE_HOVER, 0xFFFFFFFF);
                 t = 0xFFFF80;
             } else {
@@ -119,5 +126,25 @@ public class WEnchantment extends WWidget {
             t = 8453920;
         }
 //        this.textRenderer.drawWithShadow(matrices, powerString, (float)(enchantmentPhrasesX + 86 - this.textRenderer.getWidth(powerString)), 9.0f, t);
+//         */
+    }
+
+    @Override
+    public void addTooltip(TooltipBuilder tooltip) {
+        if (enchantment == null) {
+            return;
+        }
+        tooltip.add(Text.translatable("container.enchant.clue", MiscHelper.getEnchantmentName(enchantment)).formatted(Formatting.WHITE));
+        // TODO Finish tooltips
+    }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
     }
 }

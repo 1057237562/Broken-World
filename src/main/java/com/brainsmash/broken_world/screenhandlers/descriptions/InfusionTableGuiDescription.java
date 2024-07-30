@@ -3,6 +3,7 @@ package com.brainsmash.broken_world.screenhandlers.descriptions;
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.gui.widgets.WEnchantment;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
+import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.WListPanel;
 import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
@@ -11,12 +12,17 @@ import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import net.minecraft.client.search.SearchManager;
 import net.minecraft.client.search.TextSearchProvider;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
@@ -31,12 +37,28 @@ public class InfusionTableGuiDescription extends SyncedGuiDescription {
 
     protected SearchManager searchManager = new SearchManager();
     protected List<Enchantment> enchantments = new ArrayList<>();
+    protected ScreenHandlerContext context;
+    protected WTextField searchField;
+    protected WListPanel<Enchantment, WEnchantment> enchantmentList;
+    protected Inventory inventory = new SimpleInventory(1) {
+        @Override
+        public void markDirty() {
+            super.markDirty();
+            onContentChanged(this);
+        }
+    };
 
     public InfusionTableGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(Main.INFUSION_TABLE_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE),
                 getBlockPropertyDelegate(context, PROPERTY_COUNT));
+
+        this.context = context;
         searchManager.put(ENCHANTMENT_KEY, enchantments -> new TextSearchProvider<>(
-                enchantment -> Stream.of(Text.translatable(enchantment.getTranslationKey()).toString()),
+                enchantment -> {
+                    String string = Formatting.strip(Text.translatable(enchantment.getTranslationKey()).getString());
+                    System.out.println(string);
+                    return Stream.of(string);
+                },
                 enchantment -> Stream.of(Registry.ENCHANTMENT.getId(enchantment)),
                 enchantments
         ));
@@ -46,26 +68,28 @@ public class InfusionTableGuiDescription extends SyncedGuiDescription {
         root.setInsets(Insets.ROOT_PANEL);
         root.setSize(150, 193);
 
-        WTextField searchField = new WTextField();
-        WListPanel<Enchantment, WEnchantment> enchantmentList = new WListPanel<>(enchantments, WEnchantment::new, (enchantment, widget) -> {
-            widget.enchantmentID = Registry.ENCHANTMENT.getRawId(enchantment);
+        searchField = new WTextField();
+        enchantmentList = new WListPanel<>(enchantments, WEnchantment::new, (enchantment, widget) -> {
+            widget.enchantment = enchantment;
             widget.enchantmentPower = 0;
             widget.available = true;
             widget.seed = 0; // TODO add seed
         });
-        searchField.setChangedListener(string -> {
-            enchantments.clear();
-            enchantments.addAll(findEnchantments(getSuitableEnchantments(blockInventory.getStack(0)), string));
-        });
-        enchantmentList.setListItemHeight(WEnchantment.HEIGHT * 3);
-        root.add(searchField, 0, 4);
-        root.add(enchantmentList, 0, 20);
+        searchField.setChangedListener(string -> refreshEnchantmentList());
+        enchantmentList.setListItemHeight(WEnchantment.HEIGHT);
+        root.add(searchField, 0, 6, WEnchantment.WIDTH + enchantmentList.getScrollBar().getWidth(), searchField.getHeight());
+        root.add(enchantmentList, 0, 6 + searchField.getHeight(), WEnchantment.WIDTH + enchantmentList.getScrollBar().getWidth(), WEnchantment.HEIGHT * 3);
 
-        WItemSlot slot = WItemSlot.of(blockInventory, 0);
+        WItemSlot slot = WItemSlot.of(inventory, 0);
         root.add(slot, 140, 20);
         root.add(createPlayerInventoryPanel(), 0, 80);
 
         root.validate(this);
+    }
+
+    @Override
+    public void close(PlayerEntity player) {
+        context.run((world, pos) -> this.dropInventory(player, inventory));
     }
 
     public static List<Enchantment> getSuitableEnchantments(ItemStack stack) {
@@ -78,14 +102,29 @@ public class InfusionTableGuiDescription extends SyncedGuiDescription {
             // Vanilla Enchanting Table disallows enchantments that are not available for random selection.
             // Read EnchantmentHelper#getPossibleEntries.
             if (enchantment.isTreasure() || !enchantment.isAvailableForRandomSelection() || !enchantment.type.isAcceptableItem(item) && !isBook) continue;
-            for (int i = enchantment.getMaxLevel(); i > enchantment.getMinLevel() - 1; --i) {
-                list.add(enchantment);
-            }
+
+            list.add(enchantment);
         }
         return list;
     }
 
     public List<Enchantment> findEnchantments(List<Enchantment> list, String string) {
+        searchManager.reload(ENCHANTMENT_KEY, list);
         return searchManager.get(ENCHANTMENT_KEY).findAll(string.toLowerCase(Locale.ROOT));
+    }
+
+    protected void refreshEnchantmentList() {
+        enchantments.clear();
+        enchantments.addAll(findEnchantments(getSuitableEnchantments(inventory.getStack(0)), searchField.getText()));
+        enchantmentList.layout();
+    }
+
+    @Override
+    public void onContentChanged(Inventory inventory) {
+        if (inventory != this.inventory) {
+            return;
+        }
+        searchField.setText("");
+        refreshEnchantmentList();
     }
 }
