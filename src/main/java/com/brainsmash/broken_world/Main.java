@@ -258,7 +258,8 @@ public class Main implements ModInitializer {
                 }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "dismount_key_press"),
                 (server, player, handler, buf, responseSender) -> server.execute(() -> {
-                    if (player.getRootVehicle() instanceof VehicleEntity) {
+                    if (player.getRootVehicle() instanceof VehicleEntity vehicleEntity) {
+                        player.setPosition(vehicleEntity.updatePassengerForDismount(player));
                         player.dismountVehicle();
                     }
                 }));

@@ -76,7 +76,7 @@ public class EntityRegister {
     public static final EntityType<MagicBroomEntity> MAGIC_BROOM_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MODID, "magic_broom"),
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, MagicBroomEntity::new).dimensions(
-                    EntityDimensions.fixed(1.0f, 0.5f)).trackRangeBlocks(64).build());
+                    EntityDimensions.fixed(1.0f, 0.25f)).trackRangeBlocks(64).build());
 
 
     @Environment(EnvType.CLIENT)

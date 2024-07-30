@@ -1,5 +1,8 @@
 package com.brainsmash.broken_world.entity.vehicle;
 
+import com.brainsmash.broken_world.registry.ItemRegister;
+import com.brainsmash.broken_world.registry.enums.ItemRegistry;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -11,6 +14,10 @@ public class MagicBroomEntity extends VehicleEntity {
     public MagicBroomEntity(EntityType<? extends VehicleEntity> entityType, World world) {
         super(entityType, world);
         airStrafingSpeed = 0.05f;
+    }
+
+    protected void dropItems(DamageSource source) {
+        this.dropItem(ItemRegister.get(ItemRegistry.MAGICAL_BROOM));
     }
 
     @Override
@@ -33,6 +40,20 @@ public class MagicBroomEntity extends VehicleEntity {
         this.prevYaw = this.getYaw();
         this.setHeadYaw(livingEntity.getBodyYaw());
         this.setRotation(livingEntity.getHeadYaw(), 0);
+    }
+
+    @Override
+    public void updatePassengerPosition(Entity passenger) {
+        if (this.hasPassenger(passenger)) {
+            float g = (float) ((this.isRemoved() ? 0.009999999776482582 : this.getMountedHeightOffset()) + passenger.getHeightOffset());
+            Vec3d vec3d = (new Vec3d(0.0, -0.125, 0.0)).rotateY(-this.getYaw() * 0.017453292F - 1.5707964F);
+            passenger.setPosition(this.getX() + vec3d.x, this.getY() + (double) g, this.getZ() + vec3d.z);
+        }
+    }
+
+    @Override
+    public Vec3d updatePassengerForDismount(LivingEntity passenger) {
+        return getPos().add(0, 1f, 0);
     }
 
     @Override
