@@ -58,6 +58,11 @@ public class VehicleEntity extends LivingEntity {
         return true;
     }
 
+    @Override
+    public boolean collidesWith(Entity other) {
+        return true;
+    }
+
     public void updatePassengerPosition(Entity passenger) {
         if (this.hasPassenger(passenger)) {
             float g = (float) ((this.isRemoved() ? 0.009999999776482582 : this.getMountedHeightOffset()) + passenger.getHeightOffset());

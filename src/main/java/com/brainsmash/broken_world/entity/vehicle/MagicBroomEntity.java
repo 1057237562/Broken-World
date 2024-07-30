@@ -24,7 +24,8 @@ public class MagicBroomEntity extends VehicleEntity {
     }
 
     @Override
-    public void travel(Vec3d movementInput) {
+    public void tick() {
+        super.tick();
         LivingEntity livingEntity = (LivingEntity) getFirstPassenger();
         if (livingEntity == null) {
             return;
@@ -32,6 +33,14 @@ public class MagicBroomEntity extends VehicleEntity {
         this.prevYaw = this.getYaw();
         this.setHeadYaw(livingEntity.getBodyYaw());
         this.setRotation(livingEntity.getHeadYaw(), 0);
+    }
+
+    @Override
+    public void travel(Vec3d movementInput) {
+        LivingEntity livingEntity = (LivingEntity) getFirstPassenger();
+        if (livingEntity == null) {
+            return;
+        }
 
         float sidewaysSpeed = livingEntity.sidewaysSpeed * 0.5f;
         float forwardSpeed = livingEntity.forwardSpeed;
