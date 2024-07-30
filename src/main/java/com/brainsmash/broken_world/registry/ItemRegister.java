@@ -6,6 +6,7 @@ import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
 import com.brainsmash.broken_world.items.electrical.BatteryItem;
 import com.brainsmash.broken_world.items.electrical.MiningDrillItem;
 import com.brainsmash.broken_world.items.food.XpFruit;
+import com.brainsmash.broken_world.items.magical.MagicalBroomItem;
 import com.brainsmash.broken_world.items.magical.Rune;
 import com.brainsmash.broken_world.items.magical.Wand;
 import com.brainsmash.broken_world.items.magical.enums.RuneEnum;
@@ -155,6 +156,7 @@ public class ItemRegister {
             new EnergyRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1000)),
             new EnergyAmmo(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new MagicalBroomItem(new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -238,7 +240,8 @@ public class ItemRegister {
             "mining_drill",
             "ov_2",
             "energy_ammo",
-            "greedy_heart"
+            "greedy_heart",
+            "magical_broom",
     };
 
     public static final Item[] guns = {
