@@ -58,6 +58,8 @@ public class WEnchantment extends WWidget {
             numberBackgrounds[i] = new Texture(ORB_AND_NUMBERS, (i * 8) / 128.0f, 41 / 128.0f, (i * 8 + 8) / 128.0f,
                     50 / 128.0f);
         }
+        width = WIDTH;
+        height = HEIGHT;
     }
 
     protected void drawOrbAndLevelNumbers(MatrixStack matrices, int level, boolean available) {
@@ -130,9 +132,6 @@ public class WEnchantment extends WWidget {
             t = 8453920;
         }
 //        this.textRenderer.drawWithShadow(matrices, powerString, (float)(phrasesX + 86 - this.textRenderer.getWidth(powerString)), 9.0f, t);
-        if (0 <= mouseX && mouseX <= WIDTH && 0 <= mouseY && mouseY <= HEIGHT) {
-            renderTooltip(matrices, x, y, mouseX, mouseY);
-        }
 //         */
     }
 
@@ -144,15 +143,5 @@ public class WEnchantment extends WWidget {
         tooltip.add(Text.translatable("container.enchant.clue", MiscHelper.getEnchantmentName(enchantment)).formatted(
                 Formatting.WHITE));
         // TODO Finish tooltips
-    }
-
-    @Override
-    public int getWidth() {
-        return WIDTH;
-    }
-
-    @Override
-    public int getHeight() {
-        return HEIGHT;
     }
 }
