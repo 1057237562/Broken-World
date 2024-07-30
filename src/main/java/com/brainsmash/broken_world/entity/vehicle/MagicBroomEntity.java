@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -14,6 +15,15 @@ public class MagicBroomEntity extends VehicleEntity {
     public MagicBroomEntity(EntityType<? extends VehicleEntity> entityType, World world) {
         super(entityType, world);
         airStrafingSpeed = 0.05f;
+    }
+
+    @Override
+    public boolean damage(DamageSource source, float amount) {
+        if (source.getAttacker() instanceof PlayerEntity && !source.isProjectile()) {
+            dropItems(source);
+            discard();
+        }
+        return false;
     }
 
     protected void dropItems(DamageSource source) {
