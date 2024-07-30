@@ -30,7 +30,7 @@ public class MagicBroomEntity extends VehicleEntity {
             return;
         }
         this.prevYaw = this.getYaw();
-        this.setHeadYaw(livingEntity.getHeadYaw());
+        this.setHeadYaw(livingEntity.getBodyYaw());
         this.setRotation(livingEntity.getHeadYaw(), 0);
 
         float sidewaysSpeed = livingEntity.sidewaysSpeed * 0.5f;

@@ -100,6 +100,7 @@ public class EntityRegister {
         EntityModelLayerRegistry.registerModelLayer(MODEL_DRONE_LAYER, DroneEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_FOREST_GUARDIAN,
                 ForestGuardianEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_MAGIC_BROOM, MagicBroomEntityModel::getTexturedModelData);
     }
 
     public static void registerEntities() {

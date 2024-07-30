@@ -61,7 +61,7 @@ public class VehicleEntity extends LivingEntity {
     public void updatePassengerPosition(Entity passenger) {
         if (this.hasPassenger(passenger)) {
             float g = (float) ((this.isRemoved() ? 0.009999999776482582 : this.getMountedHeightOffset()) + passenger.getHeightOffset());
-            Vec3d vec3d = (new Vec3d(0.5, 0.0, 0.0)).rotateY(-this.getYaw() * 0.017453292F - 1.5707964F);
+            Vec3d vec3d = (new Vec3d(0.0, 0.0, 0.0)).rotateY(-this.getYaw() * 0.017453292F - 1.5707964F);
             passenger.setPosition(this.getX() + vec3d.x, this.getY() + (double) g, this.getZ() + vec3d.z);
         }
     }
