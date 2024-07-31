@@ -83,4 +83,5 @@ public enum ItemRegistry {
     ENERGY_AMMO,
     GREEDY_HEART,
     MAGICAL_BROOM,
+    CLOAKING_CAPE,
 }
