@@ -7,14 +7,17 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class MagicBroomEntity extends VehicleEntity {
 
     public MagicBroomEntity(EntityType<? extends VehicleEntity> entityType, World world) {
         super(entityType, world);
-        airStrafingSpeed = 0.05f;
+        airStrafingSpeed = 0.075f;
     }
 
     @Override
@@ -23,7 +26,12 @@ public class MagicBroomEntity extends VehicleEntity {
             dropItems(source);
             discard();
         }
-        return false;
+        return true;
+    }
+
+    @Override
+    public Iterable<ItemStack> getItemsEquipped() {
+        return new ArrayList<>();
     }
 
     protected void dropItems(DamageSource source) {
@@ -32,6 +40,11 @@ public class MagicBroomEntity extends VehicleEntity {
 
     @Override
     public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+        return false;
+    }
+
+    @Override
+    public boolean isPushable() {
         return false;
     }
 
@@ -55,8 +68,8 @@ public class MagicBroomEntity extends VehicleEntity {
     @Override
     public void updatePassengerPosition(Entity passenger) {
         if (this.hasPassenger(passenger)) {
-            float g = (float) ((this.isRemoved() ? 0.009999999776482582 : this.getMountedHeightOffset()) + passenger.getHeightOffset());
-            Vec3d vec3d = (new Vec3d(0.0, -0.125, 0.0)).rotateY(-this.getYaw() * 0.017453292F - 1.5707964F);
+            float g = -0.475f;
+            Vec3d vec3d = (new Vec3d(0.0, 0, 0.0)).rotateY(-this.getYaw() * 0.017453292F - 1.5707964F);
             passenger.setPosition(this.getX() + vec3d.x, this.getY() + (double) g, this.getZ() + vec3d.z);
         }
     }

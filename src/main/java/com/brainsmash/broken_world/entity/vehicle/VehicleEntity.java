@@ -60,7 +60,7 @@ public class VehicleEntity extends LivingEntity {
 
     @Override
     public boolean collidesWith(Entity other) {
-        return true;
+        return !isConnectedThroughVehicle(other);
     }
 
     public void updatePassengerPosition(Entity passenger) {

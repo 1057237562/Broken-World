@@ -31,7 +31,7 @@ public class MagicBroomEntityRenderer extends EntityRenderer<MagicBroomEntity> {
     @Override
     public void render(MagicBroomEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         matrices.push();
-        matrices.translate(0, -0.275f, 0);
+        matrices.translate(0, -0.6f, 0);
         matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - entity.getBodyYaw()));
         model.render(matrices, vertexConsumers.getBuffer(model.getLayer(TEXTURE)), light, OverlayTexture.DEFAULT_UV, 1,
                 1, 1, 1);
