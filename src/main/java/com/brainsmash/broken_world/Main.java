@@ -236,7 +236,7 @@ public class Main implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "jump_key_hold"),
                 (server, player, handler, buf, responseSender) -> server.execute(() -> {
                     if (player.getRootVehicle() instanceof VehicleEntity vehicle) {
-                        vehicle.upStrafingSpeed = 0.1f;
+                        vehicle.upwardSpeed = 0.1f;
                     }
                     if (!player.getAbilities().flying) {
                         if (player instanceof EntityDataExtension dataExtension) {
@@ -253,7 +253,7 @@ public class Main implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "sneak_key_hold"),
                 (server, player, handler, buf, responseSender) -> server.execute(() -> {
                     if (player.getRootVehicle() instanceof VehicleEntity vehicle) {
-                        vehicle.upStrafingSpeed = -0.1f;
+                        vehicle.upwardSpeed = -0.1f;
                     }
                 }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "dismount_key_press"),

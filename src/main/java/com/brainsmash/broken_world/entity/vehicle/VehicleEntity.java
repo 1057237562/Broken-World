@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class VehicleEntity extends LivingEntity {
-    public float upStrafingSpeed = 0.0f;
 
     protected VehicleEntity(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -26,7 +25,6 @@ public class VehicleEntity extends LivingEntity {
     @Override
     public void travel(Vec3d movementInput) {
         super.travel(movementInput);
-        upStrafingSpeed = 0.0f;
     }
 
     @Override

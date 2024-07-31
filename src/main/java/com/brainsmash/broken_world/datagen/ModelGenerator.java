@@ -12,6 +12,7 @@ import com.brainsmash.broken_world.blocks.electric.base.ConsumerBlock;
 import com.brainsmash.broken_world.blocks.electric.base.PowerBlock;
 import com.brainsmash.broken_world.blocks.model.CustomModelBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
+import com.brainsmash.broken_world.items.CustomModelItem;
 import com.brainsmash.broken_world.items.magical.Wand;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.registry.BlockRegister;
@@ -94,6 +95,9 @@ public class ModelGenerator extends FabricModelProvider {
                 continue;
             }
             if (ItemRegister.items[i] instanceof AliasedBlockItem) {
+                continue;
+            }
+            if (ItemRegister.items[i] instanceof CustomModelItem) {
                 continue;
             }
             itemModelGenerator.register(ItemRegister.items[i], Models.GENERATED);

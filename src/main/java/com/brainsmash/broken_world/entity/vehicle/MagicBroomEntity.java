@@ -49,9 +49,15 @@ public class MagicBroomEntity extends VehicleEntity {
     }
 
     @Override
+    public boolean isCollidable() {
+        return false;
+    }
+
+    @Override
     public boolean hasNoGravity() {
         return true;
     }
+
 
     @Override
     public void tick() {
@@ -89,6 +95,6 @@ public class MagicBroomEntity extends VehicleEntity {
         float sidewaysSpeed = livingEntity.sidewaysSpeed * 0.5f;
         float forwardSpeed = livingEntity.forwardSpeed;
 
-        super.travel(new Vec3d(sidewaysSpeed, upStrafingSpeed, forwardSpeed));
+        super.travel(new Vec3d(sidewaysSpeed, upwardSpeed, forwardSpeed));
     }
 }

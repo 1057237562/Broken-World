@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.items.magical;
 
+import com.brainsmash.broken_world.items.CustomModelItem;
 import com.brainsmash.broken_world.registry.EntityRegister;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.item.Item;
@@ -7,7 +8,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 
-public class MagicalBroomItem extends Item {
+public class MagicalBroomItem extends Item implements CustomModelItem {
     public MagicalBroomItem(Settings settings) {
         super(settings);
     }
