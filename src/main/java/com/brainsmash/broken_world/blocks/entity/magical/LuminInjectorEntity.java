@@ -89,8 +89,10 @@ public class LuminInjectorEntity extends BlockEntity implements BlockEntityTicke
                     crafting = false;
                     Optional<LuminInjectorRecipe> optional = world.getServer().getRecipeManager().getFirstMatch(
                             LuminInjectorRecipe.Type.INSTANCE, new ItemInventory(itemStacks), world);
-                    optional.ifPresent(
-                            recipe -> Block.dropStack(world, pos, recipe.craft(new ItemInventory(itemStacks))));
+                    optional.ifPresent(recipe -> {
+                        Block.dropStack(world, pos, recipe.craft(new ItemInventory(itemStacks)));
+                        itemStacks.clear();
+                    });
                     for (ItemStack stack : itemStacks) {
                         Block.dropStack(world, pos, stack);
                     }

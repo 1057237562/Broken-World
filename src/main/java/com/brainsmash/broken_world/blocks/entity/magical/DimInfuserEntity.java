@@ -89,8 +89,10 @@ public class DimInfuserEntity extends BlockEntity implements BlockEntityTicker<D
                     crafting = false;
                     Optional<DimInfuserRecipe> optional = world.getServer().getRecipeManager().getFirstMatch(
                             DimInfuserRecipe.Type.INSTANCE, new ItemInventory(itemStacks), world);
-                    optional.ifPresent(
-                            recipe -> Block.dropStack(world, pos, recipe.craft(new ItemInventory(itemStacks))));
+                    optional.ifPresent(recipe -> {
+                        Block.dropStack(world, pos, recipe.craft(new ItemInventory(itemStacks)));
+                        itemStacks.clear();
+                    });
                     for (ItemStack stack : itemStacks) {
                         Block.dropStack(world, pos, stack);
                     }
