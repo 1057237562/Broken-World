@@ -96,5 +96,6 @@ public class MagicBroomEntity extends VehicleEntity {
         float forwardSpeed = livingEntity.forwardSpeed;
 
         super.travel(new Vec3d(sidewaysSpeed, upwardSpeed, forwardSpeed));
+        upwardSpeed = 0;
     }
 }
