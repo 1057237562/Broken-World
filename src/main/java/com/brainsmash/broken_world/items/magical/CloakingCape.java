@@ -17,7 +17,7 @@ public class CloakingCape extends TrinketItem {
     public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
         super.tick(stack, slot, entity);
         if (entity.getWorld() instanceof ServerWorld) {
-            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY));
+            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 2));
         }
     }
 }
