@@ -42,11 +42,11 @@ public class InfusionTable extends BlockWithEntity implements CustomModelBlock {
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.cuboid(0, 0, 0, 1, 0.7, 1);
+        return VoxelShapes.cuboid(0, 0, 0, 1, 12.0 / 16, 1);
     }
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.cuboid(0, 0, 0, 1, 0.7, 1);
+        return VoxelShapes.cuboid(0, 0, 0, 1, 12.0 / 16, 1);
     }
 }
