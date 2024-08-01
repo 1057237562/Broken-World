@@ -3,17 +3,13 @@ package com.brainsmash.broken_world.gui.widgets;
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.util.MathHelper;
 import com.brainsmash.broken_world.util.MiscHelper;
-import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
 import io.github.cottonmc.cotton.gui.widget.TooltipBuilder;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
-import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import io.github.cottonmc.cotton.gui.widget.data.Texture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.ingame.EnchantingPhrases;
-import net.minecraft.client.render.DiffuseLighting;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.screen.ScreenTexts;
@@ -22,7 +18,6 @@ import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class WEnchantment extends WWidget {
     public static final Identifier TEXTURE = new Identifier("textures/gui/container/enchanting_table.png");
@@ -73,7 +68,7 @@ public class WEnchantment extends WWidget {
             orb = available ? ORB_BRIGHT_LARGE : ORB_DIM_LARGE;
         }
         ScreenDrawing.texturedRect(matrices, 1, 1, 16, 16, orb, 0xFFFFFFFF);
-        int[] digits = MathHelper.getDigits(level);
+        int[] digits = MathHelper.digits(level);
         for (int i = 0; i < digits.length; i++) {
             ScreenDrawing.texturedRect(matrices, 9 + i * 8, 3, 8, 9, numberForegrounds[digits[i]], available ? 0x00_c8ff8f : 0x00_8c605d);
             ScreenDrawing.texturedRect(matrices, 9 + i * 8, 3, 8, 9, numberBackgrounds[digits[i]], available ? 0x00_2d2102 : 0x00_47352f);
