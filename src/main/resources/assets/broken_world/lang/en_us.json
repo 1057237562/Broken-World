@@ -185,5 +185,7 @@
 
   "itemGroup.broken_world.itemgroup": "Broken World",
 
-  "death.attack.electricShock": "That's how %1$s lost engineering license. "
+  "death.attack.electricShock": "That's how %1$s lost engineering license. ",
+
+  "gui.infusion_table.search_hint": "Search..."
 }

@@ -2,10 +2,11 @@ package com.brainsmash.broken_world.screenhandlers.descriptions;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.gui.widgets.WEnchantment;
+import com.brainsmash.broken_world.gui.widgets.WEnchantmentLevel;
+import com.brainsmash.broken_world.gui.widgets.WListPanel;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
-import io.github.cottonmc.cotton.gui.widget.WListPanel;
 import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
 import io.github.cottonmc.cotton.gui.widget.WTextField;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
@@ -20,6 +21,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -32,7 +34,7 @@ import java.util.stream.Stream;
 
 public class InfusionTableGuiDescription extends SyncedGuiDescription {
     public static int INVENTORY_SIZE = 1;
-    public static int PROPERTY_COUNT = 0;
+    public static int PROPERTY_COUNT = 1;
     public static final SearchManager.Key<Enchantment> ENCHANTMENT_KEY = new SearchManager.Key<>();
 
     protected SearchManager searchManager = new SearchManager();
@@ -47,6 +49,7 @@ public class InfusionTableGuiDescription extends SyncedGuiDescription {
             onContentChanged(this);
         }
     };
+    protected Property seed = Property.create();
 
     public InfusionTableGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(Main.INFUSION_TABLE_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE),
@@ -54,14 +57,11 @@ public class InfusionTableGuiDescription extends SyncedGuiDescription {
 
         this.context = context;
         searchManager.put(ENCHANTMENT_KEY, enchantments -> new TextSearchProvider<>(
-                enchantment -> {
-                    String string = Formatting.strip(Text.translatable(enchantment.getTranslationKey()).getString());
-                    System.out.println(string);
-                    return Stream.of(string);
-                },
+                enchantment -> Stream.of(Formatting.strip(Text.translatable(enchantment.getTranslationKey()).getString())),
                 enchantment -> Stream.of(Registry.ENCHANTMENT.getId(enchantment)),
                 enchantments
         ));
+        addProperty(seed).set(playerInventory.player.getEnchantmentTableSeed());
 
         WPlainPanel root = new WPlainPanel();
         setRootPanel(root);
@@ -73,15 +73,20 @@ public class InfusionTableGuiDescription extends SyncedGuiDescription {
             widget.enchantment = enchantment;
             widget.enchantmentPower = 0;
             widget.available = true;
-            widget.seed = 0; // TODO add seed
+            widget.seed = seed.get() & enchantment.hashCode();
         });
-        searchField.setChangedListener(string -> refreshEnchantmentList());
-        enchantmentList.setListItemHeight(WEnchantment.HEIGHT);
-        root.add(searchField, 0, 6, WEnchantment.WIDTH + enchantmentList.getScrollBar().getWidth(), searchField.getHeight());
-        root.add(enchantmentList, 0, 6 + searchField.getHeight(), WEnchantment.WIDTH + enchantmentList.getScrollBar().getWidth(), WEnchantment.HEIGHT * 3);
+        searchField.setChangedListener(string -> refreshEnchantmentList()).setSuggestion(Text.translatable("gui.infusion_table.search_hint"));
+        enchantmentList.setMargin(0).setListItemHeight(WEnchantment.HEIGHT);
+//        root.add(searchField, 0, 6, WEnchantment.WIDTH + enchantmentList.getScrollBar().getWidth(), searchField.getHeight());
+        // 8 is the width of WListPanel's scrollbar, which is constant and hardcoded.
+        root.add(searchField, 0, 6, WEnchantment.WIDTH + 8, searchField.getHeight());
+        root.add(enchantmentList, 0, 6 + searchField.getHeight(), WEnchantment.WIDTH + 8, WEnchantment.HEIGHT * 3);
 
+        WEnchantmentLevel levelSlider = new WEnchantmentLevel();
+        levelSlider.setMaxLevel(50);
         WItemSlot slot = WItemSlot.of(inventory, 0);
-        root.add(slot, 140, 20);
+        root.add(levelSlider, 120, 20, 40, 20);
+        root.add(slot, 140, 40);
         root.add(createPlayerInventoryPanel(), 0, 80);
 
         root.validate(this);
@@ -124,6 +129,7 @@ public class InfusionTableGuiDescription extends SyncedGuiDescription {
         if (inventory != this.inventory) {
             return;
         }
+
         searchField.setText("");
         refreshEnchantmentList();
     }
