@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "broken_world:block/infusion_table"
+    }
+  }
+}
