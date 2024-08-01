@@ -219,6 +219,7 @@ public class BlockRegister {
             new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque(), true),
             new DimInfuser(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
             new InfusionTable(FabricBlockSettings.copyOf(Blocks.STONE)),
+            new XpContainer(FabricBlockSettings.copyOf(Blocks.CAULDRON)),
 
     };
     public static final Item[] blockitems = {
@@ -559,6 +560,7 @@ public class BlockRegister {
     public static BlockEntityType<LuminInjectorEntity> LUMIN_INJECTOR_ENTITY_TYPE;
     public static BlockEntityType<DimInfuserEntity> DIM_INFUSER_ENTITY_TYPE;
     public static BlockEntityType<InfusionTableEntity> INFUSION_TABLE_ENTITY_TYPE;
+    public static BlockEntityType<XpContainerEntity> XP_CONTAINER_ENTITY_TYPE;
 
     public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
@@ -696,8 +698,11 @@ public class BlockRegister {
                         get(BlockRegistry.LUMIN_INJECTOR)).build());
         DIM_INFUSER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dim_infuser"),
                 FabricBlockEntityTypeBuilder.create(DimInfuserEntity::new, get(BlockRegistry.DIM_INFUSER)).build());
-        INFUSION_TABLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "infusion_table"),
-                FabricBlockEntityTypeBuilder.create(InfusionTableEntity::new, get(BlockRegistry.INFUSION_TABLE)).build());
+        INFUSION_TABLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "infusion_table"), FabricBlockEntityTypeBuilder.create(InfusionTableEntity::new,
+                        get(BlockRegistry.INFUSION_TABLE)).build());
+        XP_CONTAINER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "xp_container"),
+                FabricBlockEntityTypeBuilder.create(XpContainerEntity::new, get(BlockRegistry.XP_CONTAINER)).build());
     }
 
     public static void registBlocksClientSide() {
@@ -729,6 +734,8 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.LUMIN_INJECTOR),
                 RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.DIM_INFUSER),
+                RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.XP_CONTAINER),
                 RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
@@ -762,6 +769,7 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(LUMIN_INJECTOR_ENTITY_TYPE, LuminInjectorBlockEnityRenderer::new);
         BlockEntityRendererRegistry.register(BLACK_STONE_BASE_ENTITY_TYPE, StoneBaseBlockEnityRenderer::new);
         BlockEntityRendererRegistry.register(DIM_INFUSER_ENTITY_TYPE, DimInfuserBlockEnityRenderer::new);
+        BlockEntityRendererRegistry.register(XP_CONTAINER_ENTITY_TYPE, XpContainerEntityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             if (world != null && pos != null && world.getBlockEntity(

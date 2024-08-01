@@ -104,4 +104,5 @@ public enum BlockRegistry {
     BLACK_STONE_BASE,
     DIM_INFUSER,
     INFUSION_TABLE,
+    XP_CONTAINER
 }

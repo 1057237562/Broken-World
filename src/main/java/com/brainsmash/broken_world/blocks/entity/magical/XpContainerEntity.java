@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.entity.magical;
 
 import com.brainsmash.broken_world.blocks.fluid.storage.SingleFluidStorage;
+import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.registry.FluidRegister;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -50,6 +51,10 @@ public class XpContainerEntity extends BlockEntity {
     public XpContainerEntity(BlockEntityType<? extends XpContainerEntity> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
         xpStorage.variant = FluidVariant.of(FluidRegister.still_fluid[6]);
+    }
+
+    public XpContainerEntity(BlockPos pos, BlockState state) {
+        this(BlockRegister.XP_CONTAINER_ENTITY_TYPE, pos, state);
     }
 
     @Override
