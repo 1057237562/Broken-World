@@ -5,7 +5,6 @@ import com.brainsmash.broken_world.gui.widgets.WEnchantment;
 import com.brainsmash.broken_world.gui.widgets.WEnchantmentLevel;
 import com.brainsmash.broken_world.gui.widgets.WListPanel;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
-import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
 import io.github.cottonmc.cotton.gui.widget.WTextField;
@@ -13,7 +12,6 @@ import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import net.minecraft.client.search.SearchManager;
 import net.minecraft.client.search.TextSearchProvider;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -56,11 +54,9 @@ public class InfusionTableGuiDescription extends SyncedGuiDescription {
                 getBlockPropertyDelegate(context, PROPERTY_COUNT));
 
         this.context = context;
-        searchManager.put(ENCHANTMENT_KEY, enchantments -> new TextSearchProvider<>(
-                enchantment -> Stream.of(Formatting.strip(Text.translatable(enchantment.getTranslationKey()).getString())),
-                enchantment -> Stream.of(Registry.ENCHANTMENT.getId(enchantment)),
-                enchantments
-        ));
+        searchManager.put(ENCHANTMENT_KEY, enchantments -> new TextSearchProvider<>(enchantment -> Stream.of(
+                Formatting.strip(Text.translatable(enchantment.getTranslationKey()).getString())),
+                enchantment -> Stream.of(Registry.ENCHANTMENT.getId(enchantment)), enchantments));
         addProperty(seed).set(playerInventory.player.getEnchantmentTableSeed());
 
         WPlainPanel root = new WPlainPanel();
@@ -75,7 +71,8 @@ public class InfusionTableGuiDescription extends SyncedGuiDescription {
             widget.available = true;
             widget.seed = seed.get() & enchantment.hashCode();
         });
-        searchField.setChangedListener(string -> refreshEnchantmentList()).setSuggestion(Text.translatable("gui.infusion_table.search_hint"));
+        searchField.setChangedListener(string -> refreshEnchantmentList()).setSuggestion(
+                Text.translatable("gui.infusion_table.search_hint"));
         enchantmentList.setMargin(0).setListItemHeight(WEnchantment.HEIGHT);
 //        root.add(searchField, 0, 6, WEnchantment.WIDTH + enchantmentList.getScrollBar().getWidth(), searchField.getHeight());
         // 8 is the width of WListPanel's scrollbar, which is constant and hardcoded.
@@ -85,7 +82,7 @@ public class InfusionTableGuiDescription extends SyncedGuiDescription {
         WEnchantmentLevel levelSlider = new WEnchantmentLevel();
         levelSlider.setMaxLevel(50);
         WItemSlot slot = WItemSlot.of(inventory, 0);
-        root.add(levelSlider, 120, 20, 40, 20);
+        root.add(levelSlider, 120, 20, 40, 80);
         root.add(slot, 140, 40);
         root.add(createPlayerInventoryPanel(), 0, 80);
 
@@ -98,15 +95,15 @@ public class InfusionTableGuiDescription extends SyncedGuiDescription {
     }
 
     public static List<Enchantment> getSuitableEnchantments(ItemStack stack) {
-        if (stack.isEmpty())
-            return new ArrayList<>();
+        if (stack.isEmpty()) return new ArrayList<>();
         boolean isBook = stack.isOf(Items.BOOK);
         Item item = stack.getItem();
         ArrayList<Enchantment> list = new ArrayList<>();
         for (Enchantment enchantment : Registry.ENCHANTMENT) {
             // Vanilla Enchanting Table disallows enchantments that are not available for random selection.
             // Read EnchantmentHelper#getPossibleEntries.
-            if (enchantment.isTreasure() || !enchantment.isAvailableForRandomSelection() || !enchantment.type.isAcceptableItem(item) && !isBook) continue;
+            if (enchantment.isTreasure() || !enchantment.isAvailableForRandomSelection() || !enchantment.type.isAcceptableItem(
+                    item) && !isBook) continue;
 
             list.add(enchantment);
         }

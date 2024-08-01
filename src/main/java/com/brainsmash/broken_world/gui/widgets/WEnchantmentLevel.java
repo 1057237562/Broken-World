@@ -19,13 +19,13 @@ public class WEnchantmentLevel extends WWidget {
     // As defined in TextRenderer#fontHeight
     static final int FONT_HEIGHT = 9;
     protected static final double MASS = 1.0d;
-    protected static final double F_PULL = 1.0d;
+    protected static final double F_PULL = 2.0d;
     protected static final double K_FRICTION = 4d;
 
     protected int minLevel = 1;
     protected int maxLevel = 1;
     protected int level = 1;
-    protected float pos = 1.0f;
+    protected float pos = 4.5f;
     protected double v = 0.0f; // v stands for velocity, v = dpos / dt, t has the unit of sec.
     protected float gap = 16;
     protected long lastPaintNano = 0;
@@ -53,10 +53,10 @@ public class WEnchantmentLevel extends WWidget {
             long delta = nano - lastPaintNano;
             pos += (float) (v * delta / 1E9);
 //            v += (pos - net.minecraft.util.math.MathHelper.clamp(Math.round(pos), minLevel, maxLevel) * F_PULL - v * K_FRICTION) / MASS;
-            double distance = MathHelper.clamp(Math.round(pos), minLevel, maxLevel) - pos;
-            double effectiveDistance = MathHelper.clamp(distance, -0.5f, 0.5f);
+            pos = MathHelper.clamp(pos, minLevel, maxLevel);
+            double effectiveDistance = Math.round(pos) - pos;
             double pull = effectiveDistance * F_PULL;
-            double friction = (v >= 0 ? -1 : 1) * (Math.exp(v) - 1) * 0.4d;
+            double friction = (v >= 0 ? -1 : 1) * (Math.exp(Math.abs(v)) - 1) * 0.4d;
             double a = (pull + friction) / MASS;
             v += a * delta / 1E9;
         }
@@ -69,13 +69,8 @@ public class WEnchantmentLevel extends WWidget {
         for (int lvl = lowestLevelToRender; lvl <= highestLevelToRender; lvl++) {
             String roman = MathHelper.roman(lvl);
             int width = textRenderer.getWidth(roman);
-            textRenderer.drawWithShadow(
-                    matrices,
-                    roman,
-                    x + this.width / 2.0f - width / 2.0f,
-                    y + (upperBound - (lvl * gap + FONT_HEIGHT / 2.0f)),
-                    0x00_FFFFFF
-            );
+            textRenderer.drawWithShadow(matrices, roman, x + this.width / 2.0f - width / 2.0f,
+                    y + (upperBound - (lvl * gap + FONT_HEIGHT / 2.0f)), 0x00_FFFFFF);
         }
         ScreenDrawing.texturedRect(matrices, x, y, width, height, MASK, 0xFF_FFFFFF);
     }
@@ -89,7 +84,6 @@ public class WEnchantmentLevel extends WWidget {
         Deque<Sample> samples;
 
         /**
-         *
          * @param sampleCount How many samples to keep hold of.
          */
         public DragTracker(int sampleCount) {
@@ -102,6 +96,7 @@ public class WEnchantmentLevel extends WWidget {
 
         /**
          * Retrieves average speed of latest recorded samples. Unit of time is in second.
+         *
          * @return 0 if recorded samples count is less than max samples count; Average speed otherwise.
          */
         public double speed() {
