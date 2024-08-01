@@ -51,12 +51,15 @@ public class WEnchantmentLevel extends WWidget {
         long nano = System.nanoTime();
         if (dragTracker.getSampleCount() == 0 && lastPaintNano != 0) {
             long delta = nano - lastPaintNano;
+            if (Double.isNaN(v)) {
+                v = 0;
+            }
             pos += (float) (v * delta / 1E9);
 //            v += (pos - net.minecraft.util.math.MathHelper.clamp(Math.round(pos), minLevel, maxLevel) * F_PULL - v * K_FRICTION) / MASS;
             pos = MathHelper.clamp(pos, minLevel, maxLevel);
             double effectiveDistance = Math.round(pos) - pos;
             double pull = effectiveDistance * F_PULL;
-            double friction = (v >= 0 ? -1 : 1) * (Math.exp(Math.abs(v)) - 1) * 0.4d;
+            double friction = (v >= 0 ? -1 : 1) * (Math.exp(Math.abs(v)) - 1);
             double a = (pull + friction) / MASS;
             v += a * delta / 1E9;
         }
