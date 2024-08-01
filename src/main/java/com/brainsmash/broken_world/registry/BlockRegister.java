@@ -326,6 +326,7 @@ public class BlockRegister {
             new BlockItem(blocks[100], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[101], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[102], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[103], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -432,6 +433,7 @@ public class BlockRegister {
             "black_stone_base",
             "dim_infuser",
             "infusion_table",
+            "xp_container",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
