@@ -19,13 +19,13 @@ public class WEnchantmentLevel extends WWidget {
     // As defined in TextRenderer#fontHeight
     static final int FONT_HEIGHT = 9;
     protected static final double MASS = 1.0d;
-    protected static final double F_PULL = 2.0d;
+    protected static final double F_PULL = 4.0d;
     protected static final double K_FRICTION = 4d;
 
     protected int minLevel = 1;
     protected int maxLevel = 1;
     protected int level = 1;
-    protected float pos = 4.5f;
+    protected float pos = 1f;
     protected double v = 0.0f; // v stands for velocity, v = dpos / dt, t has the unit of sec.
     protected float gap = 16;
     protected long lastPaintNano = 0;
