@@ -34,6 +34,10 @@ public class WEnchantmentLevel extends WWidget {
 
     public WEnchantmentLevel() {
         super();
+        for (int i = 0; i < 11; i++) {
+            String roman = MathHelper.roman(i);
+            System.out.println(roman + ": " + textRenderer.getWidth(roman));
+        }
     }
 
     public WEnchantmentLevel setMinLevel(int minLevel) {
@@ -64,15 +68,22 @@ public class WEnchantmentLevel extends WWidget {
         }
         lastPaintNano = nano;
 
-        float upperBound = pos * gap + height / 2.0f;
-        float lowerBound = pos * gap - height / 2.0f;
-        int highestLevelToRender = (int) Math.min(maxLevel, Math.floor((upperBound + FONT_HEIGHT / 2.0f) / gap));
-        int lowestLevelToRender = (int) Math.max(minLevel, Math.ceil((lowerBound - FONT_HEIGHT / 2.0f) / gap));
+        float rightBound = pos * gap + width / 2.0f;
+        float leftBound = pos * gap - width / 2.0f;
+        int highestLevelToRender = (int) Math.min(maxLevel, Math.ceil(rightBound / gap));
+        if (gap * highestLevelToRender - textRenderer.getWidth(MathHelper.roman(highestLevelToRender)) / 2.0f >= rightBound)
+            highestLevelToRender--;
+        int lowestLevelToRender = (int) Math.max(minLevel, Math.floor(leftBound / gap));
+        if (gap * lowestLevelToRender + textRenderer.getWidth(MathHelper.roman(lowestLevelToRender)) / 2.0f <= leftBound)
+            lowestLevelToRender++;
         for (int lvl = lowestLevelToRender; lvl <= highestLevelToRender; lvl++) {
             String roman = MathHelper.roman(lvl);
-            int width = textRenderer.getWidth(roman);
-            textRenderer.drawWithShadow(matrices, roman, x + this.width / 2.0f - width / 2.0f,
-                    y + (upperBound - (lvl * gap + FONT_HEIGHT / 2.0f)), 0x00_FFFFFF);
+            int textWidth = textRenderer.getWidth(roman);
+            textRenderer.drawWithShadow(matrices, roman,
+                    x + width / 2.0f + (lvl - pos) * gap - textWidth / 2.0f,
+                    y + height / 2.0f - FONT_HEIGHT / 2.0f,
+                    0x00_FFFFFF
+            );
         }
         ScreenDrawing.texturedRect(matrices, x, y, width, height, MASK, 0xFF_FFFFFF);
     }
@@ -161,10 +172,10 @@ public class WEnchantmentLevel extends WWidget {
         }
         double dPos;
         if (pos >= minLevel && pos <= maxLevel) {
-            dPos = deltaY / gap;
+            dPos = -deltaX / gap;
         } else {
             double bound = pos > maxLevel ? maxLevel : minLevel;
-            dPos = deltaY / gap * (1 / Math.exp(Math.pow(6 * (pos - bound), 2)));
+            dPos = -deltaX / gap * (1 / Math.exp(Math.pow(6 * (pos - bound), 2)));
         }
         pos += (float) dPos;
         dragTracker.push(pos);
