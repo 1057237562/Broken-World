@@ -37,6 +37,10 @@ repositories {
         name = "CottonMC"
         url = "https://server.bbkr.space/artifactory/libs-release"
     }
+//    maven {
+//        name = 'GeckoLib'
+//        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+//    }
 }
 
 dependencies {
@@ -61,6 +65,7 @@ dependencies {
     }
     modImplementation include("io.github.cottonmc:LibGui:6.4.0+1.19")
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:9.1.632")
+//    modImplementation 'software.bernie.geckolib:geckolib-fabric-1.19:3.1.40'
     // Uncomment the following line to enable the deprecated Fabric API modules.
     // These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
