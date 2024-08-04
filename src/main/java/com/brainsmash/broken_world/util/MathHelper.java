@@ -44,11 +44,11 @@ public class MathHelper extends net.minecraft.util.math.MathHelper {
         s.append("M".repeat(Math.max(0, i / 1000)));
         i %= 1000;
         int[] digits = digits(i);
-        s.append(units[digits[0]]);
-        if (digits.length >= 2)
-            s.append(tens[digits[1]]);
         if (digits.length >= 3)
             s.append(hundreds[digits[2]]);
+        if (digits.length >= 2)
+            s.append(tens[digits[1]]);
+        s.append(units[digits[0]]);
         return s.toString();
     }
 }

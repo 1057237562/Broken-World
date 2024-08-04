@@ -19,13 +19,13 @@ public class WEnchantmentLevel extends WWidget {
     // As defined in TextRenderer#fontHeight
     static final int FONT_HEIGHT = 9;
     protected static final double MASS = 1.0d;
-    protected static final double F_PULL = 4.0d;
+    protected static final double F_PULL = 2.0d;
     protected static final double K_FRICTION = 4d;
 
     protected int minLevel = 1;
     protected int maxLevel = 1;
     protected int level = 1;
-    protected float pos = 1f;
+    protected float pos = 1.0f;
     protected double v = 0.0f; // v stands for velocity, v = dpos / dt, t has the unit of sec.
     protected float gap = 16;
     protected long lastPaintNano = 0;
@@ -34,6 +34,10 @@ public class WEnchantmentLevel extends WWidget {
 
     public WEnchantmentLevel() {
         super();
+        for (int i = 0; i < 11; i++) {
+            String roman = MathHelper.roman(i);
+            System.out.println(roman + ": " + textRenderer.getWidth(roman));
+        }
     }
 
     public WEnchantmentLevel setMinLevel(int minLevel) {
@@ -51,29 +55,35 @@ public class WEnchantmentLevel extends WWidget {
         long nano = System.nanoTime();
         if (dragTracker.getSampleCount() == 0 && lastPaintNano != 0) {
             long delta = nano - lastPaintNano;
-            if (Double.isNaN(v)) {
-                v = 0;
-            }
             pos += (float) (v * delta / 1E9);
 //            v += (pos - net.minecraft.util.math.MathHelper.clamp(Math.round(pos), minLevel, maxLevel) * F_PULL - v * K_FRICTION) / MASS;
-            pos = MathHelper.clamp(pos, minLevel, maxLevel);
-            double effectiveDistance = Math.round(pos) - pos;
-            double pull = effectiveDistance * F_PULL;
-            double friction = (v >= 0 ? -1 : 1) * (Math.exp(Math.abs(v)) - 1);
+            double distance = MathHelper.clamp(Math.round(pos), minLevel, maxLevel) - pos;
+//            double effectiveDistance = MathHelper.clamp(distance, -0.5, 0.5);
+            double effectiveDistance = pos >= minLevel && pos <= maxLevel ? distance : distance * 2;
+            double pull = effectiveDistance * 40.0d; // TODO Replace this constant with F_PULL
+            double friction = - v * 8d; // TODO Replace this constant with K_FRICTION
+//            double friction = (v >= 0 ? -1 : 1) * (Math.exp(Math.abs(v)) - 1) * 4d;
             double a = (pull + friction) / MASS;
             v += a * delta / 1E9;
         }
         lastPaintNano = nano;
 
-        float upperBound = pos * gap + height / 2.0f;
-        float lowerBound = pos * gap - height / 2.0f;
-        int highestLevelToRender = (int) Math.min(maxLevel, Math.floor((upperBound + FONT_HEIGHT / 2.0f) / gap));
-        int lowestLevelToRender = (int) Math.max(minLevel, Math.ceil((lowerBound - FONT_HEIGHT / 2.0f) / gap));
+        float rightBound = pos * gap + width / 2.0f;
+        float leftBound = pos * gap - width / 2.0f;
+        int highestLevelToRender = (int) Math.min(maxLevel, Math.ceil(rightBound / gap));
+        if (gap * highestLevelToRender - textRenderer.getWidth(MathHelper.roman(highestLevelToRender)) / 2.0f >= rightBound)
+            highestLevelToRender--;
+        int lowestLevelToRender = (int) Math.max(minLevel, Math.floor(leftBound / gap));
+        if (gap * lowestLevelToRender + textRenderer.getWidth(MathHelper.roman(lowestLevelToRender)) / 2.0f <= leftBound)
+            lowestLevelToRender++;
         for (int lvl = lowestLevelToRender; lvl <= highestLevelToRender; lvl++) {
             String roman = MathHelper.roman(lvl);
-            int width = textRenderer.getWidth(roman);
-            textRenderer.drawWithShadow(matrices, roman, x + this.width / 2.0f - width / 2.0f,
-                    y + (upperBound - (lvl * gap + FONT_HEIGHT / 2.0f)), 0x00_FFFFFF);
+            int textWidth = textRenderer.getWidth(roman);
+            textRenderer.drawWithShadow(matrices, roman,
+                    x + width / 2.0f + (lvl - pos) * gap - textWidth / 2.0f,
+                    y + height / 2.0f - FONT_HEIGHT / 2.0f,
+                    0x00_FFFFFF
+            );
         }
         ScreenDrawing.texturedRect(matrices, x, y, width, height, MASK, 0xFF_FFFFFF);
     }
@@ -135,7 +145,6 @@ public class WEnchantmentLevel extends WWidget {
         if (button != 0) {
             return InputResult.IGNORED;
         }
-        System.out.println("down");
         dragTracker.push(pos);
         return InputResult.PROCESSED;
     }
@@ -145,7 +154,6 @@ public class WEnchantmentLevel extends WWidget {
         if (button != 0) { // 0 represents left button.
             return InputResult.IGNORED;
         }
-        System.out.println("up");
         dragTracker.push(pos);
 
         // If there's only 1 or 2 samples, perhaps the widget is not dragged at all.
@@ -162,8 +170,13 @@ public class WEnchantmentLevel extends WWidget {
         if (button != 0) {
             return InputResult.IGNORED;
         }
-        System.out.println("drag");
-        double dPos = deltaY / gap;
+        double dPos;
+        if (pos >= minLevel && pos <= maxLevel) {
+            dPos = -deltaX / gap;
+        } else {
+            double bound = pos > maxLevel ? maxLevel : minLevel;
+            dPos = -deltaX / gap * (1 / Math.exp(Math.pow(6 * (pos - bound), 2)));
+        }
         pos += (float) dPos;
         dragTracker.push(pos);
         return InputResult.PROCESSED;
