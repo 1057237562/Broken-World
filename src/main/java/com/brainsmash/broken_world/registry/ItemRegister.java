@@ -3,6 +3,7 @@ package com.brainsmash.broken_world.registry;
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.items.*;
 import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
+import com.brainsmash.broken_world.items.armor.render.KineticHelmetRenderer;
 import com.brainsmash.broken_world.items.electrical.BatteryItem;
 import com.brainsmash.broken_world.items.electrical.MiningDrillItem;
 import com.brainsmash.broken_world.items.food.XpFruit;
@@ -21,6 +22,7 @@ import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import com.brainsmash.broken_world.registry.enums.ToolRegistry;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
@@ -311,6 +313,8 @@ public class ItemRegister {
                 return entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0f : 0.0f;
             });
         }
+
+        ArmorRenderer.register(new KineticHelmetRenderer(), get(ItemRegistry.KINETIC_HELMET));
     }
 
     public static Item get(ItemRegistry item) {
