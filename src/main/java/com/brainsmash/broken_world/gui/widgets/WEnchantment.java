@@ -91,22 +91,10 @@ public class WEnchantment extends WWidget {
 
     @Override
     public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
-//        /*
-//        RenderSystem.viewport(0, 0, this.client.getWindow().getFramebufferWidth(), this.client.getWindow().getFramebufferHeight());
-//        RenderSystem.restoreProjectionMatrix();
-//        DiffuseLighting.enableGuiDepthLighting();
-//        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         EnchantingPhrases.getInstance().setSeed(seed);
-//        int n = ((EnchantmentScreenHandler)this.handler).getLapisCount();
 
-//        int widgetX = i + 60;
         int phrasesX = x + 13 + 7 * MathHelper.digits(power).length;
         int phrasesY = y + 2;
-//        this.setZOffset(0);
-//        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-//        RenderSystem.setShaderTexture(0, TEXTURE);
-//        int power = ((EnchantmentScreenHandler)this.handler).enchantmentPower[o];
-//        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         if (enchantment == null) {
             ScreenDrawing.texturedRect(matrices, x, y, WIDTH, HEIGHT, BACKGROUND_UNAVAILABLE, 0xFFFFFFFF);
             return;
@@ -118,10 +106,7 @@ public class WEnchantment extends WWidget {
             ScreenDrawing.texturedRect(matrices, x, y, WIDTH, HEIGHT, BACKGROUND_UNAVAILABLE, 0xFFFFFFFF);
             // draw exp orbs
             drawOrbAndLevelNumbers(matrices, x, y, power, available);
-//            this.drawTexture(matrices, widgetX + 1, j + 15 + 19 * o, 16 * o, 239, 16, 16);
             this.textRenderer.drawTrimmed(stringVisitable, phrasesX, phrasesY, phrasesWidthLimit, (t & 0xFEFEFE) >> 1);
-//            ScreenDrawing.drawString(matrices, stringVisitable.getString(), phrasesX, 2, 0xFF_000000 + (t & 0xFEFEFE) >> 1);
-            t = 4226832;
         } else {
             if (mouseX >= 0 && mouseY >= 0 && mouseX < WIDTH && mouseY < HEIGHT) {
                 ScreenDrawing.texturedRect(matrices, x, y, WIDTH, HEIGHT, BACKGROUND_MOUSE_HOVER, 0xFFFFFFFF);
@@ -131,13 +116,8 @@ public class WEnchantment extends WWidget {
             }
             // draw exp orbs
             drawOrbAndLevelNumbers(matrices, x, y, power, available);
-//            this.drawTexture(matrices, widgetX + 1, j + 15 + 19 * o, 16 * o, 223, 16, 16);
             this.textRenderer.drawTrimmed(stringVisitable, phrasesX, phrasesY, phrasesWidthLimit, t);
-//            ScreenDrawing.drawString(matrices, stringVisitable.getString(), phrasesX, 2, 0xFF_000000 + t);
-            t = 8453920;
         }
-//        this.textRenderer.drawWithShadow(matrices, powerString, (float)(phrasesX + 86 - this.textRenderer.getWidth(powerString)), 9.0f, t);
-//         */
     }
 
     @Override
@@ -155,8 +135,6 @@ public class WEnchantment extends WWidget {
                 if (client.player.experienceLevel < power) {
                     tooltip.add(Text.translatable("container.enchant.level.requirement", power).formatted(Formatting.RED));
                 } else {
-//                MutableText mutableText = m == 1 ? Text.translatable("container.enchant.lapis.one") : Text.translatable("container.enchant.lapis.many", m);
-//                tooltip.add(mutableText.formatted(i >= m ? Formatting.GRAY : Formatting.RED));
                     MutableText mutableText2 = power == 1 ? Text.translatable("container.enchant.level.one") : Text.translatable("container.enchant.level.many", power);
                     tooltip.add(mutableText2.formatted(Formatting.GRAY));
                 }

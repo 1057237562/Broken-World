@@ -22,8 +22,8 @@ public class WLevelSlider extends WWidget {
     // As defined in TextRenderer#fontHeight
     static final int FONT_HEIGHT = 9;
     protected static final double MASS = 1.0d;
-    protected static final double F_PULL = 2.0d;
-    protected static final double K_FRICTION = 4d;
+    protected static final double F_PULL = 40.0d;
+    protected static final double K_FRICTION = 8d;
 
     protected int minLevel = 1;
     protected int maxLevel = 10;
@@ -46,16 +46,6 @@ public class WLevelSlider extends WWidget {
         }
     }
 
-    public WLevelSlider setMinLevel(int minLevel) {
-        this.minLevel = minLevel;
-        return this;
-    }
-
-    public WLevelSlider setMaxLevel(int maxLevel) {
-        this.maxLevel = maxLevel;
-        return this;
-    }
-
     @Override
     public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
         Scissors.push(x, y, getWidth(), getHeight());
@@ -65,13 +55,9 @@ public class WLevelSlider extends WWidget {
             pos += (float) (v * delta / 1E9);
             handleLevelChange();
 
-//            v += (pos - net.minecraft.util.math.MathHelper.clamp(Math.round(pos), minLevel, maxLevel) * F_PULL - v * K_FRICTION) / MASS;
-            double distance = MathHelper.clamp(Math.round(pos), minLevel, maxLevel) - pos;
-//            double effectiveDistance = MathHelper.clamp(distance, -0.5, 0.5);
-            double effectiveDistance = pos >= minLevel && pos <= maxLevel ? distance : distance * 2;
-            double pull = effectiveDistance * 40.0d; // TODO Replace this constant with F_PULL
-            double friction = - v * 8d; // TODO Replace this constant with K_FRICTION
-//            double friction = (v >= 0 ? -1 : 1) * (Math.exp(Math.abs(v)) - 1) * 4d;
+            double distance = MathHelper.clamp(Math.round(pos), minLevel, maxLevel) - pos;double effectiveDistance = pos >= minLevel && pos <= maxLevel ? distance : distance * 2;
+            double pull = effectiveDistance * F_PULL;
+            double friction = - v * K_FRICTION;
             double a = (pull + friction) / MASS;
             v += a * delta / 1E9;
         }
@@ -169,7 +155,7 @@ public class WLevelSlider extends WWidget {
         dragTracker.push(pos);
 
         // If there's only 1 or 2 samples, perhaps the widget is not dragged at all.
-        // For example it might just got clicked.
+        // For example, when it just got clicked.
         if (dragTracker.getSampleCount() >= 3) {
             v = dragTracker.speed();
         }
