@@ -150,7 +150,7 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
         boolean isBook = stack.isOf(Items.BOOK);
         Item item = stack.getItem();
         ArrayList<Enchantment> list = new ArrayList<>();
-        if (!stack.isEmpty() && !stack.isEnchantable())
+        if (!stack.isEmpty() && (!stack.isEnchantable() || item.getEnchantability() <= 0))
             return list;
         for (Enchantment enchantment : Registry.ENCHANTMENT) {
             // Vanilla Enchanting Table disallows enchantments that are not available for random selection.
