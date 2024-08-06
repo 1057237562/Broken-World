@@ -218,7 +218,7 @@ public class BlockRegister {
             // 100
             new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque(), true),
             new DimInfuser(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
-            new InfusionTable(FabricBlockSettings.copyOf(Blocks.STONE)),
+            new InfusingTable(FabricBlockSettings.copyOf(Blocks.STONE)),
             new XpContainer(FabricBlockSettings.copyOf(Blocks.CAULDRON)),
 
     };

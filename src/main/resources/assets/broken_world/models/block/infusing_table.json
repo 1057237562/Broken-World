@@ -2,8 +2,8 @@
     "textures": {
         "particle": "block/gold_block",
         "bottom": "block/gold_block",
-        "top": "broken_world:block/infusion_table_top",
-        "side": "broken_world:block/infusion_table_side"
+        "top": "broken_world:block/infusing_table_top",
+        "side": "broken_world:block/infusing_table_side"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "broken_world:infusion_table"
+          "name": "broken_world:infusing_table"
         }
       ],
       "rolls": 1.0

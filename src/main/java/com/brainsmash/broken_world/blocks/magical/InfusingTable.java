@@ -20,8 +20,8 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class InfusionTable extends BlockWithEntity implements CustomModelBlock {
-    public InfusionTable(Settings settings) {
+public class InfusingTable extends BlockWithEntity implements CustomModelBlock {
+    public InfusingTable(Settings settings) {
         super(settings);
     }
 
