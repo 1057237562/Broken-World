@@ -187,8 +187,8 @@
 
   "death.attack.electricShock": "That's how %1$s lost engineering license. ",
 
-  "gui.infusion_table.search_hint": "Search...",
-  "gui.infusion_table.back": "Back",
+  "gui.infusing_table.search_hint": "Search...",
+  "gui.infusing_table.back": "Back",
 
   "container.infuse": "Infuse",
   "container.enchant.level.max": "Max Level: %s",

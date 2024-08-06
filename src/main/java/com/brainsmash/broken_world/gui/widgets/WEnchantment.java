@@ -29,7 +29,7 @@ import java.util.function.Consumer;
  */
 public class WEnchantment extends WWidget {
     public static final Identifier TEXTURE = new Identifier("textures/gui/container/enchanting_table.png");
-    public static final Identifier ORB_AND_NUMBERS = new Identifier(Main.MODID, "textures/gui/infusion_table/orb_and_numbers.png");
+    public static final Identifier ORB_AND_NUMBERS = new Identifier(Main.MODID, "textures/gui/infusing_table/orb_and_numbers.png");
     public static final int WIDTH = 108;
     public static final int HEIGHT = 19;
     public static final Texture BACKGROUND_AVAILABLE = new Texture(TEXTURE, 0, 166 / 256.0f, WIDTH / 256.0f, (166 + HEIGHT) / 256.0f);

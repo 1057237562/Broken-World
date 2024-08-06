@@ -17,7 +17,6 @@ import java.util.Deque;
 import java.util.function.Consumer;
 
 public class WLevelSlider extends WWidget {
-    public static final Texture MASK = new Texture(new Identifier(Main.MODID, "textures/white.png"));
     public static final Texture FADE_MASK_RIGHT = new Texture(new Identifier(Main.MODID, "textures/fade_mask_32x32.png"));
     public static final Texture FADE_MASK_LEFT = new Texture(new Identifier(Main.MODID, "textures/fade_mask_32x32.png"), 1.0f, 0.0f, 0.0f, 1.0f);
     // As defined in TextRenderer#fontHeight

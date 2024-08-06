@@ -48,7 +48,7 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
     // 8 is the width of WListPanel's scrollbar, which is constant and hardcoded.
     protected static int SCROLLBAR_WIDTH = 8;
     public static final SearchManager.Key<Enchantment> ENCHANTMENT_KEY = new SearchManager.Key<>();
-    public static final Icon SLOT_ICON = new TextureIcon(new Identifier(Main.MODID, "textures/gui/infusion_table/slot_icon.png"));
+    public static final Icon SLOT_ICON = new TextureIcon(new Identifier(Main.MODID, "textures/gui/infusing_table/slot_icon.png"));
 
     protected SearchManager searchManager = new SearchManager();
     protected List<EnchantmentLevelEntry> enchantments = new ArrayList<>();
@@ -68,7 +68,7 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
     protected int syncId;
 
     public InfusingTableGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(Main.INFUSION_TABLE_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE),
+        super(Main.INFUSING_TABLE_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE),
                 getBlockPropertyDelegate(context, InfusingTableEntity.PROPERTY_COUNT));
 
         this.context = context;
@@ -89,7 +89,7 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
 
         searchField = new WTextField();
         searchField.setChangedListener(string -> refreshEnchantmentList())
-                .setSuggestion(Text.translatable("gui.infusion_table.search_hint"));
+                .setSuggestion(Text.translatable("gui.infusing_table.search_hint"));
 
         slot = WItemSlot.of(inventory, 0);
         slot.setIcon(SLOT_ICON).addChangeListener((w, inv, stack, i) -> onContentChanged(inv));

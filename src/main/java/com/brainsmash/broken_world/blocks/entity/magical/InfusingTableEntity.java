@@ -20,7 +20,7 @@ public class InfusingTableEntity extends BlockEntity implements NamedScreenHandl
     protected Text customName;
 
     public InfusingTableEntity(BlockPos pos, BlockState state) {
-        super(BlockRegister.INFUSION_TABLE_ENTITY_TYPE, pos, state);
+        super(BlockRegister.INFUSING_TABLE_ENTITY_TYPE, pos, state);
     }
 
     @Override
