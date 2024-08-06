@@ -103,6 +103,6 @@ public enum BlockRegistry {
     LUMIN_INJECTOR,
     BLACK_STONE_BASE,
     DIM_INFUSER,
-    INFUSION_TABLE,
+    INFUSING_TABLE,
     XP_CONTAINER,
 }

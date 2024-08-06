@@ -432,7 +432,7 @@ public class BlockRegister {
             "lumin_injector",
             "black_stone_base",
             "dim_infuser",
-            "infusion_table",
+            "infusing_table",
             "xp_container",
     };
 
@@ -561,7 +561,7 @@ public class BlockRegister {
     public static BlockEntityType<XpHopperEntity> XP_HOPPER_ENTITY_TYPE;
     public static BlockEntityType<LuminInjectorEntity> LUMIN_INJECTOR_ENTITY_TYPE;
     public static BlockEntityType<DimInfuserEntity> DIM_INFUSER_ENTITY_TYPE;
-    public static BlockEntityType<InfusionTableEntity> INFUSION_TABLE_ENTITY_TYPE;
+    public static BlockEntityType<InfusingTableEntity> INFUSION_TABLE_ENTITY_TYPE;
     public static BlockEntityType<XpContainerEntity> XP_CONTAINER_ENTITY_TYPE;
 
     public static void registerBlocks() {
@@ -701,8 +701,8 @@ public class BlockRegister {
         DIM_INFUSER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dim_infuser"),
                 FabricBlockEntityTypeBuilder.create(DimInfuserEntity::new, get(BlockRegistry.DIM_INFUSER)).build());
         INFUSION_TABLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
-                new Identifier(MODID, "infusion_table"), FabricBlockEntityTypeBuilder.create(InfusionTableEntity::new,
-                        get(BlockRegistry.INFUSION_TABLE)).build());
+                new Identifier(MODID, "infusion_table"), FabricBlockEntityTypeBuilder.create(InfusingTableEntity::new,
+                        get(BlockRegistry.INFUSING_TABLE)).build());
         XP_CONTAINER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "xp_container"),
                 FabricBlockEntityTypeBuilder.create(XpContainerEntity::new, get(BlockRegistry.XP_CONTAINER)).build());
     }

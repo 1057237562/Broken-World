@@ -6,6 +6,7 @@ import com.brainsmash.broken_world.util.MiscHelper;
 import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
 import io.github.cottonmc.cotton.gui.widget.TooltipBuilder;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
+import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import io.github.cottonmc.cotton.gui.widget.data.Texture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -19,6 +20,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
+/**
+ * Widget for displaying enchantments, as in vanilla Enchanting Table, but designed specially for Infusing Table.
+ */
 public class WEnchantment extends WWidget {
     public static final Identifier TEXTURE = new Identifier("textures/gui/container/enchanting_table.png");
     public static final Identifier ORB_AND_NUMBERS = new Identifier(Main.MODID, "textures/gui/infusion_table/orb_and_numbers.png");
@@ -30,33 +38,37 @@ public class WEnchantment extends WWidget {
     public static final Texture ORB_BRIGHT_SMALL = new Texture(ORB_AND_NUMBERS, 0, 0, 16 / 128.0f, 16 / 128.0f);
     public static final Texture ORB_BRIGHT_MEDIUM = new Texture(ORB_AND_NUMBERS, 16 / 128.0f, 0, 32 / 128.0f, 16 / 128.0f);
     public static final Texture ORB_BRIGHT_LARGE = new Texture(ORB_AND_NUMBERS, 32 / 128.0f, 0, 48 / 128.0f, 16 / 128.0f);
-    public static final Texture ORB_DIM_SMALL = new Texture(ORB_AND_NUMBERS, 0, 0, 16 / 128.0f, 16 / 128.0f);
-    public static final Texture ORB_DIM_MEDIUM = new Texture(ORB_AND_NUMBERS, 0, 0, 16 / 128.0f, 16 / 128.0f);
-    public static final Texture ORB_DIM_LARGE = new Texture(ORB_AND_NUMBERS, 0, 0, 16 / 128.0f, 16 / 128.0f);
-
+    public static final Texture ORB_DIM_SMALL = new Texture(ORB_AND_NUMBERS, 0, 16 / 128.0f, 16 / 128.0f, 32 / 128.0f);
+    public static final Texture ORB_DIM_MEDIUM = new Texture(ORB_AND_NUMBERS, 16 / 128.0f, 16 / 128.0f, 32 / 128.0f, 32 / 128.0f);
+    public static final Texture ORB_DIM_LARGE = new Texture(ORB_AND_NUMBERS, 32 / 128.0f, 16 / 128.0f, 48 / 128.0f, 32 / 128.0f);
+    public static final Texture[] NUMBER_FOREGROUND = generateNumberTextures(true);
+    public static final Texture[] NUMBER_BACKGROUND = generateNumberTextures(false);
 
     public Enchantment enchantment = null;
-    public int enchantmentPower = 0;
+    public int power = 0;
+    public int level = 1;
     public int seed;
     protected TextRenderer textRenderer;
     public boolean available = true;
-    protected Texture[] numberForegrounds;
-    protected Texture[] numberBackgrounds;
+    protected Consumer<WEnchantment> clickedListener = null;
+    protected List<Text> extraTooltips = new ArrayList<>();
 
     public WEnchantment() {
         super();
         textRenderer = MinecraftClient.getInstance().textRenderer;
-        numberForegrounds = new Texture[10];
-        numberBackgrounds = new Texture[10];
-        for (int i = 0; i < 10; i++) {
-            numberForegrounds[i] = new Texture(ORB_AND_NUMBERS, (i * 8) / 128.0f, 32 / 128.0f, (i * 8 + 8) / 128.0f, 41 / 128.0f);
-            numberBackgrounds[i] = new Texture(ORB_AND_NUMBERS, (i * 8) / 128.0f, 41 / 128.0f, (i * 8 + 8) / 128.0f, 50 / 128.0f);
-        }
         width = WIDTH;
         height = HEIGHT;
     }
+    
+    protected static Texture[] generateNumberTextures(boolean fg) {
+        Texture[] array = new Texture[10];
+        for (int i = 0; i < 10; i++) {
+            array[i] = new Texture(ORB_AND_NUMBERS, (i * 8) / 128.0f, (fg ? 32 : 41) / 128.0f, (i * 8 + 8) / 128.0f, (fg ? 41 : 50) / 128.0f);
+        }
+        return array;
+    }
 
-    protected void drawOrbAndLevelNumbers(MatrixStack matrices, int level, boolean available) {
+    protected void drawOrbAndLevelNumbers(MatrixStack matrices, int x, int y, int level, boolean available) {
         if (level == 0)
             return;
         Texture orb;
@@ -67,11 +79,13 @@ public class WEnchantment extends WWidget {
         } else {
             orb = available ? ORB_BRIGHT_LARGE : ORB_DIM_LARGE;
         }
-        ScreenDrawing.texturedRect(matrices, 1, 1, 16, 16, orb, 0xFFFFFFFF);
+        ScreenDrawing.texturedRect(matrices, x + 1, y + 1, 16, 16, orb, 0xFFFFFFFF);
         int[] digits = MathHelper.digits(level);
-        for (int i = 0; i < digits.length; i++) {
-            ScreenDrawing.texturedRect(matrices, 9 + i * 8, 3, 8, 9, numberForegrounds[digits[i]], available ? 0x00_c8ff8f : 0x00_8c605d);
-            ScreenDrawing.texturedRect(matrices, 9 + i * 8, 3, 8, 9, numberBackgrounds[digits[i]], available ? 0x00_2d2102 : 0x00_47352f);
+        int _x = 9;
+        for (int i = digits.length - 1; i >= 0; i--) {
+            ScreenDrawing.texturedRect(matrices, x + _x, y + 3, 8, 9, NUMBER_BACKGROUND[digits[i]], available ? 0x00_2d2102 : 0x00_47352f);
+            ScreenDrawing.texturedRect(matrices, x + _x, y + 3, 8, 9, NUMBER_FOREGROUND[digits[i]], available ? 0x00_c8ff8f : 0x00_8c605d);
+            _x += digits[i] != 1 ? 7 : 5;
         }
     }
 
@@ -86,7 +100,7 @@ public class WEnchantment extends WWidget {
 //        int n = ((EnchantmentScreenHandler)this.handler).getLapisCount();
 
 //        int widgetX = i + 60;
-        int phrasesX = x + 20;
+        int phrasesX = x + 13 + 7 * MathHelper.digits(power).length;
         int phrasesY = y + 2;
 //        this.setZOffset(0);
 //        RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -97,14 +111,13 @@ public class WEnchantment extends WWidget {
             ScreenDrawing.texturedRect(matrices, x, y, WIDTH, HEIGHT, BACKGROUND_UNAVAILABLE, 0xFFFFFFFF);
             return;
         }
-        String powerString = "" + enchantmentPower;
-        int phrasesWidthLimit = 86 - this.textRenderer.getWidth(powerString);
+        int phrasesWidthLimit = 93 - 7 * MathHelper.digits(power).length;
         StringVisitable stringVisitable = EnchantingPhrases.getInstance().generatePhrase(this.textRenderer, phrasesWidthLimit);
         int t = 6839882;
         if (!available) {
             ScreenDrawing.texturedRect(matrices, x, y, WIDTH, HEIGHT, BACKGROUND_UNAVAILABLE, 0xFFFFFFFF);
             // draw exp orbs
-            drawOrbAndLevelNumbers(matrices, enchantmentPower, available);
+            drawOrbAndLevelNumbers(matrices, x, y, power, available);
 //            this.drawTexture(matrices, widgetX + 1, j + 15 + 19 * o, 16 * o, 239, 16, 16);
             this.textRenderer.drawTrimmed(stringVisitable, phrasesX, phrasesY, phrasesWidthLimit, (t & 0xFEFEFE) >> 1);
 //            ScreenDrawing.drawString(matrices, stringVisitable.getString(), phrasesX, 2, 0xFF_000000 + (t & 0xFEFEFE) >> 1);
@@ -117,7 +130,7 @@ public class WEnchantment extends WWidget {
                 ScreenDrawing.texturedRect(matrices, x, y, WIDTH, HEIGHT, BACKGROUND_AVAILABLE, 0xFFFFFFFF);
             }
             // draw exp orbs
-            drawOrbAndLevelNumbers(matrices, enchantmentPower, available);
+            drawOrbAndLevelNumbers(matrices, x, y, power, available);
 //            this.drawTexture(matrices, widgetX + 1, j + 15 + 19 * o, 16 * o, 223, 16, 16);
             this.textRenderer.drawTrimmed(stringVisitable, phrasesX, phrasesY, phrasesWidthLimit, t);
 //            ScreenDrawing.drawString(matrices, stringVisitable.getString(), phrasesX, 2, 0xFF_000000 + t);
@@ -133,21 +146,51 @@ public class WEnchantment extends WWidget {
             return;
         }
         MinecraftClient client = MinecraftClient.getInstance();
-        tooltip.add(Text.translatable("container.enchant.clue", MiscHelper.getEnchantmentName(enchantment)).formatted(Formatting.WHITE));
+        tooltip.add(Text.translatable("container.enchant.clue", power > 0 ? enchantment.getName(level) : MiscHelper.getEnchantmentName(enchantment)).formatted(Formatting.WHITE));
         // Vanilla Enchanting Table doesn't check null value, so adding assert here to shut IDEA up.
         assert client.player != null;
         if (!client.player.getAbilities().creativeMode) {
-            if (enchantmentPower > 0) {
+            if (power > 0) {
                 tooltip.add(ScreenTexts.EMPTY);
-                if (client.player.experienceLevel < enchantmentPower) {
-                    tooltip.add(Text.translatable("container.enchant.level.requirement", enchantmentPower).formatted(Formatting.RED));
+                if (client.player.experienceLevel < power) {
+                    tooltip.add(Text.translatable("container.enchant.level.requirement", power).formatted(Formatting.RED));
                 } else {
 //                MutableText mutableText = m == 1 ? Text.translatable("container.enchant.lapis.one") : Text.translatable("container.enchant.lapis.many", m);
 //                tooltip.add(mutableText.formatted(i >= m ? Formatting.GRAY : Formatting.RED));
-                    MutableText mutableText2 = enchantmentPower == 1 ? Text.translatable("container.enchant.level.one") : Text.translatable("container.enchant.level.many", enchantmentPower);
+                    MutableText mutableText2 = power == 1 ? Text.translatable("container.enchant.level.one") : Text.translatable("container.enchant.level.many", power);
                     tooltip.add(mutableText2.formatted(Formatting.GRAY));
                 }
             }
         }
+
+        for (Text text : extraTooltips) {
+            tooltip.add(text);
+        }
+    }
+
+    public void setClickedListener(Consumer<WEnchantment> listener) {
+        clickedListener = listener;
+    }
+
+    @Override
+    public InputResult onClick(int x, int y, int button) {
+        if (clickedListener != null && enchantment != null && available) {
+            clickedListener.accept(this);
+            return InputResult.PROCESSED;
+        }
+        return InputResult.IGNORED;
+    }
+
+    /**
+     * This widget is not resizable.
+     * @param x ignored
+     * @param y ignored
+     */
+    @Override
+    public void setSize(int x, int y) {
+    }
+
+    public void addExtraTooltip(Text text) {
+        extraTooltips.add(text);
     }
 }

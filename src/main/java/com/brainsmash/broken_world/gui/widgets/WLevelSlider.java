@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.gui.widgets;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.util.MathHelper;
+import io.github.cottonmc.cotton.gui.client.Scissors;
 import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
 import io.github.cottonmc.cotton.gui.widget.WWidget;
 import io.github.cottonmc.cotton.gui.widget.data.InputResult;
@@ -13,9 +14,12 @@ import net.minecraft.util.Identifier;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.function.Consumer;
 
-public class WEnchantmentLevel extends WWidget {
-    public static final Texture MASK = new Texture(new Identifier(Main.MODID, "textures/gui/infusion_table/mask.png"));
+public class WLevelSlider extends WWidget {
+    public static final Texture MASK = new Texture(new Identifier(Main.MODID, "textures/white.png"));
+    public static final Texture FADE_MASK_RIGHT = new Texture(new Identifier(Main.MODID, "textures/fade_mask_32x32.png"));
+    public static final Texture FADE_MASK_LEFT = new Texture(new Identifier(Main.MODID, "textures/fade_mask_32x32.png"), 1.0f, 0.0f, 0.0f, 1.0f);
     // As defined in TextRenderer#fontHeight
     static final int FONT_HEIGHT = 9;
     protected static final double MASS = 1.0d;
@@ -23,16 +27,19 @@ public class WEnchantmentLevel extends WWidget {
     protected static final double K_FRICTION = 4d;
 
     protected int minLevel = 1;
-    protected int maxLevel = 1;
+    protected int maxLevel = 10;
     protected int level = 1;
     protected float pos = 1.0f;
+    protected int lastLevel = 1;
     protected double v = 0.0f; // v stands for velocity, v = dpos / dt, t has the unit of sec.
-    protected float gap = 16;
+    protected float gap = 20;
     protected long lastPaintNano = 0;
     protected DragTracker dragTracker = new DragTracker(8);
     protected TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+    protected Consumer<Integer> changedListener = null;
 
-    public WEnchantmentLevel() {
+
+    public WLevelSlider() {
         super();
         for (int i = 0; i < 11; i++) {
             String roman = MathHelper.roman(i);
@@ -40,22 +47,25 @@ public class WEnchantmentLevel extends WWidget {
         }
     }
 
-    public WEnchantmentLevel setMinLevel(int minLevel) {
+    public WLevelSlider setMinLevel(int minLevel) {
         this.minLevel = minLevel;
         return this;
     }
 
-    public WEnchantmentLevel setMaxLevel(int maxLevel) {
+    public WLevelSlider setMaxLevel(int maxLevel) {
         this.maxLevel = maxLevel;
         return this;
     }
 
     @Override
     public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY) {
+        Scissors.push(x, y, getWidth(), getHeight());
         long nano = System.nanoTime();
         if (dragTracker.getSampleCount() == 0 && lastPaintNano != 0) {
             long delta = nano - lastPaintNano;
             pos += (float) (v * delta / 1E9);
+            handleLevelChange();
+
 //            v += (pos - net.minecraft.util.math.MathHelper.clamp(Math.round(pos), minLevel, maxLevel) * F_PULL - v * K_FRICTION) / MASS;
             double distance = MathHelper.clamp(Math.round(pos), minLevel, maxLevel) - pos;
 //            double effectiveDistance = MathHelper.clamp(distance, -0.5, 0.5);
@@ -85,7 +95,10 @@ public class WEnchantmentLevel extends WWidget {
                     0x00_FFFFFF
             );
         }
-        ScreenDrawing.texturedRect(matrices, x, y, width, height, MASK, 0xFF_FFFFFF);
+
+        ScreenDrawing.texturedRect(matrices, x, y, 16, height, FADE_MASK_LEFT, 0xFF_C6C6C6);
+        ScreenDrawing.texturedRect(matrices, x + width - 16, y, 16, height, FADE_MASK_RIGHT, 0xFF_C6C6C6);
+        Scissors.pop();
     }
 
     protected static class DragTracker {
@@ -178,7 +191,30 @@ public class WEnchantmentLevel extends WWidget {
             dPos = -deltaX / gap * (1 / Math.exp(Math.pow(6 * (pos - bound), 2)));
         }
         pos += (float) dPos;
+        handleLevelChange();
         dragTracker.push(pos);
         return InputResult.PROCESSED;
+    }
+
+    @Override
+    public boolean canResize() {
+        return true;
+    }
+
+    public int level() {
+        return MathHelper.clamp(Math.round(pos), minLevel, maxLevel);
+    }
+
+    protected void handleLevelChange() {
+        int level = level();
+        if (level != lastLevel && changedListener != null) {
+            changedListener.accept(level);
+        }
+        lastLevel = level;
+    }
+
+    public WLevelSlider setChangedListener(Consumer<Integer> listener) {
+        changedListener = listener;
+        return this;
     }
 }
