@@ -3,7 +3,6 @@ package com.brainsmash.broken_world.registry;
 import com.brainsmash.broken_world.Main;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.poi.PointOfInterestType;
 
 public class PointOfInterestRegister {
     public static final Identifier WIND_TURBINE = new Identifier(Main.MODID, "wind_turbine");
