@@ -1,13 +1,12 @@
 package com.brainsmash.broken_world.items.armor.material;
 
-import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 
-public class KineticMaterial implements ArmorMaterialWithSetBonus {
+public class ExoMaterial implements ArmorMaterial {
 
 
     private static final int[] BASE_DURABILITY = new int[]{
@@ -17,15 +16,15 @@ public class KineticMaterial implements ArmorMaterialWithSetBonus {
             11
     };
     private static final int[] PROTECTION_VALUES = new int[]{
-            3,
+            2,
+            5,
             6,
-            8,
-            3
+            2
     };
 
     @Override
     public int getDurability(EquipmentSlot slot) {
-        return BASE_DURABILITY[slot.getEntitySlotId()] * 40;
+        return BASE_DURABILITY[slot.getEntitySlotId()] * 15;
     }
 
     @Override
@@ -40,7 +39,7 @@ public class KineticMaterial implements ArmorMaterialWithSetBonus {
 
     @Override
     public SoundEvent getEquipSound() {
-        return SoundEvents.ITEM_ARMOR_EQUIP_TURTLE;
+        return SoundEvents.ITEM_ARMOR_EQUIP_IRON;
     }
 
     @Override
@@ -50,25 +49,16 @@ public class KineticMaterial implements ArmorMaterialWithSetBonus {
 
     @Override
     public String getName() {
-        return "kinetic";
+        return "exoskeleton";
     }
 
     @Override
     public float getToughness() {
-        return 3.0f;
+        return 0.0f;
     }
 
     @Override
     public float getKnockbackResistance() {
-        return 0.5f;
-    }
-
-    @Override
-    public void processSetBonus(EntityDataExtension dataExtension) {
-        NbtCompound nbtCompound = (NbtCompound) dataExtension.getData();
-        NbtCompound bonus = new NbtCompound();
-        bonus.putBoolean("jet", true);
-        nbtCompound.put("bonus", bonus);
-        dataExtension.setData(nbtCompound);
+        return 0.0f;
     }
 }

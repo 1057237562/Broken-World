@@ -2,8 +2,10 @@ package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.items.*;
+import com.brainsmash.broken_world.items.armor.ExoArmorItem;
+import com.brainsmash.broken_world.items.armor.material.ExoMaterial;
 import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
-import com.brainsmash.broken_world.items.armor.render.KineticHelmetRenderer;
+import com.brainsmash.broken_world.items.armor.render.AlphaArmorRenderer;
 import com.brainsmash.broken_world.items.electrical.BatteryItem;
 import com.brainsmash.broken_world.items.electrical.MiningDrillItem;
 import com.brainsmash.broken_world.items.food.XpFruit;
@@ -45,7 +47,10 @@ public class ItemRegister {
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(MODID, "itemgroup"),
             () -> new ItemStack(BlockRegister.blockitems[0]));
 
-    public static final ArmorMaterial[] armorMaterials = {new KineticMaterial()};
+    public static final ArmorMaterial[] armorMaterials = {
+            new KineticMaterial(),
+            new ExoMaterial()
+    };
 
     public static final Item[] bucket_item = {
             new BucketItem(still_fluid[0],
@@ -97,14 +102,14 @@ public class ItemRegister {
             new SniperAmmo(new FabricItemSettings().group(ITEM_GROUP)),
             new SniperRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(400)),
             new HyperSpear(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new ArmorItem(armorMaterials[0], EquipmentSlot.HEAD,
+            new ExoArmorItem(armorMaterials[0], EquipmentSlot.HEAD,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             // 30
-            new ArmorItem(armorMaterials[0], EquipmentSlot.CHEST,
+            new ExoArmorItem(armorMaterials[0], EquipmentSlot.CHEST,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new ArmorItem(armorMaterials[0], EquipmentSlot.LEGS,
+            new ExoArmorItem(armorMaterials[0], EquipmentSlot.LEGS,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new ArmorItem(armorMaterials[0], EquipmentSlot.FEET,
+            new ExoArmorItem(armorMaterials[0], EquipmentSlot.FEET,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(800)),
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:metallic"),
@@ -161,6 +166,10 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new MagicalBroomItem(new FabricItemSettings().group(ITEM_GROUP)),
             new CloakingCape(new FabricItemSettings().group(ITEM_GROUP)),
+            new ExoArmorItem(armorMaterials[1], EquipmentSlot.HEAD, new FabricItemSettings().group(ITEM_GROUP)),
+            new ExoArmorItem(armorMaterials[1], EquipmentSlot.CHEST, new FabricItemSettings().group(ITEM_GROUP)),
+            new ExoArmorItem(armorMaterials[1], EquipmentSlot.LEGS, new FabricItemSettings().group(ITEM_GROUP)),
+            new ExoArmorItem(armorMaterials[1], EquipmentSlot.FEET, new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -247,6 +256,10 @@ public class ItemRegister {
             "greedy_heart",
             "magical_broom",
             "cloaking_cape",
+            "exo_helmet",
+            "exo_chestplate",
+            "exo_leggings",
+            "exo_boots",
     };
 
     public static final Item[] guns = {
@@ -314,7 +327,7 @@ public class ItemRegister {
             });
         }
 
-        ArmorRenderer.register(new KineticHelmetRenderer(), get(ItemRegistry.KINETIC_HELMET));
+        ArmorRenderer.register(new AlphaArmorRenderer(), get(ItemRegistry.KINETIC_HELMET));
     }
 
     public static Item get(ItemRegistry item) {

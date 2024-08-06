@@ -84,4 +84,8 @@ public enum ItemRegistry {
     GREEDY_HEART,
     MAGICAL_BROOM,
     CLOAKING_CAPE,
+    EXO_HELMET,
+    EXO_CHESTPLATE,
+    EXO_LEGGINGS,
+    EXO_BOOTS,
 }

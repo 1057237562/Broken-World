@@ -18,7 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
-public class KineticHelmetRenderer implements ArmorRenderer {
+public class AlphaArmorRenderer implements ArmorRenderer {
 
     BipedEntityModel<LivingEntity> armorModel;
 
