@@ -4,6 +4,7 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.fluid.storage.SingleFluidStorage;
 import com.brainsmash.broken_world.blocks.impl.ImplementedInventory;
+import com.brainsmash.broken_world.items.electrical.BatteryItem;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.ThermalGeneratorGuiDescription;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
@@ -88,7 +89,7 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
 
     public ThermalGeneratorEntity(BlockPos pos, BlockState state) {
         super(BlockRegister.THERMAL_GENERATOR_ENTITY_TYPE, pos, state);
-        setMaxCapacity(4000);
+        setMaxCapacity(12000);
         setGenerate(16);
         fluidStorage.variant = FluidVariant.of(Fluids.LAVA);
         fluidStorage.amount = 0;
@@ -102,6 +103,9 @@ public class ThermalGeneratorEntity extends PowerBlockEntity implements NamedScr
                 fluidStorage.amount -= 300;
             } else {
                 running = false;
+            }
+            if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof BatteryItem batteryItem) {
+                setEnergy(getEnergy() - batteryItem.charge(inventory.get(0), Math.min(getEnergy(), getMaxFlow())));
             }
             if (inventory.get(1).isOf(Items.LAVA_BUCKET)) {
                 if (fluidStorage.isEmpty()) {

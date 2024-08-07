@@ -2,8 +2,6 @@ package com.brainsmash.broken_world.items;
 
 import com.brainsmash.broken_world.entity.AdvancedEnderPearlEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
-import net.minecraft.item.EnderPearlItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;

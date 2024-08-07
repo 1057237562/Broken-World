@@ -1,6 +1,5 @@
 package com.brainsmash.broken_world.blocks.entity.electric;
 
-import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.registry.BlockRegister;
 import net.minecraft.block.BlockState;

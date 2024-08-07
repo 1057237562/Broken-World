@@ -25,7 +25,7 @@ public class KineticMaterial implements ArmorMaterialWithSetBonus {
 
     @Override
     public int getDurability(EquipmentSlot slot) {
-        return BASE_DURABILITY[slot.getEntitySlotId()] * 100;
+        return BASE_DURABILITY[slot.getEntitySlotId()] * 40;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class KineticMaterial implements ArmorMaterialWithSetBonus {
 
     @Override
     public int getEnchantability() {
-        return 4;
+        return 0;
     }
 
     @Override

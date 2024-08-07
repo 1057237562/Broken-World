@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.gui.widgets;
 
+import com.brainsmash.broken_world.blocks.client.render.FluidVariantRenderer;
 import com.brainsmash.broken_world.blocks.fluid.storage.FluidSlot;
 import com.brainsmash.broken_world.blocks.fluid.storage.SingleFluidStorage;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -10,8 +11,6 @@ import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import io.github.cottonmc.cotton.gui.widget.data.Texture;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.client.render.*;
@@ -86,14 +85,7 @@ public class WFluidWidget extends WWidget {
         }
         int x1 = x + 16;
         int y1 = y + 48;
-        FluidRenderHandler handler = FluidRenderHandlerRegistry.INSTANCE.get(inv.variant.getFluid());
-        if (handler != null) {
-            Sprite[] sprite = handler.getFluidSprites(null, null, inv.variant.getFluid().getDefaultState());
-            Sprite still = sprite[0];
-            int color = handler.getFluidColor(null, null, inv.variant.getFluid().getDefaultState());
-            // Render the sprite
-            renderFluidSprite(matrices, x0, y0, x1 - x0, y1 - y0, still, color);
-        }
+        FluidVariantRenderer.INSTANCE.renderGuiRectangle(inv.variant, x0, y0, x1, y1);
         ScreenDrawing.texturedRect(matrices, x, y, 16, 48, scale, 0xFFFFFFFF);
     }
 

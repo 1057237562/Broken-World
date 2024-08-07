@@ -2,24 +2,39 @@ package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.items.*;
+import com.brainsmash.broken_world.items.armor.ExoArmorItem;
+import com.brainsmash.broken_world.items.armor.material.ExoMaterial;
 import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
+import com.brainsmash.broken_world.items.armor.render.AlphaArmorRenderer;
 import com.brainsmash.broken_world.items.electrical.BatteryItem;
 import com.brainsmash.broken_world.items.electrical.MiningDrillItem;
+import com.brainsmash.broken_world.items.food.XpFruit;
+import com.brainsmash.broken_world.items.magical.CloakingCape;
+import com.brainsmash.broken_world.items.magical.MagicalBroomItem;
 import com.brainsmash.broken_world.items.magical.Rune;
 import com.brainsmash.broken_world.items.magical.Wand;
 import com.brainsmash.broken_world.items.magical.enums.RuneEnum;
 import com.brainsmash.broken_world.items.weapons.HoeItem;
+import com.brainsmash.broken_world.items.weapons.ammo.EnergyAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.HeavyAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.LightAmmo;
 import com.brainsmash.broken_world.items.weapons.ammo.SniperAmmo;
 import com.brainsmash.broken_world.items.weapons.guns.*;
+import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import com.brainsmash.broken_world.registry.enums.ToolRegistry;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.condition.KilledByPlayerLootCondition;
+import net.minecraft.loot.condition.RandomChanceWithLootingLootCondition;
+import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -32,7 +47,10 @@ public class ItemRegister {
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(MODID, "itemgroup"),
             () -> new ItemStack(BlockRegister.blockitems[0]));
 
-    public static final ArmorMaterial[] armorMaterials = {new KineticMaterial()};
+    public static final ArmorMaterial[] armorMaterials = {
+            new KineticMaterial(),
+            new ExoMaterial()
+    };
 
     public static final Item[] bucket_item = {
             new BucketItem(still_fluid[0],
@@ -76,24 +94,24 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             // 20
             new HyperPocket(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(700)),
             new LightAmmo(new FabricItemSettings().group(ITEM_GROUP)),
-            new SMG(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new SMG(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500)),
             new HeavyAmmo(new FabricItemSettings().group(ITEM_GROUP)),
-            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500)),
             new SniperAmmo(new FabricItemSettings().group(ITEM_GROUP)),
-            new SniperRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new SniperRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(400)),
             new HyperSpear(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new ArmorItem(armorMaterials[0], EquipmentSlot.HEAD,
+            new ExoArmorItem(armorMaterials[0], EquipmentSlot.HEAD,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
             // 30
-            new ArmorItem(armorMaterials[0], EquipmentSlot.CHEST,
+            new ExoArmorItem(armorMaterials[0], EquipmentSlot.CHEST,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new ArmorItem(armorMaterials[0], EquipmentSlot.LEGS,
+            new ExoArmorItem(armorMaterials[0], EquipmentSlot.LEGS,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new ArmorItem(armorMaterials[0], EquipmentSlot.FEET,
+            new ExoArmorItem(armorMaterials[0], EquipmentSlot.FEET,
                     new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
-            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1)),
+            new Pistol(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(800)),
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:metallic"),
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:sulfuric"),
             new CoordinateCard(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), "broken_world:lush"),
@@ -135,13 +153,23 @@ public class ItemRegister {
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             // 70
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), true),
-            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1), 50),
+            new BatteryItem(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1500), 1500, true),
+            new Rifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(2000), 50),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
             new Item(new FabricItemSettings().group(ITEM_GROUP)),
-            // For testing ONLY, REMOVE before merging into main!
+            new XpFruit(BlockRegister.get(BlockRegistry.XP_CROP), new FabricItemSettings().group(ITEM_GROUP).food(
+                    new FoodComponent.Builder().alwaysEdible().snack().hunger(1).build())),
             new MiningDrillItem(2.0f, 1.0f, ToolMaterials.IRON, new FabricItemSettings().group(ITEM_GROUP)),
+            new EnergyRifle(new FabricItemSettings().group(ITEM_GROUP).maxCount(1).maxDamage(1000)),
+            new EnergyAmmo(new FabricItemSettings().group(ITEM_GROUP)),
+            new Item(new FabricItemSettings().group(ITEM_GROUP)),
+            new MagicalBroomItem(new FabricItemSettings().group(ITEM_GROUP)),
+            new CloakingCape(new FabricItemSettings().group(ITEM_GROUP)),
+            new ExoArmorItem(armorMaterials[1], EquipmentSlot.HEAD, new FabricItemSettings().group(ITEM_GROUP)),
+            new ExoArmorItem(armorMaterials[1], EquipmentSlot.CHEST, new FabricItemSettings().group(ITEM_GROUP)),
+            new ExoArmorItem(armorMaterials[1], EquipmentSlot.LEGS, new FabricItemSettings().group(ITEM_GROUP)),
+            new ExoArmorItem(armorMaterials[1], EquipmentSlot.FEET, new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -221,8 +249,17 @@ public class ItemRegister {
             "pestle",
             "amethyst_powder",
             "phoenix_feather",
-            // TODO For testing ONLY, REMOVE before release!
+            "xp_crop_seeds",
             "mining_drill",
+            "ov_2",
+            "energy_ammo",
+            "greedy_heart",
+            "magical_broom",
+            "cloaking_cape",
+            "exo_helmet",
+            "exo_chestplate",
+            "exo_leggings",
+            "exo_boots",
     };
 
     public static final Item[] guns = {
@@ -232,6 +269,7 @@ public class ItemRegister {
             items[ItemRegistry.HASS_03.ordinal()],
             items[ItemRegistry.QS_093.ordinal()],
             items[ItemRegistry.RPK_37.ordinal()],
+            items[ItemRegistry.OV_2.ordinal()],
     };
 
     public static final String[] tools = {
@@ -261,6 +299,19 @@ public class ItemRegister {
             Registry.register(Registry.ITEM, new Identifier(MODID, itemnames[i]), items[i]);
         }
 
+        LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
+            if (source.isBuiltin()) {
+                if (id.equals(EntityType.ZOMBIE.getLootTableId())) {
+                    LootPool.Builder poolBuilder = LootPool.builder().conditionally(
+                            KilledByPlayerLootCondition.builder()).conditionally(
+                            RandomChanceWithLootingLootCondition.builder(0.045f, 0.03f)).with(
+                            ItemEntry.builder(ItemRegister.get(ItemRegistry.GREEDY_HEART)));
+
+                    tableBuilder.pool(poolBuilder);
+                }
+            }
+        });
+
         /*Registry.register(Registry.ITEM, new Identifier("minecraft", "bowl"),
                 new BowlItem(new FabricItemSettings().group(ITEM_GROUP)));*/
 
@@ -275,6 +326,8 @@ public class ItemRegister {
                 return entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0f : 0.0f;
             });
         }
+
+        ArmorRenderer.register(new AlphaArmorRenderer(), get(ItemRegistry.KINETIC_HELMET));
     }
 
     public static Item get(ItemRegistry item) {

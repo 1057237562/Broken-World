@@ -42,6 +42,8 @@ public class Client implements ClientModInitializer {
     public static KeyBinding reloadKey = KeyBindingHelper.registerKeyBinding(
             new KeyBinding("key.broken_world.reload", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, CATEGORY));
 
+    public static KeyBinding dismountKey = KeyBindingHelper.registerKeyBinding(
+            new KeyBinding("key.broken_world.dismount", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY));
     public static boolean shading = true;
 
     @Override
@@ -67,6 +69,7 @@ public class Client implements ClientModInitializer {
         HandledScreens.register(Main.REACTION_KETTLE_GUI_DESCRIPTION, ReactionKettleScreen::new);
         HandledScreens.register(Main.ELECTROLYZER_GUI_DESCRIPTION, ElectrolyzerScreen::new);
         HandledScreens.register(Main.COLLIDER_CONTROLLER_GUI_DESCRIPTION, ColliderControllerScreen::new);
+        HandledScreens.register(Main.INFUSING_TABLE_GUI_DESCRIPTION, InfusingTableScreen::new);
 
         HandledScreens.register(Main.ROOKIE_WAND_SCREEN_HANDLER, WandScreen::new);
         HandledScreens.register(Main.EXPERT_WAND_SCREEN_HANDLER, WandScreen::new);
@@ -100,12 +103,17 @@ public class Client implements ClientModInitializer {
                                 if (player.getVelocity().y < 0.7f)
                                     player.addVelocity(0, Math.min(0.7f - player.getVelocity().y, 0.3), 0);
                                 player.fallDistance = 0;
-                                ClientPlayNetworking.send(new Identifier(MODID, "jump_key_hold"),
-                                        PacketByteBufs.create());
                             }
                         }
                     }
                 }
+                ClientPlayNetworking.send(new Identifier(MODID, "jump_key_hold"), PacketByteBufs.create());
+            }
+            if (client.options.sneakKey.isPressed()) {
+                ClientPlayNetworking.send(new Identifier(MODID, "sneak_key_hold"), PacketByteBufs.create());
+            }
+            if (dismountKey.wasPressed()) {
+                ClientPlayNetworking.send(new Identifier(MODID, "dismount_key_press"), PacketByteBufs.create());
             }
             while (reloadKey.wasPressed()) {
                 ItemStack stack = player.getMainHandStack();

@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable_with_bottom",
+  "textures": {
+    "top": "broken_world:block/collider_controller_top",
+    "side": "broken_world:block/collider_coil",
+    "front": "#side",
+    "bottom": "broken_world:block/collider_coil_top"
+  }
+}

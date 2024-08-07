@@ -17,19 +17,9 @@ import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.PowerBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.generator.*;
-import com.brainsmash.broken_world.blocks.entity.magical.CrucibleBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.magical.MortarBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.magical.StoneBaseBlockEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.*;
 import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
 import com.brainsmash.broken_world.blocks.magical.*;
-import com.brainsmash.broken_world.blocks.entity.magical.ArcaneLecternEntity;
-import com.brainsmash.broken_world.blocks.entity.magical.InfusedCrystalBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.magical.MagicalSpawnerEntity;
-import com.brainsmash.broken_world.blocks.gen.RubberSaplingGenerator;
-import com.brainsmash.broken_world.blocks.magical.ArcaneLectern;
-import com.brainsmash.broken_world.blocks.magical.InfusedCrystalBlock;
-import com.brainsmash.broken_world.blocks.magical.MagicalSpawner;
 import com.brainsmash.broken_world.blocks.magical.multiblock.ManaGeneratorMultiblock;
 import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
@@ -69,6 +59,7 @@ import static com.brainsmash.broken_world.Main.MODID;
 import static com.brainsmash.broken_world.registry.ItemRegister.ITEM_GROUP;
 
 public class BlockRegister {
+
     private static final AbstractBlock.Settings STANDARD_BLOCK = FabricBlockSettings.of(Material.METAL).sounds(
             BlockSoundGroup.METAL).strength(3.0f, 3.0f);
 
@@ -218,7 +209,18 @@ public class BlockRegister {
             new MortarBlock(STANDARD_BLOCK),
             new CrucibleBlock(FabricBlockSettings.copyOf(Blocks.CAULDRON).mapColor(MapColor.PURPLE),
                     CrucibleBehavior.CRUCIBLE_BEHAVIOR),
-            new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE))
+            new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque(), false),
+            new PillarBlock(AbstractBlock.Settings.of(Material.STONE, MapColor.PALE_YELLOW).requiresTool().strength(
+                    3.0f).sounds(BlockSoundGroup.BONE)),
+            new XpCropBlock(),
+            new XpHopper(FabricBlockSettings.copyOf(Blocks.HOPPER)),
+            new LuminInjector(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
+            // 100
+            new StoneBaseBlock(FabricBlockSettings.copyOf(Blocks.STONE).nonOpaque(), true),
+            new DimInfuser(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
+            new InfusingTable(FabricBlockSettings.copyOf(Blocks.STONE)),
+            new XpContainer(FabricBlockSettings.copyOf(Blocks.CAULDRON)),
+
     };
     public static final Item[] blockitems = {
             new BlockItem(blocks[0], new FabricItemSettings().group(ITEM_GROUP)),
@@ -315,9 +317,16 @@ public class BlockRegister {
             new BlockItem(blocks[91], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[92], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[93], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[94], new FabricItemSettings().group(ITEM_GROUP)),
-            new BlockItem(blocks[95], new FabricItemSettings()),
-            new BlockItem(blocks[96], new FabricItemSettings().group(ITEM_GROUP))
+            null,
+            new BlockItem(blocks[95], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[96], new FabricItemSettings().group(ITEM_GROUP)),
+            null,
+            new BlockItem(blocks[98], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[99], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[100], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[101], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[102], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[103], new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] blocknames = {
@@ -416,7 +425,15 @@ public class BlockRegister {
             "collider_coil",
             "mortar",
             "crucible",
-            "stone_base"
+            "stone_base",
+            "compressed_bone_block",
+            "xp_crop",
+            "xp_hopper",
+            "lumin_injector",
+            "black_stone_base",
+            "dim_infuser",
+            "infusing_table",
+            "xp_container",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {
@@ -540,11 +557,18 @@ public class BlockRegister {
     public static BlockEntityType<MortarBlockEntity> MORTAR_ENTITY_TYPE;
     public static BlockEntityType<CrucibleBlockEntity> CRUCIBLE_ENTITY_TYPE;
     public static BlockEntityType<StoneBaseBlockEntity> STONE_BASE_ENTITY_TYPE;
+    public static BlockEntityType<StoneBaseBlockEntity> BLACK_STONE_BASE_ENTITY_TYPE;
+    public static BlockEntityType<XpHopperEntity> XP_HOPPER_ENTITY_TYPE;
+    public static BlockEntityType<LuminInjectorEntity> LUMIN_INJECTOR_ENTITY_TYPE;
+    public static BlockEntityType<DimInfuserEntity> DIM_INFUSER_ENTITY_TYPE;
+    public static BlockEntityType<InfusingTableEntity> INFUSING_TABLE_ENTITY_TYPE;
+    public static BlockEntityType<XpContainerEntity> XP_CONTAINER_ENTITY_TYPE;
 
     public static void registerBlocks() {
         for (int i = 0; i < blocks.length; i++) {
             Registry.register(Registry.BLOCK, new Identifier(MODID, blocknames[i]), blocks[i]);
-            Registry.register(Registry.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
+            if (blockitems[i] != null)
+                Registry.register(Registry.ITEM, new Identifier(MODID, blocknames[i]), blockitems[i]);
         }
         for (int i = 0; i < configuredFeatures.length; i++) {
             Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MODID, configurenames[i]),
@@ -659,11 +683,28 @@ public class BlockRegister {
                 FabricBlockEntityTypeBuilder.create(ColliderCoilBlockEntity::new,
                         get(BlockRegistry.COLLIDER_COIL)).build());
         MORTAR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "mortar"),
-                FabricBlockEntityTypeBuilder.create(MortarBlockEntity::new, blocks[91]).build());
+                FabricBlockEntityTypeBuilder.create(MortarBlockEntity::new, get(BlockRegistry.MORTAR)).build());
         CRUCIBLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "crucible"),
-                FabricBlockEntityTypeBuilder.create(CrucibleBlockEntity::new, blocks[92]).build());
+                FabricBlockEntityTypeBuilder.create(CrucibleBlockEntity::new, get(BlockRegistry.CRUCIBLE)).build());
         STONE_BASE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "stone_base"),
-                FabricBlockEntityTypeBuilder.create(StoneBaseBlockEntity::new, blocks[93]).build());
+                FabricBlockEntityTypeBuilder.create((pos, block) -> new StoneBaseBlockEntity(pos, block, false),
+                        get(BlockRegistry.STONE_BASE)).build());
+        BLACK_STONE_BASE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "black_stone_base"),
+                FabricBlockEntityTypeBuilder.create((pos, block) -> new StoneBaseBlockEntity(pos, block, true),
+                        get(BlockRegistry.BLACK_STONE_BASE)).build());
+        XP_HOPPER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "xp_hopper"),
+                FabricBlockEntityTypeBuilder.create(XpHopperEntity::new, get(BlockRegistry.XP_HOPPER)).build());
+        LUMIN_INJECTOR_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "lumin_injector"), FabricBlockEntityTypeBuilder.create(LuminInjectorEntity::new,
+                        get(BlockRegistry.LUMIN_INJECTOR)).build());
+        DIM_INFUSER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "dim_infuser"),
+                FabricBlockEntityTypeBuilder.create(DimInfuserEntity::new, get(BlockRegistry.DIM_INFUSER)).build());
+        INFUSING_TABLE_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(MODID, "infusing_table"), FabricBlockEntityTypeBuilder.create(InfusingTableEntity::new,
+                        get(BlockRegistry.INFUSING_TABLE)).build());
+        XP_CONTAINER_ENTITY_TYPE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MODID, "xp_container"),
+                FabricBlockEntityTypeBuilder.create(XpContainerEntity::new, get(BlockRegistry.XP_CONTAINER)).build());
     }
 
     public static void registBlocksClientSide() {
@@ -689,6 +730,14 @@ public class BlockRegister {
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.INFUSED_CRYSTAL.ordinal()], RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.WEAPONRY.ordinal()], RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.MAGICAL_SPAWNER.ordinal()],
+                RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(blocks[BlockRegistry.XP_CROP.ordinal()], RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.XP_HOPPER), RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.LUMIN_INJECTOR),
+                RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.DIM_INFUSER),
+                RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegister.get(BlockRegistry.XP_CONTAINER),
                 RenderLayer.getTranslucent());
         EntityModelLayerRegistry.registerModelLayer(CreativeGeneratorBlockEntityRenderer.CREATIVE_GENERATOR,
                 CreativeGeneratorBlockEntityRenderer::getTexturedModelData);
@@ -716,9 +765,15 @@ public class BlockRegister {
         BlockEntityRendererRegistry.register(WEAPONRY_ENTITY_TYPE, WeaponryBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(UV_ENTITY_TYPE, UVBlockEntityRenderer::new);
         BlockEntityRendererRegistry.register(MORTAR_ENTITY_TYPE, MortarBlockEnityRenderer::new);
+        BlockEntityRendererRegistry.register(STONE_BASE_ENTITY_TYPE, StoneBaseBlockEnityRenderer::new);
+        BlockEntityRendererRegistry.register(XP_HOPPER_ENTITY_TYPE, XpContainerEntityRenderer::new);
+        BlockEntityRendererRegistry.register(MAGICAL_SPAWNER_ENTITY_TYPE, XpContainerEntityRenderer::new);
+        BlockEntityRendererRegistry.register(LUMIN_INJECTOR_ENTITY_TYPE, LuminInjectorBlockEnityRenderer::new);
+        BlockEntityRendererRegistry.register(BLACK_STONE_BASE_ENTITY_TYPE, StoneBaseBlockEnityRenderer::new);
+        BlockEntityRendererRegistry.register(DIM_INFUSER_ENTITY_TYPE, DimInfuserBlockEnityRenderer::new);
+        BlockEntityRendererRegistry.register(XP_CONTAINER_ENTITY_TYPE, XpContainerEntityRenderer::new);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
-            System.out.println("redraw");
             if (world != null && pos != null && world.getBlockEntity(
                     pos) instanceof CrucibleBlockEntity crucibleBlockEntity) {
                 return crucibleBlockEntity.getFluidColor();

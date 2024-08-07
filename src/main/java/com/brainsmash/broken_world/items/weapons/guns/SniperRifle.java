@@ -4,6 +4,7 @@ import com.brainsmash.broken_world.entity.BulletEntity;
 import com.brainsmash.broken_world.items.CustomUsePoseItem;
 import com.brainsmash.broken_world.items.weapons.Util;
 import com.brainsmash.broken_world.registry.ItemRegister;
+import com.brainsmash.broken_world.registry.SoundRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
@@ -40,8 +41,8 @@ public class SniperRifle extends GunItem implements CustomUsePoseItem {
         user.getItemCooldownManager().set(this, 12);
 
         if (hasAmmo(itemStack) || user.getAbilities().creativeMode) {
-            world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ARROW_SHOOT,
-                    SoundCategory.NEUTRAL, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
+            world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundRegister.SHOOT_EVENT,
+                    SoundCategory.NEUTRAL, 1.2f, 0.1f / (world.getRandom().nextFloat() * 0.2f + 0.8f));
             if (!world.isClient) {
                 BulletEntity sniperAmmo = new BulletEntity(world, user, 4.45f);
 
@@ -51,9 +52,10 @@ public class SniperRifle extends GunItem implements CustomUsePoseItem {
                 world.spawnEntity(sniperAmmo);
             }
             user.setPitch(user.getPitch() + recoil);
-        }
-        if (!user.getAbilities().creativeMode) {
-            reduceAmmo(itemStack);
+            if (!user.getAbilities().creativeMode) {
+                reduceAmmo(itemStack);
+                itemStack.damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
+            }
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
     }

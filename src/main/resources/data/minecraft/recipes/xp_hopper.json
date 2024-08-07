@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "ABA",
+    "   "
+  ],
+  "key": {
+    "A": {
+      "item": "broken_world:greedy_heart"
+    },
+    "B": {
+      "item": "broken_world:xp_container"
+    }
+  },
+  "result": {
+    "item": "broken_world:xp_hopper"
+  }
+}

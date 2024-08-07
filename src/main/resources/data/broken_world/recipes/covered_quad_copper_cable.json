@@ -1,20 +1,23 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "broken_world:lumin_injector",
   "ingredients": [
     {
-      "item": "broken_world:quad_copper_cable"
+      "item": "broken_world:phoenix_feather"
     },
     {
-      "item": "broken_world:rubber"
+      "item": "broken_world:phoenix_feather"
     },
     {
-      "item": "broken_world:rubber"
+      "item": "broken_world:phoenix_feather"
     },
     {
-      "item": "broken_world:rubber"
+      "item": "minecraft:stick"
+    },
+    {
+      "item": "minecraft:stick"
     }
   ],
   "result": {
-    "item": "broken_world:covered_quad_copper_cable"
+    "item": "broken_world:magical_broom"
   }
 }

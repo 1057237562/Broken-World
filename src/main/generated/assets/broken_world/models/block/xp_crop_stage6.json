@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "broken_world:block/xp_crop_stage6"
+  }
+}

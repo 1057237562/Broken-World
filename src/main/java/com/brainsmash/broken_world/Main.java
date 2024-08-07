@@ -5,6 +5,7 @@ import com.brainsmash.broken_world.blocks.multiblock.MultiblockResourceReloadLis
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
+import com.brainsmash.broken_world.entity.vehicle.VehicleEntity;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.*;
@@ -36,10 +37,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Main implements ModInitializer {
+    public static final String MODID = "broken_world";
     // This logger is used to write text to the console and the log file.
     // It is considered best practice to use your mod id as the logger's name.
     // That way, it's clear which mod wrote info, warnings, and errors.
-    public static final String MODID = "broken_world";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
 
@@ -127,6 +128,10 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "collider_controller"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ColliderControllerGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
+    public static final ScreenHandlerType<InfusingTableGuiDescription> INFUSING_TABLE_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "infusing_table"), new ScreenHandlerType<>(
+                    ((syncId, playerInventory) -> new InfusingTableGuiDescription(syncId, playerInventory,
+                            ScreenHandlerContext.EMPTY))));
 
 
     public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
@@ -149,9 +154,11 @@ public class Main implements ModInitializer {
         FluidRegister.registerFluid();
         DimensionRegister.registerDimension();
         EntityRegister.registerEntities();
-        EntityRegister.registerSpawnRegistration();
+        EntityRegister.registSpawnRegistration();
         TreeRegister.registerTrees();
         PointOfInterestRegister.registerPlacesOfInterest();
+        SoundRegister.registerSoundEvents();
+        EnchantmentRegister.registerEnchantments();
 
         MultiblockUtil.registerMultiblock();
 
@@ -170,6 +177,7 @@ public class Main implements ModInitializer {
         FabricatorRecipe.register();
         WeaponryRecipe.register();
         ColliderRecipe.register();
+        LuminInjectorRecipe.register();
 
         CrucibleBehavior.registerBehaviour();
 
@@ -227,6 +235,9 @@ public class Main implements ModInitializer {
                 }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "jump_key_hold"),
                 (server, player, handler, buf, responseSender) -> server.execute(() -> {
+                    if (player.getRootVehicle() instanceof VehicleEntity vehicle) {
+                        vehicle.upwardSpeed = 0.1f;
+                    }
                     if (!player.getAbilities().flying) {
                         if (player instanceof EntityDataExtension dataExtension) {
                             if (dataExtension.getData() instanceof NbtCompound nbtCompound) {
@@ -237,6 +248,19 @@ public class Main implements ModInitializer {
                                 }
                             }
                         }
+                    }
+                }));
+        ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "sneak_key_hold"),
+                (server, player, handler, buf, responseSender) -> server.execute(() -> {
+                    if (player.getRootVehicle() instanceof VehicleEntity vehicle) {
+                        vehicle.upwardSpeed = -0.1f;
+                    }
+                }));
+        ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "dismount_key_press"),
+                (server, player, handler, buf, responseSender) -> server.execute(() -> {
+                    if (player.getRootVehicle() instanceof VehicleEntity vehicleEntity) {
+                        player.setPosition(vehicleEntity.updatePassengerForDismount(player));
+                        player.dismountVehicle();
                     }
                 }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "reload_key_press"),

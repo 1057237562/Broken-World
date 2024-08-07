@@ -1,8 +1,5 @@
 package com.brainsmash.broken_world.blocks.entity.electric;
 
-import alexiil.mc.lib.net.*;
-import alexiil.mc.lib.net.impl.CoreMinecraftNetUtil;
-import alexiil.mc.lib.net.impl.McNetworkStack;
 import com.brainsmash.broken_world.blocks.entity.electric.base.CableBlockEntity;
 import com.brainsmash.broken_world.blocks.entity.electric.base.ConsumerBlockEntity;
 import com.brainsmash.broken_world.blocks.fluid.storage.SingleFluidStorage;
@@ -35,6 +32,7 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
@@ -43,10 +41,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 public class CentrifugeBlockEntity extends ConsumerBlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
 
@@ -76,6 +72,9 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
             @Override
             protected void onFinalCommit() {
                 markDirty();
+                if (world instanceof ServerWorld serverWorld) {
+                    serverWorld.getChunkManager().markForUpdate(pos);
+                }
             }
         };
     }
@@ -87,50 +86,23 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(14, ItemStack.EMPTY);
 
-    public static final ParentNetIdSingle<CentrifugeBlockEntity> NET_PARENT;
-    public static final NetIdDataK<CentrifugeBlockEntity> CHANGED_LIQUID;
-    private Set<ActiveConnection> activeConnections = new HashSet<>();
-
-    static {
-        NET_PARENT = McNetworkStack.BLOCK_ENTITY.subType(CentrifugeBlockEntity.class, "broken_world:centrifuge");
-        CHANGED_LIQUID = NET_PARENT.idData("CHANGE_BRIGHTNESS").setReceiver(CentrifugeBlockEntity::receiveLiquidChange);
-    }
+//    public static final ParentNetIdSingle<CentrifugeBlockEntity> NET_PARENT;
+//    public static final NetIdDataK<CentrifugeBlockEntity> CHANGED_LIQUID;
+//    private Set<ActiveConnection> activeConnections = new HashSet<>();
+//
+//    static {
+//        NET_PARENT = McNetworkStack.BLOCK_ENTITY.subType(CentrifugeBlockEntity.class, "broken_world:centrifuge");
+//        CHANGED_LIQUID = NET_PARENT.idData("CHANGE_BRIGHTNESS").setReceiver(CentrifugeBlockEntity::receiveLiquidChange);
+//    }
 
     private final Random random = new Random();
     private Item lastItem;
     public float tick = 0;
 
-    protected final void sendLiquidChange() {
-        for (ActiveConnection connection : activeConnections) {
-            CHANGED_LIQUID.send(connection, this, (be, buf, ctx) -> {
-                ctx.assertServerSide();
-                NbtCompound nbtCompound = new NbtCompound();
-                inputInv.writeNbt(nbtCompound);
-                buf.writeNbt(nbtCompound);
-                nbtCompound = new NbtCompound();
-                outputInv.writeNbt(nbtCompound);
-                buf.writeNbt(nbtCompound);
-            });
+    public final void sendLiquidChange() {
+        if (world instanceof ServerWorld serverWorld) {
+            serverWorld.getChunkManager().markForUpdate(pos);
         }
-    }
-
-    private void receiveLiquidChange(NetByteBuf buf, IMsgReadCtx ctx) throws InvalidInputDataException {
-        ctx.assertClientSide();
-
-        inputInv.readNbt(buf.readNbt());
-        outputInv.readNbt(buf.readNbt());
-    }
-
-    @Override
-    public void onOpen(PlayerEntity player) {
-        ImplementedInventory.super.onOpen(player);
-        activeConnections.add(CoreMinecraftNetUtil.getConnection(player));
-    }
-
-    @Override
-    public void onClose(PlayerEntity player) {
-        ImplementedInventory.super.onClose(player);
-        activeConnections.remove(CoreMinecraftNetUtil.getConnection(player));
     }
 
     public CentrifugeBlockEntity(BlockPos pos, BlockState state) {
@@ -196,7 +168,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
                     }
                 }
                 if (recipe.getSecond() != null) {
-                    if (outputInv.isResourceBlank()) {
+                    if (outputInv.isEmpty()) {
                         outputInv.variant = FluidVariant.of(recipe.getSecond());
                         outputInv.amount = FluidConstants.BOTTLE;
                     } else {
@@ -219,7 +191,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
                     }
                 }
                 if (recipe.getSecond() != null) {
-                    if (outputInv.isResourceBlank()) {
+                    if (outputInv.isEmpty()) {
                         outputInv.variant = FluidVariant.of(recipe.getSecond());
                         outputInv.amount = FluidConstants.BOTTLE;
                     } else {
@@ -243,7 +215,7 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
             }
 
             if (recipe.getSecond() != null) {
-                if (outputInv.isResourceBlank()) {
+                if (outputInv.isEmpty()) {
                     outputInv.variant = FluidVariant.of(recipe.getSecond());
                     outputInv.amount = FluidConstants.BOTTLE;
                 } else {
@@ -257,26 +229,28 @@ public class CentrifugeBlockEntity extends ConsumerBlockEntity implements Extend
     @Override
     public void tick(World world, BlockPos pos, BlockState state, CableBlockEntity blockEntity) {
         if (!world.isClient) {
-            if (!outputInv.isResourceBlank()) {
+            if (!outputInv.isEmpty()) {
                 for (Direction direction : Direction.values()) {
                     try (Transaction transaction = Transaction.openOuter()) {
-                        Storage<FluidVariant> fluidInv = FluidStorage.SIDED.find(world, pos, direction);
+                        Storage<FluidVariant> fluidInv = FluidStorage.SIDED.find(world, pos.offset(direction),
+                                direction.getOpposite());
+                        if (fluidInv == null) continue;
                         outputInv.amount -= fluidInv.insert(outputInv.variant, outputInv.amount, transaction);
                         transaction.commit();
                     }
-                    if (outputInv.isResourceBlank() || outputInv.amount == 0) {
+                    sendLiquidChange();
+                    if (outputInv.isEmpty() || outputInv.amount == 0) {
                         break;
                     }
-                    markDirty();
                 }
             }
-            sendLiquidChange();
             if (checkEnergy() && checkRecipe()) {
                 running = true;
                 if (progression < maxProgression) {
                     progression++;
                 } else {
                     process();
+                    sendLiquidChange();
                     progression = 0;
                 }
                 if (!inventory.get(0).getItem().equals(lastItem)) {

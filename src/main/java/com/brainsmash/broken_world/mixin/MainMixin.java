@@ -1,6 +1,5 @@
 package com.brainsmash.broken_world.mixin;
 
-import com.brainsmash.broken_world.Main;
 import net.minecraft.client.gui.screen.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

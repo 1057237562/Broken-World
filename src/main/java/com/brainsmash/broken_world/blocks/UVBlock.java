@@ -1,8 +1,6 @@
 package com.brainsmash.broken_world.blocks;
 
 import com.brainsmash.broken_world.blocks.entity.UVBlockEntity;
-import com.brainsmash.broken_world.blocks.entity.electric.WeaponryBlockEntity;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;

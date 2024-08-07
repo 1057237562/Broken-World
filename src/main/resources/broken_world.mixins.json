@@ -3,10 +3,13 @@
   "minVersion": "0.8",
   "package": "com.brainsmash.broken_world.mixin",
   "compatibilityLevel": "JAVA_17",
+  "plugin": "com.brainsmash.broken_world.mixin.plugin.SodiumMixinPlugin",
   "mixins": [
     "EntityMixin",
     "LivingEntityMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "SolidCollisionMixin",
+    "ExperienceOrbEntityMixin"
   ],
   "client": [
     "AbstractClientPlayerEntityMixin",
@@ -14,10 +17,11 @@
     "InGameHudMixin",
     "MinecraftClientMixin",
     "PlayerEntityRendererMixin",
+    "SodiumBlendMixin",
+    "SodiumRendererMixin",
     "WorldRendererMixin"
   ],
-  "server": [
-  ],
+  "server": [],
   "injectors": {
     "defaultRequire": 1
   }

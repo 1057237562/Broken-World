@@ -42,11 +42,15 @@ public class WoodenPipeBlockEntity extends BlockEntity implements BlockEntityTic
     public void tick(World world, BlockPos pos, BlockState state, WoodenPipeBlockEntity blockEntity) {
         if (!world.isClient) {
             if (!fluidStorage.isEmpty()) {
-                Storage<FluidVariant> insertable = FluidStorage.SIDED.find(world, pos, Direction.DOWN);
-                try (Transaction transaction = Transaction.openOuter()) {
-                    fluidStorage.amount -= insertable.insert(fluidStorage.variant, fluidStorage.amount, transaction);
-                    markDirty();
-                    transaction.commit();
+                Storage<FluidVariant> insertable = FluidStorage.SIDED.find(world, pos.offset(Direction.DOWN),
+                        Direction.UP);
+                if (insertable != null) {
+                    try (Transaction transaction = Transaction.openOuter()) {
+                        fluidStorage.amount -= insertable.insert(fluidStorage.variant, fluidStorage.amount,
+                                transaction);
+                        markDirty();
+                        transaction.commit();
+                    }
                 }
             }
             Direction direction = world.getBlockState(pos).get(Properties.HORIZONTAL_FACING);

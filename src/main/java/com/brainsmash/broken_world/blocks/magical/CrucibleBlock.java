@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.magical;
 
 import com.brainsmash.broken_world.blocks.entity.magical.CrucibleBlockEntity;
+import com.brainsmash.broken_world.blocks.model.CustomModelBlock;
 import com.brainsmash.broken_world.util.EntityHelper;
 import net.minecraft.block.*;
 import net.minecraft.block.cauldron.CauldronBehavior;
@@ -12,6 +13,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
@@ -31,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public class CrucibleBlock extends BlockWithEntity {
+public class CrucibleBlock extends BlockWithEntity implements CustomModelBlock {
     public static final int MIN_LEVEL = 1;
     public static final int MAX_LEVEL = 3;
     public static final IntProperty LEVEL = Properties.LEVEL_3;
@@ -165,5 +167,10 @@ public class CrucibleBlock extends BlockWithEntity {
             return (world1, pos, state1, blockEntity) -> ((CrucibleBlockEntity) blockEntity).tick(world1, pos, state1,
                     (CrucibleBlockEntity) blockEntity);
         return null;
+    }
+
+    @Override
+    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+        return Items.CAULDRON.getDefaultStack();
     }
 }

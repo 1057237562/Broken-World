@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.magical;
 
 import com.brainsmash.broken_world.blocks.entity.magical.MagicalSpawnerEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.XpContainerEntity;
 import com.brainsmash.broken_world.registry.FluidRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -49,7 +50,7 @@ public class MagicalSpawner extends BlockWithEntity {
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (player.getStackInHand(hand).getItem().equals(ItemRegister.bucket_item[6])) {
             if (!world.isClient) {
-                MagicalSpawnerEntity entity = (MagicalSpawnerEntity) world.getBlockEntity(pos);
+                XpContainerEntity entity = (XpContainerEntity) world.getBlockEntity(pos);
                 if (entity != null) {
                     try (var transaction = Transaction.openOuter()) {
                         entity.xpStorage.insert(FluidVariant.of(FluidRegister.still_fluid[6]), FluidConstants.BUCKET,

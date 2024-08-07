@@ -20,6 +20,12 @@ public class ForestGuardianEntity extends HostileEntity {
         super(entityType, world);
     }
 
+    public static DefaultAttributeContainer.Builder createForestGuardianAttributes() {
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 500.0).add(
+                EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.42).add(
+                EntityAttributes.GENERIC_MAX_HEALTH, 40).add(EntityAttributes.GENERIC_ARMOR, 3.0);
+    }
+
     @Override
     protected void initGoals() {
         super.initGoals();

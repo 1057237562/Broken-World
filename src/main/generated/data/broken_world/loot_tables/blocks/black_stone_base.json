@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "broken_world:crucible"
+          "name": "broken_world:black_stone_base"
         }
       ],
       "rolls": 1.0

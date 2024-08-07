@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.blocks.magical;
 
 import com.brainsmash.broken_world.blocks.entity.magical.MortarBlockEntity;
+import com.brainsmash.broken_world.blocks.model.CustomModelBlock;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.block.BlockRenderType;
@@ -21,7 +22,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class MortarBlock extends BlockWithEntity {
+public class MortarBlock extends BlockWithEntity implements CustomModelBlock {
     public MortarBlock(Settings settings) {
         super(settings);
     }

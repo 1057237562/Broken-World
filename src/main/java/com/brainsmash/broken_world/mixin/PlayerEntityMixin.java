@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.mixin;
 
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
+import com.brainsmash.broken_world.entity.vehicle.VehicleEntity;
 import com.brainsmash.broken_world.util.BonusHelper;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntityMixin implements PlayerDataExtension {
@@ -37,6 +39,13 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin implements Pla
             if (BonusHelper.getBoolean(nbtCompound, "jet")) {
                 airStrafingSpeed *= 1.5f;
             }
+        }
+    }
+
+    @Inject(method = "shouldDismount", at = @At("HEAD"), cancellable = true)
+    public void shouldDismount(CallbackInfoReturnable<Boolean> cir) {
+        if (this.getRootVehicle() instanceof VehicleEntity) {
+            cir.setReturnValue(false);
         }
     }
 

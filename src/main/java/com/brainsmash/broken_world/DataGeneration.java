@@ -10,5 +10,6 @@ public class DataGeneration implements DataGeneratorEntrypoint {
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         fabricDataGenerator.addProvider(ModelGenerator::new);
         fabricDataGenerator.addProvider(LootTableGenerator::new);
+        EnumGeneration.generateEnum();
     }
 }

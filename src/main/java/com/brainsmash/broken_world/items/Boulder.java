@@ -2,7 +2,6 @@ package com.brainsmash.broken_world.items;
 
 import com.brainsmash.broken_world.entity.BoulderEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.thrown.SnowballEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;

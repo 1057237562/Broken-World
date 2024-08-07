@@ -3,6 +3,7 @@ package com.brainsmash.broken_world.registry;
 import com.brainsmash.broken_world.blocks.fluid.*;
 import com.brainsmash.broken_world.blocks.fluid.base.LavaTextured;
 import com.brainsmash.broken_world.blocks.fluid.base.WaterTextured;
+import com.brainsmash.broken_world.registry.enums.FluidRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -14,15 +15,20 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.fluid.FlowableFluid;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.awt.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.brainsmash.broken_world.Main.MODID;
 import static com.brainsmash.broken_world.registry.ItemRegister.bucket_item;
 
 public class FluidRegister {
+
+    public static ConcurrentHashMap<Potion, PotionFluid> potionFluids = new ConcurrentHashMap<>();
 
     public static final FlowableFluid[] still_fluid = {
             new OilFluid.Still(),
@@ -72,7 +78,7 @@ public class FluidRegister {
             new Color(255, 238, 153),
             new Color(187, 0, 255),
             new Color(240, 230, 230),
-            new Color(110, 255, 100)
+            new Color(50, 255, 70)
     };
 
     public static void registerFluid() {
@@ -82,6 +88,13 @@ public class FluidRegister {
             Registry.register(Registry.ITEM, new Identifier(MODID, fluidnames[i] + "_bucket"), bucket_item[i]);
             Registry.register(Registry.BLOCK, new Identifier(MODID, fluidnames[i]), fluid_blocks[i]);
         }
+
+        Registry.POTION.forEach(potion -> {
+            if (Registry.POTION.getId(potion).getPath().equals("empty")) return;
+            PotionFluid fluid = new PotionFluid(potion);
+            potionFluids.put(potion, fluid);
+            Registry.register(Registry.FLUID, new Identifier(MODID, Registry.POTION.getId(potion).getPath()), fluid);
+        });
     }
 
     @Environment(EnvType.CLIENT)
@@ -100,5 +113,9 @@ public class FluidRegister {
 
             BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), still_fluid[i], flowing_fluid[i]);
         }
+    }
+
+    public static Fluid get(FluidRegistry registry) {
+        return still_fluid[registry.ordinal()];
     }
 }

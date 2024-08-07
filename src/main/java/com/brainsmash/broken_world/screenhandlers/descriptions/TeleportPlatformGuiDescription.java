@@ -33,19 +33,19 @@ import java.util.function.BiConsumer;
 
 public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
     private static final Identifier SELECT_MESSAGE = new Identifier("broken_world", "select_button_click");
-    private static final Identifier NEW_ENTRY = new Identifier("broken_world","new_entry");
-    private static final Identifier UNREGIST = new Identifier("broken_world","unregist");
+    private static final Identifier NEW_ENTRY = new Identifier("broken_world", "new_entry");
+    private static final Identifier UNREGIST = new Identifier("broken_world", "unregist");
     private static final int INVENTORY_SIZE = 1;
     private static final int PROPERTY_COUNT = 2;
     private String selectDest;
 
     public TeleportPlatformGuiDescription(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
-        this(syncId, playerInventory, buf.readBlockPos(),buf);
+        this(syncId, playerInventory, buf.readBlockPos(), buf);
     }
 
     public TeleportPlatformGuiDescription(int syncId, PlayerInventory playerInventory, BlockPos pos, PacketByteBuf buf) {
-        this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.world,pos));
-        if(getNetworkSide() == NetworkSide.CLIENT) {
+        this(syncId, playerInventory, ScreenHandlerContext.create(playerInventory.player.world, pos));
+        if (getNetworkSide() == NetworkSide.CLIENT) {
             PlayerEntity player = playerInventory.player;
             NbtCompound element = buf.readUnlimitedNbt();
             NbtList list = (NbtList) element.get("teleporterList");
@@ -55,7 +55,8 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
             boolean flag = true;
             for (NbtElement ele : list) {
                 NbtCompound nbt = (NbtCompound) ele;
-                if (nbt.getLong("pos") == pos.asLong() && nbt.getString("dimension").equals(world.getDimensionKey().getValue().toString())) {
+                if (nbt.getLong("pos") == pos.asLong() && nbt.getString("dimension").equals(
+                        world.getDimensionKey().getValue().toString())) {
                     flag = false;
                 }
             }
@@ -74,77 +75,84 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
                     });
                     root.remove(text);
                     root.remove(confirm);
-                    addComponent(root,element,pos);
+                    addComponent(root, element, pos);
                     root.validate(this);
                 });
                 root.add(confirm, 7, 2, 2, 1);
                 root.validate(this);
             } else {
-                createGUI(element,pos);
+                createGUI(element, pos);
             }
         }
     }
 
     public TeleportPlatformGuiDescription(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-        super(Main.TELEPORT_PLATFORM_GUI_DESCRIPTION, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context,PROPERTY_COUNT));
+        super(Main.TELEPORT_PLATFORM_GUI_DESCRIPTION, syncId, playerInventory,
+                getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context, PROPERTY_COUNT));
         PlayerEntity player = playerInventory.player;
-        ScreenNetworking.of(this,NetworkSide.SERVER).receive(UNREGIST,buf -> {
-            context.get((world,pos)->{
-                NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
+        ScreenNetworking.of(this, NetworkSide.SERVER).receive(UNREGIST, buf -> {
+            context.get((world, pos) -> {
+                NbtCompound element = (NbtCompound) ((EntityDataExtension) player).getData();
                 NbtList list = (NbtList) element.get("teleporterList");
                 if (list == null) {
                     list = new NbtList();
                 }
                 for (NbtElement ele : list) {
                     NbtCompound nbt = (NbtCompound) ele;
-                    if (nbt.getLong("pos") == pos.asLong() && nbt.getString("dimension").equals(world.getDimensionKey().getValue().toString())) {
+                    if (nbt.getLong("pos") == pos.asLong() && nbt.getString("dimension").equals(
+                            world.getDimensionKey().getValue().toString())) {
                         list.remove(ele);
                         break;
                     }
                 }
-                element.put("teleporterList",list);
-                ((EntityDataExtension)player).setData(element);
-                ((ServerPlayerEntity)player).closeHandledScreen();
+                element.put("teleporterList", list);
+                ((EntityDataExtension) player).setData(element);
+                ((ServerPlayerEntity) player).closeHandledScreen();
                 return true;
             });
         });
-        ScreenNetworking.of(this,NetworkSide.SERVER).receive(SELECT_MESSAGE,buf -> {
+        ScreenNetworking.of(this, NetworkSide.SERVER).receive(SELECT_MESSAGE, buf -> {
             selectDest = buf.readString();
-            NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
+            NbtCompound element = (NbtCompound) ((EntityDataExtension) player).getData();
             NbtList list = (NbtList) element.get("teleporterList");
-            if(list == null){
+            if (list == null) {
                 list = new NbtList();
             }
-            for(NbtElement ele:list){
+            for (NbtElement ele : list) {
                 NbtCompound compound = (NbtCompound) ele;
-                if(compound.getString("name").equals(selectDest)){
-                    ServerWorld destination = ((ServerWorld)world).getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY,new Identifier(compound.getString("dimension"))));
-                    if(destination != null){
+                if (compound.getString("name").equals(selectDest)) {
+                    ServerWorld destination = ((ServerWorld) world).getServer().getWorld(
+                            RegistryKey.of(Registry.WORLD_KEY, new Identifier(compound.getString("dimension"))));
+                    if (destination != null) {
                         BlockPos blockPos = BlockPos.fromLong(compound.getLong("pos"));
-                        destination.getChunkManager().addTicket(ChunkTicketType.PORTAL,new ChunkPos(blockPos),1,blockPos);
-                        if(destination.getBlockState(blockPos).getBlock().equals(BlockRegister.blocks[BlockRegistry.TELEPORT_PLATFORM.ordinal()])){
-                            context.get((world,pos)->{
-                                if(world.getBlockEntity(pos) instanceof ConsumerBlockEntity blockEntity){
-                                    if(blockEntity.getEnergy() == blockEntity.getMaxCapacity()){
-                                        ((ServerPlayerEntity) player).teleport(destination, blockPos.getX(), blockPos.getY() + 1, blockPos.getZ(), player.getYaw(), player.getPitch());
+                        destination.getChunkManager().addTicket(ChunkTicketType.PORTAL, new ChunkPos(blockPos), 1,
+                                blockPos);
+                        if (destination.getBlockState(blockPos).getBlock().equals(
+                                BlockRegister.blocks[BlockRegistry.TELEPORT_PLATFORM.ordinal()])) {
+                            context.get((world, pos) -> {
+                                if (world.getBlockEntity(pos) instanceof ConsumerBlockEntity blockEntity) {
+                                    if (blockEntity.getEnergy() == blockEntity.getMaxCapacity()) {
+                                        ((ServerPlayerEntity) player).teleport(destination, blockPos.getX(),
+                                                blockPos.getY() + 1, blockPos.getZ(), player.getYaw(),
+                                                player.getPitch());
                                         blockEntity.setEnergy(0);
-                                        ((ServerPlayerEntity)player).closeHandledScreen();
+                                        ((ServerPlayerEntity) player).closeHandledScreen();
                                     }
                                 }
                                 return true;
                             });
 
-                        }else {
+                        } else {
                             list.remove(ele);
-                            element.put("teleporterList",list);
-                            ((EntityDataExtension)player).setData(element);
-                            ((ServerPlayerEntity)player).closeHandledScreen();
+                            element.put("teleporterList", list);
+                            ((EntityDataExtension) player).setData(element);
+                            ((ServerPlayerEntity) player).closeHandledScreen();
                         }
-                    }else{
+                    } else {
                         list.remove(ele);
-                        element.put("teleporterList",list);
-                        ((EntityDataExtension)player).setData(element);
-                        ((ServerPlayerEntity)player).closeHandledScreen();
+                        element.put("teleporterList", list);
+                        ((EntityDataExtension) player).setData(element);
+                        ((ServerPlayerEntity) player).closeHandledScreen();
                     }
                     return;
                 }
@@ -153,9 +161,9 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
         ScreenNetworking.of(this, NetworkSide.SERVER).receive(NEW_ENTRY, buf -> {
             String name = buf.readString();
             context.get((world, pos) -> {
-                NbtCompound element = (NbtCompound) ((EntityDataExtension)player).getData();
+                NbtCompound element = (NbtCompound) ((EntityDataExtension) player).getData();
                 NbtList list = (NbtList) element.get("teleporterList");
-                if(list == null){
+                if (list == null) {
                     list = new NbtList();
                 }
                 NbtCompound nbt = new NbtCompound();
@@ -170,7 +178,7 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
         });
     }
 
-    public void addComponent(WGridPanel root,NbtCompound element,BlockPos pos){
+    public void addComponent(WGridPanel root, NbtCompound element, BlockPos pos) {
         selectDest = "none";
         BiConsumer<String, WButton> buttonBiConsumer = (s, wButton) -> {
             wButton.setLabel(Text.of(s));
@@ -178,7 +186,8 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
                 selectDest = s;
             });
         };
-        WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"), new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1);
+        WBar bar = new WBar(new Identifier(Main.MODID, "textures/gui/small_electric_bar.png"),
+                new Identifier(Main.MODID, "textures/gui/small_electric_bar_filled.png"), 0, 1);
         bar.setProperties(propertyDelegate);
         root.add(bar, 8, 1, 1, 1);
 
@@ -189,7 +198,8 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
         }
         for (NbtElement ele : list) {
             NbtCompound nbt = (NbtCompound) ele;
-            if (!(nbt.getLong("pos") == pos.asLong() && nbt.getString("dimension").equals(world.getDimensionKey().getValue().toString()))) {
+            if (!(nbt.getLong("pos") == pos.asLong() && nbt.getString("dimension").equals(
+                    world.getDimensionKey().getValue().toString()))) {
                 destinations.add(nbt.getString("name"));
             }
         }
@@ -199,11 +209,11 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
         }, buttonBiConsumer);
         root.add(destList, 0, 1, 8, 3);
         WButton unregist = new WButton(Text.of("×"));
-        unregist.setOnClick(()->{
+        unregist.setOnClick(() -> {
             ScreenNetworking.of(this, NetworkSide.CLIENT).send(UNREGIST, buf -> {
             });
         });
-        root.add(unregist,8,2,1,1);
+        root.add(unregist, 8, 2, 1, 1);
         WButton select = new WButton(Text.of("√"));
         select.setOnClick(() -> {
             ScreenNetworking.of(this, NetworkSide.CLIENT).send(SELECT_MESSAGE, buf -> {
@@ -213,13 +223,13 @@ public class TeleportPlatformGuiDescription extends SyncedGuiDescription {
         root.add(select, 8, 3);
     }
 
-    public void createGUI(NbtCompound element,BlockPos pos) {
+    public void createGUI(NbtCompound element, BlockPos pos) {
         WGridPanel root = new WGridPanel();
         setRootPanel(root);
         root.setSize(150, 175);
         root.setInsets(Insets.ROOT_PANEL);
         root.add(this.createPlayerInventoryPanel(), 0, 4);
-        addComponent(root,element,pos);
+        addComponent(root, element, pos);
         root.validate(this);
     }
 

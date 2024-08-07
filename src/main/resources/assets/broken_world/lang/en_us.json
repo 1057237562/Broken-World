@@ -185,5 +185,15 @@
 
   "itemGroup.broken_world.itemgroup": "Broken World",
 
-  "death.attack.electricShock": "That's how %1$s lost engineering license. "
+  "death.attack.electricShock": "That's how %1$s lost engineering license. ",
+
+  "gui.infusing_table.search_hint": "Search...",
+  "gui.infusing_table.back": "Back",
+
+  "container.infuse": "Infuse",
+  "container.enchant.level.max": "Max Level: %s",
+  "container.enchant.level.min": "Minimum Level: %s",
+
+  "enchantment.broken_world.soul_leeching": "Soul Leeching",
+  "enchantment.broken_world.soul_pully": "Soul Pully"
 }

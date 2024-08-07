@@ -5,6 +5,7 @@ import com.brainsmash.broken_world.entity.HyperSpearEntity;
 import com.brainsmash.broken_world.entity.hostile.*;
 import com.brainsmash.broken_world.entity.model.*;
 import com.brainsmash.broken_world.entity.render.*;
+import com.brainsmash.broken_world.entity.vehicle.MagicBroomEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -72,6 +73,11 @@ public class EntityRegister {
             Registry.ENTITY_TYPE, new Identifier(MODID, "forest_guardian"),
             FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ForestGuardianEntity::new).trackRangeBlocks(64).build());
 
+    public static final EntityType<MagicBroomEntity> MAGIC_BROOM_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MODID, "magic_broom"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, MagicBroomEntity::new).dimensions(
+                    EntityDimensions.fixed(1.0f, 0.25f)).trackRangeBlocks(64).build());
+
 
     @Environment(EnvType.CLIENT)
     public static void registEntitiesClientSide() {
@@ -84,6 +90,7 @@ public class EntityRegister {
         EntityRendererRegistry.register(APOCALYPTOR_ENTITY_TYPE, ApocalyptorEntityRenderer::new);
         EntityRendererRegistry.register(WEREWOLF_ENTITY_TYPE, WerewolfEntityRenderer::new);
         EntityRendererRegistry.register(FOREST_GUARDIAN_ENTITY_TYPE, ForestGuardianEntityRenderer::new);
+        EntityRendererRegistry.register(MAGIC_BROOM_ENTITY_TYPE, MagicBroomEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(MODEL_FISHBONE_LAYER, FishboneEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_PHOENIX_LAYER, PhoenixEntityModel::getTexturedModelData);
@@ -93,6 +100,7 @@ public class EntityRegister {
         EntityModelLayerRegistry.registerModelLayer(MODEL_DRONE_LAYER, DroneEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_FOREST_GUARDIAN,
                 ForestGuardianEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_MAGIC_BROOM, MagicBroomEntityModel::getTexturedModelData);
     }
 
     public static void registerEntities() {
@@ -106,6 +114,9 @@ public class EntityRegister {
                 ApocalyptorEntity.createApocalyptorAttributes());
         FabricDefaultAttributeRegistry.register(WEREWOLF_ENTITY_TYPE, WerewolfEntity.createWereworlfAttributes());
         FabricDefaultAttributeRegistry.register(DRONE_ENTITY_TYPE, DroneEntity.createLivingAttributes());
+        FabricDefaultAttributeRegistry.register(FOREST_GUARDIAN_ENTITY_TYPE,
+                ForestGuardianEntity.createForestGuardianAttributes());
+        FabricDefaultAttributeRegistry.register(MAGIC_BROOM_ENTITY_TYPE, MagicBroomEntity.createLivingAttributes());
     }
 
 

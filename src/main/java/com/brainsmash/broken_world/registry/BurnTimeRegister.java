@@ -2,7 +2,6 @@ package com.brainsmash.broken_world.registry;
 
 import net.minecraft.SharedConstants;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;

@@ -86,4 +86,9 @@ public class GunItem extends Item {
     public int countAmmo(PlayerEntity entity, int maxAmmo) {
         return 0;
     }
+
+    @Override
+    public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
+        return false;
+    }
 }

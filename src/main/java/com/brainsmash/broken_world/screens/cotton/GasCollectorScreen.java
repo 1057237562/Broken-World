@@ -1,6 +1,5 @@
 package com.brainsmash.broken_world.screens.cotton;
 
-import com.brainsmash.broken_world.screenhandlers.descriptions.ExtractorGuiDescription;
 import com.brainsmash.broken_world.screenhandlers.descriptions.GasCollectorGuiDescription;
 import io.github.cottonmc.cotton.gui.client.CottonInventoryScreen;
 import net.minecraft.entity.player.PlayerInventory;
