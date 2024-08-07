@@ -6,6 +6,7 @@ import com.brainsmash.broken_world.items.armor.ExoArmorItem;
 import com.brainsmash.broken_world.items.armor.material.ExoMaterial;
 import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
 import com.brainsmash.broken_world.items.armor.render.AlphaArmorRenderer;
+import com.brainsmash.broken_world.items.armor.render.WizardHatRenderer;
 import com.brainsmash.broken_world.items.electrical.BatteryItem;
 import com.brainsmash.broken_world.items.electrical.MiningDrillItem;
 import com.brainsmash.broken_world.items.food.XpFruit;
@@ -170,6 +171,7 @@ public class ItemRegister {
             new ExoArmorItem(armorMaterials[1], EquipmentSlot.CHEST, new FabricItemSettings().group(ITEM_GROUP)),
             new ExoArmorItem(armorMaterials[1], EquipmentSlot.LEGS, new FabricItemSettings().group(ITEM_GROUP)),
             new ExoArmorItem(armorMaterials[1], EquipmentSlot.FEET, new FabricItemSettings().group(ITEM_GROUP)),
+            new ArmorItem(ArmorMaterials.LEATHER, EquipmentSlot.HEAD, new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -260,6 +262,7 @@ public class ItemRegister {
             "exo_chestplate",
             "exo_leggings",
             "exo_boots",
+            "wizard_hat"
     };
 
     public static final Item[] guns = {
@@ -329,6 +332,7 @@ public class ItemRegister {
 
         ArmorRenderer.register(new AlphaArmorRenderer(), get(ItemRegistry.KINETIC_HELMET),
                 get(ItemRegistry.EXO_HELMET));
+        ArmorRenderer.register(new WizardHatRenderer(), get(ItemRegistry.WIZARD_HAT));
     }
 
     public static Item get(ItemRegistry item) {

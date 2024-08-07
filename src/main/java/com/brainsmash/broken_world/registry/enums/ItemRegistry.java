@@ -88,4 +88,5 @@ public enum ItemRegistry {
     EXO_CHESTPLATE,
     EXO_LEGGINGS,
     EXO_BOOTS,
+    WIZARD_HAT,
 }
