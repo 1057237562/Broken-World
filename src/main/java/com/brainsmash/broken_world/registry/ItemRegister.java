@@ -327,7 +327,8 @@ public class ItemRegister {
             });
         }
 
-        ArmorRenderer.register(new AlphaArmorRenderer(), get(ItemRegistry.KINETIC_HELMET));
+        ArmorRenderer.register(new AlphaArmorRenderer(), get(ItemRegistry.KINETIC_HELMET),
+                get(ItemRegistry.EXO_HELMET));
     }
 
     public static Item get(ItemRegistry item) {
