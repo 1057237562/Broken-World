@@ -20,11 +20,11 @@ public class unknown<T extends Entity> extends EntityModel<T> {
 
 		ModelPartData bipedHead = modelPartData.addChild("bipedHead", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
 
-		ModelPartData armorHead = bipedHead.addChild("armorHead", ModelPartBuilder.create().uv(53, 0).cuboid(-1.0F, -18.0F, 5.0F, 2.0F, 2.0F, 3.0F)
-		.uv(69, 1).cuboid(-7.0F, -7.0F, -7.0F, 14.0F, 1.0F, 14.0F)
-		.uv(0, 13).cuboid(-5.0F, -10.0F, -5.0F, 10.0F, 3.0F, 10.0F)
-		.uv(0, 0).cuboid(-4.0F, -13.0F, -3.0F, 8.0F, 3.0F, 8.0F)
-		.uv(0, 27).cuboid(-3.0F, -16.0F, 1.0F, 6.0F, 4.0F, 5.0F), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		ModelPartData armorHead = bipedHead.addChild("armorHead", ModelPartBuilder.create().uv(53, 0).cuboid(-1.0F, -19.0F, 5.0F, 2.0F, 2.0F, 3.0F)
+		.uv(69, 1).cuboid(-7.0F, -8.0F, -7.0F, 14.0F, 1.0F, 14.0F)
+		.uv(0, 13).cuboid(-5.0F, -11.0F, -5.0F, 10.0F, 3.0F, 10.0F)
+		.uv(0, 0).cuboid(-4.0F, -14.0F, -3.0F, 8.0F, 3.0F, 8.0F)
+		.uv(0, 27).cuboid(-3.0F, -17.0F, 1.0F, 6.0F, 4.0F, 5.0F), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
 
 		return TexturedModelData.of(modelData, 128, 128);
 	}
