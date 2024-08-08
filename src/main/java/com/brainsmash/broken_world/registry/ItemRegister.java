@@ -21,8 +21,6 @@ import com.brainsmash.broken_world.items.weapons.guns.*;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import com.brainsmash.broken_world.registry.enums.ToolRegistry;
-import dev.emi.trinkets.api.TrinketEnums;
-import dev.emi.trinkets.api.event.TrinketDropCallback;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -30,7 +28,6 @@ import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.condition.KilledByPlayerLootCondition;
@@ -335,15 +332,6 @@ public class ItemRegister {
         ArmorRenderer.register(new AlphaArmorRenderer(), get(ItemRegistry.KINETIC_HELMET),
                 get(ItemRegistry.EXO_HELMET));
         ArmorRenderer.register(new WizardHatRenderer(), get(ItemRegistry.WIZARD_HAT));
-        TrinketDropCallback.EVENT.register((rule, stack, ref, entity) -> {
-            if (stack.getItem() instanceof XPAmulet) {
-                if (entity instanceof PlayerEntity player) {
-                    System.out.println(player.totalExperience);
-                }
-                return TrinketEnums.DropRule.KEEP;
-            }
-            return TrinketEnums.DropRule.DEFAULT;
-        });
     }
 
     public static Item get(ItemRegistry item) {
