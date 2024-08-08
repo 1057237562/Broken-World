@@ -10,10 +10,7 @@ import com.brainsmash.broken_world.items.armor.render.WizardHatRenderer;
 import com.brainsmash.broken_world.items.electrical.BatteryItem;
 import com.brainsmash.broken_world.items.electrical.MiningDrillItem;
 import com.brainsmash.broken_world.items.food.XpFruit;
-import com.brainsmash.broken_world.items.magical.CloakingCape;
-import com.brainsmash.broken_world.items.magical.MagicalBroomItem;
-import com.brainsmash.broken_world.items.magical.Rune;
-import com.brainsmash.broken_world.items.magical.Wand;
+import com.brainsmash.broken_world.items.magical.*;
 import com.brainsmash.broken_world.items.magical.enums.RuneEnum;
 import com.brainsmash.broken_world.items.weapons.HoeItem;
 import com.brainsmash.broken_world.items.weapons.ammo.EnergyAmmo;
@@ -24,6 +21,8 @@ import com.brainsmash.broken_world.items.weapons.guns.*;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import com.brainsmash.broken_world.registry.enums.ToolRegistry;
+import dev.emi.trinkets.api.TrinketEnums;
+import dev.emi.trinkets.api.event.TrinketDropCallback;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -31,6 +30,7 @@ import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.condition.KilledByPlayerLootCondition;
@@ -172,6 +172,7 @@ public class ItemRegister {
             new ExoArmorItem(armorMaterials[1], EquipmentSlot.LEGS, new FabricItemSettings().group(ITEM_GROUP)),
             new ExoArmorItem(armorMaterials[1], EquipmentSlot.FEET, new FabricItemSettings().group(ITEM_GROUP)),
             new ArmorItem(ArmorMaterials.LEATHER, EquipmentSlot.HEAD, new FabricItemSettings().group(ITEM_GROUP)),
+            new XPAmulet(new FabricItemSettings().group(ITEM_GROUP)),
     };
 
     public static final String[] itemnames = {
@@ -262,7 +263,8 @@ public class ItemRegister {
             "exo_chestplate",
             "exo_leggings",
             "exo_boots",
-            "wizard_hat"
+            "wizard_hat",
+            "xp_amulet",
     };
 
     public static final Item[] guns = {
@@ -333,6 +335,15 @@ public class ItemRegister {
         ArmorRenderer.register(new AlphaArmorRenderer(), get(ItemRegistry.KINETIC_HELMET),
                 get(ItemRegistry.EXO_HELMET));
         ArmorRenderer.register(new WizardHatRenderer(), get(ItemRegistry.WIZARD_HAT));
+        TrinketDropCallback.EVENT.register((rule, stack, ref, entity) -> {
+            if (stack.getItem() instanceof XPAmulet) {
+                if (entity instanceof PlayerEntity player) {
+                    System.out.println(player.totalExperience);
+                }
+                return TrinketEnums.DropRule.KEEP;
+            }
+            return TrinketEnums.DropRule.DEFAULT;
+        });
     }
 
     public static Item get(ItemRegistry item) {
