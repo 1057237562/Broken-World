@@ -58,6 +58,10 @@ public class MagicBroomEntity extends VehicleEntity {
         return true;
     }
 
+    @Override
+    public boolean canBeRiddenInWater() {
+        return true;
+    }
 
     @Override
     public void tick() {

@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.items.weapons.guns;
 
 import com.brainsmash.broken_world.entity.BulletEntity;
+import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.items.CustomUsePoseItem;
 import com.brainsmash.broken_world.items.weapons.Util;
 import com.brainsmash.broken_world.registry.ItemRegister;
@@ -46,8 +47,9 @@ public class Pistol extends GunItem implements CustomUsePoseItem {
                 lightAmmoEntity.setVelocity(user, user.getPitch() + world.getRandom().nextFloat() * 2 * s - s,
                         user.getYaw() + world.getRandom().nextFloat() * 2 * s - s, 0.0f, 4f, 1.0f);
                 world.spawnEntity(lightAmmoEntity);
+            } else {
+                ((PlayerDataExtension) user).addPitchSpeed(recoil);
             }
-            user.setPitch(user.getPitch() + recoil);
             if (!user.getAbilities().creativeMode) {
                 reduceAmmo(itemStack);
                 itemStack.damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));

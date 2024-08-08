@@ -18,6 +18,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntityMixin implements PlayerDataExtension {
 
+    public float pitchSpeed = 0;
+
     @Shadow
     public abstract Iterable<ItemStack> getArmorItems();
 
@@ -49,4 +51,16 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin implements Pla
         }
     }
 
+    @Inject(method = "tick", at = @At("HEAD"))
+    public void tick(CallbackInfo ci) {
+        if (world.isClient) {
+            setPitch(this.getPitch() + (pitchSpeed / 4));
+            pitchSpeed = pitchSpeed * 3 / 4;
+        }
+    }
+
+    @Override
+    public void addPitchSpeed(float speed) {
+        pitchSpeed += speed;
+    }
 }
