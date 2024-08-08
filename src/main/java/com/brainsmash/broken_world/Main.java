@@ -6,6 +6,7 @@ import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.entity.vehicle.VehicleEntity;
+import com.brainsmash.broken_world.items.magical.XPAmulet;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import com.brainsmash.broken_world.recipe.*;
 import com.brainsmash.broken_world.registry.*;
@@ -16,6 +17,8 @@ import com.brainsmash.broken_world.util.BonusHelper;
 import com.brainsmash.broken_world.util.EntityHelper;
 import com.brainsmash.broken_world.worldgen.BWDensityFunctionTypes;
 import com.brainsmash.broken_world.worldgen.features.VolcanoFeature;
+import dev.emi.trinkets.api.TrinketEnums;
+import dev.emi.trinkets.api.event.TrinketDropCallback;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -270,5 +273,11 @@ public class Main implements ModInitializer {
                         gunItem.reload(itemStack);
                     }
                 }));
+        TrinketDropCallback.EVENT.register((rule, stack, ref, entity) -> {
+            if (stack.getItem() instanceof XPAmulet) {
+                return TrinketEnums.DropRule.KEEP;
+            }
+            return TrinketEnums.DropRule.DEFAULT;
+        });
     }
 }

@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.mixin;
 
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
+import com.brainsmash.broken_world.entity.impl.RenderPipeline;
 import com.brainsmash.broken_world.entity.vehicle.VehicleEntity;
 import com.brainsmash.broken_world.util.BonusHelper;
 import net.minecraft.entity.EntityPose;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntityMixin implements PlayerDataExtension {
+public abstract class PlayerEntityMixin extends LivingEntityMixin implements PlayerDataExtension, RenderPipeline {
 
     public float pitchSpeed = 0;
 
@@ -51,8 +52,8 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin implements Pla
         }
     }
 
-    @Inject(method = "tick", at = @At("HEAD"))
-    public void tick(CallbackInfo ci) {
+    @Override
+    public void renderTick() {
         if (world.isClient) {
             setPitch(this.getPitch() + (pitchSpeed / 4));
             pitchSpeed = pitchSpeed * 3 / 4;

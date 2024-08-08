@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPlayerEntity.class)
-public abstract class ClientPlayerEntityMixin extends LivingEntityMixin {
+public abstract class ClientPlayerEntityMixin extends PlayerEntityMixin {
 
     private boolean requireUpdate;
 
