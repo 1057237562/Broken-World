@@ -9,8 +9,6 @@ import com.brainsmash.broken_world.util.MiscHelper;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
-import io.github.cottonmc.cotton.gui.widget.icon.Icon;
-import io.github.cottonmc.cotton.gui.widget.icon.TextureIcon;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.search.SearchManager;
@@ -34,7 +32,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.registry.Registry;
 
@@ -48,7 +45,6 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
     // 8 is the width of WListPanel's scrollbar, which is constant and hardcoded.
     protected static int SCROLLBAR_WIDTH = 8;
     public static final SearchManager.Key<Enchantment> ENCHANTMENT_KEY = new SearchManager.Key<>();
-    public static final Icon SLOT_ICON = new TextureIcon(new Identifier(Main.MODID, "textures/gui/infusing_table/slot_icon.png"));
 
     protected SearchManager searchManager = new SearchManager();
     protected List<EnchantmentLevelEntry> enchantments = new ArrayList<>();
@@ -83,16 +79,14 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
         setRootPanel(root);
 
         slider = new WLevelSlider();
-        slider.setChangedListener(level -> {
-            refreshEnchantmentList();
-        });
+        slider.setChangedListener(level -> refreshEnchantmentList());
 
         searchField = new WTextField();
         searchField.setChangedListener(string -> refreshEnchantmentList())
                 .setSuggestion(Text.translatable("gui.infusing_table.search_hint"));
 
         slot = WItemSlot.of(inventory, 0);
-        slot.setIcon(SLOT_ICON).addChangeListener((w, inv, stack, i) -> onContentChanged(inv));
+        slot.addChangeListener((w, inv, stack, i) -> onContentChanged(inv));
 
         enchantmentList = new WListPanel<>(enchantments, WEnchantment::new, (entry, widget) -> {
             int level = entry.level;
@@ -247,7 +241,6 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
         }
 
         searchField.setText("");
-        slot.setIcon(inventory.getStack(0).isEmpty() ? SLOT_ICON : null);
         refreshEnchantmentList();
     }
 }
