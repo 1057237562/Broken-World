@@ -160,6 +160,13 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
 
             list.add(enchantment);
         }
+        for (Enchantment e1 : EnchantmentHelper.get(stack).keySet()) {
+            for (Enchantment e2 : List.copyOf(list)) {
+                if (!e2.canCombine(e1)) {
+                    list.remove(e2);
+                }
+            }
+        }
         return list;
     }
 
