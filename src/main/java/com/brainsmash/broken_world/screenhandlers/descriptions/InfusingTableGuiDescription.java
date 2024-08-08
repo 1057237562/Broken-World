@@ -14,16 +14,15 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.search.SearchManager;
 import net.minecraft.client.search.TextSearchProvider;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -38,6 +37,7 @@ import net.minecraft.util.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class InfusingTableGuiDescription extends SyncedGuiDescription {
@@ -214,18 +214,9 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
 
         context.run((world, pos) -> {
             player.applyEnchantmentCosts(stack, power);
-            boolean isBook = stack.isOf(Items.BOOK);
-            if (isBook) {
-                ItemStack stack2 = new ItemStack(Items.ENCHANTED_BOOK);
-                NbtCompound nbtCompound = stack.getNbt();
-                if (nbtCompound != null) {
-                    stack2.setNbt(nbtCompound.copy());
-                }
-                this.inventory.setStack(0, stack2);
-                EnchantedBookItem.addEnchantment(stack2, new EnchantmentLevelEntry(e, level));
-            } else {
-                stack.addEnchantment(e, level);
-            }
+            Map<Enchantment, Integer> map = EnchantmentHelper.get(stack);
+            map.put(e, Math.max(level, map.getOrDefault(e, 0)));
+            EnchantmentHelper.set(map, stack);
             player.incrementStat(Stats.ENCHANT_ITEM);
             if (player instanceof ServerPlayerEntity) {
                 Criteria.ENCHANTED_ITEM.trigger((ServerPlayerEntity)player, inventory.getStack(0), power);
