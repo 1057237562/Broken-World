@@ -45,6 +45,8 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
     // 8 is the width of WListPanel's scrollbar, which is constant and hardcoded.
     protected static int SCROLLBAR_WIDTH = 8;
     public static final SearchManager.Key<Enchantment> ENCHANTMENT_KEY = new SearchManager.Key<>();
+    // Allow Infusing Table to enchant enchanted items, but with additional experience level cost.
+    public static final float PENALTY_RATIO = 0.2f;
 
     protected SearchManager searchManager = new SearchManager();
     protected List<EnchantmentLevelEntry> enchantments = new ArrayList<>();
@@ -95,7 +97,9 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
             assert player != null;
             int minLevel = e.getMinLevel(), maxLevel = e.getMaxLevel();
             if (minLevel <= level && level <= maxLevel) {
+                int enchantmentCnt = inventory.getStack(0).getEnchantments().size();
                 widget.power = Math.round((e.getMaxPower(level) + e.getMinPower(level)) / 2.0f);
+                widget.power = Math.round(widget.power * (1 + enchantmentCnt * PENALTY_RATIO));
                 widget.level = level;
                 assert MinecraftClient.getInstance().player != null;
                 widget.available = player.experienceLevel >= widget.power || player.getAbilities().creativeMode;
@@ -144,7 +148,7 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
         boolean isBook = stack.isOf(Items.BOOK);
         Item item = stack.getItem();
         ArrayList<Enchantment> list = new ArrayList<>();
-        if (!stack.isEmpty() && (!stack.isEnchantable() || item.getEnchantability() <= 0))
+        if (!stack.isEmpty() && (!item.isEnchantable(stack) || item.getEnchantability() <= 0))
             return list;
         for (Enchantment enchantment : Registry.ENCHANTMENT) {
             // Vanilla Enchanting Table disallows enchantments that are not available for random selection.
