@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.client.render.entity;
+package com.brainsmash.broken_world.blocks.render.entity;
 
 import com.brainsmash.broken_world.blocks.entity.electric.ScannerBlockEntity;
 import com.brainsmash.broken_world.registry.ScanColorRegister;

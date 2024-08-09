@@ -1,6 +1,6 @@
-package com.brainsmash.broken_world.blocks.client.render.entity;
+package com.brainsmash.broken_world.blocks.render.entity;
 
-import com.brainsmash.broken_world.blocks.entity.magical.DimInfuserEntity;
+import com.brainsmash.broken_world.blocks.entity.magical.LuminInjectorEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
@@ -9,16 +9,16 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Quaternion;
 
-public class DimInfuserBlockEnityRenderer implements BlockEntityRenderer<DimInfuserEntity> {
+public class LuminInjectorBlockEnityRenderer implements BlockEntityRenderer<LuminInjectorEntity> {
 
     private ItemRenderer INSTANCE;
 
-    public DimInfuserBlockEnityRenderer(BlockEntityRendererFactory.Context ctx) {
+    public LuminInjectorBlockEnityRenderer(BlockEntityRendererFactory.Context ctx) {
         INSTANCE = ctx.getItemRenderer();
     }
 
     @Override
-    public void render(DimInfuserEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+    public void render(LuminInjectorEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
         entity.tick += tickDelta;
         if (entity.crafting && entity.vitemStacks.size() == entity.shift.size()) {

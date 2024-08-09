@@ -1,8 +1,8 @@
-package com.brainsmash.broken_world.blocks.client.render.entity;
+package com.brainsmash.broken_world.blocks.render.entity;
 
-import com.brainsmash.broken_world.blocks.client.render.FluidRenderFace;
-import com.brainsmash.broken_world.blocks.client.render.FluidVariantRenderer;
 import com.brainsmash.broken_world.blocks.entity.magical.XpContainerEntity;
+import com.brainsmash.broken_world.blocks.render.FluidRenderFace;
+import com.brainsmash.broken_world.blocks.render.FluidVariantRenderer;
 import com.brainsmash.broken_world.registry.FluidRegister;
 import com.brainsmash.broken_world.registry.enums.FluidRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;

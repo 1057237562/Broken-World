@@ -159,6 +159,7 @@ public class Main implements ModInitializer {
         PointOfInterestRegister.registerPlacesOfInterest();
         SoundRegister.registerSoundEvents();
         EnchantmentRegister.registerEnchantments();
+        ParticleRegister.registerParticles();
 
         MultiblockUtil.registerMultiblock();
 

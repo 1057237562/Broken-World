@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.client.render;
+package com.brainsmash.broken_world.blocks.render;
 /*
  * Copyright (c) 2019 AlexIIL
  *

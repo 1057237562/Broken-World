@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.client.render.entity;
+package com.brainsmash.broken_world.blocks.render.entity;
 
 import com.brainsmash.broken_world.blocks.entity.electric.CreativeBatteryBlockEntity;
 import net.fabricmc.api.EnvType;
@@ -16,7 +16,7 @@ public class CreativeBatteryBlockEntityRenderer implements BlockEntityRenderer<C
 
     private final EntityRenderDispatcher DISPATCHER;
 
-    public CreativeBatteryBlockEntityRenderer(BlockEntityRendererFactory.Context ctx){
+    public CreativeBatteryBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
         DISPATCHER = ctx.getEntityRenderDispatcher();
     }
 
@@ -26,8 +26,8 @@ public class CreativeBatteryBlockEntityRenderer implements BlockEntityRenderer<C
         matrices.push();
         matrices.translate(0.5d, 0.1d, 0.5d);
         matrices.scale(0.5f, 0.5f, 0.4f);
-        entity.tick += tickDelta * (float)entity.getEnergy() / (float)entity.getMaxCapacity();
-        matrices.multiply(Quaternion.fromEulerXyz(0, (float) ((entity.tick)*2*Math.PI/180.0),0));
+        entity.tick += tickDelta * (float) entity.getEnergy() / (float) entity.getMaxCapacity();
+        matrices.multiply(Quaternion.fromEulerXyz(0, (float) ((entity.tick) * 2 * Math.PI / 180.0), 0));
         DISPATCHER.render(chargedCreeper, 0.0, 0.0, 0.0, 0.0f, entity.tick, matrices, vertexConsumers, 15728640);
         matrices.pop();
     }

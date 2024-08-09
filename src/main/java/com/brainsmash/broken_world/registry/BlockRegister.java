@@ -1,7 +1,6 @@
 package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.blocks.*;
-import com.brainsmash.broken_world.blocks.client.render.entity.*;
 import com.brainsmash.broken_world.blocks.electric.*;
 import com.brainsmash.broken_world.blocks.electric.base.BatteryBlock;
 import com.brainsmash.broken_world.blocks.electric.base.CableBlock;
@@ -25,6 +24,7 @@ import com.brainsmash.broken_world.blocks.model.BottomTopBlock;
 import com.brainsmash.broken_world.blocks.model.TeleporterFrameBlock;
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.blocks.ores.MagnetiteBlock;
+import com.brainsmash.broken_world.blocks.render.entity.*;
 import com.brainsmash.broken_world.items.magical.MagicalSpawnerItem;
 import com.brainsmash.broken_world.registry.enums.BlockRegistry;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;

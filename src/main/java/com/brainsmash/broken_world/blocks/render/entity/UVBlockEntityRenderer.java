@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.client.render.entity;
+package com.brainsmash.broken_world.blocks.render.entity;
 
 import com.brainsmash.broken_world.Main;
 import com.brainsmash.broken_world.blocks.entity.UVBlockEntity;
@@ -19,22 +19,16 @@ public class UVBlockEntityRenderer implements BlockEntityRenderer<UVBlockEntity>
     public static final EntityModelLayer UV = new EntityModelLayer(new Identifier(Main.MODID, "uv"), "main");
     private final ModelPart cube;
 
-    public UVBlockEntityRenderer(BlockEntityRendererFactory.Context ctx){
+    public UVBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
         ModelPart modelPart = ctx.getLayerModelPart(UV);
         cube = modelPart.getChild(CUBE);
     }
 
-    public static TexturedModelData getTexturedModelData(){
+    public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
-        modelPartData.addChild(
-                CUBE,
-                ModelPartBuilder
-                        .create()
-                        .uv(0, 0)
-                        .cuboid(0F, 0F, 0F, 16F, 16F, 16F),
-                ModelTransform.NONE
-        );
+        modelPartData.addChild(CUBE, ModelPartBuilder.create().uv(0, 0).cuboid(0F, 0F, 0F, 16F, 16F, 16F),
+                ModelTransform.NONE);
         return TexturedModelData.of(modelData, 64, 32);
     }
 

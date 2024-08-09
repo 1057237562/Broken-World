@@ -4,10 +4,7 @@ import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
-import com.brainsmash.broken_world.registry.BlockRegister;
-import com.brainsmash.broken_world.registry.EntityRegister;
-import com.brainsmash.broken_world.registry.FluidRegister;
-import com.brainsmash.broken_world.registry.ItemRegister;
+import com.brainsmash.broken_world.registry.*;
 import com.brainsmash.broken_world.screens.cotton.*;
 import com.brainsmash.broken_world.util.BonusHelper;
 import com.brainsmash.broken_world.util.EntityHelper;
@@ -80,6 +77,7 @@ public class Client implements ClientModInitializer {
         BlockRegister.registBlocksClientSide();
         EntityRegister.registEntitiesClientSide();
         ItemRegister.registItemClientSide();
+        ParticleRegister.registerParticleClient();
 
         MultiblockUtil.registMultiblockClientSide();
 

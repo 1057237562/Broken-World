@@ -1,4 +1,4 @@
-package com.brainsmash.broken_world.blocks.client.render;
+package com.brainsmash.broken_world.blocks.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
