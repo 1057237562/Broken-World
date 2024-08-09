@@ -9,7 +9,8 @@
     "LivingEntityMixin",
     "PlayerEntityMixin",
     "SolidCollisionMixin",
-    "ExperienceOrbEntityMixin"
+    "ExperienceOrbEntityMixin",
+    "AbstractFurnaceBlockEntityMixin"
   ],
   "client": [
     "AbstractClientPlayerEntityMixin",
