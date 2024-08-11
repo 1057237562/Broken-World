@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.registry;
 
 import com.brainsmash.broken_world.entity.BulletEntity;
+import com.brainsmash.broken_world.entity.GelobGelEntity;
 import com.brainsmash.broken_world.entity.HyperSpearEntity;
 import com.brainsmash.broken_world.entity.hostile.*;
 import com.brainsmash.broken_world.entity.model.*;
@@ -12,10 +13,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.SpawnRestriction;
+import net.minecraft.entity.*;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -78,6 +76,16 @@ public class EntityRegister {
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, MagicBroomEntity::new).dimensions(
                     EntityDimensions.fixed(1.0f, 0.25f)).trackRangeBlocks(64).build());
 
+    public static final EntityType<GelobEntity> GELOB_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MODID, "gelob"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GelobEntity::new).dimensions(
+                    EntityDimensions.fixed(1.0f, 1.0f)).trackRangeBlocks(64).build());
+
+    public static final EntityType<GelobGelEntity> GELOB_GEL_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MODID, "gelob_gel"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, GelobGelEntity::new).dimensions(
+                    EntityDimensions.fixed(1 / 16.0f, 1 / 16.0f)).build());
+
 
     @Environment(EnvType.CLIENT)
     public static void registEntitiesClientSide() {
@@ -91,6 +99,8 @@ public class EntityRegister {
         EntityRendererRegistry.register(WEREWOLF_ENTITY_TYPE, WerewolfEntityRenderer::new);
         EntityRendererRegistry.register(FOREST_GUARDIAN_ENTITY_TYPE, ForestGuardianEntityRenderer::new);
         EntityRendererRegistry.register(MAGIC_BROOM_ENTITY_TYPE, MagicBroomEntityRenderer::new);
+        EntityRendererRegistry.register(GELOB_ENTITY_TYPE, GelobEntityRenderer::new);
+        EntityRendererRegistry.register(GELOB_GEL_ENTITY_TYPE, GelobGelEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(MODEL_FISHBONE_LAYER, FishboneEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_PHOENIX_LAYER, PhoenixEntityModel::getTexturedModelData);
@@ -101,6 +111,7 @@ public class EntityRegister {
         EntityModelLayerRegistry.registerModelLayer(MODEL_FOREST_GUARDIAN,
                 ForestGuardianEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_MAGIC_BROOM, MagicBroomEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_GELOB_GEL_LAYER, GelobGelEntityModel::getTexturedModelData);
     }
 
     public static void registerEntities() {
@@ -117,6 +128,7 @@ public class EntityRegister {
         FabricDefaultAttributeRegistry.register(FOREST_GUARDIAN_ENTITY_TYPE,
                 ForestGuardianEntity.createForestGuardianAttributes());
         FabricDefaultAttributeRegistry.register(MAGIC_BROOM_ENTITY_TYPE, MagicBroomEntity.createLivingAttributes());
+        FabricDefaultAttributeRegistry.register(GELOB_ENTITY_TYPE, GelobEntity.createSpiderAttributes());
     }
 
 
