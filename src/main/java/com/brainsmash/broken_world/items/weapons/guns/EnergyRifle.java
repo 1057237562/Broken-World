@@ -53,7 +53,7 @@ public class EnergyRifle extends GunItem {
                 world.spawnEntity(heavyAmmoEntity);
             } else {
                 ((PlayerDataExtension) user).addPitchSpeed(recoil);
-                ((PlayerDataExtension) user).addYawSpeed((float) (user.getRandom().nextGaussian() * recoil));
+                ((PlayerDataExtension) user).addYawSpeed((float) (user.getRandom().nextGaussian() * recoil / 2f));
             }
             if (!user.getAbilities().creativeMode) {
                 reduceAmmo(itemStack);

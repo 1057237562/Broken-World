@@ -3,7 +3,6 @@ package com.brainsmash.broken_world.items.magical;
 import com.brainsmash.broken_world.entity.SpellEntity;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.items.CustomUsePoseItem;
-import com.brainsmash.broken_world.registry.ParticleRegister;
 import com.brainsmash.broken_world.screenhandlers.descriptions.WandGuiDescription;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
@@ -12,10 +11,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class Wand extends Item implements CustomUsePoseItem {
@@ -51,7 +50,9 @@ public class Wand extends Item implements CustomUsePoseItem {
 //                    // TODO : Apply Magic Rune Interpreter
 //                }
 //            }
-            world.spawnEntity(new SpellEntity(user, world, user.getRotationVector()));
+            if (!world.isClient()) {
+                world.spawnEntity(new SpellEntity(user, world));
+            }
         }
         ItemStack itemStack = user.getStackInHand(hand);
         user.setCurrentHand(hand);
@@ -67,10 +68,10 @@ public class Wand extends Item implements CustomUsePoseItem {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if (user instanceof PlayerDataExtension dataExtension) {
+        if (world instanceof ServerWorld && user instanceof PlayerDataExtension dataExtension) {
             SpellEntity spellEntity = dataExtension.getSpellEntity();
-            Vec3d normal = user.getEyePos().add(spellEntity.normal.multiply(2));
-            world.addParticle(ParticleRegister.MAGIC_SPELL_TYPE, true, normal.x, normal.y, normal.z, 0, 0, 0);
+//            Vec3d normal = user.getEyePos().add(spellEntity.normal.multiply(2));
+//            world.addParticle(ParticleRegister.MAGIC_SPELL_TYPE, true, normal.x, normal.y, normal.z, 0, 0, 0);
             spellEntity.discard();
         }
 
@@ -79,10 +80,10 @@ public class Wand extends Item implements CustomUsePoseItem {
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        if (user instanceof PlayerDataExtension dataExtension) {
+        if (world instanceof ServerWorld && user instanceof PlayerDataExtension dataExtension) {
             SpellEntity spellEntity = dataExtension.getSpellEntity();
-            Vec3d normal = user.getEyePos().add(spellEntity.normal.multiply(2));
-            world.addParticle(ParticleRegister.MAGIC_SPELL_TYPE, true, normal.x, normal.y, normal.z, 0, 0, 0);
+//            Vec3d normal = user.getEyePos().add(spellEntity.normal.multiply(2));
+//            world.addParticle(ParticleRegister.MAGIC_SPELL_TYPE, true, normal.x, normal.y, normal.z, 0, 0, 0);
             spellEntity.discard();
         }
         super.onStoppedUsing(stack, world, user, remainingUseTicks);

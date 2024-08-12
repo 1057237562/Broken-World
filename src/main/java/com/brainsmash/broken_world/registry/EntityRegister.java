@@ -22,7 +22,6 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.World;
 
 import static com.brainsmash.broken_world.Main.MODID;
 import static com.brainsmash.broken_world.registry.EntityModelLayerRegister.*;
@@ -32,7 +31,8 @@ public class EntityRegister {
     public static final EntityType<BulletEntity> BULLET_ENTITY_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MODID, "bullet"),
             FabricEntityTypeBuilder.<BulletEntity>create(SpawnGroup.MISC, BulletEntity::new).dimensions(
-                    EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(6).trackedUpdateRate(20).build());
+                    EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(128).trackRangeChunks(6).trackedUpdateRate(
+                    20).build());
     public static final EntityType<HyperSpearEntity> HYPER_SPEAR_ENTITY_ENTITY_TYPE = Registry.register(
             Registry.ENTITY_TYPE, new Identifier(MODID, "hyper_spear"),
             FabricEntityTypeBuilder.<HyperSpearEntity>create(SpawnGroup.MISC, HyperSpearEntity::new).dimensions(
@@ -81,10 +81,10 @@ public class EntityRegister {
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, MagicBroomEntity::new).dimensions(
                     EntityDimensions.fixed(1.0f, 0.25f)).trackRangeBlocks(64).build());
 
-    public static final EntityType<SpellEntity> SPELL_ENTITY_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
-            new Identifier(MODID, "spell"), FabricEntityTypeBuilder.create(SpawnGroup.MISC,
-                    (EntityType<SpellEntity> entityType, World world) -> new SpellEntity(world)).dimensions(
-                    EntityDimensions.fixed(0f, 0f)).trackRangeBlocks(64).build());
+    public static final EntityType<SpellEntity> SPELL_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MODID, "spell"),
+            FabricEntityTypeBuilder.<SpellEntity>create(SpawnGroup.MISC, SpellEntity::new).dimensions(
+                    EntityDimensions.fixed(0.01f, 0.1f)).trackRangeBlocks(64).build());
 
     public static final EntityType<GelobEntity> GELOB_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MODID, "gelob"),
@@ -111,7 +111,7 @@ public class EntityRegister {
         EntityRendererRegistry.register(MAGIC_BROOM_ENTITY_TYPE, MagicBroomEntityRenderer::new);
         EntityRendererRegistry.register(GELOB_ENTITY_TYPE, GelobEntityRenderer::new);
         EntityRendererRegistry.register(GELOB_GEL_ENTITY_TYPE, GelobGelEntityRenderer::new);
-        EntityRendererRegistry.register(SPELL_ENTITY_ENTITY_TYPE, SpellEntityRenderer::new);
+        EntityRendererRegistry.register(SPELL_ENTITY_TYPE, SpellEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(MODEL_FISHBONE_LAYER, FishboneEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_PHOENIX_LAYER, PhoenixEntityModel::getTexturedModelData);

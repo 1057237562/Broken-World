@@ -60,8 +60,8 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin implements Pla
         if (world.isClient) {
             setPitch(this.getPitch() + (pitchSpeed / 4));
             pitchSpeed = pitchSpeed * 3 / 4;
-            setYaw(this.getYaw() + yawSpeed);
-            yawSpeed = 0;
+            setYaw(this.getYaw() + yawSpeed / 2);
+            yawSpeed = yawSpeed / 2;
         }
     }
 

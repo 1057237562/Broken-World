@@ -106,7 +106,7 @@ public class BulletEntity extends ProjectileEntity {
     }
 
     protected float getDragInWater() {
-        return 0.1f;
+        return 0.82f;
     }
 
     @Override
@@ -205,6 +205,11 @@ public class BulletEntity extends ProjectileEntity {
         if (hitBlock.getBlock() instanceof TransparentBlock || hitBlock.getBlock() instanceof PaneBlock)
             world.breakBlock(blockHitResult.getBlockPos(), false);
         discard();
+    }
+
+    @Override
+    public boolean shouldRender(double distance) {
+        return distance < 4096;
     }
 
     //TODO: Make a headshot detector

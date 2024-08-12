@@ -46,7 +46,7 @@ public class SniperRifle extends GunItem {
                 world.spawnEntity(sniperAmmo);
             } else {
                 ((PlayerDataExtension) user).addPitchSpeed(recoil);
-                ((PlayerDataExtension) user).addYawSpeed((float) (user.getRandom().nextGaussian() * recoil));
+                ((PlayerDataExtension) user).addYawSpeed((float) (user.getRandom().nextGaussian() * recoil / 4f));
             }
             if (!user.getAbilities().creativeMode) {
                 reduceAmmo(itemStack);

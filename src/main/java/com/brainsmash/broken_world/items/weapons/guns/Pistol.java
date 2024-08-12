@@ -42,7 +42,7 @@ public class Pistol extends GunItem {
                 world.spawnEntity(lightAmmoEntity);
             } else {
                 ((PlayerDataExtension) user).addPitchSpeed(recoil);
-                ((PlayerDataExtension) user).addYawSpeed((float) (user.getRandom().nextGaussian() * recoil));
+                ((PlayerDataExtension) user).addYawSpeed((float) (user.getRandom().nextGaussian() * recoil / 4f));
             }
             if (!user.getAbilities().creativeMode) {
                 reduceAmmo(itemStack);
