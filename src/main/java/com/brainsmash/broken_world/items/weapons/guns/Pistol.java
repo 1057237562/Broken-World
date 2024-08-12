@@ -2,12 +2,10 @@ package com.brainsmash.broken_world.items.weapons.guns;
 
 import com.brainsmash.broken_world.entity.BulletEntity;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
-import com.brainsmash.broken_world.items.CustomUsePoseItem;
 import com.brainsmash.broken_world.items.weapons.Util;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.SoundRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -15,7 +13,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class Pistol extends GunItem implements CustomUsePoseItem {
+public class Pistol extends GunItem {
 
     private float recoil = -1f;
     private float spread = 0.17f;
@@ -24,11 +22,6 @@ public class Pistol extends GunItem implements CustomUsePoseItem {
 
     public Pistol(Settings settings) {
         super(settings);
-    }
-
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 72000;
     }
 
     @Override
@@ -49,6 +42,7 @@ public class Pistol extends GunItem implements CustomUsePoseItem {
                 world.spawnEntity(lightAmmoEntity);
             } else {
                 ((PlayerDataExtension) user).addPitchSpeed(recoil);
+                ((PlayerDataExtension) user).addYawSpeed((float) (user.getRandom().nextGaussian() * recoil));
             }
             if (!user.getAbilities().creativeMode) {
                 reduceAmmo(itemStack);
@@ -59,10 +53,6 @@ public class Pistol extends GunItem implements CustomUsePoseItem {
         user.incrementStat(Stats.USED.getOrCreateStat(this));
     }
 
-    @Override
-    public BipedEntityModel.ArmPose getUsePose() {
-        return BipedEntityModel.ArmPose.CROSSBOW_HOLD;
-    }
 
     @Override
     public int countAmmo(PlayerEntity entity, int maxAmmo) {

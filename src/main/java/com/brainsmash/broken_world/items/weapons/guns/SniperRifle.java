@@ -2,12 +2,10 @@ package com.brainsmash.broken_world.items.weapons.guns;
 
 import com.brainsmash.broken_world.entity.BulletEntity;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
-import com.brainsmash.broken_world.items.CustomUsePoseItem;
 import com.brainsmash.broken_world.items.weapons.Util;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.SoundRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -18,7 +16,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class SniperRifle extends GunItem implements CustomUsePoseItem {
+public class SniperRifle extends GunItem {
 
     private float recoil = -7.5f;
     private float spread = 0.01f;
@@ -28,11 +26,6 @@ public class SniperRifle extends GunItem implements CustomUsePoseItem {
     public SniperRifle(Settings settings) {
         super(settings);
         maxMagazine = 10;
-    }
-
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 72000;
     }
 
     @Override
@@ -51,19 +44,16 @@ public class SniperRifle extends GunItem implements CustomUsePoseItem {
                 sniperAmmo.setVelocity(user, user.getPitch() + world.getRandom().nextFloat() * 2 * s - s,
                         user.getYaw() + world.getRandom().nextFloat() * 2 * s - s, 0.0f, 6f, 1.0f);
                 world.spawnEntity(sniperAmmo);
+            } else {
+                ((PlayerDataExtension) user).addPitchSpeed(recoil);
+                ((PlayerDataExtension) user).addYawSpeed((float) (user.getRandom().nextGaussian() * recoil));
             }
-            ((PlayerDataExtension) user).addPitchSpeed(recoil);
             if (!user.getAbilities().creativeMode) {
                 reduceAmmo(itemStack);
                 itemStack.damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
             }
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
-    }
-
-    @Override
-    public BipedEntityModel.ArmPose getUsePose() {
-        return BipedEntityModel.ArmPose.CROSSBOW_HOLD;
     }
 
     @Override
@@ -94,4 +84,12 @@ public class SniperRifle extends GunItem implements CustomUsePoseItem {
                 SoundCategory.PLAYERS, 1.0F, 1.0F, false);
         return super.finishUsing(stack, world, user);
     }
+
+    @Override
+    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+        world.playSound(user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_SPYGLASS_STOP_USING,
+                SoundCategory.PLAYERS, 1.0F, 1.0F, false);
+        super.onStoppedUsing(stack, world, user, remainingUseTicks);
+    }
+
 }

@@ -39,6 +39,12 @@ public abstract class EntityMixin implements EntityDataExtension {
     @Shadow
     public abstract float getPitch();
 
+    @Shadow
+    public abstract void setYaw(float yaw);
+
+    @Shadow
+    public abstract float getYaw();
+
     private NbtElement element = new NbtCompound();
 
     @Inject(method = "readNbt", at = @At("TAIL"))

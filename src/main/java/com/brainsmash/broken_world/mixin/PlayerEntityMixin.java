@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.mixin;
 
+import com.brainsmash.broken_world.entity.SpellEntity;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.entity.impl.RenderPipeline;
 import com.brainsmash.broken_world.entity.vehicle.VehicleEntity;
@@ -20,6 +21,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class PlayerEntityMixin extends LivingEntityMixin implements PlayerDataExtension, RenderPipeline {
 
     public float pitchSpeed = 0;
+    public float yawSpeed = 0;
+    public SpellEntity spell;
 
     @Shadow
     public abstract Iterable<ItemStack> getArmorItems();
@@ -57,11 +60,28 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin implements Pla
         if (world.isClient) {
             setPitch(this.getPitch() + (pitchSpeed / 4));
             pitchSpeed = pitchSpeed * 3 / 4;
+            setYaw(this.getYaw() + yawSpeed);
+            yawSpeed = 0;
         }
     }
 
     @Override
     public void addPitchSpeed(float speed) {
         pitchSpeed += speed;
+    }
+
+    @Override
+    public void addYawSpeed(float speed) {
+        yawSpeed += speed;
+    }
+
+    @Override
+    public void setSpellEntity(SpellEntity spellEntity) {
+        spell = spellEntity;
+    }
+
+    @Override
+    public SpellEntity getSpellEntity() {
+        return spell;
     }
 }

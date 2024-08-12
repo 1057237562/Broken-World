@@ -17,6 +17,7 @@ public abstract class AbstractClientPlayerEntityMixin extends LivingEntityMixin 
             if (getActiveItem().getItem() instanceof SniperRifle) {
                 cir.setReturnValue(0.2f);
                 cir.cancel();
+                return;
             }
             if (getActiveItem().getItem() instanceof GunItem) {
                 cir.setReturnValue(0.9f);

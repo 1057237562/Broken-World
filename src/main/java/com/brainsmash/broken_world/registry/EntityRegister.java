@@ -3,6 +3,7 @@ package com.brainsmash.broken_world.registry;
 import com.brainsmash.broken_world.entity.BulletEntity;
 import com.brainsmash.broken_world.entity.GelobGelEntity;
 import com.brainsmash.broken_world.entity.HyperSpearEntity;
+import com.brainsmash.broken_world.entity.SpellEntity;
 import com.brainsmash.broken_world.entity.hostile.*;
 import com.brainsmash.broken_world.entity.model.*;
 import com.brainsmash.broken_world.entity.render.*;
@@ -13,11 +14,15 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
+import net.minecraft.world.World;
 
 import static com.brainsmash.broken_world.Main.MODID;
 import static com.brainsmash.broken_world.registry.EntityModelLayerRegister.*;
@@ -76,6 +81,11 @@ public class EntityRegister {
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, MagicBroomEntity::new).dimensions(
                     EntityDimensions.fixed(1.0f, 0.25f)).trackRangeBlocks(64).build());
 
+    public static final EntityType<SpellEntity> SPELL_ENTITY_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MODID, "spell"), FabricEntityTypeBuilder.create(SpawnGroup.MISC,
+                    (EntityType<SpellEntity> entityType, World world) -> new SpellEntity(world)).dimensions(
+                    EntityDimensions.fixed(0f, 0f)).trackRangeBlocks(64).build());
+
     public static final EntityType<GelobEntity> GELOB_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MODID, "gelob"),
             FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GelobEntity::new).dimensions(
@@ -101,6 +111,7 @@ public class EntityRegister {
         EntityRendererRegistry.register(MAGIC_BROOM_ENTITY_TYPE, MagicBroomEntityRenderer::new);
         EntityRendererRegistry.register(GELOB_ENTITY_TYPE, GelobEntityRenderer::new);
         EntityRendererRegistry.register(GELOB_GEL_ENTITY_TYPE, GelobGelEntityRenderer::new);
+        EntityRendererRegistry.register(SPELL_ENTITY_ENTITY_TYPE, SpellEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(MODEL_FISHBONE_LAYER, FishboneEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(MODEL_PHOENIX_LAYER, PhoenixEntityModel::getTexturedModelData);

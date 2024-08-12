@@ -17,6 +17,7 @@ public class MagicSpellParticle extends SpriteBillboardParticle {
 
     public MagicSpellParticle(ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
         super(clientWorld, d, e, f, g, h, i);
+        maxAge = 100;
     }
 
     @Override
@@ -31,6 +32,9 @@ public class MagicSpellParticle extends SpriteBillboardParticle {
         this.prevPosY = this.y;
         this.prevPosZ = this.z;
         this.move(0, 0, 0);
+        if (this.age++ >= this.maxAge) {
+            this.markDead();
+        }
     }
 
 

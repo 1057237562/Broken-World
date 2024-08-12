@@ -272,6 +272,10 @@ public class ItemRegister {
             items[ItemRegistry.QS_093.ordinal()],
             items[ItemRegistry.RPK_37.ordinal()],
             items[ItemRegistry.OV_2.ordinal()],
+            get(ItemRegistry.ROOKIE_WAND),
+            get(ItemRegistry.EXPERT_WAND),
+            get(ItemRegistry.MASTER_WAND),
+            get(ItemRegistry.GRANDMASTER_WAND),
     };
 
     public static final String[] tools = {

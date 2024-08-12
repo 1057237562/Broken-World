@@ -35,6 +35,15 @@ public abstract class LivingEntityMixin extends EntityMixin {
     @Shadow
     public abstract ItemStack getActiveItem();
 
+    @Shadow
+    public abstract void setHeadYaw(float headYaw);
+
+    @Shadow
+    public abstract float getHeadYaw();
+
+    @Shadow
+    public abstract float getYaw(float tickDelta);
+
     @Redirect(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isSubmergedIn(Lnet/minecraft/tag/TagKey;)Z"))
     private boolean hasNoAir(LivingEntity instance, TagKey<Fluid> tagKey) {
         if (TrinketsApi.getTrinketComponent(instance).get().isEquipped(ItemRegister.items[2])) {

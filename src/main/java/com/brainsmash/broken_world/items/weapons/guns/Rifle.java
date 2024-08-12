@@ -2,12 +2,10 @@ package com.brainsmash.broken_world.items.weapons.guns;
 
 import com.brainsmash.broken_world.entity.BulletEntity;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
-import com.brainsmash.broken_world.items.CustomUsePoseItem;
 import com.brainsmash.broken_world.items.weapons.Util;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.SoundRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -15,7 +13,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class Rifle extends GunItem implements CustomUsePoseItem {
+public class Rifle extends GunItem {
 
     private float recoil = -1.50f;
     private float spread = 0.15f;
@@ -29,11 +27,6 @@ public class Rifle extends GunItem implements CustomUsePoseItem {
     public Rifle(Settings settings, int maxMagazine) {
         super(settings);
         this.maxMagazine = maxMagazine;
-    }
-
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 72000;
     }
 
     @Override
@@ -60,6 +53,7 @@ public class Rifle extends GunItem implements CustomUsePoseItem {
                 world.spawnEntity(heavyAmmoEntity);
             } else {
                 ((PlayerDataExtension) user).addPitchSpeed(recoil);
+                ((PlayerDataExtension) user).addYawSpeed((float) (user.getRandom().nextGaussian() * recoil));
             }
             if (!user.getAbilities().creativeMode) {
                 reduceAmmo(itemStack);
@@ -69,11 +63,6 @@ public class Rifle extends GunItem implements CustomUsePoseItem {
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         return true;
-    }
-
-    @Override
-    public BipedEntityModel.ArmPose getUsePose() {
-        return BipedEntityModel.ArmPose.CROSSBOW_HOLD;
     }
 
     @Override
