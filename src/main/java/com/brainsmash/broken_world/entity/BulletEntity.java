@@ -53,6 +53,16 @@ public class BulletEntity extends ProjectileEntity {
         super(bulletEntityEntityType, world);
     }
 
+    protected static float updateRotation(float prevRot, float newRot) {
+        while (newRot - prevRot < -180.0f) {
+            prevRot -= 360.0f;
+        }
+        while (newRot - prevRot >= 180.0f) {
+            prevRot += 360.0f;
+        }
+        return MathHelper.lerp(0.2f, prevRot, newRot);
+    }
+
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
@@ -75,16 +85,6 @@ public class BulletEntity extends ProjectileEntity {
     @Override
     protected void initDataTracker() {
 
-    }
-
-    protected static float updateRotation(float prevRot, float newRot) {
-        while (newRot - prevRot < -180.0f) {
-            prevRot -= 360.0f;
-        }
-        while (newRot - prevRot >= 180.0f) {
-            prevRot += 360.0f;
-        }
-        return MathHelper.lerp(0.2f, prevRot, newRot);
     }
 
     @Override

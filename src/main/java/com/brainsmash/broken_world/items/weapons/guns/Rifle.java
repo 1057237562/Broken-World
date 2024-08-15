@@ -45,7 +45,7 @@ public class Rifle extends GunItem {
             world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundRegister.SHOOT_EVENT,
                     SoundCategory.NEUTRAL, 0.4f, 0.6f / (world.getRandom().nextFloat() * 0.2f + 0.6f));
             if (!world.isClient) {
-                BulletEntity heavyAmmoEntity = new BulletEntity(world, user, 1.35f);
+                BulletEntity heavyAmmoEntity = new BulletEntity(world, user, 0.95f);
 
                 float s = spread + ((user.isUsingItem() && user.getActiveItem() == itemStack) ? 0f : spreadModifier);
                 heavyAmmoEntity.setVelocity(user, user.getPitch() + world.getRandom().nextFloat() * 2 * s - s,

@@ -1,0 +1,17 @@
+{
+  "parent": "broken_world:item/expert_wand",
+  "display": {
+    "thirdperson_lefthand": {
+      "rotation": [-60, -22, 0]
+    },
+    "thirdperson_righthand": {
+      "rotation": [-60, -22, 0]
+    },
+    "firstperson_righthand": {
+      "rotation": [-60, -22, 0]
+    },
+    "firstperson_lefthand": {
+      "rotation": [-60, -22, 0]
+    }
+  }
+}

@@ -9,6 +9,7 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -16,8 +17,11 @@ import java.util.List;
 
 public class SpellEntity extends ProjectileEntity {
 
-    private List<Short> list;
     public Vec3d normal;
+    public Vec2f rot;
+    public float tick = 0f;
+    public float scale;
+    private List<Short> list;
 
     public SpellEntity(World world) {
         super(EntityRegister.SPELL_ENTITY_TYPE, world);
@@ -26,11 +30,13 @@ public class SpellEntity extends ProjectileEntity {
     public SpellEntity(LivingEntity owner, World world) {
         super(EntityRegister.SPELL_ENTITY_TYPE, world);
         this.setOwner(owner);
+        this.startRiding(owner);
         if (owner instanceof PlayerDataExtension dataExtension) {
             dataExtension.setSpellEntity(this);
         }
         normal = owner.getRotationVector();
-        Vec3d pos = owner.getEyePos().add(normal);
+        rot = new Vec2f(owner.getPitch(), owner.getYaw());
+        Vec3d pos = owner.getPos().add(0, owner.getMountedHeightOffset(), 0);
         setPosition(pos.x, pos.y, pos.z);
     }
 
@@ -46,9 +52,15 @@ public class SpellEntity extends ProjectileEntity {
     @Override
     public void tick() {
         super.tick();
-        if (getOwner() != null && normal != null) {
-            Vec3d pos = getOwner().getEyePos().add(normal);
-            setPosition(pos.x, pos.y, pos.z);
+        if (!world.isClient && getOwner() != null && rot != null) {
+            if (getOwner() instanceof PlayerDataExtension dataExtension) {
+                if (dataExtension.getSpellEntity() != this) {
+                    discard();
+                }
+            }
+            if (Math.abs(getOwner().getPitch() - rot.x) + Math.abs(getOwner().getYaw() - rot.y) > 45) {
+                System.out.println(getOwner().getPitch() + ":" + getOwner().getYaw());
+            }
         }
     }
 
@@ -80,7 +92,8 @@ public class SpellEntity extends ProjectileEntity {
             this.discard();
         } else {
             normal = getOwner().getRotationVector();
-            Vec3d pos = getOwner().getEyePos().add(normal);
+            rot = new Vec2f(getOwner().getPitch(), getOwner().getYaw());
+            Vec3d pos = getOwner().getPos().add(0, getOwner().getMountedHeightOffset(), 0);
             setPosition(pos.x, pos.y, pos.z);
         }
 

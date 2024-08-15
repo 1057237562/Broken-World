@@ -84,4 +84,14 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin implements Pla
     public SpellEntity getSpellEntity() {
         return spell;
     }
+
+    @Override
+    public float getPitchSpeed() {
+        return pitchSpeed;
+    }
+
+    @Override
+    public float getYawSpeed() {
+        return yawSpeed;
+    }
 }

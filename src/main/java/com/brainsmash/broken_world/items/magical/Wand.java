@@ -19,9 +19,9 @@ import net.minecraft.world.World;
 
 public class Wand extends Item implements CustomUsePoseItem {
 
-    public ScreenHandlerType<WandGuiDescription> screenHandlerType;
     public static Text CONTAINER_NAME = Text.translatable("container.wand");
     final int size;
+    public ScreenHandlerType<WandGuiDescription> screenHandlerType;
 
     public Wand(Settings settings, ScreenHandlerType<WandGuiDescription> type, int size) {
         super(settings);
@@ -92,5 +92,10 @@ public class Wand extends Item implements CustomUsePoseItem {
     @Override
     public BipedEntityModel.ArmPose getUsePose() {
         return BipedEntityModel.ArmPose.CROSSBOW_HOLD;
+    }
+
+    @Override
+    public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
+        return false;
     }
 }

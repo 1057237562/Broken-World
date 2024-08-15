@@ -171,7 +171,19 @@ public class ItemRegister {
             new ArmorItem(ArmorMaterials.LEATHER, EquipmentSlot.HEAD, new FabricItemSettings().group(ITEM_GROUP)),
             new XPAmulet(new FabricItemSettings().group(ITEM_GROUP)),
     };
-
+    public static final Item[] phaseItem = {
+            get(ItemRegistry.G17),
+            get(ItemRegistry.SMG),
+            get(ItemRegistry.MK144),
+            get(ItemRegistry.HASS_03),
+            get(ItemRegistry.QS_093),
+            get(ItemRegistry.RPK_37),
+            get(ItemRegistry.OV_2),
+            get(ItemRegistry.ROOKIE_WAND),
+            get(ItemRegistry.EXPERT_WAND),
+            get(ItemRegistry.MASTER_WAND),
+            get(ItemRegistry.GRANDMASTER_WAND),
+    };
     public static final String[] itemnames = {
             "titanium_ingot",
             "tungsten_ingot",
@@ -263,21 +275,6 @@ public class ItemRegister {
             "wizard_hat",
             "xp_amulet",
     };
-
-    public static final Item[] guns = {
-            items[ItemRegistry.G17.ordinal()],
-            items[ItemRegistry.SMG.ordinal()],
-            items[ItemRegistry.MK144.ordinal()],
-            items[ItemRegistry.HASS_03.ordinal()],
-            items[ItemRegistry.QS_093.ordinal()],
-            items[ItemRegistry.RPK_37.ordinal()],
-            items[ItemRegistry.OV_2.ordinal()],
-            get(ItemRegistry.ROOKIE_WAND),
-            get(ItemRegistry.EXPERT_WAND),
-            get(ItemRegistry.MASTER_WAND),
-            get(ItemRegistry.GRANDMASTER_WAND),
-    };
-
     public static final String[] tools = {
             "copper",
             "tungsten"
@@ -324,8 +321,8 @@ public class ItemRegister {
     }
 
     public static void registItemClientSide() {
-        for (Item gun : guns) {
-            ModelPredicateProviderRegistry.register(gun, new Identifier("aiming"), (stack, world, entity, seed) -> {
+        for (Item item : phaseItem) {
+            ModelPredicateProviderRegistry.register(item, new Identifier("aiming"), (stack, world, entity, seed) -> {
                 if (entity == null) {
                     return 0.0f;
                 }

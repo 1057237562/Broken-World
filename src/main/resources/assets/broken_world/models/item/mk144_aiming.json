@@ -1,11 +1,6 @@
 {
 	"parent": "broken_world:item/mk144",
 	"display": {
-		"thirdperson_righthand": {
-			"rotation": [0, 90, 0],
-			"translation": [-1, 8.25, 1.25],
-			"scale": [1.4, 1.4, 1.43]
-		},
 		"thirdperson_lefthand": {
 			"rotation": [0, -90, 0],
 			"translation": [-0.5, 5.75, 1]

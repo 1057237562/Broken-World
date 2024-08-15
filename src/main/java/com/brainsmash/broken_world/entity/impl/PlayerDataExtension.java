@@ -10,6 +10,10 @@ public interface PlayerDataExtension {
 
     void addYawSpeed(float speed);
 
+    float getPitchSpeed();
+
+    float getYawSpeed();
+
     void setSpellEntity(SpellEntity spellEntity);
 
     SpellEntity getSpellEntity();

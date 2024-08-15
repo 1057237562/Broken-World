@@ -41,7 +41,7 @@ public class SMG extends GunItem {
             world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundRegister.SHOOT_EVENT,
                     SoundCategory.NEUTRAL, 0.5f, 0.7f / (world.getRandom().nextFloat() * 0.2f + 0.4f));
             if (!world.isClient) {
-                BulletEntity heavyAmmoEntity = new BulletEntity(world, user, 0.65f);
+                BulletEntity heavyAmmoEntity = new BulletEntity(world, user, 0.45f);
 
                 float s = spread + ((user.isUsingItem() && user.getActiveItem() == itemStack) ? 0f : spreadModifier);
                 heavyAmmoEntity.setVelocity(user, user.getPitch() + world.getRandom().nextFloat() * 2 * s - s,
