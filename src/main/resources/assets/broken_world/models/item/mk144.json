@@ -5,9 +5,6 @@
 		"0": "broken_world:item/mk144/mk144_mag",
 		"1": "broken_world:item/mk144/mk144"
 	},
-	"overrides": [
-	{"predicate": {"aiming": 1}, "model": "broken_world:item/mk144_aiming"}
-	],
 	"elements": [
 		{
 			"from": [9.5, 2.8, 7.8],
@@ -2571,20 +2568,24 @@
 			}
 		}
 	],
+	"overrides": [
+		{"predicate": {"aiming": 1}, "model": "broken_world:item/mk144_aiming"}
+	],
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [0, 90, 0],
-			"translation": [-1, 8.25, 1.25],
-			"scale": [1.4, 1.4, 1.43]
+			"translation": [-1, 11.75, 1.25],
+			"scale": [2, 2, 2]
 		},
 		"thirdperson_lefthand": {
 			"rotation": [0, -90, 0],
-			"translation": [-0.5, 5.75, 1]
+			"translation": [-0.5, 12, 1],
+			"scale": [2, 2, 2]
 		},
 		"firstperson_righthand": {
 			"rotation": [0, 100, 0],
-			"translation": [-1, 15.5, 1],
-			"scale": [2.53, 2.5, 2.5]
+			"translation": [-4.25, 20.5, -1.5],
+			"scale": [3, 3, 3]
 		},
 		"firstperson_lefthand": {
 			"rotation": [0, -85, 0],
@@ -2615,22 +2616,16 @@
 			"name": "all",
 			"origin": [0, 0, 0],
 			"color": 0,
-			"nbt": "{}",
-			"armAnimationEnabled": false,
 			"children": [
 				{
 					"name": "mk144",
 					"origin": [0, 0, 0],
 					"color": 0,
-					"nbt": "{}",
-					"armAnimationEnabled": false,
 					"children": [
 						{
 							"name": "mk144_humu",
 							"origin": [-3.9, 0, 0],
 							"color": 0,
-							"nbt": "{}",
-							"armAnimationEnabled": false,
 							"children": [
 								0,
 								1,
@@ -2710,16 +2705,12 @@
 							"name": "barrel",
 							"origin": [-4.1, 0, 0],
 							"color": 0,
-							"nbt": "{}",
-							"armAnimationEnabled": false,
 							"children": [72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
 						},
 						{
 							"name": "reciever",
 							"origin": [0, 0, 0],
 							"color": 0,
-							"nbt": "{}",
-							"armAnimationEnabled": false,
 							"children": [
 								91,
 								92,
@@ -2795,8 +2786,6 @@
 							"name": "bolt",
 							"origin": [0, 0, 0.1],
 							"color": 0,
-							"nbt": "{}",
-							"armAnimationEnabled": false,
 							"children": [
 								159,
 								160,
@@ -2807,8 +2796,6 @@
 									"name": "action_part",
 									"origin": [0, 0, 0.1],
 									"color": 0,
-									"nbt": "{}",
-									"armAnimationEnabled": false,
 									"children": [164, 165, 166]
 								}
 							]
@@ -2817,8 +2804,6 @@
 							"name": "ironsight",
 							"origin": [0, 0, 0],
 							"color": 0,
-							"nbt": "{}",
-							"armAnimationEnabled": false,
 							"children": [167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185]
 						}
 					]
@@ -2827,8 +2812,6 @@
 					"name": "mk144_mag",
 					"origin": [0, 0, 0],
 					"color": 0,
-					"nbt": "{}",
-					"armAnimationEnabled": false,
 					"children": [186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196]
 				}
 			]

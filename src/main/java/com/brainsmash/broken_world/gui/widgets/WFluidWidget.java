@@ -1,8 +1,8 @@
 package com.brainsmash.broken_world.gui.widgets;
 
-import com.brainsmash.broken_world.blocks.client.render.FluidVariantRenderer;
 import com.brainsmash.broken_world.blocks.fluid.storage.FluidSlot;
 import com.brainsmash.broken_world.blocks.fluid.storage.SingleFluidStorage;
+import com.brainsmash.broken_world.blocks.render.FluidVariantRenderer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.cottonmc.cotton.gui.client.ScreenDrawing;
 import io.github.cottonmc.cotton.gui.widget.TooltipBuilder;

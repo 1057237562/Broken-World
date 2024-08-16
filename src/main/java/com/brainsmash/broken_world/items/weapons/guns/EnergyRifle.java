@@ -1,12 +1,11 @@
 package com.brainsmash.broken_world.items.weapons.guns;
 
 import com.brainsmash.broken_world.entity.BulletEntity;
-import com.brainsmash.broken_world.items.CustomUsePoseItem;
+import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.items.weapons.Util;
 import com.brainsmash.broken_world.registry.ItemRegister;
 import com.brainsmash.broken_world.registry.SoundRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -14,7 +13,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class EnergyRifle extends GunItem implements CustomUsePoseItem {
+public class EnergyRifle extends GunItem {
 
     private float recoil = -1.50f;
     private float spread = 0.15f;
@@ -28,11 +27,6 @@ public class EnergyRifle extends GunItem implements CustomUsePoseItem {
     public EnergyRifle(Settings settings, int maxMagazine) {
         super(settings);
         this.maxMagazine = maxMagazine;
-    }
-
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 72000;
     }
 
     @Override
@@ -57,8 +51,10 @@ public class EnergyRifle extends GunItem implements CustomUsePoseItem {
                 heavyAmmoEntity.setVelocity(user, user.getPitch() + world.getRandom().nextFloat() * 2 * s - s,
                         user.getYaw() + world.getRandom().nextFloat() * 2 * s - s, 0.0f, 4f, 1.0f);
                 world.spawnEntity(heavyAmmoEntity);
+            } else {
+                ((PlayerDataExtension) user).addPitchSpeed(recoil);
+                ((PlayerDataExtension) user).addYawSpeed((float) (user.getRandom().nextGaussian() * recoil / 2f));
             }
-            user.setPitch(user.getPitch() + recoil);
             if (!user.getAbilities().creativeMode) {
                 reduceAmmo(itemStack);
                 itemStack.damage(1, user, (p) -> p.sendToolBreakStatus(user.getActiveHand()));
@@ -67,11 +63,6 @@ public class EnergyRifle extends GunItem implements CustomUsePoseItem {
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         return true;
-    }
-
-    @Override
-    public BipedEntityModel.ArmPose getUsePose() {
-        return BipedEntityModel.ArmPose.CROSSBOW_HOLD;
     }
 
     @Override

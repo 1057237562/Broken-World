@@ -30,6 +30,9 @@
 			}
 		}
 	],
+	"overrides": [
+		{"predicate": {"aiming": 1}, "model": "broken_world:item/rookie_wand_aiming"}
+	],
 	"display": {
 		"thirdperson_righthand": {
 			"scale": [0.7, 0.7, 0.7]
@@ -38,9 +41,11 @@
 			"scale": [0.7, 0.7, 0.7]
 		},
 		"firstperson_righthand": {
+			"rotation": [-10, -22, 0],
 			"scale": [0.7, 0.7, 0.7]
 		},
 		"firstperson_lefthand": {
+			"rotation": [-10, -22, 0],
 			"scale": [0.7, 0.7, 0.7]
 		},
 		"ground": {

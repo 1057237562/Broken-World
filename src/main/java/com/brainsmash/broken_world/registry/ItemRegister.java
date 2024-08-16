@@ -6,13 +6,11 @@ import com.brainsmash.broken_world.items.armor.ExoArmorItem;
 import com.brainsmash.broken_world.items.armor.material.ExoMaterial;
 import com.brainsmash.broken_world.items.armor.material.KineticMaterial;
 import com.brainsmash.broken_world.items.armor.render.AlphaArmorRenderer;
+import com.brainsmash.broken_world.items.armor.render.WizardHatRenderer;
 import com.brainsmash.broken_world.items.electrical.BatteryItem;
 import com.brainsmash.broken_world.items.electrical.MiningDrillItem;
 import com.brainsmash.broken_world.items.food.XpFruit;
-import com.brainsmash.broken_world.items.magical.CloakingCape;
-import com.brainsmash.broken_world.items.magical.MagicalBroomItem;
-import com.brainsmash.broken_world.items.magical.Rune;
-import com.brainsmash.broken_world.items.magical.Wand;
+import com.brainsmash.broken_world.items.magical.*;
 import com.brainsmash.broken_world.items.magical.enums.RuneEnum;
 import com.brainsmash.broken_world.items.weapons.HoeItem;
 import com.brainsmash.broken_world.items.weapons.ammo.EnergyAmmo;
@@ -170,8 +168,22 @@ public class ItemRegister {
             new ExoArmorItem(armorMaterials[1], EquipmentSlot.CHEST, new FabricItemSettings().group(ITEM_GROUP)),
             new ExoArmorItem(armorMaterials[1], EquipmentSlot.LEGS, new FabricItemSettings().group(ITEM_GROUP)),
             new ExoArmorItem(armorMaterials[1], EquipmentSlot.FEET, new FabricItemSettings().group(ITEM_GROUP)),
+            new ArmorItem(ArmorMaterials.LEATHER, EquipmentSlot.HEAD, new FabricItemSettings().group(ITEM_GROUP)),
+            new XPAmulet(new FabricItemSettings().group(ITEM_GROUP)),
     };
-
+    public static final Item[] phaseItem = {
+            get(ItemRegistry.G17),
+            get(ItemRegistry.SMG),
+            get(ItemRegistry.MK144),
+            get(ItemRegistry.HASS_03),
+            get(ItemRegistry.QS_093),
+            get(ItemRegistry.RPK_37),
+            get(ItemRegistry.OV_2),
+            get(ItemRegistry.ROOKIE_WAND),
+            get(ItemRegistry.EXPERT_WAND),
+            get(ItemRegistry.MASTER_WAND),
+            get(ItemRegistry.GRANDMASTER_WAND),
+    };
     public static final String[] itemnames = {
             "titanium_ingot",
             "tungsten_ingot",
@@ -260,18 +272,9 @@ public class ItemRegister {
             "exo_chestplate",
             "exo_leggings",
             "exo_boots",
+            "wizard_hat",
+            "xp_amulet",
     };
-
-    public static final Item[] guns = {
-            items[ItemRegistry.G17.ordinal()],
-            items[ItemRegistry.SMG.ordinal()],
-            items[ItemRegistry.MK144.ordinal()],
-            items[ItemRegistry.HASS_03.ordinal()],
-            items[ItemRegistry.QS_093.ordinal()],
-            items[ItemRegistry.RPK_37.ordinal()],
-            items[ItemRegistry.OV_2.ordinal()],
-    };
-
     public static final String[] tools = {
             "copper",
             "tungsten"
@@ -318,8 +321,8 @@ public class ItemRegister {
     }
 
     public static void registItemClientSide() {
-        for (Item gun : guns) {
-            ModelPredicateProviderRegistry.register(gun, new Identifier("aiming"), (stack, world, entity, seed) -> {
+        for (Item item : phaseItem) {
+            ModelPredicateProviderRegistry.register(item, new Identifier("aiming"), (stack, world, entity, seed) -> {
                 if (entity == null) {
                     return 0.0f;
                 }
@@ -327,7 +330,9 @@ public class ItemRegister {
             });
         }
 
-        ArmorRenderer.register(new AlphaArmorRenderer(), get(ItemRegistry.KINETIC_HELMET));
+        ArmorRenderer.register(new AlphaArmorRenderer(), get(ItemRegistry.KINETIC_HELMET),
+                get(ItemRegistry.EXO_HELMET));
+        ArmorRenderer.register(new WizardHatRenderer(), get(ItemRegistry.WIZARD_HAT));
     }
 
     public static Item get(ItemRegistry item) {

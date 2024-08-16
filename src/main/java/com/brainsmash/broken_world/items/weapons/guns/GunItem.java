@@ -1,5 +1,7 @@
 package com.brainsmash.broken_world.items.weapons.guns;
 
+import com.brainsmash.broken_world.items.CustomUsePoseItem;
+import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -9,7 +11,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class GunItem extends Item {
+public class GunItem extends Item implements CustomUsePoseItem {
     int maxMagazine = 20;
     int maxReloadTime = 50;
 
@@ -85,6 +87,16 @@ public class GunItem extends Item {
 
     public int countAmmo(PlayerEntity entity, int maxAmmo) {
         return 0;
+    }
+
+    @Override
+    public int getMaxUseTime(ItemStack stack) {
+        return 72000;
+    }
+
+    @Override
+    public BipedEntityModel.ArmPose getUsePose() {
+        return BipedEntityModel.ArmPose.CROSSBOW_HOLD;
     }
 
     @Override

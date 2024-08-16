@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.mixin;
 
+import com.brainsmash.broken_world.items.CustomUsePoseItem;
 import com.brainsmash.broken_world.items.weapons.guns.GunItem;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -63,7 +64,7 @@ public abstract class MinecraftClientMixin {
 
     @Redirect(method = "handleInputEvents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z", ordinal = 0))
     private boolean handleUsingItem(ClientPlayerEntity instance) {
-        if (instance.getMainHandStack().getItem() instanceof GunItem) {
+        if (instance.getMainHandStack().getItem() instanceof CustomUsePoseItem) {
             if (!options.useKey.isPressed()) {
                 interactionManager.stopUsingItem(player);
             }

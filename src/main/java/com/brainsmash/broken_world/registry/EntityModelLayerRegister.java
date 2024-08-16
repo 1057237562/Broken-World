@@ -28,4 +28,6 @@ public class EntityModelLayerRegister {
 
     public static final EntityModelLayer MODEL_FOREST_GUARDIAN = new EntityModelLayer(
             new Identifier(MODID, "forest_guardian"), "main");
+
+    public static final EntityModelLayer MODEL_GELOB_GEL_LAYER = new EntityModelLayer(new Identifier(MODID, "gelob_gel"), "main");
 }

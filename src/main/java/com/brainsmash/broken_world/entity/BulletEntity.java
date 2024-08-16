@@ -53,6 +53,16 @@ public class BulletEntity extends ProjectileEntity {
         super(bulletEntityEntityType, world);
     }
 
+    protected static float updateRotation(float prevRot, float newRot) {
+        while (newRot - prevRot < -180.0f) {
+            prevRot -= 360.0f;
+        }
+        while (newRot - prevRot >= 180.0f) {
+            prevRot += 360.0f;
+        }
+        return MathHelper.lerp(0.2f, prevRot, newRot);
+    }
+
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
@@ -77,16 +87,6 @@ public class BulletEntity extends ProjectileEntity {
 
     }
 
-    protected static float updateRotation(float prevRot, float newRot) {
-        while (newRot - prevRot < -180.0f) {
-            prevRot -= 360.0f;
-        }
-        while (newRot - prevRot >= 180.0f) {
-            prevRot += 360.0f;
-        }
-        return MathHelper.lerp(0.2f, prevRot, newRot);
-    }
-
     @Override
     public void setVelocity(double x, double y, double z, float speed, float divergence) {
         super.setVelocity(x, y, z, speed, divergence);
@@ -106,7 +106,7 @@ public class BulletEntity extends ProjectileEntity {
     }
 
     protected float getDragInWater() {
-        return 0.1f;
+        return 0.82f;
     }
 
     @Override
@@ -205,6 +205,11 @@ public class BulletEntity extends ProjectileEntity {
         if (hitBlock.getBlock() instanceof TransparentBlock || hitBlock.getBlock() instanceof PaneBlock)
             world.breakBlock(blockHitResult.getBlockPos(), false);
         discard();
+    }
+
+    @Override
+    public boolean shouldRender(double distance) {
+        return distance < 4096;
     }
 
     //TODO: Make a headshot detector

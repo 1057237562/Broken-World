@@ -9,23 +9,20 @@ import com.brainsmash.broken_world.util.MiscHelper;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
-import io.github.cottonmc.cotton.gui.widget.icon.Icon;
-import io.github.cottonmc.cotton.gui.widget.icon.TextureIcon;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.search.SearchManager;
 import net.minecraft.client.search.TextSearchProvider;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -34,13 +31,13 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class InfusingTableGuiDescription extends SyncedGuiDescription {
@@ -48,7 +45,8 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
     // 8 is the width of WListPanel's scrollbar, which is constant and hardcoded.
     protected static int SCROLLBAR_WIDTH = 8;
     public static final SearchManager.Key<Enchantment> ENCHANTMENT_KEY = new SearchManager.Key<>();
-    public static final Icon SLOT_ICON = new TextureIcon(new Identifier(Main.MODID, "textures/gui/infusing_table/slot_icon.png"));
+    // Allow Infusing Table to enchant enchanted items, but with additional experience level cost.
+    public static final float PENALTY_RATIO = 0.2f;
 
     protected SearchManager searchManager = new SearchManager();
     protected List<EnchantmentLevelEntry> enchantments = new ArrayList<>();
@@ -83,16 +81,14 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
         setRootPanel(root);
 
         slider = new WLevelSlider();
-        slider.setChangedListener(level -> {
-            refreshEnchantmentList();
-        });
+        slider.setChangedListener(level -> refreshEnchantmentList());
 
         searchField = new WTextField();
         searchField.setChangedListener(string -> refreshEnchantmentList())
                 .setSuggestion(Text.translatable("gui.infusing_table.search_hint"));
 
         slot = WItemSlot.of(inventory, 0);
-        slot.setIcon(SLOT_ICON).addChangeListener((w, inv, stack, i) -> onContentChanged(inv));
+        slot.addChangeListener((w, inv, stack, i) -> onContentChanged(inv));
 
         enchantmentList = new WListPanel<>(enchantments, WEnchantment::new, (entry, widget) -> {
             int level = entry.level;
@@ -101,7 +97,9 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
             assert player != null;
             int minLevel = e.getMinLevel(), maxLevel = e.getMaxLevel();
             if (minLevel <= level && level <= maxLevel) {
+                int enchantmentCnt = inventory.getStack(0).getEnchantments().size();
                 widget.power = Math.round((e.getMaxPower(level) + e.getMinPower(level)) / 2.0f);
+                widget.power = Math.round(widget.power * (1 + enchantmentCnt * PENALTY_RATIO));
                 widget.level = level;
                 assert MinecraftClient.getInstance().player != null;
                 widget.available = player.experienceLevel >= widget.power || player.getAbilities().creativeMode;
@@ -150,7 +148,7 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
         boolean isBook = stack.isOf(Items.BOOK);
         Item item = stack.getItem();
         ArrayList<Enchantment> list = new ArrayList<>();
-        if (!stack.isEmpty() && (!stack.isEnchantable() || item.getEnchantability() <= 0))
+        if (!stack.isEmpty() && (!item.isEnchantable(stack) || item.getEnchantability() <= 0))
             return list;
         for (Enchantment enchantment : Registry.ENCHANTMENT) {
             // Vanilla Enchanting Table disallows enchantments that are not available for random selection.
@@ -161,6 +159,13 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
             ) continue;
 
             list.add(enchantment);
+        }
+        for (Enchantment e1 : EnchantmentHelper.get(stack).keySet()) {
+            for (Enchantment e2 : List.copyOf(list)) {
+                if (!e2.canCombine(e1)) {
+                    list.remove(e2);
+                }
+            }
         }
         return list;
     }
@@ -216,18 +221,9 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
 
         context.run((world, pos) -> {
             player.applyEnchantmentCosts(stack, power);
-            boolean isBook = stack.isOf(Items.BOOK);
-            if (isBook) {
-                ItemStack stack2 = new ItemStack(Items.ENCHANTED_BOOK);
-                NbtCompound nbtCompound = stack.getNbt();
-                if (nbtCompound != null) {
-                    stack2.setNbt(nbtCompound.copy());
-                }
-                this.inventory.setStack(0, stack2);
-                EnchantedBookItem.addEnchantment(stack2, new EnchantmentLevelEntry(e, level));
-            } else {
-                stack.addEnchantment(e, level);
-            }
+            Map<Enchantment, Integer> map = EnchantmentHelper.get(stack);
+            map.put(e, Math.max(level, map.getOrDefault(e, 0)));
+            EnchantmentHelper.set(map, stack);
             player.incrementStat(Stats.ENCHANT_ITEM);
             if (player instanceof ServerPlayerEntity) {
                 Criteria.ENCHANTED_ITEM.trigger((ServerPlayerEntity)player, inventory.getStack(0), power);
@@ -247,7 +243,6 @@ public class InfusingTableGuiDescription extends SyncedGuiDescription {
         }
 
         searchField.setText("");
-        slot.setIcon(inventory.getStack(0).isEmpty() ? SLOT_ICON : null);
         refreshEnchantmentList();
     }
 }

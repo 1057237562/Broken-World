@@ -26,6 +26,7 @@ public class ExoArmorItem extends ArmorItem {
     public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
         if (getSlotType().equals(slot)) {
             ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
+            builder.putAll(super.getAttributeModifiers(slot));
             builder.put(EntityAttributes.GENERIC_MOVEMENT_SPEED,
                     new EntityAttributeModifier(MOVEMENT_SPEED_MODIFIER_ID, "Armor speed bonus", 0.05,
                             EntityAttributeModifier.Operation.ADDITION));

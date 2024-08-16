@@ -5,11 +5,13 @@
   "compatibilityLevel": "JAVA_17",
   "plugin": "com.brainsmash.broken_world.mixin.plugin.SodiumMixinPlugin",
   "mixins": [
+    "AbstractFurnaceBlockEntityMixin",
     "EntityMixin",
+    "ExperienceOrbEntityMixin",
+    "HeldItemRendererMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
-    "SolidCollisionMixin",
-    "ExperienceOrbEntityMixin"
+    "SolidCollisionMixin"
   ],
   "client": [
     "AbstractClientPlayerEntityMixin",
