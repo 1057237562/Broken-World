@@ -2,6 +2,7 @@ package com.brainsmash.broken_world.entity.hostile;
 
 import com.brainsmash.broken_world.entity.GelobGelEntity;
 import com.brainsmash.broken_world.registry.EntityRegister;
+import com.brainsmash.broken_world.registry.ParticleRegister;
 import com.google.common.annotations.VisibleForTesting;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityData;
@@ -16,7 +17,6 @@ import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -138,7 +138,7 @@ public class GelobEntity extends SpiderEntity {
 
 
     protected ParticleEffect getParticles() {
-        return ParticleTypes.ITEM_SLIME;
+        return ParticleRegister.GELOB_TYPE;
     }
 
     public boolean isSmall() {
