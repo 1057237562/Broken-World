@@ -160,6 +160,8 @@ public class Main implements ModInitializer {
         SoundRegister.registerSoundEvents();
         EnchantmentRegister.registerEnchantments();
         ParticleRegister.registerParticles();
+        CommandRegister.registerArguments();
+        CommandRegister.registerCommands();
 
         MultiblockUtil.registerMultiblock();
 
