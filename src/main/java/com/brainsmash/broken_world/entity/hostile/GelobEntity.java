@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.entity.hostile;
 
+import com.brainsmash.broken_world.command.ConstantsMap;
 import com.brainsmash.broken_world.entity.GelobGelEntity;
 import com.brainsmash.broken_world.registry.EntityRegister;
 import com.brainsmash.broken_world.registry.ParticleRegister;
@@ -19,7 +20,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BlockTags;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
@@ -144,7 +144,9 @@ public class GelobEntity extends SpiderEntity {
 
     protected float getGelGenerateChance() {
         double v = getVelocity().length();
-        return (float) (0.05f + v * 0.6f);
+        double b = ConstantsMap.getDoubleOrDefault("b", 0.05f);
+        double k = ConstantsMap.getDoubleOrDefault("k", 0.6f);
+        return (float) (b + v * k);
     }
 
     @Override
@@ -159,7 +161,6 @@ public class GelobEntity extends SpiderEntity {
         }
         super.onTrackedDataSet(data);
     }
-
 
     protected ParticleEffect getParticles() {
         return ParticleRegister.GELOB_TYPE;

@@ -21,21 +21,25 @@ public class ConstantsMap {
 
     public static boolean getBoolOrDefault(String key, boolean defaultValue) {
         Object v = MAP.get(key);
+        MAP.putIfAbsent(key, defaultValue);
         return v instanceof Boolean b ? b : defaultValue;
     }
 
     public static long getLongOrDefault(String key, long defaultValue) {
         Object v = MAP.get(key);
+        MAP.putIfAbsent(key, defaultValue);
         return v instanceof Long b ? b : defaultValue;
     }
 
     public static double getDoubleOrDefault(String key, double defaultValue) {
         Object v = MAP.get(key);
+        MAP.putIfAbsent(key, defaultValue);
         return v instanceof Double b ? b : defaultValue;
     }
 
     public static String getStringOrDefault(String key, String defaultValue) {
         Object v = MAP.get(key);
+        MAP.putIfAbsent(key, defaultValue);
         return v instanceof String b ? b : defaultValue;
     }
 
