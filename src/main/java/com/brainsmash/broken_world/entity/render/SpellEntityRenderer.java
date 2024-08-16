@@ -51,12 +51,23 @@ public class SpellEntityRenderer extends EntityRenderer<SpellEntity> {
 
     private void renderLines(VertexConsumer vc, MatrixStack matrices, SpellEntity entity) {
         MatrixStack.Entry entry = matrices.peek();
-        vc.vertex(entry.getPositionMatrix(), 0, 0, 0).color(255, 255, 0, 200).normal(entry.getNormalMatrix(), 0, 0,
-                0).next();
-        Vec3d vec3d = entity.getOwner().getRotationVector().add(entity.normal.negate());
+        Quaternion rotation = new Quaternion(0, 0, 0, 1);
+        rotation.hamiltonProduct(Vec3f.POSITIVE_Y.getDegreesQuaternion(-entity.rot.y));
+        rotation.hamiltonProduct(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.rot.x));
+        rotation.conjugate();
 
-        vc.vertex(entry.getPositionMatrix(), (float) vec3d.getX(), (float) vec3d.getY(), (float) vec3d.getZ()).color(
-                255, 255, 0, 200).normal(entry.getNormalMatrix(), 0, 0, 0).next();
+        double u = entity.normal.negate().dotProduct(entity.normal) / entity.normal.negate().dotProduct(
+                entity.getOwner().getRotationVector());
+        Vec3f vec3f = new Vec3f(entity.getOwner().getRotationVector().multiply(u).add(entity.normal.negate()));
+        Vec3f vec3f1 = vec3f.copy();
+        vec3f1.rotate(rotation);
+
+        if (new Vec3d(vec3f1).length() < 1.25) {
+            vc.vertex(entry.getPositionMatrix(), 0, 0, 0).color(255, 255, 0, 200).normal(entry.getNormalMatrix(), 0, 0,
+                    0).next();
+            vc.vertex(entry.getPositionMatrix(), vec3f.getX(), vec3f.getY(), vec3f.getZ()).color(255, 255, 0,
+                    200).normal(entry.getNormalMatrix(), 0, 0, 0).next();
+        }
 
     }
 
