@@ -19,6 +19,7 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BlockTags;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
@@ -115,11 +116,12 @@ public class GelobEntity extends SpiderEntity {
         onGroundTicks = onGround ? Math.min(TOUCH_DOWN_STRETCH_TICKS, onGroundTicks + 1) : 0;
 
         if (onGround) {
-            if (random.nextFloat() < 0.1f) {
+            if (random.nextFloat() < getGelGenerateChance()) {
                 float theta = random.nextFloat() * (float) Math.PI * 2;
                 float r = 0.1f + 0.2f * random.nextFloat();
                 GelobGelEntity gel = EntityRegister.GELOB_GEL_ENTITY_TYPE.create(world);
                 assert gel != null;
+                gel.setScale(dataTracker.get(GELOB_SIZE) * 2);
                 gel.refreshPositionAndAngles(getX() + Math.cos(theta) * r, getY(), getZ() + Math.sin(theta) * r, 0, 0);
                 world.spawnEntity(gel);
             }
@@ -138,6 +140,11 @@ public class GelobEntity extends SpiderEntity {
 
     protected void updateStretch() {
         this.targetJumpStretch *= 0.6f;
+    }
+
+    protected float getGelGenerateChance() {
+        double v = getVelocity().length();
+        return (float) (0.05f + v * 0.6f);
     }
 
     @Override

@@ -94,7 +94,7 @@ public class EntityRegister {
     public static final EntityType<GelobGelEntity> GELOB_GEL_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MODID, "gelob_gel"),
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, GelobGelEntity::new).dimensions(
-                    EntityDimensions.fixed(1 / 16.0f, 1 / 16.0f)).build());
+                    EntityDimensions.changing(1 / 16.0f, 1 / 16.0f)).build());
 
 
     @Environment(EnvType.CLIENT)

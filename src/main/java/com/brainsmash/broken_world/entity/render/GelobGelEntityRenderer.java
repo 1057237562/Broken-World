@@ -27,11 +27,9 @@ public class GelobGelEntityRenderer extends EntityRenderer<GelobGelEntity> {
     @Override
     public void render(GelobGelEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         float scale = entity.getScale();
-        matrices.push();
         matrices.scale(scale, scale, scale);
         VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(this.getTexture(entity)));
         model.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
-        matrices.pop();
     }
 
     @Override
