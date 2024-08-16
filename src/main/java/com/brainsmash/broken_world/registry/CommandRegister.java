@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.registry;
 
+import com.brainsmash.broken_world.command.ConstantKeysSuggestionProvider;
 import com.brainsmash.broken_world.command.arguments.AnyArgumentType;
 import com.brainsmash.broken_world.command.ConstantsMap;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -22,7 +23,7 @@ public class CommandRegister {
     public static void registerCommands() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("constant")
-                    .then(argument("key", StringArgumentType.word())
+                    .then(argument("key", StringArgumentType.word()).suggests(new ConstantKeysSuggestionProvider())
                             .then(argument("value", new AnyArgumentType())
                                     .executes(context -> {
                                         ConstantsMap.put(StringArgumentType.getString(context, "key"), AnyArgumentType.getAny(context, "value"));
@@ -30,7 +31,7 @@ public class CommandRegister {
                                     }))));
 
             dispatcher.register(literal("getconstant")
-                    .then(argument("key", StringArgumentType.word())
+                    .then(argument("key", StringArgumentType.word()).suggests(new ConstantKeysSuggestionProvider())
                             .executes(context -> {
                                 String k = StringArgumentType.getString(context, "key");
                                 Object v = ConstantsMap.get(k);

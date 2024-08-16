@@ -1,14 +1,18 @@
 package com.brainsmash.broken_world.command.arguments;
 
+import com.mojang.brigadier.LiteralMessage;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.*;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class AnyArgumentType implements ArgumentType<Object> {
+    public static final SimpleCommandExceptionType INVALID_ARG = new SimpleCommandExceptionType(new LiteralMessage("Cannot parse arg as long, double, boolean, or string. "));
+
     private static final List<ArgumentType<?>> TYPES = List.of(LongArgumentType.longArg(), DoubleArgumentType.doubleArg(), BoolArgumentType.bool(), StringArgumentType.string());
     @Override
     public Object parse(StringReader reader) throws CommandSyntaxException {
@@ -23,7 +27,7 @@ public class AnyArgumentType implements ArgumentType<Object> {
             }
         }
         if (arg == null) {
-            throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().createWithContext(reader);
+            throw INVALID_ARG.createWithContext(reader);
         }
         return arg;
     }
@@ -39,7 +43,6 @@ public class AnyArgumentType implements ArgumentType<Object> {
 
     @Override
     public Collection<String> getExamples() {
-        Collection<String> c = new HashSet<>();
         return TYPES.stream().flatMap(t -> t.getExamples().stream()).collect(Collectors.toSet());
     }
 }

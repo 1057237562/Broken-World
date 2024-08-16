@@ -2,9 +2,14 @@ package com.brainsmash.broken_world.command;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class ConstantsMap {
     private static final Map<String, Object> MAP = new HashMap<>();
+
+    public static Set<String> keySet() {
+        return MAP.keySet();
+    }
 
     public static void put(String key, Object value) {
         MAP.put(key, value);
