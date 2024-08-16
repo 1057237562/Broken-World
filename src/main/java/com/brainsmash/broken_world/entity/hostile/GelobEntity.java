@@ -145,7 +145,7 @@ public class GelobEntity extends SpiderEntity {
     protected float getGelGenerateChance() {
         double v = getVelocity().length();
         double b = ConstantsMap.getDoubleOrDefault("b", 0.05f);
-        double k = ConstantsMap.getDoubleOrDefault("k", 0.6f);
+        double k = ConstantsMap.getDoubleOrDefault("k", 1.4f);
         return (float) (b + v * k);
     }
 

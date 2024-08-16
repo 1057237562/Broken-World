@@ -19,6 +19,10 @@ public class ConstantsMap {
         return MAP.get(key);
     }
 
+    public static Object remove(String key) {
+        return MAP.remove(key);
+    }
+
     public static boolean getBoolOrDefault(String key, boolean defaultValue) {
         Object v = MAP.get(key);
         MAP.putIfAbsent(key, defaultValue);

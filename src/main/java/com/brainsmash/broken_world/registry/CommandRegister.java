@@ -24,20 +24,21 @@ public class CommandRegister {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("constant")
                     .then(argument("key", StringArgumentType.word()).suggests(new ConstantKeysSuggestionProvider())
+                            .executes(context -> {
+                                String k = StringArgumentType.getString(context, "key");
+                                Object v = ConstantsMap.get(k);
+                                context.getSource().sendFeedback(Text.literal(v == null ? k + " is null" : k + " = " + v), false);
+                                return 0;
+                            })
                             .then(argument("value", new AnyArgumentType())
                                     .executes(context -> {
                                         ConstantsMap.put(StringArgumentType.getString(context, "key"), AnyArgumentType.getAny(context, "value"));
                                         return 1;
                                     }))));
 
-            dispatcher.register(literal("getconstant")
+            dispatcher.register(literal("removeconstant")
                     .then(argument("key", StringArgumentType.word()).suggests(new ConstantKeysSuggestionProvider())
-                            .executes(context -> {
-                                String k = StringArgumentType.getString(context, "key");
-                                Object v = ConstantsMap.get(k);
-                                context.getSource().sendFeedback(Text.literal(v == null ? k + " is null" : k + " = " + v), false);
-                                return 1;
-                            })));
+                            .executes(context -> ConstantsMap.remove(StringArgumentType.getString(context, "key")) != null ? 1 : 0)));
         });
     }
 }
