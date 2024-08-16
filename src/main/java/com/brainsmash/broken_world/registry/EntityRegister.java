@@ -89,7 +89,7 @@ public class EntityRegister {
     public static final EntityType<GelobEntity> GELOB_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MODID, "gelob"),
             FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, GelobEntity::new).dimensions(
-                    EntityDimensions.fixed(1.0f, 1.0f)).trackRangeBlocks(64).build());
+                    EntityDimensions.changing(2.04f, 2.04f)).trackRangeBlocks(64).build());
 
     public static final EntityType<GelobGelEntity> GELOB_GEL_ENTITY_TYPE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MODID, "gelob_gel"),

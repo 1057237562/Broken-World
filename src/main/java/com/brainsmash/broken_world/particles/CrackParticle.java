@@ -21,7 +21,7 @@ public class CrackParticle extends SpriteBillboardParticle {
 
 
     public CrackParticle(ClientWorld clientWorld, double d, double e, double f) {
-        super(clientWorld, d, e, f);
+        super(clientWorld, d, e, f, 0.0, 0.0, 0.0);
         this.gravityStrength = 1.0f;
         this.scale /= 2.0f;
         this.sampleU = this.random.nextFloat() * 3.0f;
@@ -54,9 +54,9 @@ public class CrackParticle extends SpriteBillboardParticle {
         return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
     }
 
-    public static class Factory<T extends ParticleEffect> implements ParticleFactory<T> {
+    public static class Factory6d<T extends ParticleEffect> implements ParticleFactory<T> {
         private final SpriteProvider spriteProvider;
-        public Factory(SpriteProvider provider) {
+        public Factory6d(SpriteProvider provider) {
             spriteProvider = provider;
         }
 
@@ -68,4 +68,20 @@ public class CrackParticle extends SpriteBillboardParticle {
             return particle;
         }
     }
+
+    public static class Factory3d<T extends ParticleEffect> implements ParticleFactory<T> {
+        private final SpriteProvider spriteProvider;
+        public Factory3d(SpriteProvider provider) {
+            spriteProvider = provider;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(T parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+            CrackParticle particle = new CrackParticle(world, x, y, z);
+            particle.setSprite(this.spriteProvider);
+            return particle;
+        }
+    }
+
 }

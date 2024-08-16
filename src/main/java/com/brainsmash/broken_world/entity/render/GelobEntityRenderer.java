@@ -8,7 +8,6 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
@@ -40,7 +39,6 @@ public class GelobEntityRenderer extends MobEntityRenderer<GelobEntity, GelobEnt
                 MathHelper.lerp(jumpStretchWeight, 0, entity.jumpStretch)
         );
         i += MathHelper.lerp(jumpStretchWeight, entity.moveStretch, 0);
-        entity.setCustomName(Text.literal("" + entity.moveStretch));
         i /= h * 0.5f + 1.0f;
         float j = 1.0f / (i + 1.0f);
         matrices.scale(j * h, 1.0f / j * h, j * h);

@@ -24,7 +24,7 @@ public class GelobGelEntityModel<T extends Entity> extends SinglePartEntityModel
                 ModelPartBuilder.create().uv(32, 10).cuboid(-0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f),
                 ModelTransform.of(0, 0, 0, 0, 0, 0)
         );
-        return TexturedModelData.of(modelData, 4, 4);
+        return TexturedModelData.of(modelData, 64, 32);
     }
 
     @Override

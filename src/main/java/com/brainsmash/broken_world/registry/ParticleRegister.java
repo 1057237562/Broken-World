@@ -30,6 +30,6 @@ public class ParticleRegister {
                 }));
 
         ParticleFactoryRegistry.getInstance().register(MAGIC_SPELL_TYPE, MagicSpellParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(GELOB_TYPE, CrackParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(GELOB_TYPE, CrackParticle.Factory3d::new);
     }
 }

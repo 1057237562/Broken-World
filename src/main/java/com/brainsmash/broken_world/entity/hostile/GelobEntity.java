@@ -5,9 +5,7 @@ import com.brainsmash.broken_world.registry.EntityRegister;
 import com.brainsmash.broken_world.registry.ParticleRegister;
 import com.google.common.annotations.VisibleForTesting;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -56,6 +54,25 @@ public class GelobEntity extends SpiderEntity {
         int j = 1 << i;
         this.setSize(j, true);
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+    }
+
+    @Override
+    public void calculateDimensions() {
+        double d = this.getX();
+        double e = this.getY();
+        double f = this.getZ();
+        super.calculateDimensions();
+        this.setPosition(d, e, f);
+    }
+
+    @Override
+    protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
+        return 0.625f * dimensions.height;
+    }
+
+    @Override
+    public EntityDimensions getDimensions(EntityPose pose) {
+        return super.getDimensions(pose).scaled(0.255f * (float)this.getSize());
     }
 
     @VisibleForTesting
