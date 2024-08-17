@@ -82,9 +82,7 @@ public class Main implements ModInitializer {
     public static final ScreenHandlerType<CompressorGuiDescription> COMPRESSOR_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "compressor"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new CompressorGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));    public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_controller"),
-            new ExtendedScreenHandlerType<>(TeleporterControllerGuiDescription::new));
+                            ScreenHandlerContext.EMPTY))));
     public static final ScreenHandlerType<FabricatorGuiDescription> FABRICATOR_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "fabricator"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new FabricatorGuiDescription(syncId, playerInventory,
@@ -105,6 +103,9 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "reaction_kettle"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ReactionKettleGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
+    public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_controller"),
+            new ExtendedScreenHandlerType<>(TeleporterControllerGuiDescription::new));
     public static final ScreenHandlerType<ElectrolyzerGuiDescription> ELECTROLYZER_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "electrolyzer"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ElectrolyzerGuiDescription(syncId, playerInventory,
@@ -117,6 +118,27 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "infusing_table"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new InfusingTableGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
+    public static final ExtendedScreenHandlerType<TeleportPlatformGuiDescription> TELEPORT_PLATFORM_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_platform"),
+            new ExtendedScreenHandlerType<>(TeleportPlatformGuiDescription::new));
+    public static final ScreenHandlerType<CentrifugeGuiDescription> CENTRIFUGE_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "centrifuge"),
+            new ExtendedScreenHandlerType<>(CentrifugeGuiDescription::new));
+    public static final ScreenHandlerType<GasCollectorGuiDescription> GAS_COLLECTOR_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "gas_collector"),
+            new ExtendedScreenHandlerType<>(GasCollectorGuiDescription::new));
+    public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createRookieWand));
+    public static final ScreenHandlerType<WandGuiDescription> EXPERT_WAND_SCREEN_HANDLER = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "expert_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createExpertWand));
+    public static final ScreenHandlerType<WandGuiDescription> MASTER_WAND_SCREEN_HANDLER = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "master_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createMasterWand));
+    public static final ScreenHandlerType<WandGuiDescription> GRANDMASTER_WAND_SCREEN_HANDLER = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "grandmaster_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createGrandMasterWand));
 
     @Override
     public void onInitialize() {
@@ -245,37 +267,4 @@ public class Main implements ModInitializer {
                     }
                 }));
     }
-
-
-
-
-    public static final ExtendedScreenHandlerType<TeleportPlatformGuiDescription> TELEPORT_PLATFORM_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_platform"),
-            new ExtendedScreenHandlerType<>(TeleportPlatformGuiDescription::new));
-
-
-    public static final ScreenHandlerType<CentrifugeGuiDescription> CENTRIFUGE_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "centrifuge"),
-            new ExtendedScreenHandlerType<>(CentrifugeGuiDescription::new));
-
-
-    public static final ScreenHandlerType<GasCollectorGuiDescription> GAS_COLLECTOR_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "gas_collector"),
-            new ExtendedScreenHandlerType<>(GasCollectorGuiDescription::new));
-
-
-    public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
-            new ScreenHandlerType<>(WandGuiDescription::createRookieWand));
-    public static final ScreenHandlerType<WandGuiDescription> EXPERT_WAND_SCREEN_HANDLER = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "expert_wand"),
-            new ScreenHandlerType<>(WandGuiDescription::createExpertWand));
-    public static final ScreenHandlerType<WandGuiDescription> MASTER_WAND_SCREEN_HANDLER = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "master_wand"),
-            new ScreenHandlerType<>(WandGuiDescription::createMasterWand));
-    public static final ScreenHandlerType<WandGuiDescription> GRANDMASTER_WAND_SCREEN_HANDLER = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "grandmaster_wand"),
-            new ScreenHandlerType<>(WandGuiDescription::createGrandMasterWand));
-
-
 }
