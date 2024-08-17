@@ -31,13 +31,15 @@ public class Rifle extends GunItem {
 
     @Override
     public boolean fire(World world, PlayerEntity user, Hand hand) {
-        return true;
+        return user.getStackInHand(
+                hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND).getItem() instanceof GunItem;
     }
+
 
     @Override
     public boolean fireTick(World world, PlayerEntity user, Hand hand) {
-        if (hand != Hand.MAIN_HAND) return false;
-        ItemStack itemStack = user.getStackInHand(Hand.MAIN_HAND);
+        if (!user.getStackInHand(hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND).isEmpty()) return false;
+        ItemStack itemStack = user.getStackInHand(hand);
         if (user.getItemCooldownManager().isCoolingDown(this)) return world.isClient;
         user.getItemCooldownManager().set(this, 2);
 

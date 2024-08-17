@@ -35,7 +35,8 @@ public abstract class HeldItemRendererMixin {
 
     @Inject(method = "renderFirstPersonItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;push()V", ordinal = 0, shift = At.Shift.AFTER))
     private void gunHand(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
-        if (!player.isUsingItem()) {
+        if (!player.isUsingItem() && player.getStackInHand(
+                hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND).isEmpty()) {
             Item handItem = item.getItem();
             matrices.push();
             if (handItem instanceof Rifle) {

@@ -31,7 +31,8 @@ public class SMG extends GunItem {
 
     @Override
     public boolean fire(World world, PlayerEntity user, Hand hand) {
-        return true;
+        return user.getStackInHand(
+                hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND).getItem() instanceof GunItem;
     }
 
     @Override

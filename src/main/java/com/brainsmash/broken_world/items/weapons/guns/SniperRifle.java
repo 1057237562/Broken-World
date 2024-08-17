@@ -30,8 +30,8 @@ public class SniperRifle extends GunItem {
 
     @Override
     public boolean fire(World world, PlayerEntity user, Hand hand) {
-        if (hand != Hand.MAIN_HAND) return false;
-        ItemStack itemStack = user.getStackInHand(Hand.MAIN_HAND);
+        if (!user.getStackInHand(hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND).isEmpty()) return false;
+        ItemStack itemStack = user.getStackInHand(hand);
         if (user.getItemCooldownManager().isCoolingDown(this)) return false;
         user.getItemCooldownManager().set(this, 12);
 

@@ -41,12 +41,12 @@ public class Pistol extends GunItem {
             world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundRegister.SHOOT_EVENT,
                     SoundCategory.NEUTRAL, 0.3f, 0.7f / (world.getRandom().nextFloat() * 0.2f + 0.4f));
             if (!world.isClient) {
-                BulletEntity lightAmmoEntity = new BulletEntity(world, user, 0.45f);
+                BulletEntity bulletEntity = new BulletEntity(world, user, 0.45f);
 
                 float s = spread + ((user.isUsingItem() && user.getActiveItem() == itemStack) ? 0f : spreadModifier);
-                lightAmmoEntity.setVelocity(user, user.getPitch() + world.getRandom().nextFloat() * 2 * s - s,
+                bulletEntity.setVelocity(user, user.getPitch() + world.getRandom().nextFloat() * 2 * s - s,
                         user.getYaw() + world.getRandom().nextFloat() * 2 * s - s, 0.0f, 4f, 1.0f);
-                world.spawnEntity(lightAmmoEntity);
+                world.spawnEntity(bulletEntity);
             } else {
                 ((PlayerDataExtension) user).addPitchSpeed(recoil);
                 ((PlayerDataExtension) user).addYawSpeed((float) (user.getRandom().nextGaussian() * recoil / 4f));
