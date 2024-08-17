@@ -8,6 +8,7 @@ import com.brainsmash.broken_world.registry.SoundRegister;
 import com.brainsmash.broken_world.registry.enums.ItemRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
@@ -27,6 +28,12 @@ public class SMG extends GunItem {
     public SMG(Settings settings) {
         super(settings);
         maxMagazine = 15;
+    }
+
+    @Override
+    public boolean fire(World world, PlayerEntity user, Hand hand) {
+        Item item = user.getStackInHand(hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND).getItem();
+        return item instanceof SMG || !(item instanceof GunItem);
     }
 
     @Override
