@@ -29,9 +29,10 @@ public class SniperRifle extends GunItem {
     }
 
     @Override
-    public void fire(World world, PlayerEntity user) {
+    public boolean fire(World world, PlayerEntity user, Hand hand) {
+        if (hand != Hand.MAIN_HAND) return false;
         ItemStack itemStack = user.getStackInHand(Hand.MAIN_HAND);
-        if (user.getItemCooldownManager().isCoolingDown(this)) return;
+        if (user.getItemCooldownManager().isCoolingDown(this)) return false;
         user.getItemCooldownManager().set(this, 12);
 
         if (hasAmmo(itemStack) || user.getAbilities().creativeMode) {
@@ -54,6 +55,12 @@ public class SniperRifle extends GunItem {
             }
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this));
+        return true;
+    }
+
+    @Override
+    public boolean fireTick(World world, PlayerEntity user, Hand hand) {
+        return false;
     }
 
     @Override

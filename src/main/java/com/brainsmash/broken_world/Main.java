@@ -29,6 +29,7 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.tag.BiomeTags;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -42,11 +43,6 @@ public class Main implements ModInitializer {
     // It is considered best practice to use your mod id as the logger's name.
     // That way, it's clear which mod wrote info, warnings, and errors.
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
-
-
-    public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_controller"),
-            new ExtendedScreenHandlerType<>(TeleporterControllerGuiDescription::new));
     public static final ScreenHandlerType<BatteryGuiDescription> BATTERY_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "creative_battery"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new BatteryGuiDescription(syncId, playerInventory,
@@ -67,9 +63,6 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "miner"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new MinerGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
-    public static final ExtendedScreenHandlerType<TeleportPlatformGuiDescription> TELEPORT_PLATFORM_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_platform"),
-            new ExtendedScreenHandlerType<>(TeleportPlatformGuiDescription::new));
     public static final ScreenHandlerType<ThermalGeneratorGuiDescription> THERMAL_GENERATOR_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "thermal_generator"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ThermalGeneratorGuiDescription(syncId, playerInventory,
@@ -82,31 +75,24 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "advanced_furnace"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new AdvancedFurnaceGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
-
     public static final ScreenHandlerType<AssemblerGuiDescription> ASSEMBLER_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "assembler"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new AssemblerGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
-
     public static final ScreenHandlerType<CompressorGuiDescription> COMPRESSOR_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "compressor"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new CompressorGuiDescription(syncId, playerInventory,
-                            ScreenHandlerContext.EMPTY))));
+                            ScreenHandlerContext.EMPTY))));    public static final ScreenHandlerType<TeleporterControllerGuiDescription> TELEPORTER_CONTROLLER_SCREEN_HANDLER_TYPE = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_controller"),
+            new ExtendedScreenHandlerType<>(TeleporterControllerGuiDescription::new));
     public static final ScreenHandlerType<FabricatorGuiDescription> FABRICATOR_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "fabricator"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new FabricatorGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
-    public static final ScreenHandlerType<CentrifugeGuiDescription> CENTRIFUGE_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "centrifuge"),
-            new ExtendedScreenHandlerType<>(CentrifugeGuiDescription::new));
     public static final ScreenHandlerType<ExtractorGuiDescription> EXTRACTOR_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "extractor"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ExtractorGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
-    public static final ScreenHandlerType<GasCollectorGuiDescription> GAS_COLLECTOR_GUI_DESCRIPTION = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "gas_collector"),
-            new ExtendedScreenHandlerType<>(GasCollectorGuiDescription::new));
-
     public static final ScreenHandlerType<RefineryGuiDescription> REFINERY_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "refinery"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new RefineryGuiDescription(syncId, playerInventory,
@@ -115,7 +101,6 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "weaponry"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new WeaponryGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
-
     public static final ScreenHandlerType<ReactionKettleGuiDescription> REACTION_KETTLE_GUI_DESCRIPTION = Registry.register(
             Registry.SCREEN_HANDLER, new Identifier(MODID, "reaction_kettle"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new ReactionKettleGuiDescription(syncId, playerInventory,
@@ -132,20 +117,6 @@ public class Main implements ModInitializer {
             Registry.SCREEN_HANDLER, new Identifier(MODID, "infusing_table"), new ScreenHandlerType<>(
                     ((syncId, playerInventory) -> new InfusingTableGuiDescription(syncId, playerInventory,
                             ScreenHandlerContext.EMPTY))));
-
-
-    public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
-            new ScreenHandlerType<>(WandGuiDescription::createRookieWand));
-    public static final ScreenHandlerType<WandGuiDescription> EXPERT_WAND_SCREEN_HANDLER = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "expert_wand"),
-            new ScreenHandlerType<>(WandGuiDescription::createExpertWand));
-    public static final ScreenHandlerType<WandGuiDescription> MASTER_WAND_SCREEN_HANDLER = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "master_wand"),
-            new ScreenHandlerType<>(WandGuiDescription::createMasterWand));
-    public static final ScreenHandlerType<WandGuiDescription> GRANDMASTER_WAND_SCREEN_HANDLER = Registry.register(
-            Registry.SCREEN_HANDLER, new Identifier(MODID, "grandmaster_wand"),
-            new ScreenHandlerType<>(WandGuiDescription::createGrandMasterWand));
 
     @Override
     public void onInitialize() {
@@ -213,19 +184,19 @@ public class Main implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_pressed"),
                 (server, player, handler, buf, responseSender) -> server.execute(() -> {
                     if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
-                        gunItem.fire(player.world, player);
-                        if (player.getOffHandStack().getItem() instanceof GunItem gunItem1) {
-                            gunItem1.fire(player.world, player);
-                        }
+                        if (gunItem.fire(player.world, player, Hand.MAIN_HAND)) return;
+                    }
+                    if (player.getOffHandStack().getItem() instanceof GunItem gunItem1) {
+                        gunItem1.fire(player.world, player, Hand.OFF_HAND);
                     }
                 }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "fire_key_hold"),
                 (server, player, handler, buf, responseSender) -> server.execute(() -> {
                     if (player.getMainHandStack().getItem() instanceof GunItem gunItem) {
-                        gunItem.fireTick(player.world, player);
-                        if (player.getOffHandStack().getItem() instanceof GunItem gunItem1) {
-                            gunItem1.fireTick(player.world, player);
-                        }
+                        if (gunItem.fireTick(player.world, player, Hand.MAIN_HAND)) return;
+                    }
+                    if (player.getOffHandStack().getItem() instanceof GunItem gunItem1) {
+                        gunItem1.fireTick(player.world, player, Hand.OFF_HAND);
                     }
                 }));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(MODID, "crawl_key_hold"),
@@ -274,4 +245,37 @@ public class Main implements ModInitializer {
                     }
                 }));
     }
+
+
+
+
+    public static final ExtendedScreenHandlerType<TeleportPlatformGuiDescription> TELEPORT_PLATFORM_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "teleport_platform"),
+            new ExtendedScreenHandlerType<>(TeleportPlatformGuiDescription::new));
+
+
+    public static final ScreenHandlerType<CentrifugeGuiDescription> CENTRIFUGE_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "centrifuge"),
+            new ExtendedScreenHandlerType<>(CentrifugeGuiDescription::new));
+
+
+    public static final ScreenHandlerType<GasCollectorGuiDescription> GAS_COLLECTOR_GUI_DESCRIPTION = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "gas_collector"),
+            new ExtendedScreenHandlerType<>(GasCollectorGuiDescription::new));
+
+
+    public static final ScreenHandlerType<WandGuiDescription> ROOKIE_WAND_SCREEN_HANDLER = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "rookie_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createRookieWand));
+    public static final ScreenHandlerType<WandGuiDescription> EXPERT_WAND_SCREEN_HANDLER = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "expert_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createExpertWand));
+    public static final ScreenHandlerType<WandGuiDescription> MASTER_WAND_SCREEN_HANDLER = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "master_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createMasterWand));
+    public static final ScreenHandlerType<WandGuiDescription> GRANDMASTER_WAND_SCREEN_HANDLER = Registry.register(
+            Registry.SCREEN_HANDLER, new Identifier(MODID, "grandmaster_wand"),
+            new ScreenHandlerType<>(WandGuiDescription::createGrandMasterWand));
+
+
 }

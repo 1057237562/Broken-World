@@ -83,4 +83,8 @@ public class MathHelper extends net.minecraft.util.math.MathHelper {
         s.append(units[digits[0]]);
         return s.toString();
     }
+
+    public static float toRadians(float degree) {
+        return degree * 0.017453292519943295f;
+    }
 }

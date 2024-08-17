@@ -30,14 +30,15 @@ public class Rifle extends GunItem {
     }
 
     @Override
-    public void fire(World world, PlayerEntity user) {
-
+    public boolean fire(World world, PlayerEntity user, Hand hand) {
+        return true;
     }
 
     @Override
-    public boolean fireTick(World world, PlayerEntity user) {
+    public boolean fireTick(World world, PlayerEntity user, Hand hand) {
+        if (hand != Hand.MAIN_HAND) return false;
         ItemStack itemStack = user.getStackInHand(Hand.MAIN_HAND);
-        if (user.getItemCooldownManager().isCoolingDown(this)) return true;
+        if (user.getItemCooldownManager().isCoolingDown(this)) return false;
         user.getItemCooldownManager().set(this, 2);
 
         if (hasAmmo(itemStack) || user.getAbilities().creativeMode) {

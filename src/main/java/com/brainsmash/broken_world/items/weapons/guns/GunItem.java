@@ -31,11 +31,12 @@ public class GunItem extends Item implements CustomUsePoseItem {
         }
     }
 
-    public void fire(World world, PlayerEntity user) {
+    public boolean fire(World world, PlayerEntity user, Hand hand) {
+        return false;
     }
 
-    public boolean fireTick(World world, PlayerEntity user) {
-        return true;
+    public boolean fireTick(World world, PlayerEntity user, Hand hand) {
+        return false;
     }
 
     public boolean hasAmmo(ItemStack stack) {

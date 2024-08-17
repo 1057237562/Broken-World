@@ -1,6 +1,7 @@
 package com.brainsmash.broken_world.entity.render;
 
 import com.brainsmash.broken_world.entity.SpellEntity;
+import com.brainsmash.broken_world.util.MathHelper;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.*;
@@ -51,24 +52,43 @@ public class SpellEntityRenderer extends EntityRenderer<SpellEntity> {
 
     private void renderLines(VertexConsumer vc, MatrixStack matrices, SpellEntity entity) {
         MatrixStack.Entry entry = matrices.peek();
-        Quaternion rotation = new Quaternion(0, 0, 0, 1);
-        rotation.hamiltonProduct(Vec3f.POSITIVE_Y.getDegreesQuaternion(-entity.rot.y));
-        rotation.hamiltonProduct(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.rot.x));
-        rotation.conjugate();
+        Quaternion rotateForward = new Quaternion(0, 0, 0, 1);
+        rotateForward.hamiltonProduct(Vec3f.POSITIVE_Y.getDegreesQuaternion(-entity.rot.y));
+        rotateForward.hamiltonProduct(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.rot.x));
+        Quaternion rotateBack = rotateForward.copy();
+        rotateBack.conjugate();
 
         double u = entity.normal.negate().dotProduct(entity.normal) / entity.normal.negate().dotProduct(
                 entity.getOwner().getRotationVector());
         Vec3f vec3f = new Vec3f(entity.getOwner().getRotationVector().multiply(u).add(entity.normal.negate()));
         Vec3f vec3f1 = vec3f.copy();
-        vec3f1.rotate(rotation);
+        vec3f1.rotate(rotateBack);
 
         if (new Vec3d(vec3f1).length() < 1.25) {
-            vc.vertex(entry.getPositionMatrix(), 0, 0, 0).color(255, 255, 0, 200).normal(entry.getNormalMatrix(), 0, 0,
-                    0).next();
+            Vec3f lastDegree = getOctantByPhase(entity.seq.get(entity.seq.size() - 1), rotateForward);
+            vc.vertex(entry.getPositionMatrix(), lastDegree.getX(), lastDegree.getY(), lastDegree.getZ()).color(255,
+                    255, 0, 200).normal(entry.getNormalMatrix(), 0, 0, 0).next();
             vc.vertex(entry.getPositionMatrix(), vec3f.getX(), vec3f.getY(), vec3f.getZ()).color(255, 255, 0,
                     200).normal(entry.getNormalMatrix(), 0, 0, 0).next();
         }
+        for (int i = 1; i < entity.seq.size() - 1; i++) {
+            Vec3f octant = getOctantByPhase(entity.seq.get(i), rotateForward);
+            vc.vertex(entry.getPositionMatrix(), octant.getX(), octant.getY(), octant.getZ()).color(255, 255, 0,
+                    200).normal(entry.getNormalMatrix(), 0, 0, 0).next();
+            octant = getOctantByPhase(entity.seq.get(i + 1), rotateForward);
+            vc.vertex(entry.getPositionMatrix(), octant.getX(), octant.getY(), octant.getZ()).color(255, 255, 0,
+                    200).normal(entry.getNormalMatrix(), 0, 0, 0).next();
+        }
 
+    }
+
+    private Vec3f getOctantByPhase(int phase, Quaternion rot) {
+        if (phase == -1) return new Vec3f(0, 0, 0);
+        int degree = phase * 45;
+        Vec3f origin = new Vec3f(-MathHelper.cos(MathHelper.toRadians(degree)),
+                MathHelper.sin(MathHelper.toRadians(-degree)), 0);
+        origin.rotate(rot);
+        return origin;
     }
 
     private void renderSpell(VertexConsumer vc, MatrixStack matrices, SpellEntity entity, int light) {
