@@ -38,7 +38,7 @@ public class SMG extends GunItem {
     public boolean fireTick(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         NbtCompound nbtCompound = Optional.ofNullable(itemStack.getNbt()).orElse(new NbtCompound());
-        if (nbtCompound.getInt("cooldown") > 0) return false;
+        if (nbtCompound.getInt("cooldown") > 0) return world.isClient;
         nbtCompound.putInt("cooldown", 1);
         itemStack.setNbt(nbtCompound);
 

@@ -63,7 +63,7 @@ public class Pistol extends GunItem {
 
     @Override
     public boolean fireTick(World world, PlayerEntity user, Hand hand) {
-        return false;
+        return world.isClient;
     }
 
     @Override

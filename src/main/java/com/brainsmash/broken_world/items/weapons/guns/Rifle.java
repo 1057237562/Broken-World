@@ -38,7 +38,7 @@ public class Rifle extends GunItem {
     public boolean fireTick(World world, PlayerEntity user, Hand hand) {
         if (hand != Hand.MAIN_HAND) return false;
         ItemStack itemStack = user.getStackInHand(Hand.MAIN_HAND);
-        if (user.getItemCooldownManager().isCoolingDown(this)) return false;
+        if (user.getItemCooldownManager().isCoolingDown(this)) return world.isClient;
         user.getItemCooldownManager().set(this, 2);
 
         if (hasAmmo(itemStack) || user.getAbilities().creativeMode) {
