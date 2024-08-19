@@ -3,6 +3,8 @@ package com.brainsmash.broken_world;
 import com.brainsmash.broken_world.blocks.magical.CrucibleBehavior;
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockResourceReloadListener;
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
+import com.brainsmash.broken_world.effect.GalacticEffect;
+import com.brainsmash.broken_world.effect.OverweightEffect;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.entity.vehicle.VehicleEntity;
@@ -23,6 +25,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.resource.ResourceType;
@@ -267,4 +270,9 @@ public class Main implements ModInitializer {
                     }
                 }));
     }
+
+    public static final StatusEffect OVERWEIGHT = Registry.register(Registry.STATUS_EFFECT,
+            Identifier.of(MODID, "overweight"), new OverweightEffect());
+    public static final StatusEffect GALACTIC = Registry.register(Registry.STATUS_EFFECT,
+            Identifier.of(MODID, "galactic"), new GalacticEffect());
 }

@@ -11,10 +11,8 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.util.math.Quaternion;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.StringUtils;
 
@@ -26,11 +24,15 @@ public class SpellEntity extends ProjectileEntity {
 
     private static final TrackedData<String> SEQ = DataTracker.registerData(SpellEntity.class,
             TrackedDataHandlerRegistry.STRING);
+    private static final TrackedData<Boolean> ACTIVE = DataTracker.registerData(SpellEntity.class,
+            TrackedDataHandlerRegistry.BOOLEAN);
     public List<Integer> seq = new ArrayList<>();
     public Vec3d normal;
     public Vec2f rot;
     public float tick = 0f;
+    public boolean active = false;
     public float scale;
+    public Vec3d shift;
 
     public SpellEntity(World world) {
         super(EntityRegister.SPELL_ENTITY_TYPE, world);
@@ -57,11 +59,71 @@ public class SpellEntity extends ProjectileEntity {
     @Override
     protected void initDataTracker() {
         this.dataTracker.startTracking(SEQ, "-1");
+        this.dataTracker.startTracking(ACTIVE, false);
+    }
+
+    private boolean isInRange(Vec3d pos) {
+        Quaternion rotate = new Quaternion(0, 0, 0, 1);
+        rotate.hamiltonProduct(Vec3f.POSITIVE_Y.getDegreesQuaternion(-rot.y));
+        rotate.hamiltonProduct(Vec3f.POSITIVE_X.getDegreesQuaternion(rot.x));
+        rotate.conjugate();
+
+        Vec3f projection = new Vec3f(pos.subtract(getPos().add(shift)));
+        projection.rotate(rotate);
+        return new Vec2f(projection.getX(), projection.getY()).length() < 1.25;
     }
 
     @Override
     public void tick() {
         super.tick();
+        if (active) {
+            if (world instanceof ServerWorld serverWorld) {
+                Quaternion rotate = new Quaternion(0, 0, 0, 1);
+                rotate.hamiltonProduct(Vec3f.POSITIVE_Y.getDegreesQuaternion(-rot.y));
+                rotate.hamiltonProduct(Vec3f.POSITIVE_X.getDegreesQuaternion(rot.x));
+                int zOffset = 64;
+                Vec3d[] points = {
+                        new Vec3d(1.25, 1.25, 0),
+                        new Vec3d(1.25, -1.25, 0),
+                        new Vec3d(-1.25, 1.25, 0),
+                        new Vec3d(-1.25, -1.25, 0),
+                        new Vec3d(1.25, 1.25, zOffset),
+                        new Vec3d(1.25, -1.25, zOffset),
+                        new Vec3d(-1.25, 1.25, zOffset),
+                        new Vec3d(-1.25, -1.25, zOffset)
+                };
+                double[] start = {
+                        Double.MAX_VALUE,
+                        Double.MAX_VALUE,
+                        Double.MAX_VALUE
+                };
+                double[] end = {
+                        Double.MIN_VALUE,
+                        Double.MIN_VALUE,
+                        Double.MIN_VALUE
+                };
+                for (Vec3d point : points) {
+                    Vec3f vec3f = new Vec3f(point);
+                    vec3f.rotate(rotate);
+                    Vec3d pos = getPos().add(shift).add(new Vec3d(vec3f));
+                    start[0] = Math.min(start[0], pos.x);
+                    start[1] = Math.min(start[1], pos.y);
+                    start[2] = Math.min(start[2], pos.z);
+                    end[0] = Math.max(end[0], pos.x);
+                    end[1] = Math.max(end[1], pos.y);
+                    end[2] = Math.max(end[2], pos.z);
+                }
+
+                List<LivingEntity> entities = serverWorld.getNonSpectatingEntities(LivingEntity.class,
+                        new Box(new Vec3d(start[0], start[1], start[2]), new Vec3d(end[0], end[1], end[2])));
+                for (LivingEntity entity : entities) {
+                    if (isInRange(entity.getEyePos()) || isInRange(entity.getPos())) {
+                        System.out.println(entity);
+                    }
+                }
+            }
+            return;
+        }
         if (getOwner() != null && normal != null && rot != null) {
             if (!world.isClient) {
                 if (getOwner() instanceof PlayerDataExtension dataExtension) {
@@ -69,8 +131,7 @@ public class SpellEntity extends ProjectileEntity {
                         discard();
                     }
                 }
-            }
-            if (world.isClient) {
+                shift = getOwner().getEyePos().subtract(normal.negate().add(getPos()));
 
                 Quaternion rotation = new Quaternion(0, 0, 0, 1);
                 rotation.hamiltonProduct(Vec3f.POSITIVE_Y.getDegreesQuaternion(-rot.y));
@@ -91,15 +152,22 @@ public class SpellEntity extends ProjectileEntity {
                     dataTracker.set(SEQ, StringUtils.join(seq, ','));
                 }
             }
-        } else {
-            discard();
+            return;
         }
+        discard();
     }
 
     @Override
     public void onTrackedDataSet(TrackedData<?> data) {
-        if (!world.isClient && data == SEQ) {
+        if (!world.isClient) {
+            return;
+        }
+        if (data == SEQ) {
             seq = Arrays.stream(dataTracker.get(SEQ).split(",")).map(Integer::parseInt).toList();
+        }
+        if (data == ACTIVE) {
+            active = dataTracker.get(ACTIVE);
+            stopRiding();
         }
         super.onTrackedDataSet(data);
     }
@@ -133,7 +201,12 @@ public class SpellEntity extends ProjectileEntity {
     public void releaseSpell() {
         // TODO : implement spell intepreter
         System.out.println(StringUtils.join(seq, ','));
-
-        discard();
+        if (seq.size() > 1) {
+            active = true;
+            dataTracker.set(ACTIVE, true);
+            stopRiding();
+        } else {
+            discard();
+        }
     }
 }

@@ -80,9 +80,7 @@ public class Wand extends Item implements CustomUsePoseItem {
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (world instanceof ServerWorld && user instanceof PlayerDataExtension dataExtension) {
             SpellEntity spellEntity = dataExtension.getSpellEntity();
-//            Vec3d normal = user.getEyePos().add(spellEntity.normal.multiply(2));
-//            world.addParticle(ParticleRegister.MAGIC_SPELL_TYPE, true, normal.x, normal.y, normal.z, 0, 0, 0);
-            spellEntity.discard();
+            spellEntity.releaseSpell();
         }
         super.onStoppedUsing(stack, world, user, remainingUseTicks);
     }
