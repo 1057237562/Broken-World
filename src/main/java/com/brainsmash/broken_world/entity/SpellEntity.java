@@ -34,6 +34,8 @@ public class SpellEntity extends ProjectileEntity {
     public float scale;
     public Vec3d shift;
 
+    private int age = 0;
+
     public SpellEntity(World world) {
         super(EntityRegister.SPELL_ENTITY_TYPE, world);
     }
@@ -78,6 +80,9 @@ public class SpellEntity extends ProjectileEntity {
         super.tick();
         if (active) {
             if (world instanceof ServerWorld serverWorld) {
+                if (++age == 20) {
+                    discard();
+                }
                 Quaternion rotate = new Quaternion(0, 0, 0, 1);
                 rotate.hamiltonProduct(Vec3f.POSITIVE_Y.getDegreesQuaternion(-rot.y));
                 rotate.hamiltonProduct(Vec3f.POSITIVE_X.getDegreesQuaternion(rot.x));
