@@ -220,6 +220,7 @@ public class BlockRegister {
             new DimInfuser(FabricBlockSettings.copyOf(Blocks.AMETHYST_BLOCK).nonOpaque()),
             new InfusingTable(FabricBlockSettings.copyOf(Blocks.STONE)),
             new XpContainer(FabricBlockSettings.copyOf(Blocks.CAULDRON)),
+            new MagicalStoneBlock(FabricBlockSettings.copyOf(Blocks.STONE)),
 
     };
     public static final Item[] blockitems = {
@@ -327,6 +328,7 @@ public class BlockRegister {
             new BlockItem(blocks[101], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[102], new FabricItemSettings().group(ITEM_GROUP)),
             new BlockItem(blocks[103], new FabricItemSettings().group(ITEM_GROUP)),
+            new BlockItem(blocks[104], new FabricItemSettings()),
     };
 
     public static final String[] blocknames = {
@@ -434,6 +436,7 @@ public class BlockRegister {
             "dim_infuser",
             "infusing_table",
             "xp_container",
+            "magical_stone",
     };
 
     private static final ConfiguredFeature<?, ?>[] configuredFeatures = {

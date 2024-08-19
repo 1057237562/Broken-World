@@ -3,8 +3,7 @@ package com.brainsmash.broken_world;
 import com.brainsmash.broken_world.blocks.magical.CrucibleBehavior;
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockResourceReloadListener;
 import com.brainsmash.broken_world.blocks.multiblock.MultiblockUtil;
-import com.brainsmash.broken_world.effect.GalacticEffect;
-import com.brainsmash.broken_world.effect.OverweightEffect;
+import com.brainsmash.broken_world.effect.*;
 import com.brainsmash.broken_world.entity.impl.EntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.entity.vehicle.VehicleEntity;
@@ -275,4 +274,14 @@ public class Main implements ModInitializer {
             Identifier.of(MODID, "overweight"), new OverweightEffect());
     public static final StatusEffect GALACTIC = Registry.register(Registry.STATUS_EFFECT,
             Identifier.of(MODID, "galactic"), new GalacticEffect());
+    public static final StatusEffect DROWN = Registry.register(Registry.STATUS_EFFECT, Identifier.of(MODID, "drown"),
+            new DrownEffect());
+    public static final StatusEffect SUFFOCATE = Registry.register(Registry.STATUS_EFFECT,
+            Identifier.of(MODID, "suffocate"), new SuffocateEffect());
+    public static final StatusEffect THUNDEROUS = Registry.register(Registry.STATUS_EFFECT,
+            Identifier.of(MODID, "thunderous"), new ThunderousEffect());
+    public static final StatusEffect BURNING = Registry.register(Registry.STATUS_EFFECT,
+            Identifier.of(MODID, "burning"), new BurningEffect());
+    public static final StatusEffect SINKING = Registry.register(Registry.STATUS_EFFECT,
+            Identifier.of(MODID, "sinking"), new SinkingEffect());
 }

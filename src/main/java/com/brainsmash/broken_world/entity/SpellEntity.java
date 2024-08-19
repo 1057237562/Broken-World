@@ -1,5 +1,6 @@
 package com.brainsmash.broken_world.entity;
 
+import com.brainsmash.broken_world.entity.impl.LivingEntityDataExtension;
 import com.brainsmash.broken_world.entity.impl.PlayerDataExtension;
 import com.brainsmash.broken_world.registry.EntityRegister;
 import net.minecraft.entity.Entity;
@@ -122,8 +123,11 @@ public class SpellEntity extends ProjectileEntity {
                 List<LivingEntity> entities = serverWorld.getNonSpectatingEntities(LivingEntity.class,
                         new Box(new Vec3d(start[0], start[1], start[2]), new Vec3d(end[0], end[1], end[2])));
                 for (LivingEntity entity : entities) {
+                    if (entity == getOwner()) continue;
                     if (isInRange(entity.getEyePos()) || isInRange(entity.getPos())) {
-                        System.out.println(entity);
+                        if (entity instanceof LivingEntityDataExtension dataExtension && dataExtension.canApplySpell()) {
+                            dataExtension.setSpellSequence(seq);
+                        }
                     }
                 }
             }

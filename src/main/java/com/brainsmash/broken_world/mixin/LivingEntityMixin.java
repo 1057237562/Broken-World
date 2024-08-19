@@ -1,6 +1,8 @@
 package com.brainsmash.broken_world.mixin;
 
 import com.brainsmash.broken_world.Main;
+import com.brainsmash.broken_world.effect.MagicEffectRegister;
+import com.brainsmash.broken_world.entity.impl.LivingEntityDataExtension;
 import com.brainsmash.broken_world.items.armor.material.ArmorMaterialWithSetBonus;
 import com.brainsmash.broken_world.registry.DimensionRegister;
 import com.brainsmash.broken_world.registry.ItemRegister;
@@ -24,9 +26,15 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends EntityMixin {
+public abstract class LivingEntityMixin extends EntityMixin implements LivingEntityDataExtension {
+
+    public Queue<Integer> spellKey = new ConcurrentLinkedQueue<>();
+    long endTime = 0;
 
     @Shadow
     public abstract Iterable<ItemStack> getArmorItems();
@@ -55,6 +63,9 @@ public abstract class LivingEntityMixin extends EntityMixin {
     @Shadow
     public abstract Collection<StatusEffectInstance> getStatusEffects();
 
+    @Shadow
+    public abstract boolean addStatusEffect(StatusEffectInstance effect);
+
     @Redirect(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isSubmergedIn(Lnet/minecraft/tag/TagKey;)Z"))
     private boolean hasNoAir(LivingEntity instance, TagKey<Fluid> tagKey) {
         if (TrinketsApi.getTrinketComponent(instance).get().isEquipped(ItemRegister.items[2])) {
@@ -65,6 +76,10 @@ public abstract class LivingEntityMixin extends EntityMixin {
                     instance.world.getDimensionKey().getValue().toTranslationKey())) {
                 return true;
             }
+        }
+        StatusEffectInstance drownEffect = getStatusEffect(Main.DROWN);
+        if (drownEffect != null) {
+            return true;
         }
         return instance.isSubmergedIn(tagKey);
     }
@@ -77,7 +92,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
         }
         StatusEffectInstance overweight = getStatusEffect(Main.OVERWEIGHT);
         if (overweight != null) {
-            multiplier *= 1.0 + 0.3 * overweight.getAmplifier();
+            multiplier *= 1.0 + 0.3 * (overweight.getAmplifier() + 1);
         }
         StatusEffectInstance galactic = getStatusEffect(Main.GALACTIC);
         if (galactic != null) {
@@ -93,7 +108,7 @@ public abstract class LivingEntityMixin extends EntityMixin {
                 world.getDimensionKey().getValue().toTranslationKey(), 1.0);
         StatusEffectInstance overweight = getStatusEffect(Main.OVERWEIGHT);
         if (overweight != null) {
-            multiplier *= 1.0 + overweight.getAmplifier();
+            multiplier *= 1.0 + 0.8f * (overweight.getAmplifier() + 1);
         }
         float f = statusEffectInstance == null ? 0.0f : (float) (statusEffectInstance.getAmplifier() + 1);
         return MathHelper.ceil((fallDistance * Math.sqrt(multiplier) - 3.0f - f) * damageMultiplier);
@@ -122,5 +137,29 @@ public abstract class LivingEntityMixin extends EntityMixin {
                 }
             }
         }
+    }
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    public void tickSpell(CallbackInfo ci) {
+        if (!world.isClient) {
+            if (!spellKey.isEmpty()) {
+                if (world.getTime() > endTime) {
+                    int s = spellKey.poll();
+                    addStatusEffect(new StatusEffectInstance(MagicEffectRegister.VANILLA_EFFECTS[s], 20));
+                    endTime = world.getTime() + 60;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void setSpellSequence(List<Integer> spellSequence) {
+        spellKey.addAll(spellSequence);
+        spellKey.poll();
+    }
+
+    @Override
+    public boolean canApplySpell() {
+        return spellKey.isEmpty();
     }
 }

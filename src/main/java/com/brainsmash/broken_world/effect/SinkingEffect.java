@@ -1,12 +1,13 @@
 package com.brainsmash.broken_world.effect;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 
-public class GalacticEffect extends StatusEffect {
-    public GalacticEffect() {
-        super(StatusEffectCategory.HARMFUL, 0xC9F6FF);
+public class SinkingEffect extends StatusEffect {
+    public SinkingEffect() {
+        super(StatusEffectCategory.HARMFUL, 0x009B72);
     }
 
     @Override
@@ -16,6 +17,9 @@ public class GalacticEffect extends StatusEffect {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        entity.upwardSpeed = 0.1f * (amplifier + 1);
+        if (!entity.isOnGround()) {
+            entity.addVelocity(0, -1, 0);
+            entity.damage(DamageSource.FLY_INTO_WALL, amplifier + 1);
+        }
     }
 }

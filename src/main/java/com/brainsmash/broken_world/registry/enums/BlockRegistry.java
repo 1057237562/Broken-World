@@ -105,4 +105,5 @@ public enum BlockRegistry {
     DIM_INFUSER,
     INFUSING_TABLE,
     XP_CONTAINER,
+    MAGICAL_STONE,
 }
