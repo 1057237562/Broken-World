@@ -80,7 +80,7 @@ public class SpellEntity extends ProjectileEntity {
         super.tick();
         if (active) {
             if (world instanceof ServerWorld serverWorld) {
-                if (++age == 20) {
+                if (++age == 100) {
                     discard();
                 }
                 Quaternion rotate = new Quaternion(0, 0, 0, 1);
