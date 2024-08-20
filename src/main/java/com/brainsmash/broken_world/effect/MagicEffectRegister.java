@@ -11,6 +11,7 @@ public class MagicEffectRegister {
             Main.THUNDEROUS,
             Main.BURNING,
             Main.SINKING,
-            Main.GALACTIC
+            Main.GALACTIC,
+            Main.WIND
     };
 }

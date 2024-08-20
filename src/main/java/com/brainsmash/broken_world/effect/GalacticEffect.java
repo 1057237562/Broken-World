@@ -16,6 +16,6 @@ public class GalacticEffect extends StatusEffect {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        entity.upwardSpeed = 0.1f * (amplifier + 1);
+        entity.upwardSpeed = 0.3f * (amplifier + 1);
     }
 }

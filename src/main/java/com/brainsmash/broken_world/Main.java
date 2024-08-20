@@ -284,4 +284,6 @@ public class Main implements ModInitializer {
             Identifier.of(MODID, "burning"), new BurningEffect());
     public static final StatusEffect SINKING = Registry.register(Registry.STATUS_EFFECT,
             Identifier.of(MODID, "sinking"), new SinkingEffect());
+    public static final StatusEffect WIND = Registry.register(Registry.STATUS_EFFECT, Identifier.of(MODID, "wind"),
+            new WindEffect());
 }

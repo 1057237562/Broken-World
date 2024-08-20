@@ -145,8 +145,8 @@ public abstract class LivingEntityMixin extends EntityMixin implements LivingEnt
             if (!spellKey.isEmpty()) {
                 if (world.getTime() > endTime) {
                     int s = spellKey.poll();
-                    addStatusEffect(new StatusEffectInstance(MagicEffectRegister.VANILLA_EFFECTS[s], 20));
-                    endTime = world.getTime() + 60;
+                    addStatusEffect(new StatusEffectInstance(MagicEffectRegister.VANILLA_EFFECTS[s], 100));
+                    endTime = world.getTime() + 120;
                 }
             }
         }

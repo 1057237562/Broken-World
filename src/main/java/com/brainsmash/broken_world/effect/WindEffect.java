@@ -5,9 +5,9 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 
-public class SinkingEffect extends StatusEffect {
-    public SinkingEffect() {
-        super(StatusEffectCategory.HARMFUL, 0x009B72);
+public class WindEffect extends StatusEffect {
+    public WindEffect() {
+        super(StatusEffectCategory.HARMFUL, 0xFFFFFF);
     }
 
     @Override
@@ -17,9 +17,8 @@ public class SinkingEffect extends StatusEffect {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        if (!entity.isOnGround()) {
-            entity.addVelocity(0, -1, 0);
-            entity.damage(DamageSource.FLY_INTO_WALL, 1.5f * (amplifier + 1));
-        }
+        int ratio = 10 * (amplifier + 1);
+        entity.addVelocity(ratio * entity.getRandom().nextGaussian(), 0, ratio * entity.getRandom().nextGaussian());
+        entity.damage(DamageSource.FLY_INTO_WALL, 1.5f * (amplifier + 1));
     }
 }
